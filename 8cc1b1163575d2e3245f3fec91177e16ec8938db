@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2190f6d_80fa531a",
+        "filename": "java/com/google/gerrit/server/query/change/HasSubmoduleUpdatePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-25T15:52:02Z",
+      "side": 1,
+      "message": "Very nice catch. I adapted the code to throw an exception.",
+      "parentUuid": "919fa3ef_43e75ce6",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09a3c4f5_5b2dc14d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-25T14:55:04Z",
       "side": 1,
       "message": "I think in Gerrit we use Locale.US?",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e1f47cd_6a2439ed",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-25T15:52:02Z",
+      "side": 1,
+      "message": "I found usages of both. I changed it to Locale.US though.\n\nDone.",
+      "parentUuid": "09a3c4f5_5b2dc14d",
       "range": {
         "startLine": 93,
         "startChar": 26,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b48a7fd_b3ca6d46",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-25T15:52:02Z",
+      "side": 1,
+      "message": "Nice idea! done.",
+      "parentUuid": "45e8e3c9_8cf1bad4",
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d07bc818_051dddf0",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-10-25T14:55:04Z",
       "side": 1,
       "message": "nit: should this be private?",
+      "range": {
+        "startLine": 419,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 11
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f04d57_3cee07d9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-25T15:52:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d07bc818_051dddf0",
       "range": {
         "startLine": 419,
         "startChar": 2,

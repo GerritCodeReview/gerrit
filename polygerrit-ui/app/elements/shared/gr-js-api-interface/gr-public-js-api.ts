@@ -68,8 +68,7 @@ export class Plugin implements PluginApi {
     private readonly jsApi: JsApiService,
     private readonly report: ReportingService,
     private readonly restApiService: RestApiService,
-    // @ts-ignore: will be used in a follow-up changes
-    private readonly _pluginsModel: PluginsModel
+    private readonly pluginsModel: PluginsModel
   ) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -232,27 +231,27 @@ export class Plugin implements PluginApi {
   }
 
   checks(): GrChecksApi {
-    return new GrChecksApi(this);
+    return new GrChecksApi(this.report, this.pluginsModel, this);
   }
 
   reporting(): ReportingPluginApi {
-    return new GrReportingJsApi(this);
+    return new GrReportingJsApi(this.report, this);
   }
 
   admin(): AdminPluginApi {
-    return new GrAdminApi(this);
+    return new GrAdminApi(this.report, this);
   }
 
   restApi(prefix?: string): RestPluginApi {
-    return new GrPluginRestApi(this, prefix);
+    return new GrPluginRestApi(this.restApiService, this.report, this, prefix);
   }
 
   attributeHelper(element: HTMLElement): AttributeHelperPluginApi {
-    return new GrAttributeHelper(this, element);
+    return new GrAttributeHelper(this.report, this, element);
   }
 
   eventHelper(element: HTMLElement): EventHelperPluginApi {
-    return new GrEventHelper(this, element);
+    return new GrEventHelper(this.report, this, element);
   }
 
   popup(): Promise<PopupPluginApi>;

@@ -14,6 +14,7 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {HttpMethod} from '../../../api/rest-api';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-plugin-rest-api tests', () => {
   let instance: GrPluginRestApi;
@@ -32,7 +33,11 @@ suite('gr-plugin-rest-api tests', () => {
       '0.1',
       'http://test.com/plugins/testplugin/static/test.js'
     );
-    instance = new GrPluginRestApi(pluginApi!);
+    instance = new GrPluginRestApi(
+      getAppContext().restApiService,
+      getAppContext().reportingService,
+      pluginApi!
+    );
   });
 
   test('fetch', async () => {

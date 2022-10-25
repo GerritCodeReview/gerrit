@@ -27,7 +27,6 @@ import {
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
-import {PluginsModel} from '../models/plugins/plugins-model';
 import {
   HighlightService,
   highlightServiceToken,
@@ -63,6 +62,7 @@ import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginsModelToken} from '../models/plugins/plugins-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -82,15 +82,12 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.authService, 'authService');
       return new GrRestApiServiceImpl(ctx.authService);
     },
-    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       const restApiService = ctx.restApiService;
-      const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
       assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(reportingService, restApiService, pluginsModel);
+      return new PluginLoader(reportingService, restApiService);
     },
   };
   return create<AppContext>(appRegistry);
@@ -188,6 +185,7 @@ export function createAppDependencies(
       () =>
         new ConfigModel(resolver(changeModelToken), appContext.restApiService),
     ],
+    [pluginsModelToken, () => appContext.pluginLoader.pluginsModel],
     [
       checksModelToken,
       () =>
@@ -195,7 +193,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          appContext.pluginsModel
+          resolver(pluginsModelToken)
         ),
     ],
     [

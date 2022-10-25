@@ -364,16 +364,7 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
-      <gr-main-header
-        id="mainHeader"
-        .searchQuery=${(this.params as SearchViewState)?.query}
-        @mobile-search=${this.mobileSearchToggle}
-        @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
-        .mobileSearchHidden=${!this.mobileSearch}
-        .loginUrl=${this.loginUrl}
-        ?aria-hidden=${this.footerHeaderAriaHidden}
-      >
-      </gr-main-header>
+      ${this.renderHeader()}
       <main ?aria-hidden=${this.mainAriaHidden}>
         ${this.renderMobileSearch()} ${this.renderChangeListView()}
         ${this.renderDashboardView()} ${this.renderChangeView()}
@@ -387,6 +378,42 @@ export class GrAppElement extends LitElement {
           <div class="errorMoreInfo">${this.lastError?.moreInfo}</div>
         </div>
       </main>
+      ${this.renderFooter()} ${this.renderKeyboardShortcutsDialog()}
+      ${this.renderRegistrationDialog()}
+      <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
+      <gr-error-manager
+        id="errorManager"
+        .loginUrl=${this.loginUrl}
+      ></gr-error-manager>
+      <gr-plugin-host id="plugins"></gr-plugin-host>
+      <gr-external-style
+        id="externalStyleForAll"
+        name="app-theme"
+      ></gr-external-style>
+      <gr-external-style
+        id="externalStyleForTheme"
+        name=${this.themeEndpoint}
+      ></gr-external-style>
+    `;
+  }
+
+  private renderHeader() {
+    return html`
+      <gr-main-header
+        id="mainHeader"
+        .searchQuery=${(this.params as SearchViewState)?.query}
+        @mobile-search=${this.mobileSearchToggle}
+        @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
+        .mobileSearchHidden=${!this.mobileSearch}
+        .loginUrl=${this.loginUrl}
+        ?aria-hidden=${this.footerHeaderAriaHidden}
+      >
+      </gr-main-header>
+    `;
+  }
+
+  private renderFooter() {
+    return html`
       <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
         <div>
           Powered by
@@ -404,21 +431,6 @@ export class GrAppElement extends LitElement {
           <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
         </div>
       </footer>
-      ${this.renderKeyboardShortcutsDialog()} ${this.renderRegistrationDialog()}
-      <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
-      <gr-error-manager
-        id="errorManager"
-        .loginUrl=${this.loginUrl}
-      ></gr-error-manager>
-      <gr-plugin-host id="plugins"></gr-plugin-host>
-      <gr-external-style
-        id="externalStyleForAll"
-        name="app-theme"
-      ></gr-external-style>
-      <gr-external-style
-        id="externalStyleForTheme"
-        name=${this.themeEndpoint}
-      ></gr-external-style>
     `;
   }
 

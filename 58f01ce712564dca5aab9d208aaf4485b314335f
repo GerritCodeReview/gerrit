@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc6e8450_48e0f70f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T18:43:59Z",
+      "side": 1,
+      "message": "I think we should also mention our use case which we are tying to improve.",
+      "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ade2045_d35003b7",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T18:43:59Z",
+      "side": 1,
+      "message": "This will prevent it from being replaced when it\u0027s changed.",
+      "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

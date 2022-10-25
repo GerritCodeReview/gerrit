@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
@@ -94,7 +95,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -293,6 +293,10 @@ public class CreateChange
       }
     }
 
+    if (input.merge != null && input.patch != null) {
+      throw new BadRequestException("Only one of `merge` and `patch` arguments can be set.");
+    }
+
     if (input.author != null
         && (Strings.isNullOrEmpty(input.author.email)
             || Strings.isNullOrEmpty(input.author.name))) {
@@ -373,9 +377,19 @@ public class CreateChange
               "merge commit has conflicts in the following files: %s",
               c.getFilesWithGitConflicts());
         }
+      } else if (input.patch != null) {
+        // create a commit with the given patch.
+        if (mergeTip == null) {
+          throw new BadRequestException("Cannot apply patch on top of an empty tree.");
+        }
+        ObjectId treeId = ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
+        c =
+            rw.parseCommit(
+                CommitUtil.createCommitWithTree(
+                    oi, author, committer, mergeTip, commitMessage, treeId));
       } else {
-        // create an empty commit
-        c = newCommit(oi, rw, author, committer, mergeTip, commitMessage);
+        // create an empty commit.
+        c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
       }
       // Flush inserter so that commit becomes visible to validators
       oi.flush();
@@ -526,7 +540,7 @@ public class CreateChange
     return commitMessage;
   }
 
-  private static CodeReviewCommit newCommit(
+  private static CodeReviewCommit createEmptyCommit(
       ObjectInserter oi,
       CodeReviewRevWalk rw,
       PersonIdent authorIdent,
@@ -535,17 +549,14 @@ public class CreateChange
       String commitMessage)
       throws IOException {
     logger.atFine().log("Creating empty commit");
-    CommitBuilder commit = new CommitBuilder();
-    if (mergeTip == null) {
-      commit.setTreeId(emptyTreeId(oi));
-    } else {
-      commit.setTreeId(mergeTip.getTree().getId());
-      commit.setParentId(mergeTip);
-    }
-    commit.setAuthor(authorIdent);
-    commit.setCommitter(committerIdent);
-    commit.setMessage(commitMessage);
-    return rw.parseCommit(insert(oi, commit));
+    ObjectId treeID = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
+    return rw.parseCommit(
+        CommitUtil.createCommitWithTree(
+            oi, authorIdent, committerIdent, mergeTip, commitMessage, treeID));
+  }
+
+  private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
+    return inserter.insert(new TreeFormatter());
   }
 
   private CodeReviewCommit newMergeCommit(
@@ -614,15 +625,5 @@ public class CreateChange
     }
 
     return stringBuilder.toString();
-  }
-
-  private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit) throws IOException {
-    ObjectId id = inserter.insert(commit);
-    inserter.flush();
-    return id;
-  }
-
-  private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
-    return inserter.insert(new TreeFormatter());
   }
 }

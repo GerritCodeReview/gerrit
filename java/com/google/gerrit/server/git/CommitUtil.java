@@ -26,10 +26,13 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -44,6 +47,8 @@ import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -58,15 +63,19 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -190,6 +199,41 @@ public class CommitUtil {
   }
 
   /**
+   * Creates a commit with the specified tree ID.
+   *
+   * @param oi ObjectInserter for inserting the newly created commit.
+   * @param authorIdent of the new commit
+   * @param committerIdent of the new commit
+   * @param parentCommit of the new commit. Can be null.
+   * @param commitMessage for the new commit.
+   * @param treeId of the content for the new commit.
+   * @return the newly created commit.
+   * @throws IOException if fails to insert the commit.
+   */
+  public static ObjectId createCommitWithTree(
+      ObjectInserter oi,
+      PersonIdent authorIdent,
+      PersonIdent committerIdent,
+      @Nullable RevCommit parentCommit,
+      String commitMessage,
+      ObjectId treeId)
+      throws IOException {
+    logger.atFine().log("Creating commit with tree: %s", treeId.getName());
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(treeId);
+    if (parentCommit != null) {
+      commit.setParentId(parentCommit);
+    }
+    commit.setAuthor(authorIdent);
+    commit.setCommitter(committerIdent);
+    commit.setMessage(commitMessage);
+
+    ObjectId id = oi.insert(commit);
+    oi.flush();
+    return id;
+  }
+
+  /**
    * Creates a revert commit.
    *
    * @param message Commit message for the revert commit.
@@ -227,12 +271,6 @@ public class CommitUtil {
     RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
     revWalk.parseHeaders(parentToCommitToRevert);
 
-    CommitBuilder revertCommitBuilder = new CommitBuilder();
-    revertCommitBuilder.addParentId(commitToRevert);
-    revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
-    revertCommitBuilder.setAuthor(authorIdent);
-    revertCommitBuilder.setCommitter(authorIdent);
-
     Change changeToRevert = notes.getChange();
     String subject = changeToRevert.getSubject();
     if (subject.length() > 63) {
@@ -244,11 +282,11 @@ public class CommitUtil {
               ChangeMessages.get().revertChangeDefaultMessage, subject, patch.commitId().name());
     }
     if (generatedChangeId != null) {
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+      message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }
-    ObjectId id = oi.insert(revertCommitBuilder);
-    oi.flush();
-    return id;
+
+    return createCommitWithTree(
+        oi, authorIdent, committerIdent, commitToRevert, message, parentToCommitToRevert.getTree());
   }
 
   private Change.Id createRevertChangeFromCommit(
@@ -357,5 +395,76 @@ public class CommitUtil {
           ChangeMessagesUtil.TAG_REVERT);
       return true;
     }
+  }
+
+  /**
+   * Returns the parent commit for a new commit.
+   *
+   * <p>If {@code baseSha1} is provided, the method verifies it can be used as a base. If {@code
+   * baseSha1} is not provided the tip of the {@code destRef} is returned.
+   *
+   * @param project The name of the project.
+   * @param changeQuery Used for looking up the base commit.
+   * @param revWalk Used for parsing the base commit.
+   * @param destRef The destination branch.
+   * @param baseSha1 The hash of the base commit. Nullable.
+   * @return the base commit. Either the commit matching the provided hash, or the direct parent if
+   *     a hash was not provided.
+   * @throws IOException if the branch reference cannot be parsed.
+   * @throws RestApiException if the base commit cannot be fetched.
+   */
+  public static RevCommit getBaseCommit(
+      String project,
+      InternalChangeQuery changeQuery,
+      RevWalk revWalk,
+      Ref destRef,
+      @Nullable String baseSha1)
+      throws IOException, RestApiException {
+    RevCommit destRefTip = revWalk.parseCommit(destRef.getObjectId());
+    // The tip commit of the destination ref is the default base for the newly created change.
+    if (Strings.isNullOrEmpty(baseSha1)) {
+      return destRefTip;
+    }
+
+    ObjectId baseObjectId;
+    try {
+      baseObjectId = ObjectId.fromString(baseSha1);
+    } catch (InvalidObjectIdException e) {
+      throw new BadRequestException(
+          String.format("Base %s doesn't represent a valid SHA-1", baseSha1), e);
+    }
+
+    RevCommit baseCommit;
+    try {
+      baseCommit = revWalk.parseCommit(baseObjectId);
+    } catch (MissingObjectException e) {
+      throw new UnprocessableEntityException(
+          String.format("Base %s doesn't exist", baseObjectId.name()), e);
+    }
+
+    changeQuery.enforceVisibility(true);
+    List<ChangeData> changeDatas = changeQuery.byBranchCommit(project, destRef.getName(), baseSha1);
+
+    if (changeDatas.isEmpty()) {
+      if (revWalk.isMergedInto(baseCommit, destRefTip)) {
+        // The base commit is a merged commit with no change associated.
+        return baseCommit;
+      }
+      throw new UnprocessableEntityException(
+          String.format("Commit %s does not exist on branch %s", baseSha1, destRef.getName()));
+    } else if (changeDatas.size() != 1) {
+      throw new ResourceConflictException("Multiple changes found for commit " + baseSha1);
+    }
+
+    Change change = changeDatas.get(0).change();
+    if (!change.isAbandoned()) {
+      // The base commit is a valid change revision.
+      return baseCommit;
+    }
+
+    throw new ResourceConflictException(
+        String.format(
+            "Change %s with commit %s is %s",
+            change.getChangeId(), baseSha1, ChangeUtil.status(change)));
   }
 }

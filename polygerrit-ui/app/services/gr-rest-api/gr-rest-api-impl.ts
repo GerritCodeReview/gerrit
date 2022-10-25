@@ -2739,15 +2739,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   _changeBaseURL(
     changeNum: NumericChangeId,
-    revisionId?: RevisionId,
-    project?: RepoName
+    revisionId?: RevisionId
   ): Promise<string> {
-    // TODO(kaspern): For full slicer migration, app should warn with a call
-    // stack every time _changeBaseURL is called without a project.
-    const projectPromise = project
-      ? Promise.resolve(project)
-      : this.getFromProjectLookup(changeNum);
-    return projectPromise.then(project => {
+    return this.getFromProjectLookup(changeNum).then(project => {
       // TODO(TS): unclear why project can't be null here. Fix it
       let url = `/changes/${encodeURIComponent(
         project as RepoName
@@ -3076,9 +3070,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   _getChangeURLAndSend(req: SendJSONChangeRequest): Promise<ParsedJSON>;
 
-  /**
-   * Alias for _changeBaseURL.then(send).
-   */
   _getChangeURLAndSend(
     req: SendChangeRequest
   ): Promise<ParsedJSON | Response | undefined> {
@@ -3106,9 +3097,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Alias for _changeBaseURL.then(fetchJSON).
-   */
   _getChangeURLAndFetch(
     req: FetchChangeJSON,
     noAcceptHeader?: boolean

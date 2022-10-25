@@ -81,6 +81,12 @@ interface ErrorInfo {
   moreInfo?: string;
 }
 
+/**
+ * This is simple hacky way for allowing certain plugin screens to hide the
+ * header and the footer of the Gerrit page.
+ */
+const WHITE_LISTED_FULL_SCREEN_PLUGINS = ['git_source_editor/screen/edit'];
+
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
 export class GrAppElement extends LitElement {
@@ -398,6 +404,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderHeader() {
+    if (this.hideHeaderAndFooter()) return nothing;
     return html`
       <gr-main-header
         id="mainHeader"
@@ -413,6 +420,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderFooter() {
+    if (this.hideHeaderAndFooter()) return nothing;
     return html`
       <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
         <div>
@@ -432,6 +440,13 @@ export class GrAppElement extends LitElement {
         </div>
       </footer>
     `;
+  }
+
+  private hideHeaderAndFooter() {
+    return (
+      this.view === GerritView.PLUGIN_SCREEN &&
+      WHITE_LISTED_FULL_SCREEN_PLUGINS.includes(this.computePluginScreenName())
+    );
   }
 
   private renderMobileSearch() {

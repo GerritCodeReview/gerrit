@@ -6,9 +6,9 @@
 import {assert} from '@open-wc/testing';
 import {AdminPluginApi} from '../../../api/admin';
 import {PluginApi} from '../../../api/plugin';
+import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-admin-api tests', () => {
   let adminApi: AdminPluginApi;
@@ -22,7 +22,7 @@ suite('gr-admin-api tests', () => {
       '0.1',
       'http://test.com/plugins/testplugin/static/test.js'
     );
-    getPluginLoader().loadPlugins([]);
+    getAppContext().pluginLoader.loadPlugins([]);
     adminApi = plugin.admin();
   });
 

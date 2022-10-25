@@ -125,10 +125,6 @@ as parameters in the constructor.
 
 Do not use getAppContext() anywhere else in a class.
 
-**Note:** This rule doesn't apply for HTML/Polymer elements classes. A browser creates instances of such classes
-implicitly and calls the constructor without parameters. See
-[Assign required services in a HTML/Polymer element constructor](#assign-dependencies-in-html-element-constructor)
-
 **Good:**
 ```Javascript
 export class UserService {
@@ -160,10 +156,3 @@ export class AdminService {
 }
 
 ```
-
-## <a name="assign-dependencies-in-html-element-constructor"></a>Assign required services in a HTML/Polymer element constructor
-If a class is a custom HTML/Polymer element, the class must assign all required services in the constructor.
-A browser creates instances of such classes implicitly, so it is impossible to pass anything as a parameter to
-the element's class constructor.
-
-Do not use appContext anywhere except the constructor of the class.

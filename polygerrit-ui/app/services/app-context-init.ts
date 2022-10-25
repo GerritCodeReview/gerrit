@@ -64,6 +64,7 @@ import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
+import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 /**
  * The AppContext lazy initializator for all services
@@ -91,6 +92,22 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
+    pluginLoader: (ctx: Partial<AppContext>) => {
+      const reportingService = ctx.reportingService;
+      const jsApiService = ctx.jsApiService;
+      const restApiService = ctx.restApiService;
+      const pluginsModel = ctx.pluginsModel;
+      assertIsDefined(reportingService, 'reportingService');
+      assertIsDefined(jsApiService, 'jsApiService');
+      assertIsDefined(restApiService, 'restApiService');
+      assertIsDefined(pluginsModel, 'pluginsModel');
+      return new PluginLoader(
+        reportingService,
+        jsApiService,
+        restApiService,
+        pluginsModel
+      );
+    },
   };
   return create<AppContext>(appRegistry);
 }

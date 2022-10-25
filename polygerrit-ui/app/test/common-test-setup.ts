@@ -6,13 +6,12 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
-import {AppContext, injectAppContext} from '../services/app-context';
+import {AppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
 import {
   createTestAppContext,
   createTestDependencies,
 } from './test-app-context-init';
-import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
 import {
   cleanupTestUtils,
@@ -102,7 +101,8 @@ setup(() => {
   // overwritten by some other code.
   assert.equal(getCleanupsCount(), 0);
   appContext = createTestAppContext();
-  injectAppContext(appContext);
+  initGlobalVariables(appContext);
+
   finalizers.push(appContext);
   const dependencies = createTestDependencies(appContext, testResolver);
   for (const [token, provider] of dependencies) {
@@ -111,21 +111,17 @@ setup(() => {
   document.addEventListener('request-dependency', resolveDependency);
   // The following calls is necessary to avoid influence of previously executed
   // tests.
-  initGlobalVariables(appContext);
 
   const selection = document.getSelection();
   if (selection) {
     selection.removeAllRanges();
   }
-  const pl = _testOnly_resetPluginLoader();
   // For testing, always init with empty plugin list
   // Since when serve in gr-app, we always retrieve the list
   // from project config and init loading after that, all
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
-  // You still can manually call _testOnly_resetPluginLoader
-  // to reset this behavior if you need to test something specific.
-  pl.loadPlugins([]);
+  appContext.pluginLoader.loadPlugins([]);
   _testOnlyResetGrRestApiSharedObjects();
 });
 
@@ -155,7 +151,6 @@ function checkChildAllowed(element: Element) {
         'restore() method is called for this test-fixture. Usually the call' +
         'happens automatically.'
     );
-    return;
   }
   if (
     element.tagName === 'DIV' &&

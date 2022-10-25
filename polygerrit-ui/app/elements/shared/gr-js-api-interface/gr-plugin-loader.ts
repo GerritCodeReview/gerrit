@@ -27,6 +27,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {iconStyles} from '../../../styles/gr-icon-styles';
+import {GrJsApiInterface} from './gr-js-api-interface-element';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -98,12 +99,18 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   private instanceId?: string;
 
+  public readonly jsApiService: JsApiService;
+
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly jsApiService: JsApiService,
     private readonly restApiService: RestApiService,
     private readonly pluginsModel: PluginsModel
-  ) {}
+  ) {
+    this.jsApiService = new GrJsApiInterface(
+      () => this.awaitPluginsLoaded(),
+      this.reportingService
+    );
+  }
 
   reset() {
     this.pluginListLoaded = false;

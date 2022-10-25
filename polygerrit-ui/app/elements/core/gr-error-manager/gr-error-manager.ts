@@ -3,8 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-/* Import to get Gerrit interface */
-/* TODO(taoalpha): decouple gr-gerrit from gr-js-api-interface */
 import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import '../../shared/gr-overlay/gr-overlay';

@@ -529,7 +529,7 @@ export class GrChangeView extends LitElement {
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
-  readonly jsAPI = getAppContext().jsApiService;
+  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 

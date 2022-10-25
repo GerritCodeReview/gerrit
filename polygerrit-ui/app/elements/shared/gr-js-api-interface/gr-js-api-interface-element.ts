@@ -25,14 +25,13 @@ import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {getAppContext} from '../../../services/app-context';
 import {Provider} from '../../../models/dependency';
-import {PluginLoader} from './gr-plugin-loader';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
 export class GrJsApiInterface implements JsApiService, Finalizable {
   constructor(
-    private getPluginLoader: Provider<PluginLoader>,
+    private waitForPluginsToLoad: Provider<Promise<void>>,
     readonly reporting: ReportingService
   ) {}
 
@@ -79,7 +78,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowChange(detail: ShowChangeDetail) {
-    await this.getPluginLoader().awaitPluginsLoaded();
+    await this.waitForPluginsToLoad();
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can
@@ -125,7 +124,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
-    await this.getPluginLoader().awaitPluginsLoaded();
+    await this.waitForPluginsToLoad();
     const registeredCallbacks = this._getEventCallbacks(
       EventType.SHOW_REVISION_ACTIONS
     );
@@ -157,7 +156,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleLabelChange(detail: {change?: ParsedChangeInfo}) {
-    await this.getPluginLoader().awaitPluginsLoaded();
+    await this.waitForPluginsToLoad();
     for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
       try {
         cb(detail.change);

@@ -170,7 +170,7 @@ export class GrConfirmRevertDialog extends LitElement {
     `;
   }
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private computeIfSingleRevert() {
     return this.revertType === RevertType.REVERT_SINGLE_CHANGE;

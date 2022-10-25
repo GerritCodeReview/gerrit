@@ -1148,11 +1148,6 @@ export class GrChangeView extends LitElement {
             flex: initial;
             margin: 0;
           }
-          /* Change actions are the only thing thant need to remain visible due
-            to the fact that they may have the currently visible overlay open. */
-          #mainContent.overlayOpen .hideOnMobileOverlay {
-            display: none;
-          }
           gr-reply-dialog {
             height: 100vh;
             min-width: initial;

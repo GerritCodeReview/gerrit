@@ -713,38 +713,6 @@ suite('gr-change-actions tests', () => {
       );
     });
 
-    test('fullscreen-overlay-opened hides content', () => {
-      const spy = sinon.spy(element, 'handleHideBackgroundContent');
-      queryAndAssert<GrOverlay>(element, '#overlay').dispatchEvent(
-        new CustomEvent('fullscreen-overlay-opened', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(spy.called);
-      assert.isTrue(
-        queryAndAssert<Element>(element, '#mainContent').classList.contains(
-          'overlayOpen'
-        )
-      );
-    });
-
-    test('fullscreen-overlay-closed shows content', () => {
-      const spy = sinon.spy(element, 'handleShowBackgroundContent');
-      queryAndAssert<GrOverlay>(element, '#overlay').dispatchEvent(
-        new CustomEvent('fullscreen-overlay-closed', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(spy.called);
-      assert.isFalse(
-        queryAndAssert<Element>(element, '#mainContent').classList.contains(
-          'overlayOpen'
-        )
-      );
-    });
-
     test('setReviewOnRevert', () => {
       const review = {labels: {Foo: 1, 'Bar-Baz': -2}};
       const changeId = 1234 as NumericChangeId;

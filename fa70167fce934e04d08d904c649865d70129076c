@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45abde33_69e1e1c9",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T19:57:18Z",
+      "side": 1,
+      "message": "Move this outside the try block now?",
+      "revId": "fa70167fce934e04d08d904c649865d70129076c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf400d6_70711f21",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T19:57:18Z",
+      "side": 1,
+      "message": "This approach is a bit racy still since you don\u0027t know what you removed here is what you tried to open, it could have been added by another thread, and it could be \"correct\" already.",
+      "revId": "fa70167fce934e04d08d904c649865d70129076c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

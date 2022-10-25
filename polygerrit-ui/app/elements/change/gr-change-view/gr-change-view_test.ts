@@ -422,11 +422,11 @@ suite('gr-change-view tests', () => {
             </div>
             <h2 class="assistive-tech-only">Change metadata</h2>
             <div class="changeInfo">
-              <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+              <div class="changeInfo-column changeMetadata">
                 <gr-change-metadata id="metadata"> </gr-change-metadata>
               </div>
               <div class="changeInfo-column mainChangeInfo" id="mainChangeInfo">
-                <div class="hideOnMobileOverlay" id="commitAndRelated">
+                <div id="commitAndRelated">
                   <div class="commitContainer">
                     <h3 class="assistive-tech-only">Commit Message</h3>
                     <div>
@@ -508,8 +508,7 @@ suite('gr-change-view tests', () => {
           <section class="tabContent">
             <div>
               <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
-              <gr-file-list class="hideOnMobileOverlay" id="fileList">
-              </gr-file-list>
+              <gr-file-list id="fileList"> </gr-file-list>
             </div>
           </section>
           <gr-endpoint-decorator name="change-view-integration">
@@ -530,7 +529,7 @@ suite('gr-change-view tests', () => {
           </paper-tabs>
           <section class="changeLog">
             <h2 class="assistive-tech-only">Change Log</h2>
-            <gr-messages-list class="hideOnMobileOverlay"> </gr-messages-list>
+            <gr-messages-list> </gr-messages-list>
           </section>
         </div>
         <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>

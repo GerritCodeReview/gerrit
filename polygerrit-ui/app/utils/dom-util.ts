@@ -453,7 +453,7 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   const path: EventTarget[] = e.composedPath() ?? [];
   for (const el of path) {
     if (!isElementTarget(el)) continue;
-    if (el.tagName === 'GR-OVERLAY') return true;
+    if (el.tagName === 'GR-OVERLAY' || el.tagName === 'DIALOG') return true;
   }
   return false;
 }

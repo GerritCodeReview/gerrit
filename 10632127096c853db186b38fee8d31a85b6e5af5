@@ -51,6 +51,24 @@
       "parentUuid": "40f09d1c_68735aea",
       "revId": "10632127096c853db186b38fee8d31a85b6e5af5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be173c4_de3e7ec6",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-25T07:05:18Z",
+      "side": 1,
+      "message": "Oops,I was looking at routerModel.routerRepo$",
+      "parentUuid": "bac547ad_c98f975e",
+      "revId": "10632127096c853db186b38fee8d31a85b6e5af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

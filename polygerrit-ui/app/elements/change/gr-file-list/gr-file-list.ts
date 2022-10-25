@@ -22,7 +22,6 @@ import {FilesExpandedState} from '../gr-file-list-constants';
 import {diffFilePaths, pluralize} from '../../../utils/string-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {
   DiffViewMode,
@@ -285,6 +284,8 @@ export class GrFileList extends LitElement {
   private readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly pluginLoader = getAppContext().pluginLoader;
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -823,55 +824,53 @@ export class GrFileList extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-header'
+    this.pluginLoader.awaitPluginsLoaded().then(() => {
+      this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+        'change-view-file-list-header'
+      );
+      this.dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
+        'change-view-file-list-content'
+      );
+      this.dynamicPrependedHeaderEndpoints =
+        getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-header-prepend'
         );
-        this.dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-content'
+      this.dynamicPrependedContentEndpoints =
+        getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-content-prepend'
         );
-        this.dynamicPrependedHeaderEndpoints =
-          getPluginEndpoints().getDynamicEndpoints(
-            'change-view-file-list-header-prepend'
-          );
-        this.dynamicPrependedContentEndpoints =
-          getPluginEndpoints().getDynamicEndpoints(
-            'change-view-file-list-content-prepend'
-          );
-        this.dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-summary'
-        );
+      this.dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
+        'change-view-file-list-summary'
+      );
 
-        if (
-          this.dynamicHeaderEndpoints.length !==
-          this.dynamicContentEndpoints.length
-        ) {
-          this.reporting.error(
-            'Plugin change-view-file-list',
-            new Error('dynamic header/content mismatch')
-          );
-        }
-        if (
-          this.dynamicPrependedHeaderEndpoints.length !==
-          this.dynamicPrependedContentEndpoints.length
-        ) {
-          this.reporting.error(
-            'Plugin change-view-file-list',
-            new Error('dynamic prepend header/content mismatch')
-          );
-        }
-        if (
-          this.dynamicHeaderEndpoints.length !==
-          this.dynamicSummaryEndpoints.length
-        ) {
-          this.reporting.error(
-            'Plugin change-view-file-list',
-            new Error('dynamic header/summary mismatch')
-          );
-        }
-      });
+      if (
+        this.dynamicHeaderEndpoints.length !==
+        this.dynamicContentEndpoints.length
+      ) {
+        this.reporting.error(
+          'Plugin change-view-file-list',
+          new Error('dynamic header/content mismatch')
+        );
+      }
+      if (
+        this.dynamicPrependedHeaderEndpoints.length !==
+        this.dynamicPrependedContentEndpoints.length
+      ) {
+        this.reporting.error(
+          'Plugin change-view-file-list',
+          new Error('dynamic prepend header/content mismatch')
+        );
+      }
+      if (
+        this.dynamicHeaderEndpoints.length !==
+        this.dynamicSummaryEndpoints.length
+      ) {
+        this.reporting.error(
+          'Plugin change-view-file-list',
+          new Error('dynamic header/summary mismatch')
+        );
+      }
+    });
     this.diffCursor = new GrDiffCursor();
     this.diffCursor.replaceDiffs(this.diffs);
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3da31d_f07f038d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-25T23:33:31Z",
+      "side": 1,
+      "message": "Frontend changes look good to me + tests pass.",
+      "revId": "65207fcee23b2c001536ab58970b49085576fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

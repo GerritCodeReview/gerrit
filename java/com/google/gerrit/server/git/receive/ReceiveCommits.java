@@ -439,6 +439,7 @@ class ReceiveCommits {
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
   private ImmutableMap<String, String> loggingTags;
+  private ImmutableList<String> transitionalPluginOptions;
 
   /** This object is for single use only. */
   private boolean used;
@@ -590,6 +591,8 @@ class ReceiveCommits {
         useRefCache
             ? ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs())
             : ReceivePackRefCache.noCache(receivePack.getRepository().getRefDatabase());
+    this.transitionalPluginOptions =
+        ImmutableList.copyOf(config.getStringList("plugins", null, "transitionalPushOptions"));
   }
 
   void init() {
@@ -2132,6 +2135,9 @@ class ReceiveCommits {
   }
 
   private boolean isPluginPushOption(String pushOptionName) {
+    if (transitionalPluginOptions.contains(pushOptionName)) {
+      return true;
+    }
     return StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
         .anyMatch(e -> pushOptionName.equals(e.getPluginName() + "~" + e.get().getName()));
   }

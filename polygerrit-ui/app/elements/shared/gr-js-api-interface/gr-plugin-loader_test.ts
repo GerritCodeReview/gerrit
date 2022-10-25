@@ -77,7 +77,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('report pluginsLoaded', async () => {
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
     pluginsLoadedStub.reset();
@@ -107,7 +107,7 @@ suite('gr-plugin-loader tests', () => {
       window.Gerrit.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 
@@ -164,7 +164,7 @@ suite('gr-plugin-loader tests', () => {
     });
 
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 
@@ -198,7 +198,7 @@ suite('gr-plugin-loader tests', () => {
     });
 
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 
@@ -235,7 +235,7 @@ suite('gr-plugin-loader tests', () => {
     });
 
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 
@@ -261,7 +261,7 @@ suite('gr-plugin-loader tests', () => {
     });
 
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 
@@ -278,7 +278,7 @@ suite('gr-plugin-loader tests', () => {
       window.Gerrit.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(
-      pluginLoader._getReporting(),
+      getAppContext().reportingService,
       'pluginsLoaded'
     );
 

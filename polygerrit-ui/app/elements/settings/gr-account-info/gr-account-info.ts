@@ -12,8 +12,11 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-hovercard-account/gr-hovercard-account-contents';
-import {AccountDetailInfo, ServerInfo} from '../../../types/common';
-import {EditableAccountField} from '../../../constants/constants';
+import {AccountDetailInfo, GroupInfo, ServerInfo} from '../../../types/common';
+import {
+  AccountsVisibility,
+  EditableAccountField,
+} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {fire, fireEvent} from '../../../utils/event-util';
 import {LitElement, css, html, nothing, PropertyValues} from 'lit';
@@ -22,7 +25,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {pluralize} from '../../../utils/string-util';
 
+const DEFAULT_GROUPS_SHOWN_COUNT = 2;
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
   /**
@@ -64,7 +69,12 @@ export class GrAccountInfo extends LitElement {
 
   @state() private avatarChangeUrl = '';
 
+  @state() private groups?: GroupInfo[];
+
+  @state() private showAllGroups = false;
+
   private readonly restApiService = getAppContext().restApiService;
+  private readonly reportingService = getAppContext().reportingService;
 
   static override styles = [
     sharedStyles,
@@ -94,6 +104,17 @@ export class GrAccountInfo extends LitElement {
       }
       .lengthCounter {
         font-weight: var(--font-weight-normal);
+      }
+      section.visibility .value,
+      section.discoverability .value {
+        max-width: 400px;
+      }
+      section.discoverability ul {
+        list-style-type: disc;
+        list-style-position: inside;
+      }
+      section.discoverability a {
+        cursor: pointer;
       }
     `,
   ];
@@ -230,6 +251,25 @@ export class GrAccountInfo extends LitElement {
           ></iron-autogrow-textarea>
         </span>
       </section>
+      <section class="visibility">
+        <div class="title">Account visibility</div>
+        <div class="value">
+          When you participate in a change or are added to a change your account
+          will be visible on the change to everyone who has access to it.
+        </div>
+      </section>
+      <section class="discoverability">
+        <div class="title">
+          <gr-tooltip-content
+            title="When your account is discoverable by someone they can see your account and activity in ways other than by your direct contributions, such as searching for your account or by adding you as a reviewer on a change"
+            has-tooltip
+            show-icon
+          >
+            Account discoverability
+          </gr-tooltip-content>
+        </div>
+        <div class="value">${this.renderDiscoverabilityDetails()}</div>
+      </section>
       <section>
         <span class="title">
           <gr-tooltip-content
@@ -250,7 +290,75 @@ export class GrAccountInfo extends LitElement {
     </div>`;
   }
 
+  private renderDiscoverabilityDetails() {
+    if (!this.serverConfig) {
+      return nothing;
+    }
+    switch (this.serverConfig.accounts.visibility) {
+      case AccountsVisibility.ALL:
+        return 'Your account is discoverable by everyone because this host makes all users discoverable by all other users, including anonymous users.';
+      case AccountsVisibility.VISIBLE_GROUP:
+        return html`
+          This host bases account discoverability on group visibility.
+          ${this.renderVisibleGroupsList()}
+        `;
+      case AccountsVisibility.SAME_GROUP:
+        return html`Your account is only discoverable by other members of
+          <a href="#Groups">your groups</a>.`;
+      case AccountsVisibility.NONE:
+        return 'Your account is not discoverable by others.';
+      default:
+        this.reportingService.error(
+          'Profile Settings',
+          new Error(
+            `Invalid account visibility setting in server config: ${this.serverConfig.accounts.visibility}`
+          )
+        );
+        return nothing;
+    }
+  }
+
+  private renderVisibleGroupsList() {
+    if (this.groups === undefined) {
+      return nothing;
+    }
+    const visibleGroupNames = this.groups
+      .filter(group => group.options?.visible_to_all)
+      .map(group => group.name ?? group.id);
+    if (visibleGroupNames.length === 0) {
+      return html`Your account is only discoverable by other members of
+        <a href="#Groups">your groups</a> because you are not a member of any
+        publicly visible group.`;
+    }
+    const firstGroupItems = visibleGroupNames
+      .slice(0, DEFAULT_GROUPS_SHOWN_COUNT)
+      .map(group => html`<li>${group}</li>`);
+    const remainingGroupItems = visibleGroupNames
+      .slice(DEFAULT_GROUPS_SHOWN_COUNT)
+      .map(group => html`<li>${group}</li>`);
+    const showAllGroupsButton = html`<li>
+      <a @click=${() => (this.showAllGroups = true)}>
+        Show all publicy visible groups
+      </a>
+    </li>`;
+    return html`
+      Your account is discoverable by everyone because you are a member of
+      ${pluralize(visibleGroupNames.length, 'publicly visible group')}:
+      <ul>
+        ${firstGroupItems}
+        ${when(remainingGroupItems.length > 0, () =>
+          this.showAllGroups ? remainingGroupItems : showAllGroupsButton
+        )}
+      </ul>
+    `;
+  }
+
   override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('account') && this.account !== undefined) {
+      this.restApiService
+        .getAccountGroups()
+        .then(groups => (this.groups = groups));
+    }
     if (changedProperties.has('serverConfig')) {
       this.nameMutable = this.computeNameMutable();
     }

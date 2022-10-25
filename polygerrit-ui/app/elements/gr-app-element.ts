@@ -416,6 +416,19 @@ export class GrAppElement extends LitElement {
           (${this.version})
           <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
         </div>
+        <button
+          @click=${async () => {
+            this.loadRegistrationDialog = true;
+            await this.updateComplete;
+            console.log(this.registrationOverlay, this.registrationDialog);
+            await this.registrationOverlay?.open();
+            await this.registrationDialog?.loadData().then(() => {
+              this.registrationOverlay!.refit();
+            });
+          }}
+        >
+          Open Registration Dialog Again
+        </button>
         <div>
           Press “?” for keyboard shortcuts
           <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>

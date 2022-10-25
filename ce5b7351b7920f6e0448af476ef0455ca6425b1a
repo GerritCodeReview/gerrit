@@ -69,6 +69,23 @@
       "parentUuid": "fe77a34a_782372d5",
       "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62383510_e0ad39cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T07:30:42Z",
+      "side": 1,
+      "message": "We likely need the bcutil dependency that [1] adds. It\u0027s unclear why the CI is not detecting this. Matthias do you know?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/345774",
+      "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

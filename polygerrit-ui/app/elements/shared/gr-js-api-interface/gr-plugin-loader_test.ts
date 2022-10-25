@@ -35,7 +35,6 @@ suite('gr-plugin-loader tests', () => {
     );
     pluginLoader = new PluginLoader(
       getAppContext().reportingService,
-      getAppContext().jsApiService,
       getAppContext().restApiService,
       getAppContext().pluginsModel
     );

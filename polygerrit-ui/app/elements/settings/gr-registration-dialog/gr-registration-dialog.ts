@@ -116,6 +116,9 @@ export class GrRegistrationDialog extends LitElement {
       input {
         width: 20em;
       }
+      strong {
+        font-weight: bold;
+      }
     `,
   ];
 
@@ -130,6 +133,26 @@ export class GrRegistrationDialog extends LitElement {
           to others, and to send updates to code reviews you have either started
           or subscribed to.
         </p>
+        <br />
+        <p>
+          <strong>Account visibility</strong>: When you participate in a change
+          or are added to a change your account will be visible on the change to
+          everyone who has access to it.
+        </p>
+        <br />
+        <p>
+          <strong>Account discoverability</strong>: When your account is
+          discoverable by someone they can see your account and activity in ways
+          other than by your direct contributions, such as searching for your
+          account or by adding you as a reviewer on a change. Your account is
+          discoverable by everyone because this host makes all users
+          discoverable by all other users, including anonymous users.
+        </p>
+        <br />
+        <strong>Full Name syncing</strong>: Your Full Name is synced to the name
+        of your Google Account each time you log in to Gerrit. To change how
+        your Full Name appears to others in Gerrit, change your Google Account
+        name.
         <hr />
         <section>
           <span class="title">Full Name</span>

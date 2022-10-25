@@ -5,9 +5,10 @@
  */
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback, RestPluginApi} from '../../../api/rest';
 import {PluginApi} from '../../../api/plugin';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 async function getErrorMessage(response: Response): Promise<string> {
   const text = await response.text();
@@ -24,11 +25,12 @@ class ResponseError extends Error {
 }
 
 export class GrPluginRestApi implements RestPluginApi {
-  private readonly restApi = getAppContext().restApiService;
-
-  private readonly reporting = getAppContext().reportingService;
-
-  constructor(readonly plugin: PluginApi, private readonly prefix = '') {
+  constructor(
+    private readonly restApi: RestApiService,
+    private readonly reporting: ReportingService,
+    readonly plugin: PluginApi,
+    private readonly prefix = ''
+  ) {
     this.reporting.trackApi(this.plugin, 'rest', 'constructor');
   }
 

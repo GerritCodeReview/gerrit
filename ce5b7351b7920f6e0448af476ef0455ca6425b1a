@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80d1ef9_e4a6183f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T06:18:46Z",
+      "side": 1,
+      "message": "It looks like this is mostly the same as https://gerrit-review.googlesource.com/c/gerrit/+/345774?\n\nIn general, please include into the commit message why this library upgrade is needed or why it\u0027s important. Then, after this change has been approved by a non-Google maintainer, it will show up in a queue that is processed by our weekly onduty person.\n\nAlso see:\nhttps://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nJust to let you know, library upgrades are difficult and time-consuming for us (because we have to upgrade all of Google), so we only do if there is a good reason for it.",
+      "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

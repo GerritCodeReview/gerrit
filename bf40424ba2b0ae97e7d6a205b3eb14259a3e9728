@@ -87,6 +87,24 @@
       "parentUuid": "db565bba_37f22d6b",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa83e56_aade5e3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T07:20:22Z",
+      "side": 1,
+      "message": "There are some good news on this. Brandon Weeks from Google is working on upgrading BC to 1.69 and then to 1.72 (see [1]).\n\nWhat\u0027s confusing us is that as Matthias pointed out on this change, Bouncycastle 1.69 added bcutil as a new artefact which bcpkix depends on, but [1] is building successfully without adding this dependency. Matthias, do you know why this is and whether [1] should still add the bcutil dependency?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/349334",
+      "parentUuid": "dc9bbed6_2fdc8c8c",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

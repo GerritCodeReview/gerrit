@@ -132,6 +132,10 @@ screen.
 === settings-screen
 This endpoint is situated at the end of the body of the settings screen.
 
+=== profile
+This endpoint is situation at the top of the Profile section of the settings
+screen below the section description text.
+
 === reply-text
 This endpoint wraps the textarea in the reply dialog.
 

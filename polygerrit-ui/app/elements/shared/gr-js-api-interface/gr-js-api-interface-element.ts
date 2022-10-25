@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getPluginLoader} from './gr-plugin-loader';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
@@ -24,6 +23,7 @@ import {DiffLayer, HighlightJS, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {getAppContext} from '../../../services/app-context';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -35,8 +35,10 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(type: EventType, detail: any) {
-    getPluginLoader()
-      .awaitPluginsLoaded()
+    // NOTE: pluginLoader can not be passed in because there's a circular dependency
+    // between GrJsApiInterface and pluginLoader.
+    getAppContext()
+      .pluginLoader.awaitPluginsLoaded()
       .then(() => {
         switch (type) {
           case EventType.HISTORY:
@@ -320,8 +322,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
    * will resolve to null.
    */
   getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]> {
-    return getPluginLoader()
-      .awaitPluginsLoaded()
+    return getAppContext()
+      .pluginLoader.awaitPluginsLoaded()
       .then(() => {
         const providers: GrAnnotationActionsInterface[] = [];
         this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {

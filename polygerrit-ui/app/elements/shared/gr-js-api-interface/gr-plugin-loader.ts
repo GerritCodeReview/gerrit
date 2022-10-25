@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getAppContext} from '../../../services/app-context';
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
   getPluginNameFromUrl,
@@ -16,6 +15,10 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
+import {JsApiService} from './gr-js-api-types';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {Finalizable} from '../../../services/registry';
+import { PluginsModel } from '../../../models/plugins/plugins-model';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -64,7 +67,7 @@ const API_VERSION = '0.1';
  * Retrieve plugin.
  * Check plugin status and if all plugins loaded.
  */
-export class PluginLoader {
+export class PluginLoader implements Finalizable {
   _pluginListLoaded = false;
 
   _plugins = new Map<string, PluginObject>();
@@ -79,9 +82,28 @@ export class PluginLoader {
 
   private instanceId?: string;
 
+  constructor(
+    private readonly reportingService: ReportingService,
+    private readonly jsApiService: JsApiService,
+    private readonly restApiService: RestApiService,
+    private readonly pluginsModel: PluginsModel
+  ) {}
+
+  reset() {
+    this._pluginListLoaded = false;
+    this._plugins = new Map<string, PluginObject>();
+    this._loadingPromise = null;
+    this._loadingResolver = null;
+    this.instanceId = undefined;
+  }
+
+  finalize() {
+    this.reset();
+  }
+
   _getReporting() {
     if (!this._reporting) {
-      this._reporting = getAppContext().reportingService;
+      this._reporting = this.reportingService;
     }
     return this._reporting;
   }
@@ -178,7 +200,13 @@ export class PluginLoader {
     const pluginObject = this.getPlugin(url);
     let plugin = pluginObject && pluginObject.plugin;
     if (!plugin) {
-      plugin = new Plugin(url);
+      plugin = new Plugin(
+        url,
+        this.jsApiService,
+        this.reportingService,
+        this.restApiService,
+        this.pluginsModel
+      );
     }
     try {
       callback(plugin);
@@ -365,15 +393,4 @@ export class PluginLoader {
     }
     return this._loadingPromise;
   }
-}
-
-// TODO(dmfilippov): Convert to service and add to appContext
-let pluginLoader = new PluginLoader();
-export function _testOnly_resetPluginLoader() {
-  pluginLoader = new PluginLoader();
-  return pluginLoader;
-}
-
-export function getPluginLoader() {
-  return pluginLoader;
 }

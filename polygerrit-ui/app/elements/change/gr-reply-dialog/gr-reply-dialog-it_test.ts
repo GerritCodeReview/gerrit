@@ -11,7 +11,7 @@ import {
   stubRestApi,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+
 import {GrReplyDialog} from './gr-reply-dialog';
 import {fixture, html, assert} from '@open-wc/testing';
 import {
@@ -22,6 +22,7 @@ import {
 } from '../../../types/common';
 import {createChange} from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
@@ -116,8 +117,9 @@ suite('gr-reply-dialog-it tests', () => {
     );
     element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     setupElement(element);
-    getPluginLoader().loadPlugins([]);
-    await getPluginLoader().awaitPluginsLoaded();
+    const pluginLoader = getAppContext().pluginLoader;
+    pluginLoader.loadPlugins([]);
+    await pluginLoader.awaitPluginsLoaded();
     await waitEventLoop();
     await waitEventLoop();
     const labelScoreRows = queryAndAssert(

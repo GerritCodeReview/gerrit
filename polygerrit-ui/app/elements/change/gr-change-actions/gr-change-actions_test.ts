@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-change-actions';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   createAccountWithId,
   createApproval,
@@ -59,6 +58,7 @@ import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-reve
 import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {getAppContext} from '../../../services/app-context';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -119,7 +119,7 @@ suite('gr-change-actions tests', () => {
       });
 
       sinon
-        .stub(getPluginLoader(), 'awaitPluginsLoaded')
+        .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
         .returns(Promise.resolve());
 
       element = await fixture<GrChangeActions>(html`
@@ -748,7 +748,9 @@ suite('gr-change-actions tests', () => {
     test('setReviewOnRevert', () => {
       const review = {labels: {Foo: 1, 'Bar-Baz': -2}};
       const changeId = 1234 as NumericChangeId;
-      sinon.stub(element.jsAPI, 'getReviewPostRevert').returns(review);
+      sinon
+        .stub(getAppContext().jsApiService, 'getReviewPostRevert')
+        .returns(review);
       const saveStub = stubRestApi('saveChangeReview').returns(
         Promise.resolve(new Response())
       );
@@ -2685,7 +2687,7 @@ suite('gr-change-actions tests', () => {
       stubRestApi('send').returns(Promise.reject(new Error('error')));
 
       sinon
-        .stub(getPluginLoader(), 'awaitPluginsLoaded')
+        .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
         .returns(Promise.resolve());
 
       element = await fixture<GrChangeActions>(html`

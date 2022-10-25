@@ -3,17 +3,18 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getAppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 /**
  * Defines all methods that will be exported to plugin from reporting service.
  */
 export class GrReportingJsApi implements ReportingPluginApi {
-  private readonly reporting = getAppContext().reportingService;
-
-  constructor(private readonly plugin: PluginApi) {
+  constructor(
+    private readonly reporting: ReportingService,
+    private readonly plugin: PluginApi
+  ) {
     this.reporting.trackApi(this.plugin, 'reporting', 'constructor');
   }
 

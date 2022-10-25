@@ -289,6 +289,7 @@ export class GrSubmitRequirementHovercard extends base {
     const maxVote = approvalInfo?.permitted_voting_range?.max;
     if (!maxVote || maxVote <= 0) return;
     if (approvalInfo?.value === maxVote) return; // Already voted maxVote
+    // Todo(b/123): Refactor this
     return html` <div class="button quickApprove">
       <gr-button
         link=""

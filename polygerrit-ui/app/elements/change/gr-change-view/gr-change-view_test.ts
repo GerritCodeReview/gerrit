@@ -29,6 +29,7 @@ import {
   waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
+  waitUntilVisible,
 } from '../../../test/test-utils';
 import {
   createChangeViewState,
@@ -550,18 +551,7 @@ suite('gr-change-view tests', () => {
         >
           <gr-included-in-dialog id="includedInDialog"> </gr-included-in-dialog>
         </gr-overlay>
-        <gr-overlay
-          aria-hidden="true"
-          class="scrollable"
-          id="replyOverlay"
-          no-cancel-on-esc-key=""
-          no-cancel-on-outside-click=""
-          scroll-action="lock"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
-        </gr-overlay>
+        <dialog id="replyModal"></dialog>
       `
     );
   });
@@ -821,40 +811,57 @@ suite('gr-change-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isFalse(element.replyModalOpened);
       assert.isTrue(loggedInErrorSpy.called);
     });
 
     test('shift A does not open reply overlay', async () => {
       pressKey(element, 'a', Modifier.SHIFT_KEY);
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isFalse(element.replyModalOpened);
     });
 
     test('A toggles overlay when logged in', async () => {
-      element.change = {
+      // restore clock so that setTimeout in waitUntil() works as expected
+      clock.restore();
+      stubRestApi('getChangeDetail').returns(
+        Promise.resolve(createParsedChange())
+      );
+      sinon.stub(element, 'performPostChangeLoadTasks');
+      sinon.stub(element, 'getMergeability');
+      const change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
         messages: createChangeMessages(1),
       };
-      element.change.labels = {};
+      change.labels = {};
+      element.change = change;
+
+      changeModel.setState({
+        loadingStatus: LoadingStatus.LOADED,
+        change,
+      });
+
       await element.updateComplete;
 
       const openSpy = sinon.spy(element, 'openReplyDialog');
 
       pressKey(element, 'a');
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isTrue(element.replyOverlay.opened);
-      element.replyOverlay.close();
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isTrue(element.replyModalOpened);
+      sinon.spy(element.replyDialog!, 'open');
+      await waitUntilVisible(element.replyDialog!);
+      element.replyModal.close();
       assert(
         openSpy.lastCall.calledWithExactly(FocusTarget.ANY),
         'openReplyDialog should have been passed ANY'
       );
       assert.equal(openSpy.callCount, 1);
+      clock.tick(5000);
+      await waitUntil(() => !element.replyModalOpened);
     });
 
     test('expand all messages when expand-diffs fired', () => {
@@ -1932,6 +1939,15 @@ suite('gr-change-view tests', () => {
     });
 
     test('reply from comment adds quote text', async () => {
+      const change = {
+        ...createChangeViewChange(),
+        revisions: createRevisions(1),
+        messages: createChangeMessages(1),
+      };
+      changeModel.setState({
+        loadingStatus: LoadingStatus.LOADED,
+        change,
+      });
       const e = new CustomEvent('', {
         detail: {message: {message: 'quote text'}},
       });

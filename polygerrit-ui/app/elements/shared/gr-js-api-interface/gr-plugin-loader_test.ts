@@ -15,7 +15,6 @@ import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 import {_testOnly_resetEndpoints} from './gr-plugin-endpoints';
-import {GerritImpl} from './gr-gerrit';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -40,7 +39,7 @@ suite('gr-plugin-loader tests', () => {
       getAppContext().restApiService,
       getAppContext().pluginsModel
     );
-    (window.Gerrit as GerritImpl).pluginLoader = pluginLoader;
+    window.Gerrit = pluginLoader;
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;
   });
@@ -82,7 +81,7 @@ suite('gr-plugin-loader tests', () => {
       'pluginsLoaded'
     );
     pluginsLoadedStub.reset();
-    (window.Gerrit as any)._loadPlugins([]);
+    pluginLoader.loadPlugins([]);
     await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.called);
   });

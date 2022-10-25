@@ -16,6 +16,24 @@
       "message": "Are thsse markers intentional?",
       "revId": "0484c561255fba16b0d7934bc5896214508d0f63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248b4273_ebf142e3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T21:22:03Z",
+      "side": 1,
+      "message": "I needed to re-merge :-( ... done now.",
+      "parentUuid": "6d7d7e38_da3e5419",
+      "revId": "0484c561255fba16b0d7934bc5896214508d0f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

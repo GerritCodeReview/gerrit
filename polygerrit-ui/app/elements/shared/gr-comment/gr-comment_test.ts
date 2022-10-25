@@ -102,6 +102,8 @@ suite('gr-comment tests', () => {
           <gr-endpoint-decorator name="comment">
             <gr-endpoint-param name="comment"></gr-endpoint-param>
             <gr-endpoint-param name="editing"></gr-endpoint-param>
+            <gr-endpoint-param name="message"></gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
             <div class="container" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -138,6 +140,8 @@ suite('gr-comment tests', () => {
           <gr-endpoint-decorator name="comment">
             <gr-endpoint-param name="comment"></gr-endpoint-param>
             <gr-endpoint-param name="editing"></gr-endpoint-param>
+            <gr-endpoint-param name="message"></gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
             <div class="container" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -176,6 +180,8 @@ suite('gr-comment tests', () => {
           <gr-endpoint-decorator name="comment">
             <gr-endpoint-param name="comment"></gr-endpoint-param>
             <gr-endpoint-param name="editing"></gr-endpoint-param>
+            <gr-endpoint-param name="message"></gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
             <div class="container" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -268,6 +274,8 @@ suite('gr-comment tests', () => {
           <gr-endpoint-decorator name="comment">
             <gr-endpoint-param name="comment"></gr-endpoint-param>
             <gr-endpoint-param name="editing"></gr-endpoint-param>
+            <gr-endpoint-param name="message"></gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
             <div class="container draft" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -343,6 +351,8 @@ suite('gr-comment tests', () => {
           <gr-endpoint-decorator name="comment">
             <gr-endpoint-param name="comment"></gr-endpoint-param>
             <gr-endpoint-param name="editing"></gr-endpoint-param>
+            <gr-endpoint-param name="message"></gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
             <div class="container draft" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">

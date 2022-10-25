@@ -51,6 +51,24 @@
       "parentUuid": "62574b54_d44ff3ef",
       "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c26e3e63_cb6aca0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T07:18:19Z",
+      "side": 1,
+      "message": "Yes, Brandon is doing the upgrade to 1.69 now and afterwards he intends to do the upgrade to 1.72.",
+      "parentUuid": "fe77a34a_782372d5",
+      "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

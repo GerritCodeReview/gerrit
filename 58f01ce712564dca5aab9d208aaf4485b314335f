@@ -51,6 +51,24 @@
       "parentUuid": "4ade2045_d35003b7",
       "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db2f2386_6a1e9f79",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T19:18:24Z",
+      "side": 1,
+      "message": "That\u0027s an assumption, and likely yes. But I think we want this logic to be clear enough that this will obviously work. It isn\u0027t to me, I suspect there is a corner case where it gets missed, don\u0027t make the reader have to look for it.",
+      "parentUuid": "39195c4b_cf48ac7e",
+      "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

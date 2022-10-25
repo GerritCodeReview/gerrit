@@ -2678,6 +2678,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "plugins.transitionalPushOptions", values = {"gerrit~foo", "gerrit~bar"})
+  public void transitionalPushOptionsArePassedToCommitValidationListener() throws Exception {
+    TestValidator validator = new TestValidator();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(validator)) {
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push.setPushOptions(ImmutableList.of("trace=123", "gerrit~foo", "gerrit~bar=456"));
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      assertThat(validator.pushOptions())
+          .containsExactly("trace", "123", "gerrit~foo", "", "gerrit~bar", "456");
+    }
+  }
+
+  @Test
   public void pluginPushOptionsHelp() throws Exception {
     PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
     PluginPushOption barOption = new TestPluginPushOption("bar", "other description");

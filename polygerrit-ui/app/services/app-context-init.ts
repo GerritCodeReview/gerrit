@@ -14,7 +14,6 @@ import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
-import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
@@ -86,29 +85,15 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.authService, 'authService');
       return new GrRestApiServiceImpl(ctx.authService);
     },
-    jsApiService: (ctx: Partial<AppContext>) => {
-      const reportingService = ctx.reportingService;
-      assertIsDefined(reportingService, 'reportingService');
-      // Need delayed binding for pluginLoader because there's a circular
-      // dependency between GrJsApiInterface and PluginLoader
-      return new GrJsApiInterface(() => ctx.pluginLoader!, reportingService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
-      const jsApiService = ctx.jsApiService;
       const restApiService = ctx.restApiService;
       const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
-      assertIsDefined(jsApiService, 'jsApiService');
       assertIsDefined(restApiService, 'restApiService');
       assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(
-        reportingService,
-        jsApiService,
-        restApiService,
-        pluginsModel
-      );
+      return new PluginLoader(reportingService, restApiService, pluginsModel);
     },
   };
   return create<AppContext>(appRegistry);

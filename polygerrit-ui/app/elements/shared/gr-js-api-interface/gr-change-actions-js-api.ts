@@ -65,7 +65,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly jsApiService = getAppContext().jsApiService;
+  private readonly jsApiService = getAppContext().pluginLoader.jsApiService;
 
   constructor(public plugin: PluginApi, el?: GrChangeActionsElement) {
     this.reporting.trackApi(this.plugin, 'actions', 'constructor');

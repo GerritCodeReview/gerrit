@@ -14,7 +14,6 @@ import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
-import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
 import {createAppDependencies, Creator} from '../services/app-context-init';
@@ -35,29 +34,15 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrAuthMock(ctx.eventEmitter);
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
-    jsApiService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new GrJsApiInterface(
-        () => ctx.pluginLoader!,
-        ctx.reportingService
-      );
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
-      const jsApiService = ctx.jsApiService;
       const restApiService = ctx.restApiService;
       const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
-      assertIsDefined(jsApiService, 'jsApiService');
       assertIsDefined(restApiService, 'restApiService');
       assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(
-        reportingService,
-        jsApiService,
-        restApiService,
-        pluginsModel
-      );
+      return new PluginLoader(reportingService, restApiService, pluginsModel);
     },
   };
   return create<AppContext>(appRegistry);

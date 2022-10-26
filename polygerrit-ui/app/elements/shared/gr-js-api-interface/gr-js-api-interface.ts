@@ -5,4 +5,3 @@
  */
 import './gr-js-api-interface-element';
 import './gr-public-js-api';
-import './gr-gerrit';

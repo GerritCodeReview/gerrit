@@ -393,7 +393,7 @@ export class GrChangeActions
 
   private readonly pluginLoader = getAppContext().pluginLoader;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 

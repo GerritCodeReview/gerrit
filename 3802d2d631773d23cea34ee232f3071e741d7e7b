@@ -88,6 +88,24 @@
       "parentUuid": "9488cdf1_444e0e50",
       "revId": "3802d2d631773d23cea34ee232f3071e741d7e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c294cd34_25cf831a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T11:03:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "732d3d22_48e26320",
+      "revId": "3802d2d631773d23cea34ee232f3071e741d7e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

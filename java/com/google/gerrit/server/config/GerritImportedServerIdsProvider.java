@@ -14,24 +14,24 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 
-public class GerritImportedServerIdsProvider implements Provider<ImmutableSet<String>> {
+public class GerritImportedServerIdsProvider implements Provider<ImmutableList<String>> {
   public static final String SECTION = "gerrit";
   public static final String KEY = "importedServerId";
 
-  private final ImmutableSet<String> importedIds;
+  private final ImmutableList<String> importedIds;
 
   @Inject
   public GerritImportedServerIdsProvider(@GerritServerConfig Config cfg) {
-    importedIds = ImmutableSet.copyOf(cfg.getStringList(SECTION, null, KEY));
+    importedIds = ImmutableList.copyOf(cfg.getStringList(SECTION, null, KEY));
   }
 
   @Override
-  public ImmutableSet<String> get() {
+  public ImmutableList<String> get() {
     return importedIds;
   }
 }

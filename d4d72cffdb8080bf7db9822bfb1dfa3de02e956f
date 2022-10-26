@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f16fd49e_97333b80",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-26T11:37:51Z",
+      "side": 1,
+      "message": "This assignment looks a bit artificial. Maybe better annotate setTopLevelTreeId with @CanIgnoreReturnValue? This method only returns PushOneCommit to allow chaining calls, but it\u0027s OK to ignore this return value.",
+      "range": {
+        "startLine": 319,
+        "startChar": 6,
+        "endLine": 319,
+        "endChar": 38
+      },
+      "revId": "d4d72cffdb8080bf7db9822bfb1dfa3de02e956f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

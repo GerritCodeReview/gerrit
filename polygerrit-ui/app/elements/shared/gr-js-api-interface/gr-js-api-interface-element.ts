@@ -23,7 +23,6 @@ import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {getAppContext} from '../../../services/app-context';
 import {Provider} from '../../../models/dependency';
 
 const elements: {[key: string]: HTMLElement} = {};
@@ -249,17 +248,15 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
    * will resolve to null.
    */
   getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]> {
-    return getAppContext()
-      .pluginLoader.awaitPluginsLoaded()
-      .then(() => {
-        const providers: GrAnnotationActionsInterface[] = [];
-        this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {
-          const annotationApi = cb as unknown as GrAnnotationActionsInterface;
-          const provider = annotationApi.getCoverageProvider();
-          if (provider) providers.push(annotationApi);
-        });
-        return providers;
+    return this.waitForPluginsToLoad().then(() => {
+      const providers: GrAnnotationActionsInterface[] = [];
+      this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {
+        const annotationApi = cb as unknown as GrAnnotationActionsInterface;
+        const provider = annotationApi.getCoverageProvider();
+        if (provider) providers.push(annotationApi);
       });
+      return providers;
+    });
   }
 
   getAdminMenuLinks(): MenuLink[] {

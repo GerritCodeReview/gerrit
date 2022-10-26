@@ -37,7 +37,6 @@ suite('gr-plugin-loader tests', () => {
       getAppContext().reportingService,
       getAppContext().restApiService
     );
-    window.Gerrit = pluginLoader;
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;
   });
@@ -48,7 +47,7 @@ suite('gr-plugin-loader tests', () => {
   });
 
   test('reuse plugin for install calls', () => {
-    window.Gerrit.install(
+    pluginLoader.install(
       p => {
         plugin = p;
       },
@@ -57,7 +56,7 @@ suite('gr-plugin-loader tests', () => {
     );
 
     let otherPlugin;
-    window.Gerrit.install(
+    pluginLoader.install(
       p => {
         otherPlugin = p;
       },
@@ -69,7 +68,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('versioning', () => {
     const callback = sinon.spy();
-    window.Gerrit.install(callback, '0.0pre-alpha');
+    pluginLoader.install(callback, '0.0pre-alpha');
     assert(callback.notCalled);
   });
 
@@ -102,7 +101,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('plugins installed successfully', async () => {
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(() => void 0, undefined, url);
+      pluginLoader.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
@@ -122,7 +121,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('isPluginEnabled and isPluginLoaded', async () => {
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(() => void 0, undefined, url);
+      pluginLoader.install(() => void 0, undefined, url);
     });
 
     const plugins = [
@@ -150,7 +149,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(
+      pluginLoader.install(
         () => {
           if (url === plugins[0]) {
             throw new Error('failed');
@@ -184,7 +183,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(
+      pluginLoader.install(
         () => {
           if (url === plugins[0]) {
             throw new Error('failed');
@@ -223,7 +222,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(
+      pluginLoader.install(
         () => {
           throw new Error('failed');
         },
@@ -255,7 +254,7 @@ suite('gr-plugin-loader tests', () => {
     addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(() => {}, url === plugins[0] ? '' : 'alpha', url);
+      pluginLoader.install(() => {}, url === plugins[0] ? '' : 'alpha', url);
     });
 
     const pluginsLoadedStub = sinon.stub(
@@ -273,7 +272,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('multiple assets for same plugin installed successfully', async () => {
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(() => void 0, undefined, url);
+      pluginLoader.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
@@ -412,7 +411,7 @@ suite('gr-plugin-loader tests', () => {
       }
     }
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
-      window.Gerrit.install(() => pluginCallback(url), undefined, url);
+      pluginLoader.install(() => pluginCallback(url), undefined, url);
     });
 
     pluginLoader.loadPlugins(plugins);

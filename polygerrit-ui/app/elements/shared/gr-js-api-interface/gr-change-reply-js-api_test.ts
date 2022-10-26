@@ -9,6 +9,7 @@ import {stubElement} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
+import {assertIsDefined} from '../../../utils/common-util';
 
 suite('gr-change-reply-js-api tests', () => {
   let changeReply: ChangeReplyPluginApi;
@@ -24,10 +25,12 @@ suite('gr-change-reply-js-api tests', () => {
         'http://test.com/plugins/testplugin/static/test.js'
       );
       changeReply = plugin.changeReply();
+      assertIsDefined(changeReply);
     });
 
     test('works', () => {
       stubElement('gr-reply-dialog', 'getLabelValue').returns('+123');
+      assertIsDefined(changeReply);
       assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
       const setLabelValueStub = stubElement('gr-reply-dialog', 'setLabelValue');
@@ -53,10 +56,12 @@ suite('gr-change-reply-js-api tests', () => {
         'http://test.com/plugins/testplugin/static/test.js'
       );
       changeReply = plugin.changeReply();
+      assertIsDefined(changeReply);
     });
 
     test('works', () => {
       stubElement('gr-reply-dialog', 'getLabelValue').returns('+123');
+      assertIsDefined(changeReply);
       assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
       const setLabelValueStub = stubElement('gr-reply-dialog', 'setLabelValue');

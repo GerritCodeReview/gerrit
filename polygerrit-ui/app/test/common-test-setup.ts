@@ -21,7 +21,10 @@ import {
   removeThemeStyles,
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
-import {initGlobalVariables} from '../elements/gr-app-global-var-init';
+import {
+  initGerrit,
+  initGlobalVariables,
+} from '../elements/gr-app-global-var-init';
 import {assert, fixtureCleanup} from '@open-wc/testing';
 import {
   _testOnly_defaultResinReportHandler,
@@ -38,6 +41,7 @@ import {
 import * as sinon from 'sinon';
 import '../styles/themes/app-theme.ts';
 import {Creator} from '../services/app-context-init';
+import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 declare global {
   interface Window {
@@ -109,9 +113,10 @@ setup(() => {
     injectDependency(token, provider);
   }
   document.addEventListener('request-dependency', resolveDependency);
+  initGerrit(testResolver(pluginLoaderToken));
+
   // The following calls is necessary to avoid influence of previously executed
   // tests.
-
   const selection = document.getSelection();
   if (selection) {
     selection.removeAllRanges();
@@ -121,7 +126,7 @@ setup(() => {
   // from project config and init loading after that, all
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
-  appContext.pluginLoader.loadPlugins([]);
+  testResolver(pluginLoaderToken).loadPlugins([]);
   _testOnlyResetGrRestApiSharedObjects();
 });
 

@@ -22,7 +22,8 @@ import {
 } from '../../../types/common';
 import {createChange} from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
@@ -117,7 +118,7 @@ suite('gr-reply-dialog-it tests', () => {
     );
     element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     setupElement(element);
-    const pluginLoader = getAppContext().pluginLoader;
+    const pluginLoader = testResolver(pluginLoaderToken);
     pluginLoader.loadPlugins([]);
     await pluginLoader.awaitPluginsLoaded();
     await waitEventLoop();

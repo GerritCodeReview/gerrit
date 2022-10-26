@@ -187,6 +187,7 @@ import {
 import {rootUrl} from '../../../utils/url-util';
 import {createEditUrl} from '../../../models/views/edit';
 import {userModelToken} from '../../../models/user/user-model';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -859,6 +860,7 @@ export class GrChangeView extends LitElement {
       a11yStyles,
       paperStyles,
       sharedStyles,
+      modalStyles,
       css`
         .container:not(.loading) {
           background-color: var(--background-color-tertiary);
@@ -874,11 +876,6 @@ export class GrChangeView extends LitElement {
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
           z-index: 99; /* Less than gr-overlay's backdrop */
-        }
-        dialog {
-          padding: 0;
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
         }
         .header.editMode {
           background-color: var(--edit-mode-background-color);

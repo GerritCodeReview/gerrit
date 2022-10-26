@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -185,9 +184,9 @@ public abstract class AbstractChangeNotesTest {
             install(new DefaultRefLogIdentityProvider.Module());
             bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
             bind(String.class).annotatedWith(GerritServerId.class).toInstance(serverId);
-            bind(new TypeLiteral<ImmutableSet<String>>() {})
+            bind(new TypeLiteral<ImmutableList<String>>() {})
                 .annotatedWith(GerritImportedServerIds.class)
-                .toInstance(new ImmutableSet.Builder<String>().add(importedServerIds).build());
+                .toInstance(new ImmutableList.Builder<String>().add(importedServerIds).build());
             bind(GitRepositoryManager.class).toInstance(repoManager);
             bind(ProjectCache.class).to(NullProjectCache.class);
             bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);

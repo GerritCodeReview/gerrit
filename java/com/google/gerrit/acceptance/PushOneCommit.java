@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
@@ -276,6 +277,7 @@ public class PushOneCommit {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit setTopLevelTreeId(ObjectId treeId) throws Exception {
     commitBuilder.setTopLevelTree(treeId);
     return this;

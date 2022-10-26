@@ -16,6 +16,8 @@ import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {assert} from '@open-wc/testing';
+import {testResolver} from './common-test-setup';
+import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -50,8 +52,9 @@ export function isVisible(el: Element) {
 // Provide reset plugins function to clear installed plugins between tests.
 export const resetPlugins = () => {
   _testOnly_resetEndpoints();
-  getAppContext().pluginLoader.reset();
-  getAppContext().pluginLoader.loadPlugins([]);
+  const pluginLoader = testResolver(pluginLoaderToken);
+  pluginLoader.reset();
+  pluginLoader.loadPlugins([]);
 };
 
 export type CleanupCallback = () => void;

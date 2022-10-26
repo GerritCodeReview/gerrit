@@ -29,6 +29,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -140,9 +141,7 @@ export class GrMainHeader extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
-
-  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -572,7 +571,7 @@ export class GrMainHeader extends LitElement {
     return Promise.all([
       this.restApiService.getAccount(),
       this.restApiService.getTopMenus(),
-      this.pluginLoader.awaitPluginsLoaded(),
+      this.getPluginLoader().awaitPluginsLoaded(),
     ]).then(result => {
       const account = result[0];
       this.account = account;
@@ -589,7 +588,7 @@ export class GrMainHeader extends LitElement {
             }
             return capabilities;
           }),
-        () => this.jsAPI.getAdminMenuLinks()
+        () => this.getPluginLoader().jsApiService.getAdminMenuLinks()
       ).then(res => {
         this.adminLinks = res.links;
       });

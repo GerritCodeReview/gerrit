@@ -61,8 +61,10 @@ import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
-import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {pluginsModelToken} from '../models/plugins/plugins-model';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 /**
  * The AppContext lazy initializator for all services
@@ -79,13 +81,6 @@ export function createAppContext(): AppContext & Finalizable {
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
       return new GrRestApiServiceImpl(ctx.authService);
-    },
-    pluginLoader: (ctx: Partial<AppContext>) => {
-      const reportingService = ctx.reportingService;
-      const restApiService = ctx.restApiService;
-      assertIsDefined(reportingService, 'reportingService');
-      assertIsDefined(restApiService, 'restApiService');
-      return new PluginLoader(reportingService, restApiService);
     },
   };
   return create<AppContext>(appRegistry);
@@ -183,7 +178,14 @@ export function createAppDependencies(
       () =>
         new ConfigModel(resolver(changeModelToken), appContext.restApiService),
     ],
-    [pluginsModelToken, () => appContext.pluginLoader.pluginsModel],
+    [
+      pluginLoaderToken,
+      () =>
+        new PluginLoader(
+          appContext.reportingService,
+          appContext.restApiService
+        ),
+    ],
     [
       checksModelToken,
       () =>
@@ -191,7 +193,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          resolver(pluginsModelToken)
+          resolver(pluginLoaderToken).pluginsModel
         ),
     ],
     [

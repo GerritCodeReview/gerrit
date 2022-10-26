@@ -108,7 +108,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
-import {getAppContext} from '../../../services/app-context';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -1876,7 +1876,7 @@ suite('gr-change-view tests', () => {
 
   test('revert dialog opened with revert param', async () => {
     const awaitPluginsLoadedStub = sinon
-      .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
+      .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
       .callsFake(() => Promise.resolve());
 
     element.patchRange = {
@@ -2179,7 +2179,10 @@ suite('gr-change-view tests', () => {
     element.change = {...change};
     element.patchRange = {patchNum: 4 as RevisionPatchSetNum};
     element.mergeable = true;
-    const showStub = sinon.stub(element.jsAPI, 'handleShowChange');
+    const showStub = sinon.stub(
+      testResolver(pluginLoaderToken).jsApiService,
+      'handleShowChange'
+    );
     element.sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.deepEqual(showStub.lastCall.args[0], {

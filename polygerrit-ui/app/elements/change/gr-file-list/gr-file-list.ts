@@ -76,6 +76,7 @@ import {createDiffUrl} from '../../../models/views/diff';
 import {createEditUrl} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -285,7 +286,7 @@ export class GrFileList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -824,53 +825,55 @@ export class GrFileList extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
-      this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-        'change-view-file-list-header'
-      );
-      this.dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-        'change-view-file-list-content'
-      );
-      this.dynamicPrependedHeaderEndpoints =
-        getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-header-prepend'
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-header'
         );
-      this.dynamicPrependedContentEndpoints =
-        getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-content-prepend'
+        this.dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-content'
         );
-      this.dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
-        'change-view-file-list-summary'
-      );
+        this.dynamicPrependedHeaderEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-header-prepend'
+          );
+        this.dynamicPrependedContentEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-content-prepend'
+          );
+        this.dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-summary'
+        );
 
-      if (
-        this.dynamicHeaderEndpoints.length !==
-        this.dynamicContentEndpoints.length
-      ) {
-        this.reporting.error(
-          'Plugin change-view-file-list',
-          new Error('dynamic header/content mismatch')
-        );
-      }
-      if (
-        this.dynamicPrependedHeaderEndpoints.length !==
-        this.dynamicPrependedContentEndpoints.length
-      ) {
-        this.reporting.error(
-          'Plugin change-view-file-list',
-          new Error('dynamic prepend header/content mismatch')
-        );
-      }
-      if (
-        this.dynamicHeaderEndpoints.length !==
-        this.dynamicSummaryEndpoints.length
-      ) {
-        this.reporting.error(
-          'Plugin change-view-file-list',
-          new Error('dynamic header/summary mismatch')
-        );
-      }
-    });
+        if (
+          this.dynamicHeaderEndpoints.length !==
+          this.dynamicContentEndpoints.length
+        ) {
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic header/content mismatch')
+          );
+        }
+        if (
+          this.dynamicPrependedHeaderEndpoints.length !==
+          this.dynamicPrependedContentEndpoints.length
+        ) {
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic prepend header/content mismatch')
+          );
+        }
+        if (
+          this.dynamicHeaderEndpoints.length !==
+          this.dynamicSummaryEndpoints.length
+        ) {
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic header/summary mismatch')
+          );
+        }
+      });
     this.diffCursor = new GrDiffCursor();
     this.diffCursor.replaceDiffs(this.diffs);
   }

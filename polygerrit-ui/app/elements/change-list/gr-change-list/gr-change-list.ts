@@ -35,6 +35,7 @@ import {Execution} from '../../../constants/reporting';
 import {ValueChangedEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -144,6 +145,8 @@ export class GrChangeList extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   private readonly getNavigation = resolve(this, navigationToken);
 
   private cursor = new GrCursorManager();
@@ -178,8 +181,8 @@ export class GrChangeList extends LitElement {
     this.restApiService.getConfig().then(config => {
       this.config = config;
     });
-    getAppContext()
-      .pluginLoader.awaitPluginsLoaded()
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
       .then(() => {
         this.dynamicHeaderEndpoints =
           getPluginEndpoints().getDynamicEndpoints('change-list-header');

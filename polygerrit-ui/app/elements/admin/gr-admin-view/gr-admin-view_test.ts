@@ -19,7 +19,10 @@ import {GroupDetailView} from '../../../models/views/group';
 import {RepoDetailView} from '../../../models/views/repo';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getAppContext} from '../../../services/app-context';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 function createAdminCapabilities() {
   return {
@@ -31,14 +34,14 @@ function createAdminCapabilities() {
 
 suite('gr-admin-view tests', () => {
   let element: GrAdminView;
+  let pluginLoader: PluginLoader;
 
   setup(async () => {
     element = await fixture(html`<gr-admin-view></gr-admin-view>`);
     stubRestApi('getProjectConfig').returns(Promise.resolve(undefined));
     const pluginsLoaded = Promise.resolve();
-    sinon
-      .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
-      .returns(pluginsLoaded);
+    pluginLoader = testResolver(pluginLoaderToken);
+    sinon.stub(pluginLoader, 'awaitPluginsLoaded').returns(pluginsLoaded);
     await pluginsLoaded;
     await element.updateComplete;
   });
@@ -133,8 +136,12 @@ suite('gr-admin-view tests', () => {
 
   test('filteredLinks from plugin', () => {
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
-    sinon.stub(element.jsAPI, 'getAdminMenuLinks').returns([
-      {capability: null, text: 'internal link text', url: '/internal/link/url'},
+    sinon.stub(pluginLoader.jsApiService, 'getAdminMenuLinks').returns([
+      {
+        capability: null,
+        text: 'internal link text',
+        url: '/internal/link/url',
+      },
       {
         capability: null,
         text: 'external link text',

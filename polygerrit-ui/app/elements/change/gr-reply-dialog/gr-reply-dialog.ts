@@ -133,6 +133,7 @@ import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -383,9 +384,9 @@ export class GrReplyDialog extends LitElement {
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
 
-  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -613,7 +614,6 @@ export class GrReplyDialog extends LitElement {
     this.filterReviewerSuggestion =
       this.filterReviewerSuggestionGenerator(false);
     this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
-    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
 
     this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
     this.shortcuts.addLocal(
@@ -688,6 +688,12 @@ export class GrReplyDialog extends LitElement {
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
+
+    this.getPluginLoader().jsApiService.addElement(
+      TargetElement.REPLY_DIALOG,
+      this
+    );
+
     this.restApiService.getAccount().then(account => {
       if (account) this.account = account;
     });

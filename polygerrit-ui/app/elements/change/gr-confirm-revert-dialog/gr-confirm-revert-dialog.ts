@@ -10,9 +10,10 @@ import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -72,6 +73,8 @@ export class GrConfirmRevertDialog extends LitElement {
   // Store the actual messages that the user has edited
   @state()
   private revertMessages: string[] = [];
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   static override styles = [
     sharedStyles,
@@ -170,8 +173,6 @@ export class GrConfirmRevertDialog extends LitElement {
     `;
   }
 
-  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
   private computeIfSingleRevert() {
     return this.revertType === RevertType.REVERT_SINGLE_CHANGE;
   }
@@ -181,7 +182,11 @@ export class GrConfirmRevertDialog extends LitElement {
   }
 
   modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
-    return this.jsAPI.modifyRevertMsg(change, message, commitMessage);
+    return this.getPluginLoader().jsApiService.modifyRevertMsg(
+      change,
+      message,
+      commitMessage
+    );
   }
 
   populate(change: ChangeInfo, commitMessage: string, changes: ChangeInfo[]) {
@@ -231,7 +236,11 @@ export class GrConfirmRevertDialog extends LitElement {
     msg: string,
     commitMessage: string
   ) {
-    return this.jsAPI.modifyRevertSubmissionMsg(change, msg, commitMessage);
+    return this.getPluginLoader().jsApiService.modifyRevertSubmissionMsg(
+      change,
+      msg,
+      commitMessage
+    );
   }
 
   populateRevertSubmissionMessage(

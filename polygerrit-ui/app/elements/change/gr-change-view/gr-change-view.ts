@@ -187,6 +187,7 @@ import {
 import {rootUrl} from '../../../utils/url-util';
 import {createEditUrl} from '../../../models/views/edit';
 import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -531,15 +532,13 @@ export class GrChangeView extends LitElement {
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
-  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   readonly restApiService = getAppContext().restApiService;
 
   private readonly flagsService = getAppContext().flagsService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -805,7 +804,7 @@ export class GrChangeView extends LitElement {
     if (!this.isFirstConnection) return;
     this.isFirstConnection = false;
 
-    this.pluginLoader
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         this.pluginTabsHeaderEndpoints =
@@ -1789,7 +1788,10 @@ export class GrChangeView extends LitElement {
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
-    this.jsAPI.handleCommitMessage(this.change, message);
+    this.getPluginLoader().jsApiService.handleCommitMessage(
+      this.change,
+      message
+    );
 
     this.commitMessageEditor.disabled = true;
     this.restApiService
@@ -2183,9 +2185,11 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
     });
 
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
-      this.initActiveTab();
-    });
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this.initActiveTab();
+      });
   }
 
   private initActiveTab() {
@@ -2201,7 +2205,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   sendShowChangeEvent() {
     assertIsDefined(this.patchRange, 'patchRange');
-    this.jsAPI.handleShowChange({
+    this.getPluginLoader().jsApiService.handleShowChange({
       change: this.change,
       patchNum: this.patchRange.patchNum,
       info: {mergeable: this.mergeable},
@@ -2262,21 +2266,23 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   maybeShowRevertDialog() {
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
-      if (
-        !this.loggedIn ||
-        !this.change ||
-        this.change.status !== ChangeStatus.MERGED
-      ) {
-        // Do not display dialog if not logged-in or the change is not
-        // merged.
-        return;
-      }
-      if (this._getUrlParameter('revert')) {
-        assertIsDefined(this.actions);
-        this.actions.showRevertDialog();
-      }
-    });
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        if (
+          !this.loggedIn ||
+          !this.change ||
+          this.change.status !== ChangeStatus.MERGED
+        ) {
+          // Do not display dialog if not logged-in or the change is not
+          // merged.
+          return;
+        }
+        if (this._getUrlParameter('revert')) {
+          assertIsDefined(this.actions);
+          this.actions.showRevertDialog();
+        }
+      });
   }
 
   private maybeShowReplyDialog() {
@@ -2585,7 +2591,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.handleLabelRemoved(oldLabels, newLabels);
-    this.jsAPI.handleLabelChange({
+    this.getPluginLoader().jsApiService.handleLabelChange({
       change: this.change,
     });
   }

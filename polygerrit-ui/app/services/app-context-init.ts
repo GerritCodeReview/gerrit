@@ -65,7 +65,6 @@ import {
   PluginLoader,
   pluginLoaderToken,
 } from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {pluginsModelToken} from '../models/plugins/plugins-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -187,7 +186,6 @@ export function createAppDependencies(
           appContext.restApiService
         ),
     ],
-    [pluginsModelToken, () => resolver(pluginLoaderToken).pluginsModel],
     [
       checksModelToken,
       () =>
@@ -195,7 +193,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          resolver(pluginsModelToken)
+          resolver(pluginLoaderToken).pluginsModel
         ),
     ],
     [

@@ -34,8 +34,6 @@ interface PluginsState {
   checksPlugins: ChecksPlugin[];
 }
 
-export const pluginsModelToken = define<PluginsModel>('plugins-model');
-
 export class PluginsModel extends Model<PluginsState> {
   /** Private version of the event bus below. */
   private checksAnnounceSubject$ = new Subject<ChecksPlugin>();

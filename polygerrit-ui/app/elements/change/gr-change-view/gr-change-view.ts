@@ -593,18 +593,6 @@ export class GrChangeView extends LitElement {
   }
 
   private setupListeners() {
-    this.addEventListener(
-      // When an overlay is opened in a mobile viewport, the overlay has a full
-      // screen view. When it has a full screen view, we do not want the
-      // background to be scrollable. This will eliminate background scroll by
-      // hiding most of the contents on the screen upon opening, and showing
-      // again upon closing.
-      'fullscreen-overlay-opened',
-      () => this.handleHideBackgroundContent()
-    );
-    this.addEventListener('fullscreen-overlay-closed', () =>
-      this.handleShowBackgroundContent()
-    );
     this.addEventListener('open-reply-dialog', () => this.openReplyDialog());
     this.addEventListener('change-message-deleted', () => fireReload(this));
     this.addEventListener('editable-content-save', e =>
@@ -2023,18 +2011,6 @@ export class GrChangeView extends LitElement {
         .map(line => '> ' + line)
         .join('\n') + '\n\n';
     this.openReplyDialog(FocusTarget.BODY, quoteStr);
-  }
-
-  // Private but used in tests.
-  handleHideBackgroundContent() {
-    assertIsDefined(this.mainContent);
-    this.mainContent.classList.add('overlayOpen');
-  }
-
-  // Private but used in tests.
-  handleShowBackgroundContent() {
-    assertIsDefined(this.mainContent);
-    this.mainContent.classList.remove('overlayOpen');
   }
 
   // Private but used in tests.

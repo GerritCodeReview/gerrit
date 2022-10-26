@@ -12,7 +12,6 @@ import {
   CommentSide,
   DefaultBase,
   DiffViewMode,
-  HttpMethod,
   MessageTag,
   createDefaultPreferences,
   Tab,
@@ -91,7 +90,6 @@ import {
   LoadingStatus,
 } from '../../../models/change/change-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -857,68 +855,6 @@ suite('gr-change-view tests', () => {
         'openReplyDialog should have been passed ANY'
       );
       assert.equal(openSpy.callCount, 1);
-    });
-
-    test('fullscreen-overlay-opened hides content', async () => {
-      element.loggedIn = true;
-      element.loading = false;
-      element.change = {
-        ...createChangeViewChange(),
-        labels: {},
-        actions: {
-          abandon: {
-            enabled: true,
-            label: 'Abandon',
-            method: HttpMethod.POST,
-            title: 'Abandon',
-          },
-        },
-      };
-      await element.updateComplete;
-      const handlerSpy = sinon.spy(element, 'handleHideBackgroundContent');
-      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
-      overlay.dispatchEvent(
-        new CustomEvent('fullscreen-overlay-opened', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      await element.updateComplete;
-      assert.isTrue(handlerSpy.called);
-      assertIsDefined(element.mainContent);
-      assertIsDefined(element.actions);
-      assert.isTrue(element.mainContent.classList.contains('overlayOpen'));
-      assert.equal(getComputedStyle(element.actions).display, 'flex');
-    });
-
-    test('fullscreen-overlay-closed shows content', async () => {
-      element.loggedIn = true;
-      element.loading = false;
-      element.change = {
-        ...createChangeViewChange(),
-        labels: {},
-        actions: {
-          abandon: {
-            enabled: true,
-            label: 'Abandon',
-            method: HttpMethod.POST,
-            title: 'Abandon',
-          },
-        },
-      };
-      await element.updateComplete;
-      const handlerSpy = sinon.spy(element, 'handleShowBackgroundContent');
-      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
-      overlay.dispatchEvent(
-        new CustomEvent('fullscreen-overlay-closed', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      await element.updateComplete;
-      assert.isTrue(handlerSpy.called);
-      assertIsDefined(element.mainContent);
-      assert.isFalse(element.mainContent.classList.contains('overlayOpen'));
     });
 
     test('expand all messages when expand-diffs fired', () => {

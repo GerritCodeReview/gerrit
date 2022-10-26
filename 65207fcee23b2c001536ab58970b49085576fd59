@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f67ff5d8_1d7495f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T09:01:18Z",
+      "side": 1,
+      "message": "My conclusion from this conversation was that we don\u0027t need to be able to show Change-Ids anymore that are not part of the commit message:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/343074/comments/45d8a6c0_31bfb6e1",
+      "parentUuid": "204990cc_273c1d71",
+      "revId": "65207fcee23b2c001536ab58970b49085576fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc3da31d_f07f038d",

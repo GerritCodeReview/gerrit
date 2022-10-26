@@ -201,11 +201,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Branch: refs/heads/master\n"
             + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
             + "Patch-set: 1\n"
-            + "Copied-Label: Label1=+1 Account <1@gerrit>,Other Account <2@Gerrit>\n"
+            + "Copied-Label: Label1=+1 Account <1@gerrit>,Other Account <2@gerrit>\n"
             + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
-            + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@Gerrit> :\"tag\"\n"
-            + "Copied-Label: Label4=+1 Account <1@Gerrit> :\"tag with characters %^#@^( *::!\"\n"
-            + "Copied-Label: -Label1 Account <1@gerrit>,Other Account <2@Gerrit>\\n"
+            + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@gerrit> :\"tag\"\n"
+            + "Copied-Label: Label4=+1 Account <1@gerrit> :\"tag with characters %^#@^( *::!\"\n"
+            + "Copied-Label: -Label1 Account <1@gerrit>,Other Account <2@gerrit>\\n"
             + "Copied-Label: -Label1 Account <1@gerrit>\n"
             + "Subject: This is a test change\n");
 
@@ -782,6 +782,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
     ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
-    return new ChangeNotesParser(newChange().getId(), tip, walk, changeNoteJson, args.metrics);
+    return new ChangeNotesParser(
+        newChange().getId(), tip, walk, changeNoteJson, args.metrics, serverId, externalIdCache);
   }
 }

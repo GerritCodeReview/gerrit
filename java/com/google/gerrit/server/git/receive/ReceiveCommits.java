@@ -2672,7 +2672,11 @@ class ReceiveCommits {
 
   private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) {
     try (TraceTimer traceTimer = newTimer("lookupByChangeKey")) {
-      return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
+      List<ChangeData> byBranchKeyExactMatch =
+          queryProvider.get().byBranchKey(magicBranch.dest, key).stream()
+              .filter(cd -> cd.change().getKey().equals(key))
+              .collect(toList());
+      return new ChangeLookup(c, key, byBranchKeyExactMatch);
     }
   }
 

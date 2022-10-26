@@ -26,6 +26,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -366,7 +367,13 @@ public class ChangeNotesCache {
           "Load change notes for change %s of project %s", key.changeId(), key.project());
       ChangeNotesParser parser =
           new ChangeNotesParser(
-              key.changeId(), key.id(), walkSupplier.get(), args.changeNoteJson, args.metrics);
+              key.changeId(),
+              key.id(),
+              walkSupplier.get(),
+              args.changeNoteJson,
+              args.metrics,
+              args.serverId,
+              externalIdCache);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.
@@ -377,11 +384,16 @@ public class ChangeNotesCache {
 
   private final Cache<Key, ChangeNotesState> cache;
   private final Args args;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
-  ChangeNotesCache(@Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache, Args args) {
+  ChangeNotesCache(
+      @Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache,
+      Args args,
+      ExternalIdCache externalIdCache) {
     this.cache = cache;
     this.args = args;
+    this.externalIdCache = externalIdCache;
   }
 
   Value get(

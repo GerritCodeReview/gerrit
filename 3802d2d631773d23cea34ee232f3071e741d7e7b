@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2feab493_34184d30",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-26T08:04:23Z",
+      "side": 1,
+      "message": "This is very hacky. Is there no way to get a more meaningful signal?",
+      "revId": "3802d2d631773d23cea34ee232f3071e741d7e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c6e96fc_42399e9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-26T16:01:46Z",
+      "side": 1,
+      "message": "Fix typo/wording of rest-api documentation.",
+      "revId": "acbb43cde613c0a08263c964946e1dce2482c10c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

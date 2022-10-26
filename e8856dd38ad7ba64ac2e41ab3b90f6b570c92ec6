@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e185c5_eaf50293",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-26T08:36:00Z",
+      "side": 1,
+      "message": "nit: The isLocationFromCache variable could be substituted for the O(1) operation \n\n    fileKeyByProject.containsKey(name)",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

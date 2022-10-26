@@ -131,7 +131,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   */
 
   static Term idTerm(ChangeData cd) {
-    return idTerm(cd.getId());
+    return idTerm(cd.getVirtualId());
   }
 
   static Term idTerm(Change.Id id) {

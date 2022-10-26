@@ -98,6 +98,8 @@ import java.util.Optional;
  */
 public final class Change {
 
+  private static final int LEGACY_ID_BIT_LENGTH = 48;
+
   public static Id id(int id) {
     return new AutoValue_Change_Id(id);
   }
@@ -733,5 +735,17 @@ public final class Change {
         .append(status)
         .append('}')
         .toString();
+  }
+
+  public static Id getVirtualId(String changeServerId, Id legacyId) {
+    int legacyNum = legacyId.get();
+
+    /* TODO: This is open for discussion. It is not ideal because it still potentially has
+     * collision when two serverIds have the same 16 lower bit of their hashCode.
+     */
+    int serverIdHashCode =
+        (changeServerId.hashCode() >> LEGACY_ID_BIT_LENGTH) << LEGACY_ID_BIT_LENGTH;
+
+    return Change.id(legacyNum & serverIdHashCode);
   }
 }

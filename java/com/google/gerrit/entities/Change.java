@@ -734,4 +734,10 @@ public final class Change {
         .append('}')
         .toString();
   }
+
+  public static Id virtualId(@SuppressWarnings("unused") String changeServerId, Id legacyId) {
+    int legacyNum = legacyId.get();
+    // TODO: Virtualisation algorithm to be discussed and agreed
+    return Change.id(legacyNum > 0 ? -legacyNum : legacyNum);
+  }
 }

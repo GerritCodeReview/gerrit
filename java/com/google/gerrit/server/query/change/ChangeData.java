@@ -74,6 +74,7 @@ import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
@@ -270,7 +271,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id, null, null);
+            null, null, null, null, project, id, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -361,6 +362,8 @@ public class ChangeData {
   private Optional<Instant> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
+  private String gerritServerId;
+  private String changeServerId;
 
   @Inject
   private ChangeData(
@@ -381,6 +384,7 @@ public class ChangeData {
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      @GerritServerId String gerritServerId,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
@@ -408,6 +412,9 @@ public class ChangeData {
 
     this.change = change;
     this.notes = notes;
+
+    this.changeServerId = notes == null ? null : notes.getServerId();
+    this.gerritServerId = gerritServerId;
   }
 
   /**
@@ -528,6 +535,14 @@ public class ChangeData {
     return legacyId;
   }
 
+  public Change.Id getVirtualId() {
+    if (changeServerId == null || changeServerId.equals(gerritServerId)) {
+      return legacyId;
+    }
+
+    return Change.virtualId(changeServerId, legacyId);
+  }
+
   public Project.NameKey project() {
     return project;
   }
@@ -558,6 +573,7 @@ public class ChangeData {
       throw new StorageException("Unable to load change " + legacyId, e);
     }
     change = notes.getChange();
+    changeServerId = notes.getServerId();
     setPatchSets(null);
     return change;
   }

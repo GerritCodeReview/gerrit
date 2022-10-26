@@ -33,29 +33,17 @@ import {
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
-  createAppContext,
   createAppDependencies,
   Creator,
 } from '../services/app-context-init';
-import {
-  initVisibilityReporter,
-  initPerformanceReporter,
-  initErrorReporter,
-  initWebVitals,
-} from '../services/gr-reporting/gr-reporting_impl';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
 import {userModelToken} from '../models/user/user-model';
 import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {getAppContext} from '../services/app-context';
 
-const appContext = createAppContext();
-initGlobalVariables(appContext);
-const reportingService = appContext.reportingService;
-initVisibilityReporter(reportingService);
-initPerformanceReporter(reportingService);
-initWebVitals(reportingService);
-initErrorReporter(reportingService);
+initGlobalVariables();
 
 installPolymerResin(safeTypesBridge);
 
@@ -95,7 +83,7 @@ export class GrApp extends LitElement {
     };
 
     for (const [token, creator] of createAppDependencies(
-      appContext,
+      getAppContext(),
       resolver
     )) {
       injectDependency(token, creator);
@@ -109,8 +97,8 @@ export class GrApp extends LitElement {
     // TODO(milutin): Move inside app dependencies.
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(
-        appContext.flagsService,
-        appContext.reportingService,
+        getAppContext().flagsService,
+        getAppContext().reportingService,
         resolver(userModelToken)
       );
     }

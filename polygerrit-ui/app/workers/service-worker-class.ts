@@ -18,6 +18,7 @@ import {
 } from './service-worker-indexdb';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {createChangeUrl} from '../models/views/change';
+import {noAwait} from '../utils/async-util';
 
 export class ServiceWorker {
   constructor(
@@ -156,7 +157,7 @@ export class ServiceWorker {
     const prevLatestUpdateTimestampMs = this.latestUpdateTimestampMs;
     this.latestUpdateTimestampMs = Date.now();
     await this.saveState();
-    this.sendReport('polling');
+    noAwait(this.sendReport('polling'));
     const changes = await this.getLatestAttentionSetChanges();
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,

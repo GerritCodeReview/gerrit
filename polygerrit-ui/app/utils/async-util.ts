@@ -245,3 +245,14 @@ export function allSettled<T>(
     )
   );
 }
+
+/**
+ * Noop function that can be used to suppress the tsetse must-use-promises rule.
+ *
+ * Example Usage:
+ *   async function x() {
+ *     await doA();
+ *     noAwait(doB());
+ *   }
+ */
+export function noAwait(_: {then: Function} | null | undefined) {}

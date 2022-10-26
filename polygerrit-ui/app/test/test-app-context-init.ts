@@ -6,7 +6,6 @@
 
 // Init app context before any other imports
 import {create, Registry, Finalizable} from '../services/registry';
-import {assertIsDefined} from '../utils/common-util';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
@@ -19,7 +18,6 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
-import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -28,13 +26,6 @@ export function createTestAppContext(): AppContext & Finalizable {
     reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
     authService: (_ctx: Partial<AppContext>) => new GrAuthMock(),
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
-    pluginLoader: (ctx: Partial<AppContext>) => {
-      const reportingService = ctx.reportingService;
-      const restApiService = ctx.restApiService;
-      assertIsDefined(reportingService, 'reportingService');
-      assertIsDefined(restApiService, 'restApiService');
-      return new PluginLoader(reportingService, restApiService);
-    },
   };
   return create<AppContext>(appRegistry);
 }

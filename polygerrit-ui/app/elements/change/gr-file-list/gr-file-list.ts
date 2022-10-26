@@ -76,6 +76,7 @@ import {createDiffUrl} from '../../../models/views/diff';
 import {createEditUrl} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -285,7 +286,7 @@ export class GrFileList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -824,7 +825,7 @@ export class GrFileList extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
+    this.getPluginLoader().awaitPluginsLoaded().then(() => {
       this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
         'change-view-file-list-header'
       );

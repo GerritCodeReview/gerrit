@@ -55,6 +55,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken, UserModel} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -82,7 +83,7 @@ suite('gr-diff-host tests', () => {
     setup(async () => {
       element = await fixture(html`<gr-diff-host></gr-diff-host>`);
       getDiffLayersStub = sinon
-        .stub(element.jsAPI, 'getDiffLayers')
+        .stub(testResolver(pluginLoaderToken).jsApiService, 'getDiffLayers')
         .returns(pluginLayers);
       element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
@@ -1632,7 +1633,10 @@ suite('gr-diff-host tests', () => {
         })
       );
       getCoverageAnnotationApisStub = sinon
-        .stub(element.jsAPI, 'getCoverageAnnotationApis')
+        .stub(
+          testResolver(pluginLoaderToken).jsApiService,
+          'getCoverageAnnotationApis'
+        )
         .returns(
           Promise.resolve([
             {

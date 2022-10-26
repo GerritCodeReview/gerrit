@@ -108,6 +108,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {whenVisible} from '../../../utils/dom-util';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -389,14 +390,6 @@ export class GrChangeActions
 
   RevisionActions = RevisionActions;
 
-  private readonly reporting = getAppContext().reportingService;
-
-  private readonly pluginLoader = getAppContext().pluginLoader;
-
-  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
-  private readonly getChangeModel = resolve(this, changeModelToken);
-
   @property({type: Object})
   change?: ChangeViewChangeInfo;
 
@@ -542,6 +535,12 @@ export class GrChangeActions
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly reporting = getAppContext().reportingService;
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -552,7 +551,7 @@ export class GrChangeActions
 
   override connectedCallback() {
     super.connectedCallback();
-    this.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
+    this.getPluginLoader().jsApiService.addElement(TargetElement.CHANGE_ACTIONS, this);
     this.handleLoadingComplete();
   }
 
@@ -884,12 +883,12 @@ export class GrChangeActions
   }
 
   private handleLoadingComplete() {
-    this.pluginLoader.awaitPluginsLoaded().then(() => (this.loading = false));
+    this.getPluginLoader().awaitPluginsLoaded().then(() => (this.loading = false));
   }
 
   // private but used in test
   sendShowRevisionActions(detail: ShowRevisionActionsDetail) {
-    this.jsAPI.handleShowRevisionActions(detail);
+    this.getPluginLoader().jsApiService.handleShowRevisionActions(detail);
   }
 
   addActionButton(type: ActionType, label: string) {
@@ -1331,7 +1330,7 @@ export class GrChangeActions
     if (!this.change) {
       return false;
     }
-    return this.jsAPI.canSubmitChange(
+    return this.getPluginLoader().jsApiService.canSubmitChange(
       this.change,
       this.getRevision(this.change, this.latestPatchNum)
     );
@@ -1826,7 +1825,9 @@ export class GrChangeActions
   // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
   // private but used in test
   setReviewOnRevert(newChangeId: NumericChangeId) {
-    const review = this.jsAPI.getReviewPostRevert(this.change);
+    const review = this.getPluginLoader().jsApiService.getReviewPostRevert(
+      this.change
+    );
     if (!review) {
       return Promise.resolve(undefined);
     }

@@ -13,13 +13,15 @@ import {
   stubBaseUrl,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {getAppContext} from '../../../services/app-context';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from './gr-plugin-loader';
 
 suite('GrJsApiInterface tests', () => {
   let element;
   let plugin;
   let errorStub;
+  let pluginLoader;
 
   let sendStub;
   let clock;
@@ -33,11 +35,12 @@ suite('GrJsApiInterface tests', () => {
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = getAppContext().pluginLoader.jsApiService;
+    pluginLoader = testResolver(pluginLoaderToken);
+    element = pluginLoader.jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginLoader.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    getAppContext().pluginLoader.loadPlugins([]);
+    testResolver(pluginLoaderToken).loadPlugins([]);
   });
 
   teardown(() => {
@@ -118,7 +121,7 @@ suite('GrJsApiInterface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const spy = sinon.spy();
-    getAppContext().pluginLoader.loadPlugins(['plugins/test.js']);
+    testResolver(pluginLoaderToken).loadPlugins(['plugins/test.js']);
     plugin.on(EventType.SHOW_CHANGE, spy);
     element.handleShowChange({change: testChange, patchNum: 1});
     assert.isFalse(spy.called);
@@ -252,7 +255,7 @@ suite('GrJsApiInterface tests', () => {
     setup(() => {
       stubBaseUrl('/r');
 
-      window.Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
+      pluginLoader.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
     });
 

@@ -14,7 +14,7 @@ import {
   configModelToken,
 } from '../../../models/config/config-model';
 import {testResolver} from '../../../test/common-test-setup';
-import {getAppContext} from '../../../services/app-context';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-plugin-host tests', () => {
   let element: GrPluginHost;
@@ -22,7 +22,10 @@ suite('gr-plugin-host tests', () => {
   let configModel: ConfigModel;
 
   setup(async () => {
-    loadPluginsStub = sinon.stub(getAppContext().pluginLoader, 'loadPlugins');
+    loadPluginsStub = sinon.stub(
+      testResolver(pluginLoaderToken),
+      'loadPlugins'
+    );
     element = await fixture<GrPluginHost>(html`
       <gr-plugin-host></gr-plugin-host>
     `);

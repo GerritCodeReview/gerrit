@@ -9,7 +9,7 @@ import {ServerInfo} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
-import {getAppContext} from '../../../services/app-context';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 @customElement('gr-plugin-host')
 export class GrPluginHost extends LitElement {
@@ -18,7 +18,7 @@ export class GrPluginHost extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -32,7 +32,10 @@ export class GrPluginHost extends LitElement {
           ? [config.default_theme]
           : [];
         const instanceId = config?.gerrit?.instance_id;
-        this.pluginLoader.loadPlugins([...themes, ...jsPlugins], instanceId);
+        this.getPluginLoader().loadPlugins(
+          [...themes, ...jsPlugins],
+          instanceId
+        );
       }
     );
   }

@@ -21,7 +21,7 @@ import {
 setCancelSyntheticClickEvents(false);
 setPassiveTouchGestures(true);
 
-import {initGlobalVariables} from './gr-app-global-var-init';
+import {initGerrit, initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
 import {
@@ -47,6 +47,7 @@ import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
 import {userModelToken} from '../models/user/user-model';
+import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 const appContext = createAppContext();
 initGlobalVariables(appContext);
@@ -102,6 +103,9 @@ export class GrApp extends LitElement {
     for (const [token, provider] of dependencies) {
       provide(this, token, provider);
     }
+
+    initGerrit(resolver(pluginLoaderToken));
+
     // TODO(milutin): Move inside app dependencies.
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(

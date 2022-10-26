@@ -42,6 +42,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 enum ChangeSize {
   XS = 10,
@@ -118,7 +119,7 @@ export class GrChangeListItem extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -138,11 +139,13 @@ export class GrChangeListItem extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
-      this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
-        'change-list-item-cell'
-      );
-    });
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-list-item-cell'
+        );
+      });
     this.addEventListener('click', this.onItemClick);
   }
 

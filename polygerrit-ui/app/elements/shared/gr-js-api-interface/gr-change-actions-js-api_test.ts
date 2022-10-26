@@ -23,7 +23,8 @@ import {GrButton} from '../gr-button/gr-button';
 import {ChangeViewChangeInfo} from '../../../types/common';
 import {GrDropdown} from '../gr-dropdown/gr-dropdown';
 import {GrIcon} from '../gr-icon/gr-icon';
-import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from './gr-plugin-loader';
 
 suite('gr-change-actions-js-api-interface tests', () => {
   let element: GrChangeActions;
@@ -41,7 +42,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
         'http://test.com/plugins/testplugin/static/test.js'
       );
       // Mimic all plugins loaded.
-      getAppContext().pluginLoader.loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
       changeActions = plugin.changeActions();
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
@@ -76,7 +77,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       );
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
-      getAppContext().pluginLoader.loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
     });
 
     teardown(() => {

@@ -13,6 +13,8 @@ import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {resolve} from '../../../models/dependency';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -37,7 +39,7 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   override render() {
     return html`<slot></slot>`;
@@ -47,13 +49,15 @@ export class GrEndpointDecorator extends LitElement {
     super.connectedCallback();
     assertIsDefined(this.name);
     getPluginEndpoints().onNewEndpoint(this.name, this.initModule);
-    this.pluginLoader.awaitPluginsLoaded().then(() => {
-      assertIsDefined(this.name);
-      const modules = getPluginEndpoints().getDetails(this.name);
-      for (const module of modules) {
-        this.initModule(module);
-      }
-    });
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        assertIsDefined(this.name);
+        const modules = getPluginEndpoints().getDetails(this.name);
+        for (const module of modules) {
+          this.initModule(module);
+        }
+      });
   }
 
   override disconnectedCallback() {

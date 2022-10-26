@@ -28,6 +28,7 @@ import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
+import {define} from '../../../models/dependency';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -66,6 +67,8 @@ const UNKNOWN_PLUGIN_PREFIX = '__$$__';
 // Current API version for Plugin,
 // plugins with incompatible version will not be loaded.
 const API_VERSION = '0.1';
+
+export const pluginLoaderToken = define<PluginLoader>('plugin-loader');
 
 /**
  * PluginLoader, responsible for:

@@ -56,7 +56,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {nothing} from 'lit';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
-import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
@@ -979,7 +980,7 @@ suite('gr-change-metadata tests', () => {
       const hookEl = (await plugin!
         .hook('change-metadata-item')
         .getLastAttached()) as MetadataGrEndpointDecorator;
-      getAppContext().pluginLoader.loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
       await element.updateComplete;
       assert.strictEqual(hookEl.plugin, plugin!);
       assert.strictEqual(hookEl.change, element.change);

@@ -24,6 +24,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -44,6 +45,7 @@ public class RecursiveApprovalCopier {
   private final GitRepositoryManager repositoryManager;
   private final InternalUser.Factory internalUserFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   private boolean failedForAtLeastOneProject;
 
@@ -52,21 +54,19 @@ public class RecursiveApprovalCopier {
       BatchUpdate.Factory batchUpdateFactory,
       GitRepositoryManager repositoryManager,
       InternalUser.Factory internalUserFactory,
-      ApprovalsUtil approvalsUtil) {
+      ApprovalsUtil approvalsUtil,
+      ChangeNotes.Factory changeNotesFactory) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.repositoryManager = repositoryManager;
     this.internalUserFactory = internalUserFactory;
     this.approvalsUtil = approvalsUtil;
+    this.changeNotesFactory = changeNotesFactory;
   }
 
-  public void persist() {
+  public void persist()
+      throws RepositoryNotFoundException, IOException, UpdateException, RestApiException {
     for (Project.NameKey project : repositoryManager.list()) {
-      try {
-        persist(project, null);
-      } catch (Exception e) {
-        failedForAtLeastOneProject = true;
-        logger.atSevere().withCause(e).log("failed for project %s", project);
-      }
+      persist(project, null);
     }
 
     if (failedForAtLeastOneProject) {
@@ -76,6 +76,21 @@ public class RecursiveApprovalCopier {
 
   public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
       throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
+    try {
+      persist(project, labelsCopiedListener, false);
+    } catch (Exception e) {
+      failedForAtLeastOneProject = true;
+      logger.atSevere().withCause(e).log(
+          "failed for project %s, will retry with the checkForCorruptMetaRefs option", project);
+      persist(project, labelsCopiedListener, true);
+    }
+  }
+
+  private void persist(
+      Project.NameKey project,
+      @Nullable Consumer<Change> labelsCopiedListener,
+      boolean checkForCorruptMetaRefs)
+      throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
     try (BatchUpdate bu =
             batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs());
         Repository repository = repositoryManager.openRepository(project)) {
@@ -84,9 +99,24 @@ public class RecursiveApprovalCopier {
               .filter(r -> r.getName().endsWith(RefNames.META_SUFFIX))
               .collect(toImmutableList())) {
         Change.Id changeId = Change.Id.fromRef(changeMetaRef.getName());
+        if (checkForCorruptMetaRefs && isCorrupt(project, changeId)) {
+          logger.atSevere().log("skipping corrupt meta-ref %s", changeMetaRef.getName());
+          continue;
+        }
         bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, labelsCopiedListener));
       }
       bu.execute();
+    }
+  }
+
+  private boolean isCorrupt(Project.NameKey project, Change.Id changeId) {
+    Change c = ChangeNotes.Factory.newChange(project, changeId);
+    try {
+      changeNotesFactory.createForBatchUpdate(c, true);
+      return false;
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(e.getMessage());
+      return true;
     }
   }
 

@@ -311,8 +311,10 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
   private PushOneCommit.Result createMergeCommitChange(
       String ref, RevCommit parent1, RevCommit parent2, @Nullable ObjectId treeId)
       throws Exception {
-    PushOneCommit m = pushFactory.create(admin.newIdent(), testRepo);
-    m.setParents(ImmutableList.of(parent1, parent2));
+    PushOneCommit m =
+        pushFactory
+            .create(admin.newIdent(), testRepo)
+            .setParents(ImmutableList.of(parent1, parent2));
     if (treeId != null) {
       m.setTopLevelTreeId(treeId);
     }

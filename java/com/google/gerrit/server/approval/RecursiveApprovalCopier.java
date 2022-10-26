@@ -16,6 +16,7 @@ package com.google.gerrit.server.approval;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -37,11 +38,14 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 public class RecursiveApprovalCopier {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final BatchUpdate.Factory batchUpdateFactory;
   private final GitRepositoryManager repositoryManager;
   private final InternalUser.Factory internalUserFactory;
   private final ApprovalsUtil approvalsUtil;
+
+  private boolean failedForAtLeastOneProject;
 
   @Inject
   public RecursiveApprovalCopier(
@@ -55,10 +59,18 @@ public class RecursiveApprovalCopier {
     this.approvalsUtil = approvalsUtil;
   }
 
-  public void persist()
-      throws UpdateException, RestApiException, RepositoryNotFoundException, IOException {
+  public void persist() {
     for (Project.NameKey project : repositoryManager.list()) {
-      persist(project, null);
+      try {
+        persist(project, null);
+      } catch (Exception e) {
+        failedForAtLeastOneProject = true;
+        logger.atSevere().withCause(e).log("failed for project %s", project);
+      }
+    }
+
+    if (failedForAtLeastOneProject) {
+      throw new RuntimeException("There were errors, check the logs for details");
     }
   }
 

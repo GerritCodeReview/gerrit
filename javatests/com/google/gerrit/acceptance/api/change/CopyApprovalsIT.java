@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -26,15 +27,19 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.server.approval.RecursiveApprovalCopier;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Test;
 
 public class CopyApprovalsIT extends AbstractDaemonTest {
@@ -85,6 +90,67 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
             gApi.changes().id(change2.getChangeId()).current().votes().values());
     assertThat(vote2.value).isEqualTo(-1);
     assertThat(vote2._accountId).isEqualTo(admin.id().get());
+  }
+
+  @Test
+  public void corruptChangeInOneProject_OtherProjectsProcessed() throws Exception {
+    Project.NameKey corruptProject = projectOperations.newProject().name("corruptProject").create();
+    TestRepository<InMemoryRepository> corruptRepo = cloneProject(corruptProject, admin);
+
+    PushOneCommit.Result change1 = createChange();
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.recommend());
+    PushOneCommit.Result change2 = createChange(corruptRepo);
+    gApi.changes().id(change2.getChangeId()).current().review(ReviewInput.dislike());
+
+    // these amends are reworks so votes will not be copied.
+    amendChange(change1.getChangeId());
+    amendChange(change2.getChangeId(), "refs/for/master", admin, corruptRepo);
+
+    // votes don't exist on the new patch-set.
+    assertThat(gApi.changes().id(change1.getChangeId()).current().votes()).isEmpty();
+    assertThat(gApi.changes().id(change2.getChangeId()).current().votes()).isEmpty();
+
+    // change the project config to make the vote that was not copied to be copied once we do the
+    // schema upgrade.
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+      u.save();
+    }
+
+    // make the meta-ref of change2 corrupt by updating it to the commit of the current patch-set
+    ObjectId correctMetaRefObjectId;
+    String metaRef = RefNames.changeMetaRef(change2.getChange().getId());
+    try (TestRepository<InMemoryRepository> serverSideCorruptRepo =
+        new TestRepository<>((InMemoryRepository) repoManager.openRepository(corruptProject))) {
+      RefUpdate ru = forceUpdate(serverSideCorruptRepo, metaRef, change2.getPatchSet().commitId());
+      correctMetaRefObjectId = ru.getOldObjectId();
+
+      try {
+        recursiveApprovalCopier.persist();
+        fail("Expected exception when a project contains corrupt change");
+      } catch (Exception e) {
+        assertThat(e.getMessage()).contains("check the logs");
+      } finally {
+        // fix the meta-ref by setting it back to its correct objectId
+        forceUpdate(serverSideCorruptRepo, metaRef, correctMetaRefObjectId);
+      }
+    }
+
+    ApprovalInfo vote1 =
+        Iterables.getOnlyElement(
+            gApi.changes().id(change1.getChangeId()).current().votes().values());
+    assertThat(vote1.value).isEqualTo(1);
+    assertThat(vote1._accountId).isEqualTo(admin.id().get());
+  }
+
+  private RefUpdate forceUpdate(
+      TestRepository<InMemoryRepository> repo, String ref, ObjectId newObjectId)
+      throws IOException {
+    RefUpdate ru = repo.getRepository().updateRef(ref);
+    ru.setNewObjectId(newObjectId);
+    ru.forceUpdate();
+    return ru;
   }
 
   @Test

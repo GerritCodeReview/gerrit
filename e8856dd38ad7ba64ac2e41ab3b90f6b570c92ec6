@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5303bebb_ea2d5922",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-26T18:19:24Z",
+      "side": 1,
+      "message": "Thanks @sven.selberg@axis.com for the review. A minor change I did was to move the `isUnreasonableName` check to the uncached path. We don\u0027t need to do it when it is cached, correct?",
+      "parentUuid": "e7d9f98f_96b4dfac",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab098971_fb3a17b1",
@@ -85,6 +109,30 @@
       "writtenOn": "2022-10-26T13:51:50Z",
       "side": 1,
       "message": "I can\u0027t help but wonder if the logic in this method wouldn\u0027t be a lot easier to track if you didn\u0027t try sharing line 170 between the two major use cases in here: 1) it is cached vs 2) it is not cached. Perhaps you could make it a lot clearer by having two entirely separate paths for those cases? I know this suggestion deviates from the typical pattern of loading a Map, but it seems like it would eliminate some of the extra conditional complexity?\n\ni.e\n\n if (/* is cached */) {\n\n   return...\n }\n\n// not cached",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 11
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64b385a_04edd6ae",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-26T18:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab098971_fb3a17b1",
       "range": {
         "startLine": 180,
         "startChar": 4,

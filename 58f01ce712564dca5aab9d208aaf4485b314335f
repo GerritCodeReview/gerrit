@@ -105,6 +105,24 @@
       "parentUuid": "db2f2386_6a1e9f79",
       "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d44ef7_57543512",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-26T18:19:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e788161c_de1aef4b",
+      "revId": "58f01ce712564dca5aab9d208aaf4485b314335f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

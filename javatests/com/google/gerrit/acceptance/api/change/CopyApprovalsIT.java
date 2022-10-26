@@ -224,4 +224,40 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
       assertThat(vote1._accountId).isEqualTo(admin.id().get());
     }
   }
+
+  @Test
+  public void oneCorruptChange_otherChangesProcessed() throws Exception {
+    PushOneCommit.Result good = createChange();
+    gApi.changes().id(good.getChangeId()).current().review(ReviewInput.recommend());
+    // this amend is a rework so votes will not be copied.
+    amendChange(good.getChangeId());
+
+    PushOneCommit.Result corrupt = createChange();
+    corrupt.getPatchSet().commitId();
+
+    // change the project config to make the vote that was not copied to be copied once we do the
+    // schema upgrade.
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+      u.save();
+    }
+
+    // make the meta-ref corrupt by updating it to the commit of the current patch-set
+    String metaRef = RefNames.changeMetaRef(corrupt.getChange().getId());
+    try (TestRepository<InMemoryRepository> serverSideTestRepo =
+        new TestRepository<>((InMemoryRepository) repoManager.openRepository(project))) {
+      RefUpdate ru = forceUpdate(serverSideTestRepo, metaRef, corrupt.getPatchSet().commitId());
+      try {
+        recursiveApprovalCopier.persist(project, null);
+      } finally {
+        forceUpdate(serverSideTestRepo, metaRef, ru.getOldObjectId());
+      }
+    }
+
+    ApprovalInfo vote1 =
+        Iterables.getOnlyElement(gApi.changes().id(good.getChangeId()).current().votes().values());
+    assertThat(vote1.value).isEqualTo(1);
+    assertThat(vote1._accountId).isEqualTo(admin.id().get());
+  }
 }

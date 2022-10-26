@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8d940b2_61519019",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T14:38:24Z",
+      "side": 1,
+      "message": "I don\u0027t think it can because that key could point to a different location added by another thread. That\u0027s what makes this whole method a bit tricky, it needs to be able to handle operations from multiple threads concurrently.",
+      "parentUuid": "70e185c5_eaf50293",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab098971_fb3a17b1",
         "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 5

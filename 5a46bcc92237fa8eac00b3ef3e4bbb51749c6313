@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "951f2e33_ec06a4f7",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T08:11:21Z",
+      "side": 1,
+      "message": "That is not an async method.",
+      "parentUuid": "f1f24511_46d19552",
+      "revId": "5a46bcc92237fa8eac00b3ef3e4bbb51749c6313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c030aeb_9a693ec6",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-10-26T08:03:26Z",
       "side": 1,
       "message": "What about here?",
+      "revId": "5a46bcc92237fa8eac00b3ef3e4bbb51749c6313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be43286a_09ce7163",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T08:11:21Z",
+      "side": 1,
+      "message": "That is not an async method.",
+      "parentUuid": "7c030aeb_9a693ec6",
       "revId": "5a46bcc92237fa8eac00b3ef3e4bbb51749c6313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

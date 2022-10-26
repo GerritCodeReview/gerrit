@@ -22,6 +22,30 @@
       },
       "revId": "30738b768c20cc5b14b47b6daf2a7a99b6bd28c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e9c755c_174bd987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T11:41:04Z",
+      "side": 1,
+      "message": "I see your point of perhaps logically this code should be submitted after the next change. I can make them a topic if that alleviates that concern\n\nIt\u0027s easier to remove code since I don\u0027t need to update this when I migrate.\nOtherwise there is technically dead code left in the next change or I end up merging the two changes.\n\nI prefer this approach of removing unnecessary code first and then doing the conversion.",
+      "parentUuid": "6c33a695_05acaeb1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "30738b768c20cc5b14b47b6daf2a7a99b6bd28c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

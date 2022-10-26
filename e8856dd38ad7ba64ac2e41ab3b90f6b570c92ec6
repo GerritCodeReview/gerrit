@@ -22,6 +22,29 @@
       },
       "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab098971_fb3a17b1",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T13:51:50Z",
+      "side": 1,
+      "message": "I can\u0027t help but wonder if the logic in this method wouldn\u0027t be a lot easier to track if you didn\u0027t try sharing line 170 between the two major use cases in here: 1) it is cached vs 2) it is not cached. Perhaps you could make it a lot clearer by having two entirely separate paths for those cases? I know this suggestion deviates from the typical pattern of loading a Map, but it seems like it would eliminate some of the extra conditional complexity?\n\ni.e\n\n if (/* is cached */) {\n\n   return...\n }\n\n// not cached",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 11
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

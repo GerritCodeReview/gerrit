@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7d9f98f_96b4dfac",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-26T15:26:35Z",
+      "side": 1,
+      "message": "I see.\nIn that case you cannot trust that `fileKeyByProject.remove(name, location)` will remove the location that failed. It\u0027s quite possible that the FileKey wasn\u0027t added to fileKeyByProject at l159 but was added by another thread once this thread reaches l177.\nTo be a little bit more certain, if you remove another FileKey than the one that failed it would at least reference the same file:\n\n    if (isLocationFromCache) {\n      synchronized(keyCacheLock) {\n        if (fileKeyByProject.contains(name) \u0026\u0026 fileKeyByProject.get(name).equals(location) {\n          fileKeyByProject.remove(name);\n          return openRepository(name);\n        }\n      }\n      \n      ...\n      \n      synchronized(keyCacheLock) {\n        fileKeyByProject.put(name, location);\n      }\n\nBut that looks a bit awful, then again most concurrency handling code does...\nHonestly I don\u0027t know if this would make things any better.\n\nPerhaps just skip the recursion:\n\n    public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {\n      if (isUnreasonableName(name)) {\n        throw new RepositoryNotFoundException(\"Invalid name: \" + name);\n      }\n      FileKey cachedLocation \u003d fileKeyByProject.get(name);\n      if (cachedLocation !\u003d null) {\n        try {\n          return RepositoryCache.open(cachedLocation);\n        } catch (IOException e) {\n          fileKeyByProject.remove(name, cachedLocation);\n        }\n      }\n\n      location \u003d FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);\n      try {\n        Repository repo \u003d RepositoryCache.open(location);\n        fileKeyByProject.put(name, location);\n        return repo;\n      } catch (IOException e) {\n        throw new RepositoryNotFoundException(\"Cannot open repository \" + name, e);\n      }\n    }\n\n...and just know I read Martins post below with pretty much the same idea... ;-)",
+      "parentUuid": "c8d940b2_61519019",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "e8856dd38ad7ba64ac2e41ab3b90f6b570c92ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab098971_fb3a17b1",
         "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 5

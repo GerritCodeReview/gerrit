@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7cc21f_6cdfd4b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-26T21:47:33Z",
+      "side": 1,
+      "message": "Now all front-end in master is unchanged, with the exception of `gr-router.ts` which calls `setInProjectLookup`",
+      "revId": "cb6b6651fe9bb436cd0d9bca044702eb7ea89e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

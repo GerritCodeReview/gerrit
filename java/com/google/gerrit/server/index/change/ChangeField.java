@@ -122,6 +122,7 @@ public class ChangeField {
 
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
+<<<<<<< HEAD   (0e727a Merge branch 'stable-3.7' into stable-3.8)
   public static final IndexedField<ChangeData, String> NUMERIC_ID_STR_FIELD =
       IndexedField.<ChangeData>stringBuilder("NumericIdStr")
           .stored()
@@ -132,6 +133,10 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, String>.SearchSpec NUMERIC_ID_STR_SPEC =
       NUMERIC_ID_STR_FIELD.exact("legacy_id_str");
+=======
+  public static final FieldDef<ChangeData, String> LEGACY_ID_STR =
+      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.getVirtualId().get()));
+>>>>>>> CHANGE (07fa83 Allow indexing of change numbers imported from other servers)
 
   /** Newer style Change-Id key. */
   public static final IndexedField<ChangeData, String> CHANGE_ID_FIELD =

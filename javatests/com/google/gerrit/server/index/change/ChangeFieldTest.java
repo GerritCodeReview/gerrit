@@ -157,16 +157,28 @@ public class ChangeFieldTest {
   @Test
   public void tolerateNullValuesForInsertion() {
     Project.NameKey project = Project.nameKey("project");
+<<<<<<< HEAD   (0e727a Merge branch 'stable-3.7' into stable-3.8)
     ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
     assertThat(ChangeField.ADDED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+=======
+    ChangeData cd =
+        ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId(), null, null, null);
+    assertThat(ChangeField.ADDED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+>>>>>>> CHANGE (07fa83 Allow indexing of change numbers imported from other servers)
   }
 
   @Test
   public void tolerateNullValuesForDeletion() {
     Project.NameKey project = Project.nameKey("project");
+<<<<<<< HEAD   (0e727a Merge branch 'stable-3.7' into stable-3.8)
     ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
     assertThat(ChangeField.DELETED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null)))
         .isTrue();
+=======
+    ChangeData cd =
+        ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId(), null, null, null);
+    assertThat(ChangeField.DELETED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+>>>>>>> CHANGE (07fa83 Allow indexing of change numbers imported from other servers)
   }
 
   @Test

@@ -98,6 +98,14 @@ import java.util.Optional;
  */
 public final class Change {
 
+  /*
+   * Bit-wise masks for representing the Change's VirtualId as combination of ServerId + ChangeNum:
+   */
+	  private static final int CHANGE_NUM_BIT_LEN = 22; // Allows up to 4M changes
+	  private static final int LEGACY_ID_BIT_MASK = (1 << CHANGE_NUM_BIT_LEN) - 1;
+	  private static final int SERVER_ID_BIT_LEN = Integer.BYTES * 8 - CHANGE_NUM_BIT_LEN; // Allows up to 50 ServerIds with less than 4 collisions 
+	  private static final int SERVER_ID_BIT_MASK = (1 << SERVER_ID_BIT_LEN) - 1;
+
   public static Id id(int id) {
     return new AutoValue_Change_Id(id);
   }
@@ -733,5 +741,15 @@ public final class Change {
         .append(status)
         .append('}')
         .toString();
+  }
+
+  public static Id getVirtualId(String changeServerId, Id legacyId) {
+    int changeNum = legacyId.get();
+    int serverIdHashCode = changeServerId.hashCode();
+    int serverIdHashCodeCompressed =
+			(serverIdHashCode & SERVER_ID_BIT_MASK) ^ ((serverIdHashCode >> SERVER_ID_BIT_LEN) & SERVER_ID_BIT_MASK) ^ (serverIdHashCode >> (SERVER_ID_BIT_LEN * 2)) & SERVER_ID_BIT_MASK;
+    int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (serverIdHashCodeCompressed << CHANGE_NUM_BIT_LEN);
+
+    return Change.id(virtualId);
   }
 }

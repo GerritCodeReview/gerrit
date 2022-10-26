@@ -70,6 +70,24 @@
       "parentUuid": "e2a2b494_1c90f5ac",
       "revId": "3802d2d631773d23cea34ee232f3071e741d7e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "732d3d22_48e26320",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-26T09:23:06Z",
+      "side": 1,
+      "message": "Ok,\n\nIn that case:\n\n1. Can you add a clear comment that this is a hack?\n2. Can you be more specific about the name rather than simply \u0027includes\u0027?\n\nMaybe make it a white-list constant somewhere?\n\nWHITE_LISTED_FULL_SCREEN_PLUGINS \u003d [\u0027...\u0027];\n\nWHITE_LISTED_FULL_SCREEN_PLUGINS.includes(this.computePluginScreenName())",
+      "parentUuid": "9488cdf1_444e0e50",
+      "revId": "3802d2d631773d23cea34ee232f3071e741d7e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

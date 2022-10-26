@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1b575f2_b46a8820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T19:17:57Z",
+      "side": 1,
+      "message": "While this may be true, I think it is a secondary consideration. I think the primary justification should be that cost should relate to the cost of doing a per change match() call, whereas cardinality should be related to how many changes are likely to be returned by a datasource.",
+      "revId": "15679879dfe397eba67a9155bc5f7c8387f92b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad4c7663_d69f088d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T19:17:57Z",
+      "side": 1,
+      "message": "This does not seem correct, if it were previously cheaper \"cost\" wise, wouldn\u0027t it already have been chosen?",
+      "revId": "15679879dfe397eba67a9155bc5f7c8387f92b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e4063da_f9ad5987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T19:17:57Z",
+      "side": 1,
+      "message": "I think we should specifically mention our example of our ChangeDataSource that ties into our bug tracker\u0027s DB.",
+      "revId": "15679879dfe397eba67a9155bc5f7c8387f92b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "608e2be0_32b16c35",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T19:17:57Z",
+      "side": 1,
+      "message": "Perhaps this should just throw an exception if the selectedSource is null since otherwise exceptions will be thrown when code attempts to use this source?",
+      "revId": "15679879dfe397eba67a9155bc5f7c8387f92b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -109,6 +109,7 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-api-types';
 import {whenVisible} from '../../../utils/dom-util';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -561,6 +562,7 @@ export class GrChangeActions
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       css`
         :host {
           display: flex;
@@ -579,11 +581,6 @@ export class GrChangeActions
         }
         gr-button {
           display: block;
-        }
-        dialog {
-          padding: 0;
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
         }
         #actionLoadingMessage {
           align-items: center;

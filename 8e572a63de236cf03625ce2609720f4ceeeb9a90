@@ -16,6 +16,40 @@
       "message": "Is it possible to get a darker background for the backdrop?\n\nDoes this work maybe?\n```\ndialog::backdrop {\n  background-color: ...\n}\n```\n\nAt the moment the dialog also has some kind of box-shadow. Can that be replicated?",
       "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb255f5d_299a963a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T11:52:25Z",
+      "side": 1,
+      "message": "Overall super nice! Love it. ❤️",
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaa7a0b2_835821a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T11:52:25Z",
+      "side": 1,
+      "message": "Maybe we want a common style file, so that we don\u0027t have to repeat this rule for every use of `dialog`. Can also be done in a separate change, of course.",
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -89,6 +89,7 @@ import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.query.change.DistinctVotersPredicate;
+import com.google.gerrit.server.query.change.HasSubmoduleUpdatePredicate;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule.DefaultSubmitRuleModule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule.IgnoreSelfApprovalRuleModule;
@@ -197,6 +198,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
+    factory(HasSubmoduleUpdatePredicate.Factory.class);
     factory(ProjectState.Factory.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -21,6 +22,8 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.FileEditsPredicate;
 import com.google.gerrit.server.query.FileEditsPredicate.FileEditsArgs;
 import com.google.inject.Inject;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -37,6 +40,7 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
 
   private final DistinctVotersPredicate.Factory distinctVotersPredicateFactory;
+  private final HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory;
 
   /**
    * Regular expression for the {@link #file(String)} operator. Field value is of the form:
@@ -48,16 +52,21 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private static final Pattern FILE_EDITS_PATTERN =
       Pattern.compile("'((?:(?:\\\\')|(?:[^']))*)',withDiffContaining='((?:(?:\\\\')|(?:[^']))*)'");
 
+  public static final String SUBMODULE_UPDATE_HAS_ARG = "submodule-update";
+  private static final Splitter SUBMODULE_UPDATE_SPLITTER = Splitter.on(",");
+
   private final FileEditsPredicate.Factory fileEditsPredicateFactory;
 
   @Inject
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
       DistinctVotersPredicate.Factory distinctVotersPredicateFactory,
-      FileEditsPredicate.Factory fileEditsPredicateFactory) {
+      FileEditsPredicate.Factory fileEditsPredicateFactory,
+      HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory) {
     super(def, args);
     this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
     this.fileEditsPredicateFactory = fileEditsPredicateFactory;
+    this.hasSubmoduleUpdateFactory = hasSubmoduleUpdateFactory;
   }
 
   @Override
@@ -77,6 +86,37 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       return new ConstantPredicate(value);
     }
     return super.is(value);
+  }
+
+  @Override
+  public Predicate<ChangeData> has(String value) throws QueryParseException {
+    if (value.toLowerCase(Locale.US).startsWith(SUBMODULE_UPDATE_HAS_ARG)) {
+      List<String> args = SUBMODULE_UPDATE_SPLITTER.splitToList(value);
+      if (args.size() > 2) {
+        throw error(
+            String.format(
+                "wrong number of arguments for the has:%s operator", SUBMODULE_UPDATE_HAS_ARG));
+      } else if (args.size() == 2) {
+        List<String> baseValue = Splitter.on("=").splitToList(args.get(1));
+        if (baseValue.size() != 2) {
+          throw error("unexpected base value format");
+        }
+        if (!baseValue.get(0).toLowerCase(Locale.US).equals("base")) {
+          throw error("unexpected base value format");
+        }
+        try {
+          int base = Integer.parseInt(baseValue.get(1));
+          return hasSubmoduleUpdateFactory.create(base);
+        } catch (NumberFormatException e) {
+          throw error(
+              String.format(
+                  "failed to parse the parent number %s: %s", baseValue.get(1), e.getMessage()));
+        }
+      } else {
+        return hasSubmoduleUpdateFactory.create(0);
+      }
+    }
+    return super.has(value);
   }
 
   @Operator

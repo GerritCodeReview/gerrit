@@ -8,7 +8,6 @@ import {create, Finalizable, Registry} from './registry';
 import {DependencyToken} from '../models/dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
-import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
@@ -28,7 +27,6 @@ import {
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
-import {PluginsModel} from '../models/plugins/plugins-model';
 import {
   HighlightService,
   highlightServiceToken,
@@ -64,6 +62,7 @@ import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginsModelToken} from '../models/plugins/plugins-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -76,24 +75,17 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.flagsService, 'flagsService)');
       return new GrReporting(ctx.flagsService);
     },
-    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
-    authService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.eventEmitter, 'eventEmitter');
-      return new Auth(ctx.eventEmitter);
-    },
+    authService: (_ctx: Partial<AppContext>) => new Auth(),
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
       return new GrRestApiServiceImpl(ctx.authService);
     },
-    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       const restApiService = ctx.restApiService;
-      const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
       assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(reportingService, restApiService, pluginsModel);
+      return new PluginLoader(reportingService, restApiService);
     },
   };
   return create<AppContext>(appRegistry);
@@ -191,6 +183,7 @@ export function createAppDependencies(
       () =>
         new ConfigModel(resolver(changeModelToken), appContext.restApiService),
     ],
+    [pluginsModelToken, () => appContext.pluginLoader.pluginsModel],
     [
       checksModelToken,
       () =>
@@ -198,7 +191,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          appContext.pluginsModel
+          resolver(pluginsModelToken)
         ),
     ],
     [

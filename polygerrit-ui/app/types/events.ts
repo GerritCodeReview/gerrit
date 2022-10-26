@@ -90,6 +90,7 @@ declare global {
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
+    'auth-error': AuthErrorEvent;
   }
 }
 
@@ -205,6 +206,12 @@ export interface ShowErrorEventDetail {
   message: string;
 }
 export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
+
+export interface AuthErrorEventDetail {
+  message: string;
+  action: string;
+}
+export type AuthErrorEvent = CustomEvent<AuthErrorEventDetail>;
 
 // Type for the custom event to switch tab.
 export interface SwitchTabEventDetail {

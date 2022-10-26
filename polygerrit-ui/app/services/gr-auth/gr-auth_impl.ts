@@ -3,8 +3,8 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {fire} from '../../utils/event-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
 import {Finalizable} from '../registry';
 import {
   AuthRequestInit,
@@ -67,11 +67,8 @@ export class Auth implements AuthService, Finalizable {
 
   private getToken: GetTokenCallback;
 
-  public eventEmitter: EventEmitterService;
-
-  constructor(eventEmitter: EventEmitterService) {
+  constructor() {
     this.getToken = () => Promise.resolve(this.cachedTokenPromise);
-    this.eventEmitter = eventEmitter;
   }
 
   get baseUrl() {
@@ -130,7 +127,7 @@ export class Auth implements AuthService, Finalizable {
     if (this._status === status) return;
 
     if (this._status === AuthStatus.AUTHED) {
-      this.eventEmitter.emit('auth-error', {
+      fire(document, 'auth-error', {
         message: Auth.CREDS_EXPIRED_MSG,
         action: 'Refresh credentials',
       });

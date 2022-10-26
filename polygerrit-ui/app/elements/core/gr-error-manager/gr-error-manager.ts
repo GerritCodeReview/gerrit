@@ -15,6 +15,7 @@ import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {
+  AuthErrorEvent,
   EventType,
   NetworkErrorEvent,
   ServerErrorEvent,
@@ -114,11 +115,7 @@ export class GrErrorManager extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly _authService = getAppContext().authService;
-
-  private readonly eventEmitter = getAppContext().eventEmitter;
-
-  private authErrorHandlerDeregistrationHook?: Function;
+  private readonly authService = getAppContext().authService;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -133,13 +130,7 @@ export class GrErrorManager extends LitElement {
     document.addEventListener('show-error', this.handleShowErrorDialog);
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('show-auth-required', this.handleAuthRequired);
-
-    this.authErrorHandlerDeregistrationHook = this.eventEmitter.on(
-      'auth-error',
-      event => {
-        this.handleAuthError(event.message, event.action);
-      }
-    );
+    document.addEventListener('auth-error', this.handleAuthError);
 
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
@@ -166,9 +157,7 @@ export class GrErrorManager extends LitElement {
     document.removeEventListener('show-auth-required', this.handleAuthRequired);
     this.checkLoggedInTask?.cancel();
 
-    if (this.authErrorHandlerDeregistrationHook) {
-      this.authErrorHandlerDeregistrationHook();
-    }
+    document.removeEventListener('auth-error', this.handleAuthError);
     super.disconnectedCallback();
   }
 
@@ -203,11 +192,11 @@ export class GrErrorManager extends LitElement {
     );
   };
 
-  private handleAuthError(msg: string, action: string) {
+  private handleAuthError = (event: AuthErrorEvent) => {
     this.noInteractionOverlay.open().then(() => {
-      this.showAuthErrorAlert(msg, action);
+      this.showAuthErrorAlert(event.detail.message, event.detail.action);
     });
-  }
+  };
 
   private readonly handleServerError = (e: ServerErrorEvent) => {
     const {request, response} = e.detail;
@@ -216,7 +205,7 @@ export class GrErrorManager extends LitElement {
       const {status, statusText} = response;
       if (
         response.status === 403 &&
-        !this._authService.isAuthed &&
+        !this.authService.isAuthed &&
         errorText === AUTHENTICATION_REQUIRED
       ) {
         // if not authed previously, this is trying to access auth required APIs
@@ -224,13 +213,13 @@ export class GrErrorManager extends LitElement {
         this.handleAuthRequired();
       } else if (
         response.status === 403 &&
-        this._authService.isAuthed &&
+        this.authService.isAuthed &&
         errorText === AUTHENTICATION_REQUIRED
       ) {
         // The app was logged at one point and is now getting auth errors.
         // This indicates the auth token may no longer valid.
         // Re-check on auth
-        this._authService.clearCache();
+        this.authService.clearCache();
         this.restApiService.getLoggedIn();
       } else if (!this.shouldSuppressError(errorText)) {
         const trace =
@@ -443,7 +432,7 @@ export class GrErrorManager extends LitElement {
 
     // force to refetch account info
     this.restApiService.invalidateAccountsCache();
-    this._authService.clearCache();
+    this.authService.clearCache();
 
     this.restApiService.getLoggedIn().then(isLoggedIn => {
       if (!this.refreshingCredentials) return;
@@ -505,7 +494,7 @@ export class GrErrorManager extends LitElement {
     this.noInteractionOverlay.close();
 
     // Clear the cache for auth
-    this._authService.clearCache();
+    this.authService.clearCache();
   }
 
   private readonly handleWindowFocus = () => {

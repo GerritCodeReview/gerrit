@@ -33,6 +33,24 @@
       "message": "Can we move this to the oldest stable branch? I think we try to keep Bazel version consistent across supported branches?",
       "revId": "23328bc411dd92630b30499efc4c02eb6eebdb7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf6fa77_6bf37aa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-26T20:36:01Z",
+      "side": 1,
+      "message": "Sure! Seems that 3.4/3.5 use 4.2 (so they should be bumped to 5.0 first). I\u0027ve moved this to 3.6 which uses 5.0.",
+      "parentUuid": "e5448c32_6b86301b",
+      "revId": "23328bc411dd92630b30499efc4c02eb6eebdb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

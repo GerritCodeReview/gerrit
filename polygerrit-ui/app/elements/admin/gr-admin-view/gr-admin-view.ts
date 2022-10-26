@@ -61,6 +61,7 @@ import {
 } from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -112,11 +113,9 @@ export class GrAdminView extends LitElement {
   private reloading = false;
 
   // private but used in the tests
-  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly pluginLoader = getAppContext().pluginLoader;
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getAdminViewModel = resolve(this, adminViewModelToken);
 
@@ -461,7 +460,7 @@ export class GrAdminView extends LitElement {
       const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] =
         [
           this.restApiService.getAccount(),
-          this.pluginLoader.awaitPluginsLoaded(),
+          this.getPluginLoader().awaitPluginsLoaded(),
         ];
       const result = await Promise.all(promises);
       this.account = result[0];
@@ -491,7 +490,7 @@ export class GrAdminView extends LitElement {
             }
             return capabilities;
           }),
-        () => this.jsAPI.getAdminMenuLinks(),
+        () => this.getPluginLoader().jsApiService.getAdminMenuLinks(),
         options
       );
       this.filteredLinks = res.links;

@@ -98,6 +98,7 @@ import {
 import {subscribe} from '../../lit/subscription-controller';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -325,10 +326,9 @@ export class GrDiffHost extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
   // visible for testing
   readonly reporting = getAppContext().reportingService;
-
-  private readonly pluginLoader = getAppContext().pluginLoader;
 
   private readonly flags = getAppContext().flagsService;
 
@@ -336,10 +336,7 @@ export class GrDiffHost extends LitElement {
 
   // visible for testing
   readonly getUserModel = resolve(this, userModelToken);
-
-  // visible for testing
-  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
-
+  
   // visible for testing
   readonly syntaxLayer: GrSyntaxLayerWorker;
 
@@ -556,7 +553,7 @@ export class GrDiffHost extends LitElement {
 
   async initLayers() {
     const preferencesPromise = this.restApiService.getPreferences();
-    await this.pluginLoader.awaitPluginsLoaded();
+    await this.getPluginLoader().awaitPluginsLoaded();
     const prefs = await preferencesPromise;
     const enableTokenHighlight = !prefs?.disable_token_highlighting;
 
@@ -720,12 +717,13 @@ export class GrDiffHost extends LitElement {
     }
     layers.push(this.syntaxLayer);
     // Get layers from plugins (if any).
-    layers.push(...this.jsAPI.getDiffLayers(path));
+    layers.push(...this.getPluginLoader().jsApiService.getDiffLayers(path));
     return layers;
   }
 
   clear() {
-    if (this.path) this.jsAPI.disposeDiffLayers(this.path);
+    if (this.path)
+      this.getPluginLoader().jsApiService.disposeDiffLayers(this.path);
     this.layers = [];
   }
 
@@ -855,8 +853,8 @@ export class GrDiffHost extends LitElement {
 
     const basePatchNum = toNumberOnly(this.patchRange.basePatchNum);
     const patchNum = toNumberOnly(this.patchRange.patchNum);
-    this.jsAPI
-      .getCoverageAnnotationApis()
+    this.getPluginLoader()
+      .jsApiService.getCoverageAnnotationApis()
       .then(coverageAnnotationApis => {
         coverageAnnotationApis.forEach(coverageAnnotationApi => {
           const provider = coverageAnnotationApi.getCoverageProvider();

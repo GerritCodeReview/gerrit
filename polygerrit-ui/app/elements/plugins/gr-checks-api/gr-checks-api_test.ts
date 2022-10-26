@@ -7,7 +7,8 @@ import '../../../test/common-test-setup';
 import {PluginApi} from '../../../api/plugin';
 import {ChecksPluginApi} from '../../../api/checks';
 import {assert} from '@open-wc/testing';
-import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-settings-api tests', () => {
   let checksApi: ChecksPluginApi | undefined;
@@ -21,7 +22,7 @@ suite('gr-settings-api tests', () => {
       '0.1',
       'http://test.com/plugins/testplugin/static/test.js'
     );
-    getAppContext().pluginLoader.loadPlugins([]);
+    testResolver(pluginLoaderToken).loadPlugins([]);
     assert.isOk(pluginApi);
     checksApi = pluginApi!.checks();
   });

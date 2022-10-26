@@ -15,6 +15,7 @@ import {
   RevisionActions,
 } from '../../../api/change-actions';
 import {PropertyDeclaration} from 'lit';
+import {JsApiService} from './gr-js-api-types';
 
 export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
   __key: string;
@@ -65,9 +66,11 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly jsApiService = getAppContext().pluginLoader.jsApiService;
-
-  constructor(public plugin: PluginApi, el?: GrChangeActionsElement) {
+  constructor(
+    public plugin: PluginApi,
+    private readonly jsApiService: JsApiService,
+    el?: GrChangeActionsElement
+  ) {
     this.reporting.trackApi(this.plugin, 'actions', 'constructor');
     this.setEl(el);
   }

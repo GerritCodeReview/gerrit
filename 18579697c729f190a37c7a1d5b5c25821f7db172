@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d343d4ec_64ceedf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-26T18:46:50Z",
+      "side": 1,
+      "message": "One thought though, perhaps this should go back as far as 2.16 if it can be shown to improve migration speeds. We probably should test that. I am also curious if it helps indexing.",
+      "revId": "18579697c729f190a37c7a1d5b5c25821f7db172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

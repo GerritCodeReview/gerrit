@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05557701_6bc51a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-26T07:50:47Z",
+      "side": 1,
+      "message": "I think we don\u0027t want to have this in master. Maybe revert these two files to what they are in master:\n\npolygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts\npolygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+      "revId": "65207fcee23b2c001536ab58970b49085576fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc3da31d_f07f038d",

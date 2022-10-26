@@ -24,7 +24,7 @@ import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {changeViewModelToken} from '../views/change';
 import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
-import {pluginsModelToken} from '../plugins/plugins-model';
+import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -73,7 +73,7 @@ suite('checks-model tests', () => {
       testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
-      testResolver(pluginsModelToken)
+      testResolver(pluginLoaderToken).pluginsModel
     );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });

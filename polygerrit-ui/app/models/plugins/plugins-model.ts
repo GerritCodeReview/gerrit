@@ -11,7 +11,6 @@ import {
   ChecksProvider,
 } from '../../api/checks';
 import {Model} from '../model';
-import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
 
 export interface ChecksPlugin {
@@ -33,8 +32,6 @@ interface PluginsState {
    */
   checksPlugins: ChecksPlugin[];
 }
-
-export const pluginsModelToken = define<PluginsModel>('plugins-model');
 
 export class PluginsModel extends Model<PluginsState> {
   /** Private version of the event bus below. */

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d998018_6f2682cd",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-26T08:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e7b493_cfad0f94",
+      "revId": "e81897410502dc044b062a2d6cd43a09cd4f6b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cbef267_075dcdf9",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-26T08:07:18Z",
       "side": 1,
       "message": "```suggestion\n      fire(document, \u0027auth-error\u0027, {\n        message: Auth.CREDS_EXPIRED_MSG,\n        action: \u0027Refresh credentials\u0027,\n      });\n```",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 8
+      },
+      "revId": "e81897410502dc044b062a2d6cd43a09cd4f6b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d643ef46_1c77f663",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-26T08:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cbef267_075dcdf9",
       "range": {
         "startLine": 129,
         "startChar": 6,

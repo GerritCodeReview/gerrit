@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffe9f445_8bca6c3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "It can be made darker.\n\nI was hesitant in doing it since we are deviating from the spec but otoh it is technically a regression since GrOverlay made it darker.\nMaybe we can decide in the change that makes the common style file to decide what is the best solution.",
+      "parentUuid": "346e6875_2f64e0ff",
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96fd74e1_0ce5c335",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-10-26T11:57:27Z",
       "side": 1,
       "message": "Can we also update the comment here.\n\n- Reference to Overlay is outdated\n- \"Just\" doesn\u0027t add information\n\n```suggestion\n  /** Reflects the `opened` state of the reply dialog. */\n```",
+      "range": {
+        "startLine": 527,
+        "startChar": 6,
+        "endLine": 527,
+        "endChar": 53
+      },
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc8c6158_c8181c24",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96fd74e1_0ce5c335",
       "range": {
         "startLine": 527,
         "startChar": 6,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d31061_d793e091",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "I\u0027ll send a follow up change.",
+      "parentUuid": "eaa7a0b2_835821a0",
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4d8f280_99b8158c",
@@ -88,6 +148,30 @@
       "writtenOn": "2022-10-26T11:57:27Z",
       "side": 1,
       "message": "```suggestion\n  private onReplyModalCanceled() {\n```",
+      "range": {
+        "startLine": 1949,
+        "startChar": 10,
+        "endLine": 1949,
+        "endChar": 30
+      },
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89dd48bb_37bacca3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4d8f280_99b8158c",
       "range": {
         "startLine": 1949,
         "startChar": 10,
@@ -121,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c350ed38_8a5191eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2599,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306d286e_27df058e",
+      "range": {
+        "startLine": 2599,
+        "startChar": 6,
+        "endLine": 2599,
+        "endChar": 76
+      },
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fba6a65a_02f0d4af",
@@ -134,6 +242,30 @@
       "writtenOn": "2022-10-26T11:57:27Z",
       "side": 1,
       "message": "nit: this assignment doesn\u0027t seem useful. Doesn\u0027t particularly save any space or improve readability.",
+      "range": {
+        "startLine": 2600,
+        "startChar": 6,
+        "endLine": 2600,
+        "endChar": 38
+      },
+      "revId": "8e572a63de236cf03625ce2609720f4ceeeb9a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f3d04d_0111375d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2600,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-26T12:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fba6a65a_02f0d4af",
       "range": {
         "startLine": 2600,
         "startChar": 6,

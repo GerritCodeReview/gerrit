@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c6bee7_43a29e5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-26T19:06:05Z",
+      "side": 1,
+      "message": "True, but then @hiesel@google.com gave a -2 to I377d4f335b because this feature is actually used by chromium-review.googlesource.com.\n\nI am fine in leaving this out with the aim to tentatively remove the feature in Gerrit v3.8?",
+      "parentUuid": "f67ff5d8_1d7495f2",
+      "revId": "65207fcee23b2c001536ab58970b49085576fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc3da31d_f07f038d",

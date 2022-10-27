@@ -56,6 +56,7 @@ import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {FileMode} from '../../../utils/file-util';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -314,6 +315,34 @@ suite('gr-file-list tests', () => {
             <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
             <gr-file-status></gr-file-status>
           </div>
+        `
+      );
+    });
+
+    test('renders file mode', async () => {
+      element.files = createFiles(1, {
+        old_mode: FileMode.REGULAR_FILE,
+        new_mode: FileMode.EXECUTABLE_FILE,
+      });
+      element.filesLeftBase = createFiles(1, {lines_inserted: 9});
+      await element.updateComplete;
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+      const statusCol = queryAndAssert(
+        fileRows?.[0],
+        '.path gr-tooltip-content'
+      );
+      assert.dom.equal(
+        statusCol,
+        /* HTML */ `
+          <gr-tooltip-content
+            has-tooltip=""
+            title="file mode changed from regular (100644) to executable (100755)"
+          >
+            <div class="file-mode-content">
+              <gr-icon class="file-mode-arrow" icon="warning"> </gr-icon>
+              (executable)
+            </div>
+          </gr-tooltip-content>
         `
       );
     });

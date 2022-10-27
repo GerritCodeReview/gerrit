@@ -69,6 +69,7 @@ import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
+import {expandFileMode} from '../../../utils/file-util';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -1765,19 +1766,18 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // Private but used in tests.
   computeDiffHeaderItems() {
-    if (!this.diff || !this.diff.diff_header) {
-      return [];
-    }
-    return this.diff.diff_header.filter(
-      item =>
-        !(
-          item.startsWith('diff --git ') ||
-          item.startsWith('index ') ||
-          item.startsWith('+++ ') ||
-          item.startsWith('--- ') ||
-          item === 'Binary files differ'
-        )
-    );
+    return (this.diff?.diff_header ?? [])
+      .filter(
+        item =>
+          !(
+            item.startsWith('diff --git ') ||
+            item.startsWith('index ') ||
+            item.startsWith('+++ ') ||
+            item.startsWith('--- ') ||
+            item === 'Binary files differ'
+          )
+      )
+      .map(expandFileMode);
   }
 
   private handleFullBypass() {

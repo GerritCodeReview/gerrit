@@ -31,15 +31,13 @@ import {GroupDetailView} from '../../../models/views/group';
 import {EditViewState} from '../../../models/views/edit';
 import {ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
-import {DependencyRequestEvent} from '../../../models/dependency';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
 
   setup(() => {
-    document.dispatchEvent(
-      new DependencyRequestEvent(routerToken, x => (router = x))
-    );
+    router = testResolver(routerToken);
   });
 
   test('getHashFromCanonicalPath', () => {

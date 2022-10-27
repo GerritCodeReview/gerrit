@@ -246,7 +246,7 @@ export class GrChangeView extends LitElement {
 
   @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
 
-  @query('#downloadOverlay') downloadOverlay?: GrOverlay;
+  @query('#downloadModal') downloadModal?: HTMLDialogElement;
 
   @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
 
@@ -1185,7 +1185,7 @@ export class GrChangeView extends LitElement {
         .change=${this.change}
         .changeNum=${this.changeNum}
       ></gr-apply-fix-dialog>
-      <gr-overlay id="downloadOverlay" with-backdrop="">
+      <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
@@ -1193,7 +1193,7 @@ export class GrChangeView extends LitElement {
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
-      </gr-overlay>
+      </dialog>
       <gr-overlay id="includedInOverlay" with-backdrop="">
         <gr-included-in-dialog
           id="includedInDialog"
@@ -1974,18 +1974,18 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests
   handleOpenDownloadDialog() {
-    assertIsDefined(this.downloadOverlay);
-    this.downloadOverlay.open().then(() => {
-      assertIsDefined(this.downloadOverlay);
+    assertIsDefined(this.downloadModal);
+    this.downloadModal.showModal();
+    whenVisible(this.downloadModal, () => {
+      assertIsDefined(this.downloadModal);
       assertIsDefined(this.downloadDialog);
-      this.downloadOverlay.setFocusStops(this.downloadDialog.getFocusStops());
       this.downloadDialog.focus();
     });
   }
 
   private handleDownloadDialogClose() {
-    assertIsDefined(this.downloadOverlay);
-    this.downloadOverlay.close();
+    assertIsDefined(this.downloadModal);
+    this.downloadModal.close();
   }
 
   // Private but used in tests.

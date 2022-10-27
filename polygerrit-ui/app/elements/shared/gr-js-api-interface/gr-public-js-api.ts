@@ -13,7 +13,7 @@ import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {getPluginEndpoints} from './gr-plugin-endpoints';
+import {GrPluginEndpoints} from './gr-plugin-endpoints';
 import {getPluginNameFromUrl, send} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
 import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
@@ -68,7 +68,8 @@ export class Plugin implements PluginApi {
     private readonly jsApi: JsApiService,
     private readonly report: ReportingService,
     private readonly restApiService: RestApiService,
-    private readonly pluginsModel: PluginsModel
+    private readonly pluginsModel: PluginsModel,
+    private readonly pluginEndpoints: GrPluginEndpoints
   ) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -96,7 +97,7 @@ export class Plugin implements PluginApi {
       `The deprecated plugin API 'registerStyleModule()' was called with parameters '${endpoint}' and '${moduleName}'.`
     );
     this.report.trackApi(this, 'plugin', 'registerStyleModule');
-    getPluginEndpoints().registerModule(this, {
+    this.pluginEndpoints.registerModule(this, {
       endpoint,
       type: EndpointType.STYLE,
       moduleName,
@@ -148,7 +149,7 @@ export class Plugin implements PluginApi {
     const slot = options?.slot ?? '';
     const domHook = this.domHooks.getDomHook<T>(endpoint, moduleName);
     moduleName = moduleName || domHook.getModuleName();
-    getPluginEndpoints().registerModule(this, {
+    this.pluginEndpoints.registerModule(this, {
       slot,
       endpoint,
       type,

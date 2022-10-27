@@ -17,7 +17,6 @@ import '../gr-change-list-column-requirement/gr-change-list-column-requirement';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
@@ -142,9 +141,10 @@ export class GrChangeListItem extends LitElement {
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-list-item-cell'
-        );
+        this.dynamicCellEndpoints =
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-list-item-cell'
+          );
       });
     this.addEventListener('click', this.onItemClick);
   }

@@ -21,7 +21,6 @@ import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {diffFilePaths, pluralize} from '../../../utils/string-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getAppContext} from '../../../services/app-context';
 import {
   DiffViewMode,
@@ -846,23 +845,26 @@ export class GrFileList extends LitElement {
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this.dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-header'
-        );
-        this.dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-content'
-        );
+        this.dynamicHeaderEndpoints =
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-view-file-list-header'
+          );
+        this.dynamicContentEndpoints =
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-view-file-list-content'
+          );
         this.dynamicPrependedHeaderEndpoints =
-          getPluginEndpoints().getDynamicEndpoints(
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
             'change-view-file-list-header-prepend'
           );
         this.dynamicPrependedContentEndpoints =
-          getPluginEndpoints().getDynamicEndpoints(
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
             'change-view-file-list-content-prepend'
           );
-        this.dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-summary'
-        );
+        this.dynamicSummaryEndpoints =
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-view-file-list-summary'
+          );
 
         if (
           this.dynamicHeaderEndpoints.length !==

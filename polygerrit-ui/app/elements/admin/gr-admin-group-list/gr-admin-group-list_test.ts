@@ -15,7 +15,6 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
@@ -83,13 +82,7 @@ suite('gr-admin-group-list tests', () => {
             <tbody class="loading"></tbody>
           </table>
         </gr-list-view>
-        <gr-overlay
-          aria-hidden="true"
-          id="createOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="createModal" tabindex="-1">
           <gr-dialog
             class="confirmDialog"
             confirm-label="Create"
@@ -104,7 +97,7 @@ suite('gr-admin-group-list tests', () => {
               </gr-create-group-dialog>
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
       `
     );
   });
@@ -127,18 +120,18 @@ suite('gr-admin-group-list tests', () => {
       assert.equal(element.groups.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
 
-    test('maybeOpenCreateOverlay', () => {
-      const overlayOpen = sinon.stub(
-        queryAndAssert<GrOverlay>(element, '#createOverlay'),
-        'open'
+    test('maybeOpenCreateModal', () => {
+      const modalOpen = sinon.stub(
+        queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+        'showModal'
       );
-      element.maybeOpenCreateOverlay();
-      assert.isFalse(overlayOpen.called);
-      element.maybeOpenCreateOverlay(undefined);
-      assert.isFalse(overlayOpen.called);
+      element.maybeOpenCreateModal();
+      assert.isFalse(modalOpen.called);
+      element.maybeOpenCreateModal(undefined);
+      assert.isFalse(modalOpen.called);
       value.openCreateModal = true;
-      element.maybeOpenCreateOverlay(value);
-      assert.isTrue(overlayOpen.called);
+      element.maybeOpenCreateModal(value);
+      assert.isTrue(modalOpen.called);
     });
   });
 
@@ -205,9 +198,10 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('handleCreateClicked opens modal', () => {
-      const openStub = sinon
-        .stub(queryAndAssert<GrOverlay>(element, '#createOverlay'), 'open')
-        .returns(Promise.resolve());
+      const openStub = sinon.stub(
+        queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+        'showModal'
+      );
       element.handleCreateClicked();
       assert.isTrue(openStub.called);
     });

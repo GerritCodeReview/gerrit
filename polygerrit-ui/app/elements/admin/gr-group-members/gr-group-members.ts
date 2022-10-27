@@ -7,10 +7,9 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-modal/gr-modal';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {getBaseUrl} from '../../../utils/url-util';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   GroupId,
   AccountId,
@@ -63,7 +62,7 @@ declare global {
 
 @customElement('gr-group-members')
 export class GrGroupMembers extends LitElement {
-  @query('#overlay') protected overlay!: GrOverlay;
+  @query('#modal') protected modal!: HTMLDialogElement;
 
   @property({type: String})
   groupId?: GroupId;
@@ -258,7 +257,7 @@ export class GrGroupMembers extends LitElement {
           </div>
         </div>
       </div>
-      <gr-overlay id="overlay" with-backdrop>
+      <dialog id="modal" tabindex="-1">
         <gr-confirm-delete-item-dialog
           class="confirmDialog"
           .item=${this.itemName}
@@ -266,7 +265,7 @@ export class GrGroupMembers extends LitElement {
           @confirm=${this.handleDeleteConfirm}
           @cancel=${this.handleConfirmDialogCancel}
         ></gr-confirm-delete-item-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -411,7 +410,7 @@ export class GrGroupMembers extends LitElement {
     if (!this.groupName) {
       return Promise.reject(new Error('group name undefined'));
     }
-    this.overlay.close();
+    this.modal.close();
     if (this.itemType === ItemType.MEMBER) {
       return this.restApiService
         .deleteGroupMember(this.groupName, this.itemId! as AccountId)
@@ -457,7 +456,7 @@ export class GrGroupMembers extends LitElement {
   }
 
   private handleConfirmDialogCancel() {
-    this.overlay.close();
+    this.modal.close();
   }
 
   private handleDeleteMember(e: Event) {
@@ -472,7 +471,7 @@ export class GrGroupMembers extends LitElement {
     this.itemName = item;
     this.itemId = keys._account_id;
     this.itemType = ItemType.MEMBER;
-    this.overlay.open();
+    this.modal.showModal();
   }
 
   /* private but used in test */
@@ -525,7 +524,7 @@ export class GrGroupMembers extends LitElement {
     this.itemName = item;
     this.itemId = id;
     this.itemType = ItemType.INCLUDED_GROUP;
-    this.overlay.open();
+    this.modal.showModal();
   }
 
   /* private but used in test */

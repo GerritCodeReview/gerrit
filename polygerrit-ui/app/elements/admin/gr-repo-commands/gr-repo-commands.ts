@@ -17,7 +17,6 @@ import {
   RevisionPatchSetNum,
   RepoName,
 } from '../../../types/common';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 import {
   fireAlert,
@@ -52,8 +51,8 @@ declare global {
 
 @customElement('gr-repo-commands')
 export class GrRepoCommands extends LitElement {
-  @query('#createChangeOverlay')
-  private readonly createChangeOverlay?: GrOverlay;
+  @query('#createChangeModal')
+  private readonly createChangeModal?: HTMLDialogElement;
 
   @query('#createNewChangeModal')
   private readonly createNewChangeModal?: GrCreateChangeDialog;
@@ -155,7 +154,7 @@ export class GrRepoCommands extends LitElement {
           </div>
         </div>
       </div>
-      <gr-overlay id="createChangeOverlay" with-backdrop>
+      <dialog id="createChangeModal" tabindex="-1">
         <gr-dialog
           id="createChangeDialog"
           confirm-label="Create"
@@ -179,7 +178,7 @@ export class GrRepoCommands extends LitElement {
             ></gr-create-change-dialog>
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -241,8 +240,8 @@ export class GrRepoCommands extends LitElement {
 
   // private but used in test
   createNewChange() {
-    assertIsDefined(this.createChangeOverlay, 'createChangeOverlay');
-    this.createChangeOverlay.open();
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    this.createChangeModal.showModal();
   }
 
   // private but used in test
@@ -257,8 +256,8 @@ export class GrRepoCommands extends LitElement {
 
   // private but used in test
   handleCloseCreateChange() {
-    assertIsDefined(this.createChangeOverlay, 'createChangeOverlay');
-    this.createChangeOverlay.close();
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    this.createChangeModal.close();
   }
 
   /**

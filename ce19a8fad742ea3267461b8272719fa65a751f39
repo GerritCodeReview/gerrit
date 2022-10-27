@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3dffe39_37e6788d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-27T15:37:00Z",
+      "side": 1,
+      "message": "Unfortunately, the CI failure is one that already is present on the tip of stable-3.5.\n\nFAILED: //javatests/com/google/gerrit/server/query/change:LuceneQueryChangesLatestIndexVersionTest (Summary)\n      /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/server/query/change/LuceneQueryChangesLatestIndexVersionTest/test.log",
+      "revId": "ce19a8fad742ea3267461b8272719fa65a751f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

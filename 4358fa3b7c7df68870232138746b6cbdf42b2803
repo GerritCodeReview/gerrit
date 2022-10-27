@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f83ca7c1_66c867c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-27T15:53:40Z",
+      "side": 1,
+      "message": "It seems more text has been deleted in PS7?",
+      "parentUuid": "a764f34b_846bb290",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9afb839_fb0e76b8",

@@ -36,7 +36,11 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
+import {
+  querySelectorAll,
+  whenVisible,
+  windowLocationReload,
+} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -821,6 +825,17 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+  }
+
+  override firstUpdated() {
+    // _onTabSizingChanged is called when iron-items-changed event is fired
+    // from iron-selectable but that is called before the element is present
+    // in view which whereas the method requires paper tabs already be visible
+    // as it relies on dom rect calculation.
+    // _onTabSizingChanged ensures the primary tab(Files/Comments/Checks) is
+    // underlined.
+    assertIsDefined(this.tabs, 'tabs');
+    whenVisible(this.tabs, () => this.tabs!._onTabSizingChanged());
   }
 
   /**

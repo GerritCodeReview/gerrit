@@ -65,6 +65,7 @@ import {
   PluginLoader,
   pluginLoaderToken,
 } from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {authServiceToken} from './gr-auth/gr-auth';
 
 /**
  * The AppContext lazy initializator for all services
@@ -98,6 +99,7 @@ export function createAppDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   return new Map<DependencyToken<unknown>, Creator<unknown>>([
+    [authServiceToken, () => appContext.authService],
     [routerModelToken, () => new RouterModel()],
     [userModelToken, () => new UserModel(appContext.restApiService)],
     [browserModelToken, () => new BrowserModel(resolver(userModelToken))],

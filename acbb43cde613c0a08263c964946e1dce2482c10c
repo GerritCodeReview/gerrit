@@ -16,6 +16,29 @@
       "message": "Fix typo/wording of rest-api documentation.",
       "revId": "acbb43cde613c0a08263c964946e1dce2482c10c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d027b52_ca17ff07",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-27T08:14:58Z",
+      "side": 1,
+      "message": "@Nullable Integer",
+      "range": {
+        "startLine": 84,
+        "startChar": 79,
+        "endLine": 84,
+        "endChar": 82
+      },
+      "revId": "acbb43cde613c0a08263c964946e1dce2482c10c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

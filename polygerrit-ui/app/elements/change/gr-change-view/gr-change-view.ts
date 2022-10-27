@@ -105,7 +105,12 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {assertIsDefined, assert, queryAll} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  assert,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -794,6 +799,16 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+  }
+
+  override firstUpdated() {
+    // _onTabSizingChanged is called when iron-items-changed event is fired
+    // from iron-selectable but that is called before the element is present
+    // in view which whereas the method requires paper tabs already be visible
+    // as it relies on dom rect calculation. Hence explicitly call the method
+    // so that the primaryTab is always underlined
+    const paperTabs = queryAndAssert<PaperTabsElement>(this, 'paper-tabs');
+    whenVisible(paperTabs, () => paperTabs._onTabSizingChanged());
   }
 
   /**

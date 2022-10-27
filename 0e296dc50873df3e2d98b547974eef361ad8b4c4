@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdbfb00e_92dbe6ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-27T13:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2838d72_38eff125",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "132ad5e7_b256caee",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fea35f9f_315a8809",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-27T13:49:07Z",
+      "side": 1,
+      "message": "Actually, this should simply be new FooImpl()",
+      "parentUuid": "132ad5e7_b256caee",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37694858_c24217cc",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-10-27T13:38:08Z",
       "side": 1,
       "message": "why is `!` needed if you are guarding it in the `if` above?",
+      "range": {
+        "startLine": 267,
+        "startChar": 24,
+        "endLine": 267,
+        "endChar": 25
+      },
+      "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5eb5f28_a72304fa",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-27T13:49:07Z",
+      "side": 1,
+      "message": "Because it wasn\u0027t returning, fixed by moving the throw aspect into this function.",
+      "parentUuid": "37694858_c24217cc",
       "range": {
         "startLine": 267,
         "startChar": 24,

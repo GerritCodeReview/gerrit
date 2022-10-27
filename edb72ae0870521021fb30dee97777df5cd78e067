@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c488fe_11575108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-27T22:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc798a52_7d30be5e",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "964b3054_77f70e3a",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "This looks like a hack since it only works for repos imported from one additional server. Ideally change numbers would be created per project. Though I am not sure what\u0027s in the way of reaching that. Which functionality depends on the Lucene index on the change number ?",
       "parentUuid": "964b3054_77f70e3a",
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8f81e09_60c33f0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-27T22:30:08Z",
+      "side": 1,
+      "message": "\u003e This looks like a hack\n\nYes, it is definitely a stretch. For some reasons, we decided to rely on the change number for defining the primary key of an entry in Lucene.\n\n\u003e since it only works for repos imported from one additional server. \n\nCorrect, that\u0027s the reason why this is still WIP as we cannot really merge it as-is with the negative numbers.\n\n\u003e Ideally change numbers would be created per project.\n\nYes, or per-server-id as Jacek suggested. A sort of \"number space allocation\" so that each server has its own change number space.\n\n\u003e Though I am not sure what\u0027s in the way of reaching that.\n\nI\u0027d love to have the legacy change number added with the project name. As a matter of fact, Gerrit cannot identify a change without its project name: even the legacy change number relies on a Lucene lookup to find the project.\n\n\u003e Which functionality depends on the Lucene index on the change number ?\n\nWell, because the change number is the primary key, you cannot have in Lucene two documents with the same key. If you try, it *seems* to work but then it behaves in unexpected ways, removing or updating the wrong entries.",
+      "parentUuid": "efc682f6_2f5aa375",
       "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

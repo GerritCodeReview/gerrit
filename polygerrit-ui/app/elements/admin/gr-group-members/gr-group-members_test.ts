@@ -346,16 +346,10 @@ suite('gr-group-members tests', () => {
             </div>
           </div>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="overlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="modal" tabindex="-1">
           <gr-confirm-delete-item-dialog class="confirmDialog">
           </gr-confirm-delete-item-dialog>
-        </gr-overlay>
+        </dialog>
       `
     );
   });

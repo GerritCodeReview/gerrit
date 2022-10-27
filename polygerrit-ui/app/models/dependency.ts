@@ -47,7 +47,7 @@ import {ReactiveController, ReactiveControllerHost} from 'lit';
  * ---
  *
  * Ancestor components will inject the dependencies that a child component
- * requires by providing factories for those values.
+ * requires by providing providers for those values.
  *
  *
  * To provide a dependency, a component needs to specify the following prior

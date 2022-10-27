@@ -796,6 +796,17 @@ export class GrChangeView extends LitElement {
     document.addEventListener('scroll', this.handleScroll);
   }
 
+  override firstUpdated() {
+    // _onTabSizingChanged is called when iron-items-changed event is fired
+    // from iron-selectable but that is called before the element is present
+    // in view which whereas the method requires paper tabs already be visible
+    // as it relies on dom rect calculation.
+    // _onTabSizingChanged ensures the primary tab(Files/Comments/Checks) is
+    // underlined.
+    assertIsDefined(this.tabs, 'tabs');
+    whenVisible(this.tabs, () => this.tabs!._onTabSizingChanged());
+  }
+
   /**
    * For initialization that should only happen once, not again when
    * re-connecting to the DOM later.

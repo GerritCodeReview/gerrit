@@ -631,14 +631,10 @@ suite('gr-diff-view tests', () => {
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>
-          <gr-overlay
-            aria-hidden="true"
-            id="downloadOverlay"
-            style="outline: none; display: none;"
-          >
+          <dialog id="downloadModal" tabindex="-1">
             <gr-download-dialog id="downloadDialog" role="dialog">
             </gr-download-dialog>
-          </gr-overlay>
+          </dialog>
         `
       );
     });
@@ -1077,12 +1073,10 @@ suite('gr-diff-view tests', () => {
       assert.equal(setUrlStub.callCount, 5);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/5..10');
 
-      assertIsDefined(element.downloadOverlay);
-      const downloadOverlayStub = sinon
-        .stub(element.downloadOverlay, 'open')
-        .returns(Promise.resolve());
+      assertIsDefined(element.downloadModal);
+      const downloadModalStub = sinon.stub(element.downloadModal, 'showModal');
       pressKey(element, 'd');
-      assert.isTrue(downloadOverlayStub.called);
+      assert.isTrue(downloadModalStub.called);
     });
 
     test('keyboard shortcuts with old patch number', () => {

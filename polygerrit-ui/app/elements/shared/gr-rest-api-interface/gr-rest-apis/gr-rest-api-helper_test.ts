@@ -9,14 +9,15 @@ import {
   FetchPromisesCache,
   GrRestApiHelper,
 } from './gr-rest-api-helper';
-import {getAppContext} from '../../../../services/app-context';
-import {stubAuth, waitEventLoop} from '../../../../test/test-utils';
+import {waitEventLoop} from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
 import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';
 import {ParsedJSON} from '../../../../types/common';
 import {HttpMethod} from '../../../../api/rest-api';
 import {SinonFakeTimers} from 'sinon';
 import {assert} from '@open-wc/testing';
+import {AuthService} from '../../../../services/gr-auth/gr-auth';
+import {GrAuthMock} from '../../../../services/gr-auth/gr-auth_mock';
 
 function makeParsedJSON<T>(val: T): ParsedJSON {
   return val as unknown as ParsedJSON;
@@ -32,6 +33,7 @@ suite('gr-rest-api-helper tests', () => {
   let authFetchStub: sinon.SinonStub;
   let readScheduler: FakeScheduler<Response>;
   let writeScheduler: FakeScheduler<Response>;
+  let authService: AuthService;
 
   setup(() => {
     clock = sinon.useFakeTimers();
@@ -42,7 +44,8 @@ suite('gr-rest-api-helper tests', () => {
     window.CANONICAL_PATH = 'testhelper';
 
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
-    authFetchStub = stubAuth('fetch').returns(
+    authService = new GrAuthMock();
+    authFetchStub = sinon.stub(authService, 'fetch').returns(
       Promise.resolve({
         ...new Response(),
         ok: true,
@@ -57,7 +60,7 @@ suite('gr-rest-api-helper tests', () => {
 
     helper = new GrRestApiHelper(
       cache,
-      getAppContext().authService,
+      authService,
       fetchPromisesCache,
       readScheduler,
       writeScheduler
@@ -270,7 +273,7 @@ suite('gr-rest-api-helper tests', () => {
     test('are retried', async () => {
       helper = new GrRestApiHelper(
         cache,
-        getAppContext().authService,
+        authService,
         fetchPromisesCache,
         new RetryScheduler<Response>(readScheduler, 1, 50),
         writeScheduler

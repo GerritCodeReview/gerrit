@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a764f34b_846bb290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-27T15:34:11Z",
+      "side": 1,
+      "message": "Right, somehow I missed a line. Done.",
+      "parentUuid": "11211120_b8a8eb08",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9afb839_fb0e76b8",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30936d0a_bdb348b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-27T15:34:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9afb839_fb0e76b8",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f98cf8ce_1243393f",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-10-27T13:07:08Z",
       "side": 1,
       "message": "I don\u0027t see this as a StorageException, maybe use IllegalArgumentException?",
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc3ae35_92f6ee40",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-27T15:34:11Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "f98cf8ce_1243393f",
       "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

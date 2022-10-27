@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {resetPlugins} from '../../../test/test-utils';
 import './gr-js-api-interface';
 import {GrPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
@@ -68,10 +67,6 @@ suite('gr-plugin-endpoints tests', () => {
       moduleName: 'style-module',
       domHook,
     });
-  });
-
-  teardown(() => {
-    resetPlugins();
   });
 
   test('getDetails all', () => {

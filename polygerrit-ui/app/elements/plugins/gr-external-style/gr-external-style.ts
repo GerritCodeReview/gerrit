@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {LitElement, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -64,7 +63,9 @@ export class GrExternalStyle extends LitElement {
   }
 
   private importAndApply() {
-    const moduleNames = getPluginEndpoints().getModules(this.name);
+    const moduleNames = this.getPluginLoader().pluginEndPoints.getModules(
+      this.name
+    );
     for (const name of moduleNames) {
       this.applyStyle(name);
     }

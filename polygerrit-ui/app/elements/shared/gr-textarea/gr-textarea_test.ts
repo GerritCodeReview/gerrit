@@ -633,12 +633,6 @@ suite('gr-textarea tests', () => {
   });
 
   suite('gr-textarea monospace', () => {
-    // gr-textarea set monospace class in the ready() method.
-    // In Polymer2, ready() is called from the fixture(...) method,
-    // If ready() is called again later, some nested elements doesn't
-    // handle it correctly. A separate test-fixture is used to set
-    // properties before ready() is called.
-
     let element: GrTextarea;
 
     setup(async () => {
@@ -654,12 +648,6 @@ suite('gr-textarea tests', () => {
   });
 
   suite('gr-textarea hideBorder', () => {
-    // gr-textarea set noBorder class in the ready() method.
-    // In Polymer2, ready() is called from the fixture(...) method,
-    // If ready() is called again later, some nested elements doesn't
-    // handle it correctly. A separate test-fixture is used to set
-    // properties before ready() is called.
-
     let element: GrTextarea;
 
     setup(async () => {

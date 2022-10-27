@@ -141,22 +141,6 @@ function checkChildAllowed(element: Element) {
   if (allowedTags.includes(element.tagName)) {
     return;
   }
-  if (element.tagName === 'TEST-FIXTURE') {
-    if (
-      element.children.length === 0 ||
-      (element.children.length === 1 &&
-        element.children[0].tagName === 'TEMPLATE')
-    ) {
-      return;
-    }
-    assert.fail(
-      `Test fixture
-        ${element.outerHTML}` +
-        "isn't resotred after the test is finished. Please ensure that " +
-        'restore() method is called for this test-fixture. Usually the call' +
-        'happens automatically.'
-    );
-  }
   if (
     element.tagName === 'DIV' &&
     element.id === 'gr-hovercard-container' &&

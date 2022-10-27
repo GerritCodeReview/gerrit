@@ -20,7 +20,6 @@ import {
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {getAppContext} from '../app-context';
 import {Finalizable} from '../registry';
 import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
 import {
@@ -254,13 +253,13 @@ interface GetDiffParams {
 
 type SendChangeRequest = SendRawChangeRequest | SendJSONChangeRequest;
 
-export function _testOnlyResetGrRestApiSharedObjects() {
+export function _testOnlyResetGrRestApiSharedObjects(authService: AuthService) {
   siteBasedCache = new SiteBasedCache();
   fetchPromisesCache = new FetchPromisesCache();
   pendingRequest = {};
   grEtagDecorator = new GrEtagDecorator();
   projectLookup = {};
-  getAppContext().authService.clearCache();
+  authService.clearCache();
 }
 
 function createReadScheduler() {

@@ -8,7 +8,6 @@ import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/g
 import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy, SinonStub} from 'sinon';
-import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
@@ -105,10 +104,6 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
-}
-
-export function stubAuth<K extends keyof AuthService>(method: K) {
-  return sinon.stub(getAppContext().authService, method);
 }
 
 export function stubReporting<K extends keyof ReportingService>(method: K) {

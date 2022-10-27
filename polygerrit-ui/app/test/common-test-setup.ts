@@ -127,7 +127,7 @@ setup(() => {
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
   testResolver(pluginLoaderToken).loadPlugins([]);
-  _testOnlyResetGrRestApiSharedObjects();
+  _testOnlyResetGrRestApiSharedObjects(appContext.authService);
 });
 
 export function removeRequestDependencyListener() {

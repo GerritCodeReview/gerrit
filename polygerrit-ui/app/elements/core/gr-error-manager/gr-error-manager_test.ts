@@ -11,7 +11,6 @@ import {
   __testOnly_ErrorType,
 } from './gr-error-manager';
 import {
-  stubAuth,
   stubReporting,
   stubRestApi,
   waitEventLoop,
@@ -26,6 +25,8 @@ import {waitUntil} from '../../../test/test-utils';
 import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
 import {EventType} from '../../../types/events';
+import {testResolver} from '../../../test/common-test-setup';
+import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 
 suite('gr-error-manager tests', () => {
   let element: GrErrorManager;
@@ -37,9 +38,9 @@ suite('gr-error-manager tests', () => {
     let appContext: AppContext;
 
     setup(async () => {
-      fetchStub = stubAuth('fetch').returns(
-        Promise.resolve({...new Response(), ok: true, status: 204})
-      );
+      fetchStub = sinon
+        .stub(testResolver(authServiceToken), 'fetch')
+        .returns(Promise.resolve({...new Response(), ok: true, status: 204}));
       appContext = getAppContext();
       getLoggedInStub = stubRestApi('getLoggedIn').callsFake(() =>
         appContext.authService.authCheck()

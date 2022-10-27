@@ -113,6 +113,8 @@ const appThemeCss = safeStyleSheet`
     --white-10: #ffffff1a;
     --white-12: #ffffff1f;
 
+    --modal-opacity: 0.32;
+
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
     --error-background-hover: linear-gradient(

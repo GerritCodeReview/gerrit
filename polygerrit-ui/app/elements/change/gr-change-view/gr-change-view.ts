@@ -2684,6 +2684,11 @@ export class GrChangeView extends LitElement {
         change => change?.status === ChangeStatus.MERGED
       );
       if (!this.changeStatuses) return;
+      // Protect against `computeRevertSubmitted()` being called twice.
+      // TODO: Convert this to be rxjs based, so computeRevertSubmitted() is not
+      // actively called, but instead we can subscribe to something.
+      if (this.changeStatuses.includes(ChangeStates.REVERT_SUBMITTED)) return;
+      if (this.changeStatuses.includes(ChangeStates.REVERT_CREATED)) return;
       if (submittedRevert) {
         this.revertedChange = submittedRevert;
         this.changeStatuses = this.changeStatuses.concat([

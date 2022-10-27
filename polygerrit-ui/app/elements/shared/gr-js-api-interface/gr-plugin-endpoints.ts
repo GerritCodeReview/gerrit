@@ -166,12 +166,3 @@ export class GrPluginEndpoints {
   }
 }
 
-let pluginEndpoints = new GrPluginEndpoints();
-
-// To avoid mutable-exports, we don't want to export above variable directly
-export function getPluginEndpoints() {
-  return pluginEndpoints;
-}
-export function _testOnly_resetEndpoints() {
-  pluginEndpoints = new GrPluginEndpoints();
-}

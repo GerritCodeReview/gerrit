@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {mockPromise, MockPromise, resetPlugins} from '../../../test/test-utils';
+import {mockPromise, MockPromise} from '../../../test/test-utils';
 import './gr-external-style';
 import {GrExternalStyle} from './gr-external-style';
 import {PluginApi} from '../../../api/plugin';
@@ -67,7 +67,6 @@ suite('gr-external-style integration tests', () => {
   });
 
   teardown(() => {
-    resetPlugins();
     document.body
       .querySelectorAll('custom-style')
       .forEach(style => style.remove());

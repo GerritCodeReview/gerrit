@@ -5,12 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import '../../change/gr-change-actions/gr-change-actions';
-import {
-  query,
-  queryAll,
-  queryAndAssert,
-  resetPlugins,
-} from '../../../test/test-utils';
+import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {fixture, html, assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
@@ -33,7 +28,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
 
   suite('early init', () => {
     setup(async () => {
-      resetPlugins();
       window.Gerrit.install(
         p => {
           plugin = p;
@@ -49,10 +43,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
       `);
     });
 
-    teardown(() => {
-      resetPlugins();
-    });
-
     test('does not throw', () => {
       assert.doesNotThrow(() => {
         changeActions.add(ActionType.CHANGE, 'foo');
@@ -62,7 +52,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
 
   suite('normal init', () => {
     setup(async () => {
-      resetPlugins();
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
@@ -78,10 +67,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
       testResolver(pluginLoaderToken).loadPlugins([]);
-    });
-
-    teardown(() => {
-      resetPlugins();
     });
 
     test('property existence', () => {

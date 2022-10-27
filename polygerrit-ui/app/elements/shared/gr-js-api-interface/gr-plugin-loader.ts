@@ -11,7 +11,7 @@ import {
 } from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
-import {getPluginEndpoints} from './gr-plugin-endpoints';
+import {GrPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
@@ -106,6 +106,8 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   public readonly pluginsModel: PluginsModel;
 
+  public pluginEndPoints: GrPluginEndpoints;
+
   constructor(
     private readonly reportingService: ReportingService,
     private readonly restApiService: RestApiService
@@ -115,19 +117,10 @@ export class PluginLoader implements Gerrit, Finalizable {
       this.reportingService
     );
     this.pluginsModel = new PluginsModel();
+    this.pluginEndPoints = new GrPluginEndpoints();
   }
 
-  reset() {
-    this.pluginListLoaded = false;
-    this.plugins = new Map<string, PluginObject>();
-    this.loadingPromise = null;
-    this.loadingResolver = null;
-    this.instanceId = undefined;
-  }
-
-  finalize() {
-    this.reset();
-  }
+  finalize() {}
 
   /**
    * Use the plugin name or use the full url if not recognized.
@@ -226,7 +219,8 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.jsApiService,
         this.reportingService,
         this.restApiService,
-        this.pluginsModel
+        this.pluginsModel,
+        this.pluginEndPoints
       );
     }
     try {
@@ -252,7 +246,7 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   private checkIfCompleted() {
     if (this.arePluginsLoaded()) {
-      getPluginEndpoints().setPluginsReady();
+      this.pluginEndPoints.setPluginsReady();
       if (this.loadingResolver) {
         this.loadingResolver();
         this.loadingResolver = null;

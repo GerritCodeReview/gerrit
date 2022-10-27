@@ -105,7 +105,7 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {assertIsDefined, assert, queryAll} from '../../../utils/common-util';
+import {assertIsDefined, assert, queryAll, queryAndAssert} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -794,6 +794,11 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+  }
+
+  override updated() {
+    const paperTabs = queryAndAssert<PaperTabsElement>(this, 'paper-tabs');
+    paperTabs._onTabSizingChanged();
   }
 
   /**

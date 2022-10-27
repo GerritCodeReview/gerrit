@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85069b40_764e1d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T09:21:13Z",
+      "side": 1,
+      "message": "with your change the HTTP tab no longer starts selected for me. On HEAD it still selects fine. https://imgur.com/a/dO5hxEq",
+      "revId": "dd09f2c95e120d6b350799f042a536059ea81786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

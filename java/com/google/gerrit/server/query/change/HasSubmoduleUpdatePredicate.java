@@ -49,7 +49,7 @@ public class HasSubmoduleUpdatePredicate extends SubmitRequirementPredicate {
   }
 
   @Inject
-  public HasSubmoduleUpdatePredicate(
+  HasSubmoduleUpdatePredicate(
       DiffOperations diffOperations, GitRepositoryManager repoManager, @Assisted int base) {
     super("has", SUBMODULE_UPDATE_HAS_ARG);
     this.diffOperations = diffOperations;

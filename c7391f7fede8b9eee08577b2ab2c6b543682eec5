@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffde8133_acb1f7c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T09:54:59Z",
+      "side": 1,
+      "message": "consider testing this situation",
+      "range": {
+        "startLine": 1234,
+        "startChar": 71,
+        "endLine": 1235,
+        "endChar": 76
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11cccd85_a915aaf4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T09:54:59Z",
+      "side": 1,
+      "message": "It\u0027s not an arrow. maybe s/arrow/change-warning/",
+      "range": {
+        "startLine": 1246,
+        "startChar": 54,
+        "endLine": 1246,
+        "endChar": 59
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0c34a1_8a773eb8",
+        "filename": "polygerrit-ui/app/utils/file-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T09:54:59Z",
+      "side": 1,
+      "message": "I guess we can\u0027t use replaceAll for some reason despite it supported everywhere since 2020, but maybe the function doc can mention that it only replaces the first occurence?",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0bb664_6fca7b53",
+        "filename": "polygerrit-ui/app/utils/file-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T09:54:59Z",
+      "side": 1,
+      "message": "Consider removing this line since it is not running your code at all.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

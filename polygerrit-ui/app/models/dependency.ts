@@ -47,14 +47,15 @@ import {ReactiveController, ReactiveControllerHost} from 'lit';
  * ---
  *
  * Ancestor components will inject the dependencies that a child component
- * requires by providing factories for those values.
+ * requires by providing providers for those values.
  *
  *
  * To provide a dependency, a component needs to specify the following prior
  * to finishing its connectedCallback:
  *
  * ```
- *   provide(this, fooToken, () => new FooImpl())
+ *   const fooImpl = new FooImpl();
+ *   provide(this, fooToken, () => fooImpl);
  * ```
  * Dependencies are injected as factories in case the construction of them
  * depends on other dependencies further up the component chain.  For instance,
@@ -63,7 +64,8 @@ import {ReactiveController, ReactiveControllerHost} from 'lit';
  *
  * ```
  *   const barRef = resolve(this, barToken);
- *   provide(this, fooToken, () => new FooImpl(barRef()));
+ *   const fooImpl = new FooImpl(barRef());
+ *   provide(this, fooToken, () => fooImpl);
  * ```
  *
  * Lifetime guarantees
@@ -188,7 +190,7 @@ type Callback<T> = (value: T) => void;
  */
 export interface DependencyRequest<T> {
   readonly dependency: DependencyToken<T>;
-  readonly callback: Callback<T>;
+  readonly callback: Callback<Provider<T>>;
 }
 
 declare global {
@@ -218,7 +220,7 @@ export class DependencyRequestEvent<T>
 {
   public constructor(
     public readonly dependency: DependencyToken<T>,
-    public readonly callback: Callback<T>
+    public readonly callback: Callback<Provider<T>>
   ) {
     super('request-dependency', {bubbles: true, composed: true});
   }
@@ -238,12 +240,20 @@ export class DependencyError<T> extends Error {
   }
 }
 
+function makeDependencyError<T>(
+  host: HTMLElement,
+  dependency: DependencyToken<T>
+): DependencyError<T> {
+  const dep = dependency.description;
+  const tag = host.tagName;
+  const msg = `Could not resolve dependency '${dep}' in '${tag}'`;
+  return new DependencyError(dependency, msg);
+}
+
 class DependencySubscriber<T>
   implements ReactiveController, ResolvedDependency<T>
 {
-  private value?: T;
-
-  private resolved = false;
+  private provider?: Provider<T>;
 
   constructor(
     private readonly host: ReactiveControllerHost & HTMLElement,
@@ -251,34 +261,26 @@ class DependencySubscriber<T>
   ) {}
 
   get() {
-    this.checkResolved();
-    return this.value!;
+    if (!this.provider) {
+      throw makeDependencyError(this.host, this.dependency);
+    }
+    return this.provider();
   }
 
   hostConnected() {
-    this.value = undefined;
-    this.resolved = false;
+    this.provider = undefined;
     this.host.dispatchEvent(
-      new DependencyRequestEvent(this.dependency, (value: T) => {
-        this.resolved = true;
-        this.value = value;
+      new DependencyRequestEvent(this.dependency, (provider: Provider<T>) => {
+        this.provider = provider;
       })
     );
-    this.checkResolved();
-  }
-
-  checkResolved() {
-    if (this.resolved) return;
-    const dep = this.dependency.description;
-    const tag = this.host.tagName;
-    const msg = `Could not resolve dependency '${dep}' in '${tag}'`;
-    throw new DependencyError(this.dependency, msg);
+    if (!this.provider) {
+      throw makeDependencyError(this.host, this.dependency);
+    }
   }
 }
 
 class DependencyProvider<T> implements ReactiveController {
-  private value?: T;
-
   constructor(
     private readonly host: ReactiveControllerHost & HTMLElement,
     private readonly dependency: DependencyToken<T>,
@@ -286,20 +288,17 @@ class DependencyProvider<T> implements ReactiveController {
   ) {}
 
   hostConnected() {
-    // Delay construction in case the provider has its own dependencies.
-    this.value = this.provider();
     this.host.addEventListener('request-dependency', this.fullfill);
   }
 
   hostDisconnected() {
     this.host.removeEventListener('request-dependency', this.fullfill);
-    this.value = undefined;
   }
 
   private readonly fullfill = (ev: DependencyRequestEvent<unknown>) => {
     if (ev.dependency !== this.dependency) return;
     ev.stopPropagation();
     ev.preventDefault();
-    ev.callback(this.value!);
+    ev.callback(this.provider);
   };
 }

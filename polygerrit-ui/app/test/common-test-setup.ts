@@ -94,7 +94,7 @@ export function testResolver<T>(token: DependencyToken<T>): T {
 }
 
 function resolveDependency(evt: DependencyRequestEvent<unknown>) {
-  evt.callback(testResolver(evt.dependency));
+  evt.callback(() => testResolver(evt.dependency));
 }
 
 setup(() => {

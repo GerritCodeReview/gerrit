@@ -119,6 +119,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c19f3a0_4b8df0b8",
+        "filename": "polygerrit-ui/app/utils/file-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T10:50:04Z",
+      "side": 1,
+      "message": "It is apparently in `lib: ES2021` according to https://www.typescriptlang.org/tsconfig#high-level-libraries",
+      "parentUuid": "7e092c15_1a510fb9",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f0bb664_6fca7b53",
         "filename": "polygerrit-ui/app/utils/file-util_test.ts",
         "patchSetId": 2

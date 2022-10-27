@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.server.approval.RecursiveApprovalCopier;
@@ -42,8 +43,8 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void multipleProjects() throws Exception {
-    projectOperations.newProject().name("secondProject").create();
-    TestRepository<InMemoryRepository> secondRepo = cloneProject(project, admin);
+    Project.NameKey secondProject = projectOperations.newProject().name("secondProject").create();
+    TestRepository<InMemoryRepository> secondRepo = cloneProject(secondProject, admin);
 
     PushOneCommit.Result change1 = createChange();
     gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.recommend());

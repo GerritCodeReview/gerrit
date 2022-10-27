@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b52eb76_367f9bf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-27T23:56:13Z",
+      "side": 1,
+      "message": "A very simple idea: the `legacy_id_str` is a long (64-bit). If we use 16-bit for the server-id and the remaining for the change-id, we would still have a large number of changes available (48-bit \u003d 562TN) and 131k different server-ids.\n\nWDYT?\n\nP.S. In the backlog for the ESC we should abandon the change number and start using UUIDs for changes, so that they remain the same everywhere, independently from the Gerrit server.",
+      "parentUuid": "a8f81e09_60c33f0d",
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b06f5811_08461cda",

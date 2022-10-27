@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {define} from '../../models/dependency';
 import {Finalizable} from '../registry';
 export enum AuthType {
   XSRF_TOKEN = 'xsrf_token',
@@ -33,6 +34,7 @@ export interface AuthRequestInit extends RequestInit {
   // Auth class supports only Headers in options
   headers?: Headers;
 }
+export const authServiceToken = define<AuthService>('auth-service');
 
 export interface AuthService extends Finalizable {
   baseUrl: string;

@@ -17,7 +17,6 @@ import {
   Tab,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
-import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {PluginApi} from '../../../api/plugin';
 import {
@@ -338,8 +337,6 @@ suite('gr-change-view tests', () => {
   ];
 
   setup(async () => {
-    // Since pluginEndpoints are global, must reset state.
-    _testOnly_resetEndpoints();
     setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
 
     stubRestApi('getConfig').returns(

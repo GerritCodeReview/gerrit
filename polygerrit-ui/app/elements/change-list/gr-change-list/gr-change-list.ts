@@ -10,7 +10,6 @@ import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getAppContext} from '../../../services/app-context';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AccountInfo,
@@ -185,7 +184,9 @@ export class GrChangeList extends LitElement {
       .awaitPluginsLoaded()
       .then(() => {
         this.dynamicHeaderEndpoints =
-          getPluginEndpoints().getDynamicEndpoints('change-list-header');
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-list-header'
+          );
       });
   }
 

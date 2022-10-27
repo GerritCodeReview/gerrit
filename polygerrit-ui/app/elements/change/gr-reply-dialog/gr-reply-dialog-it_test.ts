@@ -7,7 +7,6 @@ import '../../../test/common-test-setup';
 import './gr-reply-dialog';
 import {
   queryAndAssert,
-  resetPlugins,
   stubRestApi,
   waitEventLoop,
 } from '../../../test/test-utils';
@@ -82,10 +81,6 @@ suite('gr-reply-dialog-it tests', () => {
     await element.updateComplete;
   });
 
-  teardown(() => {
-    resetPlugins();
-  });
-
   test('submit blocked when invalid email is supplied to ccs', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
@@ -101,7 +96,6 @@ suite('gr-reply-dialog-it tests', () => {
   });
 
   test('lgtm plugin', async () => {
-    resetPlugins();
     window.Gerrit.install(
       plugin => {
         const replyApi = plugin.changeReply();

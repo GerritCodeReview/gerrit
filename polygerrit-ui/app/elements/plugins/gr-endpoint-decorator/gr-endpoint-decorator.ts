@@ -5,10 +5,7 @@
  */
 import {html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {
-  getPluginEndpoints,
-  ModuleInfo,
-} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {ModuleInfo} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
@@ -48,12 +45,17 @@ export class GrEndpointDecorator extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     assertIsDefined(this.name);
-    getPluginEndpoints().onNewEndpoint(this.name, this.initModule);
+    this.getPluginLoader().pluginEndPoints.onNewEndpoint(
+      this.name,
+      this.initModule
+    );
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         assertIsDefined(this.name);
-        const modules = getPluginEndpoints().getDetails(this.name);
+        const modules = this.getPluginLoader().pluginEndPoints.getDetails(
+          this.name
+        );
         for (const module of modules) {
           this.initModule(module);
         }
@@ -65,7 +67,10 @@ export class GrEndpointDecorator extends LitElement {
       domHook.handleInstanceDetached(el);
     }
     assertIsDefined(this.name);
-    getPluginEndpoints().onDetachedEndpoint(this.name, this.initModule);
+    this.getPluginLoader().pluginEndPoints.onDetachedEndpoint(
+      this.name,
+      this.initModule
+    );
     super.disconnectedCallback();
   }
 

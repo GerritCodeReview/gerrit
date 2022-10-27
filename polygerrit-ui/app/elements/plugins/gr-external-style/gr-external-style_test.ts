@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {mockPromise, MockPromise, resetPlugins} from '../../../test/test-utils';
+import {mockPromise, MockPromise} from '../../../test/test-utils';
 import './gr-external-style';
 import {GrExternalStyle} from './gr-external-style';
 import {PluginApi} from '../../../api/plugin';
@@ -16,7 +16,7 @@ suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some.com/plugins/url.js';
 
   let element: GrExternalStyle;
-  let plugin: PluginApi;
+  let plugin: PluginApi | undefined;
   let pluginsLoaded: MockPromise<void>;
   let applyStyleSpy: sinon.SinonSpy;
 
@@ -47,7 +47,7 @@ suite('gr-external-style integration tests', () => {
   const lateRegister = async () => {
     installPlugin();
     await createElement();
-    plugin.registerStyleModule('foo', 'some-module');
+    plugin!.registerStyleModule('foo', 'some-module');
   };
 
   /**
@@ -55,7 +55,7 @@ suite('gr-external-style integration tests', () => {
    */
   const earlyRegister = async () => {
     installPlugin();
-    plugin.registerStyleModule('foo', 'some-module');
+    plugin!.registerStyleModule('foo', 'some-module');
     await createElement();
   };
 
@@ -67,7 +67,7 @@ suite('gr-external-style integration tests', () => {
   });
 
   teardown(() => {
-    resetPlugins();
+    plugin = undefined;
     document.body
       .querySelectorAll('custom-style')
       .forEach(style => style.remove());
@@ -83,7 +83,7 @@ suite('gr-external-style integration tests', () => {
   test('does not double apply', async () => {
     await earlyRegister();
     await element.updateComplete;
-    plugin.registerStyleModule('foo', 'some-module');
+    plugin!.registerStyleModule('foo', 'some-module');
     await element.updateComplete;
     const stylesApplied = element.stylesApplied.filter(
       name => name === 'some-module'
@@ -99,7 +99,7 @@ suite('gr-external-style integration tests', () => {
 
   test('removes old custom-style if name is changed', async () => {
     installPlugin();
-    plugin.registerStyleModule('bar', 'some-module');
+    plugin!.registerStyleModule('bar', 'some-module');
     await earlyRegister();
     await element.updateComplete;
     let customStyles = document.body.querySelectorAll('custom-style');
@@ -117,7 +117,7 @@ suite('gr-external-style integration tests', () => {
   test('can apply more than one style', async () => {
     await earlyRegister();
     await element.updateComplete;
-    plugin.registerStyleModule('foo', 'some-module2');
+    plugin!.registerStyleModule('foo', 'some-module2');
     pluginsLoaded.resolve();
     await element.updateComplete;
     assert.strictEqual(element.stylesApplied.length, 2);

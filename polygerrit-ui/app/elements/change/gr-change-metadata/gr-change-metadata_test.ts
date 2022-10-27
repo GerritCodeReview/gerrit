@@ -46,7 +46,6 @@ import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {
   queryAndAssert,
-  resetPlugins,
   stubRestApi,
   waitUntilCalled,
 } from '../../../test/test-utils';
@@ -951,15 +950,10 @@ suite('gr-change-metadata tests', () => {
 
   suite('plugin endpoints', () => {
     setup(async () => {
-      resetPlugins();
       element = await fixture(html`<gr-change-metadata></gr-change-metadata>`);
       element.change = createParsedChange();
       element.revision = createRevision();
       await element.updateComplete;
-    });
-
-    teardown(() => {
-      resetPlugins();
     });
 
     test('endpoint params', async () => {

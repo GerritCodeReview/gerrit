@@ -22,7 +22,6 @@ import {
 import {
   query,
   queryAndAssert,
-  resetPlugins,
   stubRestApi,
   waitEventLoop,
 } from '../../../test/test-utils';
@@ -647,14 +646,9 @@ suite('gr-related-changes-list', () => {
     let element: GrRelatedChangesList;
 
     setup(async () => {
-      resetPlugins();
       element = await fixture(
         html`<gr-related-changes-list></gr-related-changes-list>`
       );
-    });
-
-    teardown(() => {
-      resetPlugins();
     });
 
     test('endpoint params', async () => {

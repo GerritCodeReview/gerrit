@@ -42,7 +42,6 @@ import {
   windowLocationReload,
 } from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
   ChangeStatus,
@@ -809,9 +808,13 @@ export class GrChangeView extends LitElement {
       .awaitPluginsLoaded()
       .then(() => {
         this.pluginTabsHeaderEndpoints =
-          getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-view-tab-header'
+          );
         this.pluginTabsContentEndpoints =
-          getPluginEndpoints().getDynamicEndpoints('change-view-tab-content');
+          this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
+            'change-view-tab-content'
+          );
         if (
           this.pluginTabsContentEndpoints.length !==
           this.pluginTabsHeaderEndpoints.length

@@ -14,7 +14,6 @@ import {Timestamp} from '../../../api/rest-api';
 import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
-import {_testOnly_resetEndpoints} from './gr-plugin-endpoints';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -43,7 +42,6 @@ suite('gr-plugin-loader tests', () => {
 
   teardown(() => {
     clock.restore();
-    _testOnly_resetEndpoints();
   });
 
   test('reuse plugin for install calls', () => {

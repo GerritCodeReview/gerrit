@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc798a52_7d30be5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-27T04:37:16Z",
+      "side": 1,
+      "message": "nit: double whitespaces",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964b3054_77f70e3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-27T04:37:16Z",
+      "side": 1,
+      "message": "We could keep the negative numbers but store offset somewhere in `All-Projects` projects metadata e.g.:\n1. first server (`gerritServerId`) would be `0`\n2. second server (`gerritServerId`) would be `10 mln` (or whatever makes sense from the biggest instances perspective)\n3. third would be `20 mln`\n...",
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b06f5811_08461cda",

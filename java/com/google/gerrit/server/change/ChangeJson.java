@@ -235,6 +235,7 @@ public class ChangeJson {
   private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
+  private final boolean cacheQueryResultsByChangeNum;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -274,6 +275,8 @@ public class ChangeJson {
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
+    this.cacheQueryResultsByChangeNum =
+        cfg.getBoolean("index", "cacheQueryResultsByChangeNum", true);
 
     logger.atFine().log("options = %s", options);
   }
@@ -496,7 +499,7 @@ public class ChangeJson {
         // This problem has two sides where 'last in the list' has to be respected:
         // (1) Caching
         // (2) Reusing
-        boolean isCacheable = i != changes.size() - 1;
+        boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
         ChangeData cd = changes.get(i);
         ChangeInfo info = cache.get(cd.getId());
         if (info != null && isCacheable) {

@@ -27,6 +27,8 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {LitElement, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {authServiceToken} from '../../../services/gr-auth/gr-auth';
+import {resolve} from '../../../models/dependency';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -115,7 +117,7 @@ export class GrErrorManager extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly authService = getAppContext().authService;
+  private readonly getAuthService = resolve(this, authServiceToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -205,7 +207,7 @@ export class GrErrorManager extends LitElement {
       const {status, statusText} = response;
       if (
         response.status === 403 &&
-        !this.authService.isAuthed &&
+        !this.getAuthService().isAuthed &&
         errorText === AUTHENTICATION_REQUIRED
       ) {
         // if not authed previously, this is trying to access auth required APIs
@@ -213,13 +215,13 @@ export class GrErrorManager extends LitElement {
         this.handleAuthRequired();
       } else if (
         response.status === 403 &&
-        this.authService.isAuthed &&
+        this.getAuthService().isAuthed &&
         errorText === AUTHENTICATION_REQUIRED
       ) {
         // The app was logged at one point and is now getting auth errors.
         // This indicates the auth token may no longer valid.
         // Re-check on auth
-        this.authService.clearCache();
+        this.getAuthService().clearCache();
         this.restApiService.getLoggedIn();
       } else if (!this.shouldSuppressError(errorText)) {
         const trace =
@@ -432,7 +434,7 @@ export class GrErrorManager extends LitElement {
 
     // force to refetch account info
     this.restApiService.invalidateAccountsCache();
-    this.authService.clearCache();
+    this.getAuthService().clearCache();
 
     this.restApiService.getLoggedIn().then(isLoggedIn => {
       if (!this.refreshingCredentials) return;
@@ -494,7 +496,7 @@ export class GrErrorManager extends LitElement {
     this.noInteractionOverlay.close();
 
     // Clear the cache for auth
-    this.authService.clearCache();
+    this.getAuthService().clearCache();
   }
 
   private readonly handleWindowFocus = () => {

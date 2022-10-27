@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c33720_3bcba13f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8754af50_f6bfa562",
+      "revId": "c77f9afebc10fca8f53d2232004eb02ce23a77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f33c44e_cb498906",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-27T08:14:58Z",
       "side": 1,
       "message": "I am sorry, I gave wrong advice here earlier and that caused work on your side.\n\nWe already expose Git\u0027s file for readers in the file API (FileInfo) and we use 100755 100644 there, so we should be consistent and use that here as well.\n\nSee line 7475",
+      "range": {
+        "startLine": 2931,
+        "startChar": 17,
+        "endLine": 2931,
+        "endChar": 20
+      },
+      "revId": "c77f9afebc10fca8f53d2232004eb02ce23a77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d5706e_b7922dfb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2931,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f33c44e_cb498906",
       "range": {
         "startLine": 2931,
         "startChar": 17,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2737865c_a961801d",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileContentInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8bb7054_ce61340f",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "c77f9afebc10fca8f53d2232004eb02ce23a77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4e6d698_b63b48ac",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73bff72f_c456a940",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4e6d698_b63b48ac",
+      "range": {
+        "startLine": 229,
+        "startChar": 60,
+        "endLine": 229,
+        "endChar": 88
+      },
+      "revId": "c77f9afebc10fca8f53d2232004eb02ce23a77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb9d1cc5_07b4f487",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-10-27T08:14:58Z",
       "side": 1,
       "message": "@Nullable Integer newGitFileMode",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 22
+      },
+      "revId": "c77f9afebc10fca8f53d2232004eb02ce23a77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc0c6f1_c15afd53",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9d1cc5_07b4f487",
       "range": {
         "startLine": 240,
         "startChar": 6,

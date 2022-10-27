@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54e7e60_652e168b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-27T19:28:58Z",
+      "side": 1,
+      "message": "Changed the check so that the accepted file-modes are the same values as the FileMode entities returned by other endpoints. Also made the other suggested changes so make the code more readable.",
+      "revId": "4ca10417dc53f1d6847e670ca0109637e98183fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

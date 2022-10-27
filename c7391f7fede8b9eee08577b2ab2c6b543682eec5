@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abe2061_37b75b79",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-27T13:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffde8133_acb1f7c5",
+      "range": {
+        "startLine": 1234,
+        "startChar": 71,
+        "endLine": 1235,
+        "endChar": 76
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11cccd85_a915aaf4",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-10-27T09:54:59Z",
       "side": 1,
       "message": "It\u0027s not an arrow. maybe s/arrow/change-warning/",
+      "range": {
+        "startLine": 1246,
+        "startChar": 54,
+        "endLine": 1246,
+        "endChar": 59
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be15a08_a66abe27",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-27T13:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11cccd85_a915aaf4",
       "range": {
         "startLine": 1246,
         "startChar": 54,
@@ -202,6 +250,30 @@
       "writtenOn": "2022-10-27T09:54:59Z",
       "side": 1,
       "message": "Consider removing this line since it is not running your code at all.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "c7391f7fede8b9eee08577b2ab2c6b543682eec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7a2378_7d9b599d",
+        "filename": "polygerrit-ui/app/utils/file-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-27T13:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0bb664_6fca7b53",
       "range": {
         "startLine": 32,
         "startChar": 0,

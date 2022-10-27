@@ -18,6 +18,7 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
+import {authServiceToken} from '../services/gr-auth/gr-auth';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {

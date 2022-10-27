@@ -107,10 +107,6 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
 }
 
-export function stubAuth<K extends keyof AuthService>(method: K) {
-  return sinon.stub(getAppContext().authService, method);
-}
-
 export function stubReporting<K extends keyof ReportingService>(method: K) {
   return sinon.stub(getAppContext().reportingService, method);
 }

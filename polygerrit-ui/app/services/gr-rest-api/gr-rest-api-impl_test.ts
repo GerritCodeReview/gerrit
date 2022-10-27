@@ -9,7 +9,6 @@ import {
   assertFails,
   MockPromise,
   mockPromise,
-  stubAuth,
   waitEventLoop,
 } from '../../test/test-utils';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
@@ -17,7 +16,6 @@ import {
   ListChangesOption,
   listChangesOptionsToHex,
 } from '../../utils/change-util';
-import {getAppContext} from '../app-context';
 import {
   createAccountDetailWithId,
   createChange,
@@ -61,6 +59,7 @@ import {
 } from '../../types/common';
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
+import {GrAuthMock} from '../gr-auth/gr-auth_mock';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
@@ -86,7 +85,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
     sinon.stub(window, 'fetch').resolves(new Response(testJSON));
     // fake auth
-    authService = getAppContext().authService;
+    authService = new GrAuthMock();
     sinon.stub(authService, 'authCheck').resolves(true);
     element = new GrRestApiServiceImpl(authService);
 
@@ -310,7 +309,9 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('server error', async () => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
-    stubAuth('fetch').resolves(new Response(undefined, {status: 502}));
+    sinon
+      .stub(authService, 'fetch')
+      .resolves(new Response(undefined, {status: 502}));
     const serverErrorEventPromise = new Promise(resolve => {
       addListenerForTest(document, 'server-error', resolve);
     });
@@ -1002,7 +1003,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    const fetchStub = stubAuth('fetch').resolves();
+    const fetchStub = sinon.stub(authService, 'fetch').resolves();
     element._restApiHelper.fetchJSON({url: 'foo'});
     assert(fetchStub.called);
   });

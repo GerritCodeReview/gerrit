@@ -47,14 +47,15 @@ import {ReactiveController, ReactiveControllerHost} from 'lit';
  * ---
  *
  * Ancestor components will inject the dependencies that a child component
- * requires by providing factories for those values.
+ * requires by providing providers for those values.
  *
  *
  * To provide a dependency, a component needs to specify the following prior
  * to finishing its connectedCallback:
  *
  * ```
- *   provide(this, fooToken, () => new FooImpl())
+ *   const fooImpl = () => new FooImpl();
+ *   provide(this, fooToken, () => fooImpl);
  * ```
  * Dependencies are injected as factories in case the construction of them
  * depends on other dependencies further up the component chain.  For instance,
@@ -63,7 +64,8 @@ import {ReactiveController, ReactiveControllerHost} from 'lit';
  *
  * ```
  *   const barRef = resolve(this, barToken);
- *   provide(this, fooToken, () => new FooImpl(barRef()));
+ *   const fooImpl = () => new FooImpl(barRef());
+ *   provide(this, fooToken, () => fooImpl);
  * ```
  *
  * Lifetime guarantees
@@ -277,8 +279,6 @@ class DependencySubscriber<T>
 }
 
 class DependencyProvider<T> implements ReactiveController {
-  private value?: T;
-
   constructor(
     private readonly host: ReactiveControllerHost & HTMLElement,
     private readonly dependency: DependencyToken<T>,
@@ -286,20 +286,17 @@ class DependencyProvider<T> implements ReactiveController {
   ) {}
 
   hostConnected() {
-    // Delay construction in case the provider has its own dependencies.
-    this.value = this.provider();
     this.host.addEventListener('request-dependency', this.fullfill);
   }
 
   hostDisconnected() {
     this.host.removeEventListener('request-dependency', this.fullfill);
-    this.value = undefined;
   }
 
   private readonly fullfill = (ev: DependencyRequestEvent<unknown>) => {
     if (ev.dependency !== this.dependency) return;
     ev.stopPropagation();
     ev.preventDefault();
-    ev.callback(this.value!);
+    ev.callback(this.provider());
   };
 }

@@ -60,7 +60,14 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {
+  css,
+  html,
+  LitElement,
+  nothing,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {fire} from '../../../utils/event-util';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
@@ -77,6 +84,7 @@ import {createEditUrl} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {FileMode, fileModeToString} from '../../../utils/file-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -592,6 +600,16 @@ export class GrFileList extends LitElement {
           top: 2px;
           display: block;
         }
+        .file-mode-warning {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+          color: var(--warning-foreground);
+        }
+        .file-mode-content {
+          display: inline-block;
+          color: var(--deemphasized-text-color);
+        }
 
         @media screen and (max-width: 1200px) {
           gr-endpoint-decorator.extra-col {
@@ -1102,10 +1120,14 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
-  private renderDivWithTooltip(content: string, tooltip: string) {
+  private renderDivWithTooltip(
+    content: TemplateResult | string,
+    tooltip: string,
+    cssClass = 'content'
+  ) {
     return html`
       <gr-tooltip-content title=${tooltip} has-tooltip>
-        <div class="content">${content}</div>
+        <div class=${cssClass}>${content}</div>
       </gr-tooltip-content>
     `;
   }
@@ -1184,6 +1206,7 @@ export class GrFileList extends LitElement {
           >
             ${computeTruncatedPath(file.__path)}
           </span>
+          ${this.renderFileMode(file)}
           <gr-copy-clipboard
             ?hideInput=${true}
             .text=${file.__path}
@@ -1203,6 +1226,33 @@ export class GrFileList extends LitElement {
         )}
       </span>
     `;
+  }
+
+  private renderFileMode(file: NormalizedFileInfo) {
+    const {old_mode, new_mode} = file;
+
+    // For deleted and regular files we do not want to render anything. Only if
+    // a file changed from something else to regular, then let the user know.
+    if (new_mode === undefined) return nothing;
+    let newModeStr = fileModeToString(new_mode, false);
+    if (new_mode === FileMode.REGULAR_FILE) {
+      if (old_mode === undefined) return nothing;
+      if (old_mode === FileMode.REGULAR_FILE) return nothing;
+      newModeStr = `non-${fileModeToString(old_mode, false)}`;
+    }
+
+    const changed = old_mode !== undefined && old_mode !== new_mode;
+    const icon = changed
+      ? html`<gr-icon icon="warning" class="file-mode-warning"></gr-icon> `
+      : '';
+    const action = changed
+      ? `changed from ${fileModeToString(old_mode)} to`
+      : 'is';
+    return this.renderDivWithTooltip(
+      html`${icon}(${newModeStr})`,
+      `file mode ${action} ${fileModeToString(new_mode)}`,
+      'file-mode-content'
+    );
   }
 
   private renderStyledPath(filePath: string, previousFilePath?: string) {

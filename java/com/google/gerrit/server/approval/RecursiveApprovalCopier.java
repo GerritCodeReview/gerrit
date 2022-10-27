@@ -16,12 +16,20 @@ package com.google.gerrit.server.approval;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -33,21 +41,37 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class RecursiveApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final int SLICE_MAX_REFS = 1000;
 
   private final BatchUpdate.Factory batchUpdateFactory;
   private final GitRepositoryManager repositoryManager;
   private final InternalUser.Factory internalUserFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final ListeningExecutorService executor;
 
-  private boolean failedForAtLeastOneProject;
+  private final ConcurrentHashMap<Project.NameKey, List<ReceiveCommand>> pendingRefUpdates =
+      new ConcurrentHashMap<>();
+
+  private volatile boolean failedForAtLeastOneProject;
 
   @Inject
   public RecursiveApprovalCopier(
@@ -55,57 +79,140 @@ public class RecursiveApprovalCopier {
       GitRepositoryManager repositoryManager,
       InternalUser.Factory internalUserFactory,
       ApprovalsUtil approvalsUtil,
-      ChangeNotes.Factory changeNotesFactory) {
+      ChangeNotes.Factory changeNotesFactory,
+      @FanOutExecutor ExecutorService executor) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.repositoryManager = repositoryManager;
     this.internalUserFactory = internalUserFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeNotesFactory = changeNotesFactory;
+    this.executor = MoreExecutors.listeningDecorator(executor);
   }
 
   public void persist()
-      throws RepositoryNotFoundException, IOException, UpdateException, RestApiException {
-    for (Project.NameKey project : repositoryManager.list()) {
-      persist(project, null);
-    }
+      throws RepositoryNotFoundException, IOException, InterruptedException, ExecutionException {
+    persist(repositoryManager.list(), null);
 
     if (failedForAtLeastOneProject) {
       throw new RuntimeException("There were errors, check the logs for details");
     }
   }
 
+  // called from CopyApprovalsCommand
   public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
-      throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
-    try {
-      persist(project, labelsCopiedListener, false);
-    } catch (Exception e) {
-      failedForAtLeastOneProject = true;
-      logger.atSevere().withCause(e).log(
-          "failed for project %s, will retry with the checkForCorruptMetaRefs option", project);
-      persist(project, labelsCopiedListener, true);
-    }
+      throws IOException, RepositoryNotFoundException, InterruptedException, ExecutionException {
+    persist(ImmutableList.of(project), labelsCopiedListener);
   }
 
   private void persist(
-      Project.NameKey project,
-      @Nullable Consumer<Change> labelsCopiedListener,
-      boolean checkForCorruptMetaRefs)
-      throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
-    try (BatchUpdate bu =
-            batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs());
-        Repository repository = repositoryManager.openRepository(project)) {
-      for (Ref changeMetaRef :
+      Collection<Project.NameKey> projects, @Nullable Consumer<Change> labelsCopiedListener)
+      throws InterruptedException, ExecutionException, RepositoryNotFoundException, IOException {
+    List<ListenableFuture<Void>> copyApprovalsTasks = new LinkedList<>();
+    for (Project.NameKey project : projects) {
+      copyApprovalsTasks.addAll(submitCopyApprovalsTasks(project, labelsCopiedListener));
+    }
+    Futures.successfulAsList(copyApprovalsTasks).get();
+
+    List<ListenableFuture<Void>> batchRefUpdateTasks = submitBatchRefUpdateTasks();
+    Futures.successfulAsList(batchRefUpdateTasks).get();
+  }
+
+  private List<ListenableFuture<Void>> submitCopyApprovalsTasks(
+      Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
+      throws RepositoryNotFoundException, IOException {
+    List<ListenableFuture<Void>> futures = new LinkedList<>();
+    try (Repository repository = repositoryManager.openRepository(project)) {
+      ImmutableList<Ref> allMetaRefs =
           repository.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
               .filter(r -> r.getName().endsWith(RefNames.META_SUFFIX))
-              .collect(toImmutableList())) {
-        Change.Id changeId = Change.Id.fromRef(changeMetaRef.getName());
+              .collect(toImmutableList());
+
+      for (List<Ref> slice : Lists.partition(allMetaRefs, SLICE_MAX_REFS)) {
+        futures.add(
+            executor.submit(
+                () -> {
+                  copyApprovalsForSlice(project, slice, labelsCopiedListener);
+                  return null;
+                }));
+      }
+    }
+    return futures;
+  }
+
+  private void copyApprovalsForSlice(
+      Project.NameKey project, List<Ref> slice, @Nullable Consumer<Change> labelsCopiedListener)
+      throws Exception {
+    try {
+      copyApprovalsForSlice(project, slice, labelsCopiedListener, false);
+    } catch (Exception e) {
+      failedForAtLeastOneProject = true;
+      logger.atSevere().withCause(e).log(
+          "Error in a slice of project %s, will retry and skip corrupt meta-refs", project);
+      copyApprovalsForSlice(project, slice, labelsCopiedListener, true);
+    }
+  }
+
+  private void copyApprovalsForSlice(
+      Project.NameKey project,
+      List<Ref> slice,
+      @Nullable Consumer<Change> labelsCopiedListener,
+      boolean checkForCorruptMetaRefs)
+      throws Exception {
+    logger.atInfo().log("copy-approvals for a slice of %s project", project);
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs())) {
+      for (Ref metaRef : slice) {
+        Change.Id changeId = Change.Id.fromRef(metaRef.getName());
         if (checkForCorruptMetaRefs && isCorrupt(project, changeId)) {
-          logger.atSevere().log("skipping corrupt meta-ref %s", changeMetaRef.getName());
+          logger.atSevere().log("skipping corrupt meta-ref %s", metaRef.getName());
           continue;
         }
-        bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, labelsCopiedListener));
+        bu.addOp(
+            changeId,
+            new RecursiveApprovalCopier.PersistCopiedVotesOp(approvalsUtil, labelsCopiedListener));
       }
-      bu.execute();
+
+      BatchRefUpdate bru = bu.prepareRefUpdates();
+      if (bru != null) {
+        List<ReceiveCommand> cmds = bru.getCommands();
+        pendingRefUpdates.compute(
+            project,
+            (p, u) -> {
+              if (u == null) {
+                return new LinkedList<>(cmds);
+              }
+              u.addAll(cmds);
+              return u;
+            });
+      }
+    }
+  }
+
+  private List<ListenableFuture<Void>> submitBatchRefUpdateTasks() {
+    logger.atInfo().log("submitting batch ref-update tasks");
+    List<ListenableFuture<Void>> futures = new LinkedList<>();
+    for (Map.Entry<Project.NameKey, List<ReceiveCommand>> e : pendingRefUpdates.entrySet()) {
+      Project.NameKey project = e.getKey();
+      List<ReceiveCommand> updates = e.getValue();
+      futures.add(
+          executor.submit(
+              () -> {
+                executeRefUpdates(project, updates);
+                return null;
+              }));
+    }
+    return futures;
+  }
+
+  private void executeRefUpdates(Project.NameKey project, List<ReceiveCommand> updates)
+      throws RepositoryNotFoundException, IOException {
+    logger.atInfo().log(
+        "executing batch ref-update for project %s, size %d", project, updates.size());
+    try (Repository repository = repositoryManager.openRepository(project)) {
+      RefDatabase refdb = repository.getRefDatabase();
+      BatchRefUpdate bu = refdb.newBatchUpdate();
+      bu.addCommand(updates);
+      RefUpdateUtil.executeChecked(bu, repository);
     }
   }
 

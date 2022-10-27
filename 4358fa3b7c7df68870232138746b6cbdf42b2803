@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11211120_b8a8eb08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-27T13:07:08Z",
+      "side": 1,
+      "message": "\"run\" is ambiguous here, it could mean running it to get the list of changes (using it as a datasource), or running match() against it. I think you mean the latter.",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9afb839_fb0e76b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-27T13:07:08Z",
+      "side": 1,
+      "message": "No need to make this hypothetical, we have such an operator, let\u0027s be up front about it that this is real.",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f98cf8ce_1243393f",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-27T13:07:08Z",
+      "side": 1,
+      "message": "I don\u0027t see this as a StorageException, maybe use IllegalArgumentException?",
+      "revId": "4358fa3b7c7df68870232138746b6cbdf42b2803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

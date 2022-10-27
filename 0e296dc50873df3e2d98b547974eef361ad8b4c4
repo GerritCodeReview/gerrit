@@ -22,6 +22,52 @@
       },
       "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "132ad5e7_b256caee",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T13:38:08Z",
+      "side": 1,
+      "message": "fooProvider? same below",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37694858_c24217cc",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-27T13:38:08Z",
+      "side": 1,
+      "message": "why is `!` needed if you are guarding it in the `if` above?",
+      "range": {
+        "startLine": 267,
+        "startChar": 24,
+        "endLine": 267,
+        "endChar": 25
+      },
+      "revId": "0e296dc50873df3e2d98b547974eef361ad8b4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

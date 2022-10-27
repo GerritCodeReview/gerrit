@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc682f6_2f5aa375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-27T20:55:09Z",
+      "side": 1,
+      "message": "This looks like a hack since it only works for repos imported from one additional server. Ideally change numbers would be created per project. Though I am not sure what\u0027s in the way of reaching that. Which functionality depends on the Lucene index on the change number ?",
+      "parentUuid": "964b3054_77f70e3a",
+      "revId": "edb72ae0870521021fb30dee97777df5cd78e067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b06f5811_08461cda",

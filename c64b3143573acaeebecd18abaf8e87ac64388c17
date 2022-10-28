@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8a1a0b_b784f100",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-28T15:11:43Z",
+      "side": 1,
+      "message": "Line 230 doesn\u0027t seem to call this, but there are several places it is called from? I\u0027m not sure that\u0027s a safe assumption to rely on the callers of this method to know this restriction.",
+      "parentUuid": "44d40cd4_575e5eb0",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c46508d4_e17b6d8a",

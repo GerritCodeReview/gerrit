@@ -30,8 +30,7 @@ export const dashboardHeaderStyles = css`
   .info > div > span {
     display: inline-block;
     font-weight: var(--font-weight-bold);
-    text-align: right;
-    width: 4em;
+    width: 3.5em;
   }
 `;
 

@@ -634,8 +634,15 @@ export class ChecksModel extends Model<ChecksState> {
   }
 
   updateStateSetPatchset(num?: PatchSetNumber) {
+    const newPatchset = num === this.latestPatchNum ? undefined : num;
+    const oldPatchset = this.changeViewModel.getState()?.checksPatchset;
+    // For `checksPatchset` itself we could just let updateState() do the
+    // standard old===new comparison. But we have to make sure here that
+    // the attempt reset only actually happens when a new patchset is chosen.
+    if (newPatchset === oldPatchset) return;
     this.changeViewModel.updateState({
-      checksPatchset: num === this.latestPatchNum ? undefined : num,
+      checksPatchset: newPatchset,
+      attempt: LATEST_ATTEMPT,
     });
   }
 

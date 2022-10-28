@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099ce406_8f1a0870",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-28T13:34:22Z",
+      "side": 1,
+      "message": "It feels weird to add this to a base class. This forces all predicates which extend this base to implement this, yet the LuceneChangeIndex code seems to still have a default in it. In other words, not all Predicates are forced to extend this so it feels like a missmatch to me, but I\u0027m not sure that makes sense. It would be good to get some other opinions on this. Although this might be moot depending on the outcome of my suggestion in the next paragraph.\n\nOne thought I had while perusing the Predicates in here, is that some of them used to have cardinalities, and I suspect you used those previous values when restoring them, and some are new predicates, so you could not have restored any of those? Maybe it makes sense to first make a change that restores all the original values, and then a change that adds various new values so that reviewers can help voice opinions about the cardinality values better. This would allow values to be added incrementally without having to get consensus on everything at once?",
+      "revId": "affdd290d3b0199e0a84da73c393c82876e66e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

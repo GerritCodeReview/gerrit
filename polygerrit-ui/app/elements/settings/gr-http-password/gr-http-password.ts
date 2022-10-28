@@ -5,13 +5,12 @@
  */
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-overlay/gr-overlay';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,8 +20,8 @@ declare global {
 
 @customElement('gr-http-password')
 export class GrHttpPassword extends LitElement {
-  @query('#generatedPasswordOverlay')
-  generatedPasswordOverlay?: GrOverlay;
+  @query('#generatedPasswordModal')
+  generatedPasswordModal?: HTMLDialogElement;
 
   @property({type: String})
   _username?: string;
@@ -68,13 +67,14 @@ export class GrHttpPassword extends LitElement {
     return [
       sharedStyles,
       formStyles,
+      modalStyles,
       css`
         .password {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
         }
-        #generatedPasswordOverlay {
+        #generatedPasswordModal {
           padding: var(--spacing-xxl);
           width: 50em;
         }
@@ -120,11 +120,9 @@ export class GrHttpPassword extends LitElement {
           (opens in a new tab)
         </span>
       </div>
-      <gr-overlay
-        id="generatedPasswordOverlay"
-        @iron-overlay-closed=${this._generatedPasswordOverlayClosed}
-        with-backdrop
-      >
+      <dialog tabindex="-1"
+        id="generatedPasswordModal"
+        @closed=${this._generatedPasswordModalClosed}>
         <div class="gr-form-styles">
           <section id="generatedPasswordDisplay">
             <span class="title">New Password:</span>
@@ -141,7 +139,7 @@ export class GrHttpPassword extends LitElement {
             This password will not be displayed again.<br />
             If you lose it, you will need to generate a new one.
           </section>
-          <gr-button link="" class="closeButton" @click=${this._closeOverlay}
+          <gr-button link="" class="closeButton" @click=${this._closeModal}
             >Close</gr-button
           >
         </div>
@@ -150,17 +148,17 @@ export class GrHttpPassword extends LitElement {
 
   _handleGenerateTap() {
     this._generatedPassword = 'Generating...';
-    this.generatedPasswordOverlay?.open();
+    this.generatedPasswordModal?.showModal();
     this.restApiService.generateAccountHttpPassword().then(newPassword => {
       this._generatedPassword = newPassword;
     });
   }
 
-  _closeOverlay() {
-    this.generatedPasswordOverlay?.close();
+  _closeModal() {
+    this.generatedPasswordModal?.close();
   }
 
-  _generatedPasswordOverlayClosed() {
+  _generatedPasswordModalClosed() {
     this._generatedPassword = '';
   }
 }

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d6e14a6_e5cee32b",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-28T20:13:30Z",
+      "side": 1,
+      "message": "Also needed in ES class?",
+      "revId": "affdd290d3b0199e0a84da73c393c82876e66e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "099ce406_8f1a0870",
         "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
         "patchSetId": 8

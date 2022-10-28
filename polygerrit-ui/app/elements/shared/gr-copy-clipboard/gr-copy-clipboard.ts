@@ -105,7 +105,8 @@ export class GrCopyClipboard extends LitElement {
             link=""
             class="copyToClipboard"
             @click=${this._copyToClipboard}
-            aria-label="Click to copy to clipboard"
+            aria-label="copy"
+            aria-description="Click to copy to clipboard"
           >
             <div>
               <gr-icon id="icon" icon="content_copy" small></gr-icon>

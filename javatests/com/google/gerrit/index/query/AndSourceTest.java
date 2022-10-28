@@ -36,7 +36,7 @@ public class AndSourceTest extends PredicateTest {
 
   @Test
   public void ensureAtLeastOneChildIsADataSource() {
-    TestMatchablePredicate<ChangeData> p1 = new TestMatchablePredicate<>("predicate1", "foo", 1);
+    TestMatchablePredicate<ChangeData> p1 = new TestCardinalPredicate<>("predicate1", "foo", 1);
     TestMatchablePredicate<ChangeData> p2 = new TestMatchablePredicate<>("predicate2", "foo", 1);
 
     IllegalArgumentException thrown =

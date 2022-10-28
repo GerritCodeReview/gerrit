@@ -21,12 +21,11 @@ import com.google.gerrit.index.IndexConfig;
 import java.util.Collection;
 import java.util.List;
 
-public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
+public class AndSource<T> extends AndCardinalPredicate<T> implements DataSource<T> {
   protected final DataSource<T> source;
 
   private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
-  private final int cardinality;
   private final IndexConfig indexConfig;
 
   public AndSource(Collection<? extends Predicate<T>> that, IndexConfig indexConfig) {
@@ -57,14 +56,12 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     this.start = start;
     this.indexConfig = indexConfig;
 
-    int c = Integer.MAX_VALUE;
     Predicate<T> selectedSource = null;
     int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
         DataSource<T> source = (DataSource<T>) p;
         int cardinality = source.getCardinality();
-        c = Math.min(c, source.getCardinality());
 
         if (selectedSource == null
             || cardinality < minCardinality
@@ -79,7 +76,6 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
       throw new IllegalArgumentException("No DataSource Found");
     }
     this.source = toPaginatingSource(selectedSource);
-    this.cardinality = c;
   }
 
   @Override
@@ -112,11 +108,6 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
 
   protected List<T> transformBuffer(List<T> buffer) {
     return buffer;
-  }
-
-  @Override
-  public int getCardinality() {
-    return cardinality;
   }
 
   @SuppressWarnings("unchecked")

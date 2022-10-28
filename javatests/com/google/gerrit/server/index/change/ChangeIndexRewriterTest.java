@@ -27,8 +27,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.AndCardinalPredicate;
 import com.google.gerrit.index.query.AndPredicate;
-import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
@@ -116,8 +117,8 @@ public class ChangeIndexRewriterTest {
 
     assertThat(out.getChild(0)).isEqualTo(query(firstIndexedSubQuery));
 
-    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrPredicate.class);
-    OrPredicate indexedSubTree = (OrPredicate) out.getChild(1);
+    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrCardinalPredicate.class);
+    OrCardinalPredicate indexedSubTree = (OrCardinalPredicate) out.getChild(1);
 
     Predicate<ChangeData> secondIndexedSubQuery = parse("foo:a OR file:b");
     assertThat(indexedSubTree.getChildren())
@@ -156,7 +157,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
+        .containsExactly(query(andCardinal(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -166,7 +167,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
+        .containsExactly(query(andCardinal(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -260,6 +261,11 @@ public class ChangeIndexRewriterTest {
   @SafeVarargs
   private static AndChangeSource andSource(Predicate<ChangeData>... preds) {
     return new AndChangeSource(Arrays.asList(preds), IndexConfig.createDefault());
+  }
+
+  @SafeVarargs
+  private static AndCardinalPredicate<ChangeData> andCardinal(Predicate<ChangeData>... preds) {
+    return new AndCardinalPredicate<>(Arrays.asList(preds));
   }
 
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in) throws QueryParseException {

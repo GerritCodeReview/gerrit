@@ -25,7 +25,7 @@ import org.junit.Test;
 public class OrSourceTest extends PredicateTest {
   @Test
   public void ensureAllChildrenAreDataSources() {
-    TestMatchablePredicate<ChangeData> p1 = new TestMatchablePredicate<>("predicate1", "foo", 10);
+    TestMatchablePredicate<ChangeData> p1 = new TestCardinalPredicate<>("predicate1", "foo", 10);
     TestMatchablePredicate<ChangeData> p2 = new TestMatchablePredicate<>("predicate2", "foo", 1);
 
     IllegalArgumentException thrown =

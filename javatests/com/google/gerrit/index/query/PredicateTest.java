@@ -19,8 +19,32 @@ import org.junit.Ignore;
 @Ignore
 public abstract class PredicateTest {
   @SuppressWarnings("ProtectedMembersInFinalClass")
-  protected static final class TestMatchablePredicate extends TestPredicate
-      implements Matchable<String> {
+  protected static class TestDataSourcePredicate extends TestMatchablePredicate
+      implements DataSource<String> {
+    protected final int cardinality;
+
+    protected TestDataSourcePredicate(String name, String value, int cost, int cardinality) {
+      super(name, value, cost);
+      this.cardinality = cardinality;
+    }
+
+    @Override
+    public int getCardinality() {
+      return cardinality;
+    }
+
+    @Override
+    public ResultSet<String> read() {
+      return null;
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() {
+      return null;
+    }
+  }
+
+  protected static class TestMatchablePredicate extends TestPredicate implements Matchable<String> {
     protected int cost;
     protected boolean ranMatch = false;
 

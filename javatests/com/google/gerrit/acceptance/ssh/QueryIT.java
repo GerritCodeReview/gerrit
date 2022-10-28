@@ -24,12 +24,24 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.ListResultSet;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gson.Gson;
+import com.google.inject.AbstractModule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -298,6 +310,74 @@ public class QueryIT extends AbstractDaemonTest {
       assertWithMessage("Option: " + option)
           .that(gApi.changes().query(r.getChangeId()).withOption(option).get())
           .hasSize(1);
+    }
+  }
+
+  @Test
+  public void chooseCheapestDatasource() throws Exception {
+    try (AutoCloseable ignored = installPlugin("myplugin", SamplePluginModule.class)) {
+      for (int i = 0; i < 5; i++) {
+        createChange();
+      }
+      List<ChangeAttribute> changes =
+          executeSuccessfulQuery("status:open " + CheapSource.FIELD + "_myplugin:foo");
+      assertThat(changes).hasSize(0);
+    }
+  }
+
+  protected static class SamplePluginModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(ChangeQueryBuilder.ChangeOperatorFactory.class)
+          .annotatedWith(Exports.named(CheapSource.FIELD))
+          .to(CheapSourceOperator.class);
+    }
+  }
+
+  protected static class CheapSourceOperator implements ChangeQueryBuilder.ChangeOperatorFactory {
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder, String value)
+        throws QueryParseException {
+      return new CheapSource(value);
+    }
+  }
+
+  protected static class CheapSource extends OperatorPredicate<ChangeData>
+      implements Matchable<ChangeData>, ChangeDataSource {
+    public static final String FIELD = "cheapsource";
+
+    public CheapSource(String value) {
+      super(FIELD, value);
+    }
+
+    @Override
+    public int getCardinality() {
+      return 1;
+    }
+
+    @Override
+    public ResultSet<ChangeData> read() {
+      return new ListResultSet<>(new ArrayList<>());
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() {
+      return null;
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 1;
+    }
+
+    @Override
+    public boolean hasChange() {
+      return false;
     }
   }
 

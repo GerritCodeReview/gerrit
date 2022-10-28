@@ -82,7 +82,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
             .weigher(GitModifiedFilesWeigher.class)
             // The cache is using the default disk limit as per section cache.<name>.diskLimit
             // in the cache documentation link.
-            .version(1)
+            .version(2)
             .loader(GitModifiedFilesCacheImpl.Loader.class);
       }
     };
@@ -131,6 +131,8 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
           df.setDetectRenames(true);
           df.getRenameDetector().setRenameScore(key.renameScore());
         }
+        // Skip detecting content renames for binary files.
+        df.getRenameDetector().setSkipContentRenamesForBinaryFiles(true);
         // The scan method only returns the file paths that are different. Callers may choose to
         // format these paths themselves.
         return df.scan(key.aTree().equals(ObjectId.zeroId()) ? null : key.aTree(), key.bTree());

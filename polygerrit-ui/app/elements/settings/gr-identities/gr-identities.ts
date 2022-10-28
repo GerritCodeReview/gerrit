@@ -5,10 +5,8 @@
  */
 import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-overlay/gr-overlay';
 import {getBaseUrl} from '../../../utils/url-util';
 import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {AuthType} from '../../../constants/constants';
 import {LitElement, css, html, PropertyValues} from 'lit';
@@ -18,12 +16,13 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {assertIsDefined} from '../../../utils/common-util';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const AUTH = [AuthType.OPENID, AuthType.OAUTH];
 
 @customElement('gr-identities')
 export class GrIdentities extends LitElement {
-  @query('#overlay') overlay?: GrOverlay;
+  @query('#modal') modal?: HTMLDialogElement;
 
   @state() private identities: AccountExternalIdInfo[] = [];
 
@@ -40,6 +39,7 @@ export class GrIdentities extends LitElement {
   static override styles = [
     sharedStyles,
     formStyles,
+    modalStyles,
     css`
       tr th.emailAddressHeader,
       tr th.identityHeader {
@@ -98,7 +98,7 @@ export class GrIdentities extends LitElement {
           </fieldset>`
         )}
       </div>
-      <gr-overlay id="overlay" with-backdrop>
+      <dialog id="modal" tabindex="-1">
         <gr-confirm-delete-item-dialog
           class="confirmDialog"
           @confirm=${this.handleDeleteItemConfirm}
@@ -106,7 +106,7 @@ export class GrIdentities extends LitElement {
           .item=${this.idName}
           itemtypename="ID"
         ></gr-confirm-delete-item-dialog>
-      </gr-overlay>`;
+      </dialog>`;
   }
 
   private renderIdentity(account: AccountExternalIdInfo, index: number) {
@@ -156,7 +156,7 @@ export class GrIdentities extends LitElement {
   }
 
   handleDeleteItemConfirm() {
-    this.overlay?.close();
+    this.modal?.close();
     assertIsDefined(this.idName);
     return this.restApiService.deleteAccountIdentity([this.idName]).then(() => {
       this.loadData();
@@ -164,12 +164,12 @@ export class GrIdentities extends LitElement {
   }
 
   private handleConfirmDialogCancel() {
-    this.overlay?.close();
+    this.modal?.close();
   }
 
   private handleDeleteItem(name: string) {
     this.idName = name;
-    this.overlay?.open();
+    this.modal?.showModal();
   }
 
   // private but used in test

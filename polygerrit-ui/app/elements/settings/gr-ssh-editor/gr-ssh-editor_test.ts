@@ -127,13 +127,7 @@ suite('gr-ssh-editor tests', () => {
                 </tr>
               </tbody>
             </table>
-            <gr-overlay
-              aria-hidden="true"
-              id="viewKeyOverlay"
-              style="outline: none; display: none;"
-              tabindex="-1"
-              with-backdrop=""
-            >
+            <dialog id="viewKeyModal" tabindex="-1">
               <fieldset>
                 <section>
                   <span class="title"> Algorithm </span>
@@ -156,7 +150,7 @@ suite('gr-ssh-editor tests', () => {
               >
                 Close
               </gr-button>
-            </gr-overlay>
+            </dialog>
             <gr-button
               aria-disabled="true"
               disabled=""
@@ -227,7 +221,7 @@ suite('gr-ssh-editor tests', () => {
   });
 
   test('show key', () => {
-    const openSpy = sinon.spy(element.viewKeyOverlay, 'open');
+    const openSpy = sinon.spy(element.viewKeyModal, 'showModal');
 
     // Get the show button for the last row.
     const button = query<GrButton>(

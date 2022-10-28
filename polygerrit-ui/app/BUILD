@@ -203,7 +203,12 @@ nodejs_test(
         "--rules.no-property-visibility-mismatch off",
         "--rules.no-incompatible-property-type off",
         "--rules.no-incompatible-type-binding off",
-        "--rules.no-unknown-attribute error",
+        # TODO: We would actually like to change this to `error`, but we also
+        # want to allow certain attributes, for example `aria-description`. This
+        # would be possible, if we would run the lit-analyzer as a ts plugin.
+        # In tsconfig.json there is an option `globalAttributes` that we could
+        # use. But that is not available when running lit-analyzer as cli.
+        "--rules.no-unknown-attribute warn",
     ],
 )
 

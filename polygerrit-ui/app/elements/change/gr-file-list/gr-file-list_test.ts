@@ -205,17 +205,12 @@ suite('gr-file-list tests', () => {
             </div>
           </div>
           <div class="desktop" role="gridcell">
-            <div
-              aria-label="A bar that represents the addition and deletion ratio for the current file"
-              class="hide sizeBars"
-            ></div>
+            <div aria-hidden="true" class="hide sizeBars"></div>
           </div>
           <div class="stats" role="gridcell">
             <div>
-              <span aria-label="9 lines added" class="added" tabindex="0">
-                +9
-              </span>
-              <span aria-label="0 lines removed" class="removed" tabindex="0">
+              <span aria-label="9 added" class="added" tabindex="0"> +9 </span>
+              <span aria-label="0 removed" class="removed" tabindex="0">
                 -0
               </span>
               <span hidden=""> +/-0 B </span>
@@ -247,7 +242,8 @@ suite('gr-file-list tests', () => {
           <div class="show-hide" role="gridcell">
             <span
               aria-checked="false"
-              aria-label="Expand file"
+              aria-label="expand"
+              aria-description="Expand diff of this file"
               class="show-hide"
               data-expand="true"
               data-path="path/file0"

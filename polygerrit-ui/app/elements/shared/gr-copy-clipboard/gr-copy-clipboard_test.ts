@@ -42,7 +42,8 @@ suite('gr-copy-clipboard tests', () => {
           <gr-tooltip-content>
             <gr-button
               aria-disabled="false"
-              aria-label="Click to copy to clipboard"
+              aria-label="copy"
+              aria-description="Click to copy to clipboard"
               class="copyToClipboard"
               id="copy-clipboard-button"
               link=""

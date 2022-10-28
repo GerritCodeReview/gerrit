@@ -19,7 +19,6 @@ import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_L
 import static com.google.gerrit.entities.Change.Status.MERGED;
 import static com.google.gerrit.entities.Change.Status.NEW;
 import static com.google.gerrit.index.query.Predicate.and;
-import static com.google.gerrit.index.query.Predicate.or;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
@@ -29,13 +28,13 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.AndPredicate;
+import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
-import com.google.gerrit.server.query.change.OrSource;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
@@ -117,8 +116,8 @@ public class ChangeIndexRewriterTest {
 
     assertThat(out.getChild(0)).isEqualTo(query(firstIndexedSubQuery));
 
-    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrSource.class);
-    OrSource indexedSubTree = (OrSource) out.getChild(1);
+    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrPredicate.class);
+    OrPredicate indexedSubTree = (OrPredicate) out.getChild(1);
 
     Predicate<ChangeData> secondIndexedSubQuery = parse("foo:a OR file:b");
     assertThat(indexedSubTree.getChildren())
@@ -145,13 +144,10 @@ public class ChangeIndexRewriterTest {
 
   @Test
   public void multipleIndexPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("file:a OR foo:b OR file:c OR foo:d");
+    Predicate<ChangeData> in = parse("file:a OR file:b OR file:c");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
-    assertThat(out.getChildren())
-        .containsExactly(
-            query(or(parse("file:a"), parse("file:c"))), parse("foo:b"), parse("foo:d"))
-        .inOrder();
+    assertThat(out.getClass()).isSameInstanceAs(IndexedChangeQuery.class);
+    assertEquals(query(in), out);
   }
 
   @Test

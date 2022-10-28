@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3dc800_bfa0104a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-28T14:59:36Z",
+      "side": 1,
+      "message": "Right, Tried to explain better.",
+      "parentUuid": "158f8b7b_3ca4614f",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa5f5fbf_5b970aea",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-28T12:57:06Z",
       "side": 1,
       "message": "s/anyone/none/ d/not/",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e873c657_8f5fae28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-28T14:59:36Z",
+      "side": 1,
+      "message": "As this is OrSource that would not be correct. But tried to improve the statement.",
+      "parentUuid": "aa5f5fbf_5b970aea",
       "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d40cd4_575e5eb0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-28T14:59:36Z",
+      "side": 1,
+      "message": "Nope, AndSource does not have this issue. The code flow will come here only when there is at least one datasource (from Line #230).",
+      "parentUuid": "6a8f52ac_188efec5",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c46508d4_e17b6d8a",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-10-28T12:57:06Z",
       "side": 1,
       "message": "Although I prefer the IllegalArgumentExcption here, maybe someone from Google more familiar with this code has a different opinion?",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a4399ea_4dbb2ba8",
+        "filename": "java/com/google/gerrit/server/query/change/OrSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-28T14:59:36Z",
+      "side": 1,
+      "message": "StorageException from #read() made sense since we were not able to return data. And IllegalArgumentExcption is more appropriate for constructor I believe, as the arguments are wrong.\n\nAdded Marija.",
+      "parentUuid": "c46508d4_e17b6d8a",
       "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

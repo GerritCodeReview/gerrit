@@ -16,6 +16,24 @@
       "message": "NoteDb migration completed successfully with this change and showed a minor (\u003c5%) performance improvement.",
       "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05581210_16d136b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-28T19:23:44Z",
+      "side": 1,
+      "message": "Also, it sounds like upgrades from 2.11 to 2.16 showed an improvement?",
+      "parentUuid": "e30f3904_11353251",
+      "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

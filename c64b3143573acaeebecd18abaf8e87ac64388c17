@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158f8b7b_3ca4614f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2022-10-28T12:57:06Z",
+      "side": 1,
+      "message": "This isn\u0027t quite true right, a data source of cost 0 would have gotten chosen right? In other words, this bug was already there, and the change you mention just made it but likely to happen right?",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa5f5fbf_5b970aea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2022-10-28T12:57:06Z",
+      "side": 1,
+      "message": "s/anyone/none/ d/not/",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8f52ac_188efec5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2022-10-28T12:57:06Z",
+      "side": 1,
+      "message": "Is there not a similar issue for AndSource?",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c46508d4_e17b6d8a",
+        "filename": "java/com/google/gerrit/server/query/change/OrSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2022-10-28T12:57:06Z",
+      "side": 1,
+      "message": "Although I prefer the IllegalArgumentExcption here, maybe someone from Google more familiar with this code has a different opinion?",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

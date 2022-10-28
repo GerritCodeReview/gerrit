@@ -1051,6 +1051,7 @@ export class GrFileList extends LitElement {
         data-file=${JSON.stringify(patchSetFile)}
         tabindex="-1"
         role="row"
+        aria-label=${file.__path}
       >
         <!-- endpoint: change-view-file-list-content-prepend -->
         ${when(showPrependedDynamicColumns, () =>
@@ -1169,12 +1170,18 @@ export class GrFileList extends LitElement {
 
   private renderFileStatusLeft(path?: string) {
     if (this.filesLeftBase.length === 0) return nothing;
+    const arrow = html`
+      <gr-icon
+        icon="arrow_right_alt"
+        class="file-status-arrow"
+        aria-label="then"
+      ></gr-icon>
+    `;
     // no path means "header row"
     const psNum = this.patchRange?.basePatchNum;
     if (!path) {
       return html`
-        ${this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)}
-        <gr-icon icon="arrow_right_alt" class="file-status-arrow"></gr-icon>
+        ${this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)} ${arrow}
       `;
     }
     if (isMagicPath(path)) return nothing;
@@ -1191,7 +1198,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <gr-icon icon="arrow_right_alt" class="file-status-arrow"></gr-icon>
+      ${arrow}
     `;
   }
 

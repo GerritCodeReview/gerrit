@@ -10,7 +10,7 @@ import {assertNever} from '../../../utils/common-util';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-icon/gr-icon';
 
-function statusString(status: FileInfoStatus) {
+function statusString(status?: FileInfoStatus) {
   if (!status) return '';
   switch (status) {
     case FileInfoStatus.ADDED:
@@ -115,15 +115,17 @@ export class GrFileStatus extends LitElement {
 
   private renderStatus() {
     const classes = ['status', this.status];
-    return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
-      <div
-        class=${classes.join(' ')}
-        tabindex="0"
-        aria-label=${this.computeLabel()}
+    return html`
+      <gr-tooltip-content
+        title=${this.computeLabel()}
+        has-tooltip
+        aria-label=${statusString(this.status)}
       >
-        ${this.renderIconOrLetter()}
-      </div>
-    </gr-tooltip-content>`;
+        <div class=${classes.join(' ')} aria-hidden="true">
+          ${this.renderIconOrLetter()}
+        </div>
+      </gr-tooltip-content>
+    `;
   }
 
   private renderIconOrLetter() {
@@ -135,13 +137,15 @@ export class GrFileStatus extends LitElement {
 
   private renderNewlyChanged() {
     if (!this.newlyChanged) return;
-    return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
-      <gr-icon
-        icon="new_releases"
-        class="size-16"
-        aria-label=${this.computeLabel()}
-      ></gr-icon>
-    </gr-tooltip-content>`;
+    return html`
+      <gr-tooltip-content
+        title=${this.computeLabel()}
+        has-tooltip
+        aria-label="newly"
+      >
+        <gr-icon icon="new_releases" class="size-16"></gr-icon>
+      </gr-tooltip-content>
+    `;
   }
 
   private computeLabel() {

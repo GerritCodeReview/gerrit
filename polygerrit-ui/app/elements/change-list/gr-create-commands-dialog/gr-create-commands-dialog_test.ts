@@ -27,13 +27,7 @@ suite('gr-create-commands-dialog tests', () => {
     assert.shadowDom.equal(
       element,
       /* prettier-ignore */ /* HTML */ `
-      <gr-overlay
-        aria-hidden="true"
-        id="commandsOverlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
+      <dialog id="commandsModal" tabindex="-1">
         <gr-dialog
           cancel-label=""
           confirm-label="Done"
@@ -71,7 +65,7 @@ suite('gr-create-commands-dialog tests', () => {
             </ol>
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `
     );
   });

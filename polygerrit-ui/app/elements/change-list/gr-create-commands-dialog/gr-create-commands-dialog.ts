@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-shell-command/gr-shell-command';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 enum Commands {
   CREATE = 'git commit',
@@ -25,8 +24,8 @@ declare global {
 
 @customElement('gr-create-commands-dialog')
 export class GrCreateCommandsDialog extends LitElement {
-  @query('#commandsOverlay')
-  commandsOverlay?: GrOverlay;
+  @query('#commandsModal')
+  commandsModal?: HTMLDialogElement;
 
   @property({type: String})
   branch?: string;
@@ -34,6 +33,7 @@ export class GrCreateCommandsDialog extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       css`
         ol {
           list-style: decimal;
@@ -50,13 +50,13 @@ export class GrCreateCommandsDialog extends LitElement {
   }
 
   override render() {
-    return html` <gr-overlay id="commandsOverlay" with-backdrop="">
+    return html` <dialog id="commandsModal" tabindex="-1">
       <gr-dialog
         id="commandsDialog"
         confirm-label="Done"
         cancel-label=""
         confirm-on-enter=""
-        @confirm=${() => this.commandsOverlay?.close()}
+        @confirm=${() => this.commandsModal?.close()}
       >
         <div class="header" slot="header">Create change commands</div>
         <div class="main" slot="main">
@@ -90,10 +90,10 @@ export class GrCreateCommandsDialog extends LitElement {
           </ol>
         </div>
       </gr-dialog>
-    </gr-overlay>`;
+    </dialog>`;
   }
 
   open() {
-    this.commandsOverlay?.open();
+    this.commandsModal?.showModal();
   }
 }

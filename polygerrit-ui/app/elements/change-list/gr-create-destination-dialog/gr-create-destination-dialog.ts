@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, BranchName} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html} from 'lit';
 import {customElement, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 export interface CreateDestinationConfirmDetail {
   repo?: RepoName;
@@ -28,25 +27,25 @@ export class GrCreateDestinationDialog extends LitElement {
    * @event confirm
    */
 
-  @query('#createOverlay') private createOverlay?: GrOverlay;
+  @query('#createModal') private createModal?: HTMLDialogElement;
 
   @state() private repo?: RepoName;
 
   @state() private branch?: BranchName;
 
   static override get styles() {
-    return [sharedStyles];
+    return [sharedStyles, modalStyles];
   }
 
   override render() {
     return html`
-      <gr-overlay id="createOverlay" with-backdrop>
+      <dialog id="createModal" tabindex="-1">
         <gr-dialog
           confirm-label="View commands"
           @confirm=${this.pickerConfirm}
           @cancel=${() => {
-            assertIsDefined(this.createOverlay, 'createOverlay');
-            this.createOverlay.close();
+            assertIsDefined(this.createModal, 'createModal');
+            this.createModal.close();
           }}
           ?disabled=${!(this.repo && this.branch)}
         >
@@ -67,20 +66,20 @@ export class GrCreateDestinationDialog extends LitElement {
             </p>
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
   open() {
-    assertIsDefined(this.createOverlay, 'createOverlay');
+    assertIsDefined(this.createModal, 'createModal');
     this.repo = '' as RepoName;
     this.branch = '' as BranchName;
-    this.createOverlay.open();
+    this.createModal.showModal();
   }
 
   private pickerConfirm = (e: Event) => {
-    assertIsDefined(this.createOverlay, 'createOverlay');
-    this.createOverlay.close();
+    assertIsDefined(this.createModal, 'createModal');
+    this.createModal.close();
     const detail: CreateDestinationConfirmDetail = {
       repo: this.repo,
       branch: this.branch,

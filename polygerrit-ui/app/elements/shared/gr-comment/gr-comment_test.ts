@@ -528,9 +528,11 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
+      // After changing the 'resolved' state of the comment the 'Save' button
+      // should stay disabled, if the message is empty.
       element.unresolved = false;
       await element.updateComplete;
-      assert.isFalse(element.isSaveDisabled());
+      assert.isTrue(element.isSaveDisabled());
 
       element.saving = true;
       await element.updateComplete;

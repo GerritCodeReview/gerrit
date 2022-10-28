@@ -71,7 +71,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * the label will be reset to NO_BLOCK anyway.
  */
 public class MigrateLabelFunctionsToSubmitRequirement {
-  private static final String COMMIT_MSG = "Migrate label functions to submit requirements";
+  public static final String COMMIT_MSG = "Migrate label functions to submit requirements";
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 

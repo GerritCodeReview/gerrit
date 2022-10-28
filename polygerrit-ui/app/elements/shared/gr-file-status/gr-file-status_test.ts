@@ -28,8 +28,8 @@ suite('gr-file-status tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-tooltip-content has-tooltip="" title="">
-            <div class="status" aria-label="" tabindex="0"><span></span></div>
+          <gr-tooltip-content has-tooltip="" title="" aria-label="">
+            <div class="status" aria-hidden="true"><span></span></div>
           </gr-tooltip-content>
         `
       );
@@ -40,8 +40,8 @@ suite('gr-file-status tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-tooltip-content has-tooltip="" title="Added">
-            <div class="A status" aria-label="Added" tabindex="0">
+          <gr-tooltip-content has-tooltip="" title="Added" aria-label="Added">
+            <div class="A status" aria-hidden="true">
               <span>A</span>
             </div>
           </gr-tooltip-content>
@@ -54,15 +54,19 @@ suite('gr-file-status tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-tooltip-content has-tooltip="" title="Newly Added">
-            <gr-icon
-              icon="new_releases"
-              class="size-16"
-              aria-label="Newly Added"
-            ></gr-icon>
+          <gr-tooltip-content
+            has-tooltip=""
+            title="Newly Added"
+            aria-label="newly"
+          >
+            <gr-icon icon="new_releases" class="size-16"></gr-icon>
           </gr-tooltip-content>
-          <gr-tooltip-content has-tooltip="" title="Newly Added">
-            <div class="A status" aria-label="Newly Added" tabindex="0">
+          <gr-tooltip-content
+            has-tooltip=""
+            title="Newly Added"
+            aria-label="Added"
+          >
+            <div class="A status" aria-hidden="true">
               <span>A</span>
             </div>
           </gr-tooltip-content>

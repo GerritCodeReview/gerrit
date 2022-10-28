@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
@@ -154,7 +155,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(ReplacePatchSetSender.Factory.class).toProvider(Providers.of(null));
-    bind(CurrentUser.class).to(IdentifiedUser.class);
+    bind(CurrentUser.class).to(InternalUser.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);

@@ -34,6 +34,24 @@
       "parentUuid": "e30f3904_11353251",
       "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49f62bb8_db8ebfa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-28T19:30:11Z",
+      "side": 1,
+      "message": "Yes, it does improve it.",
+      "parentUuid": "05581210_16d136b4",
+      "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

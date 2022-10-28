@@ -1319,10 +1319,7 @@ export class GrFileList extends LitElement {
           For example, without a nested div screen readers pronounce the
           "Commit message" row content with incorrect column headers.
         -->
-      <div
-        class=${this.computeSizeBarsClass(file.__path)}
-        aria-label="A bar that represents the addition and deletion ratio for the current file"
-      >
+      <div class=${this.computeSizeBarsClass(file.__path)} aria-hidden="true">
         <svg width="61" height="8">
           <rect
             x=${this.computeBarAdditionX(file, sizeBarLayout)}
@@ -1354,7 +1351,7 @@ export class GrFileList extends LitElement {
         <span
           class="added"
           tabindex="0"
-          aria-label=${`${file.lines_inserted} lines added`}
+          aria-label=${`${file.lines_inserted} added`}
           ?hidden=${file.binary}
         >
           +${file.lines_inserted}
@@ -1362,7 +1359,7 @@ export class GrFileList extends LitElement {
         <span
           class="removed"
           tabindex="0"
-          aria-label=${`${file.lines_deleted} lines removed`}
+          aria-label=${`${file.lines_deleted} removed`}
           ?hidden=${file.binary}
         >
           -${file.lines_deleted}
@@ -1452,6 +1449,7 @@ export class GrFileList extends LitElement {
   }
 
   private renderShowHide(file: NormalizedFileInfo) {
+    const expanded = this.isFileExpanded(file.__path);
     return html` <div class="show-hide" role="gridcell">
       <!-- Do not use input type="checkbox" with hidden input and
             visible label here. Screen readers don't read/interract
@@ -1464,7 +1462,10 @@ export class GrFileList extends LitElement {
         role="switch"
         tabindex="0"
         aria-checked=${this.isFileExpandedStr(file.__path)}
-        aria-label="Expand file"
+        aria-label=${expanded ? 'collapse' : 'expand'}
+        aria-description=${expanded
+          ? 'Collapse diff of this file'
+          : 'Expand diff of this file'}
         @click=${this.expandedClick}
         @keydown=${this.expandedClick}
       >
@@ -1474,7 +1475,7 @@ export class GrFileList extends LitElement {
           class="show-hide-icon"
           tabindex="-1"
           id="icon"
-          icon=${this.computeShowHideIcon(file.__path)}
+          icon=${expanded ? 'expand_less' : 'expand_more'}
         ></gr-icon>
       </span>
     </div>`;
@@ -2230,10 +2231,6 @@ export class GrFileList extends LitElement {
 
   private computePathClass(path: string | undefined) {
     return this.isFileExpanded(path) ? 'expanded' : '';
-  }
-
-  private computeShowHideIcon(path: string | undefined) {
-    return this.isFileExpanded(path) ? 'expand_less' : 'expand_more';
   }
 
   private computeShowNumCleanlyMerged(): boolean {

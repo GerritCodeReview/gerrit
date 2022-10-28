@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8337a073_882c8b04",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-28T15:35:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d0f9742_b79d8680",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c46508d4_e17b6d8a",

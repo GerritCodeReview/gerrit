@@ -193,6 +193,24 @@
       "parentUuid": "c46508d4_e17b6d8a",
       "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d903136b_96d145a0",
+        "filename": "java/com/google/gerrit/server/query/change/OrSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-28T16:14:54Z",
+      "side": 1,
+      "message": "I agree with you, and we can always change this later if this is not desirable.",
+      "parentUuid": "1a4399ea_4dbb2ba8",
+      "revId": "c64b3143573acaeebecd18abaf8e87ac64388c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

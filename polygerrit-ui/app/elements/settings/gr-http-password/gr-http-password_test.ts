@@ -57,13 +57,7 @@ suite('gr-http-password tests', () => {
             (opens in a new tab)
           </span>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="generatedPasswordOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog tabindex="-1" id="generatedPasswordModal">
           <div class="gr-form-styles">
             <section id="generatedPasswordDisplay">
               <span class="title"> New Password: </span>
@@ -90,7 +84,7 @@ suite('gr-http-password tests', () => {
               Close
             </gr-button>
           </div>
-        </gr-overlay>
+        </dialog>
       `
     );
   });

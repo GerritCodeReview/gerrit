@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.LazyResultSet;
-import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
 import java.util.ArrayList;
@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
-  private int cardinality = -1;
-
+public class OrSource extends OrCardinalPredicate<ChangeData> implements ChangeDataSource {
   public OrSource(Collection<? extends Predicate<ChangeData>> that) {
     super(that);
     Optional<Predicate<ChangeData>> nonChangeDataSource =
@@ -76,18 +74,5 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
       }
     }
     return true;
-  }
-
-  @Override
-  public int getCardinality() {
-    if (cardinality < 0) {
-      cardinality = 0;
-      for (Predicate<ChangeData> p : getChildren()) {
-        if (p instanceof ChangeDataSource) {
-          cardinality += ((ChangeDataSource) p).getCardinality();
-        }
-      }
-    }
-    return cardinality;
   }
 }

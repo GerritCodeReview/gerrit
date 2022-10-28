@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68bd39e8_0976d9d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-28T09:39:02Z",
+      "side": 1,
+      "message": "nice bug find \u0026 fix",
+      "revId": "c35df699b9929e071787ea2b2e7d07f40e669b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a632db_ee25aa55",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-28T09:39:02Z",
+      "side": 1,
+      "message": "dialog",
+      "range": {
+        "startLine": 1997,
+        "startChar": 28,
+        "endLine": 1997,
+        "endChar": 36
+      },
+      "revId": "c35df699b9929e071787ea2b2e7d07f40e669b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151591a0_7881d116",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-28T09:39:02Z",
+      "side": 1,
+      "message": "wouldn\u0027t diff-view need the event fix too? It seems to work for some reason, but seems best to add the same fix here.",
+      "range": {
+        "startLine": 1292,
+        "startChar": 0,
+        "endLine": 1294,
+        "endChar": 0
+      },
+      "revId": "c35df699b9929e071787ea2b2e7d07f40e669b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

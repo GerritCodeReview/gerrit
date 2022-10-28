@@ -6,10 +6,8 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-overlay/gr-overlay';
 import {GpgKeyInfo, GpgKeyId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
@@ -27,7 +25,7 @@ declare global {
 }
 @customElement('gr-gpg-editor')
 export class GrGpgEditor extends LitElement {
-  @query('#viewKeyOverlay') viewKeyOverlay?: GrOverlay;
+  @query('#viewKeyModal') viewKeyModal?: HTMLDialogElement;
 
   @query('#addButton') addButton?: GrButton;
 
@@ -60,7 +58,7 @@ export class GrGpgEditor extends LitElement {
       .userIdHeader {
         width: 15em;
       }
-      #viewKeyOverlay {
+      #viewKeyModal {
         padding: var(--spacing-xxl);
         width: 50em;
       }
@@ -97,7 +95,7 @@ export class GrGpgEditor extends LitElement {
               ${this.keys.map((key, index) => this.renderKey(key, index))}
             </tbody>
           </table>
-          <gr-overlay id="viewKeyOverlay" with-backdrop="">
+          <dialog id="viewKeyModal" tabindex="-1">
             <fieldset>
               <section>
                 <span class="title">Status</span>
@@ -111,11 +109,11 @@ export class GrGpgEditor extends LitElement {
             <gr-button
               class="closeButton"
               @click=${() => {
-                this.viewKeyOverlay?.close();
+                this.viewKeyModal?.close();
               }}
               >Close</gr-button
             >
-          </gr-overlay>
+          </dialog>
           <gr-button @click=${this.save} ?disabled=${!this.hasUnsavedChanges}
             >Save changes</gr-button
           >
@@ -201,7 +199,7 @@ export class GrGpgEditor extends LitElement {
 
   private showKey(key: GpgKeyInfo) {
     this.keyToView = key;
-    this.viewKeyOverlay?.open();
+    this.viewKeyModal?.showModal();
   }
 
   private handleNewKeyChanged(e: BindValueChangeEvent) {

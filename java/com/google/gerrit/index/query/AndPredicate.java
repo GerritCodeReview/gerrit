@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /** Requires all predicates to be true. */
 public class AndPredicate<T> extends Predicate<T>
@@ -152,5 +153,19 @@ public class AndPredicate<T> extends Predicate<T>
     }
     r.append(")");
     return r.toString();
+  }
+
+  @Override
+  public Optional<Integer> getOptionalCardinality() {
+    int cardinality = Integer.MAX_VALUE;
+    boolean hasCardinality = false;
+    for (Predicate<T> child : getChildren()) {
+      Optional<Integer> c = child.getOptionalCardinality();
+      if (c.isPresent()) {
+        hasCardinality = true;
+        cardinality = Math.min(c.get(), cardinality);
+      }
+    }
+    return hasCardinality ? Optional.of(cardinality) : Optional.empty();
   }
 }

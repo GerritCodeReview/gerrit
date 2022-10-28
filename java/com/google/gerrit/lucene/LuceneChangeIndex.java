@@ -53,7 +53,6 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
-import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -84,6 +83,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -383,10 +383,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      if (predicate instanceof HasCardinality) {
-        return ((HasCardinality) predicate).getCardinality();
-      }
-      return 10;
+      Optional<Integer> cardinality = predicate.getOptionalCardinality();
+      return cardinality.isPresent() ? cardinality.get() : 10;
     }
 
     @Override

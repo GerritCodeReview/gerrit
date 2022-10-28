@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c60fc3_4f6b8f6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-28T07:49:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5a959bb_dfb3d6ac",
+      "range": {
+        "startLine": 809,
+        "startChar": 7,
+        "endLine": 809,
+        "endChar": 50
+      },
+      "revId": "9c01d814b2903f94b164490a3d4525fea7b36722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81cea346_b27708c8",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-10-28T07:01:20Z",
       "side": 1,
       "message": "You can use `this.tabs` here.",
+      "range": {
+        "startLine": 810,
+        "startChar": 22,
+        "endLine": 810,
+        "endChar": 75
+      },
+      "revId": "9c01d814b2903f94b164490a3d4525fea7b36722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2abf462d_4e058df9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-28T07:49:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81cea346_b27708c8",
       "range": {
         "startLine": 810,
         "startChar": 22,

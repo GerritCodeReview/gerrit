@@ -529,16 +529,10 @@ suite('gr-change-view tests', () => {
           </section>
         </div>
         <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
-        <gr-overlay
-          aria-hidden="true"
-          id="downloadOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="downloadModal" tabindex="-1">
           <gr-download-dialog id="downloadDialog" role="dialog">
           </gr-download-dialog>
-        </gr-overlay>
+        </dialog>
         <gr-overlay
           aria-hidden="true"
           id="includedInOverlay"
@@ -907,10 +901,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('d should open download overlay', () => {
-      assertIsDefined(element.downloadOverlay);
-      const stub = sinon
-        .stub(element.downloadOverlay, 'open')
-        .returns(Promise.resolve());
+      assertIsDefined(element.downloadModal);
+      const stub = sinon.stub(element.downloadModal, 'showModal');
       pressKey(element, 'd');
       assert.isTrue(stub.called);
     });

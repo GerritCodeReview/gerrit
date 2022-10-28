@@ -105,7 +105,12 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {assertIsDefined, assert, queryAll} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  assert,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -245,7 +250,7 @@ export class GrChangeView extends LitElement {
 
   @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
 
-  @query('#downloadOverlay') downloadOverlay?: GrOverlay;
+  @query('#downloadModal') downloadModal?: HTMLDialogElement;
 
   @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
 
@@ -1199,7 +1204,7 @@ export class GrChangeView extends LitElement {
         .change=${this.change}
         .changeNum=${this.changeNum}
       ></gr-apply-fix-dialog>
-      <gr-overlay id="downloadOverlay" with-backdrop="">
+      <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
@@ -1207,7 +1212,7 @@ export class GrChangeView extends LitElement {
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
-      </gr-overlay>
+      </dialog>
       <gr-overlay id="includedInOverlay" with-backdrop="">
         <gr-included-in-dialog
           id="includedInDialog"
@@ -1988,18 +1993,31 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests
   handleOpenDownloadDialog() {
-    assertIsDefined(this.downloadOverlay);
-    this.downloadOverlay.open().then(() => {
-      assertIsDefined(this.downloadOverlay);
+    assertIsDefined(this.downloadModal);
+    this.downloadModal.showModal();
+    whenVisible(this.downloadModal, () => {
+      assertIsDefined(this.downloadModal);
       assertIsDefined(this.downloadDialog);
-      this.downloadOverlay.setFocusStops(this.downloadDialog.getFocusStops());
       this.downloadDialog.focus();
+      const downloadCommands = queryAndAssert(
+        this.downloadDialog,
+        'gr-download-commands'
+      );
+      const paperTabs = queryAndAssert<PaperTabsElement>(
+        downloadCommands,
+        'paper-tabs'
+      );
+      // Paper Tabs normally listen to 'iron-resize' event to call this method.
+      // After migrating to Dialog element, this event is no longer fired
+      // which means this method is not called which ends up styling the
+      // selected paper tab with an underline.
+      paperTabs._onTabSizingChanged();
     });
   }
 
   private handleDownloadDialogClose() {
-    assertIsDefined(this.downloadOverlay);
-    this.downloadOverlay.close();
+    assertIsDefined(this.downloadModal);
+    this.downloadModal.close();
   }
 
   // Private but used in tests.

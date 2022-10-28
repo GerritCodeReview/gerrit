@@ -89,8 +89,8 @@ import {
   GerritView,
   routerModelToken,
 } from '../../../services/router/router-model';
-import {assertIsDefined} from '../../../utils/common-util';
-import {Key, toggleClass} from '../../../utils/dom-util';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
@@ -125,6 +125,8 @@ import {createChangeUrl} from '../../../models/views/change';
 import {createEditUrl} from '../../../models/views/edit';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {PaperTabsElement} from '@polymer/paper-tabs';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -161,8 +163,8 @@ export class GrDiffView extends LitElement {
   @query('#reviewed')
   reviewed?: HTMLInputElement;
 
-  @query('#downloadOverlay')
-  downloadOverlay?: GrOverlay;
+  @query('#downloadModal')
+  downloadModal?: HTMLDialogElement;
 
   @query('#downloadDialog')
   downloadDialog?: GrDownloadDialog;
@@ -504,6 +506,7 @@ export class GrDiffView extends LitElement {
     return [
       a11yStyles,
       sharedStyles,
+      modalStyles,
       css`
         :host {
           display: block;
@@ -1015,7 +1018,7 @@ export class GrDiffView extends LitElement {
         @reload-diff-preference=${this.handleReloadingDiffPreference}
       >
       </gr-diff-preferences-dialog>
-      <gr-overlay id="downloadOverlay">
+      <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
@@ -1023,7 +1026,7 @@ export class GrDiffView extends LitElement {
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
-      </gr-overlay>`;
+      </dialog>`;
   }
 
   /**
@@ -1283,18 +1286,31 @@ export class GrDiffView extends LitElement {
   }
 
   private handleOpenDownloadDialog() {
-    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
-    this.downloadOverlay.open().then(() => {
-      assertIsDefined(this.downloadOverlay, 'downloadOverlay');
-      assertIsDefined(this.downloadDialog, 'downloadOverlay');
-      this.downloadOverlay.setFocusStops(this.downloadDialog.getFocusStops());
+    assertIsDefined(this.downloadModal, 'downloadModal');
+    this.downloadModal.showModal();
+    whenVisible(this.downloadModal, () => {
+      assertIsDefined(this.downloadModal, 'downloadModal');
+      assertIsDefined(this.downloadDialog, 'downloadDialog');
       this.downloadDialog.focus();
+      const downloadCommands = queryAndAssert(
+        this.downloadDialog,
+        'gr-download-commands'
+      );
+      const paperTabs = queryAndAssert<PaperTabsElement>(
+        downloadCommands,
+        'paper-tabs'
+      );
+      // Paper Tabs normally listen to 'iron-resize' event to call this method.
+      // After migrating to Dialog element, this event is no longer fired
+      // which means this method is not called which ends up styling the
+      // selected paper tab with an underline.
+      paperTabs._onTabSizingChanged();
     });
   }
 
   private handleDownloadDialogClose() {
-    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
-    this.downloadOverlay.close();
+    assertIsDefined(this.downloadModal, 'downloadModal');
+    this.downloadModal.close();
   }
 
   private handleUpToChange() {

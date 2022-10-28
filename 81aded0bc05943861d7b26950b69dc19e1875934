@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1ba6f6_7d8ca8a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-28T23:14:29Z",
+      "side": 1,
+      "message": "One of the two changes have introduced a regression on //javatests/com/google/gerrit/server/query/change:FakeQueryChangesLatestIndexVersionTest\n\nThe same test suite was working fine before this merge.\n\nFor some reasons, the previous merges went through without issues. This needs to be investigated.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "81aded0bc05943861d7b26950b69dc19e1875934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

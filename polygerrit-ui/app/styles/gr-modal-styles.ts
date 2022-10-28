@@ -10,6 +10,8 @@ export const modalStyles = css`
     padding: 0;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
+    background: var(--dialog-background-color);
+    box-shadow: var(--elevation-level-5);
   }
   dialog::backdrop {
     background-color: black;

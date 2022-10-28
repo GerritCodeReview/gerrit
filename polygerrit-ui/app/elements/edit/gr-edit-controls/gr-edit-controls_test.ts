@@ -7,7 +7,12 @@ import '../../../test/common-test-setup';
 import './gr-edit-controls';
 import {GrEditControls} from './gr-edit-controls';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {queryAll, stubRestApi, waitUntil} from '../../../test/test-utils';
+import {
+  queryAll,
+  stubRestApi,
+  waitUntil,
+  waitUntilVisible,
+} from '../../../test/test-utils';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
@@ -86,13 +91,7 @@ suite('gr-edit-controls tests', () => {
         >
           Restore
         </gr-button>
-        <gr-overlay
-          aria-hidden="true"
-          id="overlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="modal" tabindex="-1">
           <gr-dialog
             class="dialog invisible"
             confirm-label="Confirm"
@@ -180,7 +179,7 @@ suite('gr-edit-controls tests', () => {
               </iron-input>
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
       `
     );
   });
@@ -218,7 +217,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(hideDialogStub.called);
       queryAndAssert<GrButton>(element, '#open').click();
       element.patchNum = 1 as RevisionPatchSetNum;
-      await showDialogSpy.lastCall.returnValue;
+      await waitUntilVisible(element.modal!);
       assert.isTrue(hideDialogStub.called);
       assert.isTrue(element.openDialog!.disabled);
       assert.isFalse(queryStub.called);
@@ -241,17 +240,16 @@ suite('gr-edit-controls tests', () => {
 
     test('cancel', async () => {
       queryAndAssert<GrButton>(element, '#open').click();
-      return showDialogSpy.lastCall.returnValue.then(async () => {
-        assert.isTrue(element.openDialog!.disabled);
-        openAutoComplete.noDebounce = true;
-        openAutoComplete.text = 'src/test.cpp';
-        await element.updateComplete;
-        await waitUntil(() => !element.openDialog!.disabled);
-        queryAndAssert<GrButton>(element.openDialog, 'gr-button').click();
-        assert.isFalse(setUrlStub.called);
-        await waitUntil(() => closeDialogSpy.called);
-        assert.equal(element.path, '');
-      });
+      await waitUntilVisible(element.modal!);
+      assert.isTrue(element.openDialog!.disabled);
+      openAutoComplete.noDebounce = true;
+      openAutoComplete.text = 'src/test.cpp';
+      await element.updateComplete;
+      await waitUntil(() => !element.openDialog!.disabled);
+      queryAndAssert<GrButton>(element.openDialog, 'gr-button').click();
+      assert.isFalse(setUrlStub.called);
+      await waitUntil(() => closeDialogSpy.called);
+      assert.equal(element.path, '');
     });
   });
 
@@ -324,21 +322,20 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       queryAndAssert<GrButton>(element, '#delete').click();
-      return showDialogSpy.lastCall.returnValue.then(async () => {
-        assert.isTrue(element.deleteDialog!.disabled);
-        queryAndAssert<GrAutocomplete>(
-          element.deleteDialog,
-          'gr-autocomplete'
-        ).text = 'src/test.cpp';
-        await element.updateComplete;
-        await waitUntil(() => !element.deleteDialog!.disabled);
-        queryAndAssert<GrButton>(element.deleteDialog, 'gr-button').click();
-        assert.isFalse(eventStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        await waitUntil(() => element.path === '');
-      });
+      await waitUntilVisible(element.modal!);
+      assert.isTrue(element.deleteDialog!.disabled);
+      queryAndAssert<GrAutocomplete>(
+        element.deleteDialog,
+        'gr-autocomplete'
+      ).text = 'src/test.cpp';
+      await element.updateComplete;
+      await waitUntil(() => !element.deleteDialog!.disabled);
+      queryAndAssert<GrButton>(element.deleteDialog, 'gr-button').click();
+      assert.isFalse(eventStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      await waitUntil(() => element.path === '');
     });
   });
 
@@ -421,22 +418,21 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(closeDialogSpy.called);
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       queryAndAssert<GrButton>(element, '#rename').click();
-      return showDialogSpy.lastCall.returnValue.then(async () => {
-        assert.isTrue(element.renameDialog!.disabled);
-        queryAndAssert<GrAutocomplete>(
-          element.renameDialog,
-          'gr-autocomplete'
-        ).text = 'src/test.cpp';
-        element.newPathIronInput!.bindValue = 'src/test.newPath';
-        await element.updateComplete;
-        assert.isFalse(element.renameDialog!.disabled);
-        queryAndAssert<GrButton>(element.renameDialog, 'gr-button').click();
-        assert.isFalse(eventStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        await waitUntil(() => element.path === '');
-      });
+      await waitUntilVisible(element.modal!);
+      assert.isTrue(element.renameDialog!.disabled);
+      queryAndAssert<GrAutocomplete>(
+        element.renameDialog,
+        'gr-autocomplete'
+      ).text = 'src/test.cpp';
+      element.newPathIronInput!.bindValue = 'src/test.newPath';
+      await element.updateComplete;
+      assert.isFalse(element.renameDialog!.disabled);
+      queryAndAssert<GrButton>(element.renameDialog, 'gr-button').click();
+      assert.isFalse(eventStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      await waitUntil(() => element.path === '');
     });
   });
 
@@ -455,56 +451,53 @@ suite('gr-edit-controls tests', () => {
       );
     });
 
-    test('restore', () => {
+    test('restore', async () => {
       restoreStub.returns(Promise.resolve({ok: true}));
       element.path = 'src/test.cpp';
       queryAndAssert<GrButton>(element, '#restore').click();
-      return showDialogSpy.lastCall.returnValue.then(async () => {
-        queryAndAssert<GrButton>(
-          element.restoreDialog,
-          'gr-button[primary]'
-        ).click();
-        await element.updateComplete;
+      await waitUntilVisible(element.modal!);
+      queryAndAssert<GrButton>(
+        element.restoreDialog,
+        'gr-button[primary]'
+      ).click();
+      await element.updateComplete;
 
-        assert.isTrue(restoreStub.called);
-        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
-        return restoreStub.lastCall.returnValue.then(() => {
-          assert.equal(element.path, '');
-          assert.equal(eventStub.firstCall.args[0].type, 'reload');
-          assert.isTrue(closeDialogSpy.called);
-        });
+      assert.isTrue(restoreStub.called);
+      assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+      return restoreStub.lastCall.returnValue.then(() => {
+        assert.equal(element.path, '');
+        assert.equal(eventStub.firstCall.args[0].type, 'reload');
+        assert.isTrue(closeDialogSpy.called);
       });
     });
 
-    test('restore fails', () => {
+    test('restore fails', async () => {
       restoreStub.returns(Promise.resolve({ok: false}));
       element.path = 'src/test.cpp';
       queryAndAssert<GrButton>(element, '#restore').click();
-      return showDialogSpy.lastCall.returnValue.then(async () => {
-        queryAndAssert<GrButton>(
-          element.restoreDialog,
-          'gr-button[primary]'
-        ).click();
-        await element.updateComplete;
+      await waitUntilVisible(element.modal!);
+      queryAndAssert<GrButton>(
+        element.restoreDialog,
+        'gr-button[primary]'
+      ).click();
+      await element.updateComplete;
 
-        assert.isTrue(restoreStub.called);
-        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
-        return restoreStub.lastCall.returnValue.then(() => {
-          assert.isFalse(eventStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
+      assert.isTrue(restoreStub.called);
+      assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+      return restoreStub.lastCall.returnValue.then(() => {
+        assert.isFalse(eventStub.called);
+        assert.isFalse(closeDialogSpy.called);
       });
     });
 
-    test('cancel', () => {
+    test('cancel', async () => {
       element.path = 'src/test.cpp';
       queryAndAssert<GrButton>(element, '#restore').click();
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        queryAndAssert<GrButton>(element.restoreDialog, 'gr-button').click();
-        assert.isFalse(eventStub.called);
-        assert.isTrue(closeDialogSpy.called);
-        assert.equal(element.path, '');
-      });
+      await waitUntilVisible(element.modal!);
+      queryAndAssert<GrButton>(element.restoreDialog, 'gr-button').click();
+      assert.isFalse(eventStub.called);
+      assert.isTrue(closeDialogSpy.called);
+      assert.equal(element.path, '');
     });
   });
 
@@ -546,12 +539,12 @@ suite('gr-edit-controls tests', () => {
   });
 
   test('openOpenDialog', async () => {
-    await element.openOpenDialog('test/path.cpp');
+    element.openOpenDialog('test/path.cpp');
     assert.isFalse(element.openDialog!.hasAttribute('hidden'));
-    assert.equal(
-      queryAndAssert<GrAutocomplete>(element.openDialog, 'gr-autocomplete')
-        .text,
-      'test/path.cpp'
+    await waitUntil(
+      () =>
+        queryAndAssert<GrAutocomplete>(element.openDialog, 'gr-autocomplete')
+          .text === 'test/path.cpp'
     );
   });
 

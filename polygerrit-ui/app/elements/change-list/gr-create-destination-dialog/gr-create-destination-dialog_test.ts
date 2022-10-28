@@ -21,13 +21,7 @@ suite('gr-create-destination-dialog tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-overlay
-          aria-hidden="true"
-          id="createOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="createModal" tabindex="-1">
           <gr-dialog confirm-label="View commands" disabled="" role="dialog">
             <div class="header" slot="header">Create change</div>
             <div class="main" slot="main">
@@ -37,7 +31,7 @@ suite('gr-create-destination-dialog tests', () => {
               </p>
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
       `
     );
   });

@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Charsets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -226,13 +227,18 @@ public class ChangeEditModifier {
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
    * @param filePath the path of the file whose contents should be modified
    * @param newContent the new file content
+   * @param newGitFileMode the new file mode in octal format. {@code null} indicates no change
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file already had the specified content
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void modifyFile(
-      Repository repository, ChangeNotes notes, String filePath, RawInput newContent)
+      Repository repository,
+      ChangeNotes notes,
+      String filePath,
+      RawInput newContent,
+      @Nullable Integer newGitFileMode)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     modifyCommit(
@@ -240,7 +246,8 @@ public class ChangeEditModifier {
         notes,
         new ModificationIntention.LatestCommit(),
         CommitModification.builder()
-            .addTreeModification(new ChangeFileContentModification(filePath, newContent))
+            .addTreeModification(
+                new ChangeFileContentModification(filePath, newContent, newGitFileMode))
             .build());
   }
 

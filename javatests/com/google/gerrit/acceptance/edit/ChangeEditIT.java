@@ -94,6 +94,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME = "foo";
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
+  private static final int FILE_MODE = 100644;
   private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
@@ -683,6 +684,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.content = RawInputUtil.create(CONTENT_NEW);
     adminRestSession.putRaw(urlEditFile(changeId, FILE_NAME), in.content).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void changeEditModifyFileModeRest() throws Exception {
+    createEmptyEditFor(changeId);
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = FILE_MODE;
+    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
   }
 
   @Test

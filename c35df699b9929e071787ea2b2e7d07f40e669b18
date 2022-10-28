@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84062763_5592aa70",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-28T10:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a632db_ee25aa55",
+      "range": {
+        "startLine": 1997,
+        "startChar": 28,
+        "endLine": 1997,
+        "endChar": 36
+      },
+      "revId": "c35df699b9929e071787ea2b2e7d07f40e669b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "151591a0_7881d116",
@@ -78,6 +102,30 @@
       "side": 1,
       "message": "It does need the fix. I was accidentally checking at HEAD and not with this change. With this change it\u0027s still broken on diffview",
       "parentUuid": "151591a0_7881d116",
+      "range": {
+        "startLine": 1292,
+        "startChar": 0,
+        "endLine": 1294,
+        "endChar": 0
+      },
+      "revId": "c35df699b9929e071787ea2b2e7d07f40e669b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e4a3f4_b0751e93",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-28T10:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffa12972_46ef5301",
       "range": {
         "startLine": 1292,
         "startChar": 0,

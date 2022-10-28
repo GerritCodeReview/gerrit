@@ -29,6 +29,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.AndPredicate;
+import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
@@ -117,8 +118,8 @@ public class ChangeIndexRewriterTest {
 
     assertThat(out.getChild(0)).isEqualTo(query(firstIndexedSubQuery));
 
-    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrSource.class);
-    OrSource indexedSubTree = (OrSource) out.getChild(1);
+    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrPredicate.class);
+    OrPredicate indexedSubTree = (OrPredicate) out.getChild(1);
 
     Predicate<ChangeData> secondIndexedSubQuery = parse("foo:a OR file:b");
     assertThat(indexedSubTree.getChildren())

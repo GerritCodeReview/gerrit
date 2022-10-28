@@ -45,6 +45,7 @@ import com.google.inject.Singleton;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.util.MutableInteger;
 
@@ -283,7 +284,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     if (in instanceof AndPredicate) {
       return new AndChangeSource(all, config);
     } else if (in instanceof OrPredicate) {
-      return new OrSource(all);
+      Optional<Predicate<ChangeData>> nonChangeDataSource =
+          all.stream().filter(p -> !(p instanceof ChangeDataSource)).findAny();
+      if (!nonChangeDataSource.isPresent()) {
+        return new OrSource(all);
+      }
     }
     return in.copy(all);
   }

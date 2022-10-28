@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-identities';
 import {GrIdentities} from './gr-identities';
 import {AuthType} from '../../../constants/constants';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitUntilVisible} from '../../../test/test-utils';
 import {ServerInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
@@ -96,19 +96,13 @@ suite('gr-identities tests', () => {
             </table>
           </fieldset>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="overlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog tabindex="-1">
           <gr-confirm-delete-item-dialog
             class="confirmDialog"
             itemtypename="ID"
           >
-          </gr-confirm-delete-item-dialog
-        ></gr-overlay>`
+          </gr-confirm-delete-item-dialog>
+        </dialog>`
     );
   });
 
@@ -146,11 +140,12 @@ suite('gr-identities tests', () => {
     assert.isTrue(loadDataStub.called);
   });
 
-  test('handleDeleteItem opens modal', async () => {
+  test.only('handleDeleteItem opens modal', async () => {
+    debugger;
     const deleteBtn = queryAndAssert<GrButton>(element, '.deleteButton');
     deleteBtn.click();
     await element.updateComplete;
-    assert.isTrue(element.overlay?.opened);
+    await waitUntilVisible(element.modal!);
   });
 
   test('computeShowLinkAnotherIdentity', () => {

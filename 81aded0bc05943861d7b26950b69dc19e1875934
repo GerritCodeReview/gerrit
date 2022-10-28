@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ecd4231_6bdb42ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-28T23:17:09Z",
+      "side": 1,
+      "message": "\u003e One of the two changes have introduced a regression on //javatests/com/google/gerrit/server/query/change:FakeQueryChangesLatestIndexVersionTest\n\u003e \n\u003e The same test suite was working fine before this merge.\n\u003e \n\u003e For some reasons, the previous merges went through without issues. This needs to be investigated.\n\nThis change:\n\n```\n  AndSource: consider cardinality while choosing the data source\n```\n\nwas introduced in stable-3.4 and probably requires a fix in `FakeQueryChangesLatestIndexVersionTest`. Many of the other index changes have needed modifications because the fake index backend got a lot more functionality in stable-3.5.",
+      "parentUuid": "ea1ba6f6_7d8ca8a8",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "81aded0bc05943861d7b26950b69dc19e1875934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c6c41ed2_caf4be2e",

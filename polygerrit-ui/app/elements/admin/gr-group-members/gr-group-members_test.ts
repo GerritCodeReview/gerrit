@@ -346,16 +346,10 @@ suite('gr-group-members tests', () => {
             </div>
           </div>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="overlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="modal" tabindex="-1">
           <gr-confirm-delete-item-dialog class="confirmDialog">
           </gr-confirm-delete-item-dialog>
-        </gr-overlay>
+        </dialog>
       `
     );
   });
@@ -540,12 +534,18 @@ suite('gr-group-members tests', () => {
     deleteBtns[0].click();
     assert.equal(element.itemId, 1000097 as AccountId);
     assert.equal(element.itemName, 'jane');
+    queryAndAssert<HTMLDialogElement>(element, 'dialog').close();
+
     deleteBtns[1].click();
     assert.equal(element.itemId, 1000096 as AccountId);
     assert.equal(element.itemName, 'Test User');
+    queryAndAssert<HTMLDialogElement>(element, 'dialog').close();
+
     deleteBtns[2].click();
     assert.equal(element.itemId, 1000095 as AccountId);
     assert.equal(element.itemName, 'Gerrit');
+    queryAndAssert<HTMLDialogElement>(element, 'dialog').close();
+
     deleteBtns[3].click();
     assert.equal(element.itemId, 1000098 as AccountId);
     assert.equal(element.itemName, '1000098');
@@ -559,9 +559,13 @@ suite('gr-group-members tests', () => {
     deleteBtns[0].click();
     assert.equal(element.itemId, 'testId' as GroupId);
     assert.equal(element.itemName, 'testName');
+    queryAndAssert<HTMLDialogElement>(element, 'dialog').close();
+
     deleteBtns[1].click();
     assert.equal(element.itemId, 'testId2' as GroupId);
     assert.equal(element.itemName, 'testName2');
+    queryAndAssert<HTMLDialogElement>(element, 'dialog').close();
+
     deleteBtns[2].click();
     assert.equal(element.itemId, 'testId3' as GroupId);
     assert.equal(element.itemName, 'testName3');

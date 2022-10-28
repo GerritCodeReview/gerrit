@@ -12,7 +12,6 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {EventType, PageErrorEvent} from '../../../types/events';
 import {RepoName} from '../../../types/common';
@@ -81,13 +80,7 @@ suite('gr-repo-commands tests', () => {
             </div>
           </div>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="createChangeOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="createChangeModal" tabindex="-1">
           <gr-dialog
             confirm-label="Create"
             disabled=""
@@ -100,7 +93,7 @@ suite('gr-repo-commands tests', () => {
               </gr-create-change-dialog>
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
       `,
       {ignoreTags: ['p']}
     );
@@ -109,8 +102,8 @@ suite('gr-repo-commands tests', () => {
   suite('create new change dialog', () => {
     test('createNewChange opens modal', () => {
       const openStub = sinon.stub(
-        queryAndAssert<GrOverlay>(element, '#createChangeOverlay'),
-        'open'
+        queryAndAssert<HTMLDialogElement>(element, '#createChangeModal'),
+        'showModal'
       );
       element.createNewChange();
       assert.isTrue(openStub.called);

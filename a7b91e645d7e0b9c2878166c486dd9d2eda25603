@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc172381_e7cafcb0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3265,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-29T10:10:54Z",
+      "side": 1,
+      "message": "nit: `queries returning` or `queries that are returning`",
+      "range": {
+        "startLine": 3265,
+        "startChar": 41,
+        "endLine": 3265,
+        "endChar": 44
+      },
+      "revId": "a7b91e645d7e0b9c2878166c486dd9d2eda25603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

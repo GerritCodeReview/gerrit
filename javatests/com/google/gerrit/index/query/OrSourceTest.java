@@ -16,33 +16,21 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.OrSource;
 import org.junit.Test;
 
-public class AndSourceTest extends PredicateTest {
+public class OrSourceTest extends PredicateTest {
   @Test
-  public void ensureLowerCostPredicateRunsFirst() {
-    TestDataSourcePredicate p1 = new TestDataSourcePredicate("predicate1", "foo", 10, 10);
-    TestDataSourcePredicate p2 = new TestDataSourcePredicate("predicate2", "foo", 1, 10);
-    AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p1, p2), null);
-    andSource.match("bar");
-    assertFalse(p1.ranMatch);
-    assertTrue(p2.ranMatch);
-  }
-
-  @Test
-  public void ensureAtLeastOneChildIsADataSource() {
-    TestMatchablePredicate<ChangeData> p1 = new TestMatchablePredicate<>("predicate1", "foo", 1);
+  public void ensureAllChildrenAreDataSources() {
+    TestMatchablePredicate<ChangeData> p1 = new TestMatchablePredicate<>("predicate1", "foo", 10);
     TestMatchablePredicate<ChangeData> p2 = new TestMatchablePredicate<>("predicate2", "foo", 1);
 
     IllegalArgumentException thrown =
         assertThrows(
-            IllegalArgumentException.class,
-            () -> new AndSource<>(Lists.newArrayList(p1, p2), null));
-    assertThat(thrown).hasMessageThat().contains("No DataSource Found");
+            IllegalArgumentException.class, () -> new OrSource(Lists.newArrayList(p1, p2)));
+    assertThat(thrown).hasMessageThat().contains("No ChangeDataSource");
   }
 }

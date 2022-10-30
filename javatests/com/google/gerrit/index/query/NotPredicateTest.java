@@ -30,7 +30,7 @@ import org.junit.Test;
 public class NotPredicateTest extends PredicateTest {
   @Test
   public void notNot() {
-    final TestPredicate p = f("author", "bob");
+    final TestPredicate<String> p = f("author", "bob");
     final Predicate<String> n = not(p);
     assertTrue(n instanceof NotPredicate);
     assertNotSame(p, n);
@@ -39,7 +39,7 @@ public class NotPredicateTest extends PredicateTest {
 
   @Test
   public void children() {
-    final TestPredicate p = f("author", "bob");
+    final TestPredicate<String> p = f("author", "bob");
     final Predicate<String> n = not(p);
     assertEquals(1, n.getChildCount());
     assertSame(p, n.getChild(0));
@@ -47,7 +47,7 @@ public class NotPredicateTest extends PredicateTest {
 
   @Test
   public void childrenUnmodifiable() {
-    final TestPredicate p = f("author", "bob");
+    final TestPredicate<String> p = f("author", "bob");
     final Predicate<String> n = not(p);
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
@@ -88,10 +88,10 @@ public class NotPredicateTest extends PredicateTest {
   @Test
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testCopy() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final List<TestPredicate> sa = Collections.singletonList(a);
-    final List<TestPredicate> sb = Collections.singletonList(b);
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final List<TestPredicate<String>> sa = Collections.singletonList(a);
+    final List<TestPredicate<String>> sb = Collections.singletonList(b);
     final Predicate n = not(a);
 
     assertNotSame(n, n.copy(sa));

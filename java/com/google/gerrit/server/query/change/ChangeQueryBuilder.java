@@ -26,6 +26,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
@@ -109,6 +110,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Parses a query string meant to be applied to change objects. */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuilder> {
@@ -796,9 +799,26 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     List<ChangeData> changes = parseChangeData(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (ChangeData c : changes) {
-      or.add(new ParentOfPredicate(value, c, args.repoManager));
+      for (RevCommit revCommit : getParents(c)) {
+        or.add(ChangePredicates.commitPrefix(revCommit.getId().getName()));
+      }
     }
     return Predicate.or(or);
+  }
+
+  private Set<RevCommit> getParents(ChangeData change) {
+    PatchSet ps = change.currentPatchSet();
+    try (Repository repo = args.repoManager.openRepository(change.project());
+        RevWalk walk = new RevWalk(repo)) {
+      RevCommit c = walk.parseCommit(ps.commitId());
+      return Sets.newHashSet(c.getParents());
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format(
+              "Loading commit %s for ps %d of change %d failed.",
+              ps.commitId(), ps.id().get(), ps.id().changeId().get()),
+          e);
+    }
   }
 
   @Operator

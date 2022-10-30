@@ -3056,6 +3056,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const onError = (response?: Response | null) => firePageError(response);
 
     const projectPromise = this.getChange(changeNum, onError).then(change => {
+      // Check if, during the REST-API call execution, the projectLookup was loaded up
+      const projectFromLookup = this._projectLookup[`${changeNum}`];
+      if (projectFromLookup) {
+        return projectFromLookup;
+      }
       if (!change || !change.project) {
         return;
       }

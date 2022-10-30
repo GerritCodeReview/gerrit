@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b84d3f_656729f8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-30T08:36:04Z",
+      "side": 1,
+      "message": "This fix should also be mentioned in the commit message.",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 7
+      },
+      "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6281e1f_7c783fb3",
+        "filename": "java/com/google/gerrit/server/query/change/OrSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-30T08:36:04Z",
+      "side": 1,
+      "message": "Interesting: can you also explain in the commit message why this is now needed in the constructor and not in the `read()` method?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d280903_fa463816",
+        "filename": "javatests/com/google/gerrit/index/query/OrSourceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-30T08:36:04Z",
+      "side": 1,
+      "message": "Is this a new test on stable-3.5 or did I forget to include it whilst during merge?",
+      "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

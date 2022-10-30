@@ -1131,9 +1131,12 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getFromProjectLookup', () => {
     test('getChange succeeds, no project', async () => {
+      const changeNum = 1;
+      const testProject = 'test-project';
+      element._projectLookup[changeNum] = testProject;
       sinon.stub(element, 'getChange').returns(Promise.resolve(null));
-      const val = await element.getFromProjectLookup();
-      assert.strictEqual(val, undefined);
+      const val = await element.getFromProjectLookup(changeNum);
+      assert.strictEqual(val, testProject);
     });
 
     test('getChange succeeds with project', () => {
@@ -1143,7 +1146,9 @@ suite('gr-rest-api-service-impl tests', () => {
       const projectLookup = element.getFromProjectLookup('test');
       return projectLookup.then(val => {
         assert.equal(val, 'project');
-        assert.deepEqual(element._projectLookup, {test: projectLookup});
+        assert.deepEqual(element._projectLookupFromQuery, {
+          test: projectLookup,
+        });
       });
     });
   });

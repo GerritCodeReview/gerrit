@@ -3057,7 +3057,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     const projectPromise = this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {
-        return;
+        // If the REST-API call execution was not able to return a project,
+        // it is best to return what has been cached in the meantime in the projectLookup
+        // table rather than just returning 'unknown'.
+        return this._projectLookup[changeNum];
       }
       this.setInProjectLookup(changeNum, change.project);
       return change.project;

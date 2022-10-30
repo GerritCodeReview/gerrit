@@ -29,8 +29,8 @@ import org.junit.Test;
 public class AndPredicateTest extends PredicateTest {
   @Test
   public void children() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
     final Predicate<String> n = and(a, b);
     assertEquals(2, n.getChildCount());
     assertSame(a, n.getChild(0));
@@ -39,8 +39,8 @@ public class AndPredicateTest extends PredicateTest {
 
   @Test
   public void childrenUnmodifiable() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
     final Predicate<String> n = and(a, b);
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
@@ -60,18 +60,18 @@ public class AndPredicateTest extends PredicateTest {
 
   @Test
   public void testToString() {
-    final TestPredicate a = f("q", "alice");
-    final TestPredicate b = f("q", "bob");
-    final TestPredicate c = f("q", "charlie");
+    final TestPredicate<String> a = f("q", "alice");
+    final TestPredicate<String> b = f("q", "bob");
+    final TestPredicate<String> c = f("q", "charlie");
     assertEquals("(q:alice q:bob)", and(a, b).toString());
     assertEquals("(q:alice q:bob q:charlie)", and(a, b, c).toString());
   }
 
   @Test
   public void testEquals() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
 
     assertTrue(and(a, b).equals(and(a, b)));
     assertTrue(and(a, b, c).equals(and(a, b, c)));
@@ -84,9 +84,9 @@ public class AndPredicateTest extends PredicateTest {
 
   @Test
   public void testHashCode() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
 
     assertTrue(and(a, b).hashCode() == and(a, b).hashCode());
     assertTrue(and(a, b, c).hashCode() == and(a, b, c).hashCode());
@@ -95,11 +95,11 @@ public class AndPredicateTest extends PredicateTest {
 
   @Test
   public void testCopy() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
-    final List<TestPredicate> s2 = ImmutableList.of(a, b);
-    final List<TestPredicate> s3 = ImmutableList.of(a, b, c);
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
+    final List<TestPredicate<String>> s2 = ImmutableList.of(a, b);
+    final List<TestPredicate<String>> s3 = ImmutableList.of(a, b, c);
     final Predicate<String> n2 = and(a, b);
 
     assertNotSame(n2, n2.copy(s2));

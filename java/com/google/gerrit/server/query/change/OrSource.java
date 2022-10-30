@@ -18,7 +18,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.LazyResultSet;
 import com.google.gerrit.index.query.OrPredicate;
@@ -35,16 +34,15 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
 
   public OrSource(Collection<? extends Predicate<ChangeData>> that) {
     super(that);
+    Optional<Predicate<ChangeData>> nonChangeDataSource =
+        getChildren().stream().filter(p -> !(p instanceof ChangeDataSource)).findAny();
+    if (nonChangeDataSource.isPresent()) {
+      throw new IllegalArgumentException("No ChangeDataSource: " + nonChangeDataSource.get());
+    }
   }
 
   @Override
   public ResultSet<ChangeData> read() {
-    Optional<Predicate<ChangeData>> nonChangeDataSource =
-        getChildren().stream().filter(p -> !(p instanceof ChangeDataSource)).findAny();
-    if (nonChangeDataSource.isPresent()) {
-      throw new StorageException("No ChangeDataSource: " + nonChangeDataSource.get());
-    }
-
     // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
     // requested allows the index to run asynchronous queries.
     List<ResultSet<ChangeData>> results =

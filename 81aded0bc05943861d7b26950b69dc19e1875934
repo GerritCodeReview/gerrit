@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b4231d46_680d88b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-30T03:00:50Z",
+      "side": 1,
+      "message": "Merged I5cd9d76653",
+      "parentUuid": "af7ce814_b57e7dda",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "81aded0bc05943861d7b26950b69dc19e1875934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c6c41ed2_caf4be2e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

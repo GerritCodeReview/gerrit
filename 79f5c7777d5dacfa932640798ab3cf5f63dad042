@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc168b4d_477c6582",
+        "filename": "java/com/google/gerrit/server/query/change/OrSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-30T10:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0787327f_089f6324",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d280903_fa463816",
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "This is coming from the earlier merge from stable-3.5",
       "parentUuid": "2d280903_fa463816",
+      "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fbe2e88_a3c2986b",
+        "filename": "javatests/com/google/gerrit/index/query/OrSourceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-30T10:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567be0af_a5ff63fb",
       "revId": "79f5c7777d5dacfa932640798ab3cf5f63dad042",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

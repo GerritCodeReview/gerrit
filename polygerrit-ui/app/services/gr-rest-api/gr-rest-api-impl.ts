@@ -167,6 +167,7 @@ let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 let projectLookup: {[changeNum: string]: Promise<RepoName | undefined>} = {}; // Shared across instances.
+let projectLookupFromQuery: {[changeNum: string]: Promise<RepoName | undefined>} = {}; // Shared across instances.
 
 function suppress404s(res?: Response | null) {
   if (!res || res.status === 404) return;
@@ -261,6 +262,7 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   pendingRequest = {};
   grEtagDecorator = new GrEtagDecorator();
   projectLookup = {};
+  projectLookupFromQuery = {};
   getAppContext().authService.clearCache();
 }
 
@@ -281,6 +283,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _etags = grEtagDecorator; // Shared across instances.
 
   readonly _projectLookup = projectLookup; // Shared across instances.
+
+  readonly _projectLookupFromQuery = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
@@ -3057,13 +3061,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     const projectPromise = this.getChange(changeNum, onError).then(change => {
       if (!change || !change.project) {
-        return;
+        return this._projectLookup[changeNum];
       }
       this.setInProjectLookup(changeNum, change.project);
       return change.project;
     });
 
-    this._projectLookup[changeNum] = projectPromise;
+    this._projectLookupFromQuery[changeNum] = projectPromise;
 
     return projectPromise;
   }

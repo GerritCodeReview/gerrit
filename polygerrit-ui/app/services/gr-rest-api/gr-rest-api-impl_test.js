@@ -1143,7 +1143,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const projectLookup = element.getFromProjectLookup('test');
       return projectLookup.then(val => {
         assert.equal(val, 'project');
-        assert.deepEqual(element._projectLookup, {test: projectLookup});
+        assert.deepEqual(element._projectLookupFromQuery, {test: projectLookup});
       });
     });
   });

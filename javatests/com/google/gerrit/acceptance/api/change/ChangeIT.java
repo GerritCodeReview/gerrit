@@ -1049,6 +1049,69 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOutdatedPatchSet() throws Exception {
+    String fileName1 = "a.txt";
+    String fileContent1 = "some content";
+    String fileName2 = "b.txt";
+    String fileContent2Ps1 = "foo";
+    String fileContent2Ps2 = "foo/bar";
+
+    // Create two changes both with the same parent touching disjunct files
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, fileName1, fileContent1)
+            .to("refs/for/master");
+    r.assertOkStatus();
+    String changeId1 = r.getChangeId();
+    testRepo.reset("HEAD~1");
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, PushOneCommit.SUBJECT, fileName2, fileContent2Ps1);
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+    String changeId2 = r2.getChangeId();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(changeId1).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    // Amend the second change so that it has 2 patch sets
+    amendChange(
+            changeId2,
+            "refs/for/master",
+            admin,
+            testRepo,
+            PushOneCommit.SUBJECT,
+            fileName2,
+            fileContent2Ps2)
+        .assertOkStatus();
+    ChangeInfo changeInfo2 = gApi.changes().id(changeId2).get();
+    assertThat(changeInfo2.revisions.get(changeInfo2.currentRevision)._number).isEqualTo(2);
+
+    // Rebase the first patch set of the second change
+    gApi.changes().id(changeId2).revision(1).rebase();
+
+    // Second change should have 3 patch sets
+    changeInfo2 = gApi.changes().id(changeId2).get();
+    assertThat(changeInfo2.revisions.get(changeInfo2.currentRevision)._number).isEqualTo(3);
+
+    // ... and the committer and description should be correct
+    ChangeInfo info = gApi.changes().id(changeId2).get(CURRENT_REVISION, CURRENT_COMMIT);
+    GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+    assertThat(committer.name).isEqualTo(admin.fullName());
+    assertThat(committer.email).isEqualTo(admin.email());
+    String description = info.revisions.get(info.currentRevision).description;
+    assertThat(description).isEqualTo("Rebase");
+
+    // ... and the file contents should match with patch set 1 based on change1
+    assertThat(gApi.changes().id(changeId2).current().file(fileName1).content().asString())
+        .isEqualTo(fileContent1);
+    assertThat(gApi.changes().id(changeId2).current().file(fileName2).content().asString())
+        .isEqualTo(fileContent2Ps1);
+  }
+
+  @Test
   public void deleteNewChangeAsAdmin() throws Exception {
     deleteChangeAsUser(admin, admin);
   }

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce3a9a31_67afc874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-31T16:21:54Z",
+      "side": 1,
+      "message": "FYI I think I know of two ways you can get duplicates here: 1) Your index backend has separate open/closed change indexes and a change is closed during the search; and/or 2) the index backend search paginates and at least one change returned in an earlier page is returned again because other changes were updated to be at an earlier offset.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

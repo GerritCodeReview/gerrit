@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a1e4d48_1ac8645b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-31T07:25:49Z",
+      "side": 1,
+      "message": "Thanks for the detailed commit message.Very helpful!",
+      "revId": "0bc2475f7b4705e66d280b4e81919d07eca52ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

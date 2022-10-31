@@ -110,6 +110,7 @@ class GitwebServlet extends HttpServlet {
   private final Provider<CurrentUser> userProvider;
   private final EnvList _env;
 
+  @SuppressWarnings("CanIgnoreReturnValueSuggester")
   @Inject
   GitwebServlet(
       GitRepositoryManager repoManager,

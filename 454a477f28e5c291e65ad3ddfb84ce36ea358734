@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf833647_e191c0be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-31T00:26:15Z",
+      "side": 1,
+      "message": "We have already 500k changes on GerritHub.io, I believe there are Gerrit setups with over 4M changes around.",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fbffbfd_58b69ceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-31T00:26:15Z",
+      "side": 1,
+      "message": "A way to reduce the collisions to zero is to introduce a dictionary-encoding of the server-ids.\n\nExample:\nserverId1 -\u003e 1\nserverId2 -\u003e 2\n...\n\nBy limiting the maximum number of imported serverIds to 64, we could then use just 6 bit for the serverId and leave all the others 26 bit for allowing 67M changes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

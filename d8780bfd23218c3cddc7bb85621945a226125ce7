@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917c198e_4e430b73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-31T14:51:27Z",
+      "side": 1,
+      "message": "It\u0027s not 100% clear to me what is implied by these 2 alterations? Can you clarify? Were these 2 case where you decided to not go with the restored values because you thought the restored values were no good?",
+      "range": {
+        "startLine": 34,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "d8780bfd23218c3cddc7bb85621945a226125ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

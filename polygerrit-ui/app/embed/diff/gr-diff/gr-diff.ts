@@ -53,7 +53,7 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
 } from '../../../api/diff';
-import {isSafari, toggleClass} from '../../../utils/dom-util';
+import {isElementTarget, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   debounceP,
@@ -966,6 +966,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
           * into DOM before it.
           */
           z-index: 10;
+        }
+
+        gr-diff-section,
+        gr-context-controls-section,
+        gr-diff-row {
+          display: contents;
         }
       `,
     ];

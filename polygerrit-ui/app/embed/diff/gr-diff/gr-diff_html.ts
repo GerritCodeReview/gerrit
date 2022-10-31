@@ -670,6 +670,12 @@ export const htmlTemplate = html`
     .token-highlight {
       background-color: var(--token-highlighting-color, #fffd54);
     }
+
+    gr-diff-section,
+    gr-context-controls-section,
+    gr-diff-row {
+      display: contents;
+    }
   </style>
   <style include="gr-syntax-theme">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

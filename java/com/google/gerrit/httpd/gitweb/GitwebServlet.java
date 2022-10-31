@@ -35,6 +35,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -638,6 +639,7 @@ class GitwebServlet extends HttpServlet {
     return env.getEnvArray();
   }
 
+  @CanIgnoreReturnValue
   private String getProjectRoot(Project.NameKey nameKey)
       throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(nameKey)) {

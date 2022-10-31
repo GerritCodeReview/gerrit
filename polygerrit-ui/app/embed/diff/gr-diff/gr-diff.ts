@@ -53,7 +53,7 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
 } from '../../../api/diff';
-import {isSafari, toggleClass} from '../../../utils/dom-util';
+import {isElementTarget, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   debounceP,
@@ -967,6 +967,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
           */
           z-index: 10;
         }
+
+        gr-diff-section,
+        gr-context-controls-section,
+        gr-diff-row {
+          display: contents;
+        }
       `,
     ];
   }
@@ -1301,7 +1307,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // Private but used in tests.
   handleTap(e: Event) {
-    const el = e.target as Element;
+    const el = e.composedPath()[0];
+    if (!isElementTarget(el)) return;
 
     if (
       el.getAttribute('data-value') !== 'LOST' &&

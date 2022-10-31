@@ -12,6 +12,7 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
+import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 import {CancelablePromise, makeCancelable} from '../../../scripts/util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -424,13 +425,24 @@ export class GrDiffBuilderElement implements GroupConsumer {
       // If the diff is binary, but not an image.
       return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      builder = new GrDiffBuilderSideBySide(
-        this.diff,
-        localPrefs,
-        this.diffElement,
-        this.layersInternal,
-        this.renderPrefs
-      );
+      const useLit = this.renderPrefs?.use_lit_components;
+      if (useLit) {
+        builder = new GrDiffBuilderLit(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this.layersInternal,
+          this.renderPrefs
+        );
+      } else {
+        builder = new GrDiffBuilderSideBySide(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this.layersInternal,
+          this.renderPrefs
+        );
+      }
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
         this.diff,

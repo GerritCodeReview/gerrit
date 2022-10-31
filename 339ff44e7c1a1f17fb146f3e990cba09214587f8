@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ad215e_a04b12f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-31T19:39:25Z",
+      "side": 1,
+      "message": "Updated the description.\n\nThis is purely the misuse of API. CherryPickChange operation, that is used on RevertSubmission just always sets cherryPickOf, and it appears to be the source of the revert in this case.",
+      "parentUuid": "168f92e6_8e9ab97b",
+      "revId": "339ff44e7c1a1f17fb146f3e990cba09214587f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bf287f8_f756d764",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-31T18:19:06Z",
       "side": 1,
       "message": "Do these fail without the fix?",
+      "revId": "339ff44e7c1a1f17fb146f3e990cba09214587f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9814f199_9b263c19",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-31T19:39:25Z",
+      "side": 1,
+      "message": "Yes, the test fails. The issue was reported by one of our internal users.",
+      "parentUuid": "6bf287f8_f756d764",
       "revId": "339ff44e7c1a1f17fb146f3e990cba09214587f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

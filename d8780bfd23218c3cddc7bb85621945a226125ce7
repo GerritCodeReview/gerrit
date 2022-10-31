@@ -46,6 +46,30 @@
       },
       "revId": "d8780bfd23218c3cddc7bb85621945a226125ce7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "943f5325_2989fae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-31T16:26:34Z",
+      "side": 1,
+      "message": "I would suggest sticking to the original values in this change. If there are modifications needed, justify them in separate changes.",
+      "parentUuid": "1f17465b_75736b36",
+      "range": {
+        "startLine": 34,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "d8780bfd23218c3cddc7bb85621945a226125ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

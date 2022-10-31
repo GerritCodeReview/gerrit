@@ -16,6 +16,24 @@
       "message": "Can you move this change to stable-3.4? I think it\u0027s a bug in the original change https://gerrit-review.googlesource.com/c/gerrit/+/245318",
       "revId": "1a8a3ca971133b93d30ef1f1b4c65b04bcf5213a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb9e0e3_6c822c7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-31T16:57:49Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "31debb98_3ca491e9",
+      "revId": "1a8a3ca971133b93d30ef1f1b4c65b04bcf5213a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

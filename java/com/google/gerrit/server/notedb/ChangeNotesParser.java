@@ -15,30 +15,32 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COPIED_LABEL;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ASSIGNEE;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PRIVATE;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_REAL_USER;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBJECT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMISSION_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
+import static com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.parseApproval;
+import static com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.parseCopiedApproval;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
@@ -80,8 +82,8 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
-import com.google.gerrit.server.notedb.ChangeNoteUtil.ParsedPatchSetApproval;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.ParsedPatchSetApproval;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -942,7 +944,8 @@ class ChangeNotesParser {
   /** Parses copied {@link PatchSetApproval}. */
   private void parseCopiedApproval(PatchSet.Id psId, Instant ts, String line)
       throws ConfigInvalidException {
-    ParsedPatchSetApproval parsedPatchSetApproval = ChangeNoteUtil.parseCopiedApproval(line);
+    ParsedPatchSetApproval parsedPatchSetApproval =
+        ChangeNotesParseApprovalUtil.parseCopiedApproval(line);
     checkFooter(
         parsedPatchSetApproval.accountIdent().isPresent(),
         FOOTER_COPIED_LABEL,
@@ -1000,7 +1003,8 @@ class ChangeNotesParser {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
     }
     PatchSetApproval.Builder psa;
-    ParsedPatchSetApproval parsedPatchSetApproval = ChangeNoteUtil.parseApproval(line);
+    ParsedPatchSetApproval parsedPatchSetApproval =
+        ChangeNotesParseApprovalUtil.parseApproval(line);
     if (line.startsWith("-")) {
       psa = parseRemoveApproval(psId, accountId, realAccountId, ts, parsedPatchSetApproval);
     } else {
@@ -1009,7 +1013,7 @@ class ChangeNotesParser {
     bufferedApprovals.add(psa);
   }
 
-  /** Parses {@link PatchSetApproval} out of the {@link ChangeNoteUtil#FOOTER_LABEL} value. */
+  /** Parses {@link PatchSetApproval} out of the {@link ChangeNoteFooters#FOOTER_LABEL} value. */
   private PatchSetApproval.Builder parseAddApproval(
       PatchSet.Id psId,
       Account.Id committerId,
@@ -1251,7 +1255,7 @@ class ChangeNotesParser {
   }
 
   /**
-   * Parses {@link ChangeNoteUtil#FOOTER_CHERRY_PICK_OF} of the commit.
+   * Parses {@link ChangeNoteFooters#FOOTER_CHERRY_PICK_OF} of the commit.
    *
    * @param commit the commit to parse.
    * @return {@link Optional} value of the parsed footer or {@code null} if the footer is missing in

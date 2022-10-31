@@ -45,6 +45,30 @@
       },
       "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab6e38b_8674e372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-31T00:27:59Z",
+      "side": 1,
+      "message": "The problem is: where to store this dictionary? Should we auto-generate it? (I believe we should)",
+      "parentUuid": "8fbffbfd_58b69ceb",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

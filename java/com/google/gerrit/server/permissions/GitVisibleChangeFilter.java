@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -27,9 +25,9 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Repository;
 
@@ -72,15 +70,18 @@ public class GitVisibleChangeFilter {
       ImmutableSet<Change.Id> changes) {
     Stream<ChangeData> changeDatas;
     if (changes.size() < CHANGE_LIMIT_FOR_DIRECT_FILTERING) {
+      logger.atFine().log("Loading changes one by one for project %s", projectName);
       changeDatas = loadChangeDatasOneByOne(changes, changeDataFactory, projectName);
     } else if (searchingChangeCache != null) {
+      logger.atFine().log("Loading changes from SearchingChangeCache for project %s", projectName);
       changeDatas = searchingChangeCache.getChangeData(projectName);
     } else {
+      logger.atFine().log("Loading changes from all refs for project %s", projectName);
       changeDatas =
           scanRepoForChangeDatas(changeNotesFactory, changeDataFactory, repository, projectName);
     }
-
-    return changeDatas
+    HashMap<Change.Id, ChangeData> result = new HashMap<>();
+    changeDatas
         .filter(cd -> changes.contains(cd.getId()))
         .filter(
             cd -> {
@@ -90,7 +91,16 @@ public class GitVisibleChangeFilter {
                 throw new StorageException(e);
               }
             })
-        .collect(toImmutableMap(ChangeData::getId, Function.identity()));
+        .forEach(
+            cd -> {
+              if (result.containsKey(cd.getId())) {
+                logger.atWarning().log(
+                    "Duplicate change datas for the repo %s: [%s, %s]",
+                    projectName, cd, result.get(cd.getId()));
+              }
+              result.put(cd.getId(), cd);
+            });
+    return ImmutableMap.copyOf(result);
   }
 
   /** Get a stream of changes by loading them individually. */

@@ -41,9 +41,9 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
@@ -164,12 +164,18 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
                 .get()
                 .setRequestedFields(ChangeField.CHANGE, ChangeField.REVIEWER)
                 .byProject(key);
-        List<CachedChange> result = new ArrayList<>(cds.size());
+        Map<Change.Id, CachedChange> result = new HashMap<>(cds.size());
         for (ChangeData cd : cds) {
-          result.add(
+          if (result.containsKey(cd.getId())) {
+            logger.atWarning().log(
+                "Duplicate changes returned from change query by project %s: %s, %s",
+                key, cd.change(), result.get(cd.getId()).change());
+          }
+          result.put(
+              cd.getId(),
               new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.reviewers()));
         }
-        return Collections.unmodifiableList(result);
+        return List.copyOf(result.values());
       }
     }
   }

@@ -50,7 +50,7 @@ dest="$1.tmp.${random}"
 
 trap 'rm -f "$dest" "$dest-2"' EXIT
 
-if ! git stripspace --strip-comments < "$1" > "${dest}" ; then
+if ! cat "$1" | sed -e '/>8/q' | git stripspace --strip-comments > "${dest}" ; then
    echo "cannot strip comments from $1"
    exit 1
 fi

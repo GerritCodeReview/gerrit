@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168f92e6_8e9ab97b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-31T18:19:06Z",
+      "side": 1,
+      "message": "Nit: We should say why setting it on reverts is the wrong thing to do. Though I\u0027m also curious how we end up with a situation where a change is both a revert and a cherry-pick-of. Do you understand that?",
+      "revId": "339ff44e7c1a1f17fb146f3e990cba09214587f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf287f8_f756d764",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-31T18:19:06Z",
+      "side": 1,
+      "message": "Do these fail without the fix?",
+      "revId": "339ff44e7c1a1f17fb146f3e990cba09214587f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

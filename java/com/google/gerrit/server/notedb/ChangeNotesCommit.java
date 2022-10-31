@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;

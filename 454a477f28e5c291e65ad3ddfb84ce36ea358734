@@ -69,6 +69,30 @@
       },
       "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05627ddc_2f6f8a9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-31T07:07:58Z",
+      "side": 1,
+      "message": "I believe that 64 imports sounds great. The use cases that I\u0027m aware were either for moving project(s) between servers (that is a different use case and IMHO should be rather addressed by replying changes instead of just copying them) or for consolidation of max 3 servers... yet I can\u0027t tell if that will be enough for the GerritHub if feature is available for broader audience. Maybe it shouldn\u0027t be ;)\n\n\u003e The problem is: where to store this dictionary? Should we auto-generate it? (I believe we should)\n\nAs I have proposed before IMHO cached dictionary under `refs/meta` of `All-Projects` project should do. And auto-generation (by the order of imports)?\n\n@matthias.sohn@gmail.com WDYT?",
+      "parentUuid": "aab6e38b_8674e372",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

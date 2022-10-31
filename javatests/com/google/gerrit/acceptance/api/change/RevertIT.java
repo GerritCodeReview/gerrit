@@ -1150,8 +1150,10 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1FirstRevert);
     assertThat(revertChanges.get(0).get().revertOf)
         .isEqualTo(secondResult.getChange().change().getChangeId());
+    assertThat(revertChanges.get(0).get().cherryPickOfChange).isNull();
     assertThat(revertChanges.get(1).get().revertOf)
         .isEqualTo(firstResult.getChange().change().getChangeId());
+    assertThat(revertChanges.get(0).get().cherryPickOfChange).isNull();
     assertThat(revertChanges.get(0).current().files().get("b.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
 

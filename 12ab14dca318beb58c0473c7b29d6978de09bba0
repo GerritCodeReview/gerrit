@@ -22,6 +22,30 @@
       },
       "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "920506fb_243b1aa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-31T17:00:30Z",
+      "side": 1,
+      "message": "Thank you for the hint!\nI think 2) is actually very likely. Do you know how it is solved by elastic index implementation?\nAny hint will be appreciated!",
+      "parentUuid": "ce3a9a31_67afc874",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

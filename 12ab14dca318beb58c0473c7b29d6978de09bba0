@@ -46,6 +46,30 @@
       },
       "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3b32b0_a72edb77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-31T18:29:24Z",
+      "side": 1,
+      "message": "\u003e Thank you for the hint!\n\u003e I think 2) is actually very likely. Do you know how it is solved by elastic index implementation?\n\u003e Any hint will be appreciated!\n\nIt\u0027s not yet. The proposed/planned way to solve is to use the ES \"Point in Time\" (PIT) search feature as seen in 341414: Use Elasticsearch\u0027s \u0027Point In Time\u0027 API for searches | https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/341414\n\nThe downside (at least with a naive approach) is that you end up with an extra roundtrip to the index backend for any query because you don\u0027t know how many results you\u0027re going to have and you need the PIT value when you start the first query.\n\nWe haven\u0027t tested optimizations to that yet, but one approach might be to try and get lucky with the first search and if the results are below the page size, skip doing the PIT. You\u0027d have to repeat that search with a PIT value if you get more than page size results, but it could make many Gerrit queries skip the extra round trip since they may not need pagination. That only helps when the index backend can make the determination based on page size, and not when later filtering (AndSource) determines that another index backend search is needed because the Gerrit query limit hasn\u0027t been met.",
+      "parentUuid": "920506fb_243b1aa3",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

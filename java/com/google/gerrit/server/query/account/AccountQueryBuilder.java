@@ -14,6 +14,8 @@
 package com.google.gerrit.server.query.account;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -38,6 +40,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.query.account.AccountPredicates.AccountPredicate;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -62,6 +66,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   public static class Arguments {
     final ChangeFinder changeFinder;
+    final ChangeData.Factory changeDataFactory;
     final PermissionBackend permissionBackend;
 
     private final Provider<CurrentUser> self;
@@ -72,9 +77,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
         Provider<CurrentUser> self,
         AccountIndexCollection indexes,
         ChangeFinder changeFinder,
+        ChangeData.Factory changeDataFactory,
         PermissionBackend permissionBackend) {
       this.self = self;
       this.indexes = indexes;
+      this.changeDataFactory = changeDataFactory;
       this.changeFinder = changeFinder;
       this.permissionBackend = permissionBackend;
     }
@@ -121,7 +128,17 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     if (!changeNotes.isPresent()) {
       throw error(String.format("change %s not found", change));
     }
-
+    if (changeNotes.get().getChange().isPrivate()) {
+      Account.Id caller = self();
+      ChangeData cd = args.changeDataFactory.create(changeNotes.get());
+      Account.Id owner = cd.change().getOwner();
+      ImmutableSet<Account.Id> reviewersAndCC = cd.reviewers().all();
+      if (!(caller.equals(owner) || reviewersAndCC.contains(caller))) {
+        throw error(String.format("change %s not found", change));
+      }
+      return orAccountPredicate(
+          ImmutableList.<Account.Id>builder().add(owner).addAll(reviewersAndCC).build());
+    }
     if (!args.permissionBackend
         .user(args.getUser())
         .change(changeNotes.get())
@@ -230,5 +247,15 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
       // User is not signed in.
       return false;
     }
+  }
+
+  /** Creates an OR predicate of the account IDs of the {@code accounts} parameter. */
+  private Predicate<AccountState> orAccountPredicate(ImmutableList<Account.Id> accounts) {
+    Predicate<AccountState> result =
+        AccountPredicate.or(AccountPredicates.id(args.schema(), accounts.get(0)));
+    for (int i = 1; i < accounts.size(); i += 1) {
+      result = AccountPredicate.or(result, AccountPredicates.id(args.schema(), accounts.get(i)));
+    }
+    return result;
   }
 }

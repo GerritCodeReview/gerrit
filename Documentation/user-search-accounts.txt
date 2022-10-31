@@ -26,7 +26,10 @@ text with no operator, which will match against a variety of fields.
 [[cansee]]
 cansee:'CHANGE'::
 +
-Matches accounts that can see the change 'CHANGE'.
+Matches accounts that can see the change 'CHANGE'. If the change is private,
+this operator will match with the owner/reviewers/ccs of the change if the
+caller is in owner/reviewers/ccs of the change. Otherwise, the request will fail
+with 404 `Bad Request` with "change not found" message.
 
 [[email]]
 email:'EMAIL'::

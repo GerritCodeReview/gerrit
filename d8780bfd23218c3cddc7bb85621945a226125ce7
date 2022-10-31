@@ -22,6 +22,30 @@
       },
       "revId": "d8780bfd23218c3cddc7bb85621945a226125ce7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f17465b_75736b36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-31T16:16:05Z",
+      "side": 1,
+      "message": "Right, I\u0027ll try to explain better.\n\nProjectPredicate\u0027s cardinality is set to 1_000_000 for r99_byProject. I believe it was set like that since the sql query was expensive for some reason. I was not able to fetch the exact reason. For Index backend the Project predicate must be better than (status: open + closed). ProjectPrefixPredicate\u0027s cardinality is not restored, but added cardinality since it is close to ProjectPredicate.",
+      "parentUuid": "917c198e_4e430b73",
+      "range": {
+        "startLine": 34,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "d8780bfd23218c3cddc7bb85621945a226125ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Perhaps it makes more sense to split the cardinality behavior of And/OrSources out of those classes into subclasses which extend And/OrPredicates but also implement HasCardinality? The query rewriter could be enhanced the way it is currently for And/OrSources to rewrite appropriately for these new And/Or \"cardinal\" Predicates (which might be a good name for them)?",
       "revId": "96178b7a0eb23fbe3cb0d9eefa1da901f4916fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40a65c34_01676403",
+        "filename": "java/com/google/gerrit/index/query/AndPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-01T18:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4298958c_9dd8cf2d",
+      "revId": "96178b7a0eb23fbe3cb0d9eefa1da901f4916fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

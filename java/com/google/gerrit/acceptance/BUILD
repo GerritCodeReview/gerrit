@@ -134,7 +134,7 @@ java_library(
     ),
     visibility = ["//visibility:public"],
     exports = exported_deps,
-    deps = DEPLOY_ENV + exported_deps,
+    deps = DEPLOY_ENV + exported_deps + ["//java/com/google/gerrit/index:index_config"],
 )
 
 java_library(

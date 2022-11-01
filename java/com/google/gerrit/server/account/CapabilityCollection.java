@@ -24,6 +24,7 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
@@ -43,6 +44,7 @@ public class CapabilityCollection {
 
   private final SystemGroupBackend systemGroupBackend;
   private final ImmutableMap<String, ImmutableList<PermissionRule>> permissions;
+  private final IndexConfig indexConfig;
 
   public final ImmutableList<PermissionRule> administrateServer;
   public final ImmutableList<PermissionRule> batchChangesLimit;
@@ -54,9 +56,11 @@ public class CapabilityCollection {
 
   @Inject
   CapabilityCollection(
+      IndexConfig indexConfig,
       SystemGroupBackend systemGroupBackend,
       @AdministrateServerGroups ImmutableSet<GroupReference> admins,
       @Assisted @Nullable AccessSection section) {
+    this.indexConfig = indexConfig;
     this.systemGroupBackend = systemGroupBackend;
 
     if (section == null) {
@@ -133,13 +137,13 @@ public class CapabilityCollection {
         systemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS));
   }
 
-  private static void configureDefault(
+  private void configureDefault(
       Map<String, List<PermissionRule>> out,
       AccessSection section,
       String capName,
       GroupReference group) {
     if (doesNotDeclare(section, capName)) {
-      PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
+      PermissionRange.WithDefaults range = GlobalCapability.getRange(capName, indexConfig);
       if (range != null) {
         PermissionRule.Builder rule = PermissionRule.builder(group);
         rule.setRange(range.getDefaultMin(), range.getDefaultMax());

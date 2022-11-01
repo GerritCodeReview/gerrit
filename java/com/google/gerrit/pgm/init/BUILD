@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index:index_config",
         "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",

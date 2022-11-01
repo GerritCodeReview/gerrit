@@ -5,6 +5,12 @@ QUERY_PARSE_EXCEPTION_SRCS = [
     "query/QueryRequiresAuthException.java",
 ]
 
+INDEX_CONFIG_SRCS = [
+    "IndexConfig.java",
+    "IndexType.java",
+    "PaginationType.java",
+]
+
 java_library(
     name = "query_exception",
     srcs = QUERY_PARSE_EXCEPTION_SRCS,
@@ -15,10 +21,11 @@ java_library(
     name = "index",
     srcs = glob(
         ["**/*.java"],
-        exclude = QUERY_PARSE_EXCEPTION_SRCS,
+        exclude = QUERY_PARSE_EXCEPTION_SRCS + INDEX_CONFIG_SRCS,
     ),
     visibility = ["//visibility:public"],
     deps = [
+        ":index_config",
         ":query_exception",
         "//antlr3:query_parser",
         "//java/com/google/gerrit/common:annotations",
@@ -37,5 +44,18 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
+    ],
+)
+
+java_library(
+    name = "index_config",
+    srcs = INDEX_CONFIG_SRCS,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//lib:guava",
+        "//lib:jgit",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )

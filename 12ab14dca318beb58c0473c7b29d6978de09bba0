@@ -94,6 +94,30 @@
       },
       "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d45bae_7980f16c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-01T17:03:16Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org\n\nSince I have you here, I would like to use the opportunity to ask the question about your work on Index pagination. In this change [1], you added support to paginate no-limit queries. Is there any work you are planning to do to paginate queries with limit?\nE.g. I think this can significantly improve performance of our change dashboards?\n\n\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/344334",
+      "parentUuid": "ff02477c_3585d4fa",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

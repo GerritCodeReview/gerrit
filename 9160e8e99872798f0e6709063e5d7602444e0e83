@@ -22,6 +22,30 @@
       },
       "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac917b4_39231693",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-01T19:27:18Z",
+      "side": 1,
+      "message": "Does that mean that we should also backport If006e36069e to stable-3.4?",
+      "parentUuid": "9482d0b5_7e143d9f",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

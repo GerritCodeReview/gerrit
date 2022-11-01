@@ -29,6 +29,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
@@ -84,7 +85,8 @@ public abstract class TestProjectUpdate {
       abstract TestCapability autoBuild();
 
       public TestCapability build() {
-        PermissionRange.WithDefaults withDefaults = GlobalCapability.getRange(name());
+        PermissionRange.WithDefaults withDefaults =
+            GlobalCapability.getRange(name(), IndexConfig.createDefault());
         if (withDefaults != null) {
           int min = min().orElse(withDefaults.getDefaultMin());
           int max = max().orElse(withDefaults.getDefaultMax());

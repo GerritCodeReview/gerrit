@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
@@ -33,21 +34,26 @@ public class AccountLimits {
   @Singleton
   public static class Factory {
     private final ProjectCache projectCache;
+    private final IndexConfig indexConfig;
 
     @Inject
-    Factory(ProjectCache projectCache) {
+    Factory(IndexConfig indexConfig, ProjectCache projectCache) {
       this.projectCache = projectCache;
+      this.indexConfig = indexConfig;
     }
 
     public AccountLimits create(CurrentUser user) {
-      return new AccountLimits(projectCache, user);
+      return new AccountLimits(indexConfig, projectCache, user);
     }
   }
 
   private final CapabilityCollection capabilities;
   private final CurrentUser user;
+  private final IndexConfig indexConfig;
 
-  private AccountLimits(ProjectCache projectCache, CurrentUser currentUser) {
+  private AccountLimits(
+      IndexConfig indexConfig, ProjectCache projectCache, CurrentUser currentUser) {
+    this.indexConfig = indexConfig;
     capabilities = projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
   }
@@ -114,11 +120,12 @@ public class AccountLimits {
     return null;
   }
 
-  private static PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
+  private PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
     int min = 0;
     int max = 0;
     if (ruleList.isEmpty()) {
-      PermissionRange.WithDefaults defaultRange = GlobalCapability.getRange(permissionName);
+      PermissionRange.WithDefaults defaultRange =
+          GlobalCapability.getRange(permissionName, indexConfig);
       if (defaultRange != null) {
         min = defaultRange.getDefaultMin();
         max = defaultRange.getDefaultMax();

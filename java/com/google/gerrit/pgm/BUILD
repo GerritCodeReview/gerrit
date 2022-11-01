@@ -19,6 +19,7 @@ java_library(
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/httpd/auth/restapi",
         "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index:index_config",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",

@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
+import com.google.gerrit.index.IndexConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -192,10 +193,14 @@ public class GlobalCapability {
 
   /** Returns the valid range for the capability if it has one, otherwise null. */
   @Nullable
-  public static PermissionRange.WithDefaults getRange(String varName) {
+  public static PermissionRange.WithDefaults getRange(String varName, IndexConfig indexConfig) {
     if (QUERY_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(
-          varName, 0, Integer.MAX_VALUE, 0, DEFAULT_MAX_QUERY_LIMIT);
+          varName,
+          0,
+          Integer.MAX_VALUE,
+          0,
+          Math.max(DEFAULT_MAX_QUERY_LIMIT, indexConfig.maxLimit()));
     }
     if (BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(

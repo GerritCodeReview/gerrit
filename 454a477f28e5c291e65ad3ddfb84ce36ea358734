@@ -117,6 +117,30 @@
       },
       "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4006c949_1e1f6f39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-01T07:49:05Z",
+      "side": 1,
+      "message": "Right but then IIUIC all queries to changes would have to be reworked to contain it...",
+      "parentUuid": "75333ab7_96b0a01e",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

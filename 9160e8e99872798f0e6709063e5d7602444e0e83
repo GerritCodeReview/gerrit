@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9482d0b5_7e143d9f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-01T10:59:57Z",
+      "side": 1,
+      "message": "Looks like this change caused the bug with duplicate Changes returned from SearchingChangeCacheImpl, see.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/349995/comment/ce3a9a31_67afc874/\n\nNot sure if this will be a problem for your index implementation, but our implementation (that does not support pagination yet) is incompatible with this change.",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

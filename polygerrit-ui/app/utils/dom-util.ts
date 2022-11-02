@@ -474,8 +474,10 @@ export function whenRendered(
     callback();
     return;
   }
+  console.log('whenRendered wait');
   const obs = new ResizeObserver(() => {
     if (el.clientHeight > 0) {
+      console.log('whenRendered resolve');
       callback();
       obs.unobserve(el);
     }

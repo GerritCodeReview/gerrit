@@ -44,6 +44,11 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
 
   override getLineElByNumber(lineNumber: LineNumber, side: Side) {
     const row = this.findRow(lineNumber, side);
+    console.log(
+      `asdf getLineElByNumber ${lineNumber} ${side} ${row} ${row?.getLineNumberCell(
+        side
+      )}`
+    );
     return row?.getLineNumberCell(side) ?? null;
   }
 

@@ -173,6 +173,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
     // attached before plugins are installed.
+    console.log('asdf diff builder element render()');
     this.setupAnnotationLayers();
 
     this.showTabs = this.prefs.show_tabs;
@@ -215,17 +216,21 @@ export class GrDiffBuilderElement implements GroupConsumer {
           if (this.isImageDiff) {
             (this.builder as GrDiffBuilderImage).renderDiff();
           }
+          console.log('asdf diff builder element wait for groups');
           await this.untilGroupsRendered();
+          console.log('asdf diff builder element fire render-content');
           this.fireDiffEvent('render-content');
         })
         // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
         // tests.
         .catch(e => {
+          console.log(`asdf diff builder element catch ${e}`);
           if (!e.isCanceled) return Promise.reject(e);
           return;
         })
         .finally(() => {
+          console.log('asdf diff builder element finally');
           this.cancelableRenderPromise = null;
         })
     );
@@ -233,6 +238,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   async untilGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
+    console.log(`asdf untilGroupsRendered ${groups.length}`);
     return Promise.all(groups.map(g => g.waitUntilRendered()));
   }
 

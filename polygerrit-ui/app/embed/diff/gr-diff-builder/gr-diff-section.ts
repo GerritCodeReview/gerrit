@@ -118,6 +118,12 @@ export class GrDiffSection extends LitElement {
     return [...this.querySelectorAll<GrDiffRow>('gr-diff-row')];
   }
 
+  async waitUpdateCompleteAll() {
+    await this.updateComplete;
+    const rows = this.getDiffRows();
+    for (const row of rows) await row.updateComplete;
+  }
+
   private renderContextControls() {
     if (this.group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
 

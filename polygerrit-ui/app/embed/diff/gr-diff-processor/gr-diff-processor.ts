@@ -160,8 +160,12 @@ export class GrDiffProcessor {
             this.nextStepHandle = window.setTimeout(nextStep, 100);
             return;
           }
+          console.log(
+            `asdf processor next step ${state.chunkIndex} ${chunks.length}`
+          );
           // If we are done, resolve the promise.
           if (state.chunkIndex >= chunks.length) {
+            console.log(`asdf processor resolve ${state.chunkIndex}`);
             resolve();
             this.nextStepHandle = null;
             return;
@@ -191,6 +195,7 @@ export class GrDiffProcessor {
       })
     );
     return this.processPromise.finally(() => {
+      console.log('asdf processor promise finally');
       this.processPromise = null;
       window.removeEventListener('scroll', this.handleWindowScroll);
     });

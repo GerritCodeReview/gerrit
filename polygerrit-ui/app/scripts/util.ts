@@ -27,10 +27,12 @@ export function makeCancelable<T>(promise: Promise<T>) {
       rejectPromise = reject;
       promise.then(
         val => {
+          console.log('asdf inner promise done');
           if (!isDone) resolve(val);
           isDone = true;
         },
         error => {
+          console.log('asdf inner promise erro');
           if (!isDone) reject(error);
           isDone = true;
         }
@@ -39,6 +41,7 @@ export function makeCancelable<T>(promise: Promise<T>) {
   ) as CancelablePromise<T>;
 
   wrappedPromise.cancel = () => {
+    console.log('asdf promise cancelled');
     if (isDone) return;
     rejectPromise({isCanceled: true});
     isDone = true;

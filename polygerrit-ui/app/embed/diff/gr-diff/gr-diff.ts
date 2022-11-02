@@ -786,14 +786,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
         }
         td.lost div {
           background-color: var(--info-background);
-          padding: var(--spacing-s) 0 0 0;
         }
-        td.lost div:first-of-type {
+        td.lost div.lost-message {
           font-family: var(--font-family, 'Roboto');
           font-size: var(--font-size-normal, 14px);
           line-height: var(--line-height-normal);
+          padding: var(--spacing-s) 0;
         }
-        td.lost gr-icon {
+        td.lost div.lost-message gr-icon {
           padding: 0 var(--spacing-s) 0 var(--spacing-m);
           color: var(--blue-700);
         }
@@ -1643,6 +1643,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private observeNodes() {
+    console.log('asdf observeNodes');
     // First stop observing old nodes.
     this.unobserveNodes();
     // Then introduce a Mutation observer that watches for children being added
@@ -1672,10 +1673,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // not hurt. It's probably a bigger performance cost to remove them than
     // to keep them around. Medium term we can even consider to add one slot
     // for each line from the start.
+    console.log(`asdf processNodes ${addedThreadEls.length}`);
     for (const threadEl of addedThreadEls) {
       const lineNum = getLine(threadEl);
       const commentSide = getSide(threadEl);
       const range = getRange(threadEl);
+      console.log(`asdf processNodes item ${lineNum} ${commentSide}`);
       if (!commentSide) continue;
       const lineEl = this.diffBuilder.getLineElByNumber(lineNum, commentSide);
       // When the line the comment refers to does not exist, log an error
@@ -1691,9 +1694,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
         continue;
       }
       const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
+      console.log(`asdf processNodes item el? ${!!contentEl}`);
       if (!contentEl) continue;
-      if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
-        contentEl.appendChild(this.portedCommentsWithoutRangeMessage());
+      if (lineNum === 'LOST') {
+        this.portedCommentsWithoutRangeMessage(contentEl);
       }
       const threadGroupEl = this.getOrCreateThreadGroup(contentEl, commentSide);
 
@@ -1740,15 +1744,20 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.commentRanges = [];
   }
 
-  private portedCommentsWithoutRangeMessage() {
+  private portedCommentsWithoutRangeMessage(lostCell: Element) {
+    const existingMessage = lostCell.querySelector('div.lost-message');
+    console.log(`asdf portedCommentsWithoutRangeMessage ${!!existingMessage}`);
+    if (existingMessage) return;
+
     const div = document.createElement('div');
+    div.className = 'lost-message';
     const icon = document.createElement('gr-icon');
     icon.setAttribute('icon', 'info');
     div.appendChild(icon);
     const span = document.createElement('span');
     span.innerText = 'Original comment position not found in this patchset';
     div.appendChild(span);
-    return div;
+    lostCell.insertBefore(div, lostCell.firstChild);
   }
 
   /**

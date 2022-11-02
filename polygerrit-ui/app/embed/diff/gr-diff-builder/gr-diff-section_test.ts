@@ -42,29 +42,27 @@ suite('gr-diff-section test', () => {
         <gr-diff-row class="left-1 right-1"> </gr-diff-row>
         <gr-diff-row class="left-1 right-1"> </gr-diff-row>
         <table>
-          <tbody class="both gr-diff section style-scope">
+          <tbody class="both gr-diff section">
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="1"></td>
-              <td class="gr-diff left lineNum style-scope" data-value="1">
+              <td class="blame gr-diff" data-line-number="1"></td>
+              <td class="gr-diff left lineNum" data-value="1">
                 <button
-                  class="gr-diff left lineNumButton style-scope"
+                  class="gr-diff left lineNumButton"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff left no-intraline-info style-scope"
-              >
+              <td class="both content gr-diff left no-intraline-info">
                 <div
                   aria-label="asdf"
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 >
                   <gr-diff-text></gr-diff-text>
@@ -73,21 +71,19 @@ suite('gr-diff-section test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="gr-diff lineNum right style-scope" data-value="1">
+              <td class="gr-diff lineNum right" data-value="1">
                 <button
-                  class="gr-diff lineNumButton right style-scope"
+                  class="gr-diff lineNumButton right"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff no-intraline-info right style-scope"
-              >
+              <td class="both content gr-diff no-intraline-info right">
                 <div
                   aria-label="asdf"
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 >
                   <gr-diff-text></gr-diff-text>
@@ -98,27 +94,25 @@ suite('gr-diff-section test', () => {
               </td>
             </tr>
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="1"></td>
-              <td class="gr-diff left lineNum style-scope" data-value="1">
+              <td class="blame gr-diff" data-line-number="1"></td>
+              <td class="gr-diff left lineNum" data-value="1">
                 <button
-                  class="gr-diff left lineNumButton style-scope"
+                  class="gr-diff left lineNumButton"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff left no-intraline-info style-scope"
-              >
+              <td class="both content gr-diff left no-intraline-info">
                 <div
                   aria-label="qwer"
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 >
                   <gr-diff-text></gr-diff-text>
@@ -127,21 +121,19 @@ suite('gr-diff-section test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="gr-diff lineNum right style-scope" data-value="1">
+              <td class="gr-diff lineNum right" data-value="1">
                 <button
-                  class="gr-diff lineNumButton right style-scope"
+                  class="gr-diff lineNumButton right"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff no-intraline-info right style-scope"
-              >
+              <td class="both content gr-diff no-intraline-info right">
                 <div
                   aria-label="qwer"
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 >
                   <gr-diff-text></gr-diff-text>
@@ -152,27 +144,25 @@ suite('gr-diff-section test', () => {
               </td>
             </tr>
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="1"></td>
-              <td class="gr-diff left lineNum style-scope" data-value="1">
+              <td class="blame gr-diff" data-line-number="1"></td>
+              <td class="gr-diff left lineNum" data-value="1">
                 <button
-                  class="gr-diff left lineNumButton style-scope"
+                  class="gr-diff left lineNumButton"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff left no-intraline-info style-scope"
-              >
+              <td class="both content gr-diff left no-intraline-info">
                 <div
                   aria-label="zxcv"
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 >
                   <gr-diff-text></gr-diff-text>
@@ -181,21 +171,19 @@ suite('gr-diff-section test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="gr-diff lineNum right style-scope" data-value="1">
+              <td class="gr-diff lineNum right" data-value="1">
                 <button
-                  class="gr-diff lineNumButton right style-scope"
+                  class="gr-diff lineNumButton right"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff no-intraline-info right style-scope"
-              >
+              <td class="both content gr-diff no-intraline-info right">
                 <div
                   aria-label="zxcv"
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 >
                   <gr-diff-text></gr-diff-text>

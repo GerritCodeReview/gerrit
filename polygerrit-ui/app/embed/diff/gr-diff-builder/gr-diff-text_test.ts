@@ -8,7 +8,7 @@ import './gr-diff-text';
 import {GrDiffText} from './gr-diff-text';
 import {fixture, html, assert} from '@open-wc/testing';
 
-const LINE_BREAK = '<span class="style-scope gr-diff br"></span>';
+const LINE_BREAK = '<span class="gr-diff br"></span>';
 
 const TAB = '<span class="" style=""></span>';
 
@@ -82,7 +82,7 @@ suite('gr-diff-text test', () => {
           '\t',
           /* HTML */ `
             <span
-              class="style-scope gr-diff tab"
+              class="gr-diff tab"
               style="tab-size: ${size}; -moz-tab-size: ${size};"
             >
             </span>

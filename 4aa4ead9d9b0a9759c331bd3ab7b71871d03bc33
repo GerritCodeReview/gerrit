@@ -69,6 +69,30 @@
       },
       "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04761f64_56133f3c",
+        "filename": "java/com/google/gerrit/index/query/OrCardinalPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T15:12:36Z",
+      "side": 1,
+      "message": "I am operating on the assumption that a bad cardinality is worse than no cardinality. Is there a reason to believe that would not be the case?",
+      "parentUuid": "c1c9e8aa_08e5e26c",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

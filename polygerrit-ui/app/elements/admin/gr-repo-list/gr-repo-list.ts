@@ -5,9 +5,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
-import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   RepoName,
   ProjectInfoWithName,
@@ -24,6 +22,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {AdminViewState} from '../../../models/views/admin';
 import {createSearchUrl} from '../../../models/views/search';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -35,7 +34,7 @@ declare global {
 export class GrRepoList extends LitElement {
   readonly path = '/admin/repos';
 
-  @query('#createOverlay') private createOverlay?: GrOverlay;
+  @query('#createModal') private createModal?: HTMLDialogElement;
 
   @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
 
@@ -67,13 +66,14 @@ export class GrRepoList extends LitElement {
     super.connectedCallback();
     await this.getCreateRepoCapability();
     fireTitleChange(this, 'Repos');
-    this.maybeOpenCreateOverlay(this.params);
+    this.maybeOpenCreateModal(this.params);
   }
 
   static override get styles() {
     return [
       tableStyles,
       sharedStyles,
+      modalStyles,
       css`
         .genericList tr td:last-of-type {
           text-align: left;
@@ -127,7 +127,7 @@ export class GrRepoList extends LitElement {
           </tbody>
         </table>
       </gr-list-view>
-      <gr-overlay id="createOverlay" with-backdrop>
+      <dialog id="createModal" tabindex="-1">
         <gr-dialog
           id="createDialog"
           class="confirmDialog"
@@ -144,7 +144,7 @@ export class GrRepoList extends LitElement {
             ></gr-create-repo-dialog>
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -204,9 +204,9 @@ export class GrRepoList extends LitElement {
    *
    * private but used in test
    */
-  maybeOpenCreateOverlay(params?: AdminViewState) {
+  maybeOpenCreateModal(params?: AdminViewState) {
     if (params?.openCreateModal) {
-      this.createOverlay?.open();
+      this.createModal?.showModal();
     }
   }
 
@@ -270,14 +270,13 @@ export class GrRepoList extends LitElement {
 
   // private but used in test
   handleCloseCreate() {
-    this.createOverlay?.close();
+    this.createModal?.close();
   }
 
   // private but used in test
   handleCreateClicked() {
-    this.createOverlay?.open().then(() => {
-      this.createNewModal?.focus();
-    });
+    this.createModal?.showModal();
+    this.createNewModal?.focus();
   }
 
   // private but used in test

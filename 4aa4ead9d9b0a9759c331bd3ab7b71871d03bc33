@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd179eeb_e87a43f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T15:57:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59f77d0b_0d9b19e0",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ebbd104_83f4e169",
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "The make partial information useful, in the OR case, you would probably need a getMinCardinality() method, I suspect that would mostly be just be confusing, and I suspect it would be better to work on making more things have a correct cardinality than trying to deal better with things that don\u0027t have cardinalities.",
       "parentUuid": "04761f64_56133f3c",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc20eaf_62081908",
+        "filename": "java/com/google/gerrit/index/query/OrCardinalPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T15:57:19Z",
+      "side": 1,
+      "message": "Agreed. Done.",
+      "parentUuid": "28a94ff1_641ab74d",
       "range": {
         "startLine": 27,
         "startChar": 9,

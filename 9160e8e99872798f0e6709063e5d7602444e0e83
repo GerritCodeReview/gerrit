@@ -46,6 +46,30 @@
       },
       "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acfa9b58_07e5ce6b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-02T09:09:11Z",
+      "side": 1,
+      "message": "Not sure that is the best fix. It was just a quick mitigation, until I found the culprit.\n\nMaybe a better fix would be to de-dup results in QueryResult.\n\n@kaushik.lingarkar@linaro.org\n\n\nhttps://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/index/query/QueryResult.java#28",
+      "parentUuid": "cac917b4_39231693",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

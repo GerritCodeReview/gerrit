@@ -306,7 +306,7 @@ public class RevertSubmission
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
-        craeteNormalRevert(revertInput, changeNotes, timestamp);
+        createNormalRevert(revertInput, changeNotes, timestamp);
       } else {
         createCherryPickedRevert(revertInput, project, changeNotes, timestamp);
       }
@@ -348,7 +348,7 @@ public class RevertSubmission
     }
   }
 
-  private void craeteNormalRevert(
+  private void createNormalRevert(
       RevertInput revertInput, ChangeNotes changeNotes, Timestamp timestamp)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
 

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "47f6d9b8_b8ba9033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1150047
+      },
+      "writtenOn": "2022-11-02T12:22:55Z",
+      "side": 1,
+      "message": "@nasser.grainawi@linaro.org\n@luca.milanesio@gmail.com\n\nSorry for a mistaken click of the \"Resolved\" button and I actually do not know about how to rollback the status to \"Unresolved\".\n\nThanks. T.T",
+      "parentUuid": "96dd0b56_76830ec8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "2ec737df4d3d843b2d11d171e5552087c0c49f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e253594c_da6a8538",

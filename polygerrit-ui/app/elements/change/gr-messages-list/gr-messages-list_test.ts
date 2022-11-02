@@ -233,7 +233,6 @@ suite('gr-messages-list tests', () => {
         message.message = {...message.message, expanded: false};
       }
 
-      const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, 'highlightEl');
 
       await element.scrollToMessage('invalid');
@@ -247,6 +246,11 @@ suite('gr-messages-list tests', () => {
       }
 
       const messageID = messages[1].id;
+
+      const selector = `[data-message-id="${messageID}"]`;
+      const el = queryAndAssert<GrMessage>(element, selector);
+      const scrollToStub = sinon.stub(el, 'scrollIntoView');
+
       await element.scrollToMessage(messageID);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
@@ -258,14 +262,18 @@ suite('gr-messages-list tests', () => {
     });
 
     test('scroll to message offscreen', async () => {
-      const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, 'highlightEl');
       element.messages = generateRandomMessages(25);
       await element.updateComplete;
-      assert.isFalse(scrollToStub.called);
       assert.isFalse(highlightStub.called);
 
       const messageID = element.messages[1].id;
+      const selector = `[data-message-id="${messageID}"]`;
+      const el = queryAndAssert<GrMessage>(element, selector);
+      const scrollToStub = sinon.stub(el, 'scrollIntoView');
+
+      assert.isFalse(scrollToStub.called);
+
       await element.scrollToMessage(messageID);
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);

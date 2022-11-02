@@ -464,15 +464,7 @@ export class GrMessagesList extends LitElement {
     await el.updateComplete;
     await query<GrFormattedText>(el, 'gr-formatted-text.message')
       ?.updateComplete;
-    let top = el.offsetTop;
-    for (
-      let offsetParent = el.offsetParent as HTMLElement | null;
-      offsetParent;
-      offsetParent = offsetParent.offsetParent as HTMLElement | null
-    ) {
-      top += offsetParent.offsetTop;
-    }
-    window.scrollTo(0, top);
+    el.scrollIntoView();
     this.highlightEl(el);
   }
 

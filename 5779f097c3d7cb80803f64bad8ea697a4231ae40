@@ -22,6 +22,30 @@
       },
       "revId": "5779f097c3d7cb80803f64bad8ea697a4231ae40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe309372_d23580a1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-02T12:32:38Z",
+      "side": 1,
+      "message": "tabindex allows the element to be focusable. \n\nIf the element is not focusable then keyboard shortcuts are not fired with target \u003d dialog, instead the target is body.\n\nThis leads to issues with the shouldSupress dom-util as it relies on event target to figure out the tagName contains Dialog/Overlay.",
+      "parentUuid": "2dbf3ebd_82c3c038",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "5779f097c3d7cb80803f64bad8ea697a4231ae40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

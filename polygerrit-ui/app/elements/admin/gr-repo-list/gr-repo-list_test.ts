@@ -19,7 +19,6 @@ import {
 } from '../../../types/common';
 import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {GerritView} from '../../../services/router/router-model';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -588,13 +587,7 @@ suite('gr-repo-list tests', () => {
               </tbody>
             </table>
           </gr-list-view>
-          <gr-overlay
-            aria-hidden="true"
-            id="createOverlay"
-            style="outline: none; display: none;"
-            tabindex="-1"
-            with-backdrop=""
-          >
+          <dialog id="createModal" tabindex="-1">
             <gr-dialog
               class="confirmDialog"
               confirm-label="Create"
@@ -608,7 +601,7 @@ suite('gr-repo-list tests', () => {
                 </gr-create-repo-dialog>
               </div>
             </gr-dialog>
-          </gr-overlay>
+          </dialog>
         `
       );
     });
@@ -624,22 +617,22 @@ suite('gr-repo-list tests', () => {
       assert.equal(element.repos.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
 
-    test('maybeOpenCreateOverlay', () => {
-      const overlayOpen = sinon.stub(
-        queryAndAssert<GrOverlay>(element, '#createOverlay'),
-        'open'
+    test('maybeOpenCreateModal', () => {
+      const modalOpen = sinon.stub(
+        queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+        'showModal'
       );
-      element.maybeOpenCreateOverlay();
-      assert.isFalse(overlayOpen.called);
-      element.maybeOpenCreateOverlay(undefined);
-      assert.isFalse(overlayOpen.called);
+      element.maybeOpenCreateModal();
+      assert.isFalse(modalOpen.called);
+      element.maybeOpenCreateModal(undefined);
+      assert.isFalse(modalOpen.called);
       const params: AdminViewState = {
         view: GerritView.ADMIN,
         adminView: AdminChildView.REPOS,
         openCreateModal: true,
       };
-      element.maybeOpenCreateOverlay(params);
-      assert.isTrue(overlayOpen.called);
+      element.maybeOpenCreateModal(params);
+      assert.isTrue(modalOpen.called);
     });
   });
 
@@ -749,9 +742,10 @@ suite('gr-repo-list tests', () => {
     });
 
     test('handleCreateClicked opens modal', () => {
-      const openStub = sinon
-        .stub(queryAndAssert<GrOverlay>(element, '#createOverlay'), 'open')
-        .returns(Promise.resolve());
+      const openStub = sinon.stub(
+        queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+        'showModal'
+      );
       element.handleCreateClicked();
       assert.isTrue(openStub.called);
     });

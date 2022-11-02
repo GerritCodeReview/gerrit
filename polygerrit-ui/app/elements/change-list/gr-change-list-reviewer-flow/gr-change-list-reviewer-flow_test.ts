@@ -40,7 +40,6 @@ import {query} from '../../../utils/common-util';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import './gr-change-list-reviewer-flow';
 import type {GrChangeListReviewerFlow} from './gr-change-list-reviewer-flow';
 
@@ -122,13 +121,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           tabindex="0"
           >add reviewer/cc</gr-button
         >
-        <gr-overlay
-          id="flow"
-          aria-hidden="true"
-          with-backdrop=""
-          tabindex="-1"
-          style="outline: none; display: none;"
-        ></gr-overlay>
+        <dialog id="flow" tabindex="-1"></dialog>
       `
     );
   });
@@ -148,18 +141,21 @@ suite('gr-change-list-reviewer-flow tests', () => {
   });
 
   test('overlay hidden before flow button clicked', async () => {
-    const overlay = queryAndAssert<GrOverlay>(element, 'gr-overlay');
-    assert.isFalse(overlay.opened);
+    const dialog = queryAndAssert<HTMLDialogElement>(element, 'dialog');
+    const openStub = sinon.stub(dialog, 'showModal');
+    assert.isFalse(openStub.called);
   });
 
   test('flow button click shows overlay', async () => {
     const button = queryAndAssert<GrButton>(element, 'gr-button#start-flow');
+    const dialog = queryAndAssert<HTMLDialogElement>(element, 'dialog');
+    const openStub = sinon.stub(dialog, 'showModal');
 
     button.click();
+
     await element.updateComplete;
 
-    const overlay = queryAndAssert<GrOverlay>(element, 'gr-overlay');
-    assert.isTrue(overlay.opened);
+    assert.isTrue(openStub.called);
   });
 
   suite('dialog flow', () => {
@@ -202,23 +198,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
             tabindex="0"
             >add reviewer/cc</gr-button
           >
-          <gr-overlay
-            id="flow"
-            with-backdrop=""
-            tabindex="-1"
-            style="outline: none; display: none;"
-          >
+          <dialog id="flow" open="" tabindex="-1">
             <gr-dialog role="dialog">
               <div slot="header">Add reviewer / CC</div>
               <div slot="main">
                 <div class="grid">
                   <span>Reviewers</span>
                   <gr-account-list id="reviewer-list"></gr-account-list>
-                  <gr-overlay
-                    aria-hidden="true"
-                    id="confirm-reviewer"
-                    style="outline: none; display: none;"
-                  >
+                  <dialog id="confirm-reviewer" tabindex="-1">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"></span>
@@ -244,14 +231,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                   <span>CC</span>
                   <gr-account-list id="cc-list"></gr-account-list>
-                  <gr-overlay
-                    aria-hidden="true"
-                    id="confirm-cc"
-                    style="outline: none; display: none;"
-                  >
+                  <dialog id="confirm-cc" tabindex="-1">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"></span>
@@ -277,11 +260,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                 </div>
               </div>
             </gr-dialog>
-          </gr-overlay>
+          </dialog>
         `
       );
     });
@@ -645,14 +628,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
             tabindex="0"
             >add reviewer/cc</gr-button
           >
-          <gr-overlay id="flow" with-backdrop="" tabindex="-1">
+          <dialog id="flow" open="" tabindex="-1">
             <gr-dialog role="dialog">
               <div slot="header">Add reviewer / CC</div>
               <div slot="main">
                 <div class="grid">
                   <span>Reviewers</span>
                   <gr-account-list id="reviewer-list"></gr-account-list>
-                  <gr-overlay aria-hidden="true" id="confirm-reviewer">
+                  <dialog tabindex="-1" id="confirm-reviewer">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"></span>
@@ -676,10 +659,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                   <span>CC</span>
                   <gr-account-list id="cc-list"></gr-account-list>
-                  <gr-overlay aria-hidden="true" id="confirm-cc">
+                  <dialog tabindex="-1" id="confirm-cc">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"></span>
@@ -703,7 +686,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                 </div>
                 <div class="warning">
                   <gr-icon icon="warning" filled role="img" aria-label="Warning"
@@ -721,11 +704,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 </div>
               </div>
             </gr-dialog>
-          </gr-overlay>
+          </dialog>
         `,
         {
-          // gr-overlay sizing seems to vary between local & CI
-          ignoreAttributes: [{tags: ['gr-overlay'], attributes: ['style']}],
+          // dialog sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['dialog'], attributes: ['style']}],
         }
       );
     });
@@ -759,10 +742,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
           >
             add reviewer/cc
           </gr-button>
-          <gr-overlay
+          <dialog
             id="flow"
             tabindex="-1"
-            with-backdrop=""
+            open=""
           >
             <gr-dialog role="dialog">
               <div slot="header">Add reviewer / CC</div>
@@ -770,7 +753,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 <div class="grid">
                   <span> Reviewers </span>
                   <gr-account-list id="reviewer-list"> </gr-account-list>
-                  <gr-overlay aria-hidden="true" id="confirm-reviewer">
+                  <dialog tabindex="-1" id="confirm-reviewer">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"> </span>
@@ -796,10 +779,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                   <span> CC </span>
                   <gr-account-list id="cc-list"> </gr-account-list>
-                  <gr-overlay aria-hidden="true" id="confirm-cc">
+                  <dialog tabindex="-1" id="confirm-cc">
                     <div class="confirmation-text">
                       Group
                       <span class="groupName"> </span>
@@ -825,7 +808,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
                         No
                       </gr-button>
                     </div>
-                  </gr-overlay>
+                  </dialog>
                 </div>
                 <div class="error">
                   <gr-icon icon="error" filled role="img" aria-label="Error"></gr-icon>
@@ -833,11 +816,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 </div>
               </div>
             </gr-dialog>
-          </gr-overlay>
+          </dialog>
         `,
         {
-          // gr-overlay sizing seems to vary between local & CI
-          ignoreAttributes: [{tags: ['gr-overlay'], attributes: ['style']}],
+          // dialog sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['dialog'], attributes: ['style']}],
         }
       );
     });
@@ -866,10 +849,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await reviewerList.updateComplete;
       await element.updateComplete;
 
-      const confirmDialog = queryAndAssert(
-        element,
-        'gr-overlay#confirm-reviewer'
-      );
+      const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       await waitUntil(
         () =>
           getComputedStyle(confirmDialog).getPropertyValue('display') !== 'none'
@@ -906,12 +886,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
       ).click();
       await element.updateComplete;
 
-      const confirmDialog = queryAndAssert(
-        element,
-        'gr-overlay#confirm-reviewer'
-      );
-      assert.isTrue(
-        getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
+      const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
+      await waitUntil(
+        () =>
+          getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
       );
 
       assert.deepEqual(reviewerList.accounts[1], {
@@ -947,10 +925,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       // triggers an update of ReviewerFlow
       await reviewerList.updateComplete;
       await element.updateComplete;
-      const confirmDialog = queryAndAssert(
-        element,
-        'gr-overlay#confirm-reviewer'
-      );
+      const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       assert.isTrue(
         getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
       );
@@ -990,10 +965,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       ).click();
       await element.updateComplete;
 
-      const confirmDialog = queryAndAssert(
-        element,
-        'gr-overlay#confirm-reviewer'
-      );
+      const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       assert.isTrue(
         getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
       );

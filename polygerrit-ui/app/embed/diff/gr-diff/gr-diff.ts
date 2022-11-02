@@ -786,14 +786,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
         }
         td.lost div {
           background-color: var(--info-background);
-          padding: var(--spacing-s) 0 0 0;
         }
-        td.lost div:first-of-type {
+        td.lost div.lost-message {
           font-family: var(--font-family, 'Roboto');
           font-size: var(--font-size-normal, 14px);
           line-height: var(--line-height-normal);
+          padding: var(--spacing-s) 0;
         }
-        td.lost gr-icon {
+        td.lost div.lost-message gr-icon {
           padding: 0 var(--spacing-s) 0 var(--spacing-m);
           color: var(--blue-700);
         }
@@ -1692,8 +1692,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
       }
       const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
       if (!contentEl) continue;
-      if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
-        contentEl.appendChild(this.portedCommentsWithoutRangeMessage());
+      if (lineNum === 'LOST') {
+        this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
       const threadGroupEl = this.getOrCreateThreadGroup(contentEl, commentSide);
 
@@ -1740,15 +1740,19 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.commentRanges = [];
   }
 
-  private portedCommentsWithoutRangeMessage() {
+  private insertPortedCommentsWithoutRangeMessage(lostCell: Element) {
+    const existingMessage = lostCell.querySelector('div.lost-message');
+    if (existingMessage) return;
+
     const div = document.createElement('div');
+    div.className = 'lost-message';
     const icon = document.createElement('gr-icon');
     icon.setAttribute('icon', 'info');
     div.appendChild(icon);
     const span = document.createElement('span');
     span.innerText = 'Original comment position not found in this patchset';
     div.appendChild(span);
-    return div;
+    lostCell.insertBefore(div, lostCell.firstChild);
   }
 
   /**

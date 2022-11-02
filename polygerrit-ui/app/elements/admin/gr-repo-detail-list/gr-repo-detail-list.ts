@@ -9,11 +9,9 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
-import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {encodeURL} from '../../../utils/url-util';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrCreatePointerDialog} from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import {
   BranchInfo,
@@ -37,14 +35,15 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
 @customElement('gr-repo-detail-list')
 export class GrRepoDetailList extends LitElement {
-  @query('#overlay') private readonly overlay?: GrOverlay;
+  @query('#modal') private readonly modal?: HTMLDialogElement;
 
-  @query('#createOverlay') private readonly createOverlay?: GrOverlay;
+  @query('#createModal') private readonly createModal?: HTMLDialogElement;
 
   @query('#createNewModal')
   private readonly createNewModal?: GrCreatePointerDialog;
@@ -91,6 +90,7 @@ export class GrRepoDetailList extends LitElement {
       formStyles,
       tableStyles,
       sharedStyles,
+      modalStyles,
       css`
         .tags td.name {
           min-width: 25em;
@@ -189,7 +189,7 @@ export class GrRepoDetailList extends LitElement {
               .map((item, index) => this.renderItemList(item, index))}
           </tbody>
         </table>
-        <gr-overlay id="overlay" with-backdrop>
+        <dialog id="modal" tabindex="-1">
           <gr-confirm-delete-item-dialog
             class="confirmDialog"
             .item=${this.refName}
@@ -199,9 +199,9 @@ export class GrRepoDetailList extends LitElement {
               this.handleConfirmDialogCancel();
             }}
           ></gr-confirm-delete-item-dialog>
-        </gr-overlay>
+        </dialog>
       </gr-list-view>
-      <gr-overlay id="createOverlay" with-backdrop>
+      <dialog id="createModal" tabindex="-1">
         <gr-dialog
           id="createDialog"
           ?disabled=${!this.newItemName}
@@ -228,7 +228,7 @@ export class GrRepoDetailList extends LitElement {
             ></gr-create-pointer-dialog>
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -531,8 +531,8 @@ export class GrRepoDetailList extends LitElement {
   }
 
   private handleDeleteItemConfirm() {
-    assertIsDefined(this.overlay, 'overlay');
-    this.overlay.close();
+    assertIsDefined(this.modal, 'modal');
+    this.modal.close();
     if (!this.repo || !this.refName) {
       return Promise.reject(new Error('undefined repo or refName'));
     }
@@ -569,20 +569,20 @@ export class GrRepoDetailList extends LitElement {
   }
 
   private handleConfirmDialogCancel() {
-    assertIsDefined(this.overlay, 'overlay');
-    this.overlay.close();
+    assertIsDefined(this.modal, 'modal');
+    this.modal.close();
   }
 
   private handleDeleteItem(index: number) {
     if (!this.items) return;
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.modal, 'modal');
     const name = this.stripRefs(
       this.items[index].ref,
       this.detailType
     ) as GitRef;
     if (!name) return;
     this.refName = name;
-    this.overlay.open();
+    this.modal.showModal();
   }
 
   // private but used in test
@@ -594,14 +594,14 @@ export class GrRepoDetailList extends LitElement {
 
   // private but used in test
   handleCloseCreate() {
-    assertIsDefined(this.createOverlay, 'createOverlay');
-    this.createOverlay.close();
+    assertIsDefined(this.createModal, 'createModal');
+    this.createModal.close();
   }
 
   // private but used in test
   handleCreateClicked() {
-    assertIsDefined(this.createOverlay, 'createOverlay');
-    this.createOverlay.open();
+    assertIsDefined(this.createModal, 'createModal');
+    this.createModal.showModal();
   }
 
   private handleUpdateItemName() {

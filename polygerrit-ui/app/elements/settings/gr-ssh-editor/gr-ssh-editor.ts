@@ -10,7 +10,6 @@ import '../../shared/gr-overlay/gr-overlay';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -18,6 +17,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -47,7 +47,7 @@ export class GrSshEditor extends LitElement {
 
   @query('#newKey') newKeyEditor!: IronAutogrowTextareaElement;
 
-  @query('#viewKeyOverlay') viewKeyOverlay!: GrOverlay;
+  @query('#viewKeyModal') viewKeyModal!: HTMLDialogElement;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -55,6 +55,7 @@ export class GrSshEditor extends LitElement {
     return [
       formStyles,
       sharedStyles,
+      modalStyles,
       css`
         .statusHeader {
           width: 4em;
@@ -62,7 +63,7 @@ export class GrSshEditor extends LitElement {
         .keyHeader {
           width: 7.5em;
         }
-        #viewKeyOverlay {
+        #viewKeyModal {
           padding: var(--spacing-xxl);
           width: 50em;
         }
@@ -121,7 +122,7 @@ export class GrSshEditor extends LitElement {
               ${this.keys.map((key, index) => this.renderKey(key, index))}
             </tbody>
           </table>
-          <gr-overlay id="viewKeyOverlay" with-backdrop="">
+          <dialog id="viewKeyModal" tabindex="-1">
             <fieldset>
               <section>
                 <span class="title">Algorithm</span>
@@ -140,10 +141,10 @@ export class GrSshEditor extends LitElement {
             </fieldset>
             <gr-button
               class="closeButton"
-              @click=${() => this.viewKeyOverlay.close()}
+              @click=${() => this.viewKeyModal.close()}
               >Close</gr-button
             >
-          </gr-overlay>
+          </dialog>
           <gr-button
             @click=${() => this.save()}
             ?disabled=${!this.hasUnsavedChanges}
@@ -231,7 +232,7 @@ export class GrSshEditor extends LitElement {
     const el = e.target as GrButton;
     const index = Number(el.getAttribute('data-index')!);
     this.keyToView = this.keys[index];
-    this.viewKeyOverlay.open();
+    this.viewKeyModal.showModal();
   }
 
   private handleDeleteKey(e: Event) {

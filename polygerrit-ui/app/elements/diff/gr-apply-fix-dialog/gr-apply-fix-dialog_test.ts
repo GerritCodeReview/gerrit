@@ -142,7 +142,7 @@ suite('gr-apply-fix-dialog tests', () => {
           f2: diffInfo2,
         })
       );
-      sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
+      sinon.stub(element.applyFixModal!, 'showModal');
     });
 
     test('dialog opens fetch and sets previews', async () => {
@@ -183,7 +183,7 @@ suite('gr-apply-fix-dialog tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-overlay id="applyFixOverlay" tabindex="-1" with-backdrop="">
+        <dialog id="applyFixModal" tabindex="-1" open="">
           <gr-dialog id="applyFixDialog" role="dialog">
             <div slot="header">Fix fix_1</div>
             <div slot="main"></div>
@@ -208,7 +208,7 @@ suite('gr-apply-fix-dialog tests', () => {
               </gr-button>
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
       `,
       {ignoreAttributes: ['style']}
     );
@@ -216,11 +216,12 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('next button state updated when suggestions changed', async () => {
     stubRestApi('getRobotCommentFixPreview').returns(Promise.resolve({}));
-    sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
 
     await open(ONE_FIX);
     await element.updateComplete;
     assert.notOk(element.nextFix);
+    element.applyFixModal?.close();
+
     await open(TWO_FIXES);
     assert.ok(element.nextFix);
     assert.notOk(element.nextFix!.disabled);
@@ -294,7 +295,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('select fix forward and back of multiple suggested fixes', async () => {
-    sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
+    sinon.stub(element.applyFixModal!, 'showModal');
 
     await open(TWO_FIXES);
     element.onNextFixClick(new CustomEvent('click'));

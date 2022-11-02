@@ -472,7 +472,7 @@ export class GrMessagesList extends LitElement {
     ) {
       top += offsetParent.offsetTop;
     }
-    window.scrollTo(0, top);
+    el.scrollIntoView();
     this.highlightEl(el);
   }
 

@@ -1,5 +1,40 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69427676_a2467f00",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-11-02T18:30:26Z",
+      "side": 1,
+      "message": "1024",
+      "revId": "eb9031212cda1f960dbdfa76c913bba6d19c035d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226bb0d8_4cfb5624",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-11-02T18:30:26Z",
+      "side": 1,
+      "message": "shouldn\u0027t this throw an error rather silently truncating the list?\n\nsumbitted-together is also used for x-repo submissions, and in that case, we don\u0027t want to truncate the list silently. I think your code only limits the number of submissions within a repo, but the commit message isn\u0027t clear.",
+      "revId": "eb9031212cda1f960dbdfa76c913bba6d19c035d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

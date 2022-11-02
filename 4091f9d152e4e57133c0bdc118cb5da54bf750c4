@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9011c720_abd724b6",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-02T07:17:08Z",
+      "side": 1,
+      "message": "Why would a caller like to ignore the return value of a getter?\nWe usually only use @CanIgnoreReturnValue on setters that return the own instance for chaining calls.\n\nMaybe in this case it would be better to suppress the warning on the caller side?",
+      "range": {
+        "startLine": 642,
+        "startChar": 2,
+        "endLine": 643,
+        "endChar": 56
+      },
+      "revId": "4091f9d152e4e57133c0bdc118cb5da54bf750c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

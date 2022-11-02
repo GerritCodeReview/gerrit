@@ -30,7 +30,6 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {PageErrorEvent} from '../../../types/events';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
@@ -2026,24 +2025,12 @@ suite('gr-repo-detail-list', () => {
                   </tr>
                 </tbody>
               </table>
-              <gr-overlay
-                aria-hidden="true"
-                id="overlay"
-                style="outline: none; display: none;"
-                tabindex="-1"
-                with-backdrop=""
-              >
+              <dialog id="modal" tabindex="-1">
                 <gr-confirm-delete-item-dialog class="confirmDialog">
                 </gr-confirm-delete-item-dialog>
-              </gr-overlay>
+              </dialog>
             </gr-list-view>
-            <gr-overlay
-              aria-hidden="true"
-              id="createOverlay"
-              style="outline: none; display: none;"
-              tabindex="-1"
-              with-backdrop=""
-            >
+            <dialog id="createModal" tabindex="-1">
               <gr-dialog
                 confirm-label="Create"
                 disabled=""
@@ -2056,7 +2043,7 @@ suite('gr-repo-detail-list', () => {
                   </gr-create-pointer-dialog>
                 </div>
               </gr-dialog>
-            </gr-overlay>
+            </dialog>
           `
         );
       });
@@ -2462,10 +2449,10 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('handleCreateClicked opens modal', () => {
-        queryAndAssert<GrOverlay>(element, '#createOverlay');
+        queryAndAssert<HTMLDialogElement>(element, '#createModal');
         const openStub = sinon.stub(
-          queryAndAssert<GrOverlay>(element, '#createOverlay'),
-          'open'
+          queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+          'showModal'
         );
         element.handleCreateClicked();
         assert.isTrue(openStub.called);

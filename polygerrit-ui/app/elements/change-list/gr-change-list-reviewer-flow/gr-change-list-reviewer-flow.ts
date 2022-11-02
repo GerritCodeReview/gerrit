@@ -18,11 +18,9 @@ import {
   SuggestedReviewerGroupInfo,
 } from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
-import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {
   GrReviewerSuggestionsProvider,
@@ -38,13 +36,14 @@ import {
   GrAccountList,
 } from '../../shared/gr-account-list/gr-account-list';
 import {getReplyByReason} from '../../../utils/attention-set-util';
-import {intersection, queryAndAssert} from '../../../utils/common-util';
+import {intersection} from '../../../utils/common-util';
 import {accountKey, getUserId} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
 import {userModelToken} from '../../../models/user/user-model';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -81,16 +80,16 @@ export class GrChangeListReviewerFlow extends LitElement {
     [ReviewerState.CC, null],
   ]);
 
-  @query('gr-overlay#flow') private overlay?: GrOverlay;
+  @query('dialog#flow') private modal?: HTMLDialogElement;
 
   @query('gr-account-list#reviewer-list') private reviewerList?: GrAccountList;
 
   @query('gr-account-list#cc-list') private ccList?: GrAccountList;
 
-  @query('gr-overlay#confirm-reviewer')
-  private reviewerConfirmOverlay?: GrOverlay;
+  @query('dialog#confirm-reviewer')
+  private reviewerConfirmModal?: HTMLDialogElement;
 
-  @query('gr-overlay#confirm-cc') private ccConfirmOverlay?: GrOverlay;
+  @query('dialog#confirm-cc') private ccConfirmModal?: HTMLDialogElement;
 
   @query('gr-dialog') dialog?: GrDialog;
 
@@ -110,6 +109,7 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   static override get styles() {
     return [
+      modalStyles,
       css`
         gr-dialog {
           width: 60em;
@@ -146,8 +146,8 @@ export class GrChangeListReviewerFlow extends LitElement {
           color: var(--orange-800);
           font-size: 18px;
         }
-        gr-overlay#confirm-cc,
-        gr-overlay#confirm-reviewer {
+        dialog#confirm-cc,
+        dialog#confirm-reviewer {
           padding: var(--spacing-l);
           text-align: center;
         }
@@ -191,9 +191,9 @@ export class GrChangeListReviewerFlow extends LitElement {
         @click=${() => this.openOverlay()}
         >add reviewer/cc</gr-button
       >
-      <gr-overlay id="flow" with-backdrop>
+      <dialog id="flow" tabindex="-1">
         ${this.isOverlayOpen ? this.renderDialog() : nothing}
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -265,7 +265,8 @@ export class GrChangeListReviewerFlow extends LitElement {
     const suggestion =
       this.groupPendingConfirmationByReviewerState.get(reviewerState);
     return html`
-      <gr-overlay
+      <dialog
+        tabindex="-1"
         id=${id}
         @iron-overlay-canceled=${() => this.cancelPendingGroup(reviewerState)}
       >
@@ -287,7 +288,7 @@ export class GrChangeListReviewerFlow extends LitElement {
             >No</gr-button
           >
         </div>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -381,16 +382,12 @@ export class GrChangeListReviewerFlow extends LitElement {
     this.resetFlow();
     this.isOverlayOpen = true;
     // Must await the overlay opening because the dialog is lazily rendered.
-    await this.overlay?.open();
-    this.overlay?.setFocusStops({
-      start: queryAndAssert(this.dialog, 'header'),
-      end: queryAndAssert(this.dialog, 'footer'),
-    });
+    await this.modal?.showModal();
   }
 
   private closeOverlay() {
     this.isOverlayOpen = false;
-    this.overlay?.close();
+    this.modal?.close();
   }
 
   private resetFlow() {
@@ -457,22 +454,22 @@ export class GrChangeListReviewerFlow extends LitElement {
     this.requestUpdate();
     await this.updateComplete;
 
-    const overlay =
+    const modal =
       reviewerState === ReviewerState.CC
-        ? this.ccConfirmOverlay
-        : this.reviewerConfirmOverlay;
+        ? this.ccConfirmModal
+        : this.reviewerConfirmModal;
     if (ev.detail.value === null) {
-      overlay?.close();
+      modal?.close();
     } else {
-      await overlay?.open();
+      await modal?.showModal();
     }
   }
 
   private cancelPendingGroup(reviewerState: ReviewerState) {
     const overlay =
       reviewerState === ReviewerState.CC
-        ? this.ccConfirmOverlay
-        : this.reviewerConfirmOverlay;
+        ? this.ccConfirmModal
+        : this.reviewerConfirmModal;
     overlay?.close();
     this.groupPendingConfirmationByReviewerState.set(reviewerState, null);
     this.requestUpdate();
@@ -494,10 +491,10 @@ export class GrChangeListReviewerFlow extends LitElement {
         this.saveReviewers();
         break;
       case ProgressStatus.SUCCESSFUL:
-        this.overlay?.close();
+        this.modal?.close();
         break;
       case ProgressStatus.FAILED:
-        this.overlay?.close();
+        this.modal?.close();
         break;
     }
   }

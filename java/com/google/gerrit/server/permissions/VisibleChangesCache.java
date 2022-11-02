@@ -107,12 +107,12 @@ class VisibleChangesCache {
 
   private void visibleChangesBySearch() throws PermissionBackendException {
     visibleChanges = new HashMap<>();
+    if (!projectState.statePermitsRead()) {
+      return;
+    }
     Project.NameKey project = projectState.getNameKey();
     try {
       for (ChangeData cd : changeCache.getChangeData(project)) {
-        if (!projectState.statePermitsRead()) {
-          continue;
-        }
         try {
           permissionBackendForProject.change(cd).check(ChangePermission.READ);
           visibleChanges.put(cd.getId(), cd.change().getDest());
@@ -128,6 +128,9 @@ class VisibleChangesCache {
 
   private void visibleChangesByScan() throws PermissionBackendException {
     visibleChanges = new HashMap<>();
+    if (!projectState.statePermitsRead()) {
+      return;
+    }
     Project.NameKey p = projectState.getNameKey();
     ImmutableList<ChangeNotesResult> changes;
     try {
@@ -151,10 +154,6 @@ class VisibleChangesCache {
     if (r.error().isPresent()) {
       logger.atWarning().withCause(r.error().get()).log(
           "Failed to load change %s in %s", r.id(), projectState.getName());
-      return null;
-    }
-
-    if (!projectState.statePermitsRead()) {
       return null;
     }
 

@@ -142,6 +142,30 @@
       },
       "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e68c17_b2a223da",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T17:20:24Z",
+      "side": 1,
+      "message": "\u003e Not sure if this will be a problem for your index implementation, but our implementation (that does not support pagination yet) is incompatible with this change.\n\nCan you help clarify what you mean here? (Because pagination is not new to Gerrit, we have only add the ability to be applied in more places).",
+      "parentUuid": "6627b6e2_74722a90",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

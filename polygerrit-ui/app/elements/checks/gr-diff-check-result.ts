@@ -190,7 +190,6 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderFixButton() {
-    if (!this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) return nothing;
     const action = createFixAction(this, this.result);
     if (!action) return nothing;
     return html`

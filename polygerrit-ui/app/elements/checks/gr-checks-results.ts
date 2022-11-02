@@ -536,10 +536,8 @@ export class GrResultRow extends LitElement {
 
   private renderActions() {
     const actions = [...(this.result?.actions ?? [])];
-    if (this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) {
-      const fixAction = createFixAction(this, this.result);
-      if (fixAction) actions.unshift(fixAction);
-    }
+    const fixAction = createFixAction(this, this.result);
+    if (fixAction) actions.unshift(fixAction);
     if (actions.length === 0) return;
     const overflowItems = actions.slice(2).map(action => {
       return {...action, id: action.name};

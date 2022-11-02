@@ -29,6 +29,7 @@ import {LitElement, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -105,7 +106,7 @@ export class GrErrorManager extends LitElement {
 
   @query('#errorDialog') errorDialog!: GrErrorDialog;
 
-  @query('#errorOverlay') errorOverlay!: GrOverlay;
+  @query('#errorModal') errorModal!: HTMLDialogElement;
 
   /**
    * The time (in milliseconds) since the most recent credential check.
@@ -163,15 +164,19 @@ export class GrErrorManager extends LitElement {
     super.disconnectedCallback();
   }
 
+  static override get styles() {
+    return [modalStyles];
+  }
+
   override render() {
     return html`
-      <gr-overlay with-backdrop="" id="errorOverlay">
+      <dialog tabindex="-1" id="errorModal">
         <gr-error-dialog
           id="errorDialog"
-          @dismiss=${() => this.errorOverlay.close()}
+          @dismiss=${() => this.errorModal.close()}
           .loginUrl=${this.loginUrl}
         ></gr-error-dialog>
-      </gr-overlay>
+      </dialog>
       <gr-overlay
         id="noInteractionOverlay"
         with-backdrop=""
@@ -512,7 +517,7 @@ export class GrErrorManager extends LitElement {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;
     this.errorDialog.showSignInButton = !!options && !!options.showSignInButton;
-    this.errorOverlay.open();
+    this.errorModal.showModal();
   }
 }
 

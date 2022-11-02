@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb8fb2a_4e98c8e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-02T18:39:20Z",
+      "side": 1,
+      "message": "You could also go to the tip of master and include https://gerrit-review.googlesource.com/c/plugins/hooks/+/348096 if not for 3.6, then at least for stable-3.7.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "6cd3a21f07573ca164f4583f198e77430dd11a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

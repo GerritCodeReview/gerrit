@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c9f032_ab086e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a865ab_3b4036d8",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc3674d8_408f18bc",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-01T19:34:45Z",
       "side": 1,
       "message": "Use imperative: s/is moved/move/",
+      "range": {
+        "startLine": 18,
+        "startChar": 47,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a9f5be_99cd2f7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3674d8_408f18bc",
       "range": {
         "startLine": 18,
         "startChar": 47,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5206f8b_c272e594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "277c0db7_2d919824",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a32a562c_5db8b213",
@@ -83,6 +155,24 @@
       "writtenOn": "2022-11-01T19:34:45Z",
       "side": 1,
       "message": "s/right/the right/",
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a28cc914_85f40324",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a32a562c_5db8b213",
       "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b35a58d_fd116b8d",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "No, that issue is present without this change as well. If we wanted to fix it we can do that as part of a separate change where AndSource will set the cardinality of the selected source. I can make I1ca733ff9d to do that.",
+      "parentUuid": "027626f1_1c8d742b",
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f5a82c9_f9c52a7e",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-11-01T19:34:45Z",
       "side": 1,
       "message": "I don\u0027t think we want a magic -1 here, if there is not HasCadinailty, throw an IllegalArgumentException in constructor instead?",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e6a3623_3028b62b",
+        "filename": "java/com/google/gerrit/index/query/OrCardinalPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T10:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5a82c9_f9c52a7e",
       "range": {
         "startLine": 20,
         "startChar": 29,

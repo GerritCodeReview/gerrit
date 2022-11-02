@@ -22,6 +22,30 @@
       },
       "revId": "4091f9d152e4e57133c0bdc118cb5da54bf750c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c74ade_91ee2b20",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-02T09:17:52Z",
+      "side": 1,
+      "message": "L 137.\n\u0027 // ensure that Gitweb works on supported repository type by checking All-Projects project\u0027\n\nAgree, suppessing the warning SGTM",
+      "parentUuid": "9011c720_abd724b6",
+      "range": {
+        "startLine": 642,
+        "startChar": 2,
+        "endLine": 643,
+        "endChar": 56
+      },
+      "revId": "4091f9d152e4e57133c0bdc118cb5da54bf750c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

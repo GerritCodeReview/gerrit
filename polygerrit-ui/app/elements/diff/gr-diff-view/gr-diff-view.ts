@@ -126,7 +126,7 @@ import {createEditUrl} from '../../../models/views/edit';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {PaperTabsElement} from '@polymer/paper-tabs';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';

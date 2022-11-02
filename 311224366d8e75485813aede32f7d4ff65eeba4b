@@ -232,6 +232,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00169311_09910609",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-02T15:06:56Z",
+      "side": 1,
+      "message": "Right, I see the issue now. Same is the case for OrSource then.\n\n\u003e Maybe it\u0027s not worth extending AndCardinalPredicate with AndSource?\n\nRight I\u0027m as well thinking the same now. Let\u0027s not extend Sources with cardinal predicates. I\u0027ll makes that change.",
+      "parentUuid": "93e348f8_bca8b7f0",
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f5a82c9_f9c52a7e",
         "filename": "java/com/google/gerrit/index/query/OrCardinalPredicate.java",
         "patchSetId": 2

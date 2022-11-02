@@ -94,6 +94,30 @@
       },
       "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de2d6fd_eca86c94",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T15:29:07Z",
+      "side": 1,
+      "message": "\u003e \u003e Maybe a better fix would be to de-dup results in QueryResult.\n\u003e \n\u003e Yes, I think this will be a good generic fix to not have dups for any queries.\n\nUnfortunately, I am having a hard time imagining a good way to do this which doesn\u0027t defeat the point of pagination in the first place (i.e. without storing keeping the previous results around)?",
+      "parentUuid": "84cd3344_3a7d7307",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

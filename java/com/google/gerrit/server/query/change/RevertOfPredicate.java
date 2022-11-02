@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class RevertOfPredicate extends ChangeIndexPredicate {
+public class RevertOfPredicate extends ChangeIndexPredicate implements HasCardinality {
   public RevertOfPredicate(String revertOf) {
     super(ChangeField.REVERT_OF, revertOf);
   }
@@ -31,6 +32,11 @@ public class RevertOfPredicate extends ChangeIndexPredicate {
 
   @Override
   public int getCost() {
+    return 1;
+  }
+
+  @Override
+  public int getCardinality() {
     return 1;
   }
 }

@@ -15,9 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class HasDraftByPredicate extends ChangeIndexPredicate {
+public class HasDraftByPredicate extends ChangeIndexPredicate implements HasCardinality {
   protected final Account.Id accountId;
 
   public HasDraftByPredicate(Account.Id accountId) {
@@ -33,5 +34,10 @@ public class HasDraftByPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 20;
   }
 }

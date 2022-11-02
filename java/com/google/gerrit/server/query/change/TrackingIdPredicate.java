@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class TrackingIdPredicate extends ChangeIndexPredicate {
+public class TrackingIdPredicate extends ChangeIndexPredicate implements HasCardinality {
   public TrackingIdPredicate(String trackingId) {
     super(ChangeField.TR, trackingId);
   }
@@ -29,5 +30,10 @@ public class TrackingIdPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 5;
   }
 }

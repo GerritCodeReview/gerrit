@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.TreeMap;
  *
  * <p>Status names are looked up by prefix case-insensitively.
  */
-public final class ChangeStatusPredicate extends ChangeIndexPredicate {
+public final class ChangeStatusPredicate extends ChangeIndexPredicate implements HasCardinality {
   private static final String INVALID_STATUS = "__invalid__";
   static final Predicate<ChangeData> NONE = new ChangeStatusPredicate(null);
 
@@ -142,5 +143,20 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   @Override
   public String toString() {
     return getOperator() + ":" + getValue();
+  }
+
+  @Override
+  public int getCardinality() {
+    if (getStatus() == null) {
+      return 0;
+    }
+    switch (getStatus()) {
+      case MERGED:
+        return 50_000;
+      case ABANDONED:
+        return 50_000;
+      default:
+        return 2000;
+    }
   }
 }

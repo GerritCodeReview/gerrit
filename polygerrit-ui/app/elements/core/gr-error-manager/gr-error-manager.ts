@@ -9,7 +9,6 @@ import '../../shared/gr-overlay/gr-overlay';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getAppContext} from '../../../services/app-context';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
@@ -29,6 +28,7 @@ import {LitElement, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -101,11 +101,11 @@ export class GrErrorManager extends LitElement {
 
   @state() refreshingCredentials = false;
 
-  @query('#noInteractionOverlay') noInteractionOverlay!: GrOverlay;
+  @query('#noInteractionModal') noInteractionModal!: HTMLDialogElement;
 
   @query('#errorDialog') errorDialog!: GrErrorDialog;
 
-  @query('#errorOverlay') errorOverlay!: GrOverlay;
+  @query('#errorModal') errorModal!: HTMLDialogElement;
 
   /**
    * The time (in milliseconds) since the most recent credential check.
@@ -122,6 +122,10 @@ export class GrErrorManager extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private checkLoggedInTask?: DelayedTask;
+
+  static override get styles() {
+    return [modalStyles];
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -165,21 +169,14 @@ export class GrErrorManager extends LitElement {
 
   override render() {
     return html`
-      <gr-overlay with-backdrop="" id="errorOverlay">
+      <dialog with-backdrop="" id="errorModal">
         <gr-error-dialog
           id="errorDialog"
-          @dismiss=${() => this.errorOverlay.close()}
+          @dismiss=${() => this.errorModal.close()}
           .loginUrl=${this.loginUrl}
         ></gr-error-dialog>
-      </gr-overlay>
-      <gr-overlay
-        id="noInteractionOverlay"
-        with-backdrop=""
-        always-on-top=""
-        no-cancel-on-esc-key=""
-        no-cancel-on-outside-click=""
-      >
-      </gr-overlay>
+      </dialog>
+      <dialog id="noInteractionModal" always-on-top=""></dialog>
     `;
   }
 
@@ -195,9 +192,8 @@ export class GrErrorManager extends LitElement {
   };
 
   private handleAuthError = (event: AuthErrorEvent) => {
-    this.noInteractionOverlay.open().then(() => {
-      this.showAuthErrorAlert(event.detail.message, event.detail.action);
-    });
+    this.noInteractionModal.showModal();
+    this.showAuthErrorAlert(event.detail.message, event.detail.action);
   };
 
   private readonly handleServerError = (e: ServerErrorEvent) => {
@@ -493,7 +489,7 @@ export class GrErrorManager extends LitElement {
     this.refreshingCredentials = false;
     this.hideAlert();
     this._showAlert('Credentials refreshed.');
-    this.noInteractionOverlay.close();
+    this.noInteractionModal.close();
 
     // Clear the cache for auth
     this.getAuthService().clearCache();
@@ -512,7 +508,7 @@ export class GrErrorManager extends LitElement {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;
     this.errorDialog.showSignInButton = !!options && !!options.showSignInButton;
-    this.errorOverlay.open();
+    this.errorModal.showModal();
   }
 }
 

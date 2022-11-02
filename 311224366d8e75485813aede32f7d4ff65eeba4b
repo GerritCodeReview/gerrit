@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93e348f8_bca8b7f0",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T14:12:16Z",
+      "side": 1,
+      "message": "I recognize the \"buggy\" existing behavior, but the miss-match is now a completely new miss-match, the AndCardinalPredicate could select the cardinality of something that isn\u0027t even a DataSource now. The minCardinality selected in this loop (the existing buggy source of cardinality) is being thrown away after this loop, and the cardinality is being used from the AndCardinalPredicate instead.\n\nMaybe it\u0027s not worth extending AndCardinalPredicate with AndSource?",
+      "parentUuid": "7b35a58d_fd116b8d",
+      "revId": "311224366d8e75485813aede32f7d4ff65eeba4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f5a82c9_f9c52a7e",

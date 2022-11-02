@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f77d0b_0d9b19e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T14:12:16Z",
+      "side": 1,
+      "message": "s/implement/implements/",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ebbd104_83f4e169",
+        "filename": "java/com/google/gerrit/index/query/OrCardinalPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T14:12:16Z",
+      "side": 1,
+      "message": "I would think that this should require all children to be cardinal?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "4aa4ead9d9b0a9759c331bd3ab7b71871d03bc33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

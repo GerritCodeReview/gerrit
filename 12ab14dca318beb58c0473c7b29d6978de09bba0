@@ -118,6 +118,30 @@
       },
       "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e313090d_96f28712",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-11-02T15:12:24Z",
+      "side": 1,
+      "message": "The primary reason to paginate no-limit queries was to get them working with Elasticsearch index backend. Although pagination can help with performance, especially for queries with a really large limit (for example Integer.MAX_VALUE), I don\u0027t think paginating queries with a limit will have a tangible performance impact as such queries usually have a small (\u003c500) limit.",
+      "parentUuid": "58d45bae_7980f16c",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "12ab14dca318beb58c0473c7b29d6978de09bba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

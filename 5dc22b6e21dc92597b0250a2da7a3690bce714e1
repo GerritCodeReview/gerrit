@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d98bd90_78b96b04",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexCardinalPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-02T18:28:13Z",
+      "side": 1,
+      "message": "This is a somewhat involved new code, that one might not expect in a merge commit. I like it, and understand why it is needed, but anything that isn\u0027t a simple merge needs to be mentioned in the commit message.",
+      "revId": "5dc22b6e21dc92597b0250a2da7a3690bce714e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

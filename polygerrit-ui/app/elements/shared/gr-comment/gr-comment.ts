@@ -1077,7 +1077,6 @@ export class GrComment extends LitElement {
   isSaveDisabled() {
     assertIsDefined(this.comment, 'comment');
     if (this.saving) return true;
-    if (this.comment.unresolved !== this.unresolved) return false;
     return !this.messageText?.trimEnd();
   }
 

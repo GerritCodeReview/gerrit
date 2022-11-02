@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dbf3ebd_82c3c038",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-02T12:29:31Z",
+      "side": 1,
+      "message": "why is this required?",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "5779f097c3d7cb80803f64bad8ea697a4231ae40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

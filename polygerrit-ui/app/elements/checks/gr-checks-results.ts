@@ -72,7 +72,6 @@ import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
-import {KnownExperimentId} from '../../services/flags/flags';
 import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
@@ -124,8 +123,6 @@ export class GrResultRow extends LitElement {
   private getChecksModel = resolve(this, checksModelToken);
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flags = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -536,10 +533,8 @@ export class GrResultRow extends LitElement {
 
   private renderActions() {
     const actions = [...(this.result?.actions ?? [])];
-    if (this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) {
-      const fixAction = createFixAction(this, this.result);
-      if (fixAction) actions.unshift(fixAction);
-    }
+    const fixAction = createFixAction(this, this.result);
+    if (fixAction) actions.unshift(fixAction);
     if (actions.length === 0) return;
     const overflowItems = actions.slice(2).map(action => {
       return {...action, id: action.name};

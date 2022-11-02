@@ -13,8 +13,6 @@ import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {KnownExperimentId} from '../../services/flags/flags';
-import {getAppContext} from '../../services/app-context';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -33,8 +31,6 @@ export class GrDiffCheckResult extends LitElement {
 
   @state()
   isExpandable = false;
-
-  private readonly flags = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -190,7 +186,6 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderFixButton() {
-    if (!this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) return nothing;
     const action = createFixAction(this, this.result);
     if (!action) return nothing;
     return html`

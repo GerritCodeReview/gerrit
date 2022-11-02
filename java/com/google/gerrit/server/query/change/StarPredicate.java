@@ -15,10 +15,11 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class StarPredicate extends ChangeIndexPredicate {
+public class StarPredicate extends ChangeIndexPredicate implements HasCardinality {
   protected final Account.Id accountId;
   protected final String label;
 
@@ -31,6 +32,11 @@ public class StarPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData cd) {
     return cd.stars().get(accountId).contains(label);
+  }
+
+  @Override
+  public int getCardinality() {
+    return 10;
   }
 
   @Override

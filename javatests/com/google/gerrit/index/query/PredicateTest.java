@@ -43,6 +43,18 @@ public abstract class PredicateTest {
     }
   }
 
+  protected static class TestCardinalPredicate<T> extends TestMatchablePredicate<T>
+      implements HasCardinality {
+    protected TestCardinalPredicate(String name, String value, int cost) {
+      super(name, value, cost);
+    }
+
+    @Override
+    public int getCardinality() {
+      return 1;
+    }
+  }
+
   protected static class TestMatchablePredicate<T> extends TestPredicate<T>
       implements Matchable<T> {
     protected int cost;

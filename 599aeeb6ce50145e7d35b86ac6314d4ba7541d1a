@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "359fb2a3_b21cb458",
+        "filename": "java/com/google/gerrit/entities/PatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-03T12:03:35Z",
+      "side": 1,
+      "message": "Can the sorting in ChangeNotes#getPatchSets be simplified now?",
+      "revId": "599aeeb6ce50145e7d35b86ac6314d4ba7541d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "954ff45e_0ba1820c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-03T12:03:35Z",
+      "side": 1,
+      "message": "Could this be\n\n  amendChange(r1.getChangeId()).assertOkStatus()\n  \n?",
+      "range": {
+        "startLine": 3482,
+        "startChar": 4,
+        "endLine": 3486,
+        "endChar": 24
+      },
+      "revId": "599aeeb6ce50145e7d35b86ac6314d4ba7541d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

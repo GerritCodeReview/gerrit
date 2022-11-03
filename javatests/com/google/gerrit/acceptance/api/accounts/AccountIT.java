@@ -78,6 +78,7 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
@@ -130,10 +131,12 @@ import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -144,6 +147,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
@@ -175,6 +179,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -241,6 +246,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
   @Inject private AuthConfig authConfig;
+  @Inject private AccountControl.Factory accountControlFactory;
 
   @Inject protected Emails emails;
 
@@ -3116,6 +3122,139 @@ public class AccountIT extends AbstractDaemonTest {
         .isNotEqualTo(updatedAdminState.account().metaId());
     assertThat(preUpdateUserState.account().metaId())
         .isNotEqualTo(updatedUserState.account().metaId());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void accountsCanSeeEachOtherThroughASharedExternalGroupOnlyWhenTheGroupIsMentionedInAcls()
+      throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    // user and user2 cannot see each other because they do not share a Gerrit internal group
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+        .isFalse();
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
+        .isFalse();
+
+    // Configure an external group backend that has a single group that contains all users.
+    TestGroupBackend testGroupBackend = createTestGroupBackendWithAllUsersGroup("AllUsers");
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      // user and user2 cannot see each other although the external AllUsers group contains both
+      // users. That's because this group is not detected as relevant and hence its memberships are
+      // not checked.
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+          .isFalse();
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
+          .isFalse();
+
+      // Add ACL for the external group.
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(
+              TestProjectUpdate.allowLabel("Code-Review")
+                  .range(0, 1)
+                  .ref("refs/heads/*")
+                  .group(AccountGroup.uuid(TestGroupBackend.PREFIX + "AllUsers"))
+                  .build())
+          .update();
+
+      // user and user2 can now see each other because the external AllUsers group that contains
+      // both users is guessed as relevant now that permissions are assigned to this group.
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+          .isTrue();
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
+          .isTrue();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  @GerritConfig(name = "groups.relevantGroup", value = "testbackend:AllUsers")
+  public void accountsCanSeeEachOtherThroughASharedExternalGroupThatIsConfiguredAsRelevant()
+      throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    // user and user2 cannot see each other because they do not share a Gerrit internal group
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+        .isFalse();
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
+        .isFalse();
+
+    // Check that the configured relevant group is included into the guessed groups.
+    assertThat(projectCache.guessRelevantGroupUUIDs())
+        .contains(AccountGroup.uuid("testbackend:AllUsers"));
+
+    // Configure an external group backend that has a single group that contains all users.
+    TestGroupBackend testGroupBackend = createTestGroupBackendWithAllUsersGroup("AllUsers");
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      // user and user2 can see each other since the external AllUsers that contains both users has
+      // been configured as a relevant group.
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+          .isTrue();
+      assertThat(
+              accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
+          .isTrue();
+    }
+  }
+
+  private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)
+      throws IOException {
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+
+    AccountGroup.UUID allUsersGroupUuid =
+        testGroupBackend.create(nameOfAllUsersGroup).getGroupUUID();
+
+    GroupMembership testGroupMembership =
+        new GroupMembership() {
+          @Override
+          public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupUuids) {
+            return StreamSupport.stream(groupUuids.spliterator(), /* parallel= */ false)
+                .filter(this::contains)
+                .collect(toSet());
+          }
+
+          @Override
+          public Set<AccountGroup.UUID> getKnownGroups() {
+            // Typically for external group backends it's too expensive to query all groups that the
+            // user is a member of. Instead limit the group membership check to groups that are
+            // guessed to be relevant.
+            return projectCache.guessRelevantGroupUUIDs().stream()
+                // filter out groups of other group backends and groups of this group backend that
+                // don't exist
+                .filter(
+                    uuid -> testGroupBackend.handles(uuid) && testGroupBackend.get(uuid) != null)
+                .collect(toImmutableSet());
+          }
+
+          @Override
+          public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupUuids) {
+            return StreamSupport.stream(groupUuids.spliterator(), /* parallel= */ false)
+                .anyMatch(this::contains);
+          }
+
+          @Override
+          public boolean contains(AccountGroup.UUID groupUuid) {
+            return allUsersGroupUuid.equals(groupUuid);
+          }
+        };
+
+    accounts
+        .allIds()
+        .forEach(accountId -> testGroupBackend.setMembershipsOf(accountId, testGroupMembership));
+
+    return testGroupBackend;
   }
 
   private void assertExternalIds(Account.Id accountId, ImmutableSet<String> extIds)

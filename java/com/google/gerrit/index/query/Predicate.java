@@ -81,6 +81,23 @@ public abstract class Predicate<T> {
     return new OrPredicate<>(that);
   }
 
+  /** Combine the passed predicates into a single OrCardinal node. */
+  @SafeVarargs
+  public static <T> Predicate<T> orCardinal(Predicate<T>... that) {
+    if (that.length == 1) {
+      return that[0];
+    }
+    return new OrCardinalPredicate<>(that);
+  }
+
+  /** Combine the passed predicates into a single OrCardinal node. */
+  public static <T> Predicate<T> orCardinal(Collection<? extends Predicate<T>> that) {
+    if (that.size() == 1) {
+      return Iterables.getOnlyElement(that);
+    }
+    return new OrCardinalPredicate<>(that);
+  }
+
   /** Invert the passed node. */
   public static <T> Predicate<T> not(Predicate<T> that) {
     checkArgument(

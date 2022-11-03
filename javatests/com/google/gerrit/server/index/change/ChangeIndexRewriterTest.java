@@ -72,7 +72,9 @@ public class ChangeIndexRewriterTest {
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
-            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
+            query(
+                Predicate.orCardinal(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())),
+            in)
         .inOrder();
   }
 
@@ -89,7 +91,9 @@ public class ChangeIndexRewriterTest {
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
-            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
+            query(
+                Predicate.orCardinal(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())),
+            in)
         .inOrder();
   }
 

@@ -669,7 +669,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("uploader".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.UPLOADER, "is:uploader");
+      checkFieldAvailable(ChangeField.UPLOADER_SPEC, "is:uploader");
       return ChangePredicates.uploader(self());
     }
 
@@ -1203,7 +1203,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> uploader(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    checkFieldAvailable(ChangeField.UPLOADER, "uploader");
+    checkFieldAvailable(ChangeField.UPLOADER_SPEC, "uploader");
     return uploader(parseAccount(who, (AccountState s) -> true));
   }
 
@@ -1263,7 +1263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> uploaderin(String group) throws QueryParseException, IOException {
-    checkFieldAvailable(ChangeField.UPLOADER, "uploaderin");
+    checkFieldAvailable(ChangeField.UPLOADER_SPEC, "uploaderin");
 
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {

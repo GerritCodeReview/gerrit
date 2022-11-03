@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.SchemaFieldDefs.Getter;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -36,10 +37,19 @@ public class IndexUpgradeValidatorTest {
   public void valid() {
     IndexUpgradeValidator.assertValid(schema(1, ChangeField.ID), schema(2, ChangeField.ID));
     IndexUpgradeValidator.assertValid(
-        schema(1, ChangeField.ID), schema(2, ChangeField.ID, ChangeField.OWNER));
+        schema(1, ChangeField.ID),
+        schema(
+            2,
+            ImmutableList.of(ChangeField.ID),
+            ImmutableList.of(ChangeField.OWNER_FIELD),
+            ImmutableList.of(ChangeField.OWNER_SPEC)));
     IndexUpgradeValidator.assertValid(
         schema(1, ChangeField.ID),
-        schema(2, ChangeField.ID, ChangeField.OWNER, ChangeField.COMMITTER));
+        schema(
+            2,
+            ImmutableList.of(ChangeField.ID),
+            ImmutableList.of(ChangeField.OWNER_FIELD, ChangeField.COMMITTER_PARTS_FIELD),
+            ImmutableList.of(ChangeField.OWNER_SPEC, ChangeField.COMMITTER_PARTS_SPEC)));
   }
 
   @Test
@@ -49,7 +59,12 @@ public class IndexUpgradeValidatorTest {
             AssertionError.class,
             () ->
                 IndexUpgradeValidator.assertValid(
-                    schema(1, ChangeField.ID), schema(2, ChangeField.OWNER)));
+                    schema(1, ChangeField.ID),
+                    schema(
+                        2,
+                        ImmutableList.of(),
+                        ImmutableList.of(ChangeField.OWNER_FIELD),
+                        ImmutableList.of(ChangeField.OWNER_SPEC))));
     assertThat(e)
         .hasMessageThat()
         .contains("Schema upgrade to version 2 may either add or remove fields, but not both");

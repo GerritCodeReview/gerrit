@@ -41,7 +41,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.ATTENTION_SET_FULL,
               ChangeField.ATTENTION_SET_USERS,
               ChangeField.ATTENTION_SET_USERS_COUNT,
-              ChangeField.AUTHOR,
               ChangeField.CHANGE,
               ChangeField.CHERRY_PICK,
               ChangeField.CHERRY_PICK_OF_CHANGE,
@@ -50,18 +49,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.COMMENTBY,
               ChangeField.COMMIT,
               ChangeField.COMMIT_MESSAGE,
-              ChangeField.COMMITTER,
               ChangeField.DELETED,
               ChangeField.DELTA,
-              ChangeField.DIRECTORY,
               ChangeField.DRAFTBY,
               ChangeField.EDITBY,
-              ChangeField.EXACT_AUTHOR,
               ChangeField.EXACT_COMMIT,
-              ChangeField.EXACT_COMMITTER,
-              ChangeField.EXTENSION,
-              ChangeField.FILE_PART,
-              ChangeField.FOOTER,
               ChangeField.GROUP,
               ChangeField.ID,
               ChangeField.IS_PURE_REVERT,
@@ -70,8 +62,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.LEGACY_ID_STR,
               ChangeField.MERGE,
               ChangeField.MERGEABLE,
-              ChangeField.ONLY_EXTENSIONS,
-              ChangeField.OWNER,
               ChangeField.PATCH_SET,
               ChangeField.PENDING_REVIEWER,
               ChangeField.PENDING_REVIEWER_BY_EMAIL,
@@ -94,31 +84,52 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.TR,
               ChangeField.UNRESOLVED_COMMENT_COUNT,
               ChangeField.UPDATED,
-              ChangeField.UPLOADER,
               ChangeField.WIP),
           ImmutableList.<IndexedField<ChangeData, ?>>of(
+              ChangeField.AUTHOR_PARTS_FIELD,
+              ChangeField.COMMITTER_PARTS_FIELD,
+              ChangeField.DIRECTORY_FIELD,
+              ChangeField.EXACT_AUTHOR_FIELD,
+              ChangeField.EXACT_COMMITTER_FIELD,
+              ChangeField.EXTENSION_FIELD,
+              ChangeField.FILE_PART_FIELD,
+              ChangeField.FOOTER_FIELD,
               ChangeField.HASHTAG_CASE_AWARE_FIELD,
               ChangeField.HASHTAG_FIELD,
               ChangeField.MERGED_ON_FIELD,
+              ChangeField.ONLY_EXTENSIONS_FIELD,
+              ChangeField.OWNER_FIELD,
               ChangeField.PATH_FIELD,
               ChangeField.PROJECT_FIELD,
               ChangeField.REF_FIELD,
               ChangeField.STATUS_FIELD,
               ChangeField.SUBMISSIONID_FIELD,
-              ChangeField.TOPIC_FIELD),
+              ChangeField.TOPIC_FIELD,
+              ChangeField.UPLOADER_FIELD),
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+              ChangeField.AUTHOR_PARTS_SPEC,
+              ChangeField.COMMITTER_PARTS_SPEC,
+              ChangeField.DIRECTORY_SPEC,
+              ChangeField.EXACT_AUTHOR_SPEC,
+              ChangeField.EXACT_COMMITTER_SPEC,
               ChangeField.EXACT_TOPIC,
+              ChangeField.EXTENSION_SPEC,
+              ChangeField.FILE_PART_SPEC,
+              ChangeField.FOOTER_SPEC,
               ChangeField.FUZZY_HASHTAG,
               ChangeField.FUZZY_TOPIC,
               ChangeField.HASHTAG_CASE_AWARE_SPEC,
               ChangeField.HASHTAG_SPEC,
               ChangeField.MERGED_ON_SPEC,
+              ChangeField.ONLY_EXTENSIONS_SPEC,
+              ChangeField.OWNER_SPEC,
               ChangeField.PATH_SPEC,
               ChangeField.PROJECTS_SPEC,
               ChangeField.PROJECT_SPEC,
               ChangeField.REF_SPEC,
               ChangeField.STATUS_SPEC,
-              ChangeField.SUBMISSIONID_SPEC));
+              ChangeField.SUBMISSIONID_SPEC,
+              ChangeField.UPLOADER_SPEC));
 
   /**
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
@@ -135,7 +146,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#FOOTER_NAME}. */
   @Deprecated
   static final Schema<ChangeData> V76 =
-      new Schema.Builder<ChangeData>().add(V75).add(ChangeField.FOOTER_NAME).build();
+      new Schema.Builder<ChangeData>()
+          .add(V75)
+          .addIndexedFields(ChangeField.FOOTER_NAME_FIELD)
+          .addSearchSpecs(ChangeField.FOOTER_NAME)
+          .build();
 
   /** Added new field {@link ChangeField#COMMIT_MESSAGE_EXACT}. */
   @Deprecated

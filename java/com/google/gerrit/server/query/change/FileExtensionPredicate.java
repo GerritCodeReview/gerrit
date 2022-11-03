@@ -26,7 +26,7 @@ public class FileExtensionPredicate extends ChangeIndexPredicate {
   }
 
   FileExtensionPredicate(String value) {
-    super(ChangeField.EXTENSION, clean(value));
+    super(ChangeField.EXTENSION_SPEC, clean(value));
   }
 
   @Override

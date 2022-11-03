@@ -375,6 +375,8 @@ public abstract class IndexedField<I, T> {
   /**
    * Optional size constrain on the field. The size is not constrained if this property is {@link
    * Optional#empty()}
+   *
+   * <p>If the field is {@link #repeatable()}, the constraint applies to each element separately.
    */
   public abstract Optional<Integer> size();
 

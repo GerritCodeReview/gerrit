@@ -22,7 +22,7 @@ public class RegexDirectoryPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
   public RegexDirectoryPredicate(String re) {
-    super(ChangeField.DIRECTORY, re);
+    super(ChangeField.DIRECTORY_SPEC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

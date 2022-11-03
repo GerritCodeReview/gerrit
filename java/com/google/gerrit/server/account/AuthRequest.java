@@ -66,6 +66,14 @@ public class AuthRequest {
       return r;
     }
 
+    public AuthRequest createForOAuthUser(String userName) {
+      AuthRequest r =
+          new AuthRequest(
+              externalIdKeyFactory.create("google-oauth", userName), externalIdKeyFactory);
+      r.setUserName(userName);
+      return r;
+    }
+
     /**
      * Create a request for an email address registration.
      *

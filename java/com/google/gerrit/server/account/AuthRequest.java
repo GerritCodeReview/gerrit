@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_OAUTH;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
@@ -62,6 +63,14 @@ public class AuthRequest {
       AuthRequest r =
           new AuthRequest(
               externalIdKeyFactory.create(SCHEME_EXTERNAL, userName), externalIdKeyFactory);
+      r.setUserName(userName);
+      return r;
+    }
+
+    public AuthRequest createForOAuthUser(String userName) {
+      AuthRequest r =
+          new AuthRequest(
+              externalIdKeyFactory.create(SCHEME_OAUTH, userName), externalIdKeyFactory);
       r.setUserName(userName);
       return r;
     }

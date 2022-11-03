@@ -150,6 +150,9 @@ public abstract class ExternalId implements Serializable {
   /** Scheme for xri resources. OpenID in particular makes use of these external IDs. */
   public static final String SCHEME_XRI = "xri";
 
+  /** Scheme for Google OAuth external IDs. */
+  public static final String SCHEME_OAUTH = "google-oauth";
+
   @AutoValue
   public abstract static class Key implements Serializable {
     private static final long serialVersionUID = 1L;

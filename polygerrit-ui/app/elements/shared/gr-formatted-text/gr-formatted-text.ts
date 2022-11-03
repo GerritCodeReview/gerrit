@@ -84,11 +84,6 @@ export class GrFormattedText extends LitElement {
       :not(pre) > code {
         display: inline;
       }
-      p {
-        /* prose will automatically wrap but inline <code> blocks won't and we
-           should overflow in that case rather than wrapping or leaking out */
-        overflow-x: auto;
-      }
       li {
         margin-left: var(--spacing-xl);
       }
@@ -99,6 +94,11 @@ export class GrFormattedText extends LitElement {
         font: inherit;
         white-space: var(--linked-text-white-space, pre-wrap);
         word-wrap: var(--linked-text-word-wrap, break-word);
+      }
+      .markdown-html {
+        /* prose will automatically wrap but inline <code> blocks won't and we
+           should overflow in that case rather than wrapping or leaking out */
+        overflow-x: auto;
       }
     `,
   ];
@@ -181,7 +181,7 @@ export class GrFormattedText extends LitElement {
         .callback=${(_error: string | null, contents: string) =>
           sanitizeHtml(contents)}
       >
-        <div slot="markdown-html"></div>
+        <div class="markdown-html" slot="markdown-html"></div>
       </marked-element>
     `;
   }

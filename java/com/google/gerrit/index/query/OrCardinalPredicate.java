@@ -14,11 +14,17 @@
 
 package com.google.gerrit.index.query;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
 public class OrCardinalPredicate<T> extends OrPredicate<T> implements HasCardinality {
   private final int cardinality;
+
+  @SafeVarargs
+  protected OrCardinalPredicate(Predicate<T>... that) {
+    this(Arrays.asList(that));
+  }
 
   public OrCardinalPredicate(Collection<? extends Predicate<T>> that) {
     super(that);

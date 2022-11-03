@@ -3,8 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getRootElement} from '../../scripts/rootElement';
-import {Constructor} from '../../utils/common-util';
+import {Constructor, queryAndAssert} from '../../utils/common-util';
 import {LitElement, PropertyValues} from 'lit';
 import {property, query} from 'lit/decorators.js';
 import {EventType, ShowAlertEventDetail} from '../../types/events';
@@ -29,6 +28,7 @@ import {
   ReportingService,
   Timer,
 } from '../../services/gr-reporting/gr-reporting';
+import { GrAppElement } from '../../elements/gr-app-element';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -50,17 +50,20 @@ export interface MouseKeyboardOrFocusEvent {
 
 export function getHovercardContainer(
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
-): HTMLElement | null {
-  let container = getRootElement().querySelector<HTMLElement>(
+): HTMLDialogElement | null {
+  // const grAppElement = queryAndAssert<GrAppElement>(document.querySelector('gr-app'), 'gr-app-element');
+  const grAppElement = document.body;
+  let container = grAppElement.querySelector<HTMLElement>(
     `#${containerId}`
   );
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
-    container = document.createElement('div');
+    const container = document.createElement('dialog');
     container.setAttribute('id', containerId);
-    getRootElement().appendChild(container);
+    container.setAttribute('tabindex', "-1");
+    grAppElement.appendChild(container);
   }
-  return container;
+  return container as HTMLDialogElement;
 }
 
 /**
@@ -128,7 +131,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     position = 'right';
 
     @property({type: Object})
-    container: HTMLElement | null = null;
+    container: HTMLDialogElement | null = null;
 
     // Private but used in tests.
     hideTask?: DelayedTask;
@@ -271,6 +274,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     };
 
     readonly mouseHide = (e: MouseEvent) => {
+      console.log("mouse leave");
       this.hide({mouseEvent: e});
     };
 
@@ -292,6 +296,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           // This happens when hide immediately through click or mouse leave
           // on the hovercard
           if (!this.isScheduledToHide) return;
+          console.log("mouse leave");
           this.hide(props);
         },
         HIDE_DELAY_MS
@@ -399,6 +404,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           return;
         }
       }
+
       if (this.openedByKeyboard) {
         if (this._target) {
           this._target.focus();
@@ -410,6 +416,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
       // Mark that the hovercard is not visible and do not allow focusing
       this._isShowing = false;
+      this.container?.close();
 
       // Clear styles in preparation for the next time we need to show the card
       this.classList.remove(HOVER_CLASS);
@@ -504,6 +511,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // Mark that the hovercard is now visible
       this._isShowing = true;
 
+      // Replacing show with show renders in not in the centre of the
+      // existing screen but below the page for some reason.
+      console.log("show called");
+      this.container.show();
+
       // Add it to the DOM and calculate its position
       this.container.appendChild(this);
       // We temporarily hide the hovercard until we have found the correct
@@ -525,7 +537,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.reportingTimer = this.reporting.getTimer('Show Hovercard');
     };
 
-    updatePosition() {
+    async updatePosition() {
       const positionsToTry = new Set([
         this.position,
         'right',
@@ -538,6 +550,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         'left',
       ]);
       for (const position of positionsToTry) {
+        console.log("position", position);
         this.updatePositionTo(position);
         if (this._isInsideViewport()) return;
       }
@@ -620,6 +633,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           break;
       }
 
+      console.log("trying left top", hovercardLeft, hovercardTop);
       this.style.left = `${hovercardLeft}px`;
       this.style.top = `${hovercardTop}px`;
     }

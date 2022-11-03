@@ -279,32 +279,46 @@ public class AccountManager {
 
   private AuthResult create(AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
-    Account.Id newId = Account.id(sequences.nextAccountId());
-    logger.atFine().log("Assigning new Id %s to account", newId);
+    Account.Id newId = null;
+
+    String name = who.getUserName().get();
+    Set<ExternalId> existingExtIds = externalIds.all();
+    for (ExternalId externalId : existingExtIds) {
+      if (externalId.key().scheme().equals("username") && externalId.key().id().equals(name)) {
+        newId = externalId.accountId();
+        break;
+      }
+    }
+    ExternalId userNameExtId = null;
+    if (newId == null) {
+      newId = Account.id(sequences.nextAccountId());
+      userNameExtId = createUsername(newId, who.getUserName().get());
+    }
+    ExternalId finalUserNameExtId = userNameExtId;
+    logger.atWarning().log("Assigning new account to ID %s", newId);
 
     ExternalId extId =
         externalIdFactory.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    logger.atFine().log("Created external Id: %s", extId);
+    logger.atWarning().log("Created external Id: %s", extId);
     checkEmailNotUsed(newId, extId);
-    ExternalId userNameExtId =
-        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
-    AccountState accountState;
+    Optional<AccountState> accountState;
     try {
       accountState =
           accountsUpdateProvider
               .get()
-              .insert(
+              .update(
                   "Create Account on First Login",
                   newId,
                   u -> {
                     u.setFullName(who.getDisplayName())
                         .setPreferredEmail(extId.email())
                         .addExternalId(extId);
-                    if (userNameExtId != null) {
-                      u.addExternalId(userNameExtId);
+                    if (finalUserNameExtId != null) {
+                      logger.atWarning().log("executing this");
+                      u.addExternalId(finalUserNameExtId);
                     }
                   });
     } catch (DuplicateExternalIdKeyException e) {
@@ -321,7 +335,7 @@ public class AccountManager {
       awaitsFirstAccountCheck.set(isFirstAccount);
     }
 
-    if (userNameExtId != null) {
+    if (finalUserNameExtId != null) {
       who.getUserName().ifPresent(sshKeyCache::evict);
     }
 
@@ -344,7 +358,7 @@ public class AccountManager {
       addGroupMember(adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, accountState.account());
+    realm.onCreateAccount(who, accountState.get().account());
     return new AuthResult(newId, extId.key(), true);
   }
 

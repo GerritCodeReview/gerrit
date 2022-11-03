@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e457021a_10430652",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-03T13:39:44Z",
+      "side": 1,
+      "message": "I don\u0027t think the API service should depend on the Search View. Consider putting the escaping and quoting functions back into the string utility file since it is used in multiple places",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 75
+      },
+      "revId": "5ef18712ef1feefb932ff17780a29a873ae87bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

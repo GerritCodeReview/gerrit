@@ -34,6 +34,24 @@
       "parentUuid": "6c6867a5_3ef643c2",
       "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90142189_f781b3b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-03T08:54:31Z",
+      "side": 1,
+      "message": "\u003e How do you want to configure this? Set it to mdb:all-users in our central host config? \n\nPrimarily this.\n\n\u003e Or add the CLA group there?\n\nI think this makes sense too.\n\n\u003e I am still trying to get us onto a more well-lit path for visibility and\n\u003e stop relying on group memberships as we do today.\n\nI know, that\u0027s why I wanted your opinion before making this change public.\n\n\u003e But that shouldn\u0027t stand in the way of optimizing what we have especially\n\u003e when that is cheap :-)\n\nOK :) Making this change public then.",
+      "parentUuid": "4b8589f5_0d007a50",
+      "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

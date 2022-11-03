@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -279,40 +281,103 @@ public class AccountManager {
 
   private AuthResult create(AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
-    Account.Id newId = Account.id(sequences.nextAccountId());
-    logger.atFine().log("Assigning new Id %s to account", newId);
+    boolean isOAuth = who.getExternalIdKey().isScheme(SCHEME_GOOGLE_OAUTH);
+    String email = who.getEmailAddress();
+    Optional<Account.Id> extAccId = Optional.empty();
+    Optional<ExternalId> existingLDAPExtID = Optional.empty();
+    // If an LDAP account exists with the same e-mail address then delete the LDAP external ID
+    // and save the account ID for reuse with the new Google OAuth external ID.
+    if (isOAuth && !email.isEmpty()) {
+      existingLDAPExtID =
+          externalIds.byEmail(email).stream()
+              .filter(ext -> ext.isScheme(SCHEME_GERRIT))
+              .findFirst();
 
-    ExternalId extId =
-        externalIdFactory.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    logger.atFine().log("Created external Id: %s", extId);
-    checkEmailNotUsed(newId, extId);
-    ExternalId userNameExtId =
-        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
+      if (existingLDAPExtID.isPresent()) {
+        extAccId = Optional.ofNullable(existingLDAPExtID.get().accountId());
+      }
+    }
+
+    Account.Id accId =
+        extAccId.isPresent() ? extAccId.get() : Account.id(sequences.nextAccountId());
+    ExternalId newExtId =
+        externalIdFactory.createWithEmail(who.getExternalIdKey(), accId, who.getEmailAddress());
+    checkEmailNotUsed(accId, newExtId);
+    if (extAccId.isPresent()) {
+      ExternalId finalExtLDAPExtKey = existingLDAPExtID.get();
+      accountsUpdateProvider
+          .get()
+          .update(
+              "remove existing LDAP externalId with matching e-mail",
+              extAccId.get(),
+              u -> {
+                u.deleteExternalId(finalExtLDAPExtKey);
+              });
+    }
+
+    // create new external ID if name is present and one does not already exist.
+    Optional<String> name = who.getUserName();
+    Optional<ExternalId> usernameExtId = Optional.empty();
+    if (name.isPresent()) {
+      for (int i = 0; i < 5; i++) {
+        try {
+          usernameExtId = externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, name.get()));
+        } catch (IOException e) {
+          if (i >= 5) {
+            throw new Error(
+                String.format(
+                    "failed to retrieve username externalId for %s after %d " + "consecutive tries",
+                    name.get(), i));
+          }
+          logger.atWarning().log(
+              "Failed to check if a username external ID exists for: %s", name.get());
+        }
+      }
+    }
+
+    ExternalId newUsernameExtId =
+        !usernameExtId.isPresent() && !name.isEmpty() ? createUsername(accId, name.get()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
-
     AccountState accountState;
     try {
-      accountState =
-          accountsUpdateProvider
-              .get()
-              .insert(
-                  "Create Account on First Login",
-                  newId,
-                  u -> {
-                    u.setFullName(who.getDisplayName())
-                        .setPreferredEmail(extId.email())
-                        .addExternalId(extId);
-                    if (userNameExtId != null) {
-                      u.addExternalId(userNameExtId);
-                    }
-                  });
+      if (extAccId.isPresent()) {
+        accountState =
+            accountsUpdateProvider
+                .get()
+                .update(
+                    "create new external ID for use",
+                    accId,
+                    u -> {
+                      u.setFullName(who.getDisplayName())
+                          .setPreferredEmail(newExtId.email())
+                          .addExternalId(newExtId);
+                    })
+                .get();
+        logger.atFine().log("Created new external Id: %s", newExtId);
+      } else {
+        accountState =
+            accountsUpdateProvider
+                .get()
+                .insert(
+                    "Create Account on First Login",
+                    accId,
+                    u -> {
+                      u.setFullName(who.getDisplayName())
+                          .setPreferredEmail(newExtId.email())
+                          .addExternalId(newExtId);
+                      if (newUsernameExtId != null) {
+                        u.addExternalId(newUsernameExtId);
+                      }
+                    });
+        logger.atFine().log("Created new external Id: %s", newExtId);
+      }
     } catch (DuplicateExternalIdKeyException e) {
       throw new AccountException(
           "Cannot assign external ID \""
               + e.getDuplicateKey().get()
               + "\" to account "
-              + newId
+              + accId
               + "; external ID already in use.");
     } finally {
       // If adding the account failed, it may be that it actually was the
@@ -321,11 +386,11 @@ public class AccountManager {
       awaitsFirstAccountCheck.set(isFirstAccount);
     }
 
-    if (userNameExtId != null) {
+    if (newUsernameExtId != null) {
       who.getUserName().ifPresent(sshKeyCache::evict);
     }
 
-    IdentifiedUser user = userFactory.create(newId);
+    IdentifiedUser user = userFactory.create(accId);
 
     if (isFirstAccount) {
       // This is the first user account on our site. Assume this user
@@ -345,7 +410,7 @@ public class AccountManager {
     }
 
     realm.onCreateAccount(who, accountState.account());
-    return new AuthResult(newId, extId.key(), true);
+    return new AuthResult(accId, newExtId.key(), true);
   }
 
   private ExternalId createUsername(Account.Id accountId, String username)

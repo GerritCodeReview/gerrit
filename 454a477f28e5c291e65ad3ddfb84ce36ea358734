@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1475672c_156511fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-03T17:32:32Z",
+      "side": 1,
+      "message": "With the latest PS18, we allow to have a Gerrit server with up to 250M changes :-) that would buy us some time until Gerrit v3.8 (6 months away from now).",
+      "parentUuid": "dea62982_7554820f",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fbffbfd_58b69ceb",

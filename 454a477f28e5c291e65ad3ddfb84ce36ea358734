@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea62982_7554820f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T13:47:24Z",
+      "side": 1,
+      "message": "yes, we have servers with \u003e 4M changes",
+      "parentUuid": "bf833647_e191c0be",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fbffbfd_58b69ceb",
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "\u003e Right but then IIUIC all queries to changes would have to be reworked to contain it...\n\nIndeed, at that point why don\u0027t we get rid of the change number and start using project/change-number instead? We already have all queries on that combination and it seems absurd we are still making queries by only change number after years we deprecated it.\n\nThat\u0027s not a solution for stable-3.7 though because it is due to be released in a few days.\n\nI believe going with an initial limitation to have 64 imports (currently we can do none on Gerrit) and get rid of change-number based queries altogether in v3.8.\n\nDoes that sound like a plan?\n\n@matthias.sohn@gmail.com @geminica.programs@gmail.com ?",
       "parentUuid": "4006c949_1e1f6f39",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "454a477f28e5c291e65ad3ddfb84ce36ea358734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "506e6675_368ed2a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T13:47:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a384dac2_78ba0578",
       "range": {
         "startLine": 25,
         "startChar": 37,

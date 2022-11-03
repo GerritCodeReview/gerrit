@@ -172,6 +172,11 @@ function suppress404s(res?: Response | null) {
   fireServerError(res);
 }
 
+/** Escape quotes ("), backslashes (\) and wrap in quotes to allow spaces.*/
+function escapeAndWrapSearchOperatorValue(value: string): string {
+  return `"${value.replace('\\', '\\\\').replace('"', '\\"')}"`;
+}
+
 interface FetchChangeJSON {
   reportEndpointAsIs?: boolean;
   endpoint: string;
@@ -1807,7 +1812,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS
     );
-    const queryTerms = [`topic:"${topic}"`];
+    const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {
       queryTerms.push('status:open');
     }
@@ -1826,7 +1831,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
-    const query = `intopic:"${topic}"`;
+    const query = `intopic:${escapeAndWrapSearchOperatorValue(topic)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
@@ -1837,7 +1842,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangesWithSimilarHashtag(
     hashtag: string
   ): Promise<ChangeInfo[] | undefined> {
-    const query = `inhashtag:"${hashtag}"`;
+    const query = `inhashtag:${escapeAndWrapSearchOperatorValue(hashtag)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},

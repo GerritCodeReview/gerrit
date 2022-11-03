@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -143,13 +145,11 @@ public class AccountManager {
       deactivateAccountIfItExists(who);
       throw e;
     }
+
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
       if (!optionalExtId.isPresent()) {
-        logger.atFine().log(
-            "External ID for account %s not found. A new account will be automatically created.",
-            who.getUserName());
-        return create(who);
+        return createOrLinkAccount(who);
       }
 
       ExternalId extId = optionalExtId.get();
@@ -177,6 +177,45 @@ public class AccountManager {
       return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
     } catch (StorageException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
+    }
+  }
+
+  // determines if a new account should be created or if we should link to an existing
+  // account.
+  private AuthResult createOrLinkAccount(AuthRequest who)
+      throws AccountException, IOException, ConfigInvalidException {
+    String email = who.getEmailAddress();
+    Optional<Account.Id> extAccId = Optional.empty();
+    Optional<ExternalId> existingLDAPExtID = Optional.empty();
+    // If an LDAP account exists with the same e-mail address then delete the LDAP externalId
+    // and save the account ID for reuse with the new Google OAuth external ID.
+    if (who.getExternalIdKey().isScheme(SCHEME_GOOGLE_OAUTH) && !email.isEmpty()) {
+      existingLDAPExtID =
+          externalIds.byEmail(email).stream()
+              .filter(ext -> ext.isScheme(SCHEME_GERRIT))
+              .findFirst();
+
+      if (existingLDAPExtID.isPresent()) {
+        extAccId = Optional.ofNullable(existingLDAPExtID.get().accountId());
+      }
+    }
+
+    if (extAccId.isPresent() && usernameExternalIdExists(who)) {
+      ExternalId finalExtLDAPExtKey = existingLDAPExtID.get();
+      accountsUpdateProvider
+          .get()
+          .update(
+              "remove existing LDAP externalId with matching e-mail",
+              extAccId.get(),
+              u -> {
+                u.deleteExternalId(finalExtLDAPExtKey);
+              });
+      return link(extAccId.get(), who);
+    } else {
+      logger.atFine().log(
+          "External ID for account %s not found. A new account will be automatically created.",
+          who.getUserName());
+      return create(who);
     }
   }
 
@@ -277,6 +316,16 @@ public class AccountManager {
     }
   }
 
+  private boolean usernameExternalIdExists(AuthRequest who) throws IOException {
+    Optional<String> name = who.getUserName();
+    if (!name.isPresent()) {
+      return false;
+    }
+    Optional<ExternalId> usernameExtId =
+        externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, name.get()));
+    return usernameExtId.isPresent();
+  }
+
   private AuthResult create(AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
     Account.Id newId = Account.id(sequences.nextAccountId());
@@ -290,7 +339,6 @@ public class AccountManager {
         who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
-
     AccountState accountState;
     try {
       accountState =

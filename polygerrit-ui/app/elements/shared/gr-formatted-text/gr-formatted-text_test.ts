@@ -225,7 +225,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>text</p>
               <p>
                 text with plain link:
@@ -279,7 +279,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <h1>h1-heading</h1>
               <h2>h2-heading</h2>
               <h3>h3-heading</h3>
@@ -323,7 +323,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>
                 <code>inline code</code>
               </p>
@@ -353,7 +353,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <pre>
               <code>multiline code</code>
             </pre>
@@ -380,7 +380,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>![img](google.com/img.png)</p>
             </div>
           </marked-element>
@@ -399,7 +399,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>
                 @
                 <a
@@ -427,7 +427,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>
                 <gr-account-chip></gr-account-chip>
               </p>
@@ -456,7 +456,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>
                 <code>@</code>
                 <a
@@ -481,7 +481,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>
                 <a href="https://www.google.com" rel="noopener" target="_blank"
                   >myLink</a
@@ -504,7 +504,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <blockquote>
                 <p>block quote</p>
               </blockquote>
@@ -552,7 +552,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <marked-element>
-            <div slot="markdown-html">
+            <div slot="markdown-html" class="markdown-html">
               <p>plain text ${escapedDiv}</p>
               <p>
                 <code>inline code ${escapedDiv}</code>

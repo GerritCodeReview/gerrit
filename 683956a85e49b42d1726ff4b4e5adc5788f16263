@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c3b5cb_84bc4644",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-03T12:54:57Z",
+      "side": 1,
+      "message": "we should fix general searchbar too, for example clicking on the topic here is an error: https://android-review.googlesource.com/c/platform/build/+/568622",
+      "revId": "683956a85e49b42d1726ff4b4e5adc5788f16263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

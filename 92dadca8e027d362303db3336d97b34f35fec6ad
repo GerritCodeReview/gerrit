@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "639b9721_ce162af1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-03T11:30:01Z",
+      "side": 1,
+      "message": "nit: no . after the subject",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c64dc267_8948ccb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-03T11:30:01Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b0d4154_606ad0bb",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -38,6 +84,30 @@
       "side": 1,
       "message": "WIP reverts are currently adding `Created a revert of this change as ...` comments to the original changes and notify the original owners. See [CommitUtil.java#297-298](https://gerrit.googlesource.com/gerrit/+/c2528db259dada24836d163b8dd7705e21e81936/java/com/google/gerrit/server/git/CommitUtil.java#297). These are the parts we wanted to avoid for this feature.\nDo you suggest to change this behavior for WIP reverts instead of adding a new flag?",
       "parentUuid": "9b0d4154_606ad0bb",
+      "range": {
+        "startLine": 7970,
+        "startChar": 0,
+        "endLine": 7972,
+        "endChar": 85
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ef022d_e87969da",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7972,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-03T11:30:01Z",
+      "side": 1,
+      "message": "\u003e WIP reverts are currently adding Created a revert of this change as ... comments to the original changes and notify the original owners. See CommitUtil.java#297-298. These are the parts we wanted to avoid for this feature.\n\nYes, I think we should change this behavior for WiP changes. When a WiP change is created, we do not add that message. When a WiP change is turned into a normal change, we add this message.\n\nThis seems more logical for WiP changes to me and suits our need here for silent reverts as well. So double-win :-)",
+      "parentUuid": "3c00b704_e285e6af",
       "range": {
         "startLine": 7970,
         "startChar": 0,

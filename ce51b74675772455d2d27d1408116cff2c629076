@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6c9dc2e_77c2eaf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-03T12:10:19Z",
+      "side": 1,
+      "message": "The intended use case is for LUCI team to automate migrations of our CI config in the repo I am working on adding https://gerrit-review.googlesource.com/admin/repos/luci-config",
+      "parentUuid": "4503d003_fcd9e42e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "ce51b74675772455d2d27d1408116cff2c629076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85224653_7ce860b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-02T18:35:38Z",
       "side": 1,
       "message": "Are we planning to start using a gating/bot-submit workflow for Gerrit?",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "ce51b74675772455d2d27d1408116cff2c629076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "563d719b_4724e5c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-03T12:10:19Z",
+      "side": 1,
+      "message": "I am still investigating the LUCI tool as part of this trial integration for Polygerrit changes, but the important gist is that the CI tests would be gated on a CQ+1 vote so that all changes are at least roughly reviewed before executing on Gerrit\u0027s CI machines. This is an important security win but maybe a user experience loss compared to the current Jenkins setup. I am hoping that this can be auto-voted for maintainer-owned changes to reduce the added toil.\n\nCQ+2 and Auto-Submit would be wrappers around this CI power, to run tests and submit if they pass, or to do this automatically once CR+2 is given. I would like to connect this more directly with the submit button so we can have a similar experience to today but with less manual steps.\n\nI would like to hear any feedback on the workflows, mainly I am trying to get integration working in a small scope (polygerrit) and then work out the workflow inconveniences. Any improvements would carry over to other gerrit hosts using LUCI that are important to Google like chromium.",
+      "parentUuid": "85224653_7ce860b4",
       "range": {
         "startLine": 14,
         "startChar": 2,

@@ -33,7 +33,7 @@ import java.util.Map;
 
 /** Implementation of GroupBackend for tests. */
 public class TestGroupBackend implements GroupBackend {
-  private static final String PREFIX = "testbackend:";
+  public static final String PREFIX = "testbackend:";
 
   private final Map<AccountGroup.UUID, GroupDescription.Basic> groups = new HashMap<>();
   private final Map<Account.Id, GroupMembership> memberships = new HashMap<>();

@@ -2761,6 +2761,39 @@ groups either. This means there is no danger of ambiguous group names
 when this parameter is removed and the system group uses the default
 name again.
 
+[[groups.relevantGroup]]groups.relevantGroup::
++
+UUID of an external group that should always be considered as relevant
+when checking whether an account is visible.
++
+This setting is only relevant for external group backends and only if
+the link:#accounts.visibility[account visibility] is set to
+`SAME_GROUP` or `VISIBLE_GROUP`.
++
+If the link:#accounts.visibility[account visibility] is set to
+`SAME_GROUP` or `VISIBLE_GROUP` users should see all accounts that are
+a member of a group that contains themselves or that is visible to
+them. Checking this would require getting all groups of the current
+user and all groups of the accounts for which the visibility is being
+checked, but since getting all groups that a user is a member of is
+expensive for external group backends Gerrit doesn't query these groups
+but instead guesses the relevant groups. Guessing relevant groups
+limits the inspected groups to all groups that are mentioned in the
+ACLs of the projects that are currently cached (i.e. all groups that
+are listed in the link:config-project-config.html#file-groups[groups]
+files of the cached projects). This is not very reliable since it
+depends on which groups are mentioned in the ACLs and which projects
+are currently cached. To make this more reliable this configuration
+parameter allows to configure external groups that should always be
+considered as relevant.
++
+As said this setting is only relevant for external group backends. In
+Gerrit core this is only the LDAP backend, but it may apply to further
+group backends that are added by plugins.
++
+This parameter may be added multiple times to specify multiple relevant
+groups.
+
 [[has-operand-alias]]
 === Section has operand alias
 

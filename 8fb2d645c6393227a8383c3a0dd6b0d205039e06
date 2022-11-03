@@ -16,6 +16,24 @@
       "message": "Why does this need to change?\n\nThis is strange to me, both before and after this change, this is equivalent to CLOSED \u003d closed, isn\u0027t it (since Predicate.or() and Predicate.orCardinal()) both have a special case for a single Predicate to return it directly and not wrapping it with an Or(Cardinal)Predicate?",
       "revId": "8fb2d645c6393227a8383c3a0dd6b0d205039e06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6775480d_2d9c1452",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeStatusPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-03T19:11:17Z",
+      "side": 1,
+      "message": "Ack. I was making few tests to pass. But I see your point. Done.",
+      "parentUuid": "8cc551bc_62ea9656",
+      "revId": "8fb2d645c6393227a8383c3a0dd6b0d205039e06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,30 @@
       },
       "revId": "8193060eb772c4e9d25788b39a6ebf16b078bd67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a61eae5a_3af96c62",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-03T13:01:39Z",
+      "side": 1,
+      "message": "I didn\u0027t really change anything special here: I referenced the constants, that already existed, and copy-pasted the literals, where there were no constants :)",
+      "parentUuid": "b881d047_e3530961",
+      "range": {
+        "startLine": 529,
+        "startChar": 54,
+        "endLine": 529,
+        "endChar": 76
+      },
+      "revId": "8193060eb772c4e9d25788b39a6ebf16b078bd67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

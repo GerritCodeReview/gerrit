@@ -18,6 +18,7 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
 
@@ -560,6 +561,49 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthResult authResult = accountManager.link(accountId, who);
     assertAuthResultForExistingAccount(authResult, accountId, mailtoExtIdKey);
     assertExternalId(mailtoExtIdKey, accountId, email);
+  }
+
+  @Test
+  public void doNotLinkOAuthAccountToLDAPAccountWithoutEmail() throws Exception {
+    String username = "foo";
+    String email = "foo@example.com";
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key externalExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(externalExtIdKey);
+
+    AuthRequest whoExternal = authRequestFactory.createForOAuthUser(username);
+    whoExternal.setEmailAddress(email);
+    AuthResult authResultExternal = accountManager.authenticate(whoExternal);
+    assertAuthResultForNewAccount(authResultExternal, externalExtIdKey);
+
+    assertThat(authResultExternal.getAccountId()).isNotEqualTo(authResultGerrit.getAccountId());
+  }
+
+  @Test
+  public void linkOAuthAccountToLDAPAccountWithoutEmail() throws Exception {
+    String username = "foo";
+    String email = "foo@example.com";
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    whoGerrit.setEmailAddress(email);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key externalExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(externalExtIdKey);
+
+    AuthRequest whoExternal = authRequestFactory.createForOAuthUser(username);
+    whoExternal.setEmailAddress(email);
+    AuthResult authResultExternal = accountManager.authenticate(whoExternal);
+    assertAuthResultForNewAccount(authResultExternal, externalExtIdKey);
+
+    assertThat(authResultExternal.getAccountId()).isEqualTo(authResultGerrit.getAccountId());
   }
 
   @Test

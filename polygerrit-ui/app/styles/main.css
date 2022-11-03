@@ -47,3 +47,10 @@ body {
   line-height: var(--line-height-normal, 1.4);
   color: var(--primary-text-color, black);
 }
+
+#gr-hovercard-container {
+  background: none;
+  border: none;
+  top: 0;
+}
+

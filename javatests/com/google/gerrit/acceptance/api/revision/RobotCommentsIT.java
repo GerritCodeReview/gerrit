@@ -588,6 +588,22 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentWithRangeAndLine_lineIsIgnored() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    withFixRobotCommentInput.line = 1;
+    withFixRobotCommentInput.range = createRange(2, 0, 3, 1);
+    withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotComments = getRobotComments();
+    assertThat(robotComments.get(0).line).isEqualTo(3);
+  }
+
+  @Test
   public void rangesOfFixReplacementsOfSameFixSuggestionForSameFileMayNotOverlap() {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -1450,7 +1466,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void PreviewStoredFixForNonExistingFile() throws Exception {
+  public void previewStoredFixForNonExistingFile() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = "a_non_existent_file.txt";
     replacement.range = createRange(1, 0, 2, 0);
@@ -1471,7 +1487,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void PreviewStoredFix() throws Exception {
+  public void previewStoredFix() throws Exception {
     FixReplacementInfo fixReplacementInfoFile1 = new FixReplacementInfo();
     fixReplacementInfoFile1.path = FILE_NAME;
     fixReplacementInfoFile1.replacement = "some replacement code";
@@ -1581,7 +1597,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void PreviewStoredFixAddNewLineAtEnd() throws Exception {
+  public void previewStoredFixAddNewLineAtEnd() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = FILE_NAME3;
     replacement.range = createRange(2, 8, 2, 8);

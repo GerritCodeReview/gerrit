@@ -185,6 +185,39 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentWithRangeAndLine_lineIsIgnored() throws Exception {
+    String file = "file";
+    String contents = "contents";
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, contents);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    ReviewInput input = new ReviewInput();
+    CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, 1, "comment 1", false);
+    int rangeEndLine = 3;
+    comment.range = createRange(1, 1, rangeEndLine, 3);
+    input.comments = new HashMap<>();
+    input.comments.put(comment.path, Lists.newArrayList(comment));
+    revision(r).review(input);
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    assertThat(result).isNotEmpty();
+    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+    assertThat(actual.line).isEqualTo(rangeEndLine);
+    input = new ReviewInput();
+    comment = CommentsUtil.newComment(file, Side.REVISION, 1, "comment 1 reply", false);
+    comment.range = createRange(1, 1, rangeEndLine, 3);
+    // Post another comment in reply, and the line is still fixed to the range.endLine
+    comment.inReplyTo = actual.id;
+    input.comments = new HashMap<>();
+    input.comments.put(comment.path, Lists.newArrayList(comment));
+    revision(r).review(input);
+    result = getPublishedComments(changeId, revId);
+    assertThat(result.get(comment.path)).hasSize(2);
+    assertThat(result.get(comment.path).stream().allMatch(c -> c.line == rangeEndLine)).isTrue();
+  }
+
+  @Test
   public void patchsetLevelCommentCanBeAddedAndRetrieved() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
@@ -2070,6 +2103,16 @@ public class CommentsIT extends AbstractDaemonTest {
     range.startCharacter = startChar;
     range.endLine = 1;
     range.endCharacter = endChar;
+    return range;
+  }
+
+  private static Comment.Range createRange(
+      int startLine, int startCharacter, int endLine, int endCharacter) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = startLine;
+    range.startCharacter = startCharacter;
+    range.endLine = endLine;
+    range.endCharacter = endCharacter;
     return range;
   }
 

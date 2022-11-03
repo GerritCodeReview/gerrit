@@ -264,7 +264,7 @@ public abstract class Comment {
 
   public void setLineNbrAndRange(
       Integer lineNbr, com.google.gerrit.extensions.client.Comment.Range range) {
-    this.lineNbr = lineNbr != null ? lineNbr : range != null ? range.endLine : 0;
+    this.lineNbr = range != null ? range.endLine : lineNbr != null ? lineNbr : 0;
     if (range != null) {
       this.range = new Comment.Range(range);
     }

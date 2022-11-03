@@ -51,14 +51,15 @@ export interface MouseKeyboardOrFocusEvent {
 export function getHovercardContainer(
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
 ): HTMLElement | null {
-  let container = getRootElement().querySelector<HTMLElement>(
+  let container = document.body.querySelector<HTMLElement>(
     `#${containerId}`
   );
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
-    container = document.createElement('div');
+    const container = document.createElement('dialog');
     container.setAttribute('id', containerId);
-    getRootElement().appendChild(container);
+    container.show();
+    document.body.appendChild(container);
   }
   return container;
 }

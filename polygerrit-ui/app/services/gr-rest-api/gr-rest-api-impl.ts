@@ -145,6 +145,7 @@ import {ErrorCallback} from '../../api/rest';
 import {addDraftProp, DraftInfo} from '../../utils/comment-util';
 import {BaseScheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
+import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -1807,7 +1808,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS
     );
-    const queryTerms = [`topic:"${topic}"`];
+    const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {
       queryTerms.push('status:open');
     }
@@ -1826,7 +1827,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
-    const query = `intopic:"${topic}"`;
+    const query = `intopic:${escapeAndWrapSearchOperatorValue(topic)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
@@ -1837,7 +1838,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangesWithSimilarHashtag(
     hashtag: string
   ): Promise<ChangeInfo[] | undefined> {
-    const query = `inhashtag:"${hashtag}"`;
+    const query = `inhashtag:${escapeAndWrapSearchOperatorValue(hashtag)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},

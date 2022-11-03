@@ -60,9 +60,11 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   @Override
   public <K, V> LoadingCache<K, V> build(
       CacheDef<K, V> def, CacheLoader<K, V> loader, CacheBackend backend) {
-    return backend.isLegacyBackend()
-        ? createLegacy(def).build(loader)
-        : CaffeinatedGuava.build(create(def), loader);
+    return def.maximumWeight() == 0
+        ? new PassthroughLoadingCache<>(loader)
+        : (backend.isLegacyBackend()
+            ? createLegacy(def).build(loader)
+            : CaffeinatedGuava.build(create(def), loader));
   }
 
   @SuppressWarnings("unchecked")

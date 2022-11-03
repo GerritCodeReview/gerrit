@@ -16,6 +16,24 @@
       "message": "we should fix general searchbar too, for example clicking on the topic here is an error: https://android-review.googlesource.com/c/platform/build/+/568622",
       "revId": "683956a85e49b42d1726ff4b4e5adc5788f16263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b70eb19_7fc6cc71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-03T13:31:54Z",
+      "side": 1,
+      "message": "Done. Also removed conditional wrapping in quotes in favour of doing it always. Seems to serve no benefit other than saving two bytes in request sometimes.",
+      "parentUuid": "74c3b5cb_84bc4644",
+      "revId": "683956a85e49b42d1726ff4b4e5adc5788f16263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

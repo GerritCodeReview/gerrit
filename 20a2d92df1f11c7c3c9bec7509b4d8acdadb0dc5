@@ -52,6 +52,46 @@
       "parentUuid": "4b8589f5_0d007a50",
       "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d4a8a2_022adb79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-03T09:09:56Z",
+      "side": 1,
+      "message": "Test?",
+      "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754aeb59_b709fc24",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2770,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-03T09:09:56Z",
+      "side": 1,
+      "message": "It\u0027s more complicated than that :-)\n\nThis applies only to the open-source LDAP backend and to Google-internal backends.\n\nFor these, it also applies to SAME_GROUP visibility. The tl;dr is that these backends can\u0027t efficiently return all groups a user is a member of.",
+      "range": {
+        "startLine": 2770,
+        "startChar": 31,
+        "endLine": 2770,
+        "endChar": 44
+      },
+      "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

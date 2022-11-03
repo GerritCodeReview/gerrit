@@ -92,6 +92,30 @@
       },
       "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "995836ee_91a21719",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2770,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-03T11:04:25Z",
+      "side": 1,
+      "message": "Thanks, this makes more sense :) \n\nI rephrased this now. PTAL.",
+      "parentUuid": "754aeb59_b709fc24",
+      "range": {
+        "startLine": 2770,
+        "startChar": 31,
+        "endLine": 2770,
+        "endChar": 44
+      },
+      "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

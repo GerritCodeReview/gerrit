@@ -2761,6 +2761,33 @@ groups either. This means there is no danger of ambiguous group names
 when this parameter is removed and the system group uses the default
 name again.
 
+[[groups.relevantGroup]]groups.relevantGroup::
++
+UUID of an external group that should always be considered as relevant
+when checking whether an account is visible.
++
+This setting is only relevant if link:#accounts.visibility[
+account visibility] is set to `VISIBLE_GROUP` because only then
+relevant groups are used to determine the account visibility.
++
+If link:#accounts.visibility[account visibility] is set to
+`VISIBLE_GROUP` users should see all accounts that are a member of a
+group that is visible to them. This would require inspecting the
+visibility of all groups of the account for which the visibility is
+being checked. For external group backends doing this is too expensive
+as the account can be a member of many groups. This is why Gerrit has a
+performance optimization and only looks at those groups which are
+mentioned in any of the projects `groups` files, but it only takes
+groups from projects into account that are already cached. This
+guessing of relevant groups is not very reliable since it depends on
+which groups are mentioned in the `groups` files and which projects
+have already been cached. To make this more reliable this configuration
+parameter allows to configure external groups that should always be
+considered as relevant.
++
+This parameter may be added multiple times to specify multiple relevant
+groups.
+
 [[has-operand-alias]]
 === Section has operand alias
 

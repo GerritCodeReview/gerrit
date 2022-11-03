@@ -98,11 +98,19 @@ export class GrDiffRow extends LitElement {
    * pass.
    */
   private updateLayers(side: Side) {
+    console.log(
+      `asdf update layers ${side} ${this.lineNumber(side)} ${this.isVisible}`
+    );
     if (!this.isVisible) return;
     const line = this.line(side);
     const contentEl = this.contentRef(side).value;
     const lineNumberEl = this.lineNumberRef(side).value;
     if (!line || !contentEl || !lineNumberEl) return;
+    console.log(
+      `asdf update layers annotate ${side} ${this.lineNumber(side)} ${
+        this.layers.length
+      }`
+    );
     for (const layer of this.layers) {
       if (typeof layer.annotate === 'function') {
         layer.annotate(contentEl, lineNumberEl, line, side);
@@ -349,6 +357,9 @@ export class GrDiffRow extends LitElement {
           .text=${line?.text}
           .tabSize=${this.tabSize}
           .lineLimit=${this.lineLength}
+          .lineNumber=${this.lineNumber(side)}
+          .layers=${this.layers}
+          .side=${side}
           .isResponsive=${isResponsive(this.responsiveMode)}
         ></gr-diff-text>` : '';
     // .content has `white-space: pre`, so prettier must not add spaces.

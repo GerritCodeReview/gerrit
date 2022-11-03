@@ -3,8 +3,10 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, html, TemplateResult} from 'lit';
+import {LitElement, html, render, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {DiffLayer, Side} from '../../../api/diff';
+import {LineNumber} from '../gr-diff/gr-diff-line';
 import {diffClasses} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
@@ -36,6 +38,15 @@ export class GrDiffText extends LitElement {
   @property({type: Number})
   lineLimit = 80;
 
+  @property({type: Number})
+  lineNumber: LineNumber = 0;
+
+  @property({type: String})
+  side?: Side;
+
+  @property({type: Object})
+  layers: DiffLayer[] = [];
+
   /** Temporary state while rendering. */
   private textOffset = 0;
 
@@ -47,6 +58,7 @@ export class GrDiffText extends LitElement {
 
   /** Split up the string into tabs, surrogate pairs and regular segments. */
   override render() {
+    console.log(`asdf gr-diff-text render ${this.side} ${this.lineNumber}`);
     this.textOffset = 0;
     this.columnPos = 0;
     this.pieces = [];
@@ -64,7 +76,17 @@ export class GrDiffText extends LitElement {
       }
     }
     if (this.textOffset !== this.text.length) throw new Error('unfinished');
+
+    const tempContainer = document.createElement('div');
+    render(this.pieces, tempContainer);
+
+    const s = document.createElement('span');
+    this.pieces.push(s);
     return this.pieces;
+  }
+
+  override updated() {
+    console.log(`asdf gr-diff-text updated ${this.side} ${this.lineNumber}`);
   }
 
   /** Render regular characters, but insert line breaks appropriately. */

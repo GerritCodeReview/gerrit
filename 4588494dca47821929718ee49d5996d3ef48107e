@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae9dcbd_6ff7cdd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-11-03T15:57:15Z",
+      "side": 1,
+      "message": "It is not clear to me what this change is trying to improve. Is it a correctness improvement, is it a performance improvement, both? This could probably use an explanation as to what behavior is currently happening that is undesirable, and how the behavior will change to be desirable.",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "4588494dca47821929718ee49d5996d3ef48107e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

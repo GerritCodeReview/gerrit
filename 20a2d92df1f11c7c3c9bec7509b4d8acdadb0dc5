@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c6867a5_3ef643c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-03T08:09:38Z",
+      "side": 1,
+      "message": "Somehow I had this idea this morning after seeing another complaint of a Googler not being able to see the account of another Googler. Do you think this makes sense?",
+      "revId": "20a2d92df1f11c7c3c9bec7509b4d8acdadb0dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

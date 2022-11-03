@@ -16,6 +16,24 @@
       "message": "Maybe add the explanation \"why\" from the commit message here.",
       "revId": "f3013390affd06399257aaa469059ab1dfba6c24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fc3be8b_35ffe341",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-03T10:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4ad4f0_7463cd0f",
+      "revId": "f3013390affd06399257aaa469059ab1dfba6c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

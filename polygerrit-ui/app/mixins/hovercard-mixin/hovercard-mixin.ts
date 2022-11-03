@@ -51,14 +51,15 @@ export interface MouseKeyboardOrFocusEvent {
 export function getHovercardContainer(
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
 ): HTMLElement | null {
-  let container = getRootElement().querySelector<HTMLElement>(
+  let container = document.querySelector('gr-app')!.querySelector<HTMLElement>(
     `#${containerId}`
   );
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
-    container = document.createElement('div');
+    const container = document.createElement('dialog');
     container.setAttribute('id', containerId);
-    getRootElement().appendChild(container);
+    container.show();
+    document.querySelector('gr-app')!.appendChild(container);
   }
   return container;
 }
@@ -525,7 +526,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.reportingTimer = this.reporting.getTimer('Show Hovercard');
     };
 
-    updatePosition() {
+    async updatePosition() {
       const positionsToTry = new Set([
         this.position,
         'right',
@@ -538,8 +539,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         'left',
       ]);
       for (const position of positionsToTry) {
+        console.log("position", position);
         this.updatePositionTo(position);
-        if (this._isInsideViewport()) return;
+        await this.updateComplete;
+        return;
+        // if (this._isInsideViewport()) return;
       }
       console.warn('Could not find a visible position for the hovercard.');
     }
@@ -620,6 +624,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           break;
       }
 
+      console.log("trying left top", hovercardLeft, hovercardTop);
       this.style.left = `${hovercardLeft}px`;
       this.style.top = `${hovercardTop}px`;
     }

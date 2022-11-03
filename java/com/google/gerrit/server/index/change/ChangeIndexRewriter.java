@@ -261,7 +261,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(0, new IndexedChangeQuery(index, newChildren.remove(i), opts));
+      Predicate<ChangeData> indexed = newChildren.remove(i);
+      newChildren.add(0, new IndexedChangeQuery(index, copy(indexed, indexed.getChildren()), opts));
       return copy(in, newChildren);
     }
 

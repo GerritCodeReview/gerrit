@@ -24,6 +24,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.common.util.concurrent.Futures;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.cache.serialize.entities.CachedProjectConfigSeri
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -67,6 +69,7 @@ import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -75,6 +78,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -158,6 +162,7 @@ public class ProjectCacheImpl implements ProjectCache {
     };
   }
 
+  private final Config config;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache;
@@ -169,13 +174,15 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Inject
   ProjectCacheImpl(
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
+      @GerritServerConfig Config config,
+      AllProjectsName allProjectsName,
+      AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       Provider<ProjectIndexer> indexer,
       MetricMaker metricMaker,
       ProjectState.Factory projectStateFactory) {
+    this.config = config;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.inMemoryProjectCache = inMemoryProjectCache;
@@ -293,13 +300,16 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
-      return all().stream()
-          .map(n -> inMemoryProjectCache.getIfPresent(n))
-          .filter(Objects::nonNull)
-          .flatMap(p -> p.getAllGroupUUIDs().stream())
-          // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
-          // against them just in case there is a bug or corner case.
-          .filter(id -> id != null && id.get() != null)
+      return Streams.concat(
+              Arrays.stream(config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
+                  .map(AccountGroup::uuid),
+              all().stream()
+                  .map(n -> inMemoryProjectCache.getIfPresent(n))
+                  .filter(Objects::nonNull)
+                  .flatMap(p -> p.getAllGroupUUIDs().stream())
+                  // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
+                  // against them just in case there is a bug or corner case.
+                  .filter(id -> id != null && id.get() != null))
           .collect(toSet());
     }
   }

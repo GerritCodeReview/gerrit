@@ -198,21 +198,15 @@ export function anyLineTooLong(diff?: DiffInfo) {
 
 /**
  * Simple helper method for creating element classes in the context of
- * gr-diff.
- *
- * We are adding 'style-scope', 'gr-diff' classes for compatibility with
- * Shady DOM. TODO: Is that still required??
- *
- * Otherwise this is just a super simple convenience function.
+ * gr-diff. This is just a super simple convenience function.
  */
 export function diffClasses(...additionalClasses: string[]) {
-  return ['style-scope', 'gr-diff', ...additionalClasses].join(' ');
+  return ['gr-diff', ...additionalClasses].join(' ');
 }
 
 /**
  * Simple helper method for creating elements in the context of gr-diff.
- *
- * Otherwise this is just a super simple convenience function.
+ * This is just a super simple convenience function.
  */
 export function createElementDiff(
   tagName: string,

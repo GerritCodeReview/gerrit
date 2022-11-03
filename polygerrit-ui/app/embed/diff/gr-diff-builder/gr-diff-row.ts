@@ -113,13 +113,13 @@ export class GrDiffRow extends LitElement {
   private renderInvisible() {
     return html`
       <tr>
-        <td class="style-scope gr-diff blame"></td>
-        <td class="style-scope gr-diff left"></td>
-        <td class="style-scope gr-diff left content">
+        <td class="gr-diff blame"></td>
+        <td class="gr-diff left"></td>
+        <td class="gr-diff left content">
           <div>${this.left?.text ?? ''}</div>
         </td>
-        <td class="style-scope gr-diff right"></td>
-        <td class="style-scope gr-diff right content">
+        <td class="gr-diff right"></td>
+        <td class="gr-diff right content">
           <div>${this.right?.text ?? ''}</div>
         </td>
       </tr>

@@ -32,27 +32,25 @@ suite('gr-diff-row test', () => {
         <table>
           <tbody>
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="1"></td>
-              <td class="gr-diff left lineNum style-scope" data-value="1">
+              <td class="blame gr-diff" data-line-number="1"></td>
+              <td class="gr-diff left lineNum" data-value="1">
                 <button
-                  class="gr-diff left lineNumButton style-scope"
+                  class="gr-diff left lineNumButton"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff left no-intraline-info style-scope"
-              >
+              <td class="both content gr-diff left no-intraline-info">
                 <div
                   aria-label="lorem ipsum"
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 >
                   <gr-diff-text>lorem ipsum</gr-diff-text>
@@ -61,21 +59,19 @@ suite('gr-diff-row test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="gr-diff lineNum right style-scope" data-value="1">
+              <td class="gr-diff lineNum right" data-value="1">
                 <button
-                  class="gr-diff lineNumButton right style-scope"
+                  class="gr-diff lineNumButton right"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="both content gr-diff no-intraline-info right style-scope"
-              >
+              <td class="both content gr-diff no-intraline-info right">
                 <div
                   aria-label="lorem ipsum"
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 >
                   <gr-diff-text>lorem ipsum</gr-diff-text>
@@ -103,36 +99,34 @@ suite('gr-diff-row test', () => {
         <table>
           <tbody>
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="blank"
               right-type="add"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="0"></td>
-              <td class="gr-diff left style-scope"></td>
-              <td class="blank gr-diff left no-intraline-info style-scope">
+              <td class="blame gr-diff" data-line-number="0"></td>
+              <td class="gr-diff left"></td>
+              <td class="blank gr-diff left no-intraline-info">
                 <div
                   aria-label=""
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 ></div>
               </td>
-              <td class="gr-diff lineNum right style-scope" data-value="1">
+              <td class="gr-diff lineNum right" data-value="1">
                 <button
                   aria-label="1 added"
-                  class="gr-diff lineNumButton right style-scope"
+                  class="gr-diff lineNumButton right"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="add content gr-diff no-intraline-info right style-scope"
-              >
+              <td class="add content gr-diff no-intraline-info right">
                 <div
                   aria-label="lorem ipsum"
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 >
                   <gr-diff-text>lorem ipsum</gr-diff-text>
@@ -160,28 +154,26 @@ suite('gr-diff-row test', () => {
         <table>
           <tbody>
             <tr
-              class="diff-row gr-diff side-by-side style-scope"
+              class="diff-row gr-diff side-by-side"
               left-type="remove"
               right-type="blank"
               tabindex="-1"
             >
-              <td class="blame gr-diff style-scope" data-line-number="1"></td>
-              <td class="gr-diff left lineNum style-scope" data-value="1">
+              <td class="blame gr-diff" data-line-number="1"></td>
+              <td class="gr-diff left lineNum" data-value="1">
                 <button
                   aria-label="1 removed"
-                  class="gr-diff left lineNumButton style-scope"
+                  class="gr-diff left lineNumButton"
                   data-value="1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
-              <td
-                class="content gr-diff left no-intraline-info remove style-scope"
-              >
+              <td class="content gr-diff left no-intraline-info remove">
                 <div
                   aria-label="lorem ipsum"
-                  class="contentText gr-diff left style-scope"
+                  class="contentText gr-diff left"
                   data-side="left"
                 >
                   <gr-diff-text>lorem ipsum</gr-diff-text>
@@ -190,11 +182,11 @@ suite('gr-diff-row test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="gr-diff right style-scope"></td>
-              <td class="blank gr-diff no-intraline-info right style-scope">
+              <td class="gr-diff right"></td>
+              <td class="blank gr-diff no-intraline-info right">
                 <div
                   aria-label=""
-                  class="contentText gr-diff right style-scope"
+                  class="contentText gr-diff right"
                   data-side="right"
                 ></div>
               </td>

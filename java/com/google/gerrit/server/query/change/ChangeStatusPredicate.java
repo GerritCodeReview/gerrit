@@ -64,8 +64,8 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
       (s.isOpen() ? open : closed).add(p);
     }
 
-    CLOSED = Predicate.or(closed);
-    OPEN = Predicate.or(open);
+    CLOSED = Predicate.orCardinal(closed);
+    OPEN = Predicate.orCardinal(open);
 
     PREDICATES.put("closed", CLOSED);
     PREDICATES.put("open", OPEN);

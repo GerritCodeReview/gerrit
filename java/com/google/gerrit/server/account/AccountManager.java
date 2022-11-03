@@ -279,40 +279,66 @@ public class AccountManager {
 
   private AuthResult create(AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
-    Account.Id newId = Account.id(sequences.nextAccountId());
-    logger.atFine().log("Assigning new Id %s to account", newId);
+    Optional<String> name = who.getUserName();
+    Optional<ExternalId> externalId =
+        name.flatMap(
+            n -> {
+              try {
+                return externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, n));
+              } catch (IOException e) {
+                throw new RuntimeException(e);
+              }
+            });
+    Account.Id accountId =
+        externalId.map(eid -> eid.accountId()).orElse(Account.id(sequences.nextAccountId()));
+    logger.atWarning().log("Assigning new account to ID %s", accountId);
 
-    ExternalId extId =
-        externalIdFactory.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    logger.atFine().log("Created external Id: %s", extId);
-    checkEmailNotUsed(newId, extId);
     ExternalId userNameExtId =
-        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
+        externalId.isEmpty() && !name.isEmpty() ? createUsername(accountId, name.get()) : null;
+    ExternalId emailExtId =
+        externalIdFactory.createWithEmail(who.getExternalIdKey(), accountId, who.getEmailAddress());
+    logger.atWarning().log("Created external Id: %s", emailExtId);
+    checkEmailNotUsed(accountId, emailExtId);
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
-    AccountState accountState;
+    Optional<AccountState> accountState;
     try {
-      accountState =
-          accountsUpdateProvider
-              .get()
-              .insert(
-                  "Create Account on First Login",
-                  newId,
-                  u -> {
-                    u.setFullName(who.getDisplayName())
-                        .setPreferredEmail(extId.email())
-                        .addExternalId(extId);
-                    if (userNameExtId != null) {
-                      u.addExternalId(userNameExtId);
-                    }
-                  });
+      if (!externalId.isEmpty()) {
+        accountState =
+            accountsUpdateProvider
+                .get()
+                .update(
+                    "create new external ID for use",
+                    accountId,
+                    u -> {
+                      u.setFullName(who.getDisplayName())
+                          .setPreferredEmail(emailExtId.email())
+                          .addExternalId(emailExtId);
+                    });
+      } else {
+        accountState =
+            Optional.of(
+                accountsUpdateProvider
+                    .get()
+                    .insert(
+                        "Create Account on First Login",
+                        accountId,
+                        u -> {
+                          u.setFullName(who.getDisplayName())
+                              .setPreferredEmail(emailExtId.email())
+                              .addExternalId(emailExtId);
+                          if (userNameExtId != null) {
+                            u.addExternalId(userNameExtId);
+                          }
+                        }));
+      }
     } catch (DuplicateExternalIdKeyException e) {
       throw new AccountException(
           "Cannot assign external ID \""
               + e.getDuplicateKey().get()
               + "\" to account "
-              + newId
+              + accountId
               + "; external ID already in use.");
     } finally {
       // If adding the account failed, it may be that it actually was the
@@ -325,7 +351,7 @@ public class AccountManager {
       who.getUserName().ifPresent(sshKeyCache::evict);
     }
 
-    IdentifiedUser user = userFactory.create(newId);
+    IdentifiedUser user = userFactory.create(accountId);
 
     if (isFirstAccount) {
       // This is the first user account on our site. Assume this user
@@ -344,8 +370,8 @@ public class AccountManager {
       addGroupMember(adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, accountState.account());
-    return new AuthResult(newId, extId.key(), true);
+    realm.onCreateAccount(who, accountState.get().account());
+    return new AuthResult(accountId, emailExtId.key(), true);
   }
 
   private ExternalId createUsername(Account.Id accountId, String username)

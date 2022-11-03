@@ -563,6 +563,29 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void linkNewExternalIdToExistingAccount() throws Exception {
+    String username = "foo";
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that email is not used yet.
+
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
+    assertNoSuchExternalIds(externalExtIdKey);
+
+    String email = "foo@example.com";
+    AuthRequest whoExternal = authRequestFactory.createForExternalUser(username);
+    whoExternal.setEmailAddress(email);
+    AuthResult authResultExternal = accountManager.authenticate(whoExternal);
+    assertAuthResultForNewAccount(authResultExternal, externalExtIdKey);
+
+    assertThat(authResultExternal.getAccountId()).isEqualTo(authResultGerrit.getAccountId());
+  }
+
+  @Test
   public void updateExternalIdOnLink() throws Exception {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";

@@ -17,7 +17,7 @@ import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {select} from '../../utils/observable-util';
-import {addQuotesWhen} from '../../utils/string-util';
+import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define, Provider} from '../dependency';
 import {Model} from '../model';
@@ -102,18 +102,14 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   if (params.topic) {
     operators.push(
       'topic:' +
-        addQuotesWhen(
-          encodeURL(params.topic, false),
-          /[\s:]/.test(params.topic)
-        )
+        escapeAndWrapSearchOperatorValue(encodeURL(params.topic, false))
     );
   }
   if (params.hashtag) {
     operators.push(
       'hashtag:' +
-        addQuotesWhen(
-          encodeURL(params.hashtag.toLowerCase(), false),
-          /[\s:]/.test(params.hashtag)
+        escapeAndWrapSearchOperatorValue(
+          encodeURL(params.hashtag.toLowerCase(), false)
         )
     );
   }

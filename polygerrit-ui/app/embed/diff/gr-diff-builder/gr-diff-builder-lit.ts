@@ -86,15 +86,12 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
     return (cell?.firstChild ?? null) as HTMLElement | null;
   }
 
+  /** This is used when layers initiate an update. */
   override renderContentByRange(
     start: LineNumber,
     end: LineNumber,
     side: Side
   ) {
-    // TODO: Revisit whether there is maybe a more efficient and reliable
-    // approach. renderContentByRange() is only used when layers announce
-    // updates. We have to look deeper into the design of layers anyway. So
-    // let's defer optimizing this code until a refactor of layers in general.
     const groups = this.getGroupsByLineRange(start, end, side);
     for (const group of groups) {
       const section = this.findSection(group);

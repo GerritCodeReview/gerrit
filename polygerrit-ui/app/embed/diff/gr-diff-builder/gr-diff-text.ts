@@ -5,6 +5,8 @@
  */
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {DiffLayer, Side} from '../../../api/diff';
+import {LineNumber} from '../gr-diff/gr-diff-line';
 import {diffClasses} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
@@ -35,6 +37,15 @@ export class GrDiffText extends LitElement {
 
   @property({type: Number})
   lineLimit = 80;
+
+  @property({type: Number})
+  lineNumber: LineNumber = 0;
+
+  @property({type: String})
+  side?: Side;
+
+  @property({type: Object})
+  layers: DiffLayer[] = [];
 
   /** Temporary state while rendering. */
   private textOffset = 0;

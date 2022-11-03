@@ -21,11 +21,17 @@ import './gr-diff-text';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
 
+export enum LayerRenderingState {
+  NOT_APPLIED = 'NOT_APPLIED',
+  APPLIED = 'APPLIED',
+  OUTDATED = 'OUTDATED',
+}
+
 @customElement('gr-diff-row')
 export class GrDiffRow extends LitElement {
-  contentLeftRef: Ref<HTMLDivElement> = createRef();
+  contentLeftRef: Ref<LitElement> = createRef();
 
-  contentRightRef: Ref<HTMLDivElement> = createRef();
+  contentRightRef: Ref<LitElement> = createRef();
 
   lineNumberLeftRef: Ref<HTMLTableCellElement> = createRef();
 
@@ -75,6 +81,8 @@ export class GrDiffRow extends LitElement {
   @state()
   addTableWrapperForTesting = false;
 
+  layerRenderingState: LayerRenderingState = LayerRenderingState.NOT_APPLIED;
+
   /**
    * The browser API for handling selection does not (yet) work for selection
    * across multiple shadow DOM elements. So we are rendering gr-diff components
@@ -87,22 +95,43 @@ export class GrDiffRow extends LitElement {
   }
 
   override updated() {
-    this.updateLayers(Side.LEFT);
-    this.updateLayers(Side.RIGHT);
+    switch (this.layerRenderingState) {
+      case LayerRenderingState.OUTDATED:
+        // OK, <gr-diff-text> has been removed. Let's start another rendering
+        // iteration with freshly created <gr-diff-text>s.
+        this.updateComplete.then(() => {
+          this.layerRenderingState = LayerRenderingState.NOT_APPLIED;
+          this.requestUpdate();
+        });
+        break;
+      case LayerRenderingState.APPLIED:
+        // This cannot happen. APPLIED should have been changed to OUTDATED
+        // automatically during rendering.
+        throw new Error("unexpected 'APPLIED' layer rendering state");
+        break;
+      case LayerRenderingState.NOT_APPLIED:
+        this.updateLayers(Side.LEFT);
+        this.updateLayers(Side.RIGHT);
+        break;
+      default:
+        throw new Error(`layer rendering state ${this.layerRenderingState}`);
+    }
   }
 
-  /**
-   * TODO: This needs some refinement, because layers do not detect whether they
-   * have already applied their information, so at the moment all layers would
-   * constantly re-apply their information to the diff in each lit rendering
-   * pass.
-   */
-  private updateLayers(side: Side) {
+  private async updateLayers(side: Side) {
     if (!this.isVisible) return;
     const line = this.line(side);
     const contentEl = this.contentRef(side).value;
     const lineNumberEl = this.lineNumberRef(side).value;
     if (!line || !contentEl || !lineNumberEl) return;
+
+    // At this point we consider layers applied. So as soon as <gr-diff-row>
+    // enters a new rendering cycle we will have to change to OUTDATED and
+    // remove <gr-diff-text> elements, so that layers will be re-applied.
+    this.layerRenderingState = LayerRenderingState.APPLIED;
+    // We have to wait for the <gr-diff-text> child component to finish
+    // rendering before we can apply layers, which will re-write the HTML.
+    await contentEl?.updateComplete;
     for (const layer of this.layers) {
       if (typeof layer.annotate === 'function') {
         layer.annotate(contentEl, lineNumberEl, line, side);
@@ -314,7 +343,7 @@ export class GrDiffRow extends LitElement {
     return html`<div class="thread-group" data-side=${side}><slot name="${side}-${lineNumber}"></slot></div>`;
   }
 
-  private contentRef(side: Side) {
+  private contentRef(side: Side): Ref<LitElement> {
     return side === Side.LEFT ? this.contentLeftRef : this.contentRightRef;
   }
 
@@ -342,13 +371,20 @@ export class GrDiffRow extends LitElement {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
     if (lineNumber === 'FILE' || lineNumber === 'LOST') return;
+    if (this.layerRenderingState === LayerRenderingState.APPLIED) {
+      this.layerRenderingState = LayerRenderingState.OUTDATED;
+    }
+
     // prettier-ignore
-    const textElement = line?.text
+    const textElement = line?.text && this.layerRenderingState !== LayerRenderingState.OUTDATED
       ? html`<gr-diff-text
           ${ref(this.contentRef(side))}
           .text=${line?.text}
           .tabSize=${this.tabSize}
           .lineLimit=${this.lineLength}
+          .lineNumber=${this.lineNumber(side)}
+          .layers=${this.layers}
+          .side=${side}
           .isResponsive=${isResponsive(this.responsiveMode)}
         ></gr-diff-text>` : '';
     // .content has `white-space: pre`, so prettier must not add spaces.

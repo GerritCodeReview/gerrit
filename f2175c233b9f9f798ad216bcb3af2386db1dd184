@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802b04c9_bc3e80e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-03T20:23:52Z",
+      "side": 1,
+      "message": "We should write a test that says:\n1. When a cache is configured with zero weight\n2. Eviction should NOT lock and wait for loading to complete\n3. The cache should behave externally like a normal cache, even if that is just a passthrough",
+      "revId": "f2175c233b9f9f798ad216bcb3af2386db1dd184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

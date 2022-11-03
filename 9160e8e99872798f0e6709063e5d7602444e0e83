@@ -166,6 +166,30 @@
       },
       "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f0ae334_771191e2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-03T08:43:09Z",
+      "side": 1,
+      "message": "I only meant that since our index might return duplicates across pages, it caused the bug, mitigated in the change 349995",
+      "parentUuid": "c3e68c17_b2a223da",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "9160e8e99872798f0e6709063e5d7602444e0e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

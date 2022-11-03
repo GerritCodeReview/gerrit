@@ -380,6 +380,14 @@ first update the external authentication record in that system,
 log in to Gerrit, then Gerrit will update the external ID record with
 the new email address.
 
+=== Transition from LDAP to Google OAuth
+
+When authentication is changed from LDAP to Google Oauth gerrit will automatically
+adjust the external IDs in the `refs/meta/external-ids` branch. Gerrit will re-use
+the same account ID that was used by the LDAP account. Transition to other OAuth
+mechanisms way fail and require manual changes to the `refs/meta/external-ids` branch.
+The LDAP e-mail and Google OAuth e-mail should be the same.
+
 [[starred-changes]]
 == Starred Changes
 

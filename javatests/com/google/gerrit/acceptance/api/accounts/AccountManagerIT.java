@@ -18,6 +18,7 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
 
@@ -560,6 +561,113 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthResult authResult = accountManager.link(accountId, who);
     assertAuthResultForExistingAccount(authResult, accountId, mailtoExtIdKey);
     assertExternalId(mailtoExtIdKey, accountId, email);
+  }
+
+  @Test
+  public void errorCreatingOAuthAccountDueToPresentDuplicateUsernameExternalID() throws Exception {
+    String username = "foo";
+    String gerritEmail = "bar@example.com";
+
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    whoGerrit.setEmailAddress(gerritEmail);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key externalExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(externalExtIdKey);
+
+    String googleOAuthEmail = "baz@example.com";
+    AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
+    whoOAuth.setEmailAddress(googleOAuthEmail);
+
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "username ExternalId exists for user \"foo\" but no"
+                + " LDAP ExternalID exists for email baz@example.com");
+  }
+
+  @Test
+  public void errorCreatingOAuthAccountDueToDuplicateEmailExternalIDInNonLDAPExternalId()
+      throws Exception {
+    String username = "foo";
+    String gerritEmail = "foo@example.com";
+
+    ExternalId.Key gerritExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
+    AuthRequest whoGerrit = authRequestFactory.createForExternalUser(username);
+    whoGerrit.setEmailAddress(gerritEmail);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key externalExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(externalExtIdKey);
+
+    String googleOAuthEmail = "foo@example.com";
+    AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
+    whoOAuth.setEmailAddress(googleOAuthEmail);
+
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Email 'foo@example.com' in use by another account");
+  }
+
+  @Test
+  public void errorCreatingOAuthAccountDueToDuplicateUsernameIdentityAlreadyInUse()
+      throws Exception {
+    String username = "foo";
+    String gerritEmail = "foo@example.com";
+
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
+    AuthRequest whoExternal = authRequestFactory.createForExternalUser(username);
+    whoExternal.setEmailAddress(gerritEmail);
+    AuthResult authResultGerrit = accountManager.authenticate(whoExternal);
+    assertAuthResultForNewAccount(authResultGerrit, externalExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key OAuthExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(OAuthExtIdKey);
+
+    String googleOAuthEmail = "baz@example.com";
+    AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
+    whoExternal.setEmailAddress(googleOAuthEmail);
+
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot assign external ID \"username:foo\" to account");
+  }
+
+  @Test
+  public void linkOAuthAccountToLDAPAccountWithEmail() throws Exception {
+    String username = "foo";
+    String email = "foo@example.com";
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    whoGerrit.setEmailAddress(email);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    Account.Id accID = authResultGerrit.getAccountId();
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key OAuthExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(OAuthExtIdKey);
+
+    AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
+    whoOAuth.setEmailAddress(email);
+    AuthResult authResultOAuth = accountManager.authenticate(whoOAuth);
+    assertAuthResultForExistingAccount(authResultOAuth, accID, OAuthExtIdKey);
+
+    assertThat(authResultOAuth.getAccountId()).isEqualTo(authResultGerrit.getAccountId());
   }
 
   @Test

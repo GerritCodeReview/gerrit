@@ -23,9 +23,9 @@ import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
 
 @customElement('gr-diff-row')
 export class GrDiffRow extends LitElement {
-  contentLeftRef: Ref<HTMLDivElement> = createRef();
+  contentLeftRef: Ref<LitElement> = createRef();
 
-  contentRightRef: Ref<HTMLDivElement> = createRef();
+  contentRightRef: Ref<LitElement> = createRef();
 
   lineNumberLeftRef: Ref<HTMLTableCellElement> = createRef();
 
@@ -76,6 +76,18 @@ export class GrDiffRow extends LitElement {
   addTableWrapperForTesting = false;
 
   /**
+   * Keeps track of whether diff layers have already been applied to the diff
+   * row. That happens after the DOM has been created in the `updated()`
+   * lifecycle callback.
+   *
+   * Once layers are applied, the diff row requires two rendering passes for an
+   * update: 1. Remove all <gr-diff-text> elements and their layer manipulated
+   * DOMs. 2. Add fresh <gr-diff-text> elements and let layers re-apply in
+   * `updated()`.
+   */
+  private layersApplied = false;
+
+  /**
    * The browser API for handling selection does not (yet) work for selection
    * across multiple shadow DOM elements. So we are rendering gr-diff components
    * into the light DOM instead of the shadow DOM by overriding this method,
@@ -87,27 +99,44 @@ export class GrDiffRow extends LitElement {
   }
 
   override updated() {
-    this.updateLayers(Side.LEFT);
-    this.updateLayers(Side.RIGHT);
+    if (this.layersApplied) {
+      // <gr-diff-text> elements have been removed during rendering. Let's start
+      // another rendering cycle with freshly created <gr-diff-text> elements.
+      this.updateComplete.then(() => {
+        this.layersApplied = false;
+        this.requestUpdate();
+      });
+    } else {
+      this.updateLayers(Side.LEFT);
+      this.updateLayers(Side.RIGHT);
+    }
   }
 
   /**
-   * TODO: This needs some refinement, because layers do not detect whether they
-   * have already applied their information, so at the moment all layers would
-   * constantly re-apply their information to the diff in each lit rendering
-   * pass.
+   * The diff layers API is designed to let layers manipulate the DOM. So we
+   * have to apply them after the rendering cycle is done (`updated()`). But
+   * when re-rendering a row that already has layers applied, then we have to
+   * first wipe away <gr-diff-text>. This is achieved by
+   * `this.layersApplied = true`.
    */
-  private updateLayers(side: Side) {
+  private async updateLayers(side: Side) {
     if (!this.isVisible) return;
     const line = this.line(side);
     const contentEl = this.contentRef(side).value;
     const lineNumberEl = this.lineNumberRef(side).value;
     if (!line || !contentEl || !lineNumberEl) return;
+
+    // We have to wait for the <gr-diff-text> child component to finish
+    // rendering before we can apply layers, which will re-write the HTML.
+    await contentEl?.updateComplete;
     for (const layer of this.layers) {
       if (typeof layer.annotate === 'function') {
         layer.annotate(contentEl, lineNumberEl, line, side);
       }
     }
+    // At this point we consider layers applied. So as soon as <gr-diff-row>
+    // enters a new rendering cycle <gr-diff-text> elements will be removed.
+    this.layersApplied = true;
   }
 
   private renderInvisible() {
@@ -213,7 +242,12 @@ export class GrDiffRow extends LitElement {
   private renderLineNumberCell(side: Side): TemplateResult {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (!line || !lineNumber || line.type === GrDiffLineType.BLANK) {
+    if (
+      !line ||
+      !lineNumber ||
+      line.type === GrDiffLineType.BLANK ||
+      this.layersApplied
+    ) {
       return html`<td
         ${ref(this.lineNumberRef(side))}
         class=${diffClasses(side)}
@@ -342,8 +376,11 @@ export class GrDiffRow extends LitElement {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
     if (lineNumber === 'FILE' || lineNumber === 'LOST') return;
+
+    // Note that `this.layersApplied` will wipe away the <gr-diff-text>, and
+    // another rendering cycle will be initiated in `updated()`.
     // prettier-ignore
-    const textElement = line?.text
+    const textElement = line?.text && !this.layersApplied
       ? html`<gr-diff-text
           ${ref(this.contentRef(side))}
           .text=${line?.text}

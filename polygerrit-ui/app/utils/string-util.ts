@@ -14,10 +14,6 @@ export function pluralize(count: number, noun: string): string {
   return `${count} ${noun}` + (count > 1 ? 's' : '');
 }
 
-export function addQuotesWhen(string: string, cond: boolean): string {
-  return cond ? `"${string}"` : string;
-}
-
 export function charsOnly(s: string): string {
   return s.replace(/[^a-zA-Z]+/g, '');
 }

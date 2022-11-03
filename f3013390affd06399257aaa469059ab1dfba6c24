@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f4ad4f0_7463cd0f",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-03T10:14:50Z",
+      "side": 1,
+      "message": "Maybe add the explanation \"why\" from the commit message here.",
+      "revId": "f3013390affd06399257aaa469059ab1dfba6c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

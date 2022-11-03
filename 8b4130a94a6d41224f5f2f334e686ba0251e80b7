@@ -16,6 +16,24 @@
       "message": "It is not clear to me whether this is a bug fix or an enhancement?",
       "revId": "8b4130a94a6d41224f5f2f334e686ba0251e80b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c58f5d87_869ec890",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-11-03T15:31:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a62772c3_52c8f00c",
+      "revId": "8b4130a94a6d41224f5f2f334e686ba0251e80b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

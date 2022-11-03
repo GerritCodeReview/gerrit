@@ -19,6 +19,8 @@ suite('gr-diff-text test', () => {
 
   setup(async () => {
     element = await fixture<GrDiffText>(html`<gr-diff-text></gr-diff-text>`);
+    element.tabSize = 4;
+    element.lineLimit = 10;
     await element.updateComplete;
   });
 
@@ -28,20 +30,18 @@ suite('gr-diff-text test', () => {
     ignoreAttributes: string[] = []
   ) => {
     element.text = text;
-    element.tabSize = 4;
-    element.lineLimit = 10;
     await element.updateComplete;
     assert.lightDom.equal(element, html, {ignoreAttributes});
   };
 
   suite('lit rendering', () => {
-    test('renderText newlines 1', () => {
-      check('abcdef', 'abcdef');
-      check('a'.repeat(20), `aaaaaaaaaa${LINE_BREAK}aaaaaaaaaa`);
+    test('renderText newlines 1', async () => {
+      await check('abcdef', 'abcdef');
+      await check('a'.repeat(20), `aaaaaaaaaa${LINE_BREAK}aaaaaaaaaa`);
     });
 
-    test('renderText newlines 2', () => {
-      check(
+    test('renderText newlines 2', async () => {
+      await check(
         '<span class="thumbsup">👍</span>',
         '&lt;span clas' +
           LINE_BREAK +
@@ -53,8 +53,8 @@ suite('gr-diff-text test', () => {
       );
     });
 
-    test('renderText newlines 3', () => {
-      check(
+    test('renderText newlines 3', async () => {
+      await check(
         '01234\t56789',
         '01234' + TAB + '56' + LINE_BREAK + '789',
         TAB_IGNORE
@@ -64,7 +64,7 @@ suite('gr-diff-text test', () => {
     test('renderText newlines 4', async () => {
       element.lineLimit = 20;
       await element.updateComplete;
-      check(
+      await check(
         '👍'.repeat(58),
         '👍'.repeat(20) +
           LINE_BREAK +
@@ -75,10 +75,11 @@ suite('gr-diff-text test', () => {
     });
 
     test('tab wrapper style', async () => {
+      element.lineLimit = 100;
       for (const size of [1, 3, 8, 55]) {
         element.tabSize = size;
         await element.updateComplete;
-        check(
+        await check(
           '\t',
           /* HTML */ `
             <span
@@ -91,18 +92,18 @@ suite('gr-diff-text test', () => {
       }
     });
 
-    test('tab wrapper insertion', () => {
-      check('abc\tdef', 'abc' + TAB + 'def', TAB_IGNORE);
+    test('tab wrapper insertion', async () => {
+      await check('abc\tdef', 'abc' + TAB + 'def', TAB_IGNORE);
     });
 
     test('escaping HTML', async () => {
       element.lineLimit = 100;
       await element.updateComplete;
-      check(
+      await check(
         '<script>alert("XSS");<' + '/script>',
         '&lt;script&gt;alert("XSS");&lt;/script&gt;'
       );
-      check('& < > " \' / `', '&amp; &lt; &gt; " \' / `');
+      await check('& < > " \' / `', '&amp; &lt; &gt; " \' / `');
     });
 
     test('text length with tabs and unicode', async () => {

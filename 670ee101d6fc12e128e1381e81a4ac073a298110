@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b37d33cb_ec025bdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-04T12:07:07Z",
+      "side": 1,
+      "message": "can you explain the problem/fix here?\n\nIt looks like you are double-rendering every time to force reconstruct all the existing children. If the children ever did stateful stuff would this be an issue? Maybe consider a layer.clear() or layer.update() to go along with layer.annotate() so that the non-lit stuff is more compartmentalized and not leaking into lit-world.\n\nMaybe I am misunderstanding",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "670ee101d6fc12e128e1381e81a4ac073a298110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fdf5ee_c493198d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-04T12:07:07Z",
+      "side": 1,
+      "message": "it\u0027s a bit confusing already since layers are not actually applied until #137 after the await.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "670ee101d6fc12e128e1381e81a4ac073a298110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

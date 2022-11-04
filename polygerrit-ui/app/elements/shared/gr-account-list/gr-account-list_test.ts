@@ -26,7 +26,7 @@ import {
   queryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
-import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReviewerSuggestionsProvider} from '../../../services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {
   AutocompleteSuggestion,
   GrAutocomplete,

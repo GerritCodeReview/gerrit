@@ -27,7 +27,7 @@ import {getAppContext} from '../../../services/app-context';
 import {
   GrReviewerSuggestionsProvider,
   ReviewerSuggestionsProvider,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+} from '../../../services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';

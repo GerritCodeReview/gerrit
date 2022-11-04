@@ -5,7 +5,7 @@
  */
 import '../../test/common-test-setup';
 import {GrReviewerSuggestionsProvider} from './gr-reviewer-suggestions-provider';
-import {getAppContext} from '../../services/app-context';
+import {getAppContext} from '../app-context';
 import {stubRestApi} from '../../test/test-utils';
 import {
   AccountDetailInfo,

@@ -27,7 +27,6 @@ import {
   isResponsive,
   getDiffLength,
 } from './gr-diff-utils';
-import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
@@ -314,9 +313,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
           max-width: var(--diff-max-width, none);
           display: flex;
           font-family: var(--monospace-font-family);
-        }
-        .diffContainer.hiddenscroll {
-          margin-bottom: var(--spacing-m);
         }
         table {
           border-collapse: collapse;
@@ -1068,7 +1064,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       diffContainer: true,
       unified: this.viewMode === DiffViewMode.UNIFIED,
       sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
-      hiddenscroll: !!getHiddenScroll(),
       canComment: this.loggedIn,
       displayLine: this.displayLine,
     };

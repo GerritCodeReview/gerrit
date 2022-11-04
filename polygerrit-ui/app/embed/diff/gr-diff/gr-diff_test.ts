@@ -8,7 +8,6 @@ import {createDiff} from '../../../test/test-data-generators';
 import './gr-diff';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image';
 import {getComputedStyleValue} from '../../../utils/dom-util';
-import {_setHiddenScroll} from '../../../scripts/hiddenscroll';
 import '@polymer/paper-button/paper-button';
 import {
   DiffContent,
@@ -566,14 +565,6 @@ suite('gr-diff tests', () => {
         assert.equal(actual.length, ROWS + FILE_ROW + 1);
         assert.isTrue(actual[actual.length - 1] instanceof AbortStop);
       });
-    });
-
-    test('adds .hiddenscroll', async () => {
-      _setHiddenScroll(true);
-      element.displayLine = true;
-      await element.updateComplete;
-      const container = queryAndAssert(element, '.diffContainer');
-      assert.include(container.className, 'hiddenscroll');
     });
   });
 

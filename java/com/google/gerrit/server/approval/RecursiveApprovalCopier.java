@@ -48,6 +48,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
@@ -73,6 +74,12 @@ public class RecursiveApprovalCopier {
       new ConcurrentHashMap<>();
 
   private volatile boolean failedForAtLeastOneProject;
+
+  private final AtomicInteger totalCopyApprovalsTasks = new AtomicInteger();
+  private final AtomicInteger finishedCopyApprovalsTasks = new AtomicInteger();
+
+  private final AtomicInteger totalRefUpdates = new AtomicInteger();
+  private final AtomicInteger finishedRefUpdates = new AtomicInteger();
 
   @Inject
   public RecursiveApprovalCopier(
@@ -135,6 +142,8 @@ public class RecursiveApprovalCopier {
               .filter(r -> r.getName().endsWith(RefNames.META_SUFFIX))
               .collect(toImmutableList());
 
+      totalCopyApprovalsTasks.addAndGet(allMetaRefs.size());
+
       for (List<Ref> slice : Lists.partition(allMetaRefs, SLICE_MAX_REFS)) {
         futures.add(
             executor.submit(
@@ -158,6 +167,7 @@ public class RecursiveApprovalCopier {
           "Error in a slice of project %s, will retry and skip corrupt meta-refs", project);
       copyApprovalsForSlice(project, slice, labelsCopiedListener, true);
     }
+    logProgress();
   }
 
   private void copyApprovalsForSlice(
@@ -192,7 +202,10 @@ public class RecursiveApprovalCopier {
               u.addAll(cmds);
               return u;
             });
+        totalRefUpdates.addAndGet(cmds.size());
       }
+
+      finishedCopyApprovalsTasks.addAndGet(slice.size());
     }
   }
 
@@ -227,6 +240,9 @@ public class RecursiveApprovalCopier {
       }
       bu.addCommand(updates);
       RefUpdateUtil.executeChecked(bu, repository);
+
+      finishedRefUpdates.addAndGet(updates.size());
+      logProgress();
     }
   }
 
@@ -249,6 +265,15 @@ public class RecursiveApprovalCopier {
       bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, null));
       bu.execute();
     }
+  }
+
+  private void logProgress() {
+    logger.atInfo().log(
+        "copy-approvals tasks done: %d/%d, ref-update tasks done: %d/%d",
+        finishedCopyApprovalsTasks.get(),
+        totalCopyApprovalsTasks.get(),
+        finishedRefUpdates.get(),
+        totalRefUpdates.get());
   }
 
   private static class PersistCopiedVotesOp implements BatchUpdateOp {

@@ -226,7 +226,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     }
 
     const cell = createElementDiff('td', 'dividerCell');
-    const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
+    const colspan = viewMode === DiffViewMode.SIDE_BY_SIDE ? '5' : '3';
     cell.setAttribute('colspan', colspan);
     row.appendChild(cell);
 
@@ -366,14 +366,19 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     const {beforeNumber, afterNumber} = line;
     if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
       const responsiveMode = getResponsiveMode(this._prefs, this.renderPrefs);
+      let contentId = '';
+      if (side === Side.LEFT && beforeNumber > 0) {
+        contentId = `left-content-${beforeNumber}`;
+      }
+      if (side === Side.RIGHT && afterNumber > 0) {
+        contentId = `right-content-${afterNumber}`;
+      }
       const contentText = formatText(
         line.text,
         responsiveMode,
         this._prefs.tab_size,
         this._prefs.line_length,
-        side === Side.LEFT
-          ? `left-content-${beforeNumber}`
-          : `right-content-${afterNumber}`
+        contentId
       );
 
       if (side) {

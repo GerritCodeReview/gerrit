@@ -83,14 +83,14 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     colgroup.appendChild(createElementDiff('col', 'left'));
 
     // Add right-side line number.
-    col = document.createElement('col');
+    col = createElementDiff('col', 'right');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     colgroup.appendChild(createElementDiff('col', 'sign right'));
 
     // Add right-side content.
-    colgroup.appendChild(document.createElement('col'));
+    colgroup.appendChild(createElementDiff('col', 'right'));
 
     outputEl.appendChild(colgroup);
   }
@@ -108,24 +108,17 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     // pushing browser to compute aria even for tr. This can be removed, once
     // browsers will again compute a11y label even for tr when it is focused.
     // TODO: Remove when Chrome 102 is out of date for 1 year.
-    if (
-      leftLine.beforeNumber !== 'FILE' &&
-      leftLine.beforeNumber !== 'LOST' &&
-      rightLine.beforeNumber !== 'FILE' &&
-      rightLine.beforeNumber !== 'LOST'
-    ) {
-      row.setAttribute(
-        'aria-labelledby',
-        [
-          leftLine.beforeNumber ? `left-button-${leftLine.beforeNumber}` : '',
-          leftLine.beforeNumber ? `left-content-${leftLine.beforeNumber}` : '',
-          rightLine.afterNumber ? `right-button-${rightLine.afterNumber}` : '',
-          rightLine.afterNumber ? `right-content-${rightLine.afterNumber}` : '',
-        ]
-          .join(' ')
-          .trim()
-      );
-    }
+    row.setAttribute(
+      'aria-labelledby',
+      [
+        leftLine.beforeNumber ? `left-button-${leftLine.beforeNumber}` : '',
+        leftLine.beforeNumber ? `left-content-${leftLine.beforeNumber}` : '',
+        rightLine.afterNumber ? `right-button-${rightLine.afterNumber}` : '',
+        rightLine.afterNumber ? `right-content-${rightLine.afterNumber}` : '',
+      ]
+        .join(' ')
+        .trim()
+    );
 
     row.appendChild(this.createBlameCell(leftLine.beforeNumber));
 

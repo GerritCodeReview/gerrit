@@ -50,7 +50,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> assignee(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.ASSIGNEE, id.toString());
+    return new ChangeIndexPredicate(ChangeField.ASSIGNEE_SPEC, id.toString());
   }
 
   /**
@@ -356,7 +356,7 @@ public class ChangePredicates {
    * to "1", or non-pure reverts if {@code value} is "0".
    */
   public static Predicate<ChangeData> pureRevert(String value) {
-    return new ChangeIndexPredicate(ChangeField.IS_PURE_REVERT, value);
+    return new ChangeIndexPredicate(ChangeField.IS_PURE_REVERT_SPEC, value);
   }
 
   /**
@@ -367,6 +367,6 @@ public class ChangePredicates {
    * com.google.gerrit.entities.SubmitRequirement}s.
    */
   public static Predicate<ChangeData> isSubmittable(String value) {
-    return new ChangeIndexPredicate(ChangeField.IS_SUBMITTABLE, value);
+    return new ChangeIndexPredicate(ChangeField.IS_SUBMITTABLE_SPEC, value);
   }
 }

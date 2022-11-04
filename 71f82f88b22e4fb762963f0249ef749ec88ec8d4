@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc0c4a97_b1dfd0ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-04T23:06:06Z",
+      "side": 1,
+      "message": "Removing the cache a way to disable it with brute force of course, however, it would be a regression for those who are actually using that cache.\n\nFor a site with a lower rate of reviews, the incoming git traffic, the cache would make a lot of sense.\n\nThis change though is for fixing the general mechanism of disabling a cache which it was broken: the cache wasn\u0027t really disabled but just stored and removed, with all the associated locks involved in the ConcurrentHashMap.\n\nHope that clarifies the focus of the fix.",
+      "parentUuid": "97570316_5a18e681",
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a6e0927a_8e6615fe",

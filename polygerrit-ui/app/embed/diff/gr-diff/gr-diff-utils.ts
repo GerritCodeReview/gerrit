@@ -274,6 +274,8 @@ export function formatText(
   elementId: string
 ): HTMLElement {
   const contentText = createElementDiff('div', 'contentText');
+  const legacyText = document.createElement('gr-legacy-text');
+  contentText.appendChild(legacyText);
   contentText.id = elementId;
   let columnPos = 0;
   let textOffset = 0;
@@ -285,16 +287,16 @@ export function formatText(
       let rowStart = 0;
       let rowEnd = lineLimit - columnPos;
       while (rowEnd < segment.length) {
-        contentText.appendChild(
+        legacyText.appendChild(
           document.createTextNode(segment.substring(rowStart, rowEnd))
         );
-        contentText.appendChild(createLineBreak(responsiveMode));
+        legacyText.appendChild(createLineBreak(responsiveMode));
         columnPos = 0;
         rowStart = rowEnd;
         rowEnd += lineLimit;
       }
       // Append the last part of |segment|, which fits on the current line.
-      contentText.appendChild(
+      legacyText.appendChild(
         document.createTextNode(segment.substring(rowStart))
       );
       columnPos += segment.length - rowStart;
@@ -306,20 +308,20 @@ export function formatText(
         // Append a single '\t' character.
         let effectiveTabSize = tabSize - (columnPos % tabSize);
         if (columnPos + effectiveTabSize > lineLimit) {
-          contentText.appendChild(createLineBreak(responsiveMode));
+          legacyText.appendChild(createLineBreak(responsiveMode));
           columnPos = 0;
           effectiveTabSize = tabSize;
         }
-        contentText.appendChild(createTabWrapper(effectiveTabSize));
+        legacyText.appendChild(createTabWrapper(effectiveTabSize));
         columnPos += effectiveTabSize;
         textOffset++;
       } else {
         // Append a single surrogate pair.
         if (columnPos >= lineLimit) {
-          contentText.appendChild(createLineBreak(responsiveMode));
+          legacyText.appendChild(createLineBreak(responsiveMode));
           columnPos = 0;
         }
-        contentText.appendChild(
+        legacyText.appendChild(
           document.createTextNode(text.substring(textOffset, textOffset + 2))
         );
         textOffset += 2;

@@ -989,6 +989,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.loggedIn) {
       this.addSelectionListeners();
     }
+    this.requestUpdate('diff');
   }
 
   override disconnectedCallback() {

@@ -13,7 +13,7 @@ import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
 import {GrDiffBuilderLit} from './gr-diff-builder-lit';
-import {CancelablePromise, makeCancelable} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';

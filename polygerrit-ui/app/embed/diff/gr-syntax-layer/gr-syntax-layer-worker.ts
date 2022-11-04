@@ -9,7 +9,7 @@ import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
-import {CancelablePromise, makeCancelable} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
-import '../../../scripts/util';
+import '../../../utils/async-util';
 import {
   mockPromise,
   pressKey,

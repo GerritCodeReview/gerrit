@@ -15,7 +15,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, makeCancelable} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';

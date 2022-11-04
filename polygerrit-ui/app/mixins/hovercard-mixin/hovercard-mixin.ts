@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getRootElement} from '../../scripts/rootElement';
 import {Constructor} from '../../utils/common-util';
 import {LitElement, PropertyValues} from 'lit';
 import {property, query} from 'lit/decorators.js';
@@ -51,14 +50,12 @@ export interface MouseKeyboardOrFocusEvent {
 export function getHovercardContainer(
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
 ): HTMLElement | null {
-  let container = getRootElement().querySelector<HTMLElement>(
-    `#${containerId}`
-  );
+  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
     container = document.createElement('div');
     container.setAttribute('id', containerId);
-    getRootElement().appendChild(container);
+    document.body.appendChild(container);
   }
   return container;
 }

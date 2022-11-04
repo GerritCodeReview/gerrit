@@ -5,7 +5,6 @@
  */
 import '../gr-icon/gr-icon';
 import '../gr-tooltip/gr-tooltip';
-import {getRootElement} from '../../../scripts/rootElement';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -142,7 +141,7 @@ export class GrTooltipContent extends LitElement {
     // Set visibility to hidden before appending to the DOM so that
     // calculations can be made based on the element’s size.
     tooltip.style.visibility = 'hidden';
-    getRootElement().appendChild(tooltip);
+    document.body.appendChild(tooltip);
     await tooltip.updateComplete;
     this._positionTooltip(tooltip);
     tooltip.style.visibility = 'initial';

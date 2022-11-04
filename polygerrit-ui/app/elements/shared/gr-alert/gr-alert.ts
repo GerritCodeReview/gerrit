@@ -5,7 +5,6 @@
  */
 import '../gr-button/gr-button';
 import '../../../styles/shared-styles';
-import {getRootElement} from '../../../scripts/rootElement';
 import {ErrorType} from '../../../types/types';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
@@ -170,14 +169,14 @@ export class GrAlert extends LitElement {
     this.actionText = actionText;
     this._hideActionButton = !actionText;
     this._actionCallback = actionCallback;
-    getRootElement().appendChild(this);
+    document.body.appendChild(this);
     this.shown = true;
   }
 
   hide() {
     this.shown = false;
     if (this._hasZeroTransitionDuration()) {
-      getRootElement().removeChild(this);
+      document.body.removeChild(this);
     }
   }
 
@@ -197,7 +196,7 @@ export class GrAlert extends LitElement {
       return;
     }
 
-    getRootElement().removeChild(this);
+    document.body.removeChild(this);
   }
 
   _handleActionTap(e: MouseEvent) {

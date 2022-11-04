@@ -766,7 +766,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
         }
         #loadingError,
         #sizeWarning {
-          display: none;
+          display: block;
           margin: var(--spacing-l) auto;
           max-width: 60em;
           text-align: center;
@@ -776,10 +776,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
         }
         #sizeWarning gr-button {
           margin: var(--spacing-l);
-        }
-        #loadingError.showError,
-        #sizeWarning.warn {
-          display: block;
         }
         .target-row td.blame {
           background: var(--diff-selection-background-color);
@@ -1094,24 +1090,20 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private renderNewlineWarning() {
     const newlineWarning = this.computeNewlineWarning();
-    const newlineWarningClass = this.computeNewlineWarningClass(
-      !!newlineWarning
-    );
-    return html` <div class=${newlineWarningClass}>${newlineWarning}</div> `;
+    if (!newlineWarning) return nothing;
+    return html`<div class="newlineWarning">${newlineWarning}</div>`;
   }
 
   private renderLoadingError() {
-    return html`
-      <div id="loadingError" class=${this.errorMessage ? 'showError' : ''}>
-        ${this.errorMessage}
-      </div>
-    `;
+    if (!this.errorMessage) return nothing;
+    return html`<div id="loadingError">${this.errorMessage}</div>`;
   }
 
   private renderSizeWarning() {
+    if (!this.showWarning) return nothing;
     // TODO: Update comment about 'Whole file' as it's not in settings.
     return html`
-      <div id="sizeWarning" class=${this.showWarning ? 'warn' : ''}>
+      <div id="sizeWarning">
         <p>
           Prevented render because "Whole file" is enabled and this diff is very
           large (about ${this.diffLength} lines).
@@ -1815,7 +1807,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
   }
 
-  private computeNewlineWarning() {
+  private computeNewlineWarning(): string | undefined {
     const messages = [];
     if (this.showNewlineWarningLeft) {
       messages.push(NO_NEWLINE_LEFT);
@@ -1824,17 +1816,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
       messages.push(NO_NEWLINE_RIGHT);
     }
     if (!messages.length) {
-      return null;
+      return undefined;
     }
     return messages.join(' \u2014 '); // \u2014 - '—'
-  }
-
-  // Private but used in tests.
-  computeNewlineWarningClass(warning: boolean) {
-    if (this.loading || !warning) {
-      return 'newlineWarning hidden';
-    }
-    return 'newlineWarning';
   }
 }
 

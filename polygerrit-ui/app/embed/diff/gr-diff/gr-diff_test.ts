@@ -57,6 +57,20 @@ suite('gr-diff tests', () => {
     element = await fixture<GrDiff>(html`<gr-diff></gr-diff>`);
   });
 
+  suite('rendering', () => {
+    test('empty diff', async () => {
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div class="diffContainer sideBySide">
+            <table id="diffTable"></table>
+          </div>
+        `
+      );
+    });
+  });
+
   suite('selectionchange event handling', () => {
     let handleSelectionChangeStub: sinon.SinonSpy;
 
@@ -930,8 +944,8 @@ suite('gr-diff tests', () => {
     const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
 
     const getWarning = (element: GrDiff) => {
-      const warningElement = queryAndAssert(element, '.newlineWarning');
-      return warningElement.textContent;
+      const warningElement = query(element, '.newlineWarning');
+      return warningElement?.textContent ?? '';
     };
 
     setup(async () => {
@@ -976,17 +990,6 @@ suite('gr-diff tests', () => {
         await element.updateComplete;
         assert.notInclude(getWarning(element), NO_NEWLINE_RIGHT);
       });
-    });
-
-    test('computeNewlineWarningClass', () => {
-      const hidden = 'newlineWarning hidden';
-      const shown = 'newlineWarning';
-      element.loading = true;
-      assert.equal(element.computeNewlineWarningClass(false), hidden);
-      assert.equal(element.computeNewlineWarningClass(true), hidden);
-      element.loading = false;
-      assert.equal(element.computeNewlineWarningClass(false), hidden);
-      assert.equal(element.computeNewlineWarningClass(true), shown);
     });
   });
 

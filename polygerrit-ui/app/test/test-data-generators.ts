@@ -560,8 +560,7 @@ export function createDiff(): DiffInfo {
     content: [
       {
         ab: [
-          'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, ' +
-            'nulla phasellus.',
+          'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula.',
           'Mattis lectus.',
           'Sodales duis.',
           'Orci a faucibus.',
@@ -632,7 +631,7 @@ export function createDiff(): DiffInfo {
           'Etiam dui, blandit wisi.',
           'Mi nec.',
           'Vitae eget vestibulum.',
-          'Ullamcorper nunc ante, nec imperdiet felis, consectetur in.',
+          'Ullamcorper nunc ante, nec imperdiet felis, consectetur.',
           'Ac eget.',
           'Vel fringilla, interdum pellentesque placerat, proin ante.',
         ],

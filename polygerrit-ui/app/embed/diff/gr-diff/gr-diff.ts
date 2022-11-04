@@ -1681,7 +1681,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       if (lineNum === 'LOST') {
         this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
-
       const slotAtt = threadEl.getAttribute('slot');
       if (range && isLongCommentRange(range) && slotAtt) {
         const longRangeCommentHint = document.createElement(

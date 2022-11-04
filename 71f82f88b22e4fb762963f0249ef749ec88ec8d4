@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6e0927a_8e6615fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-04T14:54:40Z",
+      "side": 1,
+      "message": "As this change is quite sensitive and has a global impact on Gerrit, I\u0027ll wait for another +2 from a second maintainer. Added Nasser who volunteered :-)",
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

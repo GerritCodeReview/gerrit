@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "eafffebe_7eef09a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-04T09:42:38Z",
+      "side": 1,
+      "message": "As we discussed it probably makes sense to mention how migration to newer version would be performed (commit message would do)",
+      "revId": "82723cfcff0bc06e72ff80f7a21d764dcde2dfa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "089af036_e6c0e0b0",

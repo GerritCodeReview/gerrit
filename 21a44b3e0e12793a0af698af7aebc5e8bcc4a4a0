@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b05cfc_e62b3349",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-04T10:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61ab5a2c_0d4a622e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "21a44b3e0e12793a0af698af7aebc5e8bcc4a4a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1da5ab81_406b7f0c",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01906893_cd3825d7",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-04T10:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da5ab81_406b7f0c",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "21a44b3e0e12793a0af698af7aebc5e8bcc4a4a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "878df910_73c70882",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-11-04T10:03:55Z",
       "side": 1,
       "message": "nit: 2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "21a44b3e0e12793a0af698af7aebc5e8bcc4a4a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38e8cdc0_3ad7c81c",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-04T10:38:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "878df910_73c70882",
       "range": {
         "startLine": 1,
         "startChar": 17,

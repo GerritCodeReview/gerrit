@@ -128,10 +128,11 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
   // lit element.
   protected override getMoveControlsConfig() {
     return {
-      numberOfCells: 4, // How many cells does the diff table have?
-      movedOutIndex: 1, // Index of left content column in diff table.
-      movedInIndex: 3, // Index of right content column in diff table.
-      lineNumberCols: [0, 2], // Indices of line number columns in diff table.
+      numberOfCells: 6, // How many cells does the diff table have?
+      movedOutIndex: 2, // Index of left content column in diff table.
+      movedInIndex: 5, // Index of right content column in diff table.
+      lineNumberCols: [0, 3], // Indices of line number columns in diff table.
+      signCols: {left: 1, right: 4},
     };
   }
 
@@ -161,8 +162,10 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
         <colgroup>
          <col class=${diffClasses('blame')}></col>
          <col class=${diffClasses(Side.LEFT)} width=${lineNumberWidth}></col>
+         <col class=${diffClasses(Side.LEFT, 'sign')}></col>
          <col class=${diffClasses(Side.LEFT)}></col>
          <col class=${diffClasses(Side.RIGHT)} width=${lineNumberWidth}></col>
+         <col class=${diffClasses(Side.RIGHT, 'sign')}></col>
          <col class=${diffClasses(Side.RIGHT)}></col>
         </colgroup>
       `,

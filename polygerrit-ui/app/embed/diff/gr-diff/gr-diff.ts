@@ -1413,23 +1413,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     );
   }
 
-  /**
-   * Gets or creates a comment thread group for a specific line and side on a
-   * diff.
-   * Private but used in tests.
-   */
-  getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
-    // Check if thread group exists.
-    let threadGroupEl = contentEl.querySelector('.thread-group');
-    if (!threadGroupEl) {
-      threadGroupEl = document.createElement('div');
-      threadGroupEl.className = 'thread-group';
-      threadGroupEl.setAttribute('data-side', commentSide);
-      contentEl.appendChild(threadGroupEl);
-    }
-    return threadGroupEl;
-  }
-
   private getCommentSideByLineAndContent(
     lineEl: Element,
     contentEl: Element
@@ -1699,8 +1682,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       if (lineNum === 'LOST') {
         this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
-      const threadGroupEl = this.getOrCreateThreadGroup(contentEl, commentSide);
-
       const slotAtt = threadEl.getAttribute('slot');
       if (range && isLongCommentRange(range) && slotAtt) {
         const longRangeCommentHint = document.createElement(
@@ -1712,16 +1693,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
         this.insertBefore(longRangeCommentHint, threadEl);
         this.redispatchHoverEvents(longRangeCommentHint, threadEl);
       }
-
-      // Create a slot for the thread and attach it to the thread group.
-      // The Polyfill has some bugs and this only works if the slot is
-      // attached to the group after the group is attached to the DOM.
-      // The thread group may already have a slot with the right name, but
-      // that is okay because the first matching slot is used and the rest
-      // are ignored.
-      const slot = document.createElement('slot');
-      if (slotAtt) slot.name = slotAtt;
-      threadGroupEl.appendChild(slot);
     }
 
     for (const threadEl of removedThreadEls) {

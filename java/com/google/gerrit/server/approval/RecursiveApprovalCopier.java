@@ -50,6 +50,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -89,9 +90,14 @@ public class RecursiveApprovalCopier {
     this.executor = MoreExecutors.listeningDecorator(executor);
   }
 
-  public void persist()
+  /**
+   * This method assumes it is used as a standalone program having exclusive access to the Git
+   * repositories. Therefore, it will (safely) skip locking of the loose refs when performing batch
+   * ref-updates.
+   */
+  public void persistStandalone()
       throws RepositoryNotFoundException, IOException, InterruptedException, ExecutionException {
-    persist(repositoryManager.list(), null);
+    persist(repositoryManager.list(), null, false);
 
     if (failedForAtLeastOneProject) {
       throw new RuntimeException("There were errors, check the logs for details");
@@ -100,11 +106,13 @@ public class RecursiveApprovalCopier {
 
   public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
       throws IOException, RepositoryNotFoundException, InterruptedException, ExecutionException {
-    persist(ImmutableList.of(project), labelsCopiedListener);
+    persist(ImmutableList.of(project), labelsCopiedListener, true);
   }
 
   private void persist(
-      Collection<Project.NameKey> projects, @Nullable Consumer<Change> labelsCopiedListener)
+      Collection<Project.NameKey> projects,
+      @Nullable Consumer<Change> labelsCopiedListener,
+      boolean shouldLockLooseRefs)
       throws InterruptedException, ExecutionException, RepositoryNotFoundException, IOException {
     List<ListenableFuture<Void>> copyApprovalsTasks = new LinkedList<>();
     for (Project.NameKey project : projects) {
@@ -112,7 +120,8 @@ public class RecursiveApprovalCopier {
     }
     Futures.successfulAsList(copyApprovalsTasks).get();
 
-    List<ListenableFuture<Void>> batchRefUpdateTasks = submitBatchRefUpdateTasks();
+    List<ListenableFuture<Void>> batchRefUpdateTasks =
+        submitBatchRefUpdateTasks(shouldLockLooseRefs);
     Futures.successfulAsList(batchRefUpdateTasks).get();
   }
 
@@ -187,7 +196,7 @@ public class RecursiveApprovalCopier {
     }
   }
 
-  private List<ListenableFuture<Void>> submitBatchRefUpdateTasks() {
+  private List<ListenableFuture<Void>> submitBatchRefUpdateTasks(boolean shouldLockLooseRefs) {
     logger.atInfo().log("submitting batch ref-update tasks");
     List<ListenableFuture<Void>> futures = new LinkedList<>();
     for (Map.Entry<Project.NameKey, List<ReceiveCommand>> e : pendingRefUpdates.entrySet()) {
@@ -196,20 +205,26 @@ public class RecursiveApprovalCopier {
       futures.add(
           executor.submit(
               () -> {
-                executeRefUpdates(project, updates);
+                executeRefUpdates(project, updates, shouldLockLooseRefs);
                 return null;
               }));
     }
     return futures;
   }
 
-  private void executeRefUpdates(Project.NameKey project, List<ReceiveCommand> updates)
+  private void executeRefUpdates(
+      Project.NameKey project, List<ReceiveCommand> updates, boolean shouldLockLooseRefs)
       throws RepositoryNotFoundException, IOException {
     logger.atInfo().log(
         "executing batch ref-update for project %s, size %d", project, updates.size());
     try (Repository repository = repositoryManager.openRepository(project)) {
       RefDatabase refdb = repository.getRefDatabase();
-      BatchRefUpdate bu = refdb.newBatchUpdate();
+      BatchRefUpdate bu;
+      if (refdb instanceof RefDirectory) {
+        bu = ((RefDirectory) refdb).newBatchUpdate(shouldLockLooseRefs);
+      } else {
+        bu = refdb.newBatchUpdate();
+      }
       bu.addCommand(updates);
       RefUpdateUtil.executeChecked(bu, repository);
     }

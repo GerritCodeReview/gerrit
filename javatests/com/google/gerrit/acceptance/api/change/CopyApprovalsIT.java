@@ -77,7 +77,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
       u.save();
     }
 
-    recursiveApprovalCopier.persist();
+    recursiveApprovalCopier.persistStandalone();
 
     ApprovalInfo vote1 =
         Iterables.getOnlyElement(
@@ -127,7 +127,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
       correctMetaRefObjectId = ru.getOldObjectId();
 
       try {
-        recursiveApprovalCopier.persist();
+        recursiveApprovalCopier.persistStandalone();
         fail("Expected exception when a project contains corrupt change");
       } catch (Exception e) {
         assertThat(e.getMessage()).contains("check the logs");

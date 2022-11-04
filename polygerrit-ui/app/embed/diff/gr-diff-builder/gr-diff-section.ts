@@ -46,7 +46,7 @@ export class GrDiffSection extends LitElement {
    * rendering a simpler version of the diff.
    */
   @state()
-  isVisible = false;
+  isVisible = true;
 
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
@@ -156,6 +156,7 @@ export class GrDiffSection extends LitElement {
     if (!this.group?.moveDetails) return;
     const movedIn = this.group.adds.length > 0;
     const plainCell = html`<td class=${diffClasses()}></td>`;
+    const signCell = html`<td class=${diffClasses('sign')}></td>`;
     const lineNumberCell = html`
       <td class=${diffClasses('moveControlsLineNumCol')}></td>
     `;
@@ -170,8 +171,8 @@ export class GrDiffSection extends LitElement {
       <tr
         class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
       >
-        ${lineNumberCell} ${movedIn ? plainCell : moveCell} ${lineNumberCell}
-        ${movedIn ? moveCell : plainCell}
+        ${lineNumberCell} ${signCell} ${movedIn ? plainCell : moveCell}
+        ${lineNumberCell} ${signCell} ${movedIn ? moveCell : plainCell}
       </tr>
     `;
   }

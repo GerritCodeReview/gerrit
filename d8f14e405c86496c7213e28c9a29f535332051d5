@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d84df4a_24cd3f64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-11-04T15:45:08Z",
+      "side": 1,
+      "message": "Is this specific for transition from LDAP to OAUTH or does it assist in any transition? If so the subject should describe what the commit actually does.\nSomething in the lines of:\n\n    Reuse existing username:\u003cuser\u003e instead of creating a new one\n    \n    Enables transition between authentication systems.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "d8f14e405c86496c7213e28c9a29f535332051d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

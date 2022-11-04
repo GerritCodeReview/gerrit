@@ -115,10 +115,12 @@ export class GrDiffRow extends LitElement {
       <tr>
         <td class="gr-diff blame"></td>
         <td class="gr-diff left"></td>
+        <td class="gr-diff left sign"></td>
         <td class="gr-diff left content">
           <div>${this.left?.text ?? ''}</div>
         </td>
         <td class="gr-diff right"></td>
+        <td class="gr-diff right sign"></td>
         <td class="gr-diff right content">
           <div>${this.right?.text ?? ''}</div>
         </td>
@@ -136,11 +138,16 @@ export class GrDiffRow extends LitElement {
         left-type=${this.left.type}
         right-type=${this.right.type}
         tabindex="-1"
+        aria-labelledby=${`${this.lineNumberId(Side.LEFT)} ${this.contentId(
+          Side.LEFT
+        )} ${this.lineNumberId(Side.RIGHT)} ${this.contentId(
+          Side.RIGHT
+        )}`.trim()}
       >
         ${this.renderBlameCell()} ${this.renderLineNumberCell(Side.LEFT)}
-        ${this.renderContentCell(Side.LEFT)}
+        ${this.renderSignCell(Side.LEFT)} ${this.renderContentCell(Side.LEFT)}
         ${this.renderLineNumberCell(Side.RIGHT)}
-        ${this.renderContentCell(Side.RIGHT)}
+        ${this.renderSignCell(Side.RIGHT)} ${this.renderContentCell(Side.RIGHT)}
       </tr>
     `;
     if (this.addTableWrapperForTesting) {
@@ -213,10 +220,12 @@ export class GrDiffRow extends LitElement {
   private renderLineNumberCell(side: Side): TemplateResult {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (!line || !lineNumber || line.type === GrDiffLineType.BLANK) {
+    const isBlank = line?.type === GrDiffLineType.BLANK;
+    if (!line || !lineNumber || isBlank) {
+      const blankClass = isBlank ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
-        class=${diffClasses(side)}
+        class=${diffClasses(side, blankClass)}
       ></td>`;
     }
 
@@ -240,6 +249,7 @@ export class GrDiffRow extends LitElement {
     // prettier-ignore
     return html`
       <button
+        id=${this.lineNumberId(side)}
         class=${diffClasses('lineNumButton', side)}
         tabindex="-1"
         data-value=${lineNumber}
@@ -252,6 +262,18 @@ export class GrDiffRow extends LitElement {
           fire(this, 'line-mouse-leave', {lineNum: lineNumber, side})}
       >${lineNumber === 'FILE' ? 'File' : lineNumber.toString()}</button>
     `;
+  }
+
+  private lineNumberId(side: Side): string {
+    const lineNumber = this.lineNumber(side);
+    if (!lineNumber) return '';
+    return `${side}-button-${lineNumber}`;
+  }
+
+  private contentId(side: Side): string {
+    const lineNumber = this.lineNumber(side);
+    if (!lineNumber) return '';
+    return `${side}-content-${lineNumber}`;
   }
 
   private computeLineNumberAriaLabel(line: GrDiffLine, lineNumber: LineNumber) {
@@ -270,8 +292,26 @@ export class GrDiffRow extends LitElement {
         return `${lineNumber} added`;
       case GrDiffLineType.BOTH:
       case GrDiffLineType.BLANK:
-        return undefined;
+        return `${lineNumber} unmodified`;
     }
+  }
+
+  private renderSignCell(side: Side): TemplateResult {
+    const line = this.line(side);
+    assertIsDefined(line, 'line');
+    const isBlank = line.type === GrDiffLineType.BLANK;
+    const isAdd = line.type === GrDiffLineType.ADD && side === Side.RIGHT;
+    const isRemove = line.type === GrDiffLineType.REMOVE && side === Side.LEFT;
+    const extras: string[] = ['sign', side];
+    if (isBlank) extras.push('blank');
+    if (isAdd) extras.push('add');
+    if (isRemove) extras.push('remove');
+    if (!line.hasIntralineInfo) extras.push('no-intraline-info');
+
+    let sign = '';
+    if (isAdd) sign = '+';
+    if (isRemove) sign = '-';
+    return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
   }
 
   private renderContentCell(side: Side): TemplateResult {
@@ -302,6 +342,8 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderThreadGroup(side: Side, lineNumber?: LineNumber) {
+    // TODO: DO NOT SUBMIT
+    if (true) return;
     if (!lineNumber) return;
     // TODO: For the LOST line number the convention is that a <tr> will always
     // be rendered, but it will not be visible, because of all cells being
@@ -354,9 +396,9 @@ export class GrDiffRow extends LitElement {
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<div
-        class=${diffClasses('contentText', side)}
-        .ariaLabel=${line?.text ?? ''}
+        class=${diffClasses('contentText')}
         data-side=${ifDefined(side)}
+        id=${this.contentId(side)}
       >${textElement}</div>`;
   }
 }

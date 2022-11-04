@@ -57,7 +57,7 @@ suite('gr-diff tests', () => {
     element = await fixture<GrDiff>(html`<gr-diff></gr-diff>`);
   });
 
-  suite('rendering', () => {
+  suite.only('rendering', () => {
     test('empty diff', async () => {
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -76,7 +76,7 @@ suite('gr-diff tests', () => {
 
     test('a normal diff lit', async () => {
       // TODO(brohlfs): Make sure that test passes. Then uncomment next line.
-      // element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
+      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
       await testNormal();
     });
 
@@ -95,12 +95,13 @@ suite('gr-diff tests', () => {
                 <col class="gr-diff left" width="48" />
                 <col class="gr-diff left sign" />
                 <col class="gr-diff left" />
-                <col width="48" />
+                <col class="gr-diff right" width="48" />
                 <col class="gr-diff right sign" />
-                <col />
+                <col class="gr-diff right" />
               </colgroup>
               <tbody class="both gr-diff section">
                 <tr
+                  aria-labelledby="left-button-LOST left-content-LOST right-button-LOST right-content-LOST"
                   class="diff-row gr-diff side-by-side"
                   left-type="both"
                   right-type="both"
@@ -121,6 +122,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
+                  aria-labelledby="left-button-FILE left-content-FILE right-button-FILE right-content-FILE"
                   class="diff-row gr-diff side-by-side"
                   left-type="both"
                   right-type="both"
@@ -186,7 +188,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-1"
                     >
-                      Lorem ipsum dolor sit amet, suspendisse inceptos vehicula.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="1">
@@ -207,7 +209,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-1"
                     >
-                      Lorem ipsum dolor sit amet, suspendisse inceptos vehicula.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -237,7 +239,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-2"
                     >
-                      Mattis lectus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="2">
@@ -258,7 +260,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-2"
                     >
-                      Mattis lectus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -288,7 +290,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-3"
                     >
-                      Sodales duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="3">
@@ -309,7 +311,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-3"
                     >
-                      Sodales duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -339,7 +341,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-4"
                     >
-                      Orci a faucibus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="4">
@@ -360,7 +362,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-4"
                     >
-                      Orci a faucibus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -377,11 +379,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="5">
                     <button
@@ -401,7 +399,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-5"
                     >
-                      Nullam neque, ligula ac, id blandit.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -416,11 +414,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="6">
                     <button
@@ -440,7 +434,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-6"
                     >
-                      Sagittis tincidunt torquent, tempor nunc amet.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -455,11 +449,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="7">
                     <button
@@ -479,7 +469,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-7"
                     >
-                      At rhoncus id.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -511,7 +501,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-5"
                     >
-                      Sem nascetur, erat ut, non in.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="8">
@@ -532,7 +522,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-8"
                     >
-                      Sem nascetur, erat ut, non in.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -562,7 +552,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-6"
                     >
-                      A donec, venenatis pellentesque dis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="9">
@@ -583,7 +573,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-9"
                     >
-                      A donec, venenatis pellentesque dis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -613,7 +603,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-7"
                     >
-                      Mauris mauris.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="10">
@@ -634,7 +624,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-10"
                     >
-                      Mauris mauris.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -664,7 +654,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-8"
                     >
-                      Quisque nisl duis, facilisis viverra.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="11">
@@ -685,7 +675,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-11"
                     >
-                      Quisque nisl duis, facilisis viverra.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -715,7 +705,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-9"
                     >
-                      Justo purus, semper eget et.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="12">
@@ -736,7 +726,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-12"
                     >
-                      Justo purus, semper eget et.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -768,17 +758,13 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-10"
                     >
-                      Est amet, vestibulum pellentesque.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="right"
-                      id="right-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -807,17 +793,13 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-11"
                     >
-                      Erat ligula.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="right"
-                      id="right-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -846,17 +828,13 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-12"
                     >
-                      Justo eros.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="right"
-                      id="right-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -885,17 +863,13 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-13"
                     >
-                      Fringilla quisque.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="right"
-                      id="right-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -926,7 +900,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-14"
                     >
-                      Arcu eget, rhoncus amet cursus, ipsum elementum.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="13">
@@ -947,7 +921,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-13"
                     >
-                      Arcu eget, rhoncus amet cursus, ipsum elementum.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -977,7 +951,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-15"
                     >
-                      Eros suspendisse.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="14">
@@ -998,7 +972,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-14"
                     >
-                      Eros suspendisse.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1030,8 +1004,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-16"
                     >
-                      Rhoncus tempor, ultricies
-                      <hl class="gr-diff intraline"> aliquam </hl> ipsum.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="15">
@@ -1052,8 +1025,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-15"
                     >
-                      Rhoncus tempor, ultricies
-                      <hl class="gr-diff intraline"> praesent </hl> ipsum.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1085,7 +1057,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-17"
                     >
-                      Sollicitudin duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="16">
@@ -1106,7 +1078,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-16"
                     >
-                      Sollicitudin duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1136,7 +1108,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-18"
                     >
-                      Blandit blandit, ante nisl fusce.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="17">
@@ -1157,7 +1129,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-17"
                     >
-                      Blandit blandit, ante nisl fusce.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1187,7 +1159,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-19"
                     >
-                      Felis ac at, tellus consectetuer.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="18">
@@ -1208,7 +1180,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-18"
                     >
-                      Felis ac at, tellus consectetuer.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1230,7 +1202,7 @@ suite('gr-diff tests', () => {
                 <tr class="dividerRow gr-diff show-both">
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="gr-diff"></td>
-                  <td class="dividerCell gr-diff" colspan="3">
+                  <td class="dividerCell gr-diff" colspan="5">
                     <gr-context-controls
                       class="gr-diff"
                       showconfig="both"
@@ -1278,7 +1250,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-38"
                     >
-                      Ullamcorper nunc ante, nec imperdiet felis, consectetur.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="37">
@@ -1299,7 +1271,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-37"
                     >
-                      Ullamcorper nunc ante, nec imperdiet felis, consectetur.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1329,7 +1301,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-39"
                     >
-                      Ac eget.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="38">
@@ -1350,7 +1322,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-38"
                     >
-                      Ac eget.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1380,7 +1352,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-40"
                     >
-                      Vel fringilla, interdum pellentesque placerat, proin ante.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="39">
@@ -1401,7 +1373,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-39"
                     >
-                      Vel fringilla, interdum pellentesque placerat, proin ante.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1418,11 +1390,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="40">
                     <button
@@ -1442,7 +1410,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-40"
                     >
-                      Eu congue risus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1457,11 +1425,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="41">
                     <button
@@ -1481,7 +1445,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-41"
                     >
-                      Enim ac, quis elementum.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1496,11 +1460,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="42">
                     <button
@@ -1520,7 +1480,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-42"
                     >
-                      Non et elit.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1535,11 +1495,7 @@ suite('gr-diff tests', () => {
                   <td class="blankLineNum gr-diff left"></td>
                   <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
-                    <div
-                      class="contentText gr-diff"
-                      data-side="left"
-                      id="left-content-0"
-                    ></div>
+                    <div class="contentText gr-diff" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="43">
                     <button
@@ -1559,7 +1515,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-43"
                     >
-                      Etiam aliquam, diam vel nunc.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1591,7 +1547,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-41"
                     >
-                      Nec at.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="44">
@@ -1612,7 +1568,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-44"
                     >
-                      Nec at.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1642,7 +1598,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-42"
                     >
-                      Arcu mauris, venenatis lacus fermentum, praesent duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="45">
@@ -1663,7 +1619,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-45"
                     >
-                      Arcu mauris, venenatis lacus fermentum, praesent duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1693,7 +1649,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-43"
                     >
-                      Pellentesque amet et, tellus duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="46">
@@ -1714,7 +1670,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-46"
                     >
-                      Pellentesque amet et, tellus duis.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1744,7 +1700,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-44"
                     >
-                      Ipsum arcu vitae, justo elit, sed libero tellus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="47">
@@ -1765,7 +1721,7 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-47"
                     >
-                      Ipsum arcu vitae, justo elit, sed libero tellus.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
@@ -1795,7 +1751,7 @@ suite('gr-diff tests', () => {
                       data-side="left"
                       id="left-content-45"
                     >
-                      Metus rutrum euismod, vivamus sodales, vel arcu nisl.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="48">
@@ -1816,14 +1772,23 @@ suite('gr-diff tests', () => {
                       data-side="right"
                       id="right-content-48"
                     >
-                      Metus rutrum euismod, vivamus sodales, vel arcu nisl.
+                      <gr-diff-text></gr-diff-text>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-        `
+        `,
+        {
+          ignoreTags: [
+            'gr-context-controls-section',
+            'gr-diff-section',
+            'gr-diff-row',
+            'gr-diff-text',
+            'gr-legacy-text',
+          ],
+        }
       );
     };
   });

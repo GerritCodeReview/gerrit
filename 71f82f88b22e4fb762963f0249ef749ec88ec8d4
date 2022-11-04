@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "97570316_5a18e681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-04T20:07:02Z",
+      "side": 1,
+      "message": "Reading this issue, I wonder why we\u0027re not just removing the changes cache. Would that be a better fix? That\u0027s the only cache that\u0027s disabled by default.",
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a6e0927a_8e6615fe",

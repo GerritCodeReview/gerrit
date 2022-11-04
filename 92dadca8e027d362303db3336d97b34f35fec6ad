@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a225c0ae_6f7096c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-04T13:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "639b9721_ce162af1",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c64dc267_8948ccb3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-03T11:30:01Z",
       "side": 1,
       "message": "nit: line too long",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de6e239b_66cf7312",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-04T13:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c64dc267_8948ccb3",
       "range": {
         "startLine": 9,
         "startChar": 71,
@@ -118,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "867e620b_f8410fff",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7972,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-04T13:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7ef022d_e87969da",
+      "range": {
+        "startLine": 7970,
+        "startChar": 0,
+        "endLine": 7972,
+        "endChar": 85
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "021ab729_59245396",
@@ -131,6 +203,30 @@
       "writtenOn": "2022-10-19T13:02:53Z",
       "side": 1,
       "message": "We could just change this to NONE. So for WiP changes, we default to being silent.\n\nThis comment applies to more places in the following code but I\u0027ll just post it once :-)",
+      "range": {
+        "startLine": 270,
+        "startChar": 63,
+        "endLine": 270,
+        "endChar": 68
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52cc5b19_1883fb62",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-04T13:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "021ab729_59245396",
       "range": {
         "startLine": 270,
         "startChar": 63,

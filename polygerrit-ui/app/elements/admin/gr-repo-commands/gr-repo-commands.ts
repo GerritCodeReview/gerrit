@@ -89,6 +89,9 @@ export class GrRepoCommands extends LitElement {
       subpageStyles,
       sharedStyles,
       css`
+        #form gr-button {
+	      margin-bottom: var(--spacing-xxl);
+        }
         #form h2 {
           margin-top: var(--spacing-xxl);
         }

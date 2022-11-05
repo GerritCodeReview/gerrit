@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6f4737cf_6b2b3276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T01:04:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cc0c4a97_b1dfd0ca",
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a6e0927a_8e6615fe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -49,6 +67,29 @@
       "writtenOn": "2022-11-04T14:54:40Z",
       "side": 1,
       "message": "As this change is quite sensitive and has a global impact on Gerrit, I\u0027ll wait for another +2 from a second maintainer. Added Nasser who volunteered :-)",
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28fd558a_75d5f918",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T01:04:22Z",
+      "side": 1,
+      "message": "Does https://guava.dev/releases/19.0-rc2/api/docs/com/google/common/cache/ForwardingLoadingCache.SimpleForwardingLoadingCache.html do the same thing as this?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 36
+      },
       "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

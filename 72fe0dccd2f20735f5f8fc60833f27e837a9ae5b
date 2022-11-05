@@ -69,6 +69,30 @@
       },
       "revId": "72fe0dccd2f20735f5f8fc60833f27e837a9ae5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73adfc1_f162e427",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T00:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52570149_ed327369",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 39
+      },
+      "revId": "72fe0dccd2f20735f5f8fc60833f27e837a9ae5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

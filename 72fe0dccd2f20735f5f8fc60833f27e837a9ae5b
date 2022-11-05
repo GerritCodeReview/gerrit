@@ -22,6 +22,30 @@
       },
       "revId": "72fe0dccd2f20735f5f8fc60833f27e837a9ae5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b733d888_67f485cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T00:14:28Z",
+      "side": 1,
+      "message": "I thought about it, but actually none of the released versions of Gerrit (non-RCs) had this problem. So, I believe it isn\u0027t worth to mention because we managed to fix it before the v3.7.0.\n\nHope that makes sense.",
+      "parentUuid": "f02baf6a_4d30570e",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "72fe0dccd2f20735f5f8fc60833f27e837a9ae5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

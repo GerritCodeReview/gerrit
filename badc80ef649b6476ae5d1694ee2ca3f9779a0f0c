@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28ce7c1_5ea833c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T01:37:45Z",
+      "side": 1,
+      "message": "Tested the Code-Style manually:\n\nINFO: Elapsed time: 321.705s, Critical Path: 161.85s\nINFO: 8 processes: 6 internal, 2 local.\nINFO: Build completed successfully, 8 total actions\n//polygerrit-ui/app:lint_test                                            PASSED in 149.1s",
+      "revId": "badc80ef649b6476ae5d1694ee2ca3f9779a0f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

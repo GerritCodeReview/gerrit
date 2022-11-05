@@ -33,6 +33,29 @@
       "message": "@thomasmulhall410@yahoo.com WDYT?",
       "revId": "0000aea71be49340b2dabadcd7d4c009c76087e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11e9a988_f941689b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T00:28:08Z",
+      "side": 1,
+      "message": "This should be `h2, h3` because the other generic UIAction of the repository are rendered as `h3` and still need the spacing between them.\n\nThat lack of spacing has caused Issue 16389.",
+      "range": {
+        "startLine": 88,
+        "startChar": 14,
+        "endLine": 88,
+        "endChar": 16
+      },
+      "revId": "0000aea71be49340b2dabadcd7d4c009c76087e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

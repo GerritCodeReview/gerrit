@@ -22,6 +22,30 @@
       },
       "revId": "ed429c247768088c9ffe487985d4f269b000b8d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca58126c_24a2b4a8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T00:28:08Z",
+      "side": 0,
+      "message": "Actually I\u0027m wrong, because the concept here is that @brohlfs@google.com wanted to give the spacing to `h2` (the title) rather than the button.",
+      "parentUuid": "29079e01_c0b45f09",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "ed429c247768088c9ffe487985d4f269b000b8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -515,8 +515,10 @@ public class CherryPickChange {
                     ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
-        .setTopic(topic)
-        .setCherryPickOf(sourcePatchSetId);
+        .setTopic(topic);
+    if (revertOf == null) {
+      ins.setCherryPickOf(sourcePatchSetId);
+    }
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
           approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));

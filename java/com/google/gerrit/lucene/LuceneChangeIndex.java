@@ -44,6 +44,7 @@ import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -344,7 +345,10 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      return 10; // TODO(dborowitz): estimate from Lucene?
+      if (predicate instanceof HasCardinality) {
+        return ((HasCardinality) predicate).getCardinality();
+      }
+      return 10;
     }
 
     @Override

@@ -92,6 +92,30 @@
       },
       "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07dd645d_1bdace7e",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-05T01:36:23Z",
+      "side": 1,
+      "message": "\u003e Does https://guava.dev/releases/19.0-rc2/api/docs/com/google/common/cache/ForwardingLoadingCache.SimpleForwardingLoadingCache.html do the same thing as this?\n\nI have actually looked at that deeply before doing this fix: it implements a forwarding logic BUT to another LoadingCache 😞 instead of a Loader.\n\nHence, it won\u0027t solve anything because a LoadingCache of size 0 is still caching and locking, whilst here we really want a passthrough without any caching or locking.",
+      "parentUuid": "28fd558a_75d5f918",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

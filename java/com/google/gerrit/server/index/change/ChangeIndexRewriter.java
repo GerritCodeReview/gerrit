@@ -27,10 +27,13 @@ import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
+import com.google.gerrit.index.query.AndCardinalPredicate;
 import com.google.gerrit.index.query.AndPredicate;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.NotPredicate;
+import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -262,7 +265,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(0, new IndexedChangeQuery(index, newChildren.remove(i), opts));
+      Predicate<ChangeData> indexed = newChildren.remove(i);
+      newChildren.add(0, new IndexedChangeQuery(index, copy(indexed, indexed.getChildren()), opts));
       return copy(in, newChildren);
     }
 
@@ -280,7 +284,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
         all.add(c);
       }
     }
-    all.add(0, new IndexedChangeQuery(index, in.copy(indexed), opts));
+    all.add(0, new IndexedChangeQuery(index, copy(in, indexed), opts));
     return copy(in, all);
   }
 
@@ -291,11 +295,21 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       if (atLeastOneChangeDataSource.isPresent()) {
         return new AndChangeSource(all, config);
       }
+      Optional<Predicate<ChangeData>> atLeastOneCardinalPredicate =
+          all.stream().filter(p -> (p instanceof HasCardinality)).findAny();
+      if (atLeastOneCardinalPredicate.isPresent()) {
+        return new AndCardinalPredicate<>(all);
+      }
     } else if (in instanceof OrPredicate) {
       Optional<Predicate<ChangeData>> nonChangeDataSource =
           all.stream().filter(p -> !(p instanceof ChangeDataSource)).findAny();
       if (!nonChangeDataSource.isPresent()) {
         return new OrSource(all);
+      }
+      Optional<Predicate<ChangeData>> nonHasCardinality =
+          all.stream().filter(p -> !(p instanceof HasCardinality)).findAny();
+      if (!nonHasCardinality.isPresent()) {
+        return new OrCardinalPredicate<>(all);
       }
     }
     return in.copy(all);

@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.entities.Change.Status.ABANDONED;
 import static com.google.gerrit.entities.Change.Status.MERGED;
 import static com.google.gerrit.entities.Change.Status.NEW;
 import static com.google.gerrit.index.query.Predicate.and;
@@ -27,7 +28,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.AndCardinalPredicate;
 import com.google.gerrit.index.query.AndPredicate;
+import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -71,7 +74,12 @@ public class ChangeIndexRewriterTest {
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
-            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
+            query(
+                orCardinal(
+                    ChangeStatusPredicate.forStatus(NEW),
+                    ChangeStatusPredicate.forStatus(MERGED),
+                    ChangeStatusPredicate.forStatus(ABANDONED))),
+            in)
         .inOrder();
   }
 
@@ -88,7 +96,12 @@ public class ChangeIndexRewriterTest {
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
         .containsExactly(
-            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
+            query(
+                orCardinal(
+                    ChangeStatusPredicate.forStatus(NEW),
+                    ChangeStatusPredicate.forStatus(MERGED),
+                    ChangeStatusPredicate.forStatus(ABANDONED))),
+            in)
         .inOrder();
   }
 
@@ -156,7 +169,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
+        .containsExactly(query(andCardinal(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -166,7 +179,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
+        .containsExactly(query(andCardinal(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -258,6 +271,16 @@ public class ChangeIndexRewriterTest {
   @SafeVarargs
   private static AndChangeSource andSource(Predicate<ChangeData>... preds) {
     return new AndChangeSource(Arrays.asList(preds), IndexConfig.createDefault());
+  }
+
+  @SafeVarargs
+  private static AndCardinalPredicate<ChangeData> andCardinal(Predicate<ChangeData>... preds) {
+    return new AndCardinalPredicate<>(Arrays.asList(preds));
+  }
+
+  @SafeVarargs
+  private static OrCardinalPredicate<ChangeData> orCardinal(Predicate<ChangeData>... preds) {
+    return new OrCardinalPredicate<>(Arrays.asList(preds));
   }
 
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in) throws QueryParseException {

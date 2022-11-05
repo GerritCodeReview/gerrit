@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02baf6a_4d30570e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-11-05T00:13:04Z",
+      "side": 1,
+      "message": "Probably want this to be \"Re-establish the vertical spacing in the repository commands\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "72fe0dccd2f20735f5f8fc60833f27e837a9ae5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -73,6 +73,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "450ce022_90bccb08",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T16:20:40Z",
+      "side": 1,
+      "message": "Won\u0027t this only check the default? If someone sets memoryLimit\u003d0 in the config, we\u0027d want to use the Passthrough then too, correct?",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28fd558a_75d5f918",
         "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
         "patchSetId": 6
@@ -113,6 +136,76 @@
         "startChar": 13,
         "endLine": 29,
         "endChar": 36
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e4c9720_7c7642b1",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T16:20:40Z",
+      "side": 1,
+      "message": "\u003e Hence, it won\u0027t solve anything because a LoadingCache of size 0 is still caching and locking, whilst here we really want a passthrough without any caching or locking.\n\nGot it, I missed that. Thanks. The lack of that as an option really does make me think we\u0027re doing something \"wrong\" (or at least strange/unexpected) in disabling a cache, but I think your solution will work for now and looks like an appropriate risk level for stable branches.",
+      "parentUuid": "07dd645d_1bdace7e",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "133d8003_92beff3c",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T16:20:40Z",
+      "side": 1,
+      "message": "Should this be using loadAll()? [CacheLoader doc](https://guava.dev/releases/snapshot/api/docs/com/google/common/cache/CacheLoader.html#loadAll(java.lang.Iterable)) seems to say it could have that behavior but maybe only if the loader has overridden loadAll()?",
+      "range": {
+        "startLine": 107,
+        "startChar": 35,
+        "endLine": 107,
+        "endChar": 39
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29805310_24cc94c7",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-05T16:20:40Z",
+      "side": 1,
+      "message": "For my other comment, I think we need a test that disables a cache via config.",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 67
       },
       "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

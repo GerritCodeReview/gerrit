@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8731cce_26c9f2d5",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-07T11:48:30Z",
+      "side": 1,
+      "message": "Maybe this method\u0027s name should be changed to persistStandalone to make clear the prerequisite (no concurrent RefUpdates) must be met. Alternatively add javadoc explaining this.",
+      "revId": "baf2728776392a2efae73660e7d2890adedae82d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

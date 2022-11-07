@@ -16,6 +16,24 @@
       "message": "How did this pass the Code-Style ... 🤔?\n\nShouldn\u0027t google-java-format have detected it with the change that last touched this file?",
       "revId": "75d3eac17bd7dca4d4fea9baa799f15449668c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ad4e8c_ee06c887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-07T15:57:44Z",
+      "side": 1,
+      "message": "https://gerrit-review.git.corp.google.com/c/gerrit/+/350016 added these redundant imports, I checked it out and run google-java-format on this file, but it did not remove these imports (Y), so it was passing CI as expected.",
+      "parentUuid": "aeba5ed9_145f05ca",
+      "revId": "75d3eac17bd7dca4d4fea9baa799f15449668c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

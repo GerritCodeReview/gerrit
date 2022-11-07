@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1f7ea6c_b2d86775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-07T12:00:39Z",
+      "side": 1,
+      "message": "\u003e Currently I don\u0027t see an issue with that.\n\nAck but hidden rules like these make it hard to feel like I can contribute to any diff features since I might accidentally disobey them and introduce bugs. If it\u0027s not built into the system I would at least like this \"never add state here\" constraint to be captured in a jsdoc on `GrDiffText` class instead of just being \"something Ben knows\".",
+      "parentUuid": "17dd7a66_81fa1a04",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "670ee101d6fc12e128e1381e81a4ac073a298110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43fdf5ee_c493198d",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
         "patchSetId": 4

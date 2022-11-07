@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b70a2e_0a106043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T09:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c2aee18_93e4ff24",
+      "revId": "43f2de8b66b91906877f3511cb00f192f9015b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ec276fb_03cbff05",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-05T15:25:59Z",
       "side": 1,
       "message": "I think this comment isn\u0027t necessary, the method name says this already",
+      "range": {
+        "startLine": 117,
+        "startChar": 71,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "43f2de8b66b91906877f3511cb00f192f9015b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "282bc453_6ff9b867",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T09:58:31Z",
+      "side": 1,
+      "message": "I agree that this make not much sense but it is consistent with the existing code in this file where this comment exists in many places. We can remove this comment from all places in one separate change?",
+      "parentUuid": "1ec276fb_03cbff05",
       "range": {
         "startLine": 117,
         "startChar": 71,

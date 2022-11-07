@@ -48,9 +48,10 @@ export interface MouseKeyboardOrFocusEvent {
 }
 
 export function getHovercardContainer(
-  options: {createIfNotExists: boolean} = {createIfNotExists: false}
+  options: {createIfNotExists: boolean} = {createIfNotExists: false},
+  target: HTMLElement
 ): HTMLElement | null {
-  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
+  let container = target.querySelector<HTMLElement>(`#${containerId}`);
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
     container = document.createElement('div');
@@ -174,7 +175,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
 
-      this.container = getHovercardContainer({createIfNotExists: true});
+      this.container = getHovercardContainer({createIfNotExists: true}, this._target);
       this.cleanups.push(
         addShortcut(
           this,

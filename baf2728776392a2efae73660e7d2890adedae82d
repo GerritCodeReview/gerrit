@@ -34,6 +34,24 @@
       "parentUuid": "d8731cce_26c9f2d5",
       "revId": "baf2728776392a2efae73660e7d2890adedae82d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ff5a25_858bc2ad",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T13:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e858eb1b_28bee7fd",
+      "revId": "baf2728776392a2efae73660e7d2890adedae82d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -403,7 +403,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     return removeHeader(bin.asString());
   }
 
-  private String removeHeader(String s) throws IOException {
+  private String removeHeader(String s) {
     return s.substring(s.indexOf("\ndiff --git"), s.length() - 1);
   }
 }

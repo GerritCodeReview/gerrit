@@ -40,16 +40,18 @@ public class IndexUpgradeValidatorTest {
         schema(1, ChangeField.ID),
         schema(
             2,
-            ImmutableList.of(ChangeField.ID),
-            ImmutableList.of(ChangeField.OWNER_FIELD),
-            ImmutableList.of(ChangeField.OWNER_SPEC)));
+            ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.ID),
+            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.OWNER_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.OWNER_SPEC)));
     IndexUpgradeValidator.assertValid(
         schema(1, ChangeField.ID),
         schema(
             2,
-            ImmutableList.of(ChangeField.ID),
-            ImmutableList.of(ChangeField.OWNER_FIELD, ChangeField.COMMITTER_PARTS_FIELD),
-            ImmutableList.of(ChangeField.OWNER_SPEC, ChangeField.COMMITTER_PARTS_SPEC)));
+            ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.ID),
+            ImmutableList.<IndexedField<ChangeData, ?>>of(
+                ChangeField.OWNER_FIELD, ChangeField.COMMITTER_PARTS_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+                ChangeField.OWNER_SPEC, ChangeField.COMMITTER_PARTS_SPEC)));
   }
 
   @Test
@@ -62,9 +64,10 @@ public class IndexUpgradeValidatorTest {
                     schema(1, ChangeField.ID),
                     schema(
                         2,
-                        ImmutableList.of(),
-                        ImmutableList.of(ChangeField.OWNER_FIELD),
-                        ImmutableList.of(ChangeField.OWNER_SPEC))));
+                        ImmutableList.<FieldDef<ChangeData, ?>>of(),
+                        ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.OWNER_FIELD),
+                        ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+                            ChangeField.OWNER_SPEC))));
     assertThat(e)
         .hasMessageThat()
         .contains("Schema upgrade to version 2 may either add or remove fields, but not both");

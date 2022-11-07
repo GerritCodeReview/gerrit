@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../test/common-test-setup';
-import {HovercardMixin} from './hovercard-mixin';
+import {getHovercardHost, HovercardMixin} from './hovercard-mixin';
 import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {
@@ -91,6 +91,16 @@ suite('gr-hovercard tests', () => {
       pixelCompare(element.style.top),
       pixelCompare(`${targetTop + targetRect.height + element.offset}px`)
     );
+  });
+
+  test('getHovercardHost', () => {
+    const targetElement = document.createElement('span');
+
+    const dialog = document.createElement('dialog');
+
+    assert.deepEqual(getHovercardHost(targetElement), document.body);
+    dialog.appendChild(targetElement);
+    assert.deepEqual(getHovercardHost(targetElement), dialog);
   });
 
   test('hide', () => {

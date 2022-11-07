@@ -111,7 +111,10 @@ export class GrOverlay extends base {
   }
 
   override _onCaptureFocus(e: Event) {
-    const hovercardContainer = getHovercardContainer();
+    const hovercardContainer = getHovercardContainer(
+      {createIfNotExists: false},
+      this
+    );
     if (hovercardContainer) {
       // Hovercard container is not a child of an overlay.
       // When an overlay is opened and a user clicks inside hovercard,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeba5ed9_145f05ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-07T15:28:08Z",
+      "side": 1,
+      "message": "How did this pass the Code-Style ... 🤔?\n\nShouldn\u0027t google-java-format have detected it with the change that last touched this file?",
+      "revId": "75d3eac17bd7dca4d4fea9baa799f15449668c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

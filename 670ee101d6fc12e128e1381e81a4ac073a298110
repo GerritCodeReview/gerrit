@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17dd7a66_81fa1a04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-07T11:24:11Z",
+      "side": 1,
+      "message": "Sorry. Added a longer commit message.\n\nI am not sure about the \"stateful\" stuff. I think a component like `gr-diff-text` must be prepared to be thrown away and to be re-construcuted from scratch. Currently I don\u0027t see an issue with that.\n\nDiff layers can be stateful. They can save references to elements, etc. They just have to make sure that another `annotate()` call updates such references. But that is now new behavior. It was existing behavior of layers before my changes that layers` `annotate()` methods could have been called multiple times.",
+      "parentUuid": "b37d33cb_ec025bdf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "670ee101d6fc12e128e1381e81a4ac073a298110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43fdf5ee_c493198d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-04T12:07:07Z",
       "side": 1,
       "message": "it\u0027s a bit confusing already since layers are not actually applied until #137 after the await.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "670ee101d6fc12e128e1381e81a4ac073a298110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc795e4_5e118369",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-07T11:24:11Z",
+      "side": 1,
+      "message": "Moved.",
+      "parentUuid": "43fdf5ee_c493198d",
       "range": {
         "startLine": 131,
         "startChar": 0,

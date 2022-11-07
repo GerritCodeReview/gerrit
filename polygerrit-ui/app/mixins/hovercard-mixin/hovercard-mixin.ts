@@ -47,19 +47,6 @@ export interface MouseKeyboardOrFocusEvent {
   focusEvent?: FocusEvent;
 }
 
-export function getHovercardContainer(
-  options: {createIfNotExists: boolean} = {createIfNotExists: false}
-): HTMLElement | null {
-  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
-  if (!container && options.createIfNotExists) {
-    // If it does not exist, create and initialize the hovercard container.
-    container = document.createElement('div');
-    container.setAttribute('id', containerId);
-    document.body.appendChild(container);
-  }
-  return container;
-}
-
 /**
  * How long should we wait before showing the hovercard when the user hovers
  * over the element?
@@ -174,7 +161,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
 
-      this.container = getHovercardContainer({createIfNotExists: true});
+      this.container = this.getContainer();
       this.cleanups.push(
         addShortcut(
           this,
@@ -329,6 +316,29 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
             composed: true,
           })
         );
+    }
+
+    getHost(): HTMLElement {
+      let el = this._target as Node;
+      while (el) {
+        if ((el as HTMLElement).tagName === 'DIALOG') {
+          return el as HTMLElement;
+        }
+        el = el.parentNode || (el as ShadowRoot).host;
+      }
+      return document.body;
+    }
+
+    getContainer(): HTMLElement | null {
+      const host = this.getHost();
+      let container = host.querySelector<HTMLElement>(`#${containerId}`);
+      if (!container) {
+        // If it does not exist, create and initialize the hovercard container.
+        container = document.createElement('div');
+        container.setAttribute('id', containerId);
+        host.appendChild(container);
+      }
+      return container;
     }
 
     /**
@@ -538,16 +548,16 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.updatePositionTo(position);
         if (this._isInsideViewport()) return;
       }
-      console.warn('Could not find a visible position for the hovercard.');
+      this.updatePositionTo(this.position);
     }
 
     _isInsideViewport() {
       const thisRect = this.getBoundingClientRect();
       if (thisRect.top < 0) return false;
       if (thisRect.left < 0) return false;
-      const docuRect = document.documentElement.getBoundingClientRect();
-      if (thisRect.bottom > docuRect.height) return false;
-      if (thisRect.right > docuRect.width) return false;
+      const hostRect = this.getHost().getBoundingClientRect();
+      if (thisRect.bottom > hostRect.height) return false;
+      if (thisRect.right > hostRect.width) return false;
       return true;
     }
 
@@ -572,12 +582,12 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // in the width and height of the bounding client rect.
       this.style.cssText = '';
 
-      const docuRect = document.documentElement.getBoundingClientRect();
+      const hostRect = this.getHost().getBoundingClientRect();
       const targetRect = this._target.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
 
-      const targetLeft = targetRect.left - docuRect.left;
-      const targetTop = targetRect.top - docuRect.top;
+      const targetLeft = targetRect.left - hostRect.left;
+      const targetTop = targetRect.top - hostRect.top;
 
       let hovercardLeft;
       let hovercardTop;
@@ -636,6 +646,7 @@ export interface HovercardMixinInterface {
 
   // Used for tests
   mouseHide(e: MouseEvent): void;
+  getHost(): HTMLElement;
   hide(props: MouseKeyboardOrFocusEvent): void;
   container: HTMLElement | null;
   hideTask?: DelayedTask;

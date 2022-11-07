@@ -262,6 +262,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e709c219_4ecc2b1e",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T12:07:20Z",
+      "side": 1,
+      "message": "\u003e Should this be using loadAll()? [CacheLoader doc](https://guava.dev/releases/snapshot/api/docs/com/google/common/cache/CacheLoader.html#loadAll(java.lang.Iterable)) seems to say it could have that behavior but maybe only if the loader has overridden loadAll()?\n\nTrue, but I actually need both, according to what the Guava cache says:\n```\n  /**\n   * Computes or retrieves the values corresponding to {@code keys}. This method is called by {@link\n   * LoadingCache#getAll}.\n   *\n   * \u003cp\u003eIf the returned map doesn\u0027t contain all requested {@code keys} then the entries it does\n   * contain will be cached, but {@code getAll} will throw an exception. If the returned map\n   * contains extra keys not present in {@code keys} then all returned entries will be cached, but\n   * only the entries for {@code keys} will be returned from {@code getAll}.\n   *\n   * \u003cp\u003eThis method should be overridden when bulk retrieval is significantly more efficient than\n   * many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls\n   * to {@link LoadingCache#get} if this method is not overridden.\n   *\n   * @param keys the unique, non-null keys whose values should be loaded\n   * @return a map from each key in {@code keys} to the value associated with that key; \u003cb\u003emay not\n   *     contain null values\u003c/b\u003e\n   * @throws Exception if unable to load the result\n   * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is\n   *     treated like any other {@code Exception} in all respects except that, when it is caught,\n   *     the thread\u0027s interrupt status is set\n   * @since 11.0\n   */\n  public Map\u003cK, V\u003e loadAll(Iterable\u003c? extends K\u003e keys) throws Exception {\n    // This will be caught by getAll(), causing it to fall back to multiple calls to\n    // LoadingCache.get\n    throw new UnsupportedLoadingOperationException();\n  }\n```",
+      "parentUuid": "133d8003_92beff3c",
+      "range": {
+        "startLine": 107,
+        "startChar": 35,
+        "endLine": 107,
+        "endChar": 39
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29805310_24cc94c7",
         "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
         "patchSetId": 6

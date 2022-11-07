@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f0ff53_424c8a0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T17:04:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "219392a4_06ece807",
+      "range": {
+        "startLine": 21,
+        "startChar": 94,
+        "endLine": 21,
+        "endChar": 108
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20dbaded_6bdbde6f",
@@ -226,6 +250,30 @@
       "writtenOn": "2022-11-07T16:19:19Z",
       "side": 1,
       "message": "This test is a no-op. It is not run by Bazel build.\nThis bazel package doesn\u0027t have a BUILD file, and\nthe glob in the parent directory is not including\nchild directories:\n\n```\nsrcs \u003d glob([\"*IT.java\"]),\n```\n\nJust add new BUILD file to the mem bazel package.",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fffd2b9b_5f04770f",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T17:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20dbaded_6bdbde6f",
       "range": {
         "startLine": 39,
         "startChar": 13,

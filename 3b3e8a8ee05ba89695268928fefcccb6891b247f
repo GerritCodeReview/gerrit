@@ -16,6 +16,24 @@
       "message": "To be precise, this applies only when eviction and loading occur for the same key.",
       "revId": "3b3e8a8ee05ba89695268928fefcccb6891b247f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e750f17_0cbcc00a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T17:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "927a7a94_9c5d7aca",
+      "revId": "3b3e8a8ee05ba89695268928fefcccb6891b247f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

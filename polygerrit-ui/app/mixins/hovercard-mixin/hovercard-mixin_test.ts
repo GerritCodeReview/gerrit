@@ -93,6 +93,22 @@ suite('gr-hovercard tests', () => {
     );
   });
 
+  test('getHovercardHost', () => {
+    const targetElement = document.createElement('span');
+
+    const dialog = document.createElement('dialog');
+
+    // TODO(dhruvsri): remove usage of any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    assert.deepEqual(
+      (element as any).getHovercardHost(targetElement),
+      document.body
+    );
+    dialog.appendChild(targetElement);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    assert.deepEqual((element as any).getHovercardHost(targetElement), dialog);
+  });
+
   test('hide', () => {
     element.mouseHide(new MouseEvent('click'));
     const style = getComputedStyle(element);

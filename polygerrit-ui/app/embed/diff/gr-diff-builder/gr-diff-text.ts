@@ -11,6 +11,19 @@ const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 const TAB = '\t';
 
+/**
+ * Renders one line of code on one side of the diff. It takes care of:
+ * - Tabs, see `tabSize` property.
+ * - Line Breaks, see `lineLimit` property.
+ * - Surrogate Character Pairs.
+ *
+ * Note that other modifications to the code in a gr-diff is done via diff
+ * layers, which manipulate the DOM directly. So `gr-diff-text` is thrown
+ * away and re-rendered every time something changes by its parent
+ * `gr-diff-row`. So don't bother to optimize this component for re-rendering
+ * performance. And be aware that building longer lived local state is not
+ * useful here.
+ */
 @customElement('gr-diff-text')
 export class GrDiffText extends LitElement {
   /**

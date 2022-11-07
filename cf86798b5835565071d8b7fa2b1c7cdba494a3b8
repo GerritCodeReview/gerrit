@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b4e148d_f766d04d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T16:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19b714b1_d806dc4f",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c5ff3aa_6b2e28b2",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db130f8_12c4d245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T16:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04346d08_fafa6f6f",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d96e6d03_868c5f65",
@@ -108,6 +156,30 @@
       "side": 1,
       "message": "Here link to the relevant javadoc of the Guava LoadingCache:\n\nhttps://guava.dev/releases/19.0/api/docs/com/google/common/cache/LoadingCache.html#get(K)\n\n\"If another call to get(K) or getUnchecked(K) is currently loading the value for key, simply waits for that thread to finish and returns its loaded value. Note that multiple threads can concurrently load values for distinct keys.\"",
       "parentUuid": "d96e6d03_868c5f65",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abecc96_a2cc1abd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T16:49:00Z",
+      "side": 1,
+      "message": "True, however, that behaviour would still be possible by:\n- Set the memoryLimit to 1\n- Set the maxAge to 1\n\nWith the above, the cache would still be instantiated, the concurrent loads of the same key would still block each other and the waiting threads would reuse the loaded value.",
+      "parentUuid": "e97b6f70_835952e7",
       "range": {
         "startLine": 15,
         "startChar": 0,

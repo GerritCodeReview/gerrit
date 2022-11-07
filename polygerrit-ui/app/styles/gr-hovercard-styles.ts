@@ -7,7 +7,7 @@ import {css} from 'lit';
 
 export const hovercardStyles = css`
   :host {
-    position: absolute;
+    position: fixed;
     display: none;
     z-index: 200;
     max-width: 600px;

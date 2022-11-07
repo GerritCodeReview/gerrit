@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bb5c613_4995b0dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T09:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9d5360a_01296799",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "140f0431c010803eb1ff1c8a6116a6667da1dc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71b7db25_bfe8cde0",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-05T15:37:22Z",
       "side": 1,
       "message": "fails",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "140f0431c010803eb1ff1c8a6116a6667da1dc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a413dc2b_1602b18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T09:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b7db25_bfe8cde0",
       "range": {
         "startLine": 12,
         "startChar": 15,
@@ -77,6 +125,30 @@
       "writtenOn": "2022-11-05T15:37:22Z",
       "side": 1,
       "message": "unnecessary comment",
+      "range": {
+        "startLine": 241,
+        "startChar": 71,
+        "endLine": 241,
+        "endChar": 90
+      },
+      "revId": "140f0431c010803eb1ff1c8a6116a6667da1dc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7151967_ce6fd384",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T09:58:37Z",
+      "side": 1,
+      "message": "I agree that this make not much sense but it is consistent with the existing code in this file where this comment exists in many places. We can remove this comment from all places in one separate change?",
+      "parentUuid": "272ba64d_b6cc8059",
       "range": {
         "startLine": 241,
         "startChar": 71,

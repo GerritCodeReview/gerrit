@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96e6d03_868c5f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T15:23:16Z",
+      "side": 1,
+      "message": "I do not understand how should this help. Imagine we have a CacheLoader which needs\n5 seconds to load value for a key. If N threads want to load the same key K1 then, with the real Guava cache, one thread will load the value and other threads will wait until the value is loaded and then return it. Total time 5 seconds.\n\nWith the pass-through cache every thread will spend 5 seconds loading the same value. The total time might be similar but it will not be shorter than with the real Guava cache.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

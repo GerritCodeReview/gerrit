@@ -120,6 +120,7 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
+import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
@@ -416,6 +417,31 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user2.id());
     gApi.changes().id(changeId).setReadyForReview();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+  }
+
+  @Test
+  public void setReadyForReviewSendsNotificationsForRevertChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    RevertInput in = new RevertInput();
+    in.workInProgress = true;
+    String changeId = gApi.changes().id(r.getChangeId()).revert(in).get().changeId;
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.changes().id(changeId).setReadyForReview();
+
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // 4. Patch Set 1: Reverted
+    List<ChangeMessageInfo> sourceMessages =
+        new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(4);
+    String expectedMessage = String.format("Created a revert of this change as I%s", changeId);
+    assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
   }
 
   @Test

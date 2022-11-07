@@ -268,10 +268,19 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
-
     RevertInput in = createWipRevertInput();
+
     ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(in).get();
+
     assertThat(revertChange.workInProgress).isTrue();
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // No "reverted" message is expected.
+    List<ChangeMessageInfo> sourceMessages =
+        new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(3);
   }
 
   @Test
@@ -366,14 +375,14 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revertNotificationsSupressedOnWip() throws Exception {
+  public void revertNotificationsSuppressedOnWip() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     sender.clear();
-    // If notify input not specified, the endpoint overrides it to OWNER
+    // If notify input not specified, the endpoint overrides it to NONE
     RevertInput revertInput = createWipRevertInput();
     revertInput.notify = null;
     gApi.changes().id(r.getChangeId()).revert(revertInput).get();
@@ -806,8 +815,7 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(secondResult).current().submit();
 
     sender.clear();
-    RevertInput revertInput = new RevertInput();
-    revertInput.workInProgress = true;
+    RevertInput revertInput = createWipRevertInput();
     revertInput.notify = NotifyHandling.NONE;
     gApi.changes().id(secondResult).revertSubmission(revertInput);
     assertThat(sender.getMessages()).isEmpty();
@@ -829,9 +837,14 @@ public class RevertIT extends AbstractDaemonTest {
     // If notify handling is specified, it will be used by the API
     RevertInput revertInput = createWipRevertInput();
     revertInput.notify = NotifyHandling.ALL;
-    gApi.changes().id(changeId2).revertSubmission(revertInput);
+    RevertSubmissionInfo revertChanges = gApi.changes().id(changeId2).revertSubmission(revertInput);
 
-    assertThat(sender.getMessages()).hasSize(4);
+    assertThat(revertChanges.revertChanges).hasSize(2);
+    assertThat(sender.getMessages()).hasSize(2);
+    assertThat(sender.getMessages(revertChanges.revertChanges.get(0).changeId, "newchange"))
+        .hasSize(1);
+    assertThat(sender.getMessages(revertChanges.revertChanges.get(1).changeId, "newchange"))
+        .hasSize(1);
   }
 
   @Test
@@ -842,17 +855,23 @@ public class RevertIT extends AbstractDaemonTest {
     String changeId2 = createChange("second change", "b.txt", "other").getChangeId();
     approve(changeId2);
     gApi.changes().id(changeId2).addReviewer(user.email());
-
     gApi.changes().id(changeId2).current().submit();
-
     sender.clear();
-
     RevertInput revertInput = createWipRevertInput();
+
     RevertSubmissionInfo revertSubmissionInfo =
         gApi.changes().id(changeId2).revertSubmission(revertInput);
 
     assertThat(revertSubmissionInfo.revertChanges.stream().allMatch(r -> r.workInProgress))
         .isTrue();
+
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // No "reverted" message is expected.
+    assertThat(gApi.changes().id(changeId1).get().messages).hasSize(3);
+    assertThat(gApi.changes().id(changeId2).get().messages).hasSize(3);
   }
 
   @Test

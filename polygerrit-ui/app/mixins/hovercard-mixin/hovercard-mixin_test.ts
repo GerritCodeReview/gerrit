@@ -93,6 +93,16 @@ suite('gr-hovercard tests', () => {
     );
   });
 
+  test('getHost', () => {
+    element._target = document.createElement('span');
+
+    const dialog = document.createElement('dialog');
+
+    assert.deepEqual(element.getHost(), document.body);
+    dialog.appendChild(element._target);
+    assert.deepEqual(element.getHost(), dialog);
+  });
+
   test('hide', () => {
     element.mouseHide(new MouseEvent('click'));
     const style = getComputedStyle(element);

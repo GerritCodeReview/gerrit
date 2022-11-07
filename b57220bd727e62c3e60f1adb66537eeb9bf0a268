@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59b93644_f9afcb0f",
+        "filename": "javatests/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-07T12:41:37Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "b57220bd727e62c3e60f1adb66537eeb9bf0a268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

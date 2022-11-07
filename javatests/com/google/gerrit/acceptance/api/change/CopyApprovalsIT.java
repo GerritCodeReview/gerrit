@@ -73,7 +73,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     // schema upgrade.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 
@@ -114,7 +114,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     // schema upgrade.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 
@@ -158,7 +158,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     // change the project config to copy all votes
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 
@@ -210,7 +210,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     // schema upgrade.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 
@@ -238,7 +238,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     // schema upgrade.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(/* copyAnyScore= */ true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
       u.save();
     }
 

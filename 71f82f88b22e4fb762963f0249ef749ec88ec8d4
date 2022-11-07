@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8781c18f_5158e229",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-07T16:19:19Z",
+      "side": 1,
+      "message": "\u003e Further, why don\u0027t we introduce \"disabled\" flag:\n\u003e\n\u003e  cache.\u003cname\u003e.disabled\n\u003e\n\u003e and remove any guessing how to properly disable a cache?\n\n+1. We should do it on Gerrit@HEAD.",
+      "parentUuid": "e12c3626_bd8223d9",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28fd558a_75d5f918",

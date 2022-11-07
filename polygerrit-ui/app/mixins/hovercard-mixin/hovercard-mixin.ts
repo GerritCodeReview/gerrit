@@ -47,15 +47,29 @@ export interface MouseKeyboardOrFocusEvent {
   focusEvent?: FocusEvent;
 }
 
+function getHovercardHost(el: ParentNode | Element) {
+  let host = document.body;
+  while (el) {
+    if ((el as HTMLElement).tagName === 'DIALOG') {
+      host = el as HTMLElement;
+      break;
+    }
+    el = (el as Node).parentNode || (el as ShadowRoot).host;
+  }
+  return host;
+}
+
 export function getHovercardContainer(
-  options: {createIfNotExists: boolean} = {createIfNotExists: false}
+  options: {createIfNotExists: boolean} = {createIfNotExists: false},
+  target: HTMLElement
 ): HTMLElement | null {
-  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
+  const host = getHovercardHost(target);
+  let container = host.querySelector<HTMLElement>(`#${containerId}`);
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
     container = document.createElement('div');
     container.setAttribute('id', containerId);
-    document.body.appendChild(container);
+    host.appendChild(container);
   }
   return container;
 }
@@ -174,7 +188,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
 
-      this.container = getHovercardContainer({createIfNotExists: true});
+      this.container = getHovercardContainer(
+        {createIfNotExists: true},
+        this._target
+      );
       this.cleanups.push(
         addShortcut(
           this,
@@ -572,7 +589,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // in the width and height of the bounding client rect.
       this.style.cssText = '';
 
-      const docuRect = document.documentElement.getBoundingClientRect();
+      const docuRect = getHovercardHost(this._target).getBoundingClientRect();
       const targetRect = this._target.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
 

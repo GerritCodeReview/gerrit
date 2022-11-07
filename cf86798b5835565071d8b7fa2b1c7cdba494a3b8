@@ -22,6 +22,30 @@
       },
       "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e97b6f70_835952e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-11-07T15:46:06Z",
+      "side": 1,
+      "message": "Here link to the relevant javadoc of the Guava LoadingCache:\n\nhttps://guava.dev/releases/19.0/api/docs/com/google/common/cache/LoadingCache.html#get(K)\n\n\"If another call to get(K) or getUnchecked(K) is currently loading the value for key, simply waits for that thread to finish and returns its loaded value. Note that multiple threads can concurrently load values for distinct keys.\"",
+      "parentUuid": "d96e6d03_868c5f65",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -264,6 +264,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 </div>
               </div>
             </gr-dialog>
+            <div id="gr-hovercard-container"></div>
           </dialog>
         `
       );
@@ -704,6 +705,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 </div>
               </div>
             </gr-dialog>
+            <div id="gr-hovercard-container">
+            </div>
           </dialog>
         `,
         {
@@ -816,6 +819,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 </div>
               </div>
             </gr-dialog>
+            <div id="gr-hovercard-container">
+            </div>
           </dialog>
         `,
         {

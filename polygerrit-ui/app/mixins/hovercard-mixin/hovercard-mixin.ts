@@ -47,19 +47,6 @@ export interface MouseKeyboardOrFocusEvent {
   focusEvent?: FocusEvent;
 }
 
-export function getHovercardContainer(
-  options: {createIfNotExists: boolean} = {createIfNotExists: false}
-): HTMLElement | null {
-  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
-  if (!container && options.createIfNotExists) {
-    // If it does not exist, create and initialize the hovercard container.
-    container = document.createElement('div');
-    container.setAttribute('id', containerId);
-    document.body.appendChild(container);
-  }
-  return container;
-}
-
 /**
  * How long should we wait before showing the hovercard when the user hovers
  * over the element?
@@ -174,7 +161,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
 
-      this.container = getHovercardContainer({createIfNotExists: true});
+      this.container = this.getHovercardContainer(this._target);
       this.cleanups.push(
         addShortcut(
           this,
@@ -329,6 +316,28 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
             composed: true,
           })
         );
+    }
+
+    getHovercardHost(el?: Node) {
+      while (el) {
+        if ((el as HTMLElement).tagName === 'DIALOG') {
+          return el as HTMLElement;
+        }
+        el = el.parentNode || (el as ShadowRoot).host;
+      }
+      return document.body;
+    }
+
+    getHovercardContainer(target: HTMLElement): HTMLElement | null {
+      const host = this.getHovercardHost(target);
+      let container = host.querySelector<HTMLElement>(`#${containerId}`);
+      if (!container) {
+        // If it does not exist, create and initialize the hovercard container.
+        container = document.createElement('div');
+        container.setAttribute('id', containerId);
+        host.appendChild(container);
+      }
+      return container;
     }
 
     /**
@@ -572,7 +581,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // in the width and height of the bounding client rect.
       this.style.cssText = '';
 
-      const docuRect = document.documentElement.getBoundingClientRect();
+      const docuRect = this.getHovercardHost(
+        this._target
+      ).getBoundingClientRect();
       const targetRect = this._target.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
 
@@ -636,6 +647,7 @@ export interface HovercardMixinInterface {
 
   // Used for tests
   mouseHide(e: MouseEvent): void;
+  getHovercardHost(el?: Node): HTMLElement;
   hide(props: MouseKeyboardOrFocusEvent): void;
   container: HTMLElement | null;
   hideTask?: DelayedTask;

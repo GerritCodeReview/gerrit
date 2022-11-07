@@ -39,8 +39,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
-import static com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.parseApproval;
-import static com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.parseCopiedApproval;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;

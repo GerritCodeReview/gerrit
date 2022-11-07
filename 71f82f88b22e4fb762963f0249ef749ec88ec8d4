@@ -284,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3715011b_b94d7a26",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T12:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e709c219_4ecc2b1e",
+      "range": {
+        "startLine": 107,
+        "startChar": 35,
+        "endLine": 107,
+        "endChar": 39
+      },
+      "revId": "71f82f88b22e4fb762963f0249ef749ec88ec8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29805310_24cc94c7",

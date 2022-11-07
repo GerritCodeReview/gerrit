@@ -192,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f020a273_6a13c8ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-07T17:05:25Z",
+      "side": 1,
+      "message": "I\u0027ll put a note to the documentation so that people are aware of it and, if they need to keep the caching anyway they can set `memoryLimit` and `maxAge`.",
+      "parentUuid": "4abecc96_a2cc1abd",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "cf86798b5835565071d8b7fa2b1c7cdba494a3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "219392a4_06ece807",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8

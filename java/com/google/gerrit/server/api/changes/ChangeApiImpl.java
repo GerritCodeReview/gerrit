@@ -144,6 +144,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ApplyPatch applyPatch;
   private final Provider<SubmittedTogether> submittedTogether;
   private final Rebase.CurrentRevision rebase;
+  private final Rebase.Chain rebaseChain;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
@@ -197,6 +198,7 @@ class ChangeApiImpl implements ChangeApi {
       ApplyPatch applyPatch,
       Provider<SubmittedTogether> submittedTogether,
       Rebase.CurrentRevision rebase,
+      Rebase.Chain rebaseChain,
       DeleteChange deleteChange,
       GetTopic getTopic,
       PutTopic putTopic,
@@ -248,6 +250,7 @@ class ChangeApiImpl implements ChangeApi {
     this.applyPatch = applyPatch;
     this.submittedTogether = submittedTogether;
     this.rebase = rebase;
+    this.rebaseChain = rebaseChain;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
@@ -423,6 +426,15 @@ class ChangeApiImpl implements ChangeApi {
       rebase.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase change", e);
+    }
+  }
+
+  @Override
+  public void rebaseChain(RebaseInput in) throws RestApiException {
+    try {
+      rebaseChain.apply(change, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase chain", e);
     }
   }
 

@@ -49,7 +49,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.RebaseOp.RebaseChangeOp;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;

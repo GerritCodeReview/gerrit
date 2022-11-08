@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d836d0dd_8bfd99c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-08T08:24:11Z",
+      "side": 1,
+      "message": "Remerged as  I3cd1fd46e1",
+      "parentUuid": "7418bd70_4fe8d026",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "73713c9e05b2d3d143a4c2c385cfe4f432743c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5c4c2704_6c1a1a6a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

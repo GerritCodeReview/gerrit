@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377f7bbf_5e7ac65e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-08T11:11:59Z",
+      "side": 1,
+      "message": "Have you tried running the broader search?\n```\ngit grep -n \"\\\"UTF-8\\\"\" origin/master\n```",
+      "revId": "d945586eb05e12ee2ded7cd273752c38d58cd7d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

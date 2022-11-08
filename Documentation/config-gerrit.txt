@@ -870,8 +870,14 @@ Default is 1024 for most caches, except:
 * `"plugin_resources"`: default is 2m (2 MiB of memory)
 
 +
-If set to 0 the cache is disabled. Entries are removed immediately
-after being stored by the cache. This is primarily useful for testing.
+If set to 0 the cache is disabled; entries are loaded but not stored
+in-memory.
++
+**NOTE**: When the cache is disabled, there is no locking when accessing
+the same key/value, and therefore multiple threads may
+load the same value concurrently with a higher memory footprint.
+To keep a minimum caching and avoid concurrent loading of the same
+key/value, set `memoryLimit` to `1` and `maxAge` to `1`.
 
 [[cache.name.expireFromMemoryAfterAccess]]cache.<name>.expireFromMemoryAfterAccess::
 +

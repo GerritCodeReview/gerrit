@@ -45,6 +45,30 @@
       },
       "revId": "3136ae6534bf969b8a2a8e3666414b561e1ff4ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a10c5c_67b8bf94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-08T15:56:19Z",
+      "side": 1,
+      "message": "Yeah I agree with you, but `offsetHeight` is readonly so I cannot create one and set the field. Overall it is not a good test testing these private methods but I am not planning to rewrite the file with good tests. Rewriting the internals to make a better test of private methods is not helpful either :/",
+      "parentUuid": "22fc1774_790dd837",
+      "range": {
+        "startLine": 319,
+        "startChar": 26,
+        "endLine": 319,
+        "endChar": 59
+      },
+      "revId": "3136ae6534bf969b8a2a8e3666414b561e1ff4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

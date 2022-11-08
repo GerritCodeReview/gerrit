@@ -736,6 +736,15 @@ Default is `INHERIT`, which means that this property is inherited from
 the parent project. If the property is not set in any parent project, the
 default value is `FALSE`.
 
+[[reviewer.skipAddingAuthorAndCommitterAsReviewers]]reviewer.skipAddingAuthorAndCommitterAsReviewers::
++
+Whether to skip adding the Git commit author and commiter as reviewers for
+a new change.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project. If the property is not set in any parent project, the
+default value is `FALSE`.
+
 [[file-groups]]
 == The file +groups+
 

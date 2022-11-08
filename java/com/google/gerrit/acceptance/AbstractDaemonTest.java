@@ -1080,6 +1080,19 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void setSkipAddingAuthorAndCommitterAsReviewers(InheritableBoolean value)
+      throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.updateProject(
+          p ->
+              p.setBooleanConfig(
+                  BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS, value));
+      config.commit(md);
+      projectCache.evictAndReindex(config.getProject());
+    }
+  }
+
   protected void blockAnonymousRead() throws Exception {
     String allRefs = RefNames.REFS + "*";
     projectOperations

@@ -40,6 +40,9 @@ public class ProjectSerializerTest {
           .setBooleanConfig(
               BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
               InheritableBoolean.INHERIT)
+          .setBooleanConfig(
+              BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS,
+              InheritableBoolean.TRUE)
           .build();
 
   @Test

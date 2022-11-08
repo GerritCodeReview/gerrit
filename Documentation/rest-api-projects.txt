@@ -3896,17 +3896,19 @@ Not set if the project state is `ACTIVE`.
 Map with the comment link configurations of the project. The name of
 the comment link configuration is mapped to a link:#commentlink-info[
 CommentlinkInfo] entity.
-|`plugin_config`                           |optional|
+|`plugin_config`                                    |optional|
 Plugin configuration as map which maps the plugin name to a map of
 parameter names to link:#config-parameter-info[ConfigParameterInfo]
 entities. Only filled for users who have read access to `refs/meta/config`.
-|`actions`                                 |optional|
+|`actions`                                          |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
-|`reject_empty_commit`                     |optional|
+|`reject_empty_commit`                              |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`skip_adding_author_and_committer_as_reviewers`    |optional|
+Whether to skip adding the Git commit author and commiter as reviewers for a new change.
 |=======================================================
 
 [[config-input]]

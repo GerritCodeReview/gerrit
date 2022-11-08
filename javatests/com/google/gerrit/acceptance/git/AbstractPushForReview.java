@@ -1169,6 +1169,27 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterWithForgedAuthorAndCommitter_skipAddingAuthorAndCommitterAsReviewers()
+      throws Exception {
+    setSkipAddingAuthorAndCommitterAsReviewers(InheritableBoolean.TRUE);
+    TestAccount user2 = accountCreator.user2();
+    // Create a commit with different forged author and committer.
+    RevCommit c =
+        commitBuilder()
+            .author(user.newIdent())
+            .committer(user2.newIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
+    // Push commit as "Administrator".
+    pushHead(testRepo, "refs/for/master");
+
+    String changeId = GitUtil.getChangeId(testRepo, c).get();
+    assertThat(getOwnerEmail(changeId)).isEqualTo(admin.email());
+    assertThat(getReviewerEmails(changeId, ReviewerState.CC)).isEmpty();
+  }
+
+  @Test
   public void pushForMasterWithNonExistingForgedAuthorAndCommitter() throws Exception {
     // Create a commit with different forged author and committer.
     RevCommit c =

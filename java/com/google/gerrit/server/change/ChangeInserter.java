@@ -32,6 +32,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
@@ -653,6 +654,9 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private ImmutableList<InternalReviewerInput> getReviewerInputs() {
+    if (projectState.is(BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS)) {
+      return reviewerInputs;
+    }
     return Streams.concat(
             reviewerInputs.stream(),
             Streams.stream(

@@ -178,6 +178,14 @@ public interface ChangeApi {
   /** Rebase the current revision of a change. */
   void rebase(RebaseInput in) throws RestApiException;
 
+  /** Rebase the current revisions of a change's chain using default options. */
+  default void rebaseChain() throws RestApiException {
+    rebaseChain(new RebaseInput());
+  }
+
+  /** Rebase the current revisions of a change's chain. */
+  void rebaseChain(RebaseInput in) throws RestApiException;
+
   /** Deletes a change. */
   void delete() throws RestApiException;
 
@@ -630,6 +638,11 @@ public interface ChangeApi {
 
     @Override
     public void rebase(RebaseInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void rebaseChain(RebaseInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

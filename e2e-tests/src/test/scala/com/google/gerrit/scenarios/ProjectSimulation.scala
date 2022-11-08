@@ -14,12 +14,13 @@
 
 package com.google.gerrit.scenarios
 
+import static java.nio.charset.StandardCharsets.UTF_8
 import java.net.URLEncoder
 
 class ProjectSimulation extends GerritSimulation {
   projectName = "defaultTestProject"
 
   override def replaceOverride(in: String): String = {
-    replaceProperty("project", URLEncoder.encode(getFullProjectName(projectName), "UTF-8"), in)
+    replaceProperty("project", URLEncoder.encode(getFullProjectName(projectName), UTF_8, in)
   }
 }

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.entities;
 
-import java.io.UnsupportedEncodingException;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.util.Arrays;
 
 public class KeyUtil {
@@ -49,13 +50,7 @@ public class KeyUtil {
   }
 
   public static String encode(final String key) {
-    final byte[] b;
-    try {
-      b = key.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalStateException("No UTF-8 support", e);
-    }
-
+    final byte[] b = key.getBytes(UTF_8);
     final StringBuilder r = new StringBuilder(b.length);
     for (int i = 0; i < b.length; i++) {
       final int c = b[i] & 0xff;
@@ -99,10 +94,6 @@ public class KeyUtil {
     } catch (ArrayIndexOutOfBoundsException err) {
       throw new IllegalArgumentException("Bad encoding" + key, err);
     }
-    try {
-      return new String(b, 0, bPtr, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalStateException("No UTF-8 support", e);
-    }
+    return new String(b, 0, bPtr, UTF_8);
   }
 }

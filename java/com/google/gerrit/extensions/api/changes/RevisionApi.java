@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -65,6 +66,12 @@ public interface RevisionApi {
   ChangeApi rebase(RebaseInput in) throws RestApiException;
 
   ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException;
+
+  default RebaseChainInfo rebaseChain() throws RestApiException {
+    return rebaseChain(new RebaseInput());
+  }
+
+  RebaseChainInfo rebaseChain(RebaseInput in) throws RestApiException;
 
   boolean canRebase() throws RestApiException;
 
@@ -230,6 +237,11 @@ public interface RevisionApi {
 
     @Override
     public ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RebaseChainInfo rebaseChain(RebaseInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

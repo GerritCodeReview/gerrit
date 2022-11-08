@@ -16,6 +16,23 @@
       "message": "could you add a test involving \u003e1 slice for a project so that we have concurrency on the same project",
       "revId": "25378b3c7a899ce4f6461a690a93c92a6ecc6f6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e08493f1_865c6242",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-08T14:09:58Z",
+      "side": 1,
+      "message": "You did another successful manual test on our test server with a copy of production data. Hence I approve this now to unblock Luca creating the next 3.5.x release. An automated test can be added on top.",
+      "revId": "25378b3c7a899ce4f6461a690a93c92a6ecc6f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

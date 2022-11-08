@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4c2704_6c1a1a6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-08T06:55:59Z",
+      "side": 1,
+      "message": "have you reverted the virtual of commit on master?",
+      "revId": "73713c9e05b2d3d143a4c2c385cfe4f432743c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -113,6 +113,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
+    post(CHANGE_KIND, "rebase_chain").to(Rebase.Chain.class);
     post(CHANGE_KIND, "index").to(Index.class);
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "private").to(PostPrivate.class);

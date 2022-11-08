@@ -20,10 +20,14 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
@@ -33,6 +37,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,6 +96,17 @@ public class DefaultMemoryCacheFactoryTest {
     assertThat(cacheValue.get()).isEqualTo(TEST_CACHE_KEY);
   }
 
+  @Test
+  public void shouldLoadAllKeysWithDisabledCache() throws Exception {
+    LoadingCache<Integer, Integer> disabledCache =
+        memoryCacheFactory.build(newCacheDef(0), newCacheLoader(identity()), CacheBackend.CAFFEINE);
+
+    List<Integer> keys = Arrays.asList(1, 2);
+    ImmutableMap<Integer, Integer> entries = disabledCache.getAll(keys);
+
+    assertThat(entries).containsExactly(1, 1, 2, 2);
+  }
+
   private void assertCacheEvictionIsNotBlocking(LoadingCache<Integer, Integer> disabledCache)
       throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException {
     ScheduledFuture<Integer> cacheValue =
@@ -119,6 +136,12 @@ public class DefaultMemoryCacheFactoryTest {
         } catch (TimeoutException | BrokenBarrierException e) {
         }
         return v;
+      }
+
+      @Override
+      public Map<Integer, Integer> loadAll(Iterable<? extends Integer> keys) throws Exception {
+        return StreamSupport.stream(keys.spliterator(), false)
+            .collect(Collectors.toMap(identity(), identity()));
       }
     };
   }

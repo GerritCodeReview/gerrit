@@ -123,7 +123,7 @@ public class PassthroughLoadingCache<K, V> implements LoadingCache<K, V> {
 
   @SuppressWarnings("unchecked")
   public ImmutableMap<K, V> getAllBulk(Iterable<? extends K> keys) throws Exception {
-    return (ImmutableMap<K, V>) cacheLoader.loadAll(keys);
+    return (ImmutableMap<K, V>) ImmutableMap.copyOf(cacheLoader.loadAll(keys));
   }
 
   @Override

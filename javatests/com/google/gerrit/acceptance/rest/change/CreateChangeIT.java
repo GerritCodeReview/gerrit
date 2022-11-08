@@ -57,8 +57,10 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -491,6 +493,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(info.reviewers.get(ReviewerState.CC)).email)
         .isEqualTo(user.email());
     assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void createAuthorNotAddedAsCcWithAvoidAddingOriginalAuthorAsReviewer() throws Exception {
+    ConfigInput config = new ConfigInput();
+    config.avoidAddingOriginalAuthorAsReviewer = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(config);
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.email = user.email();
+    input.author.name = user.fullName();
+
+    ChangeInfo info = assertCreateSucceeds(input);
+    assertThat(info.reviewers).isEmpty();
   }
 
   @Test

@@ -40,6 +40,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public InheritedBooleanInfo rejectEmptyCommit;
+  public InheritedBooleanInfo avoidAddingOriginalAuthorAsReviewer;
 
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   @Deprecated // Equivalent to defaultSubmitType.value

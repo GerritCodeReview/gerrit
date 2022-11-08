@@ -16,7 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -55,7 +55,7 @@ public class SchemaModule extends FactoryModule {
         .toProvider(GerritServerIdProvider.class)
         .in(SINGLETON);
 
-    bind(new TypeLiteral<ImmutableSet<String>>() {})
+    bind(new TypeLiteral<ImmutableList<String>>() {})
         .annotatedWith(GerritImportedServerIds.class)
         .toProvider(GerritImportedServerIdsProvider.class)
         .in(SINGLETON);

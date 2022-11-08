@@ -90,7 +90,8 @@ export class GrRepoCommands extends LitElement {
       sharedStyles,
       modalStyles,
       css`
-        #form h2 {
+        #form h2,
+        h3 {
           margin-top: var(--spacing-xxl);
         }
         p {

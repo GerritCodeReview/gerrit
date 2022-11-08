@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -23,9 +25,11 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -49,12 +53,19 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.submit.ChangeSet;
+import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -102,6 +113,54 @@ public class Rebase
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
+    ImmutableList<ChangeInfo> infos = rebaseAll(ImmutableList.of(rsrc), input);
+    return Response.ok(infos.get(0));
+  }
+
+  public ImmutableList<ChangeInfo> rebaseAll(List<RevisionResource> rsrcs, RebaseInput input)
+      throws UpdateException, RestApiException, IOException, PermissionBackendException {
+    for (RevisionResource rsrc : rsrcs) {
+      checkRebasePermissions(rsrc);
+    }
+
+    Project.NameKey project = rsrcs.get(0).getProject();
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter oi = repo.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk rw = CodeReviewCommit.newRevWalk(reader);
+        BatchUpdate bu =
+            updateFactory.create(
+                rsrcs.get(0).getProject(), rsrcs.get(0).getUser(), TimeUtil.now())) {
+      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
+      bu.setNotify(NotifyResolver.Result.none());
+      bu.setRepository(repo, rw, oi);
+
+      Map<Change.Id, RebaseChangeOp> rebaseOps = new HashMap<>();
+      for (RevisionResource rsrc : rsrcs) {
+        Change change = rsrc.getChange();
+        RebaseChangeOp rebaseOp = getRebaseOp(rsrc, repo, rw, input);
+        rebaseOps.put(change.getId(), rebaseOp);
+        bu.addOp(change.getId(), rebaseOp);
+      }
+      bu.execute();
+
+      List<ChangeInfo> infos = new ArrayList<>();
+      for (Map.Entry<Change.Id, RebaseChangeOp> idAndOp : rebaseOps.entrySet()) {
+        ChangeInfo changeInfo = json.create(OPTIONS).format(project, idAndOp.getKey());
+        // getRebasedCommit() is only valid after updateRepo.
+        changeInfo.containsGitConflicts =
+            !idAndOp.getValue().getRebasedCommit().getFilesWithGitConflicts().isEmpty()
+                ? true
+                : null;
+        infos.add(changeInfo);
+      }
+
+      return infos.stream().collect(toImmutableList());
+    }
+  }
+
+  private void checkRebasePermissions(RevisionResource rsrc)
+      throws ResourceConflictException, AuthException, PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
@@ -110,38 +169,23 @@ public class Rebase
         .get(rsrc.getProject())
         .orElseThrow(illegalState(rsrc.getProject()))
         .checkStatePermitsWrite();
+  }
 
+  private RebaseChangeOp getRebaseOp(
+      RevisionResource rsrc, Repository repo, RevWalk rw, RebaseInput input)
+      throws RestApiException, IOException, PermissionBackendException {
     Change change = rsrc.getChange();
-    try (Repository repo = repoManager.openRepository(change.getProject());
-        ObjectInserter oi = repo.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk rw = CodeReviewCommit.newRevWalk(reader);
-        BatchUpdate bu =
-            updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      if (!change.isNew()) {
-        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-      } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
-        throw new ResourceConflictException(
-            "cannot rebase merge commits or commit with no ancestor");
-      }
-      RebaseChangeOp rebaseOp =
-          rebaseFactory
-              .create(rsrc.getNotes(), rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
-              .setForceContentMerge(true)
-              .setAllowConflicts(input.allowConflicts)
-              .setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions))
-              .setFireRevisionCreated(true);
-      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
-      bu.setNotify(NotifyResolver.Result.none());
-      bu.setRepository(repo, rw, oi);
-      bu.addOp(change.getId(), rebaseOp);
-      bu.execute();
-
-      ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
-      changeInfo.containsGitConflicts =
-          !rebaseOp.getRebasedCommit().getFilesWithGitConflicts().isEmpty() ? true : null;
-      return Response.ok(changeInfo);
+    if (!change.isNew()) {
+      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+    } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
+      throw new ResourceConflictException("cannot rebase merge commits or commit with no ancestor");
     }
+    return rebaseFactory
+        .create(rsrc.getNotes(), rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
+        .setForceContentMerge(true)
+        .setAllowConflicts(input.allowConflicts)
+        .setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions))
+        .setFireRevisionCreated(true);
   }
 
   private ObjectId findBaseRev(
@@ -284,6 +328,47 @@ public class Rebase
         throw new ResourceConflictException("current revision is missing");
       }
       return Response.ok(rebase.apply(new RevisionResource(rsrc, ps), input).value());
+    }
+  }
+
+  public static class Chain implements RestModifyView<ChangeResource, RebaseInput> {
+    private final PatchSetUtil psUtil;
+    private final Rebase rebase;
+    private final Provider<MergeSuperSet> mergeSuperSet;
+    private final ChangeResource.Factory changeResourceFactory;
+
+    @Inject
+    Chain(
+        PatchSetUtil psUtil,
+        Rebase rebase,
+        Provider<MergeSuperSet> mergeSuperSet,
+        ChangeResource.Factory changeResourceFactory) {
+      this.psUtil = psUtil;
+      this.rebase = rebase;
+      this.mergeSuperSet = mergeSuperSet;
+      this.changeResourceFactory = changeResourceFactory;
+    }
+
+    @Override
+    public Response<RebaseChainInfo> apply(ChangeResource rsrc, RebaseInput input)
+        throws RestApiException, UpdateException, IOException, PermissionBackendException {
+      ChangeSet cs =
+          mergeSuperSet
+              .get()
+              .completeChangeSet(
+                  rsrc.getChange(), rsrc.getUser(), /*includingTopicClosure= */ false);
+      List<RevisionResource> rsrcs = new ArrayList<>();
+      for (ChangeData change : cs.changes()) {
+        PatchSet ps = psUtil.current(change.notes());
+        if (ps == null) {
+          throw new ResourceConflictException(
+              "current revision is missing for change " + change.getId());
+        }
+        rsrcs.add(new RevisionResource(changeResourceFactory.create(change, rsrc.getUser()), ps));
+      }
+      RebaseChainInfo res = new RebaseChainInfo();
+      res.rebasedChanges = rebase.rebaseAll(rsrcs, input);
+      return Response.ok(res);
     }
   }
 }

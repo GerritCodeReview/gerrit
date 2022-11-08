@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8382774_f74791fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-08T13:59:16Z",
+      "side": 1,
+      "message": "I tried typing this as HTMLUListElement but still requires casting all children as HTMLElement. 😞",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "3136ae6534bf969b8a2a8e3666414b561e1ff4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22fc1774_790dd837",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-08T13:59:16Z",
+      "side": 1,
+      "message": "this is a really bad cast.\nAny chance this can be improved? Maybe create an element with this desired property?\nFeel free to skip if this is too much effort. Just wanted an ack on this.",
+      "range": {
+        "startLine": 319,
+        "startChar": 26,
+        "endLine": 319,
+        "endChar": 59
+      },
+      "revId": "3136ae6534bf969b8a2a8e3666414b561e1ff4ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

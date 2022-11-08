@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f14bd890_1aca09ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-08T14:37:09Z",
+      "side": 1,
+      "message": "The footer is missing:\n\n``` \n  Forward-Compatible: checked\n```",
+      "revId": "41c62c0104549fa9b2a4fa29b8b6debd7fcd29fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

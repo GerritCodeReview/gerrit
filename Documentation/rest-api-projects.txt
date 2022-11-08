@@ -3907,6 +3907,8 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`avoid_adding_original_author_as_reviewer`      |optional|
+Whether to add the Git commit author and commiter as reviewers for a new change.
 |=======================================================
 
 [[config-input]]

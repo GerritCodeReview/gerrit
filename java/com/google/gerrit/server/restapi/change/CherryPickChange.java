@@ -471,7 +471,6 @@ public class CherryPickChange {
       Set<Account.Id> reviewers =
           new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
       reviewers.add(sourceChange.getOwner());
-      reviewers.remove(user.get().getAccountId());
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
       ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);

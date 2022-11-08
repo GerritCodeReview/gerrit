@@ -41,6 +41,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -314,7 +315,7 @@ public class CommitUtil {
             .create(changeId, revertCommit, notes.getChange().getDest().branch())
             .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
     ins.setMessage("Uploaded patch set 1.");
-    ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
+    ins.setValidationOptions(ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
 
     ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
@@ -337,20 +338,6 @@ public class CommitUtil {
       bu.execute();
     }
     return changeId;
-  }
-
-  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
-      @Nullable Map<String, String> validationOptions) {
-    if (validationOptions == null) {
-      return ImmutableListMultimap.of();
-    }
-
-    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
-        ImmutableListMultimap.builder();
-    validationOptions
-        .entrySet()
-        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
-    return validationOptionsBuilder.build();
   }
 
   private class NotifyOp implements BatchUpdateOp {

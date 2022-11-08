@@ -27,12 +27,14 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -177,6 +179,16 @@ public interface ChangeApi {
 
   /** Rebase the current revision of a change. */
   void rebase(RebaseInput in) throws RestApiException;
+
+  /** Rebase the current revisions of a change's chain using default options.
+   * @return a {@code RebaseChainInfo} contains the {@code ChangeInfo} data for the rebased the chain */
+  default Response<RebaseChainInfo> rebaseChain() throws RestApiException {
+    return rebaseChain(new RebaseInput());
+  }
+
+  /** Rebase the current revisions of a change's chain.
+   * @return a {@code RebaseChainInfo} contains the {@code ChangeInfo} data for the rebased the chain */
+  Response<RebaseChainInfo> rebaseChain(RebaseInput in) throws RestApiException;
 
   /** Deletes a change. */
   void delete() throws RestApiException;
@@ -630,6 +642,11 @@ public interface ChangeApi {
 
     @Override
     public void rebase(RebaseInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Response<RebaseChainInfo> rebaseChain(RebaseInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

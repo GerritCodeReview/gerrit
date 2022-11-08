@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
@@ -100,6 +101,7 @@ import com.google.gerrit.server.restapi.change.PutAssignee;
 import com.google.gerrit.server.restapi.change.PutMessage;
 import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.server.restapi.change.Rebase;
+import com.google.gerrit.server.restapi.change.RebaseChain;
 import com.google.gerrit.server.restapi.change.Restore;
 import com.google.gerrit.server.restapi.change.Revert;
 import com.google.gerrit.server.restapi.change.RevertSubmission;
@@ -144,6 +146,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ApplyPatch applyPatch;
   private final Provider<SubmittedTogether> submittedTogether;
   private final Rebase.CurrentRevision rebase;
+  private final RebaseChain.CurrentRevision rebaseChain;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
@@ -197,6 +200,7 @@ class ChangeApiImpl implements ChangeApi {
       ApplyPatch applyPatch,
       Provider<SubmittedTogether> submittedTogether,
       Rebase.CurrentRevision rebase,
+      RebaseChain.CurrentRevision rebaseChain,
       DeleteChange deleteChange,
       GetTopic getTopic,
       PutTopic putTopic,
@@ -248,6 +252,7 @@ class ChangeApiImpl implements ChangeApi {
     this.applyPatch = applyPatch;
     this.submittedTogether = submittedTogether;
     this.rebase = rebase;
+    this.rebaseChain = rebaseChain;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
@@ -423,6 +428,15 @@ class ChangeApiImpl implements ChangeApi {
       rebase.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase change", e);
+    }
+  }
+
+  @Override
+  public Response<RebaseChainInfo> rebaseChain(RebaseInput in) throws RestApiException {
+    try {
+      return rebaseChain.apply(change, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase chain", e);
     }
   }
 

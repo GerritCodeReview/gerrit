@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -22,12 +24,20 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
@@ -55,6 +65,100 @@ public class RebaseUtil {
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
+  }
+
+  public static ObjectId findBaseRevision(
+      Repository repo,
+      RevWalk rw,
+      RebaseUtil rebaseUtil,
+      PermissionBackend permissionBackend,
+      RevisionResource rsrc,
+      RebaseInput input)
+      throws RestApiException, IOException, NoSuchChangeException, AuthException,
+      PermissionBackendException {
+    BranchNameKey destRefKey = rsrc.getChange().getDest();
+    if (input == null || input.base == null) {
+      return rebaseUtil.findBaseRevision(rsrc.getPatchSet(), destRefKey, repo, rw);
+    }
+
+    Change change = rsrc.getChange();
+    String str = input.base.trim();
+    if (str.equals("")) {
+      // Remove existing dependency to other patch set.
+      Ref destRef = repo.exactRef(destRefKey.branch());
+      if (destRef == null) {
+        throw new ResourceConflictException(
+            "can't rebase onto tip of branch " + destRefKey.branch() + "; branch doesn't exist");
+      }
+      return destRef.getObjectId();
+    }
+
+    Base base;
+    try {
+      base = rebaseUtil.parseBase(rsrc, str);
+      if (base == null) {
+        throw new ResourceConflictException(
+            "base revision is missing from the destination branch: " + str);
+      }
+    } catch (NoSuchChangeException e) {
+      throw new UnprocessableEntityException(
+          String.format("Base change not found: %s", input.base), e);
+    }
+
+    PatchSet.Id baseId = base.patchSet().id();
+    if (change.getId().equals(baseId.changeId())) {
+      throw new ResourceConflictException("cannot rebase change onto itself");
+    }
+
+    permissionBackend.user(rsrc.getUser()).change(base.notes()).check(ChangePermission.READ);
+
+    Change baseChange = base.notes().getChange();
+    if (!baseChange.getProject().equals(change.getProject())) {
+      throw new ResourceConflictException(
+          "base change is in wrong project: " + baseChange.getProject());
+    } else if (!baseChange.getDest().equals(change.getDest())) {
+      throw new ResourceConflictException(
+          "base change is targeting wrong branch: " + baseChange.getDest());
+    } else if (baseChange.isAbandoned()) {
+      throw new ResourceConflictException("base change is abandoned: " + baseChange.getKey());
+    } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
+      throw new ResourceConflictException(
+          "base change "
+              + baseChange.getKey()
+              + " is a descendant of the current change - recursion not allowed");
+    }
+    return base.patchSet().commitId();
+  }
+
+  private static boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {
+    ObjectId baseId = base.commitId();
+    ObjectId tipId = tip.commitId();
+    return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
+  }
+
+  public static void verifyRebasePreconditions(
+      ProjectCache projectCache, PatchSetUtil patchSetUtil, RevWalk rw, RevisionResource rsrc)
+      throws ResourceConflictException, IOException, AuthException, PermissionBackendException {
+    // Not allowed to rebase if the current patch set is locked.
+    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
+
+    rsrc.permissions().check(ChangePermission.REBASE);
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
+
+    if (!rsrc.getChange().isNew()) {
+      throw new ResourceConflictException("change is " + ChangeUtil.status(rsrc.getChange()));
+    } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
+      throw new ResourceConflictException("cannot rebase merge commits or commit with no ancestor");
+    }
+  }
+
+  public static boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {
+    // Prevent rebase of exotic changes (merge commit, no ancestor).
+    RevCommit c = rw.parseCommit(ps.commitId());
+    return c.getParentCount() == 1;
   }
 
   public boolean canRebase(PatchSet patchSet, BranchNameKey dest, Repository git, RevWalk rw) {

@@ -42,6 +42,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.ResetCherryPickOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
+import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.CommitUtil;
@@ -403,7 +404,7 @@ public class CherryPickChange {
     if (shouldSetToReady(cherryPickCommit, destNotes, workInProgress)) {
       inserter.setWorkInProgress(false);
     }
-    inserter.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
+    inserter.setValidationOptions(ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
     bu.addOp(destChange.getId(), inserter);
     PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
@@ -454,7 +455,7 @@ public class CherryPickChange {
           (sourceChange != null && sourceChange.isWorkInProgress())
               || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
     }
-    ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
+    ins.setValidationOptions(ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     ins.setMessage(
@@ -496,20 +497,6 @@ public class CherryPickChange {
     }
     bu.insertChange(ins);
     return changeId;
-  }
-
-  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
-      @Nullable Map<String, String> validationOptions) {
-    if (validationOptions == null) {
-      return ImmutableListMultimap.of();
-    }
-
-    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
-        ImmutableListMultimap.builder();
-    validationOptions
-        .entrySet()
-        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
-    return validationOptionsBuilder.build();
   }
 
   private NotifyResolver.Result resolveNotify(CherryPickInput input)

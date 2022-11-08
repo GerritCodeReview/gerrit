@@ -113,6 +113,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
+    post(CHANGE_KIND, "rebase_chain").to(RebaseChain.CurrentRevision.class);
     post(CHANGE_KIND, "index").to(Index.class);
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "private").to(PostPrivate.class);
@@ -144,6 +145,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
+    post(REVISION_KIND, "rebase_chain").to(RebaseChain.class);
     put(REVISION_KIND, "description").to(PutDescription.class);
     get(REVISION_KIND, "description").to(GetDescription.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);

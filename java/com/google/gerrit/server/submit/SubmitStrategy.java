@@ -34,7 +34,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.LabelNormalizer;
-import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.RebaseOp.RebaseChangeOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;

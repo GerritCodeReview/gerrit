@@ -25,12 +25,9 @@
       "updated": "2022-11-08T02:38:42Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-69/2323/console",
-      "started": "2022-11-08T01:55:12Z",
-      "finished": "2022-11-08T02:30:14Z",
+      "state": "NOT_STARTED",
       "created": "2022-11-08T01:30:20Z",
-      "updated": "2022-11-08T02:30:15Z"
+      "updated": "2022-11-08T02:41:18Z"
     }
   }
 }

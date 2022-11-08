@@ -150,6 +150,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.events.AttentionSetListener;
@@ -786,15 +787,15 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void rebaseViaRevisionApi() throws Exception {
-    testRebase(id -> gApi.changes().id(id).current().rebase());
+    testRebaseChange(id -> gApi.changes().id(id).current().rebase());
   }
 
   @Test
   public void rebaseViaChangeApi() throws Exception {
-    testRebase(id -> gApi.changes().id(id).rebase());
+    testRebaseChange(id -> gApi.changes().id(id).rebase());
   }
 
-  private void testRebase(Rebase rebase) throws Exception {
+  private void testRebaseChange(Rebase rebase) throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -808,33 +809,234 @@ public class ChangeIT extends AbstractDaemonTest {
     // Add an approval whose score should be copied on trivial rebase
     gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
 
-    String changeId = r2.getChangeId();
     // Rebase the second change
-    rebase.call(changeId);
+    rebase.call(r2.getChangeId());
 
-    // Second change should have 2 patch sets and an approval
-    ChangeInfo c2 = gApi.changes().id(changeId).get(CURRENT_REVISION, DETAILED_LABELS);
-    assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
+    verifyRebaseForChange(r2.getChange().getId(), r.getCommit().name(), true);
+
+    // Rebasing the second change again should fail
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().rebase());
+    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
+  }
+
+  void verifyRebaseForChange(Change.Id changeId, Change.Id baseChangeId, boolean shouldHaveApproval)
+      throws RestApiException {
+    ChangeInfo baseInfo = gApi.changes().id(baseChangeId.get()).get(CURRENT_REVISION);
+    verifyRebaseForChange(changeId, baseInfo.currentRevision, shouldHaveApproval);
+  }
+
+  void verifyRebaseForChange(Change.Id changeId, String baseCommit, boolean shouldHaveApproval)
+      throws RestApiException {
+    ChangeInfo info =
+        gApi.changes().id(changeId.get()).get(CURRENT_REVISION, CURRENT_COMMIT, DETAILED_LABELS);
+
+    // The change should have 2 patch sets and an approval
+    RevisionInfo r = info.revisions.get(info.currentRevision);
+    assertThat(r._number).isEqualTo(2);
+
+    // ...and the base should be correct
+    assertThat(r.commit.parents).hasSize(1);
+    assertWithMessage("base commit for change " + changeId)
+        .that(r.commit.parents.get(0).commit)
+        .isEqualTo(baseCommit);
 
     // ...and the committer and description should be correct
-    ChangeInfo info = gApi.changes().id(changeId).get(CURRENT_REVISION, CURRENT_COMMIT);
     GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
     assertThat(committer.name).isEqualTo(admin.fullName());
     assertThat(committer.email).isEqualTo(admin.email());
     String description = info.revisions.get(info.currentRevision).description;
     assertThat(description).isEqualTo("Rebase");
 
-    // ...and the approval was copied
-    LabelInfo cr = c2.labels.get(LabelId.CODE_REVIEW);
-    assertThat(cr).isNotNull();
-    assertThat(cr.all).hasSize(1);
-    assertThat(cr.all.get(0).value).isEqualTo(1);
+    if (shouldHaveApproval) {
+      // ...and the approval was copied
+      LabelInfo cr = info.labels.get(LabelId.CODE_REVIEW);
+      assertThat(cr).isNotNull();
+      assertThat(cr.all).isNotNull();
+      assertThat(cr.all).hasSize(1);
+      assertThat(cr.all.get(0).value).isEqualTo(1);
+    }
+  }
 
-    // Rebasing the second change again should fail
-    ResourceConflictException thrown =
+  @Test
+  public void rebaseChain_success() throws Exception {
+    // Create changes with the following hierarchy:
+    // * HEAD
+    //   * r1
+    //   * r2
+    //     * r3
+    //       * r4
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+    PushOneCommit.Result r3 = createChange();
+    PushOneCommit.Result r4 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    // Add an approval whose score should be copied on trivial rebase
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+    gApi.changes().id(r3.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the chain through the child change
+    gApi.changes().id(r4.getChangeId()).rebaseChain();
+
+    verifyRebaseForChange(r2.getChange().getId(), r.getCommit().name(), true);
+    verifyRebaseForChange(r3.getChange().getId(), r2.getChange().getId(), true);
+    verifyRebaseForChange(r4.getChange().getId(), r3.getChange().getId(), false);
+
+    // Rebasing the 2nd change again should fail
+    ResourceConflictException c2thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().rebase());
-    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().rebase());
+    assertThat(c2thrown).hasMessageThat().contains("Change is already up to date");
+
+    // Rebasing the 3rd change again should fail
+    ResourceConflictException c3thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r3.getChangeId()).current().rebase());
+    assertThat(c3thrown)
+        .hasMessageThat()
+        .contains("Change is already based on the latest patch set of the dependent change");
+  }
+
+  @Test
+  public void rebaseChainWithConflicts_conflictsForbidden() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME,
+            "other content",
+            "I0020020020020020020020020020020020020002");
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+    PushOneCommit.Result r3 = createChange("refs/for/master");
+    r3.assertOkStatus();
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes().id(r3.getChangeId()).revision(r3.getCommit().name()).rebaseChain());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "The change could not be rebased due to a conflict during merge.\n\n"
+                    + "merge conflict(s):\n%s",
+                PushOneCommit.FILE_NAME));
+  }
+
+  @Test
+  public void rebaseChainWithConflicts_conflictsAllowed() throws Exception {
+    String patchSetSubject = "patch set change";
+    String patchSetContent = "patch set content";
+    String baseSubject = "base change";
+    String baseContent = "base content";
+
+    PushOneCommit.Result r1 = createChange(baseSubject, PushOneCommit.FILE_NAME, baseContent);
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+    testRepo.reset("HEAD~1");
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, patchSetSubject, PushOneCommit.FILE_NAME, patchSetContent);
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+
+    String changeWithConflictId = r2.getChangeId();
+    RevCommit patchSet = r2.getCommit();
+    RevCommit base = r1.getCommit();
+    PushOneCommit.Result r3 = createChange("refs/for/master");
+    r3.assertOkStatus();
+
+    TestWorkInProgressStateChangedListener wipStateChangedListener =
+        new TestWorkInProgressStateChangedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+      RebaseInput rebaseInput = new RebaseInput();
+      rebaseInput.allowConflicts = true;
+      RebaseChainInfo rebaseChainInfo =
+          gApi.changes().id(r3.getChangeId()).rebaseChain(rebaseInput).value();
+      assertThat(rebaseChainInfo.containsGitConflicts).isTrue();
+      assertThat(rebaseChainInfo.rebasedChanges).hasSize(2);
+      ChangeInfo changeWithConflictInfo = rebaseChainInfo.rebasedChanges.get(0);
+      assertThat(changeWithConflictInfo.changeId).isEqualTo(r2.getChangeId());
+      assertThat(changeWithConflictInfo.containsGitConflicts).isTrue();
+      assertThat(changeWithConflictInfo.workInProgress).isTrue();
+      ChangeInfo childChangeInfo = rebaseChainInfo.rebasedChanges.get(1);
+      assertThat(childChangeInfo.changeId).isEqualTo(r3.getChangeId());
+      assertThat(childChangeInfo.containsGitConflicts).isTrue();
+      assertThat(childChangeInfo.workInProgress).isTrue();
+    }
+    assertThat(wipStateChangedListener.invoked).isTrue();
+    assertThat(wipStateChangedListener.wip).isTrue();
+
+    // To get the revisions, we must retrieve the change with more change options.
+    ChangeInfo changeInfo =
+        gApi.changes()
+            .id(changeWithConflictId)
+            .get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+    assertThat(changeInfo.revisions).hasSize(2);
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+        .isEqualTo(base.name());
+
+    // Verify that the file content in the created patch set is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin =
+        gApi.changes().id(changeWithConflictId).current().file(PushOneCommit.FILE_NAME).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    String patchSetSha1 = abbreviateName(patchSet, 6);
+    String baseSha1 = abbreviateName(base, 6);
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< PATCH SET ("
+                + patchSetSha1
+                + " "
+                + patchSetSubject
+                + ")\n"
+                + patchSetContent
+                + "\n"
+                + "=======\n"
+                + baseContent
+                + "\n"
+                + ">>>>>>> BASE      ("
+                + baseSha1
+                + " "
+                + baseSubject
+                + ")\n");
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeWithConflictId).messages();
+    assertThat(messages).hasSize(2);
+    assertThat(Iterables.getLast(messages).message)
+        .isEqualTo(
+            "Patch Set 2: Patch Set 1 was rebased\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + PushOneCommit.FILE_NAME
+                + "\n");
   }
 
   @Test
@@ -1481,7 +1683,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseConflict() throws Exception {
+  public void rebaseConflict_conflictsForbidden() throws Exception {
     PushOneCommit.Result r1 = createChange();
     gApi.changes()
         .id(r1.getChangeId())

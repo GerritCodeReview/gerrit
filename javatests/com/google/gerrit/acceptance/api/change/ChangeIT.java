@@ -784,9 +784,19 @@ public class ChangeIT extends AbstractDaemonTest {
     // Rebase the second change
     rebase.call(changeId);
 
-    // Second change should have 2 patch sets and an approval
-    ChangeInfo c2 = gApi.changes().id(changeId).get(CURRENT_REVISION, DETAILED_LABELS);
-    assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
+    verifyRebaseForChange(changeId, true);
+
+    // Rebasing the second change again should fail
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().rebase());
+    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
+  }
+
+  void verifyRebaseForChange(String changeId, boolean shouldHaveApproval) throws RestApiException {
+    // The change should have 2 patch sets and an approval
+    ChangeInfo c = gApi.changes().id(changeId).get(CURRENT_REVISION, DETAILED_LABELS);
+    assertThat(c.revisions.get(c.currentRevision)._number).isEqualTo(2);
 
     // ...and the committer and description should be correct
     ChangeInfo info = gApi.changes().id(changeId).get(CURRENT_REVISION, CURRENT_COMMIT);
@@ -797,16 +807,53 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(description).isEqualTo("Rebase");
 
     // ...and the approval was copied
-    LabelInfo cr = c2.labels.get(LabelId.CODE_REVIEW);
+    LabelInfo cr = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(cr).isNotNull();
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(1);
+  }
 
-    // Rebasing the second change again should fail
-    ResourceConflictException thrown =
+  @Test
+  public void rebaseChain() throws Exception {
+    // Create changes with the following hierarchy:
+    // * HEAD
+    //   * r1
+    //   * r2
+    //     * r3
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+    PushOneCommit.Result r3 = createChange();
+    PushOneCommit.Result r4 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    // Add an approval whose score should be copied on trivial rebase
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+    gApi.changes().id(r3.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the chain through the child change
+    gApi.changes().id(r4.getChangeId()).rebaseChain();
+
+    verifyRebaseForChange(r2.getChangeId(), true);
+    verifyRebaseForChange(r3.getChangeId(), true);
+
+    // Rebasing the 2nd change again should fail
+    ResourceConflictException c2thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().rebase());
-    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().rebase());
+    assertThat(c2thrown).hasMessageThat().contains("Change is already up to date");
+
+    // Rebasing the 3rd change again should fail
+    ResourceConflictException c3thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r3.getChangeId()).current().rebase());
+    assertThat(c3thrown).hasMessageThat().contains("Change is already up to date");
   }
 
   @Test

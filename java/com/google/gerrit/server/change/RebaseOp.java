@@ -1,17 +1,3 @@
-// Copyright (C) 2015 The Android Open Source Project
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -62,218 +48,57 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/**
- * BatchUpdate operation that rebases a change.
- *
- * <p>Can only be executed in a {@link com.google.gerrit.server.update.BatchUpdate} set has a {@link
- * CodeReviewRevWalk} set as {@link RevWalk} (set via {@link
- * com.google.gerrit.server.update.BatchUpdate#setRepository(org.eclipse.jgit.lib.Repository,
- * RevWalk, org.eclipse.jgit.lib.ObjectInserter)}).
- */
-public class RebaseChangeOp implements BatchUpdateOp {
-  public interface Factory {
-    RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
-  }
+public abstract class RebaseOp<RebaseOpSubclass extends RebaseOp<RebaseOpSubclass>>
+    implements BatchUpdateOp {
 
-  private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final MergeUtilFactory mergeUtilFactory;
-  private final RebaseUtil rebaseUtil;
-  private final ChangeResource.Factory changeResourceFactory;
-
-  private final ChangeNotes notes;
-  private final PatchSet originalPatchSet;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ProjectCache projectCache;
-
-  private ObjectId baseCommitId;
+  protected final PatchSetInserter.Factory patchSetInserterFactory;
+  protected final MergeUtilFactory mergeUtilFactory;
+  protected final RebaseUtil rebaseUtil;
+  protected final ChangeResource.Factory changeResourceFactory;
+  protected final ChangeNotes notes;
+  protected final PatchSet originalPatchSet;
+  protected final IdentifiedUser.GenericFactory identifiedUserFactory;
+  protected final ProjectCache projectCache;
+  protected ObjectId baseCommitId;
+  protected boolean fireRevisionCreated = true;
+  protected boolean validate = true;
+  protected boolean checkAddPatchSetPermission = true;
+  protected boolean detailedCommitMessage;
+  protected boolean postMessage = true;
+  protected boolean sendEmail = true;
+  protected boolean storeCopiedVotes = true;
+  protected ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
+  protected CodeReviewCommit rebasedCommit;
+  protected PatchSet.Id rebasedPatchSetId;
+  protected PatchSetInserter patchSetInserter;
+  protected PatchSet rebasedPatchSet;
   private PersonIdent committerIdent;
-  private boolean fireRevisionCreated = true;
-  private boolean validate = true;
-  private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
   private boolean allowConflicts;
-  private boolean detailedCommitMessage;
-  private boolean postMessage = true;
-  private boolean sendEmail = true;
-  private boolean storeCopiedVotes = true;
   private boolean matchAuthorToCommitterDate = false;
-  private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
 
-  private CodeReviewCommit rebasedCommit;
-  private PatchSet.Id rebasedPatchSetId;
-  private PatchSetInserter patchSetInserter;
-  private PatchSet rebasedPatchSet;
-
-  @Inject
-  RebaseChangeOp(
+  public RebaseOp(
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtilFactory mergeUtilFactory,
       RebaseUtil rebaseUtil,
       ChangeResource.Factory changeResourceFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      ProjectCache projectCache,
       @Assisted ObjectId baseCommitId) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
     this.changeResourceFactory = changeResourceFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
-    this.projectCache = projectCache;
     this.notes = notes;
     this.originalPatchSet = originalPatchSet;
+    this.identifiedUserFactory = identifiedUserFactory;
+    this.projectCache = projectCache;
     this.baseCommitId = baseCommitId;
   }
 
-  public RebaseChangeOp setCommitterIdent(PersonIdent committerIdent) {
-    this.committerIdent = committerIdent;
-    return this;
-  }
-
-  public RebaseChangeOp setValidate(boolean validate) {
-    this.validate = validate;
-    return this;
-  }
-
-  public RebaseChangeOp setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
-    this.checkAddPatchSetPermission = checkAddPatchSetPermission;
-    return this;
-  }
-
-  public RebaseChangeOp setFireRevisionCreated(boolean fireRevisionCreated) {
-    this.fireRevisionCreated = fireRevisionCreated;
-    return this;
-  }
-
-  public RebaseChangeOp setForceContentMerge(boolean forceContentMerge) {
-    this.forceContentMerge = forceContentMerge;
-    return this;
-  }
-
-  /**
-   * Allows the rebase to succeed if there are conflicts.
-   *
-   * <p>This setting requires that {@link #forceContentMerge} is set {@code true}. If {@link
-   * #forceContentMerge} is {@code false} this setting has no effect.
-   *
-   * @see #setForceContentMerge(boolean)
-   */
-  public RebaseChangeOp setAllowConflicts(boolean allowConflicts) {
-    this.allowConflicts = allowConflicts;
-    return this;
-  }
-
-  public RebaseChangeOp setDetailedCommitMessage(boolean detailedCommitMessage) {
-    this.detailedCommitMessage = detailedCommitMessage;
-    return this;
-  }
-
-  public RebaseChangeOp setPostMessage(boolean postMessage) {
-    this.postMessage = postMessage;
-    return this;
-  }
-
-  /**
-   * We always want to store copied votes except when the change is getting submitted and a new
-   * patch-set is created on submit (using submit strategies such as "REBASE_ALWAYS"). In such
-   * cases, we already store the votes of the new patch-sets in SubmitStrategyOp#saveApprovals. We
-   * should not also store the copied votes.
-   */
-  public RebaseChangeOp setStoreCopiedVotes(boolean storeCopiedVotes) {
-    this.storeCopiedVotes = storeCopiedVotes;
-    return this;
-  }
-
-  public RebaseChangeOp setSendEmail(boolean sendEmail) {
-    this.sendEmail = sendEmail;
-    return this;
-  }
-
-  public RebaseChangeOp setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
-    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
-    return this;
-  }
-
-  public RebaseChangeOp setValidationOptions(
-      ImmutableListMultimap<String, String> validationOptions) {
-    requireNonNull(validationOptions, "validationOptions may not be null");
-    this.validationOptions = validationOptions;
-    return this;
-  }
-
-  @Override
-  public void updateRepo(RepoContext ctx)
-      throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
-          NoSuchChangeException, PermissionBackendException {
-    // Ok that originalPatchSet was not read in a transaction, since we just
-    // need its revision.
-    RevWalk rw = ctx.getRevWalk();
-    RevCommit original = rw.parseCommit(originalPatchSet.commitId());
-    rw.parseBody(original);
-    RevCommit baseCommit = rw.parseCommit(baseCommitId);
-    CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());
-
-    String newCommitMessage;
-    if (detailedCommitMessage) {
-      rw.parseBody(baseCommit);
-      newCommitMessage =
-          newMergeUtil()
-              .createCommitMessageOnSubmit(original, baseCommit, notes, originalPatchSet.id());
-    } else {
-      newCommitMessage = original.getFullMessage();
-    }
-
-    rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
-    Base base =
-        rebaseUtil.parseBase(
-            new RevisionResource(
-                changeResourceFactory.create(notes, changeOwner), originalPatchSet),
-            baseCommitId.name());
-
-    rebasedPatchSetId =
-        ChangeUtil.nextPatchSetIdFromChangeRefs(
-            ctx.getRepoView().getRefs(originalPatchSet.id().changeId().toRefPrefix()).keySet(),
-            notes.getChange().currentPatchSetId());
-    patchSetInserter =
-        patchSetInserterFactory
-            .create(notes, rebasedPatchSetId, rebasedCommit)
-            .setDescription("Rebase")
-            .setFireRevisionCreated(fireRevisionCreated)
-            .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
-            .setValidate(validate)
-            .setSendEmail(sendEmail)
-            // The votes are automatically copied and they don't count as copied votes. See
-            // method's javadoc.
-            .setStoreCopiedVotes(storeCopiedVotes);
-
-    if (!rebasedCommit.getFilesWithGitConflicts().isEmpty()
-        && !notes.getChange().isWorkInProgress()) {
-      patchSetInserter.setWorkInProgress(true);
-    }
-
-    patchSetInserter.setValidationOptions(validationOptions);
-
-    if (postMessage) {
-      patchSetInserter.setMessage(
-          messageForRebasedChange(rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));
-    }
-
-    if (base != null && !base.notes().getChange().isMerged()) {
-      if (!base.notes().getChange().isMerged()) {
-        // Add to end of relation chain for open base change.
-        patchSetInserter.setGroups(base.patchSet().groups());
-      } else {
-        // If the base is merged, start a new relation chain.
-        patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));
-      }
-    }
-
-    ctx.getRevWalk().getObjectReader().getCreatedFromInserter().flush();
-    patchSetInserter.updateRepo(ctx);
-  }
-
-  private static String messageForRebasedChange(
+  protected static String messageForRebasedChange(
       PatchSet.Id rebasePatchSetId, PatchSet.Id originalPatchSetId, CodeReviewCommit commit) {
     StringBuilder stringBuilder =
         new StringBuilder(
@@ -291,17 +116,80 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return stringBuilder.toString();
   }
 
-  @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, IOException, BadRequestException {
-    boolean ret = patchSetInserter.updateChange(ctx);
-    rebasedPatchSet = patchSetInserter.getPatchSet();
-    return ret;
+  public RebaseOpSubclass setCommitterIdent(PersonIdent committerIdent) {
+    this.committerIdent = committerIdent;
+    return (RebaseOpSubclass) this;
   }
 
-  @Override
-  public void postUpdate(PostUpdateContext ctx) {
-    patchSetInserter.postUpdate(ctx);
+  public RebaseOpSubclass setValidate(boolean validate) {
+    this.validate = validate;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
+    this.checkAddPatchSetPermission = checkAddPatchSetPermission;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setFireRevisionCreated(boolean fireRevisionCreated) {
+    this.fireRevisionCreated = fireRevisionCreated;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setForceContentMerge(boolean forceContentMerge) {
+    this.forceContentMerge = forceContentMerge;
+    return (RebaseOpSubclass) this;
+  }
+
+  /**
+   * Allows the rebase to succeed if there are conflicts.
+   *
+   * <p>This setting requires that {@link #forceContentMerge} is set {@code true}. If {@link
+   * #forceContentMerge} is {@code false} this setting has no effect.
+   *
+   * @see #setForceContentMerge(boolean)
+   */
+  public RebaseOpSubclass setAllowConflicts(boolean allowConflicts) {
+    this.allowConflicts = allowConflicts;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setDetailedCommitMessage(boolean detailedCommitMessage) {
+    this.detailedCommitMessage = detailedCommitMessage;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setPostMessage(boolean postMessage) {
+    this.postMessage = postMessage;
+    return (RebaseOpSubclass) this;
+  }
+
+  /**
+   * We always want to store copied votes except when the change is getting submitted and a new
+   * patch-set is created on submit (using submit strategies such as "REBASE_ALWAYS"). In such
+   * cases, we already store the votes of the new patch-sets in SubmitStrategyOp#saveApprovals. We
+   * should not also store the copied votes.
+   */
+  public RebaseOpSubclass setStoreCopiedVotes(boolean storeCopiedVotes) {
+    this.storeCopiedVotes = storeCopiedVotes;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
+    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setValidationOptions(
+      ImmutableListMultimap<String, String> validationOptions) {
+    requireNonNull(validationOptions, "validationOptions may not be null");
+    this.validationOptions = validationOptions;
+    return (RebaseOpSubclass) this;
+  }
+
+  public RebaseOpSubclass setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
+    return (RebaseOpSubclass) this;
   }
 
   public CodeReviewCommit getRebasedCommit() {
@@ -319,7 +207,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return rebasedPatchSet;
   }
 
-  private MergeUtil newMergeUtil() {
+  protected MergeUtil newMergeUtil() {
     ProjectState project =
         projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
     return forceContentMerge
@@ -337,7 +225,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
    * @throws MergeConflictException the rebase failed due to a merge conflict.
    * @throws IOException the merge failed for another reason.
    */
-  private CodeReviewCommit rebaseCommit(
+  protected CodeReviewCommit rebaseCommit(
       RepoContext ctx, RevCommit original, ObjectId base, String commitMessage)
       throws ResourceConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
@@ -413,9 +301,130 @@ public class RebaseChangeOp implements BatchUpdateOp {
               cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
-    ctx.getInserter().flush();
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setFilesWithGitConflicts(filesWithGitConflicts);
     return commit;
+  }
+
+  /**
+   * BatchUpdate operation that rebases a change.
+   *
+   * <p>Can only be executed in a {@link com.google.gerrit.server.update.BatchUpdate} set has a
+   * {@link CodeReviewRevWalk} set as {@link RevWalk} (set via {@link
+   * com.google.gerrit.server.update.BatchUpdate#setRepository(org.eclipse.jgit.lib.Repository,
+   * RevWalk, org.eclipse.jgit.lib.ObjectInserter)}).
+   */
+  public static class RebaseChangeOp extends RebaseOp<RebaseChangeOp> {
+    public interface Factory {
+      RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
+    }
+
+    @Inject
+    RebaseChangeOp(
+        PatchSetInserter.Factory patchSetInserterFactory,
+        MergeUtilFactory mergeUtilFactory,
+        RebaseUtil rebaseUtil,
+        ChangeResource.Factory changeResourceFactory,
+        IdentifiedUser.GenericFactory identifiedUserFactory,
+        ProjectCache projectCache,
+        @Assisted ChangeNotes notes,
+        @Assisted PatchSet originalPatchSet,
+        @Assisted ObjectId baseCommitId) {
+      super(
+          patchSetInserterFactory,
+          mergeUtilFactory,
+          rebaseUtil,
+          changeResourceFactory,
+          notes,
+          originalPatchSet,
+          identifiedUserFactory,
+          projectCache,
+          baseCommitId);
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx)
+        throws InvalidChangeOperationException, RestApiException, IOException,
+            NoSuchChangeException, PermissionBackendException {
+      // Ok that originalPatchSet was not read in a transaction, since we just
+      // need its revision.
+      RevWalk rw = ctx.getRevWalk();
+      RevCommit original = rw.parseCommit(originalPatchSet.commitId());
+      rw.parseBody(original);
+      RevCommit baseCommit = rw.parseCommit(baseCommitId);
+      CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());
+
+      String newCommitMessage;
+      if (detailedCommitMessage) {
+        rw.parseBody(baseCommit);
+        newCommitMessage =
+            newMergeUtil()
+                .createCommitMessageOnSubmit(original, baseCommit, notes, originalPatchSet.id());
+      } else {
+        newCommitMessage = original.getFullMessage();
+      }
+
+      rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
+      ctx.getInserter().flush();
+      Base base =
+          rebaseUtil.parseBase(
+              new RevisionResource(
+                  changeResourceFactory.create(notes, changeOwner), originalPatchSet),
+              baseCommitId.name());
+
+      rebasedPatchSetId =
+          ChangeUtil.nextPatchSetIdFromChangeRefs(
+              ctx.getRepoView().getRefs(originalPatchSet.id().changeId().toRefPrefix()).keySet(),
+              notes.getChange().currentPatchSetId());
+      patchSetInserter =
+          patchSetInserterFactory
+              .create(notes, rebasedPatchSetId, rebasedCommit)
+              .setDescription("Rebase")
+              .setFireRevisionCreated(fireRevisionCreated)
+              .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
+              .setValidate(validate)
+              .setSendEmail(sendEmail)
+              // The votes are automatically copied and they don't count as copied votes. See
+              // method's javadoc.
+              .setStoreCopiedVotes(storeCopiedVotes);
+
+      if (!rebasedCommit.getFilesWithGitConflicts().isEmpty()
+          && !notes.getChange().isWorkInProgress()) {
+        patchSetInserter.setWorkInProgress(true);
+      }
+
+      patchSetInserter.setValidationOptions(validationOptions);
+
+      if (postMessage) {
+        patchSetInserter.setMessage(
+            messageForRebasedChange(rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));
+      }
+
+      if (base != null && !base.notes().getChange().isMerged()) {
+        if (!base.notes().getChange().isMerged()) {
+          // Add to end of relation chain for open base change.
+          patchSetInserter.setGroups(base.patchSet().groups());
+        } else {
+          // If the base is merged, start a new relation chain.
+          patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));
+        }
+      }
+
+      ctx.getRevWalk().getObjectReader().getCreatedFromInserter().flush();
+      patchSetInserter.updateRepo(ctx);
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx)
+        throws ResourceConflictException, IOException, BadRequestException {
+      boolean ret = patchSetInserter.updateChange(ctx);
+      rebasedPatchSet = patchSetInserter.getPatchSet();
+      return ret;
+    }
+
+    @Override
+    public void postUpdate(PostUpdateContext ctx) {
+      patchSetInserter.postUpdate(ctx);
+    }
   }
 }

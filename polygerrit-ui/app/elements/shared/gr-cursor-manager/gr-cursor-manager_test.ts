@@ -4,18 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-// eslint-disable-next-line import/named
 import {fixture, html, assert} from '@open-wc/testing';
 import {AbortStop, CursorMoveResult} from '../../../api/core';
 import {GrCursorManager} from './gr-cursor-manager';
 
 suite('gr-cursor-manager tests', () => {
-  let cursor;
-  let list;
+  let cursor: GrCursorManager;
+  let list: Element;
 
   setup(async () => {
-    list = await fixture(html`
-    <ul>
+    list = await fixture(html` <ul>
       <li>A</li>
       <li>B</li>
       <li>C</li>
@@ -42,11 +40,11 @@ suite('gr-cursor-manager tests', () => {
     assert.isNotOk(cursor.target);
 
     // Select the third stop.
-    cursor.setCursor(list.children[2]);
+    cursor.setCursor(list.children[2] as HTMLElement);
 
     // It should update its internal state and update the element's class.
     assert.equal(cursor.index, 2);
-    assert.equal(cursor.target, list.children[2]);
+    assert.equal(cursor.target, list.children[2] as HTMLElement);
     assert.isTrue(list.children[2].classList.contains('targeted'));
     assert.isFalse(cursor.isAtStart());
     assert.isFalse(cursor.isAtEnd());
@@ -58,7 +56,7 @@ suite('gr-cursor-manager tests', () => {
     // unselected.
     assert.equal(result, CursorMoveResult.MOVED);
     assert.equal(cursor.index, 3);
-    assert.equal(cursor.target, list.children[3]);
+    assert.equal(cursor.target, list.children[3] as HTMLElement);
     assert.isTrue(cursor.isAtEnd());
     assert.isFalse(list.children[2].classList.contains('targeted'));
     assert.isTrue(list.children[3].classList.contains('targeted'));
@@ -69,7 +67,7 @@ suite('gr-cursor-manager tests', () => {
     // We should still be at the end.
     assert.equal(result, CursorMoveResult.CLIPPED);
     assert.equal(cursor.index, 3);
-    assert.equal(cursor.target, list.children[3]);
+    assert.equal(cursor.target, list.children[3] as HTMLElement);
     assert.isTrue(cursor.isAtEnd());
 
     // Wind the cursor all the way back to the first stop.
@@ -82,7 +80,7 @@ suite('gr-cursor-manager tests', () => {
 
     // The element state should reflect the start of the list.
     assert.equal(cursor.index, 0);
-    assert.equal(cursor.target, list.children[0]);
+    assert.equal(cursor.target, list.children[0] as HTMLElement);
     assert.isTrue(cursor.isAtStart());
     assert.isTrue(list.children[0].classList.contains('targeted'));
 
@@ -118,7 +116,7 @@ suite('gr-cursor-manager tests', () => {
 
     assert.equal(result, CursorMoveResult.MOVED);
     assert.equal(cursor.index, 0);
-    assert.equal(cursor.target, list.children[0]);
+    assert.equal(cursor.target, list.children[0] as HTMLElement);
     assert.isTrue(list.children[0].classList.contains('targeted'));
     assert.isTrue(cursor.isAtStart());
     assert.isFalse(cursor.isAtEnd());
@@ -141,7 +139,7 @@ suite('gr-cursor-manager tests', () => {
     assert.equal(result, CursorMoveResult.MOVED);
     const lastIndex = list.children.length - 1;
     assert.equal(cursor.index, lastIndex);
-    assert.equal(cursor.target, list.children[lastIndex]);
+    assert.equal(cursor.target, list.children[lastIndex] as HTMLElement);
     assert.isTrue(list.children[lastIndex].classList.contains('targeted'));
     assert.isFalse(cursor.isAtStart());
     assert.isTrue(cursor.isAtEnd());
@@ -161,7 +159,7 @@ suite('gr-cursor-manager tests', () => {
     // Initialize the cursor with its stops.
     cursor.stops = [...list.querySelectorAll('li')];
     // Select the first stop.
-    cursor.setCursor(list.children[0]);
+    cursor.setCursor(list.children[0] as HTMLElement);
     const getTargetHeight = sinon.stub();
 
     // Move the cursor without an optional get target height function.
@@ -176,7 +174,7 @@ suite('gr-cursor-manager tests', () => {
   test('_moveCursor from for invalid index does not check height', () => {
     cursor.stops = [];
     const getTargetHeight = sinon.stub();
-    cursor._moveCursor(1, () => false, {getTargetHeight});
+    cursor._moveCursor(1, {filter: () => false, getTargetHeight});
     assert.isFalse(getTargetHeight.called);
   });
 
@@ -194,12 +192,12 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('move with filter', () => {
-    const isLetterB = function(row) {
+    const isLetterB = function (row: HTMLElement) {
       return row.textContent === 'B';
     };
     cursor.stops = [...list.querySelectorAll('li')];
     // Start cursor at the first stop.
-    cursor.setCursor(list.children[0]);
+    cursor.setCursor(list.children[0] as HTMLElement);
 
     // Move forward to meet the next condition.
     cursor.next({filter: isLetterB});
@@ -225,19 +223,19 @@ suite('gr-cursor-manager tests', () => {
 
   test('focusOnMove prop', () => {
     const listEls = [...list.querySelectorAll('li')];
-    for (let i = 0; i < listEls.length; i++) {
-      sinon.spy(listEls[i], 'focus');
-    }
+    const listFocusStubs = listEls.map(listEl => sinon.spy(listEl, 'focus'));
     cursor.stops = listEls;
-    cursor.setCursor(list.children[0]);
+    cursor.setCursor(list.children[0] as HTMLElement);
 
     cursor.focusOnMove = false;
     cursor.next();
-    assert.isFalse(cursor.target.focus.called);
+    assert.equal(listEls[1], cursor.target);
+    assert.isFalse(listFocusStubs[1].called);
 
     cursor.focusOnMove = true;
     cursor.next();
-    assert.isTrue(cursor.target.focus.called);
+    assert.equal(listEls[2], cursor.target);
+    assert.isTrue(listFocusStubs[2].called);
   });
 
   suite('circular options', () => {
@@ -247,26 +245,26 @@ suite('gr-cursor-manager tests', () => {
     });
 
     test('previous() on first element goes to last element', () => {
-      cursor.setCursor(list.children[0]);
+      cursor.setCursor(list.children[0] as HTMLElement);
       cursor.previous(options);
       assert.equal(cursor.index, list.children.length - 1);
     });
 
     test('next() on last element goes to first element', () => {
-      cursor.setCursor(list.children[list.children.length - 1]);
+      cursor.setCursor(list.children[list.children.length - 1] as HTMLElement);
       cursor.next(options);
       assert.equal(cursor.index, 0);
     });
   });
 
   suite('_scrollToTarget', () => {
-    let scrollStub;
+    let scrollStub: sinon.SinonStub;
     setup(() => {
       cursor.stops = [...list.querySelectorAll('li')];
       cursor.scrollMode = 'keep-visible';
 
       // There is a target which has a targetNext
-      cursor.setCursor(list.children[0]);
+      cursor.setCursor(list.children[0] as HTMLElement);
       cursor._moveCursor(1);
       scrollStub = sinon.stub(window, 'scrollTo');
       window.innerHeight = 60;
@@ -285,8 +283,9 @@ suite('gr-cursor-manager tests', () => {
     });
 
     test('Called when top is visible, bottom is not, scroll is lower', () => {
-      const visibleStub = sinon.stub(cursor, '_targetIsVisible').callsFake(
-          () => visibleStub.callCount === 2);
+      const visibleStub = sinon
+        .stub(cursor, '_targetIsVisible')
+        .callsFake(() => visibleStub.callCount === 2);
       window.scrollX = 123;
       window.scrollY = 15;
       window.innerHeight = 1000;
@@ -299,8 +298,9 @@ suite('gr-cursor-manager tests', () => {
     });
 
     test('Called when top is visible, bottom not, scroll is higher', () => {
-      const visibleStub = sinon.stub(cursor, '_targetIsVisible').callsFake(
-          () => visibleStub.callCount === 2);
+      const visibleStub = sinon
+        .stub(cursor, '_targetIsVisible')
+        .callsFake(() => visibleStub.callCount === 2);
       window.scrollX = 123;
       window.scrollY = 25;
       window.innerHeight = 1000;
@@ -316,8 +316,8 @@ suite('gr-cursor-manager tests', () => {
       window.scrollY = 25;
       window.innerHeight = 300;
       window.pageYOffset = 0;
-      assert.equal(cursor._calculateScrollToValue(1000, {offsetHeight: 10}),
-          905);
+      const fakeElement = {offsetHeight: 10} as HTMLElement;
+      assert.equal(cursor._calculateScrollToValue(1000, fakeElement), 905);
     });
   });
 

@@ -17,8 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -32,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -48,7 +47,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Map;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -160,7 +158,7 @@ public class CreateBranch
           rsrc.getName(),
           identifiedUser.get(),
           u,
-          getValidateOptionsAsMultimap(input.validationOptions));
+          ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
       RefUpdate.Result result = u.update(rw);
       switch (result) {
         case FAST_FORWARD:
@@ -219,19 +217,5 @@ public class CreateBranch
   /** Branches cannot be created under any Gerrit internal or tags refs. */
   private boolean isBranchAllowed(String branch) {
     return !RefNames.isGerritRef(branch) && !branch.startsWith(RefNames.REFS_TAGS);
-  }
-
-  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
-      @Nullable Map<String, String> validationOptions) {
-    if (validationOptions == null) {
-      return ImmutableListMultimap.of();
-    }
-
-    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
-        ImmutableListMultimap.builder();
-    validationOptions
-        .entrySet()
-        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
-    return validationOptionsBuilder.build();
   }
 }

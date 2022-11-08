@@ -88,7 +88,9 @@ public class ActionsIT extends AbstractDaemonTest {
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThatMap(actions).keys().containsExactly("cherrypick", "rebase", "description");
+    assertThatMap(actions)
+        .keys()
+        .containsExactly("cherrypick", "rebase", "rebase:chain", "description");
   }
 
   @Test
@@ -383,7 +385,9 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {
-    assertThatMap(actions).keys().containsExactly("cherrypick", "submit", "description", "rebase");
+    assertThatMap(actions)
+        .keys()
+        .containsExactly("cherrypick", "submit", "description", "rebase", "rebase:chain");
   }
 
   private PushOneCommit.Result createChangeWithTopic() throws Exception {

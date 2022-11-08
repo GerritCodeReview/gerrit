@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "387fe110_136ee81a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-08T13:12:09Z",
+      "side": 1,
+      "message": "IIRC changeViewDisplayed is also firing with quick refresh like clicking on change number. So this is consistent with that.\n\nOf course ideally we would have 2 metrics one that captures full router navigation and rebuild and second that does rebuild for query.",
+      "revId": "65f4828c37a7c52363bfe4354411f7957ff514bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

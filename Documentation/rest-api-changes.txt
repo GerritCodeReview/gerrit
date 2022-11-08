@@ -1505,6 +1505,218 @@ body.
   The change could not be rebased due to a path conflict during merge.
 ----
 
+[[rebase-chain]]
+=== Rebase Chain
+--
+'POST /changes/link:#change-id[\{change-id\}]/rebase:chain'
+--
+
+Rebases an ancestry chain of changes.
+
+The operated change is treated as the chain tip. All ancestors since the target branch are rebased.
+
+Requires a linear ancestry relation (single parenting throughout the chain).
+
+Optionally, the parent revision (of the oldest ancestor to be rebased) can be changed to another
+patch set through the link:#rebase-input[RebaseInput] entity.
+
+If the chain is outdated, i.e., there's a change that depends on an old revision of its parent, the
+result would be as the child was rebased on the latest parent revision before the chain rebasing.
+
+.Request
+----
+  POST /changes/myProject~master~I08a021fb07b83fe845140a2c11508b3bdd93b48f/rebase:chain HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "base" : "1234",
+  }
+----
+
+As response a link:#rebase-chain-info[RebaseChainInfo] entity is returned that
+describes the rebased changes. Information about the current patch sets
+are included.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "rebased_changes": [
+      {
+        "id": "myProject~master~I0e534de9d7f0d6f35b71f7d726acf835b2110c66",
+        "project": "myProject",
+        "branch": "master",
+        "hashtags": [
+
+        ],
+        "change_id": "I0e534de9d7f0d6f35b71f7d726acf835b2110c66",
+        "subject": "456",
+        "status": "NEW",
+        "created": "2022-11-21 20: 51: 31.000000000",
+        "updated": "2022-11-21 20: 56: 49.000000000",
+        "submit_type": "MERGE_IF_NECESSARY",
+        "insertions": 0,
+        "deletions": 0,
+        "total_comment_count": 0,
+        "unresolved_comment_count": 0,
+        "has_review_started": true,
+        "meta_rev_id": "a2a6692213f546e1045ecf4647439fac8d6d8faa",
+        "_number": 21,
+        "owner": {
+          "_account_id": 1000000
+        },
+        "current_revision": "c3b2ba222d42a56e05c90f88d4509a124620517d",
+        "revisions": {
+          "c3b2ba222d42a56e05c90f88d4509a124620517d": {
+            "kind": "NO_CHANGE",
+            "_number": 2,
+            "created": "2022-11-21 20: 56: 49.000000000",
+            "uploader": {
+              "_account_id": 1000000
+            },
+            "ref": "refs/changes/21/21/2",
+            "fetch": {
+
+            },
+            "commit": {
+              "parents": [
+                {
+                  "commit": "7803f427dd7c4a2441466e4d740a1850dcee1af4",
+                  "subject": "123"
+                }
+              ],
+              "author": {
+                "name": "Nitzan Gur-Furman",
+                "email": "nitzan@google.com",
+                "date": "2022-11-21 20: 49: 39.000000000",
+                "tz": 60
+              },
+              "committer": {
+                "name": "Administrator",
+                "email": "admin@example.com",
+                "date": "2022-11-21 20: 56: 49.000000000",
+                "tz": 60
+              },
+              "subject": "456",
+              "message": "456\n"
+            },
+            "description": "Rebase"
+          }
+        },
+        "requirements": [
+
+        ],
+        "submit_records": [
+          {
+            "rule_name": "gerrit~DefaultSubmitRule",
+            "status": "NOT_READY",
+            "labels": [
+              {
+                "label": "Code-Review",
+                "status": "NEED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "myProject~master~I08a021fb07b83fe845140a2c11508b3bdd93b48f",
+        "project": "myProject",
+        "branch": "master",
+        "hashtags": [
+
+        ],
+        "change_id": "I08a021fb07b83fe845140a2c11508b3bdd93b48f",
+        "subject": "789",
+        "status": "NEW",
+        "created": "2022-11-21 20: 51: 31.000000000",
+        "updated": "2022-11-21 20: 56: 49.000000000",
+        "submit_type": "MERGE_IF_NECESSARY",
+        "insertions": 0,
+        "deletions": 0,
+        "total_comment_count": 0,
+        "unresolved_comment_count": 0,
+        "has_review_started": true,
+        "meta_rev_id": "3bfb843fea471f96e16b9199c3a30fff0285bc45",
+        "_number": 22,
+        "owner": {
+          "_account_id": 1000000
+        },
+        "current_revision": "77eb17a9501a5c21963bc6af56085e60f281acbb",
+        "revisions": {
+          "77eb17a9501a5c21963bc6af56085e60f281acbb": {
+            "kind": "NO_CHANGE",
+            "_number": 2,
+            "created": "2022-11-21 20: 56: 49.000000000",
+            "uploader": {
+              "_account_id": 1000000
+            },
+            "ref": "refs/changes/22/22/2",
+            "fetch": {
+
+            },
+            "commit": {
+              "parents": [
+                {
+                  "commit": "c3b2ba222d42a56e05c90f88d4509a124620517d",
+                  "subject": "456"
+                }
+              ],
+              "author": {
+                "name": "Nitzan Gur-Furman",
+                "email": "nitzan@google.com",
+                "date": "2022-11-21 20: 51: 07.000000000",
+                "tz": 60
+              },
+              "committer": {
+                "name": "Administrator",
+                "email": "admin@example.com",
+                "date": "2022-11-21 20: 56: 49.000000000",
+                "tz": 60
+              },
+              "subject": "789",
+              "message": "789\n"
+            },
+            "description": "Rebase"
+          }
+        },
+        "requirements": [
+
+        ],
+        "submit_records": [
+          {
+            "rule_name": "gerrit~DefaultSubmitRule",
+            "status": "NOT_READY",
+            "labels": [
+              {
+                "label": "Code-Review",
+                "status": "NEED"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+  }
+----
+
+If the change cannot be rebased, e.g. due to conflicts, the response is
+"`409 Conflict`" and the error message is contained in the response
+body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  The change could not be rebased due to a path conflict during merge.
+----
+
 [[move-change]]
 === Move Change
 --
@@ -7987,11 +8199,25 @@ documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
 |===========================
 
+[[rebase-chain-info]]
+=== RebaseChainInfo
+
+The `RebaseChainInfo` entity contains information about a chain of changes
+that were rebased.
+
 [[related-change-and-commit-info]]
 === RelatedChangeAndCommitInfo
 
 The `RelatedChangeAndCommitInfo` entity contains information about
 a related change and commit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name                ||Description
+|`rebased_changes`         ||The changes that were rebased as
+link:#change-info[ChangeInfo] entities.
+|`contains_git_conflicts`  ||Whether any of the rebased changes has conflicts
+due to rebasing.
 
 [options="header",cols="1,^1,5"]
 |===========================

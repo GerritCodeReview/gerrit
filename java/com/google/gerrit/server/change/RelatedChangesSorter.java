@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +73,17 @@ public class RelatedChangesSorter {
 
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
       throws IOException, PermissionBackendException {
+    return sort(in, startPs, true, true);
+  }
+
+  public List<PatchSetData> sortAncestors(List<ChangeData> in, PatchSet startPs)
+      throws IOException, PermissionBackendException {
+    return sort(in, startPs, true, false);
+  }
+
+  private List<PatchSetData> sort(
+      List<ChangeData> in, PatchSet startPs, boolean includeAncestors, boolean includeDescendants)
+      throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<ObjectId, PatchSetData> byId = collectById(in);
@@ -88,32 +100,39 @@ public class RelatedChangesSorter {
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
+        includeAncestors ? MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build() : null;
     // Map of patch set -> immediate children.
     ListMultimap<PatchSetData, PatchSetData> children =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
+        includeDescendants ? MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build() : null;
     // All other patch sets of the same change as startPs.
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
     for (ChangeData cd : in) {
       for (PatchSet ps : cd.patchSets()) {
         PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
-        if (cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
+        if (includeDescendants && cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
         }
         for (RevCommit p : thisPsd.commit().getParents()) {
           PatchSetData parentPsd = byId.get(p);
           if (parentPsd != null) {
-            parents.put(thisPsd, parentPsd);
-            children.put(parentPsd, thisPsd);
+            if (includeAncestors) {
+              parents.put(thisPsd, parentPsd);
+            }
+            if (includeDescendants) {
+              children.put(parentPsd, thisPsd);
+            }
           }
         }
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
+    Collection<PatchSetData> ancestors =
+        includeAncestors ? walkAncestors(parents, start) : Collections.emptyList();
     List<PatchSetData> descendants =
-        walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
+        includeDescendants
+            ? walkDescendants(children, start, otherPatchSetsOfStart, ancestors)
+            : Collections.emptyList();
     List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));
     result.addAll(ancestors);

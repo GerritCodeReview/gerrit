@@ -35,11 +35,13 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -168,5 +170,31 @@ public class PatchSetUtil {
       rw.parseBody(src);
       return src;
     }
+  }
+
+  /**
+   * Gets the commit ID for the latest patch-set of a given change, including pending changes.
+   *
+   * @param ctx to look for pending updates in.
+   * @param notesFactory to fetch existing patch sets with.
+   * @param changeId to get the latest commit for.
+   * @return the latest commit ID.
+   * @throws IOException if no committed nor pending commits found for the change.
+   */
+  public static RevCommit getCurrentRevCommitIncludingPending(
+      RepoContext ctx, ChangeNotes.Factory notesFactory, Change.Id changeId) throws IOException {
+    Map<String, ObjectId> refUpdates = ctx.getRepoView().getRefs(changeId.toRefPrefix());
+    refUpdates.remove("meta");
+    if (!refUpdates.isEmpty()) {
+      Optional<PatchSet.Id> latestPendingPatchSet =
+          refUpdates.keySet().stream()
+              .map(r -> PatchSet.Id.fromRef(changeId.toRefPrefix() + r))
+              .max(PatchSet.Id::compareTo);
+      if (latestPendingPatchSet.isPresent()) {
+        return ctx.getRevWalk().parseCommit(refUpdates.get(latestPendingPatchSet.get().getId()));
+      }
+    }
+    ChangeNotes notes = notesFactory.createChecked(ctx.getProject(), changeId);
+    return ctx.getRevWalk().parseCommit(notes.getCurrentPatchSet().commitId());
   }
 }

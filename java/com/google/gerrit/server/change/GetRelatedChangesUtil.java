@@ -65,6 +65,34 @@ public class GetRelatedChangesUtil {
    */
   public List<RelatedChangesSorter.PatchSetData> getRelated(ChangeData changeData, PatchSet basePs)
       throws IOException, PermissionBackendException {
+    List<ChangeData> cds = getUnsortedRelated(changeData, basePs, false);
+    if (cds.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return sorter.sort(cds, basePs);
+  }
+
+  /**
+   * Gets ancestor changes of a specific change revision.
+   *
+   * @param changeData the change of the inputted revision.
+   * @param basePs the revision that the method checks for related changes.
+   * @param alwaysIncludeOriginalChange whether to return the given change when no ancestors found.
+   * @return list of ancestor changes, sorted via {@link RelatedChangesSorter}
+   */
+  public List<RelatedChangesSorter.PatchSetData> getAncestors(
+      ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange)
+      throws IOException, PermissionBackendException {
+    List<ChangeData> cds = getUnsortedRelated(changeData, basePs, alwaysIncludeOriginalChange);
+    if (cds.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return sorter.sortAncestors(cds, basePs);
+  }
+
+  private List<ChangeData> getUnsortedRelated(
+      ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange)
+      throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(changeData.patchSets());
     logger.atFine().log("groups = %s", groups);
     if (groups.isEmpty()) {
@@ -78,12 +106,10 @@ public class GetRelatedChangesUtil {
       return Collections.emptyList();
     }
     if (cds.size() == 1 && cds.get(0).getId().equals(changeData.getId())) {
-      return Collections.emptyList();
+      return alwaysIncludeOriginalChange ? cds : Collections.emptyList();
     }
 
-    cds = reloadChangeIfStale(cds, changeData, basePs);
-
-    return sorter.sort(cds, basePs);
+    return reloadChangeIfStale(cds, changeData, basePs);
   }
 
   private List<ChangeData> reloadChangeIfStale(

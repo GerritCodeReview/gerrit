@@ -181,6 +181,19 @@ export function getEventPath<T extends MouseEvent>(e?: T) {
   }, '');
 }
 
+export function getRoot(el?: Node) {
+  if (!el) return document.body;
+
+  while (el) {
+    if (el instanceof HTMLElement && el.tagName.toLowerCase() === 'dialog') {
+      console.log('asdf root is dialog');
+      return el;
+    }
+    el = el.parentNode || (el as ShadowRoot).host;
+  }
+  return document.body;
+}
+
 /**
  * Are any ancestors of the element (or the element itself) members of the
  * given class.

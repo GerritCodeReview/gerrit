@@ -14,6 +14,7 @@ import {DependencyRequestEvent} from '../../models/dependency';
 import {
   addShortcut,
   findActiveElement,
+  getRoot,
   isElementTarget,
   Key,
   Modifier,
@@ -48,14 +49,16 @@ export interface MouseKeyboardOrFocusEvent {
 }
 
 export function getHovercardContainer(
+  target: HTMLElement,
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
 ): HTMLElement | null {
-  let container = document.body.querySelector<HTMLElement>(`#${containerId}`);
+  const root = getRoot(target);
+  let container = root.querySelector<HTMLElement>(`#${containerId}`);
   if (!container && options.createIfNotExists) {
     // If it does not exist, create and initialize the hovercard container.
     container = document.createElement('div');
     container.setAttribute('id', containerId);
-    document.body.appendChild(container);
+    root.appendChild(container);
   }
   return container;
 }
@@ -174,7 +177,9 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
 
-      this.container = getHovercardContainer({createIfNotExists: true});
+      this.container = getHovercardContainer(this._target, {
+        createIfNotExists: true,
+      });
       this.cleanups.push(
         addShortcut(
           this,
@@ -543,11 +548,11 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     _isInsideViewport() {
       const thisRect = this.getBoundingClientRect();
-      if (thisRect.top < 0) return false;
-      if (thisRect.left < 0) return false;
-      const docuRect = document.documentElement.getBoundingClientRect();
-      if (thisRect.bottom > docuRect.height) return false;
-      if (thisRect.right > docuRect.width) return false;
+      const docuRect = getRoot(this._target!).getBoundingClientRect();
+      if (thisRect.top < docuRect.top) return false;
+      if (thisRect.left < docuRect.left) return false;
+      if (thisRect.bottom > docuRect.bottom) return false;
+      if (thisRect.right > docuRect.right) return false;
       return true;
     }
 
@@ -572,7 +577,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // in the width and height of the bounding client rect.
       this.style.cssText = '';
 
-      const docuRect = document.documentElement.getBoundingClientRect();
+      const docuRect = getRoot(this._target).getBoundingClientRect();
       const targetRect = this._target.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
 

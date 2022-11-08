@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -41,6 +40,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -64,7 +64,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -317,7 +316,8 @@ public class CommitUtil {
             .create(changeId, revertCommit, changeToRevert.getDest().branch())
             .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
     ins.setMessage("Uploaded patch set 1.");
-    ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
+    ins.setValidationOptions(
+        ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
 
     ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
@@ -342,20 +342,6 @@ public class CommitUtil {
       bu.execute();
     }
     return changeId;
-  }
-
-  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
-      @Nullable Map<String, String> validationOptions) {
-    if (validationOptions == null) {
-      return ImmutableListMultimap.of();
-    }
-
-    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
-        ImmutableListMultimap.builder();
-    validationOptions
-        .entrySet()
-        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
-    return validationOptionsBuilder.build();
   }
 
   /**

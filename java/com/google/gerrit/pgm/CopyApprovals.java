@@ -72,7 +72,7 @@ public class CopyApprovals extends SiteProgram {
     sysInjector.injectMembers(this);
 
     try {
-      recursiveApprovalCopier.persist();
+      recursiveApprovalCopier.persistStandalone();
       return 0;
     } catch (Exception e) {
       throw die(e.getMessage(), e);

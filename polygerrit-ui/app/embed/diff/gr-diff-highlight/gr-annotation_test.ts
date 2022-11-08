@@ -7,25 +7,24 @@
 import '../../../test/common-test-setup';
 import {GrAnnotation} from './gr-annotation';
 import {
-  sanitizeDOMValue,
+  getSanitizeDOMValue,
   setSanitizeDOMValue,
 } from '@polymer/polymer/lib/utils/settings';
-// eslint-disable-next-line import/named
 import {assert, fixture, html} from '@open-wc/testing';
 
 suite('annotation', () => {
-  let str;
-  let parent;
-  let textNode;
+  let str: string;
+  let parent: HTMLDivElement;
+  let textNode: Text;
 
   setup(async () => {
     parent = await fixture(
-        html`
+      html`
         <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
       `
     );
-    textNode = parent.childNodes[0];
-    str = textNode.textContent;
+    textNode = parent.childNodes[0] as Text;
+    str = textNode.textContent!;
   });
 
   test('_annotateText Case 1', () => {
@@ -33,9 +32,10 @@ suite('annotation', () => {
 
     assert.equal(parent.childNodes.length, 1);
     assert.instanceOf(parent.childNodes[0], HTMLElement);
-    assert.equal(parent.childNodes[0].className, 'foobar');
-    assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
-    assert.equal(parent.childNodes[0].childNodes[0].textContent, str);
+    const firstChild = parent.childNodes[0] as Text & HTMLUnknownElement;
+    assert.equal(firstChild.className, 'foobar');
+    assert.instanceOf(firstChild.childNodes[0], Text);
+    assert.equal(firstChild.childNodes[0].textContent, str);
   });
 
   test('_annotateText Case 2', () => {
@@ -48,9 +48,10 @@ suite('annotation', () => {
     assert.equal(parent.childNodes.length, 2);
 
     assert.instanceOf(parent.childNodes[0], HTMLElement);
-    assert.equal(parent.childNodes[0].className, 'foobar');
-    assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
-    assert.equal(parent.childNodes[0].childNodes[0].textContent, substr);
+    const firstChild = parent.childNodes[0] as Text & HTMLUnknownElement;
+    assert.equal(firstChild.className, 'foobar');
+    assert.instanceOf(firstChild.childNodes[0], Text);
+    assert.equal(firstChild.childNodes[0].textContent, substr);
 
     assert.instanceOf(parent.childNodes[1], Text);
     assert.equal(parent.childNodes[1].textContent, remainder);
@@ -69,10 +70,11 @@ suite('annotation', () => {
     assert.instanceOf(parent.childNodes[0], Text);
     assert.equal(parent.childNodes[0].textContent, remainder);
 
-    assert.instanceOf(parent.childNodes[1], HTMLElement);
-    assert.equal(parent.childNodes[1].className, 'foobar');
-    assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
-    assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+    const secondChild = parent.childNodes[1] as HTMLElement;
+    assert.instanceOf(secondChild, HTMLElement);
+    assert.equal(secondChild.className, 'foobar');
+    assert.instanceOf(secondChild.childNodes[0], Text);
+    assert.equal(secondChild.childNodes[0].textContent, substr);
   });
 
   test('_annotateText Case 4', () => {
@@ -90,10 +92,11 @@ suite('annotation', () => {
     assert.instanceOf(parent.childNodes[0], Text);
     assert.equal(parent.childNodes[0].textContent, remainderPre);
 
-    assert.instanceOf(parent.childNodes[1], HTMLElement);
-    assert.equal(parent.childNodes[1].className, 'foobar');
-    assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
-    assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+    const secondChild = parent.childNodes[1] as HTMLElement;
+    assert.instanceOf(secondChild, HTMLElement);
+    assert.equal(secondChild.className, 'foobar');
+    assert.instanceOf(secondChild.childNodes[0], Text);
+    assert.equal(secondChild.childNodes[0].textContent, substr);
 
     assert.instanceOf(parent.childNodes[2], Text);
     assert.equal(parent.childNodes[2].textContent, remainderPost);
@@ -105,10 +108,10 @@ suite('annotation', () => {
     // Apply the layers successively.
     layers.forEach((layer, i) => {
       GrAnnotation.annotateElement(
-          parent,
-          str.indexOf(layer),
-          layer.length,
-          `layer-${i + 1}`
+        parent,
+        str.indexOf(layer),
+        layer.length,
+        `layer-${i + 1}`
       );
     });
 
@@ -146,8 +149,8 @@ suite('annotation', () => {
     assert.equal(layer4[2].parentElement, layer2[0]);
 
     assert.equal(
-        layer4[0].textContent + layer4[1].textContent + layer4[2].textContent,
-        layers[3]
+      layer4[0]!.textContent! + layer4[1]!.textContent + layer4[2].textContent,
+      layers[3]
     );
   });
 
@@ -174,12 +177,17 @@ suite('annotation', () => {
 
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
-    let mockSanitize;
-    let originalSanitizeDOMValue;
+    let mockSanitize: sinon.SinonSpy;
+    let originalSanitizeDOMValue: (
+      p0: any,
+      p1: string,
+      p2: string,
+      p3: Node | null
+    ) => any;
 
     setup(() => {
-      setSanitizeDOMValue((p0, p1, p2, node) => p0);
-      originalSanitizeDOMValue = sanitizeDOMValue;
+      setSanitizeDOMValue(p0 => p0);
+      originalSanitizeDOMValue = getSanitizeDOMValue()!;
       assert.isDefined(originalSanitizeDOMValue);
       mockSanitize = sinon.spy(originalSanitizeDOMValue);
       setSanitizeDOMValue(mockSanitize);
@@ -198,8 +206,8 @@ suite('annotation', () => {
       });
 
       assert.equal(
-          container.innerHTML,
-          '0<test-wrapper>1234567890</test-wrapper>123456789'
+        container.innerHTML,
+        '0<test-wrapper>1234567890</test-wrapper>123456789'
       );
     });
 
@@ -213,8 +221,8 @@ suite('annotation', () => {
       });
 
       assert.equal(
-          container.innerHTML,
-          '0' +
+        container.innerHTML,
+        '0' +
           '<test-wrapper>' +
           '1234' +
           '<hl class="testclass">567890</hl>' +
@@ -233,8 +241,8 @@ suite('annotation', () => {
       });
 
       assert.equal(
-          container.innerHTML,
-          '0<test-wrapper>1234567890</test-wrapper>123456789'
+        container.innerHTML,
+        '0<test-wrapper>1234567890</test-wrapper>123456789'
       );
     });
 
@@ -248,8 +256,8 @@ suite('annotation', () => {
       });
 
       assert.equal(
-          container.innerHTML,
-          '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789'
+        container.innerHTML,
+        '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789'
       );
     });
 
@@ -265,8 +273,8 @@ suite('annotation', () => {
       });
 
       assert.equal(
-          container.innerHTML,
-          '<!--comment1-->' +
+        container.innerHTML,
+        '<!--comment1-->' +
           '0<test-wrapper>123456789' +
           '<!--comment2-->' +
           '<span></span>0</test-wrapper>123456789'
@@ -277,39 +285,39 @@ suite('annotation', () => {
       const container = document.createElement('div');
       container.textContent = fullText;
       const attributes = {
-        'href': 'foo',
+        href: 'foo',
         'data-foo': 'bar',
-        'class': 'hello world',
+        class: 'hello world',
       };
       GrAnnotation.annotateWithElement(container, 1, length, {
         tagName: 'test-wrapper',
         attributes,
       });
       assert(
-          mockSanitize.calledWith(
-              'foo',
-              'href',
-              'attribute',
-              sinon.match.instanceOf(Element)
-          )
+        mockSanitize.calledWith(
+          'foo',
+          'href',
+          'attribute',
+          sinon.match.instanceOf(Element)
+        )
       );
       assert(
-          mockSanitize.calledWith(
-              'bar',
-              'data-foo',
-              'attribute',
-              sinon.match.instanceOf(Element)
-          )
+        mockSanitize.calledWith(
+          'bar',
+          'data-foo',
+          'attribute',
+          sinon.match.instanceOf(Element)
+        )
       );
       assert(
-          mockSanitize.calledWith(
-              'hello world',
-              'class',
-              'attribute',
-              sinon.match.instanceOf(Element)
-          )
+        mockSanitize.calledWith(
+          'hello world',
+          'class',
+          'attribute',
+          sinon.match.instanceOf(Element)
+        )
       );
-      const el = container.querySelector('test-wrapper');
+      const el = container.querySelector('test-wrapper')!;
       assert.equal(el.getAttribute('href'), 'foo');
       assert.equal(el.getAttribute('data-foo'), 'bar');
       assert.equal(el.getAttribute('class'), 'hello world');

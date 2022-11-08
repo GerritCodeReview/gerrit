@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d96fe02_cb9f96ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-08T16:36:16Z",
+      "side": 1,
+      "message": "LC is needed due to changes in WORKSPACE file.",
+      "revId": "80cbe2d5e6cbb6218ccdd2911c1473675214fa27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75583a4b_69dadc69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-08T22:55:40Z",
+      "side": 1,
+      "message": "Unrelated, but the `release-noter.py` looks pretty obsolete, because:\n1. Does not take into account the `Release-Notes` footer\n2. Does not generate the [Change NNNN]() links\n3. Does not use the suggested description and rather uses the commit message headline, which could be not appropriate\n\nI would suggest NOT to use it until we refactor it (or rewrite it?) and make it fit for purpose.",
+      "revId": "bbbd891089f16f0421e53394744479af515e2c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

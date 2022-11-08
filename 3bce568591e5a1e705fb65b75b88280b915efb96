@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff37d23a_49f43126",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-08T01:24:07Z",
+      "side": 1,
+      "message": "Done in I7a24deebee.",
+      "parentUuid": "7bea86f1_e8bd18bf",
+      "range": {
+        "startLine": 125,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 8
+      },
+      "revId": "3bce568591e5a1e705fb65b75b88280b915efb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a132fb54_5732b720",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-11-08T01:01:04Z",
       "side": 1,
       "message": "This case is incorrect: it should be instead `ImmutableMap.copyOf()`",
+      "range": {
+        "startLine": 126,
+        "startChar": 11,
+        "endLine": 126,
+        "endChar": 31
+      },
+      "revId": "3bce568591e5a1e705fb65b75b88280b915efb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "264404b3_0dfee639",
+        "filename": "java/com/google/gerrit/server/cache/mem/PassthroughLoadingCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-08T01:24:07Z",
+      "side": 1,
+      "message": "Fixed with I7a24deebee",
+      "parentUuid": "a132fb54_5732b720",
       "range": {
         "startLine": 126,
         "startChar": 11,

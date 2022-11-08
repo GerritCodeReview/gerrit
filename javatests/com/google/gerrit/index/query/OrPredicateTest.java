@@ -29,8 +29,8 @@ import org.junit.Test;
 public class OrPredicateTest extends PredicateTest {
   @Test
   public void children() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
     final Predicate<String> n = or(a, b);
     assertEquals(2, n.getChildCount());
     assertSame(a, n.getChild(0));
@@ -39,8 +39,8 @@ public class OrPredicateTest extends PredicateTest {
 
   @Test
   public void childrenUnmodifiable() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
     final Predicate<String> n = or(a, b);
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
@@ -60,18 +60,18 @@ public class OrPredicateTest extends PredicateTest {
 
   @Test
   public void testToString() {
-    final TestPredicate a = f("q", "alice");
-    final TestPredicate b = f("q", "bob");
-    final TestPredicate c = f("q", "charlie");
+    final TestPredicate<String> a = f("q", "alice");
+    final TestPredicate<String> b = f("q", "bob");
+    final TestPredicate<String> c = f("q", "charlie");
     assertEquals("(q:alice OR q:bob)", or(a, b).toString());
     assertEquals("(q:alice OR q:bob OR q:charlie)", or(a, b, c).toString());
   }
 
   @Test
   public void testEquals() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
 
     assertTrue(or(a, b).equals(or(a, b)));
     assertTrue(or(a, b, c).equals(or(a, b, c)));
@@ -84,9 +84,9 @@ public class OrPredicateTest extends PredicateTest {
 
   @Test
   public void testHashCode() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
 
     assertTrue(or(a, b).hashCode() == or(a, b).hashCode());
     assertTrue(or(a, b, c).hashCode() == or(a, b, c).hashCode());
@@ -95,11 +95,11 @@ public class OrPredicateTest extends PredicateTest {
 
   @Test
   public void testCopy() {
-    final TestPredicate a = f("author", "alice");
-    final TestPredicate b = f("author", "bob");
-    final TestPredicate c = f("author", "charlie");
-    final List<TestPredicate> s2 = ImmutableList.of(a, b);
-    final List<TestPredicate> s3 = ImmutableList.of(a, b, c);
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
+    final List<TestPredicate<String>> s2 = ImmutableList.of(a, b);
+    final List<TestPredicate<String>> s3 = ImmutableList.of(a, b, c);
     final Predicate<String> n2 = or(a, b);
 
     assertNotSame(n2, n2.copy(s2));

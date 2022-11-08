@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -50,7 +51,7 @@ public class AbstractDynamicOptionsTest extends AbstractDaemonTest {
 
     public void display(OutputStream displayOutputStream) throws Exception {
       PrintWriter stdout =
-          new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, "UTF-8")));
+          new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
       try {
         OutputFormat.JSON
             .newGson()

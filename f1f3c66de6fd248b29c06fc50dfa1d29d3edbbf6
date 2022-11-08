@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "f1096e5b_808d7fcc",
         "filename": "java/com/google/gerrit/sshd/commands/ShowConnections.java",
@@ -20,10 +21,10 @@
         "endChar": 33
       },
       "revId": "f1f3c66de6fd248b29c06fc50dfa1d29d3edbbf6",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "58ea52e6_9dc46801",
         "filename": "java/com/google/gerrit/sshd/commands/ShowConnections.java",
@@ -44,8 +45,31 @@
         "endChar": 33
       },
       "revId": "f1f3c66de6fd248b29c06fc50dfa1d29d3edbbf6",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7a36b5c_0721e087",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2022-11-08T14:16:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58ea52e6_9dc46801",
+      "range": {
+        "startLine": 151,
+        "startChar": 32,
+        "endLine": 151,
+        "endChar": 33
+      },
+      "revId": "f1f3c66de6fd248b29c06fc50dfa1d29d3edbbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

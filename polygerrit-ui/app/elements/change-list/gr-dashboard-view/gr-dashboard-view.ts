@@ -58,6 +58,7 @@ import {
   YOUR_TURN,
 } from '../../../utils/dashboard-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {Timing} from '../../../constants/reporting';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -113,6 +114,16 @@ export class GrDashboardView extends LitElement {
   private readonly getViewModel = resolve(this, dashboardViewModelToken);
 
   private lastVisibleTimestampMs = 0;
+
+  /**
+   * For `DASHBOARD_DISPLAYED` timing we can only rely on the router to have
+   * reset the timer properly when the dashboard loads for the first time.
+   * Later we won't have a guarantee that the timer was just reset. So we will
+   * just reset the timer at the beginning of `reload()`. The dashboard view
+   * is cached anyway, so there is unlikely a lot of time that has passed
+   * initiating the reload and the reload() method being executed.
+   */
+  private firstTimeLoad = true;
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -376,6 +387,13 @@ export class GrDashboardView extends LitElement {
    */
   reload() {
     if (!this.viewState) return Promise.resolve();
+
+    // See `firstTimeLoad` comment above.
+    if (!this.firstTimeLoad) {
+      this.reporting.time(Timing.DASHBOARD_DISPLAYED);
+    }
+    this.firstTimeLoad = false;
+
     this.loading = true;
     const {project, dashboard, title, user, sections} = this.viewState;
 

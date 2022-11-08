@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -73,6 +74,7 @@ import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
 import com.google.gerrit.server.restapi.change.DraftComments;
 import com.google.gerrit.server.restapi.change.Files;
+import com.google.gerrit.server.restapi.change.Files.ListFiles;
 import com.google.gerrit.server.restapi.change.Fixes;
 import com.google.gerrit.server.restapi.change.GetArchive;
 import com.google.gerrit.server.restapi.change.GetCommit;
@@ -89,14 +91,20 @@ import com.google.gerrit.server.restapi.change.ListRobotComments;
 import com.google.gerrit.server.restapi.change.Mergeable;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.restapi.change.PreviewFix;
+import com.google.gerrit.server.restapi.change.PreviewFix.Provided;
+import com.google.gerrit.server.restapi.change.PreviewFix.Stored;
 import com.google.gerrit.server.restapi.change.PutDescription;
 import com.google.gerrit.server.restapi.change.Rebase;
+import com.google.gerrit.server.restapi.change.RebaseChain;
 import com.google.gerrit.server.restapi.change.Reviewed;
+import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
+import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.restapi.change.RevisionReviewers;
 import com.google.gerrit.server.restapi.change.RobotComments;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.restapi.change.TestSubmitRule;
 import com.google.gerrit.server.restapi.change.TestSubmitType;
+import com.google.gerrit.server.restapi.change.TestSubmitType.Get;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -119,6 +127,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final RevisionReviewerApiImpl.Factory revisionReviewerApi;
   private final CherryPick cherryPick;
   private final Rebase rebase;
+  private final RebaseChain rebaseChain;
   private final RebaseUtil rebaseUtil;
   private final Submit submit;
   private final Reviewed.PutReviewed putReviewed;
@@ -168,12 +177,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       RevisionReviewerApiImpl.Factory revisionReviewerApi,
       CherryPick cherryPick,
       Rebase rebase,
+      RebaseChain rebaseChain,
       RebaseUtil rebaseUtil,
       Submit submit,
-      Reviewed.PutReviewed putReviewed,
-      Reviewed.DeleteReviewed deleteReviewed,
+      PutReviewed putReviewed,
+      DeleteReviewed deleteReviewed,
       Files files,
-      Files.ListFiles listFiles,
+      ListFiles listFiles,
       GetCommit getCommit,
       GetPatch getPatch,
       PostReview review,
@@ -184,9 +194,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
       ApplyStoredFix applyStoredFix,
-      PreviewFix.Stored previewStoredFix,
+      Stored previewStoredFix,
       ApplyProvidedFix applyProvidedFix,
-      PreviewFix.Provided previewProvidedFix,
+      Provided previewProvidedFix,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -198,7 +208,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       RobotCommentApiImpl.Factory robotCommentFactory,
       GetRevisionActions revisionActions,
       TestSubmitType testSubmitType,
-      TestSubmitType.Get getSubmitType,
+      Get getSubmitType,
       Provider<TestSubmitRule> testSubmitRule,
       Provider<GetMergeList> getMergeList,
       GetRelated getRelated,
@@ -214,6 +224,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.revisionReviewerApi = revisionReviewerApi;
     this.cherryPick = cherryPick;
     this.rebase = rebase;
+    this.rebaseChain = rebaseChain;
     this.rebaseUtil = rebaseUtil;
     this.review = review;
     this.submit = submit;
@@ -289,6 +300,15 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return rebase.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase ps", e);
+    }
+  }
+
+  @Override
+  public RebaseChainInfo rebaseChain(RebaseInput in) throws RestApiException {
+    try {
+      return rebaseChain.apply(revision, in).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot rebase chain", e);
     }
   }
 

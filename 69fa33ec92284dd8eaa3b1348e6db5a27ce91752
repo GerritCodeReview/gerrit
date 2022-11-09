@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79586844_ffc8d49b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-09T15:11:56Z",
+      "side": 1,
+      "message": "`this.focusableNodes` is never getting populated now that the setter is deleted. can this be simplified now?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "69fa33ec92284dd8eaa3b1348e6db5a27ce91752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

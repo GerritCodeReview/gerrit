@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2749b5cd_b0b1180f",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "This is a \"hovercard\" mixin, so maybe rename to just `getHost()`.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3799431e_7ca5d6fc",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "You don\u0027t need the `el` parameter. You can just use `this._target` directly.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7ebafe9_8fc9c8e1",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "Maybe specify the return type of this method.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf728d0_ccd7b945",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "This is a \"hovercard\" mixin, so maybe rename to just `getContainer()`.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6277d2ad_c997b4dc",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "You don\u0027t need the `target` parameter. You can just use `this._target` directly.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "095348e2_1959910a",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "Maybe we can do `this.updatePositionTo(this.position);` as a fallback here?\n\nThen you can just do the change to `_isInsideViewport()` as suggested.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f1cd7b0_882e82a7",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:20:08Z",
+      "side": 1,
+      "message": "Rename to `hostRect`.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,13 +36,7 @@ suite('gr-diff-preferences-dialog', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-overlay
-          aria-hidden="true"
-          id="diffPrefsOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="diffPrefsModal" tabindex="-1">
           <div aria-labelledby="diffPreferencesTitle" role="dialog">
             <h3 class="diffHeader heading-3" id="diffPreferencesTitle">
               Diff Preferences
@@ -71,7 +65,7 @@ suite('gr-diff-preferences-dialog', () => {
               </gr-button>
             </div>
           </div>
-        </gr-overlay>
+        </dialog>
       `
     );
   });

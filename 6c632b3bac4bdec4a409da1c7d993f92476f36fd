@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e16b5245_16772ab1",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852f5ffe_fbb72dca",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b3cd54c_1a0b9a34",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-09T09:22:25Z",
       "side": 1,
       "message": "Just `return el;` here, no need for break and the local `host` variable then.",
+      "range": {
+        "startLine": 54,
+        "startChar": 21,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2bc491_2ad5a0ea",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b3cd54c_1a0b9a34",
       "range": {
         "startLine": 54,
         "startChar": 21,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08605651_40ee57f0",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35defbbe_aff04f80",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02bf5ef5_8bf0a1bd",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-11-09T09:22:25Z",
       "side": 1,
       "message": "You should use the `host` here, as well, instead of `document`.\n\n```suggestion\n    _isInsideViewport() {\n      const thisRect \u003d this.getBoundingClientRect();\n      const hostRect \u003d getHovercardHost(this._target!).getBoundingClientRect();\n      if (thisRect.top \u003c hostRect.top) return false;\n      if (thisRect.left \u003c hostRect.left) return false;\n      if (thisRect.bottom \u003e hostRect.bottom) return false;\n      if (thisRect.right \u003e hostRect.right) return false;\n      return true;\n    }\n```",
+      "range": {
+        "startLine": 561,
+        "startChar": 20,
+        "endLine": 569,
+        "endChar": 20
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bd46aeb_efd2828a",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "That would mean the hovercard might not be rendered in some cases within the dialog, and in some exceptional cases might not be rendered at all since the dialog width is too small.\n\nAs discussed in a follow up change I will try and first fit the hovercard inside the dialog if possible and then fallback to the document but since that is additional functionality I prefer making a follow up change.",
+      "parentUuid": "02bf5ef5_8bf0a1bd",
       "range": {
         "startLine": 561,
         "startChar": 20,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b06603_c48c4061",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem that beneficial.\nLooks like it\u0027s better inlined I think.",
+      "parentUuid": "bd5bdf9b_64d6187c",
+      "range": {
+        "startLine": 592,
+        "startChar": 38,
+        "endLine": 592,
+        "endChar": 68
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0ea6bcb_04a06523",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cd196ad_598b8363",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0ea6bcb_04a06523",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5916faa8_704d99a9",
@@ -140,6 +272,24 @@
       "writtenOn": "2022-11-09T09:22:25Z",
       "side": 1,
       "message": "Why? Normally it should fit inside the dialog. Maybe change the dialog that we only need this for the exceptional case that the hovercard does not fit into the dialog.",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beba0eed_df8f70f1",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T09:59:14Z",
+      "side": 1,
+      "message": "Updated comment to mention it should be an exception scenario.",
+      "parentUuid": "5916faa8_704d99a9",
       "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

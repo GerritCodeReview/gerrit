@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
@@ -280,6 +281,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void byUsername() throws Exception {
+    assume().that(hasIndexByUsername()).isTrue();
     AccountInfo user1 = newAccount("myuser");
 
     assertQuery("notexisting");
@@ -560,7 +562,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void withDetails() throws Exception {
     AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
 
-    List<AccountInfo> result = assertQuery(user1.username, user1);
+    List<AccountInfo> result = assertQuery(getDefaultSearch(user1), user1);
     AccountInfo ai = result.get(0);
     assertThat(ai._accountId).isEqualTo(user1._accountId);
     assertThat(ai.name).isNull();
@@ -568,7 +570,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(ai.email).isNull();
     assertThat(ai.avatars).isNull();
 
-    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    result =
+        assertQuery(
+            newQuery(getDefaultSearch(user1)).withOption(ListAccountsOption.DETAILS), user1);
     ai = result.get(0);
     assertThat(ai._accountId).isEqualTo(user1._accountId);
     assertThat(ai.name).isEqualTo(user1.name);
@@ -583,25 +587,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String[] secondaryEmails = new String[] {"bar@example.com", "foo@example.com"};
     addEmails(user1, secondaryEmails);
 
-    List<AccountInfo> result = assertQuery(user1.username, user1);
+    List<AccountInfo> result = assertQuery(getDefaultSearch(user1), user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
-    result = assertQuery(newQuery(user1.username).withSuggest(true), user1);
-    assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
-        .inOrder();
-
-    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
-    assertThat(result.get(0).secondaryEmails).isNull();
-
-    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.ALL_EMAILS), user1);
+    result = assertQuery(newQuery(getDefaultSearch(user1)).withSuggest(true), user1);
     assertThat(result.get(0).secondaryEmails)
         .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
         .inOrder();
 
     result =
         assertQuery(
-            newQuery(user1.username)
+            newQuery(getDefaultSearch(user1)).withOption(ListAccountsOption.DETAILS), user1);
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    result =
+        assertQuery(
+            newQuery(getDefaultSearch(user1)).withOption(ListAccountsOption.ALL_EMAILS), user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
+        .inOrder();
+
+    result =
+        assertQuery(
+            newQuery(getDefaultSearch(user1))
                 .withOptions(ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS),
             user1);
     assertThat(result.get(0).secondaryEmails)
@@ -619,21 +627,22 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     requestContext.setContext(newRequestContext(Account.id(user._accountId)));
 
-    List<AccountInfo> result = newQuery(otherUser.username).withSuggest(true).get();
+    List<AccountInfo> result = newQuery(getDefaultSearch(otherUser)).withSuggest(true).get();
     assertThat(result.get(0).secondaryEmails).isNull();
     assertThrows(
         AuthException.class,
-        () -> newQuery(otherUser.username).withOption(ListAccountsOption.ALL_EMAILS).get());
+        () ->
+            newQuery(getDefaultSearch(otherUser)).withOption(ListAccountsOption.ALL_EMAILS).get());
   }
 
   @Test
   public void asAnonymous() throws Exception {
-    AccountInfo user1 = newAccount("user1");
+    AccountInfo user1 = newAccount("user1", "user1@gerrit.com", /*active=*/ true);
 
     setAnonymous();
     assertQuery("9999999");
     assertQuery("self");
-    assertQuery("username:" + user1.username, user1);
+    assertQuery("email:" + user1.email, user1);
   }
 
   // reindex permissions are tested by {@link AccountIT#reindexPermissions}
@@ -697,11 +706,31 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       assertThat(extId).isPresent();
       blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
     }
+
+    // Some installations do not store EXTERNAL_ID_STATE_SPEC
+    if (!schema.hasField(AccountField.EXTERNAL_ID_STATE_SPEC)) {
+      return;
+    }
     Iterable<byte[]> externalIdStates =
         rawFields.get().<Iterable<byte[]>>getValue(AccountField.EXTERNAL_ID_STATE_SPEC);
     assertThat(externalIdStates).hasSize(blobs.size());
     assertThat(Streams.stream(externalIdStates).map(b -> new ByteArrayWrapper(b)).collect(toList()))
         .containsExactlyElementsIn(blobs);
+  }
+
+  private String getDefaultSearch(AccountInfo user) {
+    return hasIndexByUsername() ? user.username : user.name;
+  }
+
+  /**
+   * Returns 'true' is {@link AccountField#USERNAME_FIELD} is indexed.
+   *
+   * <p>Some installations do not index {@link AccountField#USERNAME_FIELD}, since they do not use
+   * {@link ExternalId#SCHEME_USERNAME}
+   */
+  private boolean hasIndexByUsername() {
+    Schema<AccountState> schema = indexes.getSearchIndex().getSchema();
+    return schema.hasField(AccountField.USERNAME_SPEC);
   }
 
   protected AccountInfo newAccount(String username) throws Exception {

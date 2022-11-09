@@ -60,14 +60,9 @@ export class GrOverlay extends base {
   // private but used in test
   _boundHandleClose: () => void = () => super.close();
 
-  private focusableNodes?: Node[];
-
   private returnFocusTo?: HTMLElement;
 
   override get _focusableNodes() {
-    if (this.focusableNodes) {
-      return this.focusableNodes;
-    }
     return Array.from(getFocusableElements(this));
   }
 
@@ -107,13 +102,6 @@ export class GrOverlay extends base {
       this.returnFocusTo.focus();
       this.returnFocusTo = undefined;
     }
-  }
-
-  /**
-   * Override the focus stops that iron-overlay-behavior tries to find.
-   */
-  setFocusStops(stops: GrOverlayStops) {
-    this.focusableNodes = [stops.start, stops.end];
   }
 
   /**

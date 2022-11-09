@@ -2609,36 +2609,6 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  test('getFocusStops', async () => {
-    // Setting draftCommentThreads to an empty object causes _sendDisabled to be
-    // computed to false.
-    element.draftCommentThreads = [];
-    await element.updateComplete;
-
-    assert.equal(
-      element.getFocusStops()!.end,
-      queryAndAssert<GrButton>(element, '#cancelButton')
-    );
-    element.draftCommentThreads = [
-      {
-        ...createCommentThread([
-          {
-            ...createDraft(),
-            path: 'test',
-            line: 1,
-            patch_set: 1 as RevisionPatchSetNum,
-          },
-        ]),
-      },
-    ];
-    await element.updateComplete;
-
-    assert.equal(
-      element.getFocusStops()!.end,
-      queryAndAssert<GrButton>(element, '#sendButton')
-    );
-  });
-
   test('setPluginMessage', async () => {
     element.setPluginMessage('foo');
     await element.updateComplete;

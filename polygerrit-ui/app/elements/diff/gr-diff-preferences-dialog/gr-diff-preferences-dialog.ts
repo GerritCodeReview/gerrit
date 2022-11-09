@@ -6,7 +6,6 @@
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {GrButton} from '../../shared/gr-button/gr-button';
 import {assertIsDefined} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
@@ -17,10 +16,6 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 @customElement('gr-diff-preferences-dialog')
 export class GrDiffPreferencesDialog extends LitElement {
   @query('#diffPreferences') private diffPreferences?: GrDiffPreferences;
-
-  @query('#saveButton') private saveButton?: GrButton;
-
-  @query('#cancelButton') private cancelButton?: GrButton;
 
   @query('#diffPrefsModal') private diffPrefsModal?: HTMLDialogElement;
 
@@ -102,16 +97,6 @@ export class GrDiffPreferencesDialog extends LitElement {
         </div>
       </dialog>
     `;
-  }
-
-  getFocusStops() {
-    assertIsDefined(this.diffPreferences, 'diffPreferences');
-    assertIsDefined(this.saveButton, 'saveButton');
-    assertIsDefined(this.cancelButton, 'cancelbutton');
-    return {
-      start: this.diffPreferences.contextSelect!,
-      end: this.saveButton.disabled ? this.cancelButton : this.saveButton,
-    };
   }
 
   resetFocus() {

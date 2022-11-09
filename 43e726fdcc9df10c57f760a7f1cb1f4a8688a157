@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce7d74ed_e0640c37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-09T17:10:41Z",
+      "side": 1,
+      "message": "Add `Release-Notes: skip` footer to the commit message as it will not be able to get it.",
+      "revId": "43e726fdcc9df10c57f760a7f1cb1f4a8688a157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

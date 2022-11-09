@@ -27,7 +27,6 @@ import {
   CreateDestinationConfirmDetail,
   GrCreateDestinationDialog,
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {
   fireAlert,
@@ -82,7 +81,8 @@ export class GrDashboardView extends LitElement {
   @query('#destinationDialog')
   protected destinationDialog?: GrCreateDestinationDialog;
 
-  @query('#confirmDeleteOverlay') protected confirmDeleteOverlay?: GrOverlay;
+  @query('#confirmDeleteModal')
+  protected confirmDeleteModal?: HTMLDialogElement;
 
   @property({type: Object})
   account?: AccountDetailInfo;
@@ -220,7 +220,7 @@ export class GrDashboardView extends LitElement {
     if (!this.viewState) return nothing;
     return html`
       ${this.renderBanner()} ${this.renderContent()}
-      <gr-overlay id="confirmDeleteOverlay" with-backdrop>
+      <dialog id="confirmDeleteModal" tabindex="-1">
         <gr-dialog
           id="confirmDeleteDialog"
           confirm-label="Delete"
@@ -228,7 +228,7 @@ export class GrDashboardView extends LitElement {
             this.handleConfirmDelete();
           }}
           @cancel=${() => {
-            this.closeConfirmDeleteOverlay();
+            this.closeConfirmDeleteModal();
           }}
         >
           <div class="header" slot="header">Delete comments</div>
@@ -237,7 +237,7 @@ export class GrDashboardView extends LitElement {
             changes? This action cannot be undone.
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
       <gr-create-destination-dialog
         id="destinationDialog"
         @confirm=${(e: CustomEvent<CreateDestinationConfirmDetail>) => {
@@ -584,8 +584,8 @@ export class GrDashboardView extends LitElement {
 
   // private but used in test
   handleOpenDeleteDialog() {
-    assertIsDefined(this.confirmDeleteOverlay, 'confirmDeleteOverlay');
-    this.confirmDeleteOverlay.open();
+    assertIsDefined(this.confirmDeleteModal, 'confirmDeleteModal');
+    this.confirmDeleteModal.showModal();
   }
 
   // private but used in test
@@ -593,14 +593,14 @@ export class GrDashboardView extends LitElement {
     assertIsDefined(this.confirmDeleteDialog, 'confirmDeleteDialog');
     this.confirmDeleteDialog.disabled = true;
     return this.restApiService.deleteDraftComments('-is:open').then(() => {
-      this.closeConfirmDeleteOverlay();
+      this.closeConfirmDeleteModal();
       this.reload();
     });
   }
 
-  private closeConfirmDeleteOverlay() {
-    assertIsDefined(this.confirmDeleteOverlay, 'confirmDeleteOverlay');
-    this.confirmDeleteOverlay.close();
+  private closeConfirmDeleteModal() {
+    assertIsDefined(this.confirmDeleteModal, 'confirmDeleteModal');
+    this.confirmDeleteModal.close();
   }
 
   private computeDraftsLink() {

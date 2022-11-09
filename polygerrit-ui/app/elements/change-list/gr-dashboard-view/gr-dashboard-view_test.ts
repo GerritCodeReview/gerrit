@@ -29,7 +29,6 @@ import {
   RepoName,
   Timestamp,
 } from '../../../types/common';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateChangeHelp} from '../gr-create-change-help/gr-create-change-help';
 import {PageErrorEvent} from '../../../types/events';
@@ -90,12 +89,9 @@ suite('gr-dashboard-view tests', () => {
             </div>
           </gr-change-list>
         </div>
-        <gr-overlay
-          aria-hidden="true"
-          id="confirmDeleteOverlay"
-          style="outline: none; display: none;"
+        <dialog
+          id="confirmDeleteModal"
           tabindex="-1"
-          with-backdrop=""
         >
           <gr-dialog
             confirm-label="Delete"
@@ -108,7 +104,7 @@ suite('gr-dashboard-view tests', () => {
             changes? This action cannot be undone.
             </div>
           </gr-dialog>
-        </gr-overlay>
+        </dialog>
         <gr-create-destination-dialog id="destinationDialog">
         </gr-create-destination-dialog>
         <gr-create-commands-dialog id="commandsDialog">
@@ -266,7 +262,10 @@ suite('gr-dashboard-view tests', () => {
       );
 
       // Open confirmation dialog and tap confirm button.
-      await queryAndAssert<GrOverlay>(element, '#confirmDeleteOverlay').open();
+      queryAndAssert<HTMLDialogElement>(
+        element,
+        '#confirmDeleteModal'
+      ).showModal();
       queryAndAssert<GrDialog>(
         element,
         '#confirmDeleteDialog'

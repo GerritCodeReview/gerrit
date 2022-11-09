@@ -500,9 +500,9 @@ suite('gr-comment tests', () => {
     deleteButton.click();
     await element.updateComplete;
 
-    assertIsDefined(element.confirmDeleteOverlay, 'confirmDeleteOverlay');
+    assertIsDefined(element.confirmDeleteModal, 'confirmDeleteModal');
     const dialog = queryAndAssert<GrConfirmDeleteCommentDialog>(
-      element.confirmDeleteOverlay,
+      element.confirmDeleteModal,
       '#confirmDeleteComment'
     );
     dialog.message = 'removal reason';

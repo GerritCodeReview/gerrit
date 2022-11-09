@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3895e78_e3319808",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1664,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-09T11:30:13Z",
+      "side": 1,
+      "message": "I think here you want to escape quotes \" as \\\".\n\nThe whole query should be URL encoded but I guess that is happening later down in the stack as I see other query params keep : which needs to be URL encoded.",
+      "range": {
+        "startLine": 1664,
+        "startChar": 27,
+        "endLine": 1664,
+        "endChar": 45
+      },
+      "revId": "95af817d6bfcff9e94cc227ff84ced75b239c6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

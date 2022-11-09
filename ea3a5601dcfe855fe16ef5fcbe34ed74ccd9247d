@@ -193,6 +193,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0602cec8_0afda0b1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-09T14:33:39Z",
+      "side": 1,
+      "message": "Added in \nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/351118",
+      "parentUuid": "55738366_f86eb29f",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfb7fe7d_d9471776",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 14
@@ -312,6 +336,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9af2f9e_d3f6f758",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-09T14:33:39Z",
+      "side": 1,
+      "message": "Sorry I meant we do enforce this internally.\n\nIf it seems not useful to upstream, we can, of course, move this constraint to the internal implementation.",
+      "parentUuid": "bb86428b_088e86e1",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78167a7d_12d87053",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 14
@@ -419,6 +467,30 @@
       "side": 1,
       "message": "Thanks for the detailed reply!\n\n\u003e Yes, if the index uses IndexedFields, then each IndexField addition/removal is a separate schema upgrade.\n\u003e Since we are in the process of implementing our backend, and none of the upstream backends are using this yet, I don\u0027t want to touch the existing schemas, only replace the definitions.\n\u003e I.e. the assumption is that any implementation, using the new fields, has to support all searches that are currently supported by Gerrit. Until we have IndexFields for all searches, we can not build such an implementation.\n\nAck.\n\n\u003e \n\u003e If you want want to support this in Elastic, you would need:\n\u003e 1) build a backed implementation that uses a primary storage with IndexFields and token index that references that primary storage (does not store the entire index document in index, only a key to primary storage)\n\nDoes the backend have to work that way? For example, with Elastic I think we could have fields that are indexed as the \u0027keyword\u0027 type [1] (maps to our \u0027exact\u0027 concept) and then at search time we could choose to do either a prefix query [2] or an exact term query [3]. I think this works perfectly for fields like Id, topic, and maybe even author/committer. You could add new SearchSpecs without needing to increment the index schema version because the new search is using an existing field.\n\nThere\u0027s also an idea of \"multi-fields\" [4] in Elastic where you can index the same field in different ways. It\u0027s less clear to me that the new IndexField/SearchSpec abstraction would support that.\n\nMaybe we can spend some time during the upcoming hackathon discussing more? 😊\n\n[1] https://www.elastic.co/guide/en/elasticsearch/reference/7.17/keyword.html\n[2] https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-prefix-query.html\n[3] https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-term-query.html\n[4] https://www.elastic.co/guide/en/elasticsearch/reference/7.17/multi-fields.html",
       "parentUuid": "f8ff726e_287ae863",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28bbd4d4_89b172aa",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-09T14:33:39Z",
+      "side": 1,
+      "message": "Yes, this does no have to work this way in every implementation. This is just an example how it is used by us.\n\nmulti-fields actually seem more similar to what we are doing, e.g. create a string topic and then index it in different ways, (prefix, full_text).\nI am not sure what \u0027different purposes\u0027 means in the context of elastic though.\n\nSure, let\u0027s discuss in more details when we have a chance.",
+      "parentUuid": "98a15d39_05cc8379",
       "range": {
         "startLine": 35,
         "startChar": 25,

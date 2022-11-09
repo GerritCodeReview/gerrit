@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a4ea21c_efdce3e9",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:53:39Z",
+      "side": 1,
+      "message": "You have to compare with `hostRect.top`.",
+      "range": {
+        "startLine": 556,
+        "startChar": 42,
+        "endLine": 556,
+        "endChar": 43
+      },
+      "revId": "8ffeb329caefc6996b4caf69291f6cf88799a5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0664395f_f00a14b3",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T10:53:39Z",
+      "side": 1,
+      "message": "`bottom`, not `height`",
+      "range": {
+        "startLine": 559,
+        "startChar": 54,
+        "endLine": 559,
+        "endChar": 60
+      },
+      "revId": "8ffeb329caefc6996b4caf69291f6cf88799a5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

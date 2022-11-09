@@ -22,6 +22,30 @@
       },
       "revId": "1b51914997fc0a14812f6aa948bd38226b594ad1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4518fda3_e6deced0",
+        "filename": "java/com/google/gerrit/index/query/FieldBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-09T14:36:18Z",
+      "side": 1,
+      "message": "This is again tested by the AbstractQueryTests, so I think it is ok without the test.",
+      "parentUuid": "0bc5a613_74dfeeac",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 26
+      },
+      "revId": "1b51914997fc0a14812f6aa948bd38226b594ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

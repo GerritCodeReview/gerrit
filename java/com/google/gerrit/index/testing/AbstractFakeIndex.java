@@ -176,7 +176,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
               fields.put(field.getName(), field.get(result));
             }
           }
-          fieldBundles.add(new FieldBundle(fields.build()));
+          fieldBundles.add(new FieldBundle(fields.build(), /* storesIndexedFields= */ false));
           searchAfter = keyFor(result);
         }
         ImmutableList<FieldBundle> resultSet = fieldBundles.build();

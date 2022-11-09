@@ -16,9 +16,12 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.index.IndexedField;
+import com.google.gerrit.index.IndexedField.SearchSpec;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 
 /** FieldBundle is an abstraction that allows retrieval of raw values from different sources. */
@@ -27,8 +30,22 @@ public class FieldBundle {
   // Map String => List{Integer, Long, Timestamp, String, byte[]}
   private ImmutableListMultimap<String, Object> fields;
 
-  public FieldBundle(ListMultimap<String, Object> fields) {
+  /**
+   * Depending on the index implementation 1) either {@link IndexedField} are stored once and
+   * referenced by {@link IndexedField.SearchSpec} on the queries, 2) or each {@link
+   * IndexedField.SearchSpec} is stored individually.
+   *
+   * <p>In case #1 {@link #storesIndexedFields} is set to {@code true} and the {@link #fields}
+   * contain a map from {@link IndexedField#name()} to a stored value.
+   *
+   * <p>In case #2 {@link #storesIndexedFields} is set to {@code false} and the {@link #fields}
+   * contain a map from {@link SearchSpec#name()} to a stored value.
+   */
+  private final boolean storesIndexedFields;
+
+  public FieldBundle(ListMultimap<String, Object> fields, boolean storesIndexedFields) {
     this.fields = ImmutableListMultimap.copyOf(fields);
+    this.storesIndexedFields = storesIndexedFields;
   }
 
   /**
@@ -46,13 +63,17 @@ public class FieldBundle {
   @SuppressWarnings("unchecked")
   public <T> T getValue(SchemaField<?, T> schemaField) {
     checkArgument(schemaField.isStored(), "Field must be stored");
+    String storedFieldName =
+        storesIndexedFields && schemaField instanceof IndexedField<?, ?>.SearchSpec
+            ? ((IndexedField<?, ?>.SearchSpec) schemaField).getField().name()
+            : schemaField.getName();
     checkArgument(
-        fields.containsKey(schemaField.getName()) || schemaField.isRepeatable(),
+        fields.containsKey(storedFieldName) || schemaField.isRepeatable(),
         "Field %s is not in result set %s",
-        schemaField.getName(),
+        storedFieldName,
         fields.keySet());
 
-    Iterable<Object> result = fields.get(schemaField.getName());
+    ImmutableList<Object> result = fields.get(storedFieldName);
     if (schemaField.isRepeatable()) {
       return (T) result;
     }

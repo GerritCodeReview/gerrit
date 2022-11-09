@@ -52,6 +52,60 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38160858_60ee6923",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2749b5cd_b0b1180f",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69b5834_520cfd50",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7ebafe9_8fc9c8e1",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e660d194_be625a37",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3799431e_7ca5d6fc",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cf728d0_ccd7b945",
@@ -86,6 +140,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c3b2b3_7f9dc8ee",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf728d0_ccd7b945",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "357ae076_0b1e10a4",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6277d2ad_c997b4dc",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "095348e2_1959910a",
@@ -103,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c067cb_f0bb07e1",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "095348e2_1959910a",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f1cd7b0_882e82a7",
@@ -116,6 +224,24 @@
       "writtenOn": "2022-11-09T10:20:08Z",
       "side": 1,
       "message": "Rename to `hostRect`.",
+      "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97cebb57_d249581c",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T10:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f1cd7b0_882e82a7",
       "revId": "ff06aaf7478a87bdeb81175d2bf24c7eb771286e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

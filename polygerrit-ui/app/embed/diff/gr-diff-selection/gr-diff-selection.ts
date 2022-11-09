@@ -8,7 +8,11 @@ import {
   normalize,
   NormalizedRange,
 } from '../gr-diff-highlight/gr-range-normalizer';
-import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
+import {
+  descendedFromClass,
+  parentWithClass,
+  querySelectorAll,
+} from '../../../utils/dom-util';
 import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {
@@ -73,10 +77,11 @@ export class GrDiffSelection {
     const target = e.target;
     if (!(target instanceof Element)) return;
 
-    if (isThreadEl(target)) {
+    const commentEl = parentWithClass(target, 'comment-thread', this.diffTable);
+    if (commentEl && isThreadEl(commentEl)) {
       this.setClasses([
         SelectionClass.COMMENT,
-        selectionClassForSide(getSide(target)),
+        selectionClassForSide(getSide(commentEl)),
       ]);
       return;
     }

@@ -147,12 +147,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       >
         Vote
       </gr-button>
-      <gr-overlay
-        aria-hidden="true"
-        id="actionOverlay"
-        style="outline: none; display: none;"
+      <dialog
+        id="actionModal"
         tabindex="-1"
-        with-backdrop=""
       >
         <gr-dialog role="dialog">
           <div slot="header">
@@ -197,7 +194,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </gr-overlay> `
+      </dialog> `
     );
   });
 
@@ -238,12 +235,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       >
         Vote
       </gr-button>
-      <gr-overlay
-        aria-hidden="true"
-        id="actionOverlay"
-        style="outline: none; display: none;"
+      <dialog
+        id="actionModal"
         tabindex="-1"
-        with-backdrop=""
       >
         <gr-dialog role="dialog">
           <div slot="header">
@@ -367,10 +361,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const saveChangeReview = mockPromise<Response>();
     stubRestApi('saveChangeReview').returns(saveChangeReview);
 
-    const stopsStub = sinon.stub(element.actionOverlay, 'setFocusStops');
-
     queryAndAssert<GrButton>(element, '#voteFlowButton').click();
-    await waitUntil(() => stopsStub.called);
 
     await element.updateComplete;
 

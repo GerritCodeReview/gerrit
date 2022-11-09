@@ -30,6 +30,10 @@ const SelectionClass = {
   BLAME: 'selected-blame',
 };
 
+function selClass(side?: Side) {
+  return side === Side.LEFT ? SelectionClass.LEFT : SelectionClass.RIGHT;
+}
+
 interface LinesCache {
   left: string[] | null;
   right: string[] | null;
@@ -70,34 +74,22 @@ export class GrDiffSelection {
     if (!(target instanceof Element)) return;
 
     if (isThreadEl(target)) {
-      this.setClasses([
-        SelectionClass.COMMENT,
-        getSide(target) === Side.LEFT
-          ? SelectionClass.LEFT
-          : SelectionClass.RIGHT,
-      ]);
+      this.setClasses([SelectionClass.COMMENT, selClass(getSide(target))]);
       return;
     }
 
-    const lineEl = getLineElByChild(target);
     const blameSelected = descendedFromClass(target, 'blame', this.diffTable);
-    if (!lineEl && !blameSelected) {
+    if (blameSelected) {
+      this.setClasses([SelectionClass.BLAME]);
       return;
     }
 
-    const targetClasses = [];
-
-    if (blameSelected) {
-      targetClasses.push(SelectionClass.BLAME);
-    } else if (lineEl) {
-      const side = getSideByLineEl(lineEl);
-
-      targetClasses.push(
-        side === 'left' ? SelectionClass.LEFT : SelectionClass.RIGHT
-      );
+    // This works for both, the content and the line number cells.
+    const lineEl = getLineElByChild(target);
+    if (lineEl) {
+      this.setClasses([selClass(getSideByLineEl(lineEl))]);
+      return;
     }
-
-    this.setClasses(targetClasses);
   };
 
   /**

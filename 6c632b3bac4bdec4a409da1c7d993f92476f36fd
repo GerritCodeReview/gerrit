@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852f5ffe_fbb72dca",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "maybe `el?: Node`",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b3cd54c_1a0b9a34",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "Just `return el;` here, no need for break and the local `host` variable then.",
+      "range": {
+        "startLine": 54,
+        "startChar": 21,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35defbbe_aff04f80",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "You have removed the only external usage of this function. So I would recommend moving this as a method into the class. You can also remove the `options` parameter, because there is only one call site, so no need for supporting different options.",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02bf5ef5_8bf0a1bd",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "You should use the `host` here, as well, instead of `document`.\n\n```suggestion\n    _isInsideViewport() {\n      const thisRect \u003d this.getBoundingClientRect();\n      const hostRect \u003d getHovercardHost(this._target!).getBoundingClientRect();\n      if (thisRect.top \u003c hostRect.top) return false;\n      if (thisRect.left \u003c hostRect.left) return false;\n      if (thisRect.bottom \u003e hostRect.bottom) return false;\n      if (thisRect.right \u003e hostRect.right) return false;\n      return true;\n    }\n```",
+      "range": {
+        "startLine": 561,
+        "startChar": 20,
+        "endLine": 569,
+        "endChar": 20
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd5bdf9b_64d6187c",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "Maybe add a method:\n```\ngetHost() {\n  return getHovercardHost(this._target);\n}\n```",
+      "range": {
+        "startLine": 592,
+        "startChar": 38,
+        "endLine": 592,
+        "endChar": 68
+      },
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0ea6bcb_04a06523",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "Maybe remove the empty line 21 to be consistent about empty lines following a comment block.",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5916faa8_704d99a9",
+        "filename": "polygerrit-ui/app/styles/gr-modal-styles.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-09T09:22:25Z",
+      "side": 1,
+      "message": "Why? Normally it should fit inside the dialog. Maybe change the dialog that we only need this for the exceptional case that the hovercard does not fit into the dialog.",
+      "revId": "6c632b3bac4bdec4a409da1c7d993f92476f36fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -646,7 +646,7 @@ export class GrComment extends LitElement {
         title="Delete Comment"
         link
         class="action delete"
-        @click=${this.openDeleteCommentOverlay}
+        @click=${this.openDeleteCommentModal}
       >
         <gr-icon id="icon" icon="delete" filled></gr-icon>
       </gr-button>
@@ -1263,7 +1263,7 @@ export class GrComment extends LitElement {
     }
   }
 
-  private async openDeleteCommentOverlay() {
+  private async openDeleteCommentModal() {
     this.showConfirmDeleteModal = true;
     await this.updateComplete;
     await this.confirmDeleteModal?.showModal();

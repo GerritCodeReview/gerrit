@@ -11,7 +11,6 @@ import {customElement} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 import {findActiveElement} from '../../../utils/dom-util';
 import {fireEvent} from '../../../utils/event-util';
-import {getHovercardContainer} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {getFocusableElements} from '../../../utils/focusable';
 
 const AWAIT_MAX_ITERS = 10;
@@ -108,20 +107,6 @@ export class GrOverlay extends base {
       this.returnFocusTo.focus();
       this.returnFocusTo = undefined;
     }
-  }
-
-  override _onCaptureFocus(e: Event) {
-    const hovercardContainer = getHovercardContainer();
-    if (hovercardContainer) {
-      // Hovercard container is not a child of an overlay.
-      // When an overlay is opened and a user clicks inside hovercard,
-      // the IronOverlayBehavior doesn't allow to set focus inside a hovercard.
-      // As a result, user can't select a text (username) in the hovercard
-      // in a dialog. We should skip default _onCaptureFocus for hovercards.
-      const path = e.composedPath();
-      if (path.indexOf(hovercardContainer) >= 0) return;
-    }
-    super._onCaptureFocus(e);
   }
 
   /**

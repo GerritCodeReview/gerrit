@@ -73,7 +73,7 @@ suite('gr-hovercard tests', () => {
     assert.typeOf(element.style.getPropertyValue('paddingTop'), 'string');
     assert.typeOf(element.style.getPropertyValue('marginTop'), 'string');
 
-    const parentRect = document.documentElement.getBoundingClientRect();
+    const parentRect = element.getHost().getBoundingClientRect();
     const targetRect = element._target!.getBoundingClientRect();
     const thisRect = element.getBoundingClientRect();
 
@@ -91,6 +91,16 @@ suite('gr-hovercard tests', () => {
       pixelCompare(element.style.top),
       pixelCompare(`${targetTop + targetRect.height + element.offset}px`)
     );
+  });
+
+  test('getHost', () => {
+    element._target = document.createElement('span');
+
+    const dialog = document.createElement('dialog');
+
+    assert.deepEqual(element.getHost(), document.body);
+    dialog.appendChild(element._target);
+    assert.deepEqual(element.getHost(), dialog);
   });
 
   test('hide', () => {

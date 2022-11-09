@@ -94,20 +94,11 @@ export class GrDiffSelection {
     if (blameSelected) {
       targetClasses.push(SelectionClass.BLAME);
     } else if (lineEl) {
-      const commentSelected = descendedFromClass(
-        target,
-        'gr-comment',
-        this.diffTable
-      );
       const side = getSideByLineEl(lineEl);
 
       targetClasses.push(
         side === 'left' ? SelectionClass.LEFT : SelectionClass.RIGHT
       );
-
-      if (commentSelected) {
-        targetClasses.push(SelectionClass.COMMENT);
-      }
     }
 
     this.setClasses(targetClasses);

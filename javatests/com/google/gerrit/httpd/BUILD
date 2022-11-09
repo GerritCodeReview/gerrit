@@ -21,6 +21,7 @@ junit_tests(
         "//lib/bouncycastle:bcprov",
         "//lib/guice",
         "//lib/guice:guice-servlet",
+        "//lib/jsoup",
         "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

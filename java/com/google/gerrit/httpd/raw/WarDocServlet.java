@@ -15,20 +15,22 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 
-class WarDocServlet extends ResourceServlet {
+class WarDocServlet extends DocServlet {
   private static final long serialVersionUID = 1L;
 
   private static final FileTime NOW = FileTime.fromMillis(TimeUtil.nowMs());
 
   private final FileSystem warFs;
 
-  WarDocServlet(Cache<Path, Resource> cache, FileSystem warFs) {
-    super(cache, false);
+  WarDocServlet(
+      Cache<Path, Resource> cache, FileSystem warFs, ExperimentFeatures experimentFeatures) {
+    super(cache, false, experimentFeatures);
     this.warFs = warFs;
   }
 

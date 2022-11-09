@@ -59,11 +59,13 @@ export class TestElement extends LitElement {
 }
 
 async function createFixture() {
-  return await fixture<HTMLElement>(html` <div id="test" class="a b c">
-    <a class="testBtn" style="color:red;"></a>
-    <dom-util-test-element></dom-util-test-element>
-    <span class="ss"></span>
-  </div>`);
+  return await fixture<HTMLElement>(html`
+    <div id="test" class="a b c d">
+      <a class="testBtn" style="color:red;"></a>
+      <dom-util-test-element></dom-util-test-element>
+      <span class="ss"></span>
+    </div>
+  `);
 }
 
 suite('dom-util tests', () => {
@@ -127,7 +129,7 @@ suite('dom-util tests', () => {
         path = getEventPath(e as MouseEvent);
       });
       aLink.click();
-      assert.equal(path, 'html>body>div>div#test.a.b.c>a.testBtn');
+      assert.equal(path, 'html>body>div>div#test.a.b.c.d>a.testBtn');
     });
   });
 
@@ -150,14 +152,44 @@ suite('dom-util tests', () => {
   });
 
   suite('descendedFromClass', () => {
-    test('basic tests', async () => {
+    test('descends from itself', async () => {
       const element = await createFixture();
       const testEl = queryAndAssert(element, 'dom-util-test-element');
-      // .c is a child of .a and not vice versa.
-      assert.isTrue(descendedFromClass(queryAndAssert(testEl, '.c'), 'a'));
-      assert.isFalse(descendedFromClass(queryAndAssert(testEl, '.a'), 'c'));
+      assert.isTrue(descendedFromClass(queryAndAssert(testEl, '.c'), 'c'));
+      assert.isTrue(descendedFromClass(queryAndAssert(testEl, '.b'), 'b'));
+      assert.isTrue(descendedFromClass(queryAndAssert(testEl, '.a'), 'a'));
+    });
 
-      // Stops at stop element.
+    test('.c in .b in .a', async () => {
+      const element = await createFixture();
+      const testEl = queryAndAssert(element, 'dom-util-test-element');
+      const a = queryAndAssert(testEl, '.a');
+      const b = queryAndAssert(testEl, '.b');
+      const c = queryAndAssert(testEl, '.c');
+      assert.isTrue(descendedFromClass(a, 'a'));
+      assert.isTrue(descendedFromClass(b, 'a'));
+      assert.isTrue(descendedFromClass(c, 'a'));
+      assert.isFalse(descendedFromClass(a, 'b'));
+      assert.isTrue(descendedFromClass(b, 'b'));
+      assert.isTrue(descendedFromClass(c, 'b'));
+      assert.isFalse(descendedFromClass(a, 'c'));
+      assert.isFalse(descendedFromClass(b, 'c'));
+      assert.isTrue(descendedFromClass(c, 'c'));
+    });
+
+    test('stops at shadow root', async () => {
+      const element = await createFixture();
+      const testEl = queryAndAssert(element, 'dom-util-test-element');
+      const a = queryAndAssert(testEl, '.a');
+      // div.d is a parent of testEl, but `descendedFromClass` does not cross
+      // the shadow root boundary of <dom-util-test-element>. So div.a inside
+      // the shadow root is not considered to descend from div.d outside of it.
+      assert.isFalse(descendedFromClass(a, 'd'));
+    });
+
+    test('stops at stop element', async () => {
+      const element = await createFixture();
+      const testEl = queryAndAssert(element, 'dom-util-test-element');
       assert.isFalse(
         descendedFromClass(
           queryAndAssert(testEl, '.c'),

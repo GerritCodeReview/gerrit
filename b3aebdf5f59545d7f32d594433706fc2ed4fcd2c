@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f52f21_0787e466",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T14:25:14Z",
+      "side": 1,
+      "message": "do we need these testOnly exports?\nWhy can\u0027t we simply export the original function.",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 45
+      },
+      "revId": "b3aebdf5f59545d7f32d594433706fc2ed4fcd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

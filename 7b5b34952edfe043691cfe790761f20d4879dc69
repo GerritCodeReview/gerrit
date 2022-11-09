@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc66cc09_276f364c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-09T12:09:50Z",
+      "side": 1,
+      "message": "Leaving the approval to someone with more FE experience than I have",
+      "revId": "7b5b34952edfe043691cfe790761f20d4879dc69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

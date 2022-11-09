@@ -110,13 +110,6 @@ export class GrOverlay extends base {
   }
 
   /**
-   * Override the focus stops that iron-overlay-behavior tries to find.
-   */
-  setFocusStops(stops: GrOverlayStops) {
-    this.focusableNodes = [stops.start, stops.end];
-  }
-
-  /**
    * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
    * opening. Eventually replace with a direct way to listen to the overlay.
    */

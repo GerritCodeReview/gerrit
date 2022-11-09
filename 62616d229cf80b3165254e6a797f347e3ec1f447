@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0096466e_d622909c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-09T14:12:12Z",
+      "side": 1,
+      "message": "nit: \"can be made not required\"?\n\n\"can not be required\", might mean, that we/users/etc... are not able to make it required.\n\nMarking resolved to leave the rephrasing to your judgement.",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "62616d229cf80b3165254e6a797f347e3ec1f447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,7 +21,6 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
-import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
   NumericChangeId,
@@ -65,6 +64,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/diff';
 import {userModelToken} from '../../../models/user/user-model';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -129,8 +129,8 @@ export class GrComment extends LitElement {
   @query('#resolvedCheckbox')
   resolvedCheckbox?: HTMLInputElement;
 
-  @query('#confirmDeleteOverlay')
-  confirmDeleteOverlay?: GrOverlay;
+  @query('#confirmDeleteModal')
+  confirmDeleteModal?: HTMLDialogElement;
 
   @property({type: Object})
   comment?: Comment;
@@ -202,7 +202,7 @@ export class GrComment extends LitElement {
   unresolved = true;
 
   @property({type: Boolean})
-  showConfirmDeleteOverlay = false;
+  showConfirmDeleteModal = false;
 
   @property({type: Boolean})
   unableToSave = false;
@@ -330,6 +330,7 @@ export class GrComment extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       css`
         :host {
           display: block;
@@ -938,16 +939,16 @@ export class GrComment extends LitElement {
   }
 
   private renderConfirmDialog() {
-    if (!this.showConfirmDeleteOverlay) return;
+    if (!this.showConfirmDeleteModal) return;
     return html`
-      <gr-overlay id="confirmDeleteOverlay" with-backdrop>
+      <dialog id="confirmDeleteModal" tabindex="-1">
         <gr-confirm-delete-comment-dialog
           id="confirmDeleteComment"
           @confirm=${this.handleConfirmDeleteComment}
           @cancel=${this.closeDeleteCommentOverlay}
         >
         </gr-confirm-delete-comment-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -1263,15 +1264,15 @@ export class GrComment extends LitElement {
   }
 
   private async openDeleteCommentOverlay() {
-    this.showConfirmDeleteOverlay = true;
+    this.showConfirmDeleteModal = true;
     await this.updateComplete;
-    await this.confirmDeleteOverlay?.open();
+    await this.confirmDeleteModal?.showModal();
   }
 
   private closeDeleteCommentOverlay() {
-    this.showConfirmDeleteOverlay = false;
-    this.confirmDeleteOverlay?.remove();
-    this.confirmDeleteOverlay?.close();
+    this.showConfirmDeleteModal = false;
+    this.confirmDeleteModal?.remove();
+    this.confirmDeleteModal?.close();
   }
 
   /**
@@ -1284,7 +1285,7 @@ export class GrComment extends LitElement {
    */
   // private, but visible for testing
   handleConfirmDeleteComment() {
-    const dialog = this.confirmDeleteOverlay?.querySelector(
+    const dialog = this.confirmDeleteModal?.querySelector(
       '#confirmDeleteComment'
     ) as GrConfirmDeleteCommentDialog | null;
     if (!dialog || !dialog.message) {

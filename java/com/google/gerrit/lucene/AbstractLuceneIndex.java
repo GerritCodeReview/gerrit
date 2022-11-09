@@ -400,7 +400,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         throw FieldType.badFieldType(type);
       }
     }
-    return new FieldBundle(rawFields);
+    return new FieldBundle(rawFields, /* storesIndexedFields= */ false);
   }
 
   private static Field.Store store(SchemaField<?, ?> f) {

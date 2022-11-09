@@ -22,6 +22,30 @@
       },
       "revId": "69fa33ec92284dd8eaa3b1348e6db5a27ce91752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c5cb2a9_848a965d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-09T16:59:09Z",
+      "side": 1,
+      "message": "Yeah `this.focusableNodes` can be removed.\nNot sure if `_focusableNodes` still needs to be overridden but since this file will soon be completely removed, I don\u0027t want to spend too much time on this cleanup here.",
+      "parentUuid": "79586844_ffc8d49b",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "69fa33ec92284dd8eaa3b1348e6db5a27ce91752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

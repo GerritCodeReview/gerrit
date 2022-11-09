@@ -1657,7 +1657,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const queryParams = [];
     inputVal = inputVal?.trim() ?? '';
     if (inputVal.length > 0) {
-      queryParams.push(inputVal);
+      // Wrap in quotes so that reserved keywords do not throw an error such
+      // as typing "and"
+      // Espace quotes in user input since we are wrapping input in quotes
+      // explicitly
+      queryParams.push(`${escapeAndWrapSearchOperatorValue(inputVal)}`);
     }
     if (canSee) {
       queryParams.push(`cansee:${canSee}`);

@@ -354,7 +354,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test52/accounts/?o=DETAILS&q=bro'
+        'test52/accounts/?o=DETAILS&q=%22bro%22'
       );
     });
 
@@ -363,7 +363,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test53/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682'
+        'test53/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682'
       );
     });
 
@@ -377,7 +377,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test54/accounts/?o=DETAILS&q=bro%20and%20' +
+        'test54/accounts/?o=DETAILS&q=%22bro%22%20and%20' +
           'cansee%3A341682%20and%20is%3Aactive'
       );
     });
@@ -1021,7 +1021,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .resolves();
     await element.getSuggestedAccounts('own');
     assert.deepEqual(fetchJSONStub.lastCall.args[0].params, {
-      q: 'own',
+      q: '"own"',
       o: 'DETAILS',
     });
   });

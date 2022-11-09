@@ -111,9 +111,7 @@ public class AccountField {
       NAME_PART_NO_SECONDARY_EMAIL_SPEC = NAME_PART_NO_SECONDARY_EMAIL_FIELD.prefix("name2");
 
   public static final IndexedField<AccountState, String> FULL_NAME_FIELD =
-      IndexedField.<AccountState>stringBuilder("FullName")
-          .required()
-          .build(a -> a.account().fullName());
+      IndexedField.<AccountState>stringBuilder("FullName").build(a -> a.account().fullName());
 
   public static final IndexedField<AccountState, String>.SearchSpec FULL_NAME_SPEC =
       FULL_NAME_FIELD.exact("full_name");

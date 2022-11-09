@@ -118,7 +118,7 @@ public abstract class IndexedField<I, T> {
   /**
    * Defines how {@link IndexedField} can be searched and how the index tokens are generated.
    *
-   * <p>Multiple {@link SearchSpec} can be defined on single {@link IndexedField}.
+   * <p>Multiple {@link SearchSpec} can be defined on a single {@link IndexedField}.
    *
    * <p>Depending on the implementation, indexes can choose to store {@link IndexedField} and {@link
    * SearchSpec} separately. The searches are issues to {@link SearchSpec}.
@@ -357,7 +357,11 @@ public abstract class IndexedField<I, T> {
 
   private Map<String, SearchSpec> searchSpecs = new HashMap<>();
 
-  /** The name to store this field under. */
+  /**
+   * The name to store this field under.
+   *
+   * <p>The name should use the UpperCamelCase format, see {@link Builder#checkName}.
+   */
   public abstract String name();
 
   /** Optional description of the field data. */

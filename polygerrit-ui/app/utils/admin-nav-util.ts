@@ -64,11 +64,11 @@ export function getAdminLinks(
 ): Promise<AdminLinks> {
   if (!account) {
     return Promise.resolve(
-      _filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options)
+      filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options)
     );
   }
   return getAccountCapabilities().then(capabilities =>
-    _filterLinks(
+    filterLinks(
       link => !link.capability || hasOwnProperty(capabilities, link.capability),
       getAdminMenuLinks,
       options
@@ -76,7 +76,7 @@ export function getAdminLinks(
   );
 }
 
-function _filterLinks(
+function filterLinks(
   filterFn: (link: NavLink) => boolean,
   getAdminMenuLinks: () => MenuLink[],
   options?: AdminNavLinksOption

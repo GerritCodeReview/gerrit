@@ -206,7 +206,7 @@ export function computeAllPatchSets(
       };
     });
   }
-  return _computeWipForPatchSets(change, patchNums);
+  return computeWipForPatchSets(change, patchNums);
 }
 
 /**
@@ -218,7 +218,7 @@ export function computeAllPatchSets(
  * @return The given list of patch set objects, with the
  *     wip property set on each of them
  */
-function _computeWipForPatchSets(
+function computeWipForPatchSets(
   change: ChangeInfo | ParsedChangeInfo,
   patchNums: PatchSet[]
 ) {
@@ -249,7 +249,7 @@ function _computeWipForPatchSets(
   return patchNums;
 }
 
-export const _testOnly_computeWipForPatchSets = _computeWipForPatchSets;
+export const _testOnly_computeWipForPatchSets = computeWipForPatchSets;
 
 export function computeLatestPatchNum(
   allPatchSets?: PatchSet[]

@@ -25,12 +25,12 @@ export interface NormalizedRange {
  *     for syntax highlighting.
  */
 export function normalize(range: Range): NormalizedRange {
-  const startContainer = _getContentTextParent(range.startContainer);
+  const startContainer = getContentTextParent(range.startContainer);
   const startOffset =
-    range.startOffset + _getTextOffset(startContainer, range.startContainer);
-  const endContainer = _getContentTextParent(range.endContainer);
+    range.startOffset + getTextOffset(startContainer, range.startContainer);
+  const endContainer = getContentTextParent(range.endContainer);
   const endOffset =
-    range.endOffset + _getTextOffset(endContainer, range.endContainer);
+    range.endOffset + getTextOffset(endContainer, range.endContainer);
   return {
     startContainer,
     startOffset,
@@ -39,7 +39,7 @@ export function normalize(range: Range): NormalizedRange {
   };
 }
 
-function _getContentTextParent(target: Node): Node {
+function getContentTextParent(target: Node): Node {
   if (!target.parentElement) return target;
 
   let element: Element | null;
@@ -67,7 +67,7 @@ function _getContentTextParent(target: Node): Node {
  * @param child The child element being searched for.
  */
 // TODO(TS): Only export for test.
-export function _getTextOffset(node: Node | null, child: Node): number {
+export function getTextOffset(node: Node | null, child: Node): number {
   let count = 0;
   let stack = [node];
   while (stack.length) {
@@ -83,7 +83,7 @@ export function _getTextOffset(node: Node | null, child: Node): number {
       arr.reverse();
       stack = stack.concat(arr);
     } else {
-      count += _getLength(n);
+      count += getLength(n);
     }
   }
   return count;
@@ -96,7 +96,7 @@ export function _getTextOffset(node: Node | null, child: Node): number {
  * @param node A text node.
  * @return The length of the text.
  */
-function _getLength(node?: Node | null) {
+function getLength(node?: Node | null) {
   return node && node.textContent
     ? node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length
     : 0;

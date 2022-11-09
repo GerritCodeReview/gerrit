@@ -12,7 +12,7 @@ import {
   createTestAppContext,
   createTestDependencies,
 } from './test-app-context-init';
-import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
+import {testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
 import {
   cleanupTestUtils,
   getCleanupsCount,
@@ -127,7 +127,7 @@ setup(() => {
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
   testResolver(pluginLoaderToken).loadPlugins([]);
-  _testOnlyResetGrRestApiSharedObjects(appContext.authService);
+  testOnlyResetGrRestApiSharedObjects(appContext.authService);
 });
 
 export function removeRequestDependencyListener() {

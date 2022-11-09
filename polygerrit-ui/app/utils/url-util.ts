@@ -76,7 +76,7 @@ export function getDocsBaseUrl(
   return getDocsBaseUrlCachedPromise;
 }
 
-export function _testOnly_clearDocsBaseUrlCache() {
+export function testOnly_clearDocsBaseUrlCache() {
   getDocsBaseUrlCachedPromise = undefined;
 }
 

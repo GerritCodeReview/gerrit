@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-diff-highlight';
-import {_getTextOffset} from './gr-range-normalizer';
+import {getTextOffset} from './gr-range-normalizer';
 import {fixture, fixtureCleanup, html, assert} from '@open-wc/testing';
 import {
   GrDiffHighlight,
@@ -684,13 +684,13 @@ suite('gr-diff-highlight', () => {
       if (!content.lastChild) assert.fail('last child of content not found');
       let child = content.lastChild.lastChild;
       if (!child) assert.fail('last child of last child of content not found');
-      let result = _getTextOffset(content, child);
+      let result = getTextOffset(content, child);
       assert.equal(result, 75);
       content = stubContent(146, Side.RIGHT);
       if (!content) assert.fail('content element not found');
       child = content.lastChild;
       if (!child) assert.fail('child element not found');
-      result = _getTextOffset(content, child);
+      result = getTextOffset(content, child);
       assert.equal(result, 0);
     });
 

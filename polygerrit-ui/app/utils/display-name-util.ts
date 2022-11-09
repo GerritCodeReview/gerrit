@@ -56,21 +56,21 @@ export function getAccountDisplayName(
   account: AccountInfo
 ) {
   const reviewerName = getDisplayName(config, account);
-  const reviewerEmail = _accountEmail(account.email);
+  const reviewerEmail = accountEmail(account.email);
   const reviewerStatus = account.status ? '(' + account.status + ')' : '';
   return [reviewerName, reviewerEmail, reviewerStatus]
     .filter(p => p.length > 0)
     .join(' ');
 }
 
-function _accountEmail(email?: string) {
+function accountEmail(email?: string) {
   if (typeof email !== 'undefined') {
     return '<' + email + '>';
   }
   return '';
 }
 
-export const _testOnly_accountEmail = _accountEmail;
+export const _testOnly_accountEmail = accountEmail;
 
 export function getGroupDisplayName(group: GroupInfo) {
   return `${group.name || ''} (group)`;

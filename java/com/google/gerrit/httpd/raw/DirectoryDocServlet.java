@@ -15,15 +15,17 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import java.nio.file.Path;
 
-class DirectoryDocServlet extends ResourceServlet {
+class DirectoryDocServlet extends DocServlet {
   private static final long serialVersionUID = 1L;
 
   private final Path doc;
 
-  DirectoryDocServlet(Cache<Path, Resource> cache, Path unpackedWar) {
-    super(cache, true);
+  DirectoryDocServlet(
+      Cache<Path, Resource> cache, Path unpackedWar, ExperimentFeatures experimentFeatures) {
+    super(cache, true, experimentFeatures);
     this.doc = unpackedWar.resolve("Documentation");
   }
 

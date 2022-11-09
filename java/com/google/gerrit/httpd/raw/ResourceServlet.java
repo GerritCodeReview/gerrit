@@ -126,6 +126,26 @@ public abstract class ResourceServlet extends HttpServlet {
    */
   protected abstract Path getResourcePath(String pathInfo) throws IOException;
 
+  /**
+   * Indicates that resource requires some processing before being served.
+   *
+   * <p>If true, the caching headers in response are set to not cache. Additionally, streaming
+   * option is disabled.
+   *
+   * @return true if the {@link #processResourceBeforeServe(HttpServletRequest, HttpServletResponse,
+   *     Resource)} should be called.
+   */
+  protected boolean shouldProcessResourceBeforeServe(
+      HttpServletRequest req, HttpServletResponse rsp, Path p) {
+    return false;
+  }
+
+  /** Edits the resource before adding it to the response. */
+  protected Resource processResourceBeforeServe(
+      HttpServletRequest req, HttpServletResponse rsp, Resource resource) {
+    return resource;
+  }
+
   protected FileTime getLastModifiedTime(Path p) throws IOException {
     return Files.getLastModifiedTime(p);
   }
@@ -148,10 +168,11 @@ public abstract class ResourceServlet extends HttpServlet {
       return;
     }
 
+    boolean requiresPostProcess = shouldProcessResourceBeforeServe(req, rsp, p);
     Resource r = cache.getIfPresent(p);
     try {
       if (r == null) {
-        if (maybeStream(p, req, rsp)) {
+        if (!requiresPostProcess && maybeStream(p, req, rsp)) {
           return; // Bypass cache for large resource.
         }
         r = cache.get(p, newLoader(p));
@@ -176,11 +197,16 @@ public abstract class ResourceServlet extends HttpServlet {
       CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(SC_NOT_FOUND);
       return;
-    } else if (cacheOnClient && r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
+    } else if (!requiresPostProcess
+        && cacheOnClient
+        && r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
       rsp.setStatus(SC_NOT_MODIFIED);
       return;
     }
 
+    if (requiresPostProcess) {
+      r = processResourceBeforeServe(req, rsp, r);
+    }
     byte[] tosend = r.raw;
     if (!r.contentType.equals(JS) && RequestUtil.acceptsGzipEncoding(req)) {
       byte[] gz = HtmlDomUtil.compress(tosend);
@@ -190,7 +216,7 @@ public abstract class ResourceServlet extends HttpServlet {
       }
     }
 
-    if (cacheOnClient) {
+    if (!requiresPostProcess && cacheOnClient) {
       rsp.setHeader(ETAG, r.etag);
     } else {
       CacheHeaders.setNotCacheable(rsp);

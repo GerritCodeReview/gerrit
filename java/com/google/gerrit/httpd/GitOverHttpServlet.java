@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -486,6 +485,16 @@ public class GitOverHttpServlet extends GitServlet {
   static class GerritUploadPackErrorHandler implements UploadPackErrorHandler {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+    private static int statusCodeForThrowable(Throwable error) {
+      if (error instanceof ServiceNotEnabledException) {
+        return HttpServletResponse.SC_FORBIDDEN;
+      }
+      if (error instanceof PackProtocolException) {
+        return HttpServletResponse.SC_OK;
+      }
+      return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    }
+
     @Override
     public void upload(HttpServletRequest req, HttpServletResponse rsp, UploadPackRunnable r)
         throws IOException {
@@ -506,7 +515,7 @@ public class GitOverHttpServlet extends GitServlet {
         if (!rsp.isCommitted()) {
           rsp.reset();
           String msg = e instanceof PackProtocolException ? e.getMessage() : null;
-          sendError(req, rsp, SC_INTERNAL_SERVER_ERROR, msg);
+          sendError(req, rsp, statusCodeForThrowable(e), msg);
         }
       }
     }

@@ -27,6 +27,9 @@ public class ExperimentFeaturesConstants {
   public static String GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG =
       "GerritBackendRequestFeature__remove_revision_etag";
 
+  public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
+      "GerritBackendFeature__attach_nonce_to_documentation";
+
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
       ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS, UI_FEATURE_SUBMIT_REQUIREMENTS_UI);

@@ -40,6 +40,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -220,5 +221,15 @@ public class HtmlDomUtil {
     factory.setIgnoringComments(true);
     factory.setCoalescing(true);
     return factory.newDocumentBuilder();
+  }
+
+  /** Attaches nonce to all script elements in html. */
+  public static String attachNonce(String html, String nonce) {
+    org.jsoup.nodes.Document document = Jsoup.parse(html);
+    document.getElementsByTag("script").attr("nonce", nonce);
+    return document
+        .outputSettings(
+            new org.jsoup.nodes.Document.OutputSettings().prettyPrint(false).indentAmount(0))
+        .outerHtml();
   }
 }

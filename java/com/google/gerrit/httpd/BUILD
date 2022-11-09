@@ -43,5 +43,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
+        "//lib/jsoup",
     ],
 )

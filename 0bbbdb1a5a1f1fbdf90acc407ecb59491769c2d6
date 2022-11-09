@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40f939c5_499086dd",
+        "filename": "java/com/google/gerrit/httpd/HtmlDomUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-09T14:25:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0b784d_e0b046ac",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 238,
+        "endChar": 63
+      },
+      "revId": "0bbbdb1a5a1f1fbdf90acc407ecb59491769c2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a733aff_8cd93789",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-09T13:55:56Z",
       "side": 1,
       "message": "optional: shouldProcessResourceBeforeServe/processResourceBeforeServe (the word write in the name is confusing)",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "0bbbdb1a5a1f1fbdf90acc407ecb59491769c2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c250be_df1e3e1a",
+        "filename": "java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-09T14:25:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a733aff_8cd93789",
       "range": {
         "startLine": 138,
         "startChar": 20,

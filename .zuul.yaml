@@ -8,9 +8,6 @@
       (i.e., builds of Gerrit itself or plugins) on this branch.
     required-projects:
       - jgit
-    # Remove java_version variable when merging up to master
-    vars:
-      java_version: 8
 
 - job:
     name: gerrit-build

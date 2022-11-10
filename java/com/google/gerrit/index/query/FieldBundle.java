@@ -27,7 +27,24 @@ public class FieldBundle {
   // Map String => List{Integer, Long, Timestamp, String, byte[]}
   private ImmutableListMultimap<String, Object> fields;
 
+<<<<<<< HEAD   (838ea2 Set version to 3.4.9-SNAPSHOT)
   public FieldBundle(ListMultimap<String, Object> fields) {
+=======
+  /**
+   * Depending on the index implementation 1) either {@link IndexedField} are stored once and
+   * referenced by {@link com.google.gerrit.index.IndexedField.SearchSpec} on the queries, 2) or
+   * each {@link com.google.gerrit.index.IndexedField.SearchSpec} is stored individually.
+   *
+   * <p>In case #1 {@link #storesIndexedFields} is set to {@code true} and the {@link #fields}
+   * contain a map from {@link IndexedField#name()} to a stored value.
+   *
+   * <p>In case #2 {@link #storesIndexedFields} is set to {@code false} and the {@link #fields}
+   * contain a map from {@link SearchSpec#name()} to a stored value.
+   */
+  private final boolean storesIndexedFields;
+
+  public FieldBundle(ListMultimap<String, Object> fields, boolean storesIndexedFields) {
+>>>>>>> CHANGE (fec2b0 Fix recently introduced issues that are flagged as warnings)
     this.fields = ImmutableListMultimap.copyOf(fields);
   }
 

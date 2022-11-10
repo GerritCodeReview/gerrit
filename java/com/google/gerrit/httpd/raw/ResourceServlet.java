@@ -126,6 +126,37 @@ public abstract class ResourceServlet extends HttpServlet {
    */
   protected abstract Path getResourcePath(String pathInfo) throws IOException;
 
+<<<<<<< HEAD   (838ea2 Set version to 3.4.9-SNAPSHOT)
+=======
+  /**
+   * Indicates that resource requires some processing before being served.
+   *
+   * <p>If true, the caching headers in response are set to not cache. Additionally, streaming
+   * option is disabled.
+   *
+   * @param req the HTTP servlet request
+   * @param rsp the HTTP servlet response
+   * @param p URL path
+   * @return true if the {@link #processResourceBeforeServe(HttpServletRequest, HttpServletResponse,
+   *     Resource)} should be called.
+   */
+  protected boolean shouldProcessResourceBeforeServe(
+      HttpServletRequest req, HttpServletResponse rsp, Path p) {
+    return false;
+  }
+
+  /**
+   * Edits the resource before adding it to the response.
+   *
+   * @param req the HTTP servlet request
+   * @param rsp the HTTP servlet response
+   */
+  protected Resource processResourceBeforeServe(
+      HttpServletRequest req, HttpServletResponse rsp, Resource resource) {
+    return resource;
+  }
+
+>>>>>>> CHANGE (fec2b0 Fix recently introduced issues that are flagged as warnings)
   protected FileTime getLastModifiedTime(Path p) throws IOException {
     return Files.getLastModifiedTime(p);
   }

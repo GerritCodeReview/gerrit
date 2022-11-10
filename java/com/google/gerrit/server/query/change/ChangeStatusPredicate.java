@@ -155,6 +155,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
         return 50_000;
       case ABANDONED:
         return 50_000;
+      case NEW:
       default:
         return 2000;
     }

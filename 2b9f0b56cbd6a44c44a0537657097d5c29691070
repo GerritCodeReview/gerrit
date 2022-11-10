@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fd4bce_d700237a",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-10T12:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca84137_a5d66d0e",
+      "range": {
+        "startLine": 186,
+        "startChar": 31,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "2b9f0b56cbd6a44c44a0537657097d5c29691070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7896a5de_71f64a37",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-10T10:21:37Z",
       "side": 1,
       "message": "nit: We generally prefer `undefined` over `null` except when necessary",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "2b9f0b56cbd6a44c44a0537657097d5c29691070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e685a98c_b9d6ba1e",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-10T12:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7896a5de_71f64a37",
       "range": {
         "startLine": 189,
         "startChar": 0,

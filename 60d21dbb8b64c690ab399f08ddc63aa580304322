@@ -16,6 +16,24 @@
       "message": "We should probably have a Gerrit test for this, expected HTTP status codes.\n1. We are meddling with the error-handling.\n2. We would discover issues that are caused by jgit when we upgrade jgit.",
       "revId": "60d21dbb8b64c690ab399f08ddc63aa580304322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a16b6d37_8468c1b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-11-10T08:37:39Z",
+      "side": 1,
+      "message": "Reply to unresolve.",
+      "parentUuid": "cbd0916b_96f64344",
+      "revId": "60d21dbb8b64c690ab399f08ddc63aa580304322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

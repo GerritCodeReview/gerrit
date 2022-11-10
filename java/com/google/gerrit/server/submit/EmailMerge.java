@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -93,7 +94,10 @@ class EmailMerge implements Runnable, RequestContext {
     RequestContext old = requestContext.setContext(this);
     try {
       MergedSender emailSender =
-          mergedSenderFactory.create(project, change.getId(), Optional.of(stickyApprovalDiff));
+          mergedSenderFactory.create(
+              project,
+              change.getId(),
+              Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff)));
       if (submitter != null) {
         emailSender.setFrom(submitter.getAccountId());
       }

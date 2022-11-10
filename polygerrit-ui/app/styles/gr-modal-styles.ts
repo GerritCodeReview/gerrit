@@ -25,8 +25,12 @@ export const modalStyles = css`
      * In some cases it is possible that the hovercard will not render fully
      * within the dimentions of the dialog content and hence needs to
      * overflow the dialog content
+     * TODO: This breaks large dialogs because they will display their full
+     * contents by rendering offscreen instead of introducing a scrollbar.
+     * Reinstate this once all dialogs wrap their contents in something that
+     * has a max-height and overflows properly.
      */
-    overflow: visible;
+    /* overflow: visible; */
   }
 
   dialog::backdrop {

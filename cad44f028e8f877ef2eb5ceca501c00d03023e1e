@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cbc89a_473db67d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-10T09:57:58Z",
+      "side": 1,
+      "message": "Thanks Saša and Ben for approval.",
+      "revId": "cad44f028e8f877ef2eb5ceca501c00d03023e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

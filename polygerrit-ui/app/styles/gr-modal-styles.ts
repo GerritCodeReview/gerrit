@@ -21,12 +21,6 @@ export const modalStyles = css`
     font-size: var(--font-size-normal, 1rem);
     line-height: var(--line-height-normal, 1.4);
     color: var(--primary-text-color, black);
-    /*
-     * In some cases it is possible that the hovercard will not render fully
-     * within the dimentions of the dialog content and hence needs to
-     * overflow the dialog content
-     */
-    overflow: visible;
   }
 
   dialog::backdrop {

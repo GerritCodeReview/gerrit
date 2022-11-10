@@ -42,6 +42,7 @@
     "test": "yarn --cwd=polygerrit-ui test",
     "test:screenshot": "yarn --cwd=polygerrit-ui test:screenshot",
     "test:screenshot-update": "yarn --cwd=polygerrit-ui test:screenshot-update",
+    "test:browsers": "yarn --cwd=polygerrit-ui test:browsers",
     "test:coverage": "yarn --cwd=polygerrit-ui test:coverage",
     "test:watch": "yarn --cwd=polygerrit-ui test:watch",
     "test:single": "yarn --cwd=polygerrit-ui test:single",

@@ -182,25 +182,37 @@ export function getEventPath<T extends MouseEvent>(e?: T) {
 }
 
 /**
- * Are any ancestors of the element (or the element itself) members of the
- * given class.
+ * Are any ancestors of the element (or the element itself) tagged with the
+ * given css class?
  *
+ * We are walking up the DOM using `element.parentElement`, but are not crossing
+ * Shadow DOM boundaries, if there are any.
  */
 export function descendedFromClass(
-  element: Element,
+  element: Element | undefined,
   className: string,
   stopElement?: Element
 ) {
-  let isDescendant = element.classList.contains(className);
-  while (
-    !isDescendant &&
-    element.parentElement &&
-    (!stopElement || element.parentElement !== stopElement)
-  ) {
-    isDescendant = element.classList.contains(className);
-    element = element.parentElement;
+  return parentWithClass(element, className, stopElement) !== undefined;
+}
+
+/**
+ * Returns an ancestor of the element (or the element itself) tagged with the
+ * given css class - or undefined.
+ *
+ * We are walking up the DOM using `element.parentElement`, but are not crossing
+ * Shadow DOM boundaries, if there are any.
+ */
+export function parentWithClass(
+  element: Element | undefined,
+  className: string,
+  stopElement?: Element
+) {
+  while (element && (!stopElement || element !== stopElement)) {
+    if (element.classList.contains(className)) return element;
+    element = element.parentElement ?? undefined;
   }
-  return isDescendant;
+  return undefined;
 }
 
 /**

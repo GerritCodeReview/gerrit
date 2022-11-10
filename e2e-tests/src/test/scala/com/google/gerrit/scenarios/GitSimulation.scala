@@ -14,6 +14,7 @@
 
 package com.google.gerrit.scenarios
 
+import static java.nio.charset.StandardCharsets.UTF_8
 import java.io.{File, IOException}
 import java.net.URLEncoder
 
@@ -31,7 +32,7 @@ class GitSimulation extends GerritSimulation {
   protected val gitProtocol: GitProtocol = GitProtocol()
 
   override def replaceOverride(in: String): String = {
-    var next = replaceKeyWith("_project", URLEncoder.encode(getFullProjectName(projectName), "UTF-8"), in)
+    var next = replaceKeyWith("_project", URLEncoder.encode(getFullProjectName(projectName), UTF_8), in)
     val authenticated = getProperty("authenticated", false).toBoolean
     val value = "CONTEXT_PATH" + (if (authenticated) "/a" else "")
     next = replaceKeyWith("context_path", value, next)

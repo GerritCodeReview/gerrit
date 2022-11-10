@@ -16,6 +16,24 @@
       "message": "This is really cool, and a feature that I think many have been hoping for for a long time.\n\nI was wondering if there is any plan to extend this to be able to change review-state of a stack? I think that would be very appreciated (at least by our users).\n\nI found this while writing an issue for the dashboard, so there is a related issue for it.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16403",
       "revId": "2cd7ab5f9ac9802d60f91c526d9f825d053034b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cdb3856_8ccf275b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-10T14:20:24Z",
+      "side": 1,
+      "message": "Yeah we would like to add more actions but for now we only have actions we thought would be most popular for doing in bulk. It would be nice to have WIP/Active, Private/Public, Abandon/Restore, etc eventually.\n\nBefore adding more we need to change up the UI to be some kind of dropdown list of actions instead of having separate buttons for each one, otherwise it would get too crowded with more actions.",
+      "parentUuid": "9abe02e1_9a406b86",
+      "revId": "2cd7ab5f9ac9802d60f91c526d9f825d053034b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

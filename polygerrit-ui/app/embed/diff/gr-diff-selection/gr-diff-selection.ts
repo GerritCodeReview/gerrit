@@ -65,24 +65,20 @@ export class GrDiffSelection {
     this.diffTable.removeEventListener('mousedown', this.handleDown);
   }
 
-  handleDownOnRangeComment(node: Element) {
-    if (isThreadEl(node)) {
-      this.setClasses([
-        SelectionClass.COMMENT,
-        getSide(node) === Side.LEFT
-          ? SelectionClass.LEFT
-          : SelectionClass.RIGHT,
-      ]);
-      return true;
-    }
-    return false;
-  }
-
   handleDown = (e: Event) => {
     const target = e.target;
     if (!(target instanceof Element)) return;
-    const handled = this.handleDownOnRangeComment(target);
-    if (handled) return;
+
+    if (isThreadEl(target)) {
+      this.setClasses([
+        SelectionClass.COMMENT,
+        getSide(target) === Side.LEFT
+          ? SelectionClass.LEFT
+          : SelectionClass.RIGHT,
+      ]);
+      return;
+    }
+
     const lineEl = getLineElByChild(target);
     const blameSelected = descendedFromClass(target, 'blame', this.diffTable);
     if (!lineEl && !blameSelected) {
@@ -94,20 +90,11 @@ export class GrDiffSelection {
     if (blameSelected) {
       targetClasses.push(SelectionClass.BLAME);
     } else if (lineEl) {
-      const commentSelected = descendedFromClass(
-        target,
-        'gr-comment',
-        this.diffTable
-      );
       const side = getSideByLineEl(lineEl);
 
       targetClasses.push(
         side === 'left' ? SelectionClass.LEFT : SelectionClass.RIGHT
       );
-
-      if (commentSelected) {
-        targetClasses.push(SelectionClass.COMMENT);
-      }
     }
 
     this.setClasses(targetClasses);

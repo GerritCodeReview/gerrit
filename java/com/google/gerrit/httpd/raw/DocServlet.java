@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 abstract class DocServlet extends ResourceServlet {
+  private static final long serialVersionUID = 1L;
+
   private final ExperimentFeatures experimentFeatures;
 
   DocServlet(Cache<Path, Resource> cache, boolean refresh, ExperimentFeatures experimentFeatures) {

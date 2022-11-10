@@ -45,6 +45,8 @@ public class DocServletTest {
     docServlet =
         new DocServlet(
             CacheBuilder.newBuilder().maximumSize(1).build(), false, experimentFeatures) {
+          private static final long serialVersionUID = 1L;
+
           @Override
           protected Path getResourcePath(String pathInfo) throws IOException {
             return fs.getPath("/" + CharMatcher.is('/').trimLeadingFrom(pathInfo));

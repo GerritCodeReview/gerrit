@@ -62,7 +62,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
-        DataSource<T> source = (DataSource<T>) p;
+        DataSource<?> source = (DataSource<?>) p;
         int cardinality = source.getCardinality();
         c = Math.min(c, source.getCardinality());
 

@@ -132,6 +132,9 @@ public abstract class ResourceServlet extends HttpServlet {
    * <p>If true, the caching headers in response are set to not cache. Additionally, streaming
    * option is disabled.
    *
+   * @param req the HTTP servlet request
+   * @param rsp the HTTP servlet response
+   * @param p URL path
    * @return true if the {@link #processResourceBeforeServe(HttpServletRequest, HttpServletResponse,
    *     Resource)} should be called.
    */
@@ -140,7 +143,12 @@ public abstract class ResourceServlet extends HttpServlet {
     return false;
   }
 
-  /** Edits the resource before adding it to the response. */
+  /**
+   * Edits the resource before adding it to the response.
+   *
+   * @param req the HTTP servlet request
+   * @param rsp the HTTP servlet response
+   */
   protected Resource processResourceBeforeServe(
       HttpServletRequest req, HttpServletResponse rsp, Resource resource) {
     return resource;

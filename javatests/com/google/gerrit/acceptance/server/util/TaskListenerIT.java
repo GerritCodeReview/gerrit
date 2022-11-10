@@ -94,7 +94,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
 
   private static class ForwardingListener implements TaskListener {
     public volatile TaskListener delegate;
-    public volatile Task task;
+    public volatile Task<?> task;
 
     public void resetDelegate(TaskListener listener) {
       delegate = listener;

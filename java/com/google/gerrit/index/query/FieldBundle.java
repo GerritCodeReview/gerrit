@@ -32,8 +32,8 @@ public class FieldBundle {
 
   /**
    * Depending on the index implementation 1) either {@link IndexedField} are stored once and
-   * referenced by {@link IndexedField.SearchSpec} on the queries, 2) or each {@link
-   * IndexedField.SearchSpec} is stored individually.
+   * referenced by {@link com.google.gerrit.index.IndexedField.SearchSpec} on the queries, 2) or
+   * each {@link com.google.gerrit.index.IndexedField.SearchSpec} is stored individually.
    *
    * <p>In case #1 {@link #storesIndexedFields} is set to {@code true} and the {@link #fields}
    * contain a map from {@link IndexedField#name()} to a stored value.

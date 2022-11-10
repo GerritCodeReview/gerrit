@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca84137_a5d66d0e",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-10T10:21:37Z",
+      "side": 1,
+      "message": "The docs on these 2 functions imply there is a shadow root but the bug is when there is no shadow root. We should list the \"no shadow\" case too since it is important",
+      "range": {
+        "startLine": 186,
+        "startChar": 31,
+        "endLine": 198,
+        "endChar": 37
+      },
+      "revId": "2b9f0b56cbd6a44c44a0537657097d5c29691070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7896a5de_71f64a37",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-10T10:21:37Z",
+      "side": 1,
+      "message": "nit: We generally prefer `undefined` over `null` except when necessary",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "2b9f0b56cbd6a44c44a0537657097d5c29691070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

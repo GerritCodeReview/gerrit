@@ -97,7 +97,7 @@ export function getTextOffset(node: Node | null, child: Node): number {
  * @return The length of the text.
  */
 function getLength(node?: Node | null) {
-  return node && node.textContent
+  return node && node.textContent && node.nodeType !== Node.COMMENT_NODE
     ? node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length
     : 0;
 }

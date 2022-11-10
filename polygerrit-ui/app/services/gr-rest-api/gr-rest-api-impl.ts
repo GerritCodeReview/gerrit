@@ -254,7 +254,7 @@ interface GetDiffParams {
 
 type SendChangeRequest = SendRawChangeRequest | SendJSONChangeRequest;
 
-export function _testOnlyResetGrRestApiSharedObjects(authService: AuthService) {
+export function testOnlyResetGrRestApiSharedObjects(authService: AuthService) {
   siteBasedCache = new SiteBasedCache();
   fetchPromisesCache = new FetchPromisesCache();
   pendingRequest = {};

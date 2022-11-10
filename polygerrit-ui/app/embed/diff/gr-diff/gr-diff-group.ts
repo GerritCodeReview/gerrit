@@ -65,7 +65,7 @@ export function hideInContextControl(
   // because then that row would consume as much space as the collapsed code.
   if (numHidden > 3) {
     if (hiddenStart) {
-      [before, hidden] = _splitCommonGroups(hidden, hiddenStart);
+      [before, hidden] = splitCommonGroups(hidden, hiddenStart);
     }
     if (hiddenEnd) {
       let beforeLength = 0;
@@ -74,7 +74,7 @@ export function hideInContextControl(
         const beforeEnd = before[before.length - 1].lineRange.left.end_line;
         beforeLength = beforeEnd - beforeStart + 1;
       }
-      [hidden, after] = _splitCommonGroups(hidden, hiddenEnd - beforeLength);
+      [hidden, after] = splitCommonGroups(hidden, hiddenEnd - beforeLength);
     }
   } else {
     [hidden, after] = [[], hidden];
@@ -95,7 +95,7 @@ export function hideInContextControl(
 
 /**
  * Splits a group in two, defined by leftSplit and rightSplit. Primarily to be
- * used in function _splitCommonGroups
+ * used in function splitCommonGroups
  * Groups with some lines before and some lines after the split will be split
  * into two groups, which will be put into the first and second list.
  *
@@ -104,7 +104,7 @@ export function hideInContextControl(
  * @param rightSplit The line number relative to the split on the right side
  * @return two new groups, one before the split and another after it
  */
-function _splitGroupInTwo(
+function splitGroupInTwo(
   group: GrDiffGroup,
   leftSplit: number,
   rightSplit: number
@@ -167,7 +167,7 @@ function _splitGroupInTwo(
  * @return The outer array has 2 elements, the
  *   list of groups before and the list of groups after the split.
  */
-function _splitCommonGroups(
+function splitCommonGroups(
   groups: readonly GrDiffGroup[],
   split: number
 ): GrDiffGroup[][] {
@@ -189,7 +189,7 @@ function _splitCommonGroups(
     } else if (isCompletelyAfter) {
       afterGroups.push(group);
     } else {
-      const {beforeSplit, afterSplit} = _splitGroupInTwo(
+      const {beforeSplit, afterSplit} = splitGroupInTwo(
         group,
         leftSplit,
         rightSplit

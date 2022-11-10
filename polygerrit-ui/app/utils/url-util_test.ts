@@ -13,7 +13,7 @@ import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
   getBaseUrl,
   getDocsBaseUrl,
-  _testOnly_clearDocsBaseUrlCache,
+  testOnly_clearDocsBaseUrlCache,
   encodeURL,
   singleDecodeURL,
   toPath,
@@ -47,7 +47,7 @@ suite('url-util tests', () => {
 
   suite('getDocsBaseUrl tests', () => {
     setup(() => {
-      _testOnly_clearDocsBaseUrlCache();
+      testOnly_clearDocsBaseUrlCache();
       appContext = getAppContext();
     });
 

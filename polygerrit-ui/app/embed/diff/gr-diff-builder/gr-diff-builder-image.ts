@@ -150,7 +150,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _setLabelText(label: HTMLElement, image: ImageInfo | null) {
-    label.textContent = _getImageLabel(image);
+    label.textContent = getImageLabel(image);
   }
 
   private _emitImageLabels(section: HTMLElement) {
@@ -217,7 +217,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 }
 
-function _getImageLabel(image: ImageInfo | null) {
+function getImageLabel(image: ImageInfo | null) {
   if (image) {
     const type = image.type ?? image._expectedType;
     if (image._width && image._height) {

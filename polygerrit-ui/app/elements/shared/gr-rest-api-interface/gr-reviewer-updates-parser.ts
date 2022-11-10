@@ -22,7 +22,7 @@ import {
 const MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
 const REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
 
-interface ChangeInfoParserInput extends ChangeViewChangeInfo {
+export interface ChangeInfoParserInput extends ChangeViewChangeInfo {
   messages: ChangeMessageInfo[];
   reviewer_updates: ReviewerUpdateInfo[]; // Always has at least 1 item
 }
@@ -37,24 +37,6 @@ function isChangeInfoParserInput(
   );
 }
 
-interface ParserBatch {
-  author: AccountInfo;
-  date: Timestamp;
-  type: 'REVIEWER_UPDATE';
-  tag: MessageTag.TAG_REVIEWER_UPDATE;
-  updates?: UpdateItem[];
-}
-
-interface ParserBatchWithNonEmptyUpdates extends ParserBatch {
-  updates: UpdateItem[]; // Always has at least 1 items
-}
-
-function isParserBatchWithNonEmptyUpdates(
-  x: ParserBatch
-): x is ParserBatchWithNonEmptyUpdates {
-  return !!(x.updates && x.updates.length);
-}
-
 interface UpdateItem {
   reviewer: AccountInfo;
   state: ReviewerState;
@@ -67,13 +49,15 @@ export class GrReviewerUpdatesParser {
   // TODO(TS): The parser several times reassigns different types to
   // reviewer_updates. After parse complete, the result has ParsedChangeInfo
   // type. This class should be refactored to avoid reassignment.
-  private readonly result: ChangeInfoParserInput;
 
-  private batch: ParserBatch | null = null;
+  // visible for testing
+  readonly result: ChangeInfoParserInput;
+
+  private batch: FormattedReviewerUpdateInfo | null = null;
 
   private updateItems: {[accountId: string]: UpdateItem} | null = null;
 
-  private readonly _lastState: {[accountId: string]: ReviewerState} = {};
+  private readonly lastState: {[accountId: string]: ReviewerState} = {};
 
   constructor(change: ChangeInfoParserInput) {
     this.result = {...change};
@@ -83,35 +67,37 @@ export class GrReviewerUpdatesParser {
    * Removes messages that describe removed reviewers, since reviewer_updates
    * are used.
    */
-  private _filterRemovedMessages() {
+  // visible for testing
+  filterRemovedMessages() {
     this.result.messages = this.result.messages.filter(
       message => message.tag !== MessageTag.TAG_DELETE_REVIEWER
     );
   }
 
   /**
-   * Is a part of _groupUpdates(). Creates a new batch of updates.
+   * Is a part of groupUpdates(). Creates a new batch of updates.
    */
-  private _startBatch(update: ReviewerUpdateInfo): ParserBatch {
+  private startBatch(update: ReviewerUpdateInfo): FormattedReviewerUpdateInfo {
     this.updateItems = {};
     return {
       author: update.updated_by,
       date: update.updated,
       type: 'REVIEWER_UPDATE',
       tag: MessageTag.TAG_REVIEWER_UPDATE,
+      updates: [],
     };
   }
 
   /**
-   * Is a part of _groupUpdates(). Validates current batch:
+   * Is a part of groupUpdates(). Validates current batch:
    * - filters out updates that don't change reviewer state.
    * - updates current reviewer state.
    */
-  private _completeBatch(batch: ParserBatch) {
+  private completeBatch(batch: FormattedReviewerUpdateInfo) {
     const items = [];
     for (const [accountId, item] of Object.entries(this.updateItems ?? {})) {
-      if (this._lastState[accountId] !== item.state) {
-        this._lastState[accountId] = item.state;
+      if (this.lastState[accountId] !== item.state) {
+        this.lastState[accountId] = item.state;
         items.push(item);
       }
     }
@@ -127,11 +113,11 @@ export class GrReviewerUpdatesParser {
    * - Non-change updates are discarded within a group
    * - Groups with no-change updates are discarded (eg CC -> CC)
    */
-  _groupUpdates(): ParserBatchWithNonEmptyUpdates[] {
+  groupUpdates(): FormattedReviewerUpdateInfo[] {
     const updates = this.result.reviewer_updates;
     const newUpdates = updates.reduce((newUpdates, update) => {
       if (!this.batch) {
-        this.batch = this._startBatch(update);
+        this.batch = this.startBatch(update);
       }
       const updateDate = parseDate(update.updated).getTime();
       const batchUpdateDate = parseDate(this.batch.date).getTime();
@@ -141,30 +127,30 @@ export class GrReviewerUpdatesParser {
         update.updated_by._account_id !== this.batch.author._account_id
       ) {
         // Next sequential update should form new group.
-        this._completeBatch(this.batch);
+        this.completeBatch(this.batch);
         if (isParserBatchWithNonEmptyUpdates(this.batch)) {
           newUpdates.push(this.batch);
         }
-        this.batch = this._startBatch(update);
+        this.batch = this.startBatch(update);
       }
-      // _startBatch assigns updateItems. When _groupUpdates is calling,
-      // batch and updateItems are not set => _startBatch is called. The
-      // _startBatch method assigns updateItems
+      // startBatch() assigns updateItems. When groupUpdates() is calling,
+      // batch and updateItems are not set => startBatch() is called. The
+      // startBatch() method assigns updateItems
       const updateItems = this.updateItems!;
       updateItems[reviewerId] = {
         reviewer: update.reviewer,
         state: update.state,
       };
-      if (this._lastState[reviewerId]) {
-        updateItems[reviewerId].prev_state = this._lastState[reviewerId];
+      if (this.lastState[reviewerId]) {
+        updateItems[reviewerId].prev_state = this.lastState[reviewerId];
       }
       return newUpdates;
     }, [] as ParserBatchWithNonEmptyUpdates[]);
     // reviewer_updates always has at least 1 item
     // (otherwise parse is not created) => updates.reduce calls callback
     // at least once and callback assigns this.batch
-    const batch = this.batch!;
-    this._completeBatch(batch);
+    const batch = this.batch;
+    this.completeBatch(batch);
     if (isParserBatchWithNonEmptyUpdates(batch)) {
       newUpdates.push(batch);
     }
@@ -176,7 +162,7 @@ export class GrReviewerUpdatesParser {
   /**
    * Generates update message for reviewer state change.
    */
-  private _getUpdateMessage(
+  private getUpdateMessage(
     prevReviewerState: string | undefined,
     currentReviewerState: string
   ): string {
@@ -197,9 +183,9 @@ export class GrReviewerUpdatesParser {
    * Groups updates for same category (eg CC->CC) into a hash arrays of
    * reviewers.
    */
-  _groupUpdatesByMessage(updates: UpdateItem[]): ReviewersGroupByMessage {
+  groupUpdatesByMessage(updates: UpdateItem[]): ReviewersGroupByMessage {
     return updates.reduce((result, item) => {
-      const message = this._getUpdateMessage(item.prev_state, item.state);
+      const message = this.getUpdateMessage(item.prev_state, item.state);
       if (!result[message]) {
         result[message] = [];
       }
@@ -214,11 +200,11 @@ export class GrReviewerUpdatesParser {
    *
    * @see https://gerrit-review.googlesource.com/c/94490/
    */
-  _formatUpdates() {
+  formatUpdates() {
     const reviewerUpdates = this.result
       .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[];
     for (const update of reviewerUpdates) {
-      const groupedReviewers = this._groupUpdatesByMessage(update.updates);
+      const groupedReviewers = this.groupUpdatesByMessage(update.updates);
       const newUpdates: {message: string; reviewers: AccountInfo[]}[] = [];
       for (const [message, reviewers] of Object.entries(groupedReviewers)) {
         newUpdates.push({message, reviewers});
@@ -232,7 +218,7 @@ export class GrReviewerUpdatesParser {
    * back in time so they would come before change messages.
    * TODO(viktard): Remove when server-side serves reviewer updates like so.
    */
-  _advanceUpdates() {
+  advanceUpdates() {
     const updates = this.result
       .reviewer_updates as unknown as FormattedReviewerUpdateInfo[];
     const messages = this.result.messages;
@@ -272,10 +258,10 @@ export class GrReviewerUpdatesParser {
     }
 
     const parser = new GrReviewerUpdatesParser(change);
-    parser._filterRemovedMessages();
-    parser._groupUpdates();
-    parser._formatUpdates();
-    parser._advanceUpdates();
+    parser.filterRemovedMessages();
+    parser.groupUpdates();
+    parser.formatUpdates();
+    parser.advanceUpdates();
     return parser.result;
   }
 }

@@ -313,7 +313,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           cfg.setString(COMMENTLINK, name, KEY_TEXT, value.text);
         }
         cfg.setBoolean(COMMENTLINK, name, KEY_ENABLED, value.enabled == null || value.enabled);
-        projectConfig.addCommentLinkSection(ProjectConfig.buildCommentLink(cfg, name, false));
+        projectConfig.addCommentLinkSection(ProjectConfig.buildCommentLink(cfg, name));
       } else {
         // Delete the commentlink section
         projectConfig.removeCommentLinkSection(name);

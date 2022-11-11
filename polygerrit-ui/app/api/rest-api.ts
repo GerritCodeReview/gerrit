@@ -457,7 +457,6 @@ export declare interface CommentLinkInfo {
   suffix?: string;
   text?: string;
   enabled?: boolean;
-  html?: string;
 }
 
 export declare interface CommentLinks {

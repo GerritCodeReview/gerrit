@@ -44,15 +44,14 @@ public class CachedProjectConfigSerializerTest {
           .build();
 
   static final CachedProjectConfig ALL_VALUES_SET =
-      MINIMAL_VALUES_SET
-          .toBuilder()
+      MINIMAL_VALUES_SET.toBuilder()
           .addGroup(GroupReferenceSerializerTest.ALL_VALUES_SET)
           .addAccessSection(AccessSectionSerializerTest.ALL_VALUES_SET)
           .setBranchOrderSection(Optional.of(BranchOrderSectionSerializerTest.ALL_VALUES_SET))
           .addNotifySection(NotifyConfigSerializerTest.ALL_VALUES_SET)
           .addLabelSection(LabelTypeSerializerTest.ALL_VALUES_SET)
           .addSubscribeSection(SubscribeSectionSerializerTest.ALL_VALUES_SET)
-          .addCommentLinkSection(StoredCommentLinkInfoSerializerTest.HTML_ONLY)
+          .addCommentLinkSection(StoredCommentLinkInfoSerializerTest.LINK_ONLY)
           .setRevision(Optional.of(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")))
           .setRulesId(Optional.of(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")))
           .setExtensionPanelSections(ImmutableMap.of("key1", ImmutableList.of("val1", "val2")))

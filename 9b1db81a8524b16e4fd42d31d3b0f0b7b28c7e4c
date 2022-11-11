@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "93bebe63_2a514bdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4676eda9_6ba10638",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "9b1db81a8524b16e4fd42d31d3b0f0b7b28c7e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4c3f2e63_995108ef",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -37,6 +61,24 @@
       "writtenOn": "2022-11-11T09:01:39Z",
       "side": 1,
       "message": "just a nit and missing release notes. otherwise: nice!",
+      "revId": "9b1db81a8524b16e4fd42d31d3b0f0b7b28c7e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9cc73c1_4b2a9859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T09:24:19Z",
+      "side": 1,
+      "message": "Done, also updated the documentation.",
+      "parentUuid": "4c3f2e63_995108ef",
       "revId": "9b1db81a8524b16e4fd42d31d3b0f0b7b28c7e4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

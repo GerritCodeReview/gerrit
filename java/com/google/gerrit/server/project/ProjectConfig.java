@@ -131,7 +131,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
 
   public static final String KEY_MATCH = "match";
-  private static final String KEY_HTML = "html";
   public static final String KEY_LINK = "link";
   public static final String KEY_PREFIX = "prefix";
   public static final String KEY_SUFFIX = "suffix";
@@ -318,7 +317,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return builder.build();
   }
 
-  public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)
+  public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name)
       throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
     if (match != null) {
@@ -335,9 +334,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     String linkSuffix = cfg.getString(COMMENTLINK, name, KEY_SUFFIX);
     String linkText = cfg.getString(COMMENTLINK, name, KEY_TEXT);
 
-    String html = cfg.getString(COMMENTLINK, name, KEY_HTML);
-    boolean hasHtml = !Strings.isNullOrEmpty(html);
-
     String rawEnabled = cfg.getString(COMMENTLINK, name, KEY_ENABLED);
     Boolean enabled;
     if (rawEnabled != null) {
@@ -345,11 +341,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     } else {
       enabled = null;
     }
-    checkArgument(allowRaw || !hasHtml, "Raw html replacement not allowed");
 
     if (Strings.isNullOrEmpty(match)
         && Strings.isNullOrEmpty(link)
-        && !hasHtml
         && enabled != null) {
       if (enabled) {
         return StoredCommentLinkInfo.enabled(name);
@@ -362,7 +356,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         .setPrefix(linkPrefix)
         .setSuffix(linkSuffix)
         .setText(linkText)
-        .setHtml(html)
         .setEnabled(enabled)
         .setOverrideOnly(false)
         .build();
@@ -1215,7 +1208,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     commentLinkSections = new LinkedHashMap<>(subsections.size());
     for (String name : subsections) {
       try {
-        commentLinkSections.put(name, buildCommentLink(rc, name, false));
+        commentLinkSections.put(name, buildCommentLink(rc, name));
       } catch (PatternSyntaxException e) {
         error(
             String.format(
@@ -1417,9 +1410,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     unsetSection(rc, COMMENTLINK);
     if (commentLinkSections != null) {
       for (StoredCommentLinkInfo cm : commentLinkSections.values()) {
-        rc.setString(COMMENTLINK, cm.getName(), KEY_MATCH, cm.getMatch());
-        if (!Strings.isNullOrEmpty(cm.getHtml())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_HTML, cm.getHtml());
+        // Match and Link can be empty if the commentlink is override only.
+        if (!Strings.isNullOrEmpty(cm.getMatch())) {
+          rc.setString(COMMENTLINK, cm.getName(), KEY_MATCH, cm.getMatch());
         }
         if (!Strings.isNullOrEmpty(cm.getLink())) {
           rc.setString(COMMENTLINK, cm.getName(), KEY_LINK, cm.getLink());

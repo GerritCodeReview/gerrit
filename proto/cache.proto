@@ -535,9 +535,10 @@ message SubscribeSectionProto {
 // Serialized form of com.google.gerrit.entities.StoredCommentLinkInfo.
 // Next ID: 10
 message StoredCommentLinkInfoProto {
+  reserved 4;
+
   string name = 1;
   string match = 2;
-  string html = 4;
   bool enabled = 5;
   bool override_only = 6;
   string link = 3;

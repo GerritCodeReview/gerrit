@@ -46,7 +46,7 @@ function getRewriteResultsFromConfig(
   const enabledRewrites = Object.values(repoCommentLinks).filter(
     commentLinkInfo =>
       commentLinkInfo.enabled !== false &&
-      (commentLinkInfo.link !== undefined || commentLinkInfo.html !== undefined)
+      (commentLinkInfo.link !== undefined)
   );
   return enabledRewrites.flatMap(rewrite => {
     const regexp = new RegExp(rewrite.match, 'g');
@@ -141,10 +141,8 @@ function getReplacementText(
         rewrite.suffix
       )
     );
-  } else if (rewrite.html !== undefined) {
-    return matchedText.replace(new RegExp(rewrite.match, 'g'), rewrite.html);
   } else {
-    throw new Error('commentLinkInfo is not a link or html rewrite');
+    throw new Error('commentLinkInfo is not a link rewrite');
   }
 }
 

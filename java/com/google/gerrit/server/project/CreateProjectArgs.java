@@ -49,7 +49,7 @@ public class CreateProjectArgs {
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
+    submitType = SubmitType.INHERIT;
     rejectEmptyCommit = InheritableBoolean.INHERIT;
   }
 

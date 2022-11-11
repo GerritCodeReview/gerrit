@@ -28,7 +28,8 @@ export class GrPopupInterface implements PopupPluginApi {
 
   constructor(
     readonly plugin: PluginApi,
-    private moduleName: string | null = null
+    // private but used in tests
+    readonly moduleName: string | null = null
   ) {
     this.reporting.trackApi(this.plugin, 'popup', 'constructor');
   }

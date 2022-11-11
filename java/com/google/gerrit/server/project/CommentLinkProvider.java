@@ -48,7 +48,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
         ImmutableList.builderWithExpectedSize(subsections.size());
     for (String name : subsections) {
       try {
-        StoredCommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name, true);
+        StoredCommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name);
         if (cl.getOverrideOnly()) {
           logger.atWarning().log("commentlink %s empty except for \"enabled\"", name);
           continue;

@@ -174,7 +174,7 @@ export class GrAppElement extends LitElement {
     this.addEventListener(EventType.DIALOG_CHANGE, e => {
       this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
-    this.addEventListener(EventType.LOCATION_CHANGE, () =>
+    document.addEventListener(EventType.LOCATION_CHANGE, () =>
       this.handleLocationChange()
     );
     this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>

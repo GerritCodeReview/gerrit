@@ -18,6 +18,26 @@ import {
 import {GrAppElement} from './gr-app-element';
 import {GrRouter} from './core/gr-router/gr-router';
 
+suite('gr-app callback tests', () => {
+  const handleLocationChangeSpy = sinon.spy(
+    GrAppElement.prototype,
+    <any>'handleLocationChange'
+  );
+  const dispatchLocationChangeEventSpy = sinon.spy(
+    GrRouter.prototype,
+    <any>'dispatchLocationChangeEvent'
+  );
+
+  setup(async () => {
+    await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
+  });
+
+  test("handleLocationChange in gr-app-element is called after dispatching 'location-change' event in gr-router", () => {
+    dispatchLocationChangeEventSpy();
+    assert.isTrue(handleLocationChangeSpy.calledOnce);
+  });
+});
+
 suite('gr-app tests', () => {
   let grApp: GrApp;
   const config = createServerInfo();

@@ -516,6 +516,20 @@ export class GrRouter implements Finalizable, NavigationService {
     this.redirect(url);
   }
 
+  private dispatchLocationChangeEvent() {
+    const detail: LocationChangeEventDetail = {
+      hash: window.location.hash,
+      pathname: window.location.pathname,
+    };
+    document.dispatchEvent(
+      new CustomEvent('location-change', {
+        detail,
+        composed: true,
+        bubbles: true,
+      })
+    );
+  }
+
   startRouter() {
     const base = getBaseUrl();
     if (base) {
@@ -563,17 +577,7 @@ export class GrRouter implements Finalizable, NavigationService {
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
       setTimeout(() => {
-        const detail: LocationChangeEventDetail = {
-          hash: window.location.hash,
-          pathname: window.location.pathname,
-        };
-        document.dispatchEvent(
-          new CustomEvent('location-change', {
-            detail,
-            composed: true,
-            bubbles: true,
-          })
-        );
+        this.dispatchLocationChangeEvent();
       }, 1);
       next();
     });

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e50bfae3_87dd47e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:15:29Z",
+      "side": 1,
+      "message": "Could you include some background information explaining what\u0027s the motivation for adding this new option, e.g. in which cases it makes sense to use this?",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8687bf04_e1089231",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:15:29Z",
+      "side": 1,
+      "message": "Mostly LGTM.",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f29e28_27732520",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3910,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:15:29Z",
+      "side": 1,
+      "message": "I would propose a slightly different name for this option:\nskip_adding_commit_identities_as_reviewers\n\nI think \u0027skip\u0027 makes it clearer that we are just omitting this step.\n\nSince this is about both committer and author, I think the term \u0027original_author\u0027 is not really matching well. Maybe \u0027commit_identities\u0027 would be better (JGit calls these PersonIdents)?\n\nOr we make the name more explicit: skip_adding_author_and_committer_as_reviewers\n\nWDYT?",
+      "range": {
+        "startLine": 3910,
+        "startChar": 2,
+        "endLine": 3910,
+        "endChar": 42
+      },
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ee9859_7139a6f1",
+        "filename": "java/com/google/gerrit/entities/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:15:29Z",
+      "side": 1,
+      "message": "Please document this new parameter in config-project-config.txt, i.e. here:\nhttps://gerrit-review.googlesource.com/Documentation/config-project-config.html#reviewer-section",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2000adb_3b3e9517",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:15:29Z",
+      "side": 1,
+      "message": "Could you maybe also add a test that sets this option and pushes a commit with a forged author and committer? I think such a test could be added in AbstractPushForReview similar to the pushForMasterWithForgedAuthorAndCommitter() test that we already have there.",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

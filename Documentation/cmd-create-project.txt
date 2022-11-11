@@ -108,6 +108,7 @@ Description values containing spaces should be quoted in single quotes
 	Action used by Gerrit to submit an approved change to its
 	destination branch.  Supported options are:
 +
+* INHERIT: inherits the submit-type from the parent project.
 * FAST_FORWARD_ONLY: produces a strictly linear history.
 * MERGE_IF_NECESSARY: create a merge commit when required.
 * REBASE_IF_NECESSARY: rebase the commit when required.
@@ -116,7 +117,7 @@ Description values containing spaces should be quoted in single quotes
 * CHERRY_PICK: always cherry-pick the commit.
 
 +
-Defaults to MERGE_IF_NECESSARY unless
+Defaults to INHERIT unless
 link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.
 For more details see link:config-project-config.html#submit-type[

@@ -160,7 +160,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey key = projectOperations.newProject().create();
     Config config = projectOperations.project(key).getConfig();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
-    assertThat(config).text().isEmpty();
+    assertThat(config).sections().containsExactly("submit");
+    assertThat(config).sectionValues("submit").containsExactly("action", "inherit");
 
     ConfigInput input = new ConfigInput();
     input.description = "my fancy project";
@@ -168,7 +169,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
     config = projectOperations.project(key).getConfig();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
-    assertThat(config).sections().containsExactly("project");
+    assertThat(config).sections().containsExactly("project", "submit");
     assertThat(config).subsections("project").isEmpty();
     assertThat(config).sectionValues("project").containsExactly("description", "my fancy project");
   }
@@ -193,7 +194,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -210,7 +211,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -227,7 +228,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -244,7 +245,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -262,7 +263,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -277,7 +278,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -318,7 +319,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -335,7 +336,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations.project(key).forUpdate().add(permission).add(permission).update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().contains("access");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -345,7 +346,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
     projectOperations.project(key).forUpdate().add(permission).update();
     config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -365,7 +366,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -382,7 +383,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -400,7 +401,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -415,7 +416,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
@@ -437,7 +438,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .update();
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access");
+    assertThat(config).sections().containsExactly("access", "submit");
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")

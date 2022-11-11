@@ -39,6 +39,30 @@
       },
       "revId": "a814ac118feacb5f35ba2c9e7e431236648617b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07c7e3ee_1ed2e017",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-11T14:23:56Z",
+      "side": 1,
+      "message": "Done for the FE\n\nOn the backend side this is not as straightforward. As configs are allowed to \"override-only\": Only specify \"enabled\" field to disable/enable the rule in the parent. I also think the backend is not correct/consistent about it, ex. when setting through rest-api you can\u0027t set override-only. So I decided to fix/check the backend in a separate change. (The part that the FE is interested in receiving should have both match and link always)",
+      "parentUuid": "56504aae_b6b1e1b9",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 6
+      },
+      "revId": "a814ac118feacb5f35ba2c9e7e431236648617b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

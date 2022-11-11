@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "697a7c73_e81d6a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-11-11T15:13:36Z",
+      "side": 1,
+      "message": "Mention reusing UploadPackErrorHandler\u0027s own mapping between Exception and HTTP status?",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "04d9e372ab96ed82aa824ef39df8a2866e2e161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "76264804_2d0bd1ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-11T08:17:43Z",
+      "side": 1,
+      "message": "You can also add this footer here to link to our internal bug:\n\n  Bug: Google b/26172409",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8687bf04_e1089231",

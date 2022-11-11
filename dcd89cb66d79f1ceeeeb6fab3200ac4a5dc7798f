@@ -22,6 +22,99 @@
       },
       "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3d36aa_4b403c83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-11T14:34:09Z",
+      "side": 1,
+      "message": "Nice trick!",
+      "parentUuid": "2a692cba_57fc1629",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c88a1a5_0eb25538",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-11T14:34:09Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. What does \"it\" refers to?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 73
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d022c9fe_da78f0b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-11T14:34:09Z",
+      "side": 1,
+      "message": "Can this cast be part of `assertFails`?",
+      "range": {
+        "startLine": 100,
+        "startChar": 18,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70782b5c_73ca060f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-11T14:34:09Z",
+      "side": 1,
+      "message": "I am having hard time understanding the comment and this line.\n\nIf it expects GrAdminApi[], why are we casting to EventCallback[] ?",
+      "range": {
+        "startLine": 317,
+        "startChar": 5,
+        "endLine": 317,
+        "endChar": 35
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

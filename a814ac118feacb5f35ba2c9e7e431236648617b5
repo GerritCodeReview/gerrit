@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "decf2286_8eb5b03f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-11T13:57:42Z",
+      "side": 1,
+      "message": "FE side LGTM",
+      "revId": "a814ac118feacb5f35ba2c9e7e431236648617b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56504aae_b6b1e1b9",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-11T13:57:42Z",
+      "side": 1,
+      "message": "Feel free to ignore, but should `link` be requred/non-nullable in FE/BE/API now that it\u0027s the only option?",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 6
+      },
+      "revId": "a814ac118feacb5f35ba2c9e7e431236648617b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

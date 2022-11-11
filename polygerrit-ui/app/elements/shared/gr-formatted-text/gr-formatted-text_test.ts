@@ -47,10 +47,6 @@ suite('gr-formatted-text tests', () => {
         match: '(LinkRewriteMe)',
         link: 'http://google.com/$1',
       },
-      customHtmlRewrite: {
-        match: 'HTMLRewriteMe',
-        html: '<div>HTMLRewritten</div>',
-      },
       complexLinkRewrite: {
         match: '(^|\\s)A Link (\\d+)($|\\s)',
         link: '/page?id=$2',
@@ -101,11 +97,13 @@ suite('gr-formatted-text tests', () => {
       await setCommentLinks({
         capitalizeFoo: {
           match: 'foo',
-          html: 'FOO',
+          prefix: 'FOO',
+          link: 'a.b.c',
         },
         lowercaseFoo: {
           match: 'FOO',
-          html: 'foo',
+          prefix: 'foo',
+          link: 'c.d.e',
         },
       });
       element.content = 'foo';
@@ -115,9 +113,8 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
-          FOO
-        </pre
-          >
+          FOO<a href="a.b.c" rel="noopener" target="_blank">foo</a>
+        </pre>
         `
       );
     });
@@ -126,11 +123,15 @@ suite('gr-formatted-text tests', () => {
       await setCommentLinks({
         bracketNum: {
           match: '(Start:) ([0-9]+)',
-          html: '$1 [$2]',
+          prefix: '$1 ',
+          link: 'bug/$2',
+          text: 'bug/$2',
         },
         bracketNum2: {
           match: '(Start: [0-9]+) ([0-9]+)',
-          html: '$1 [$2]',
+          prefix: '$1 ',
+          link: 'bug/$2',
+          text: 'bug/$2',
         },
       });
       element.content = 'Start: 123 456';
@@ -140,9 +141,14 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
-            Start: [123] [456]
-          </pre
-          >
+            Start:
+            <a href="bug/123" rel="noopener" target="_blank">
+              bug/123
+            </a>
+            <a href="bug/456" rel="noopener" target="_blank">
+              bug/456
+            </a>
+          </pre>
         `
       );
     });
@@ -150,8 +156,7 @@ suite('gr-formatted-text tests', () => {
     test('renders text with links and rewrites', async () => {
       element.content = `text with plain link: google.com
         \ntext with config link: LinkRewriteMe
-        \ntext with complex link: A Link 12
-        \ntext with config html: HTMLRewriteMe`;
+        \ntext with complex link: A Link 12`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -178,8 +183,6 @@ suite('gr-formatted-text tests', () => {
             >
               Link 12
             </a>
-            text with config html:
-            <div>HTMLRewritten</div>
           </pre>
         `
       );
@@ -217,8 +220,7 @@ suite('gr-formatted-text tests', () => {
         \ntext with plain link: google.com
         \ntext with config link: LinkRewriteMe
         \ntext without a link: NotA Link 15 cats
-        \ntext with complex link: A Link 12
-        \ntext with config html: HTMLRewriteMe`;
+        \ntext with complex link: A Link 12`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -254,9 +256,6 @@ suite('gr-formatted-text tests', () => {
                   Link 12
                 </a>
               </p>
-              <p>text with config html:</p>
-              <div>HTMLRewritten</div>
-              <p></p>
             </div>
           </marked-element>
         `
@@ -271,8 +270,7 @@ suite('gr-formatted-text tests', () => {
         \n##### h5-heading
         \n###### h6-heading
         \n# heading with plain link: google.com
-        \n# heading with config link: LinkRewriteMe
-        \n# heading with config html: HTMLRewriteMe`;
+        \n# heading with config link: LinkRewriteMe`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -302,10 +300,6 @@ suite('gr-formatted-text tests', () => {
                   LinkRewriteMe
                 </a>
               </h1>
-              <h1>
-                heading with config html:
-                <div>HTMLRewritten</div>
-              </h1>
             </div>
           </marked-element>
         `
@@ -315,8 +309,7 @@ suite('gr-formatted-text tests', () => {
     test('renders inline-code without linking or rewriting', async () => {
       element.content = `\`inline code\`
         \n\`inline code with plain link: google.com\`
-        \n\`inline code with config link: LinkRewriteMe\`
-        \n\`inline code with config html: HTMLRewriteMe\``;
+        \n\`inline code with config link: LinkRewriteMe\``;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -333,9 +326,6 @@ suite('gr-formatted-text tests', () => {
               <p>
                 <code>inline code with config link: LinkRewriteMe</code>
               </p>
-              <p>
-                <code>inline code with config html: HTMLRewriteMe</code>
-              </p>
             </div>
           </marked-element>
         `
@@ -345,8 +335,7 @@ suite('gr-formatted-text tests', () => {
     test('renders multiline-code without linking or rewriting', async () => {
       element.content = `\`\`\`\nmultiline code\n\`\`\`
         \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
-        \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\`
-        \n\`\`\`\nmultiline code with config html: HTMLRewriteMe\n\`\`\``;
+        \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\``;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -362,9 +351,6 @@ suite('gr-formatted-text tests', () => {
             </pre>
               <pre>
               <code>multiline code with config link: LinkRewriteMe</code>
-            </pre>
-              <pre>
-              <code>multiline code with config html: HTMLRewriteMe</code>
             </pre>
             </div>
           </marked-element>
@@ -496,8 +482,7 @@ suite('gr-formatted-text tests', () => {
     test('renders block quotes with links and rewrites', async () => {
       element.content = `> block quote
         \n> block quote with plain link: google.com
-        \n> block quote with config link: LinkRewriteMe
-        \n> block quote with config html: HTMLRewriteMe`;
+        \n> block quote with config link: LinkRewriteMe`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -527,11 +512,6 @@ suite('gr-formatted-text tests', () => {
                     LinkRewriteMe
                   </a>
                 </p>
-              </blockquote>
-              <blockquote>
-                <p>block quote with config html:</p>
-                <div>HTMLRewritten</div>
-                <p></p>
               </blockquote>
             </div>
           </marked-element>

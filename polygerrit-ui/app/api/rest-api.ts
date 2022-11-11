@@ -452,12 +452,11 @@ export type CloneCommandMap = {[name: string]: string};
  */
 export declare interface CommentLinkInfo {
   match: string;
-  link?: string;
+  link: string;
   prefix?: string;
   suffix?: string;
   text?: string;
   enabled?: boolean;
-  html?: string;
 }
 
 export declare interface CommentLinks {

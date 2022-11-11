@@ -537,14 +537,14 @@ public class ProjectConfigTest {
     StoredCommentLinkInfo cm =
         StoredCommentLinkInfo.builder("Test")
             .setMatch("abc.*")
-            .setHtml("<a>link</a>")
+            .setLink("link")
             .setEnabled(true)
             .setOverrideOnly(false)
             .build();
     cfg.addCommentLinkSection(cm);
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
-        .isEqualTo("[commentlink \"Test\"]\n\tmatch = abc.*\n\thtml = <a>link</a>\n");
+        .isEqualTo("[commentlink \"Test\"]\n\tmatch = abc.*\n\tlink = link\n");
   }
 
   @Test
@@ -722,7 +722,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readCommentLinksNoHtmlOrLinkButEnabled() throws Exception {
+  public void readCommentLinksNoLinkButEnabled() throws Exception {
     RevCommit rev =
         tr.commit().add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = true").create();
     ProjectConfig cfg = read(rev);
@@ -732,7 +732,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readCommentLinksNoHtmlOrLinkAndDisabled() throws Exception {
+  public void readCommentLinksNoLinkAndDisabled() throws Exception {
     RevCommit rev =
         tr.commit()
             .add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = false")
@@ -744,7 +744,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readCommentLinksNoHtmlOrLinkAndMissingEnabled() throws Exception {
+  public void readCommentLinksMissingEnabled() throws Exception {
     RevCommit rev =
         tr.commit()
             .add(
@@ -792,26 +792,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readCommentLinkRawHtml() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add(
-                "project.config",
-                "[commentlink \"bugzilla\"]\n"
-                    + "\tmatch = \"(bugs#?)(d+)\"\n"
-                    + "\thtml = http://bugs.example.com/show_bug.cgi?id=$2")
-            .create();
-    ProjectConfig cfg = read(rev);
-    assertThat(cfg.getCommentLinkSections()).isEmpty();
-    assertThat(cfg.getValidationErrors())
-        .containsExactly(
-            ValidationError.create(
-                "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
-                    + "Raw html replacement not allowed"));
-  }
-
-  @Test
-  public void readCommentLinkMatchButNoHtmlOrLink() throws Exception {
+  public void readCommentLinkMatchButNoLink() throws Exception {
     RevCommit rev =
         tr.commit()
             .add("project.config", "[commentlink \"bugzilla\"]\n" + "\tmatch = \"(bugs#?)(d+)\"\n")
@@ -822,7 +803,7 @@ public class ProjectConfigTest {
         .containsExactly(
             ValidationError.create(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
-                    + "commentlink.bugzilla must have either link or html"));
+                    + "commentlink.bugzilla must have link specified"));
   }
 
   @Test

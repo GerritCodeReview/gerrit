@@ -294,12 +294,12 @@ export function mouseDown(element: HTMLElement) {
   element.dispatchEvent(new MouseEvent('mousedown', eventOptions));
 }
 
-export function assertFails(promise: Promise<unknown>, error?: unknown) {
+export function assertFails<T = unknown>(promise: Promise<unknown>, error?: T) {
   return promise
     .then((_v: unknown) => {
       assert.fail('Promise resolved but should have failed');
     })
-    .catch((e: unknown) => {
+    .catch((e: T) => {
       if (error) {
         assert.equal(e, error);
       }

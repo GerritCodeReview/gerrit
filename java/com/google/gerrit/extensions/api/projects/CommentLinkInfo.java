@@ -24,7 +24,6 @@ public class CommentLinkInfo {
   public String prefix;
   public String suffix;
   public String text;
-  public String html;
   public Boolean enabled; // null means true
 
   public transient String name;
@@ -41,7 +40,6 @@ public class CommentLinkInfo {
           && Objects.equals(this.prefix, that.prefix)
           && Objects.equals(this.suffix, that.suffix)
           && Objects.equals(this.text, that.text)
-          && Objects.equals(this.html, that.html)
           && Objects.equals(this.enabled, that.enabled);
     }
     return false;
@@ -49,7 +47,7 @@ public class CommentLinkInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(match, link, html, enabled);
+    return Objects.hash(match, link, prefix, suffix, text, enabled);
   }
 
   @Override
@@ -61,7 +59,6 @@ public class CommentLinkInfo {
         .add("prefix", prefix)
         .add("suffix", suffix)
         .add("text", text)
-        .add("html", html)
         .add("enabled", enabled)
         .toString();
   }

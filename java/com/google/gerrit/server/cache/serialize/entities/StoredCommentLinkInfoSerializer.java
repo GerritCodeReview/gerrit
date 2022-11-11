@@ -30,7 +30,6 @@ public class StoredCommentLinkInfoSerializer {
         .setPrefix(emptyToNull(proto.getPrefix()))
         .setSuffix(emptyToNull(proto.getSuffix()))
         .setText(emptyToNull(proto.getText()))
-        .setHtml(emptyToNull(proto.getHtml()))
         .setEnabled(proto.getEnabled())
         .setOverrideOnly(proto.getOverrideOnly())
         .build();
@@ -44,7 +43,6 @@ public class StoredCommentLinkInfoSerializer {
         .setPrefix(nullToEmpty(autoValue.getPrefix()))
         .setSuffix(nullToEmpty(autoValue.getSuffix()))
         .setText(nullToEmpty(autoValue.getText()))
-        .setHtml(nullToEmpty(autoValue.getHtml()))
         .setEnabled(Optional.ofNullable(autoValue.getEnabled()).orElse(true))
         .setOverrideOnly(autoValue.getOverrideOnly())
         .build();

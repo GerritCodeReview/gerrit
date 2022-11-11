@@ -31,7 +31,7 @@ public abstract class StoredCommentLinkInfo {
   public abstract String getMatch();
 
   /**
-   * The link to replace the match with. This can only be set if html is {@code null}.
+   * The link to replace the match with.
    *
    * <p>The constructed link is using {@link #getLink()} {@link #getPrefix()} {@link #getSuffix()}
    * and {@link #getText()}, and has the shape of
@@ -41,30 +41,17 @@ public abstract class StoredCommentLinkInfo {
   @Nullable
   public abstract String getLink();
 
-  /**
-   * The text before the link tag that the match is replaced with. This can only be set if link is
-   * not {@code null}.
-   */
+  /** The optional text before the link tag that the match is replaced with. */
   @Nullable
   public abstract String getPrefix();
 
-  /**
-   * The text after the link tag that the match is replaced with. This can only be set if link is
-   * not {@code null}.
-   */
+  /** The optional text after the link tag that the match is replaced with. */
   @Nullable
   public abstract String getSuffix();
 
-  /**
-   * The content of the link tag that the match is replaced with. This can only be set if link is
-   * not {@code null}.
-   */
+  /** The content of the link tag that the match is replaced with. If not set full match is used. */
   @Nullable
   public abstract String getText();
-
-  /** The html to replace the match with. This can only be set if link is {@code null}. */
-  @Nullable
-  public abstract String getHtml();
 
   /** Weather this comment link is active. {@code null} means true. */
   @Nullable
@@ -103,7 +90,6 @@ public abstract class StoredCommentLinkInfo {
         .setPrefix(src.prefix)
         .setSuffix(src.suffix)
         .setText(src.text)
-        .setHtml(src.html)
         .setEnabled(enabled)
         .setOverrideOnly(false)
         .build();
@@ -118,7 +104,6 @@ public abstract class StoredCommentLinkInfo {
     info.prefix = getPrefix();
     info.suffix = getSuffix();
     info.text = getText();
-    info.html = getHtml();
     info.enabled = getEnabled();
     return info;
   }
@@ -137,25 +122,21 @@ public abstract class StoredCommentLinkInfo {
 
     public abstract Builder setText(@Nullable String value);
 
-    public abstract Builder setHtml(@Nullable String value);
-
     public abstract Builder setEnabled(@Nullable Boolean value);
 
     public abstract Builder setOverrideOnly(boolean value);
 
     public StoredCommentLinkInfo build() {
       checkArgument(getName() != null, "invalid commentlink.name");
-      setLink(Strings.emptyToNull(getLink()));
       setPrefix(Strings.emptyToNull(getPrefix()));
       setSuffix(Strings.emptyToNull(getSuffix()));
       setText(Strings.emptyToNull(getText()));
-      setHtml(Strings.emptyToNull(getHtml()));
       if (!getOverrideOnly()) {
         checkArgument(
             !Strings.isNullOrEmpty(getMatch()), "invalid commentlink.%s.match", getName());
         checkArgument(
-            (getLink() != null && getHtml() == null) || (getLink() == null && getHtml() != null),
-            "commentlink.%s must have either link or html",
+            !Strings.isNullOrEmpty(getLink()),
+            "commentlink.%s must have link specified",
             getName());
       }
       return autoBuild();
@@ -174,8 +155,6 @@ public abstract class StoredCommentLinkInfo {
     protected abstract String getSuffix();
 
     protected abstract String getText();
-
-    protected abstract String getHtml();
 
     protected abstract boolean getOverrideOnly();
   }

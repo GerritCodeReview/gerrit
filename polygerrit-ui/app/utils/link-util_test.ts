@@ -76,67 +76,6 @@ suite('link-util tests', () => {
       );
     });
   });
-  suite('html rewrites', () => {
-    test('basic case', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('foo', {
-          foo: {
-            match: '(foo)',
-            html: '<div>$1</div>',
-          },
-        }),
-        '<div>foo</div>'
-      );
-    });
-
-    test('only inserts', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('foo', {
-          foo: {
-            match: 'foo',
-            html: 'foo bar',
-          },
-        }),
-        'foo bar'
-      );
-    });
-
-    test('only deletes', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('foo bar baz', {
-          bar: {
-            match: 'bar',
-            html: '',
-          },
-        }),
-        'foo  baz'
-      );
-    });
-
-    test('multiple matches', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('foo foo', {
-          foo: {
-            match: '(foo)',
-            html: '<div>$1</div>',
-          },
-        }),
-        '<div>foo</div> <div>foo</div>'
-      );
-    });
-
-    test('does not apply within normal links', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('google.com', {
-          ogle: {
-            match: 'ogle',
-            html: '<div>gerritcodereview.com<div>',
-          },
-        }),
-        link('google.com', 'http://google.com')
-      );
-    });
-  });
 
   test('for overlapping rewrites prefer the latest ending', () => {
     assert.equal(
@@ -147,14 +86,14 @@ suite('link-util tests', () => {
         },
         foobarbaz: {
           match: 'foobarbaz',
-          html: '<div>foobarbaz.gov</div>',
+          link: 'foobarbaz.gov',
         },
         foobar: {
           match: 'foobar',
           link: 'foobar.gov',
         },
       }),
-      '<div>foobarbaz.gov</div>'
+      link('foobarbaz', 'foobarbaz.gov')
     );
   });
 
@@ -167,14 +106,14 @@ suite('link-util tests', () => {
         },
         foobarbaz: {
           match: 'foobarbaz',
-          html: '<div>FooBarBaz.gov</div>',
+          link: 'FooBarBaz.gov',
         },
         foobar: {
           match: 'barbaz',
           link: 'BarBaz.gov',
         },
       }),
-      '<div>FooBarBaz.gov</div>'
+      link('foobarbaz', 'FooBarBaz.gov')
     );
   });
 
@@ -183,18 +122,18 @@ suite('link-util tests', () => {
       linkifyUrlsAndApplyRewrite('foobarbaz', {
         foo: {
           match: 'foo',
-          html: 'FOO',
+          link: 'FOO',
         },
         oobarba: {
           match: 'oobarba',
-          html: 'OOBARBA',
+          link: 'OOBARBA',
         },
         baz: {
           match: 'baz',
-          html: 'BAZ',
+          link: 'BAZ',
         },
       }),
-      'FOObarBAZ'
+      `${link('foo', 'FOO')}bar${link('baz', 'BAZ')}`
     );
   });
 
@@ -203,18 +142,24 @@ suite('link-util tests', () => {
       linkifyUrlsAndApplyRewrite('bugs: 123 234 345', {
         bug1: {
           match: '(bugs:) (\\d+)',
-          html: '$1 <div>bug/$2</div>',
+          prefix: '$1 ',
+          link: 'bug/$2',
+          text: 'bug/$2',
         },
         bug2: {
           match: '(bugs:) (\\d+) (\\d+)',
-          html: '$1 $2 <div>bug/$3</div>',
+          prefix: '$1 $2 ',
+          link: 'bug/$3',
+          text: 'bug/$3',
         },
         bug3: {
           match: '(bugs:) (\\d+) (\\d+) (\\d+)',
-          html: '$1 $2 $3 <div>bug/$4</div>',
+          prefix: '$1 $2 $3 ',
+          link: 'bug/$4',
+          text: 'bug/$4',
         },
       }),
-      'bugs: <div>bug/123</div> <div>bug/234</div> <div>bug/345</div>'
+      `bugs: ${link('bug/123', 'bug/123')} ${link('bug/234', 'bug/234')} ${link('bug/345', 'bug/345')}`
     );
   });
 

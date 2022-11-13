@@ -34,6 +34,23 @@
       "parentUuid": "f1e4c6e1_d0149aa1",
       "revId": "85d479377f745b3d3dd8dfbc2e8b32f5cb9a54e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b7bfcd0_1599c489",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-13T03:37:26Z",
+      "side": 1,
+      "message": "I believe we should just disable the verifications on stable-3.4 (which is now EOL) and then merge this change.\n\nThe announcement of the EOL has been done already, isn\u0027t it?",
+      "revId": "85d479377f745b3d3dd8dfbc2e8b32f5cb9a54e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

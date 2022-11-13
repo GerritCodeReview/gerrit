@@ -310,12 +310,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  public BatchRefUpdate prepare() throws IOException {
-    checkNotExecuted();
-    stage();
-    return prepare(changeRepo, false, pushCert);
-  }
-
   @Nullable
   public BatchRefUpdate execute() throws IOException {
     return execute(false);
@@ -371,7 +365,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
                 cu -> cu.getAttentionSetUpdates().stream()));
   }
 
-  private BatchRefUpdate prepare(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
+  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
       throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return null;
@@ -400,13 +394,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       bru = listener.beforeUpdateRefs(bru);
     }
 
-    return bru;
-  }
-
-  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
-      throws IOException {
-    BatchRefUpdate bru = prepare(or, dryrun, pushCert);
-    if (bru != null && !dryrun) {
+    if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
     }
     return bru;

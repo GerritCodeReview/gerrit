@@ -453,11 +453,6 @@ public class BatchUpdate implements AutoCloseable {
     execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
-  public BatchRefUpdate prepareRefUpdates() throws Exception {
-    ChangesHandle handle = executeChangeOps(ImmutableList.of(), false);
-    return handle.prepare();
-  }
-
   public boolean isExecuted() {
     return executed;
   }
@@ -642,10 +637,6 @@ public class BatchUpdate implements AutoCloseable {
     void setResult(Change.Id id, ChangeResult result) {
       ChangeResult old = results.putIfAbsent(id, result);
       checkArgument(old == null, "result for change %s already set: %s", id, old);
-    }
-
-    public BatchRefUpdate prepare() throws IOException {
-      return manager.prepare();
     }
 
     void execute() throws IOException {

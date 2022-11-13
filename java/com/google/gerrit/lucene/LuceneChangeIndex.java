@@ -112,26 +112,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGES_CLOSED = "closed";
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
 
-  /*
-    @FunctionalInterface
-    interface IdTerm {
-      Term get(String name, int id);
-    }
-
-    static Term idTerm(IdTerm idTerm, FieldDef<ChangeData, ?> idField, ChangeData cd) {
-      return idTerm(idTerm, idField, cd.getId());
-    }
-
-    static Term idTerm(IdTerm idTerm, FieldDef<ChangeData, ?> idField, Change.Id id) {
-      return idTerm.get(idField.getName(), id.get());
-    }
-
-    @FunctionalInterface
-    interface ChangeIdExtractor {
-      Change.Id extract(IndexableField f);
-    }
-  */
-
   static Term idTerm(ChangeData cd) {
     return idTerm(cd.getId());
   }

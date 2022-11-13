@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ddfdfa_4154f3be",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-13T03:55:18Z",
+      "side": 0,
+      "message": "I believe this should be fixed in the earlier merges in stable-3.6 and stable-3.7: the rename happened in  I493b9d7ee0d2 which has then been reverted because the `copy-approvals` tool doesn\u0027t exist anymore in v3.6 and v3.7.",
+      "range": {
+        "startLine": 378,
+        "startChar": 25,
+        "endLine": 378,
+        "endChar": 32
+      },
+      "revId": "87059a54101d0e3c8876f1bea18faf980443a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

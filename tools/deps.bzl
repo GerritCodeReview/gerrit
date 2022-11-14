@@ -1,5 +1,4 @@
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
-load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"

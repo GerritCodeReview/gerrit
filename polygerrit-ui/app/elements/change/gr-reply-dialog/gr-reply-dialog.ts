@@ -10,7 +10,6 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-formatted-text/gr-formatted-text';
-import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
@@ -84,7 +83,6 @@ import {
   UnsavedInfo,
 } from '../../../utils/comment-util';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   getApprovalInfo,
   getMaxAccounts,
@@ -134,6 +132,7 @@ import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -248,8 +247,8 @@ export class GrReplyDialog extends LitElement {
 
   @query('#labelScores') labelScores?: GrLabelScores;
 
-  @query('#reviewerConfirmationOverlay')
-  reviewerConfirmationOverlay?: GrOverlay;
+  @query('#reviewerConfirmationModal')
+  reviewerConfirmationModal?: HTMLDialogElement;
 
   @state() serverConfig?: ServerInfo;
 
@@ -404,6 +403,7 @@ export class GrReplyDialog extends LitElement {
 
   static override styles = [
     sharedStyles,
+    modalStyles,
     css`
       :host {
         background-color: var(--dialog-background-color);
@@ -468,7 +468,7 @@ export class GrReplyDialog extends LitElement {
         flex-wrap: wrap;
         flex: 1;
       }
-      #reviewerConfirmationOverlay {
+      #reviewerConfirmationModal {
         padding: var(--spacing-l);
         text-align: center;
       }
@@ -867,9 +867,10 @@ export class GrReplyDialog extends LitElement {
 
   private renderReviewConfirmation() {
     return html`
-      <gr-overlay
-        id="reviewerConfirmationOverlay"
-        @iron-overlay-canceled=${this.cancelPendingReviewer}
+      <dialog
+        tabindex="-1"
+        id="reviewerConfirmationModal"
+        @close=${this.cancelPendingReviewer}
       >
         <div class="reviewerConfirmation">
           Group
@@ -888,7 +889,7 @@ export class GrReplyDialog extends LitElement {
           <gr-button @click=${this.confirmPendingReviewer}>Yes</gr-button>
           <gr-button @click=${this.cancelPendingReviewer}>No</gr-button>
         </div>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -1904,11 +1905,11 @@ export class GrReplyDialog extends LitElement {
 
   pendingConfirmationUpdated(reviewer: RawAccountInput | null) {
     if (reviewer === null) {
-      this.reviewerConfirmationOverlay?.close();
+      this.reviewerConfirmationModal?.close();
     } else {
       this.pendingConfirmationDetails =
         this.ccPendingConfirmation || this.reviewerPendingConfirmation;
-      this.reviewerConfirmationOverlay?.open();
+      this.reviewerConfirmationModal?.showModal();
     }
   }
 

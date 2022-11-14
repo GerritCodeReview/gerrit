@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bfad490_449c34e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-14T16:53:46Z",
+      "side": 1,
+      "message": "I assume you meant for the plugins?\nOtherwise all usages are in our codebase(keyboard, registration etc).\n\nhttps://imgur.com/a/414Hlan\n\nI checked via the Reland plugin on the Chromium host that the plugin interface is working fine.",
+      "parentUuid": "a45351ac_63debb91",
+      "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95043481_0a8fbf5e",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-14T16:34:26Z",
       "side": 1,
       "message": "is this where a plugin can trigger a custom popup? If so, is it verified no users expect the GrOverlay?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f01596f_419e6ad2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-14T16:53:46Z",
+      "side": 1,
+      "message": "In the initial doc, I checked that no plugin directly relies on the `gr-overlay` element so I think `no users expect the GrOverlay?` should be true but I\u0027m not sure how you want this verified.\n\nGiven this is part of gr-public-js-api, I assume plugins rely on the public methods and don\u0027t care about the internals.\n\nThe only way this would break a plugin is if they were looking for the DOM element `gr-overlay` otherwise `open` and `close` should work like before.",
+      "parentUuid": "95043481_0a8fbf5e",
       "range": {
         "startLine": 17,
         "startChar": 0,

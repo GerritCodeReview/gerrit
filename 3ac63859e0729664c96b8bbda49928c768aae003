@@ -16,6 +16,24 @@
       "message": "Why is the link not set anymore?",
       "revId": "3ac63859e0729664c96b8bbda49928c768aae003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38cce222_576501c6",
+        "filename": "java/com/google/gerrit/entities/StoredCommentLinkInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-14T10:46:04Z",
+      "side": 0,
+      "message": "This line used to replace an empty link, with NULL. Empty link is no longer allowed.",
+      "parentUuid": "95efddc1_d018c34b",
+      "revId": "3ac63859e0729664c96b8bbda49928c768aae003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

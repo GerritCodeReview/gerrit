@@ -33,6 +33,24 @@
       "message": "please add a comment with the original field name",
       "revId": "13bea2db319378bdf4a14628d381e1781899c93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fde243d1_e99ea9ed",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-14T10:46:04Z",
+      "side": 1,
+      "message": "Done.\n\nWhat\u0027s the reasoning, behind keeping track of the name?\nReserved fields afaik are kept, just in case outdated protos are kept somewhere in storage. And reusing the tag id can lead to mistakes. I am not aware of the reason to keep track of the name.",
+      "parentUuid": "d006a1b0_4b041ead",
+      "revId": "13bea2db319378bdf4a14628d381e1781899c93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

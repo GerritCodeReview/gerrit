@@ -34,6 +34,23 @@
       "parentUuid": "bca61f04_673b2655",
       "revId": "4aade24546713c67d583c3d172d2c4a76f904434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7ff2e8_2bd38e5c",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-14T11:00:58Z",
+      "side": 1,
+      "message": "Where is the corresponding removal of this event listener?\n\notherwise, we\u0027ll have an extra listener for each call to show which will add up.",
+      "revId": "4aade24546713c67d583c3d172d2c4a76f904434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

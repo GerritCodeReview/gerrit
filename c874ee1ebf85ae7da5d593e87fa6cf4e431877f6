@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3fb6af8_8c3a2024",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-14T22:15:09Z",
+      "side": 1,
+      "message": "When preparing for our 3.5 upgrade I have read https://gerrit-documentation.storage.googleapis.com/Documentation/3.5.0/externalid-case-insensitivity.html#online-migration and found some issues with the formatting 😊\n\nI have tested it locally rebuilding the Documentation and opening it in a browser:\n\n    bazel build //Documentation:Documentation\n    xdg-open bazel-bin/Documentation/externalid-case-insensitivity.html\n\n\nThank you for the original doc!",
+      "revId": "c874ee1ebf85ae7da5d593e87fa6cf4e431877f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

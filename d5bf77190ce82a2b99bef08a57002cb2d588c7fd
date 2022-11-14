@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45351ac_63debb91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-14T16:34:26Z",
+      "side": 1,
+      "message": "can you add screenshots of these cases? They are really never used by us so it should have a manual test before the migration is released",
+      "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95043481_0a8fbf5e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-14T16:34:26Z",
+      "side": 1,
+      "message": "is this where a plugin can trigger a custom popup? If so, is it verified no users expect the GrOverlay?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

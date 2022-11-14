@@ -16,6 +16,24 @@
       "message": "Would be useful to figure this out.",
       "revId": "4aade24546713c67d583c3d172d2c4a76f904434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e092d50_f46df2ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-14T10:58:56Z",
+      "side": 1,
+      "message": "Sure but I don\u0027t think that needs to block this change. I did spend some time on it and I saw that the listener was not being triggered at all.\n\nIn general clicks on the container should not propagate if there is a listener on the document.",
+      "parentUuid": "bca61f04_673b2655",
+      "revId": "4aade24546713c67d583c3d172d2c4a76f904434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

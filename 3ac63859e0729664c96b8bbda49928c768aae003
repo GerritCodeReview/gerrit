@@ -34,6 +34,24 @@
       "parentUuid": "95efddc1_d018c34b",
       "revId": "3ac63859e0729664c96b8bbda49928c768aae003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7055c6_03089132",
+        "filename": "java/com/google/gerrit/entities/StoredCommentLinkInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-14T10:48:51Z",
+      "side": 0,
+      "message": "Ack, thanks for explaining.",
+      "parentUuid": "38cce222_576501c6",
+      "revId": "3ac63859e0729664c96b8bbda49928c768aae003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

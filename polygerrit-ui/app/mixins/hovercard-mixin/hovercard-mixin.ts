@@ -528,6 +528,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       if (props?.keyboardEvent) {
         this.focus();
       }
+      this.container.addEventListener('click', e => e.stopPropagation());
       document.addEventListener('click', this.documentClickListener);
       this.reportingTimer = this.reporting.getTimer('Show Hovercard');
     };

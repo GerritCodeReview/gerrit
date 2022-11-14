@@ -187,6 +187,30 @@
       },
       "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b4bfcf_e515b67c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-14T12:54:16Z",
+      "side": 1,
+      "message": "Thank you for clarifying. LGTM",
+      "parentUuid": "42166eed_6f564e71",
+      "range": {
+        "startLine": 317,
+        "startChar": 5,
+        "endLine": 317,
+        "endChar": 35
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

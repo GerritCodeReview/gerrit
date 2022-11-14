@@ -111,6 +111,24 @@
       "message": "doesn\u0027t \u0027^/(?:a/)?\u003cROOT-COLLECTION\u003e(?:/(.*))?$\u0027 work?",
       "revId": "1f3506caa4ba60d78ca2683536fd4c68360b5a39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3194f84a_ae8cbea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-14T15:58:43Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I\u0027ve just tried this and unfortunately this doesn\u0027t work for the same reason why \u0027^/(?:a/)?\u003cROOT-COLLECTION\u003e(/(.*))?$\u0027 doesn\u0027t work (see commit message).",
+      "parentUuid": "89aac208_934aa82c",
+      "revId": "1f3506caa4ba60d78ca2683536fd4c68360b5a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

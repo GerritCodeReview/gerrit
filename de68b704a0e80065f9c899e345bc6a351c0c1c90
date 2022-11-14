@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06a306d2_8d69acb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-14T20:56:30Z",
+      "side": 1,
+      "message": "s/queries/commands/",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c12788_ecc6369c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-14T20:56:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t skip?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eb6bdbd_3c81703f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-14T20:56:30Z",
+      "side": 1,
+      "message": "z",
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83fbc215_27b54dd1",
+        "filename": "java/com/google/gerrit/server/update/RetryableAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-14T20:56:30Z",
+      "side": 1,
+      "message": "Why shouldn\u0027t we reuse `CHANGE_UPDATE`? If that\u0027s not appropriate, could we have something more generic like `SSH_WRITE_REQUEST`?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67079d0f_c4010586",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-14T20:56:30Z",
+      "side": 1,
+      "message": "`ExceptionHookImpl` already has this in the default `shouldRetry()`, do you need to specify it again?",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 55
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

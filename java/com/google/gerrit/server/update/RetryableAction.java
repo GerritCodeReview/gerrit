@@ -58,6 +58,7 @@ public class RetryableAction<T> {
     REST_READ_REQUEST,
     REST_WRITE_REQUEST,
     SEND_EMAIL,
+    SSH_REVIEW_CMD,
   }
 
   @FunctionalInterface

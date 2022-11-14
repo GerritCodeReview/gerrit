@@ -110,6 +110,24 @@
       "message": "Is there a way to add a test? That would allow us to prevent breakages in the future.",
       "revId": "04d9e372ab96ed82aa824ef39df8a2866e2e161f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9acf183e_191ae53b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-11-14T17:35:54Z",
+      "side": 1,
+      "message": "I am trying to come up with a good way to test this.\nI don\u0027t seem to find a `fetch` api in JGIT that takes an arbitrary, unreachable commit as an input.\n\nI\u0027ll try harder.",
+      "parentUuid": "8d1081ca_8bb29807",
+      "revId": "04d9e372ab96ed82aa824ef39df8a2866e2e161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,6 +15,7 @@ import {
   getLineNumberByChild,
   lineNumberToNumber,
 } from '../gr-diff/gr-diff-utils';
+import {GrDiff} from '../gr-diff/gr-diff';
 
 const tokenMatcher = new RegExp(/[\w]+/g);
 
@@ -89,14 +90,43 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private updateTokenTask?: DelayedTask;
 
+  /**
+   * Container that contains all annotated tokens and contains no shadow root
+   * elements that would prevent tokens to be queryable by querySelectorAll.
+   */
+  private getTokenQueryContainer?: () => HTMLElement;
+
+  /**
+   * @param container for registering "deselect" click
+   * @param tokenHighlightListener method that is called,
+   *   when token is highlighted.
+   * @param getTokenQueryContainer if specified, list of tokens to be
+   *   highlighted are recalculated every time using querySelectorAll inside
+   *   this element. Otherwise, the pointers calculated once at annotate() time
+   *   and are reused.
+   */
   constructor(
     container: HTMLElement,
-    tokenHighlightListener?: TokenHighlightListener
+    tokenHighlightListener?: TokenHighlightListener,
+    getTokenQueryContainer?: () => HTMLElement
   ) {
     this.tokenHighlightListener = tokenHighlightListener;
     container.addEventListener('click', e => {
       this.handleContainerClick(e);
     });
+    this.getTokenQueryContainer = getTokenQueryContainer;
+  }
+
+  static createTokenHighlightContainer(
+    container: HTMLElement,
+    getGrDiff: () => GrDiff,
+    tokenHighlightListener?: TokenHighlightListener
+  ): TokenHighlightLayer {
+    return new TokenHighlightLayer(
+      container,
+      tokenHighlightListener,
+      () => getGrDiff().diffTable!
+    );
   }
 
   annotate(el: HTMLElement, _1: HTMLElement, _2: GrDiffLine, _3: Side): void {
@@ -265,8 +295,19 @@ export class TokenHighlightLayer implements DiffLayer {
     if (!token) {
       return;
     }
-    const tokenEls = this.tokenToElements.get(token);
-    if (!tokenEls) {
+    let tokenEls;
+    let tokenElsLength;
+    if (this.getTokenQueryContainer) {
+      tokenEls = this.getTokenQueryContainer().querySelectorAll(
+        `.${TOKEN_TEXT_PREFIX}${token}`
+      );
+      tokenElsLength = tokenEls.length;
+    } else {
+      tokenEls = this.tokenToElements.get(token);
+      tokenElsLength = tokenEls?.size;
+    }
+    if (!tokenEls || tokenElsLength === 0) {
+      console.warn(`No tokens have been found for '${token}'`);
       return;
     }
     for (const el of tokenEls) {

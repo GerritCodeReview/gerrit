@@ -367,6 +367,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.forceHide();
     };
 
+    private containerClickListener = (e: MouseEvent) => {
+      e.stopPropagation();
+    };
+
     /**
      * Hovercards aren't children of <gr-app>. Dependencies must be resolved via
      * their targets, so re-route 'request-dependency' events.
@@ -431,6 +435,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.container.removeChild(this);
       }
       document.removeEventListener('click', this.documentClickListener);
+      this.container?.removeEventListener('click', this.containerClickListener);
       this.reportingTimer?.end({
         targetId: this._target?.id,
         tagName: this.tagName,
@@ -528,6 +533,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       if (props?.keyboardEvent) {
         this.focus();
       }
+      this.container.addEventListener('click', this.containerClickListener);
       document.addEventListener('click', this.documentClickListener);
       this.reportingTimer = this.reporting.getTimer('Show Hovercard');
     };

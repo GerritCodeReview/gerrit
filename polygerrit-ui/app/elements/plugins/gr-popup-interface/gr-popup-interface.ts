@@ -65,7 +65,7 @@ export class GrPopupInterface implements PopupPluginApi {
           }
           this.popup = hookEl.appendChild(popup);
           await this.popup.updateComplete;
-          await this.popup.open();
+          this.popup.open();
           return this;
         });
     }

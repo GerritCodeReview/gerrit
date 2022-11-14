@@ -37,7 +37,6 @@ import {
   constructServerErrorMsg,
   GrErrorManager,
 } from './core/gr-error-manager/gr-error-manager';
-import {GrOverlay} from './shared/gr-overlay/gr-overlay';
 import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registration-dialog';
 import {
   AppElementJustRegisteredParams,
@@ -74,6 +73,7 @@ import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
+import {modalStyles} from '../styles/gr-modal-styles';
 
 interface ErrorInfo {
   text: string;
@@ -102,11 +102,11 @@ export class GrAppElement extends LitElement {
 
   @query('#mainHeader') mainHeader?: GrMainHeader;
 
-  @query('#registrationOverlay') registrationOverlay?: GrOverlay;
+  @query('#registrationModal') registrationModal?: HTMLDialogElement;
 
   @query('#registrationDialog') registrationDialog?: GrRegistrationDialog;
 
-  @query('#keyboardShortcuts') keyboardShortcuts?: GrOverlay;
+  @query('#keyboardShortcuts') keyboardShortcuts?: HTMLDialogElement;
 
   @query('gr-settings-view') settingsView?: GrSettingsView;
 
@@ -287,6 +287,7 @@ export class GrAppElement extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       css`
         :host {
           background-color: var(--background-color-tertiary);
@@ -559,22 +560,22 @@ export class GrAppElement extends LitElement {
   private renderKeyboardShortcutsDialog() {
     if (!this.loadKeyboardShortcutsDialog) return nothing;
     return html`
-      <gr-overlay
+      <dialog
         id="keyboardShortcuts"
         with-backdrop=""
-        @iron-overlay-canceled=${this.onOverlayCanceled}
+        @close=${this.onModalCanceled}
       >
         <gr-keyboard-shortcuts-dialog
           @close=${this.handleKeyboardShortcutDialogClose}
         ></gr-keyboard-shortcuts-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
   private renderRegistrationDialog() {
     if (!this.loadRegistrationDialog) return nothing;
     return html`
-      <gr-overlay id="registrationOverlay" with-backdrop="">
+      <dialog id="registrationModal">
         <gr-registration-dialog
           id="registrationDialog"
           .settingsUrl=${this.settingsUrl}
@@ -582,7 +583,7 @@ export class GrAppElement extends LitElement {
           @close=${this.handleRegistrationDialogClose}
         >
         </gr-registration-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -626,12 +627,10 @@ export class GrAppElement extends LitElement {
     ) {
       this.loadRegistrationDialog = true;
       await this.updateComplete;
-      assertIsDefined(this.registrationOverlay, 'registrationOverlay');
+      assertIsDefined(this.registrationModal, 'registrationModal');
       assertIsDefined(this.registrationDialog, 'registrationDialog');
-      await this.registrationOverlay.open();
-      await this.registrationDialog.loadData().then(() => {
-        this.registrationOverlay!.refit();
-      });
+      this.registrationModal.showModal();
+      await this.registrationDialog.loadData();
     }
     // To fix bug announce read after each new view, we reset announce with
     // empty space
@@ -741,13 +740,13 @@ export class GrAppElement extends LitElement {
     await this.updateComplete;
     assertIsDefined(this.keyboardShortcuts, 'keyboardShortcuts');
 
-    if (this.keyboardShortcuts.opened) {
-      this.keyboardShortcuts.cancel();
+    if (this.keyboardShortcuts.hasAttribute('open')) {
+      this.keyboardShortcuts.close();
       return;
     }
     this.footerHeaderAriaHidden = true;
     this.mainAriaHidden = true;
-    await this.keyboardShortcuts.open();
+    this.keyboardShortcuts.showModal();
   }
 
   private handleKeyboardShortcutDialogClose() {
@@ -755,7 +754,7 @@ export class GrAppElement extends LitElement {
     this.keyboardShortcuts.close();
   }
 
-  onOverlayCanceled() {
+  onModalCanceled() {
     this.footerHeaderAriaHidden = false;
     this.mainAriaHidden = false;
   }
@@ -769,8 +768,8 @@ export class GrAppElement extends LitElement {
     // The registration dialog is visible only if this.params is
     // instanceof AppElementJustRegisteredParams
     (this.params as AppElementJustRegisteredParams).justRegistered = false;
-    assertIsDefined(this.registrationOverlay, 'registrationOverlay');
-    this.registrationOverlay.close();
+    assertIsDefined(this.registrationModal, 'registrationModal');
+    this.registrationModal.close();
   }
 
   private computePluginScreenName() {

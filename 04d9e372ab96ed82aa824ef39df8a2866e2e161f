@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15bc7f1b_e281916e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-14T10:27:20Z",
+      "side": 1,
+      "message": "We should use the imperative form:\n`Report pack protocol errors to the client via smart-HTTP`",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "04d9e372ab96ed82aa824ef39df8a2866e2e161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "697a7c73_e81d6a2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

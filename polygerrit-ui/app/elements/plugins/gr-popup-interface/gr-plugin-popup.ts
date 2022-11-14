@@ -3,11 +3,10 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../shared/gr-overlay/gr-overlay';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html} from 'lit';
 import {customElement, query} from 'lit/decorators.js';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,27 +16,27 @@ declare global {
 
 @customElement('gr-plugin-popup')
 export class GrPluginPopup extends LitElement {
-  @query('#overlay') protected overlay!: GrOverlay;
+  @query('#modal') protected modal!: HTMLDialogElement;
 
   static override get styles() {
-    return [sharedStyles];
+    return [sharedStyles, modalStyles];
   }
 
   override render() {
-    return html`<gr-overlay id="overlay" with-backdrop="">
+    return html`<dialog id="modal">
       <slot></slot>
-    </gr-overlay>`;
+    </dialog>`;
   }
 
   get opened() {
-    return this.overlay.opened;
+    return this.modal.hasAttribute('open');
   }
 
   open() {
-    return this.overlay.open();
+    this.modal.showModal();
   }
 
   close() {
-    this.overlay.close();
+    this.modal.close();
   }
 }

@@ -33,7 +33,6 @@ import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {
@@ -246,7 +245,7 @@ export class GrChangeView extends LitElement {
 
   @query('#commitMessageEditor') commitMessageEditor?: GrEditableContent;
 
-  @query('#includedInOverlay') includedInOverlay?: GrOverlay;
+  @query('#includedInModal') includedInModal?: HTMLDialogElement;
 
   @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
 
@@ -1065,7 +1064,7 @@ export class GrChangeView extends LitElement {
         gr-thread-list {
           min-height: 250px;
         }
-        #includedInOverlay {
+        #includedInModal {
           width: 65em;
         }
         #uploadHelpOverlay {
@@ -1213,13 +1212,13 @@ export class GrChangeView extends LitElement {
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
       </dialog>
-      <gr-overlay id="includedInOverlay" with-backdrop="">
+      <dialog id="includedInModal" tabindex="-1">
         <gr-included-in-dialog
           id="includedInDialog"
           .changeNum=${this.changeNum}
           @close=${this.handleIncludedInDialogClose}
         ></gr-included-in-dialog>
-      </gr-overlay>
+      </dialog>
       <dialog id="replyModal" @close=${this.onReplyModalCanceled}>
         ${when(
           this.replyModalOpened && this.loggedIn,
@@ -1977,18 +1976,14 @@ export class GrChangeView extends LitElement {
 
   private handleOpenIncludedInDialog() {
     assertIsDefined(this.includedInDialog);
-    assertIsDefined(this.includedInOverlay);
-    this.includedInDialog.loadData().then(() => {
-      assertIsDefined(this.includedInOverlay);
-      flush();
-      this.includedInOverlay.refit();
-    });
-    this.includedInOverlay.open();
+    assertIsDefined(this.includedInModal);
+    this.includedInDialog.loadData();
+    this.includedInModal.showModal();
   }
 
   private handleIncludedInDialogClose() {
-    assertIsDefined(this.includedInOverlay);
-    this.includedInOverlay.close();
+    assertIsDefined(this.includedInModal);
+    this.includedInModal.close();
   }
 
   // Private but used in tests

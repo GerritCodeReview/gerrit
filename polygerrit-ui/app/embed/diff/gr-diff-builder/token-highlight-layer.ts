@@ -15,6 +15,7 @@ import {
   getLineNumberByChild,
   lineNumberToNumber,
 } from '../gr-diff/gr-diff-utils';
+import {GrDiff} from '../gr-diff/gr-diff';
 
 const tokenMatcher = new RegExp(/[\w]+/g);
 
@@ -89,14 +90,41 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private updateTokenTask?: DelayedTask;
 
+  /**
+   * Container that contains all annotated tokens and no shadow root borders.
+   */
+  private getTokenQueryContainer?: () => HTMLElement;
+
+  /**
+   * @param container for registering "deselect" click
+   * @param tokenHighlightListener method that is called,
+   *   when token is highlighted.
+   * @param getTokenQueryContainer if specified tokens to be highlighted are
+   *   calculated querySelectorContainer inside this element. Otherwise, the
+   *   pointers calculated at annotate() time are used.
+   */
   constructor(
     container: HTMLElement,
-    tokenHighlightListener?: TokenHighlightListener
+    tokenHighlightListener?: TokenHighlightListener,
+    getTokenQueryContainer?: () => HTMLElement
   ) {
     this.tokenHighlightListener = tokenHighlightListener;
     container.addEventListener('click', e => {
       this.handleContainerClick(e);
     });
+    this.getTokenQueryContainer = getTokenQueryContainer;
+  }
+
+  static createTokenHighlightContainer(
+    container: HTMLElement,
+    getGrDiff: () => GrDiff,
+    tokenHighlightListener?: TokenHighlightListener
+  ): TokenHighlightLayer {
+    return new TokenHighlightLayer(
+      container,
+      tokenHighlightListener,
+      () => getGrDiff().diffTable!
+    );
   }
 
   annotate(el: HTMLElement, _1: HTMLElement, _2: GrDiffLine, _3: Side): void {
@@ -265,7 +293,14 @@ export class TokenHighlightLayer implements DiffLayer {
     if (!token) {
       return;
     }
-    const tokenEls = this.tokenToElements.get(token);
+    let tokenEls;
+    if (this.getTokenQueryContainer) {
+      tokenEls = this.getTokenQueryContainer().querySelectorAll(
+        `.${TOKEN_TEXT_PREFIX}${token}`
+      );
+    } else {
+      tokenEls = this.tokenToElements.get(token);
+    }
     if (!tokenEls) {
       return;
     }

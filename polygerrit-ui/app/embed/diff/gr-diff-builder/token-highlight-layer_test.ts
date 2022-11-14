@@ -335,5 +335,44 @@ suite('token-highlight-layer', () => {
       assert.equal(listener.pending, 0);
       assert.isTrue(words1.classList.contains('token-highlight'));
     });
+
+    test('query based highlighting', async () => {
+      highlighter = new TokenHighlightLayer(
+        container,
+        tokenHighlightListener,
+        /* getTokenQueryContainer=*/ () => container
+      );
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('two words');
+      annotate(line1);
+      const line2 = createLine('three words', 2);
+      annotate(line2, Side.RIGHT, 2);
+      // Invalidate pointers.
+      for (const child of line1.childNodes) {
+        line1.replaceChild(child.cloneNode(), child);
+      }
+      for (const child of line2.childNodes) {
+        line2.replaceChild(child.cloneNode(), child);
+      }
+
+      const words1 = queryAndAssert(line1, '.tk-text-words');
+      assert.isTrue(words1.classList.contains('token'));
+      dispatchMouseEvent('mouseover', words1);
+      assert.equal(tokenHighlightingCalls.length, 0);
+      clock.tick(HOVER_DELAY_MS);
+      assert.equal(tokenHighlightingCalls.length, 1);
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'words',
+        side: Side.RIGHT,
+        element: words1,
+        range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
+      });
+      assert.isTrue(words1.classList.contains('token-highlight'));
+
+      container.click();
+      assert.equal(tokenHighlightingCalls.length, 2);
+      assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
+      assert.isFalse(words1.classList.contains('token-highlight'));
+    });
   });
 });

@@ -24,7 +24,8 @@ declare global {
       TokenHighlightLayer: {
         new (
           container: HTMLElement,
-          listener?: TokenHighlightListener
+          listener?: TokenHighlightListener,
+          getTokenQueryContainer?: () => HTMLElement
         ): DiffLayer;
       };
     };

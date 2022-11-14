@@ -62,6 +62,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
@@ -217,6 +218,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -1761,6 +1763,53 @@ public class ChangeIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).revision(commit).rebase(ri));
     assertThat(thrown).hasMessageThat().contains("cannot rebase change onto itself");
+  }
+
+  @Test
+  public void cannotRebaseOntoBaseThatIsNotPresentInTargetBranch() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = initial.getName();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Change on foo branch", "a.txt", "a-content")
+            .to("refs/for/foo");
+    approve(r1.getChangeId());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    // reset HEAD in order to create a sibling of the first change
+    testRepo.reset(initial);
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Change on master branch", "b.txt", "b-content")
+            .to("refs/for/master");
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = r1.getCommit().getName();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().rebase(rebaseInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "base change is targeting wrong branch: %s,refs/heads/foo", project.get()));
+
+    rebaseInput.base = "refs/heads/foo";
+    thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().rebase(rebaseInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "base revision is missing from the destination branch: %s", rebaseInput.base));
   }
 
   @Test

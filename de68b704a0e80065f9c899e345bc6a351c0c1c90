@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc4ff5d5_53b6262f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-11-14T21:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a306d2_8d69acb5",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34c12788_ecc6369c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-14T20:56:30Z",
       "side": 1,
       "message": "Shouldn\u0027t skip?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e1613ef_a751dfce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-11-14T21:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c12788_ecc6369c",
       "range": {
         "startLine": 17,
         "startChar": 15,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60f957a_dac2d1a0",
+        "filename": "java/com/google/gerrit/server/update/RetryableAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-11-14T21:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83fbc215_27b54dd1",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67079d0f_c4010586",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-11-14T20:56:30Z",
       "side": 1,
       "message": "`ExceptionHookImpl` already has this in the default `shouldRetry()`, do you need to specify it again?",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 55
+      },
+      "revId": "de68b704a0e80065f9c899e345bc6a351c0c1c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e00cdd7_5d65b039",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-11-14T21:07:05Z",
+      "side": 1,
+      "message": "Yeah, there is no reason to be explicit.",
+      "parentUuid": "67079d0f_c4010586",
       "range": {
         "startLine": 263,
         "startChar": 17,

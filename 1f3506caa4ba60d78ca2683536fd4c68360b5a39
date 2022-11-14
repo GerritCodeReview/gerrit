@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725ccade_a95ca02b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-11-14T12:30:16Z",
+      "side": 1,
+      "message": "What was the reason we did not do that originally? Hard to believe this wasn\u0027t done on purpose?",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "1f3506caa4ba60d78ca2683536fd4c68360b5a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

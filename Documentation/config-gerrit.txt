@@ -1727,9 +1727,7 @@ In the following example configuration the 'changeid' comment link
 will match typical Gerrit Change-Id values and create a hyperlink
 to changes which reference it.  The second configuration 'bugzilla'
 will hyperlink terms such as 'bug 42' to an external bug tracker,
-supplying the argument record number '42' for display.  The third
-configuration 'tracker' uses raw HTML to more precisely control
-how the replacement is displayed to the user.
+supplying the argument record number '42' for display.
 
 commentlinks supports link:#reloadConfig[configuration reloads]. Though a
 link:cmd-flush-caches.html[flush-caches] of "projects" is needed for the
@@ -1746,16 +1744,10 @@ commentlinks to be immediately available in the UI.
   prefix = $1
   suffix = $4
   text = $2$3
-
-[commentlink "tracker"]
-  match = ([Bb]ug:\\s+)(\\d+)
-  html = $1<a href=\"http://trak.example.com/$2\">$2</a>
 ----
 
 Comment links can also be specified in `project.config` and sections in
-children override those in parents. The only restriction is that to
-avoid injecting arbitrary user-supplied HTML in the page, comment links
-defined in `project.config` may only supply `link`, not `html`.
+children override those in parents.
 
 [[commentlink.name.match]]commentlink.<name>.match::
 +
@@ -1789,49 +1781,29 @@ In order to better control the visual presentation of the link `prefix`,
 +
 The URL to direct the user to whenever the regular expression is
 matched.  Groups in the match expression may be accessed as `$'n'`.
-+
-The link property is used only when the html property is not present.
 
 [[commentlink.name.prefix]]commentlink.<name>.prefix::
 +
 The text inserted before the link. Groups in the match expression may be
 accessed as `$'n'`.
-+
-The link property is used only when the html property is not present.
 
 [[commentlink.name.suffix]]commentlink.<name>.suffix::
 +
 The text inserted after the link. Groups in the match expression may be
 accessed as `$'n'`.
-+
-The link property is used only when the html property is not present.
 
 [[commentlink.name.text]]commentlink.<name>.text::
 +
 The text content of the link. Groups in the match expression may be
 accessed as `$'n'`.
 +
-The link property is used only when the html property is not present.
-
-[[commentlink.name.html]]commentlink.<name>.html::
-+
-HTML to replace the entire matched string with.  If present,
-this property overrides the link property above.  Groups in the
-match expression may be accessed as `$'n'`.
-+
-The configuration file eats double quotes, so escaping them as
-`\"` is necessary to protect them from the parser.
+If not specified defaults to `$&` (the matched text).
 
 [[commentlink.name.enabled]]commentlink.<name>.enabled::
 +
 Whether the comment link is enabled. A child project may override a
 section in a parent or the site-wide config that is disabled by
 specifying `enabled = true`.
-+
-Disabling sections in `gerrit.config` can be used by site administrators
-to create a library of comment links with `html` set that are not
-user-supplied and thus can be verified to be XSS-free, but are only
-enabled for a subset of projects.
 +
 By default, true.
 +

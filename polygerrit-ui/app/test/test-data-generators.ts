@@ -136,9 +136,13 @@ export function dateToTimestamp(date: Date): Timestamp {
     nanosecondSuffix) as Timestamp;
 }
 
-export function createCommentLink(match = 'test'): CommentLinkInfo {
+export function createCommentLink(
+  match = 'test',
+  link = 'http://test.com'
+): CommentLinkInfo {
   return {
     match,
+    link,
   };
 }
 

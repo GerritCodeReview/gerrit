@@ -533,15 +533,9 @@ suite('gr-change-view tests', () => {
           <gr-download-dialog id="downloadDialog" role="dialog">
           </gr-download-dialog>
         </dialog>
-        <gr-overlay
-          aria-hidden="true"
-          id="includedInOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
+        <dialog id="includedInModal" tabindex="-1">
           <gr-included-in-dialog id="includedInDialog"> </gr-included-in-dialog>
-        </gr-overlay>
+        </dialog>
         <dialog id="replyModal"></dialog>
       `
     );

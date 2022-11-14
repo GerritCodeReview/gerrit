@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79cd0256_7511d28a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-14T09:59:23Z",
+      "side": 1,
+      "message": "nit: What do you mean \u0027after this config\u0027? Could you, please, make it more clear?\n\nCould you, please, update documentation accordingly[1]\n\nhttps://gerrit-review.googlesource.com/Documentation/cmd-create-project.html#_options",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "2bf9a4b29fbca82852defc69c51a65453036fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

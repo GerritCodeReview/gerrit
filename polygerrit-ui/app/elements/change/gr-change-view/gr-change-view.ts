@@ -36,11 +36,7 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {
-  querySelectorAll,
-  whenVisible,
-  windowLocationReload,
-} from '../../../utils/dom-util';
+import {whenVisible, windowLocationReload} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
@@ -2116,9 +2112,16 @@ export class GrChangeView extends LitElement {
   viewStateChanged() {
     if (this.viewState === undefined) {
       this.initialLoadComplete = false;
-      querySelectorAll(this, 'gr-overlay').forEach(overlay =>
-        (overlay as GrOverlay).close()
-      );
+      for (const overlay of Array.from(
+        queryAll<GrOverlay>(this, 'gr-overlay')
+      )) {
+        overlay.close();
+      }
+      for (const dialog of Array.from(
+        queryAll<HTMLDialogElement>(this, 'dialog')
+      )) {
+        dialog.close();
+      }
       return;
     }
 

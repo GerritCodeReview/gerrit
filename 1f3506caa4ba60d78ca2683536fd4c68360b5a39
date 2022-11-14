@@ -22,6 +22,30 @@
       },
       "revId": "1f3506caa4ba60d78ca2683536fd4c68360b5a39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a07710_43487362",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-14T12:30:46Z",
+      "side": 1,
+      "message": "I\u0027m not aware of any reason.",
+      "parentUuid": "725ccade_a95ca02b",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "1f3506caa4ba60d78ca2683536fd4c68360b5a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

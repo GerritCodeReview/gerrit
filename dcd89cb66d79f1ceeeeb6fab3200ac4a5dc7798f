@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e8ec2e_4e855f90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-14T12:47:13Z",
+      "side": 1,
+      "message": "Clarified in all the locations. The plugin installation/loading methods are giving us back an interface type with reduced methods than the real implementation classes. Some tests are using those extra implementation methods to do testing so I am casting in the 3 locations with this comment.",
+      "parentUuid": "3c88a1a5_0eb25538",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 73
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d022c9fe_da78f0b0",
@@ -94,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09cbe46d_dbf3b353",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-14T12:47:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d022c9fe_da78f0b0",
+      "range": {
+        "startLine": 100,
+        "startChar": 18,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70782b5c_73ca060f",
@@ -107,6 +155,30 @@
       "writtenOn": "2022-11-11T14:34:09Z",
       "side": 1,
       "message": "I am having hard time understanding the comment and this line.\n\nIf it expects GrAdminApi[], why are we casting to EventCallback[] ?",
+      "range": {
+        "startLine": 317,
+        "startChar": 5,
+        "endLine": 317,
+        "endChar": 35
+      },
+      "revId": "dcd89cb66d79f1ceeeeb6fab3200ac4a5dc7798f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42166eed_6f564e71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-14T12:47:13Z",
+      "side": 1,
+      "message": "- `getEventCallbacks` declares returns type `EventCallback[]`\n- `getAdminMenuLinks` calls `getEventCallbacks` and casts the result to `GrAdminApi[]` so it can read `getMenuLinks` from each. This is deeply incompatible so it casts through `unknown` first. [cast here](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts;l\u003d265;drc\u003de3d6686ddef4908f75e8f18bb47a9122608dce8e)\n\nI am not sure the deep reason for this dilemma but resolving the production code type issue is out of scope of this change, so my test must make the same cast by having `getEventCallbacks` return `GrAdminApi[]` disguised as `EventCallback[]`. In the JS test it was not an issue of course.\n\nI have tried making the comment more clear. PTAL",
+      "parentUuid": "70782b5c_73ca060f",
       "range": {
         "startLine": 317,
         "startChar": 5,

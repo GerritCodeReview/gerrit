@@ -16,6 +16,23 @@
       "message": "I fully support this, Thanks @kamilm@google.com",
       "revId": "13bea2db319378bdf4a14628d381e1781899c93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d006a1b0_4b041ead",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-14T10:39:41Z",
+      "side": 1,
+      "message": "please add a comment with the original field name",
+      "revId": "13bea2db319378bdf4a14628d381e1781899c93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

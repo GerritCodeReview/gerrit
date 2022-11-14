@@ -417,6 +417,16 @@ public class RestApiServletIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void requestsOnRootCollectionDontRequireTrailingSlash() throws Exception {
+    adminRestSession.get("/access").assertOK();
+    adminRestSession.get("/accounts?q=is:active").assertOK();
+    adminRestSession.get("/changes?q=status:open").assertOK();
+    // GET on /config/ is not supported, hence we cannot test GET on /config
+    adminRestSession.get("/groups").assertOK();
+    adminRestSession.get("/projects").assertOK();
+  }
+
   private ObjectId getMetaRefSha1(Result change) {
     return change.getChange().notes().getRevision();
   }

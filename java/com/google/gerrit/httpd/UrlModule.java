@@ -92,11 +92,17 @@ class UrlModule extends ServletModule {
     // which is bound in HttpPluginModule. We cannot bind it here again although
     // this means that plugins can't add REST views on PLUGIN_KIND.
     serveRegex("^/(?:a/)?access/(.*)$").with(AccessRestApiServlet.class);
+    serveRegex("^/(?:a/)?access$").with(AccessRestApiServlet.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
+    serveRegex("^/(?:a/)?accounts$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
+    serveRegex("^/(?:a/)?changes$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
+    serveRegex("^/(?:a/)?config$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
+    serveRegex("^/(?:a/)?groups$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+    serveRegex("^/(?:a/)?projects$").with(ProjectsRestApiServlet.class);
 
     serveRegex("^/Documentation$").with(redirectDocumentation());
     serveRegex("^/Documentation/$").with(redirectDocumentation());

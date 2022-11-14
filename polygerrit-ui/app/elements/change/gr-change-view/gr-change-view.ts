@@ -32,6 +32,7 @@ import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
+import '../../../elements/shared/gr-modal/gr-modal';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
@@ -1220,7 +1221,7 @@ export class GrChangeView extends LitElement {
           @close=${this.handleIncludedInDialogClose}
         ></gr-included-in-dialog>
       </gr-overlay>
-      <dialog id="replyModal" @close=${this.onReplyModalCanceled}>
+      <gr-modal id="replyModal" @close=${this.onReplyModalCanceled}>
         ${when(
           this.replyModalOpened && this.loggedIn,
           () => html`
@@ -1236,7 +1237,7 @@ export class GrChangeView extends LitElement {
             </gr-reply-dialog>
           `
         )}
-      </dialog>
+      </gr-modal>
     `;
   }
 

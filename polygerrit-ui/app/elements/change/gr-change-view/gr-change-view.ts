@@ -181,7 +181,6 @@ import {configModelToken} from '../../../models/config/config-model';
 import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   changeViewModelToken,
   ChangeViewState,
@@ -539,8 +538,6 @@ export class GrChangeView extends LitElement {
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -1265,48 +1262,26 @@ export class GrChangeView extends LitElement {
           ></gr-change-status>`
         )}
       </div>
-
-      ${when(
-        this.flagsService.isEnabled(KnownExperimentId.COPY_LINK_DIALOG),
-        () => html`
-          ${this.renderCopyLinksDropdown()}
-          <gr-button
-            flatten
-            down-arrow
-            class="showCopyLinkDialogButton"
-            @click=${() => this.copyLinksDropdown?.toggleDropdown()}
-            ><gr-change-star
-              id="changeStar"
-              .change=${this.change}
-              @toggle-star=${this.handleToggleStar}
-              ?hidden=${!this.loggedIn}
-            ></gr-change-star>
-            <a
-              class="changeNumber"
-              aria-label=${`Change ${this.change?._number}`}
-              href=${ifDefined(this.computeChangeUrl(true))}
-              @click=${(e: MouseEvent) => e.stopPropagation()}
-              >${this.change?._number}</a
-            ></gr-button
-          >
-        `,
-        () => html`
-          <gr-change-star
+        ${this.renderCopyLinksDropdown()}
+        <gr-button
+          flatten
+          down-arrow
+          class="showCopyLinkDialogButton"
+          @click=${() => this.copyLinksDropdown?.toggleDropdown()}
+          ><gr-change-star
             id="changeStar"
             .change=${this.change}
-            @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
-              this.handleToggleStar(e)}
+            @toggle-star=${this.handleToggleStar}
             ?hidden=${!this.loggedIn}
-          ></gr-change-star
-          ><a
+          ></gr-change-star>
+          <a
             class="changeNumber"
             aria-label=${`Change ${this.change?._number}`}
             href=${ifDefined(this.computeChangeUrl(true))}
+            @click=${(e: MouseEvent) => e.stopPropagation()}
             >${this.change?._number}</a
           >
-          <span class="changeNumberColon">:&nbsp;</span>
-        `
-      )}
+        </gr-button>
       <span class="headerSubject">${this.change?.subject}</span>
       <gr-copy-clipboard
         class="changeCopyClipboard"

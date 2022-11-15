@@ -45,7 +45,7 @@ fi
 # 7. flip columns
 # 8. uniq case-insensitive, only show duplicates, avoid comparing first field
 # 9. flip columns back
-git grep -A1 "\[externalId \"$1:" refs/meta/external-ids \
+git grep -A1 "\[externalId \"$1:" refs/meta/external-ids -- \
   | sed -E "/$1/,/accountId/!d" \
   | paste -d ' ' - - \
   | tr \"= : \

@@ -34,6 +34,24 @@
       "parentUuid": "55994b15_08e4e958",
       "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "808b1cd9_c98353f4",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-15T19:59:35Z",
+      "side": 1,
+      "message": "I\u0027d agree to keep the current (and questionable) structure because this is stable-3.5. On master, we could afford refactoring this part, here and in JGit.",
+      "parentUuid": "8751cdc2_9dad7ec5",
+      "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -226,6 +226,8 @@ const darkThemeCss = safeStyleSheet`
 
     --diff-moved-in-background: #1d4042;
     --diff-moved-in-label-color: var(--cyan-50);
+    --diff-moved-in-changed-background: #1d4042;
+    --diff-moved-in-changed-label-color: var(--cyan-50);
     --diff-moved-out-background: #230e34;
     --diff-moved-out-label-color: var(--purple-50);
 

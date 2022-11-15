@@ -625,6 +625,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
           background-color: var(--diff-moved-in-background);
         }
 
+        .dueToMove.changed .sign.add,
+        .dueToMove.changed .content.add .contentText,
+        .dueToMove.changed .moveControls.movedIn .sign.right,
+        .dueToMove.changed .moveControls.movedIn .moveHeader,
+        .delta.total.dueToMove.changed .content.add .contentText {
+          background-color: var(--diff-moved-in-changed-background);
+        }
+
         .dueToMove .sign.remove,
         .dueToMove .content.remove .contentText,
         .dueToMove .moveControls.movedOut .moveHeader,
@@ -635,6 +643,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
         .delta.dueToMove .movedIn .moveHeader {
           --gr-range-header-color: var(--diff-moved-in-label-color);
+        }
+        .delta.dueToMove.changed .movedIn .moveHeader {
+          --gr-range-header-color: var(--diff-moved-in-changed-label-color);
         }
         .delta.dueToMove .movedOut .moveHeader {
           --gr-range-header-color: var(--diff-moved-out-label-color);

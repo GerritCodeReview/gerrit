@@ -262,6 +262,27 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    test('does not render if too long', async () => {
+      element.content = `text
+        \ntext with plain link: google.com
+        \ntext with config link: LinkRewriteMe
+        \ntext without a link: NotA Link 15 cats
+        \ntext with complex link: A Link 12`;
+      element.MARKDOWN_LIMIT = 10;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div class="markdown-html" slot="markdown-html">
+              <p>text<br />...</p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+
     test('renders headings with links and rewrites', async () => {
       element.content = `# h1-heading
         \n## h2-heading

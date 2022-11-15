@@ -12,8 +12,7 @@ import {
 } from '../../../types/common';
 import {Finalizable} from '../../../services/registry';
 import {EventType, TargetElement} from '../../../api/plugin';
-import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
-import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
+import {ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 
 export interface ShowChangeDetail {
@@ -47,9 +46,6 @@ export interface JsApiService extends Finalizable {
     origMsg: string
   ): string;
   addElement(key: TargetElement, el: HTMLElement): void;
-  getDiffLayers(path: string): DiffLayer[];
-  disposeDiffLayers(path: string): void;
-  getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]>;
   getAdminMenuLinks(): MenuLink[];
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string): void;
   canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;

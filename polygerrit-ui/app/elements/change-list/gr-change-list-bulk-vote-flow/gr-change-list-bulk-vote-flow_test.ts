@@ -286,7 +286,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </gr-overlay> `
+      </dialog> `
     );
   });
 

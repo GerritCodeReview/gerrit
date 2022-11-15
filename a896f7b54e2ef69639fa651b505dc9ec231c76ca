@@ -16,6 +16,24 @@
       "message": "Should we explicitly have a `catch` for `PackProtocolException` or even a broader `TransportException` so we start moving away from catching all the `Throwable`?\n\nIt seems a bit odd catching a `Throwable` and then making consideration on the exception type to determine which message to send back.\n\nSomething like:\n\n```\n} catch (PackProtocolException e) {\n   if (!rsp.isCommitted()) {\n     rsp.reset();\n     sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), e.getMessage());\n   }\n} catch (Throwable e) {\n        logger.atSevere().withCause(e).log(\n            MessageFormat.format(\n                HttpServerText.get().internalErrorDuringUploadPack,\n                ServletUtils.getRepository(req)));\n        if (!rsp.isCommitted()) {\n          rsp.reset();\n          sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), null);\n}\n\n```",
       "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8751cdc2_9dad7ec5",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-11-15T17:49:23Z",
+      "side": 1,
+      "message": "The handler is written on the blueprint provided by jgit [1],\nThe intention of this override is just to allow logging of git-upload-pack results not to change that behaviour.\n\nSo I guess to some extent we should be careful at diverging from the jgit implementation.\n\nI think, if we decide to do this refactoring, few things should be considered:\n- to do the same thing in jgit\n- to do it in a follow up change\n- to do it master\n\nThoughts?\n\n\n[1]https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/stable-6.1/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java#216",
+      "parentUuid": "55994b15_08e4e958",
+      "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

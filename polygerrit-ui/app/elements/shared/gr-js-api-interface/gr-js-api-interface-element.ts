@@ -10,7 +10,6 @@ import {
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
-import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
   JsApiService,
@@ -19,7 +18,7 @@ import {
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../../api/plugin';
-import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
+import {ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -205,58 +204,6 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       }
     }
     return revertSubmissionMsg;
-  }
-
-  getDiffLayers(path: string) {
-    const layers: DiffLayer[] = [];
-    for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
-      const annotationApi = cb as unknown as GrAnnotationActionsInterface;
-      try {
-        const layer = annotationApi.createLayer(path);
-        if (layer) layers.push(layer);
-      } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('getDiffLayers callback error'),
-          err
-        );
-      }
-    }
-    return layers;
-  }
-
-  disposeDiffLayers(path: string) {
-    for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
-      try {
-        const annotationApi = cb as unknown as GrAnnotationActionsInterface;
-        annotationApi.disposeLayer(path);
-      } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('disposeDiffLayers callback error'),
-          err
-        );
-      }
-    }
-  }
-
-  /**
-   * Retrieves coverage data possibly provided by a plugin.
-   *
-   * Will wait for plugins to be loaded. If multiple plugins offer a coverage
-   * provider, the first one is returned. If no plugin offers a coverage provider,
-   * will resolve to null.
-   */
-  getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]> {
-    return this.waitForPluginsToLoad().then(() => {
-      const providers: GrAnnotationActionsInterface[] = [];
-      this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {
-        const annotationApi = cb as unknown as GrAnnotationActionsInterface;
-        const provider = annotationApi.getCoverageProvider();
-        if (provider) providers.push(annotationApi);
-      });
-      return providers;
-    });
   }
 
   getAdminMenuLinks(): MenuLink[] {

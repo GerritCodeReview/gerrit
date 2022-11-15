@@ -50,7 +50,6 @@ import {SinonStub} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {assertIsDefined} from '../../../utils/common-util';
-import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
@@ -75,28 +74,6 @@ suite('gr-diff-host tests', () => {
     getDiffRestApiStub.returns(Promise.resolve(createDiff()));
     await element.updateComplete;
     userModel = testResolver(userModelToken);
-  });
-
-  suite('plugin layers', () => {
-    let getDiffLayersStub: sinon.SinonStub;
-    const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
-    setup(async () => {
-      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
-      getDiffLayersStub = sinon
-        .stub(testResolver(pluginLoaderToken).jsApiService, 'getDiffLayers')
-        .returns(pluginLayers);
-      element.changeNum = 123 as NumericChangeId;
-      element.change = createChange();
-      element.patchRange = createPatchRange();
-      element.path = 'some/path';
-      await element.updateComplete;
-    });
-
-    test('plugin layers requested', async () => {
-      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
-      await element.reload();
-      assert(getDiffLayersStub.called);
-    });
   });
 
   suite('render reporting', () => {
@@ -1632,38 +1609,11 @@ suite('gr-diff-host tests', () => {
           content: [{a: ['foo']}],
         })
       );
-      getCoverageAnnotationApisStub = sinon
-        .stub(
-          testResolver(pluginLoaderToken).jsApiService,
-          'getCoverageAnnotationApis'
-        )
-        .returns(
-          Promise.resolve([
-            {
-              notify: notifyStub,
-              getCoverageProvider() {
-                return coverageProviderStub;
-              },
-            } as unknown as GrAnnotationActionsInterface,
-          ])
-        );
+      testResolver(pluginLoaderToken).pluginsModel.coverageRegister({
+        pluginName: 'test-coverage-plugin',
+        provider: coverageProviderStub,
+      });
       await element.reload();
-    });
-
-    test('getCoverageAnnotationApis should be called', async () => {
-      await element.waitForReloadToRender();
-      assert.isTrue(getCoverageAnnotationApisStub.calledOnce);
-    });
-
-    test('coverageRangeChanged should be called', async () => {
-      await element.waitForReloadToRender();
-      assert.equal(notifyStub.callCount, 2);
-      assert.isTrue(
-        notifyStub.calledWithExactly('some/path', 1, 2, Side.RIGHT)
-      );
-      assert.isTrue(
-        notifyStub.calledWithExactly('some/path', 3, 4, Side.RIGHT)
-      );
     });
 
     test('provider is called with appropriate params', async () => {

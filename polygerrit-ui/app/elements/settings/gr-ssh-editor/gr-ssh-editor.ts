@@ -6,7 +6,6 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-overlay/gr-overlay';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';

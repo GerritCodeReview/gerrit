@@ -28,11 +28,13 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
 import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement.Status;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.inject.Inject;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -131,38 +133,93 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
 
   @Test
   public void migrateNonBlockingLabel_NoBlock() throws Exception {
+    // NoBlock labels are left as is, i.e. we don't create a "submit requirement" for them. Those
+    // labels will then be treated as trigger votes in the change page.
     createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false);
     assertNonExistentSr(/* srName = */ "Foo");
 
-    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
-    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.NO_CHANGE);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(0);
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
-    assertExistentSr(
-        /* srName */ "Foo",
-        /* applicabilityExpression= */ "is:false",
-        /* submittabilityExpression= */ "is:true",
-        /* canOverride= */ true);
+    // No SR was created for the label. Label will be treated as a trigger vote.
+    assertNonExistentSr("Foo");
+    // Label function has not changed.
     assertLabelFunction("Foo", "NoBlock");
   }
 
   @Test
   public void migrateNonBlockingLabel_NoOp() throws Exception {
-    createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false);
+    // NoOp labels are left as is, i.e. we don't create a "submit requirement" for them. Those
+    // labels will then be treated as trigger votes in the change page.
+    createLabel("Foo", "NoOp", /* ignoreSelfApproval= */ false);
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(0);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    // No SR was created for the label. Label will be treated as a trigger vote.
+    assertNonExistentSr("Foo");
+    // The NoOp function is converted to NoBlock. Both are same.
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateNoBlockLabel_withSingleZeroValue() throws Exception {
+    // Labels that have a single "zero" value are skipped in the project. The migrator creates
+    // non-applicable SR for these labels.
+    createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false, ImmutableMap.of("0", "No vote"));
     assertNonExistentSr(/* srName = */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
+    // a non-applicable SR was created for the skipped label.
     assertExistentSr(
         /* srName */ "Foo",
         /* applicabilityExpression= */ "is:false",
         /* submittabilityExpression= */ "is:true",
         /* canOverride= */ true);
 
-    // The NoOp function is converted to NoBlock. Both are same.
     assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateMaxWithBlockLabel_withSingleZeroValue() throws Exception {
+    // Labels that have a single "zero" value are skipped in the project. The migrator creates
+    // non-applicable SRs for these labels.
+    createLabel(
+        "Foo", "MaxWithBlock", /* ignoreSelfApproval= */ false, ImmutableMap.of("0", "No vote"));
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    // a non-applicable SR was created for the skipped label.
+    assertExistentSr(
+        /* srName */ "Foo",
+        /* applicabilityExpression= */ "is:false",
+        /* submittabilityExpression= */ "is:true",
+        /* canOverride= */ true);
+
+    // The MaxWithBlock function is converted to NoBlock. This has no effect anyway because the
+    // label was originally skipped.
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void cannotCreateLabelsWithNoValues() {
+    // This test just asserts the server's behaviour for visibility; admins cannot create a label
+    // without any defined values.
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false, ImmutableMap.of()));
+    assertThat(thrown).hasMessageThat().isEqualTo("values are required");
   }
 
   @Test
@@ -306,11 +363,21 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
 
   private void createLabel(String labelName, String function, boolean ignoreSelfApproval)
       throws Exception {
+    createLabel(
+        labelName,
+        function,
+        ignoreSelfApproval,
+        ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad"));
+  }
+
+  private void createLabel(
+      String labelName, String function, boolean ignoreSelfApproval, Map<String, String> values)
+      throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.name = labelName;
     input.function = function;
     input.ignoreSelfApproval = ignoreSelfApproval;
-    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.values = values;
     gApi.projects().name(project.get()).label(labelName).create(input);
   }
 

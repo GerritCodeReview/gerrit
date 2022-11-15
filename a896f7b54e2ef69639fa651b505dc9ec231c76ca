@@ -52,6 +52,24 @@
       "parentUuid": "8751cdc2_9dad7ec5",
       "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2086503_c33fd058",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-11-15T20:07:10Z",
+      "side": 1,
+      "message": "Sounds good to diverge in `master`. If we want to stay \"in sync\" with JGit we should probably expose a method there to use to handle these cases.",
+      "parentUuid": "808b1cd9_c98353f4",
+      "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

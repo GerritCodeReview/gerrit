@@ -16,6 +16,24 @@
       "message": "Better just `n/a` here, because these release notes are for Gerrit\u0027s public release. We set `n/a` for 95% of our changes.",
       "revId": "5e42cb689ecb80c6356da6b5e300a8081baa9c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa7728e_526e688a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1141600
+      },
+      "writtenOn": "2022-11-15T17:47:21Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "b10d45ec_3efc0630",
+      "revId": "5e42cb689ecb80c6356da6b5e300a8081baa9c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

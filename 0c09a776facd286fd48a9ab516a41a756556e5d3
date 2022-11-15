@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d13398df_dd170725",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-15T16:13:15Z",
+      "side": 1,
+      "message": "\"Limit the length\" sounds like truncate but instead you are not-marking up the text.",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "0c09a776facd286fd48a9ab516a41a756556e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b6da7e3_e0f0488e",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 2
@@ -37,6 +60,29 @@
       "writtenOn": "2022-11-15T16:11:25Z",
       "side": 1,
       "message": "add a test. Probably want to add a way for the test to lower the limit.",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 46
+      },
+      "revId": "0c09a776facd286fd48a9ab516a41a756556e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37188a2b_9046db54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-15T16:13:15Z",
+      "side": 1,
+      "message": "what about other not-markdown stuff like links?",
       "range": {
         "startLine": 181,
         "startChar": 0,

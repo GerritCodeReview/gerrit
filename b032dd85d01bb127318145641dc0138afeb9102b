@@ -16,6 +16,24 @@
       "message": "What are these markers?",
       "revId": "b032dd85d01bb127318145641dc0138afeb9102b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7af770b7_6afbef9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T18:51:02Z",
+      "side": 1,
+      "message": "There was cherry-pick conflict. I fixed it.",
+      "parentUuid": "9e1533c2_48919356",
+      "revId": "b032dd85d01bb127318145641dc0138afeb9102b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

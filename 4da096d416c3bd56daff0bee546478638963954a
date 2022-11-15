@@ -3,6 +3,115 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31f1b8a2_4ba470c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "What is issue? Performance?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b3327c_be2d2d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "Do I understand this sentence correctly, that the new solution is slower than old solution in js execution but it is same if you also calculate style and layout performance.",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d73f9046_415c5a9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "A few nitpicks. I had hard time to understand this change.",
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b3a29ea_0f7d7356",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "Sorry I really don\u0027t know, What means shadow root borders?",
+      "range": {
+        "startLine": 94,
+        "startChar": 57,
+        "endLine": 94,
+        "endChar": 70
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d0c8bfb_a92a2109",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "It\u0027s hard to understand this.\n\nWhat is querySelectorContainer? \nif getTokenQueryContainer is defined, then tokens in this element are calculated by querySelectorContainer otherwise they are calculated by annotate?",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0aeaa43_34c60daa",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
         "patchSetId": 1
@@ -90,6 +199,29 @@
         "startChar": 4,
         "endLine": 109,
         "endChar": 26
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc6cfecd_24d9e425",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T13:51:40Z",
+      "side": 1,
+      "message": "Nit: \nDo we need extra check on element getTokenQueryContainer() ?\n\nDoes it need to be attached to dom? \n\nDoes it need to have any tokens?\n\nMaybe throw warning in such cases?",
+      "range": {
+        "startLine": 297,
+        "startChar": 13,
+        "endLine": 297,
+        "endChar": 35
       },
       "revId": "4da096d416c3bd56daff0bee546478638963954a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

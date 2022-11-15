@@ -16,7 +16,6 @@ import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-formatted-text/gr-formatted-text';
-import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';
@@ -884,7 +883,6 @@ export class GrChangeView extends LitElement {
           border-bottom: 1px solid var(--border-color);
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
-          z-index: 99; /* Less than gr-overlay's backdrop */
         }
         .header.editMode {
           background-color: var(--edit-mode-background-color);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f293bce0_633ed4c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-15T13:38:08Z",
+      "side": 1,
+      "message": "Don\u0027t forget to pick this to 3.7 branch.",
+      "revId": "c4d5af2c1de7f49c494bebfb4d409ea58a12f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

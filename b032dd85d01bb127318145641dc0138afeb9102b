@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e1533c2_48919356",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-15T16:43:11Z",
+      "side": 1,
+      "message": "What are these markers?",
+      "revId": "b032dd85d01bb127318145641dc0138afeb9102b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

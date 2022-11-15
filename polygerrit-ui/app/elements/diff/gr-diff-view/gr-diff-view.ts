@@ -20,7 +20,7 @@ import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
-import '../../shared/gr-overlay/gr-overlay';
+
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -43,7 +43,6 @@ import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   BasePatchSetNum,

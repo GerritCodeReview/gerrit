@@ -211,10 +211,7 @@ suite('gr-reply-dialog tests', () => {
               <div class="peopleListLabel">CC</div>
               <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
             </div>
-            <dialog
-              tabindex="-1"
-              id="reviewerConfirmationModal"
-            >
+            <dialog tabindex="-1" id="reviewerConfirmationModal">
               <div class="reviewerConfirmation">
                 Group
                 <span class="groupName"> </span>
@@ -232,7 +229,7 @@ suite('gr-reply-dialog tests', () => {
                   No
                 </gr-button>
               </div>
-            </gr-overlay>
+            </dialog>
           </section>
           <section class="labelsContainer">
             <gr-endpoint-decorator name="reply-label-scores">

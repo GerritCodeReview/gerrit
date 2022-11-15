@@ -5,7 +5,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
-import '../../shared/gr-overlay/gr-overlay';
+
 import '../gr-create-group-dialog/gr-create-group-dialog';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';

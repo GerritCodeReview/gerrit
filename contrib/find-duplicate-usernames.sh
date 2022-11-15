@@ -29,6 +29,18 @@ if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username|external)$ ]]; then
   usage
 fi
 
+if [ -z "$(git ls-remote . refs/meta/external-ids)" ]; then
+  cat <<EOF
+Could not find 'refs/meta/external-ids' in the local repository.
+
+Please fetch it using:
+
+  git fetch "$(git remote)" refs/meta/external-ids:refs/meta/external-ids
+
+EOF
+  exit 1
+fi
+
 # 1. find lines with user name and subsequent line in external-ids notes branch
 #    example output of git grep -A1 "\[externalId \"username:" refs/meta/external-ids:
 #    refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba:[externalId "username:johndoe"]

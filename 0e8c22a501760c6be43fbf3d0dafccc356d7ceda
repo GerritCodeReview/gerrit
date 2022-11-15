@@ -22,6 +22,30 @@
       },
       "revId": "0e8c22a501760c6be43fbf3d0dafccc356d7ceda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5460ff4_6ee2faf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-15T18:39:20Z",
+      "side": 1,
+      "message": "I am also not sure. I reuse text from announcements. I hope it will be consistent with other announcements in final 3.7 release notes.",
+      "parentUuid": "6d2d1b1d_c1729286",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "0e8c22a501760c6be43fbf3d0dafccc356d7ceda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

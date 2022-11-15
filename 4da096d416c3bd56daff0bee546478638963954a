@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0aeaa43_34c60daa",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-15T13:20:27Z",
+      "side": 1,
+      "message": "if users should only ever use static factory method to create instance of this class then consider marking this `protected` or similar.",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 13
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73a3680_039dd794",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-15T13:20:27Z",
+      "side": 1,
+      "message": "Optional: FYI you can just put `private`/`public`/`readonly`/etc in front of these params and it will make them class fields automatically. Then you wouldn\u0027t need `this.foo \u003d foo;` lines.\n\nhttps://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

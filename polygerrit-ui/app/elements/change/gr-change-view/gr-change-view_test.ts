@@ -401,9 +401,16 @@ suite('gr-change-view tests', () => {
               <h1 class="assistive-tech-only">Change :</h1>
               <div class="headerTitle">
                 <div class="changeStatuses"></div>
-                <gr-change-star id="changeStar"> </gr-change-star>
-                <a aria-label="Change undefined" class="changeNumber"> </a>
-                <span class="changeNumberColon"> : </span>
+                <gr-button
+                  aria-disabled="false"
+                  class="showCopyLinkDialogButton"
+                  down-arrow=""
+                  flatten=""
+                  role="button"
+                  tabindex="0"
+                  ><gr-change-star id="changeStar"> </gr-change-star>
+                  <a aria-label="Change undefined" class="changeNumber"> </a>
+                </gr-button>
                 <span class="headerSubject"> </span>
                 <gr-copy-clipboard
                   class="changeCopyClipboard"

@@ -16,8 +16,7 @@ export function prefersDarkColorScheme() {
   return window.matchMedia('(prefers-color-scheme: dark)');
 }
 
-export function isDarkTheme(theme: AppTheme, autoModeEnabled: boolean) {
-  if (autoModeEnabled && theme === AppTheme.AUTO) return isDarkThemeInOs();
-
+export function isDarkTheme(theme: AppTheme) {
+  if (theme === AppTheme.AUTO) return isDarkThemeInOs();
   return theme === AppTheme.DARK;
 }

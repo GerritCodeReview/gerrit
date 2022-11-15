@@ -53,7 +53,7 @@ import {
   TitleChangeEventDetail,
 } from '../types/events';
 import {GerritView, routerModelToken} from '../services/router/router-model';
-import {Execution, LifeCycle} from '../constants/reporting';
+import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
@@ -67,7 +67,6 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
-import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
@@ -161,8 +160,6 @@ export class GrAppElement extends LitElement {
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
@@ -260,24 +257,6 @@ export class GrAppElement extends LitElement {
       this.version = version;
       this.logWelcome();
     });
-
-    // TODO(milutin): Remove saving preferences after while. This code is
-    // for migration.
-    if (window.localStorage.getItem('dark-theme')) {
-      this.getUserModel().updatePreferences({theme: AppTheme.DARK});
-      window.localStorage.removeItem('dark-theme');
-      this.reporting.reportExecution(
-        Execution.REACHABLE_CODE,
-        'Dark theme was migrated from localstorage'
-      );
-    } else if (window.localStorage.getItem('light-theme')) {
-      this.getUserModel().updatePreferences({theme: AppTheme.LIGHT});
-      window.localStorage.removeItem('light-theme');
-      this.reporting.reportExecution(
-        Execution.REACHABLE_CODE,
-        'Light theme was migrated from localstorage'
-      );
-    }
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
@@ -638,10 +617,7 @@ export class GrAppElement extends LitElement {
   }
 
   private applyTheme() {
-    const showDarkTheme = isDarkTheme(
-      this.theme,
-      this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME)
-    );
+    const showDarkTheme = isDarkTheme(this.theme);
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {

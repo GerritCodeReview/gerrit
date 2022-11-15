@@ -67,7 +67,6 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
-import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
@@ -161,8 +160,6 @@ export class GrAppElement extends LitElement {
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
@@ -638,10 +635,7 @@ export class GrAppElement extends LitElement {
   }
 
   private applyTheme() {
-    const showDarkTheme = isDarkTheme(
-      this.theme,
-      this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME)
-    );
+    const showDarkTheme = isDarkTheme(this.theme);
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {

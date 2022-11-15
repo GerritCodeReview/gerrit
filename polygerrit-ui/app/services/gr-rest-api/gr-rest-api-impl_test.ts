@@ -648,9 +648,9 @@ suite('gr-rest-api-service-impl tests', () => {
             Innocuous: 'hello',
           },
         });
-        const error = (await assertFails(
+        const error = await assertFails<Error>(
           element._failForCreate200(Promise.resolve(result))
-        )) as Error;
+        );
         assert.isOk(error);
         assert.include(error.message, 'Saving draft resulted in HTTP 200');
         assert.include(error.message, 'hello');

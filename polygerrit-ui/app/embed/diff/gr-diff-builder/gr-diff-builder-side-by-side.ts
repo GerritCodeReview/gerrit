@@ -45,6 +45,9 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     }
     if (group.moveDetails) {
       sectionEl.classList.add('dueToMove');
+      if (group.moveDetails.changed) {
+        sectionEl.classList.add('changed');
+      }
       sectionEl.appendChild(this.buildMoveControls(group));
     }
     if (group.ignoredWhitespaceOnly) {

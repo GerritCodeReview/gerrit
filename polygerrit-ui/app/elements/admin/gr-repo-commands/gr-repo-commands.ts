@@ -8,7 +8,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {

@@ -41,6 +41,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -163,6 +165,8 @@ public class ReviewCommand extends SshCommand {
 
   @Inject private PatchSetParser psParser;
 
+  @Inject private RetryHelper retryHelper;
+
   private Map<Option, LabelSetter> optionMap;
   private Map<String, Short> customLabels;
 
@@ -243,11 +247,19 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
-    gApi.changes()
-        .id(patchSet.id().changeId().get())
-        .revision(patchSet.commitId().name())
-        .review(review);
+  private void applyReview(PatchSet patchSet, ReviewInput review) throws Exception {
+    retryHelper
+        .action(
+            ActionType.CHANGE_UPDATE,
+            "applyReview",
+            () -> {
+              gApi.changes()
+                  .id(patchSet.id().changeId().get())
+                  .revision(patchSet.commitId().name())
+                  .review(review);
+              return null;
+            })
+        .call();
   }
 
   private ReviewInput reviewFromJson() throws UnloggedFailure {

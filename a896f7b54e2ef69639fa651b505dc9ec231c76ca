@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55994b15_08e4e958",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-11-15T10:20:19Z",
+      "side": 1,
+      "message": "Should we explicitly have a `catch` for `PackProtocolException` or even a broader `TransportException` so we start moving away from catching all the `Throwable`?\n\nIt seems a bit odd catching a `Throwable` and then making consideration on the exception type to determine which message to send back.\n\nSomething like:\n\n```\n} catch (PackProtocolException e) {\n   if (!rsp.isCommitted()) {\n     rsp.reset();\n     sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), e.getMessage());\n   }\n} catch (Throwable e) {\n        logger.atSevere().withCause(e).log(\n            MessageFormat.format(\n                HttpServerText.get().internalErrorDuringUploadPack,\n                ServletUtils.getRepository(req)));\n        if (!rsp.isCommitted()) {\n          rsp.reset();\n          sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), null);\n}\n\n```",
+      "revId": "a896f7b54e2ef69639fa651b505dc9ec231c76ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

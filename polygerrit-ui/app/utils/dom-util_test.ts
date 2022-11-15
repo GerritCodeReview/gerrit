@@ -329,15 +329,6 @@ suite('dom-util tests', () => {
       });
     });
 
-    test('suppress shortcut event from children of <gr-overlay>', async () => {
-      const overlay = document.createElement('gr-overlay');
-      const div = document.createElement('div');
-      overlay.appendChild(div);
-      await keyEventOn(div, e => {
-        assert.isTrue(shouldSuppress(e));
-      });
-    });
-
     test('suppress "enter" shortcut event from <gr-button>', async () => {
       await keyEventOn(
         document.createElement('gr-button'),

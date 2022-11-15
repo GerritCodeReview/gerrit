@@ -559,7 +559,7 @@ export class GrDiffHost extends LitElement {
     const enableTokenHighlight = !prefs?.disable_token_highlighting;
 
     assertIsDefined(this.path, 'path');
-    this.layers = this.getLayers(this.path, enableTokenHighlight);
+    this.layers = this.getLayers(enableTokenHighlight);
     this.coverageRanges = [];
     // We kick off fetching the data here, but we don't return the promise,
     // so awaiting initLayers() will not wait for coverage data to be
@@ -711,20 +711,16 @@ export class GrDiffHost extends LitElement {
     };
   }
 
-  private getLayers(path: string, enableTokenHighlight: boolean): DiffLayer[] {
+  private getLayers(enableTokenHighlight: boolean): DiffLayer[] {
     const layers = [];
     if (enableTokenHighlight) {
       layers.push(new TokenHighlightLayer(this));
     }
     layers.push(this.syntaxLayer);
-    // Get layers from plugins (if any).
-    layers.push(...this.getPluginLoader().jsApiService.getDiffLayers(path));
     return layers;
   }
 
   clear() {
-    if (this.path)
-      this.getPluginLoader().jsApiService.disposeDiffLayers(this.path);
     this.layers = [];
   }
 
@@ -854,58 +850,29 @@ export class GrDiffHost extends LitElement {
 
     const basePatchNum = toNumberOnly(this.patchRange.basePatchNum);
     const patchNum = toNumberOnly(this.patchRange.patchNum);
-    this.getPluginLoader()
-      .jsApiService.getCoverageAnnotationApis()
-      .then(coverageAnnotationApis => {
-        coverageAnnotationApis.forEach(coverageAnnotationApi => {
-          const provider = coverageAnnotationApi.getCoverageProvider();
-          if (!provider) return;
-          provider(changeNum, path, basePatchNum, patchNum, change)
-            .then(coverageRanges => {
-              assertIsDefined(this.patchRange, 'patchRange');
-              if (
-                !coverageRanges ||
-                changeNum !== this.changeNum ||
-                change !== this.change ||
-                path !== this.path ||
-                basePatchNum !== toNumberOnly(this.patchRange.basePatchNum) ||
-                patchNum !== toNumberOnly(this.patchRange.patchNum)
-              ) {
-                return;
-              }
-
-              const existingCoverageRanges = this.coverageRanges;
-              this.coverageRanges = coverageRanges;
-
-              // Notify with existing coverage ranges in case there is some
-              // existing coverage data that needs to be removed
-              existingCoverageRanges.forEach(range => {
-                coverageAnnotationApi.notify(
-                  path,
-                  range.code_range.start_line,
-                  range.code_range.end_line,
-                  range.side
-                );
-              });
-
-              // Notify with new coverage data
-              coverageRanges.forEach(range => {
-                coverageAnnotationApi.notify(
-                  path,
-                  range.code_range.start_line,
-                  range.code_range.end_line,
-                  range.side
-                );
-              });
-            })
-            .catch(err => {
-              this.reporting.error('GrDiffHost Coverage', err);
-            });
+    const plugins =
+      this.getPluginLoader().pluginsModel.getState().coveragePlugins;
+    const providers = plugins.map(p => p.provider);
+    for (const provider of providers) {
+      provider(changeNum, path, basePatchNum, patchNum, change)
+        .then(coverageRanges => {
+          assertIsDefined(this.patchRange, 'patchRange');
+          if (
+            !coverageRanges ||
+            changeNum !== this.changeNum ||
+            change !== this.change ||
+            path !== this.path ||
+            basePatchNum !== toNumberOnly(this.patchRange.basePatchNum) ||
+            patchNum !== toNumberOnly(this.patchRange.patchNum)
+          ) {
+            return;
+          }
+          this.coverageRanges = coverageRanges;
+        })
+        .catch(err => {
+          this.reporting.error('GrDiffHost Coverage', err);
         });
-      })
-      .catch(err => {
-        this.reporting.error('GrDiffHost Coverage', err);
-      });
+    }
   }
 
   private computeFileThreads(

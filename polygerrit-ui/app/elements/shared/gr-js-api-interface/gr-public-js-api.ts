@@ -215,7 +215,11 @@ export class Plugin implements PluginApi {
   }
 
   annotationApi(): AnnotationPluginApi {
-    return new GrAnnotationActionsInterface(this);
+    return new GrAnnotationActionsInterface(
+      this.report,
+      this.pluginsModel,
+      this
+    );
   }
 
   changeActions(): ChangeActionsPluginApi {

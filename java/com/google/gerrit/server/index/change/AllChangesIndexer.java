@@ -335,7 +335,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
           int size = sr.all().size();
           if (size > 0) {
             changeCount.addAndGet(size);
-            int slices = 1 + size / PROJECT_SLICE_MAX_REFS;
+            int slices = 1 + (size - 1) / PROJECT_SLICE_MAX_REFS;
             if (slices > 1) {
               verboseWriter.println(
                   "Submitting " + name + " for indexing in " + slices + " slices");

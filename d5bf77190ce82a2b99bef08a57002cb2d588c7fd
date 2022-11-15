@@ -81,6 +81,30 @@
       },
       "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "463833c7_06961bdc",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-15T11:56:46Z",
+      "side": 1,
+      "message": "\u003e I assume plugins rely on the public methods\nNo we have seen other cases where the plugin API is ignored and direct querying is done.",
+      "parentUuid": "4f01596f_419e6ad2",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "d5bf77190ce82a2b99bef08a57002cb2d588c7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

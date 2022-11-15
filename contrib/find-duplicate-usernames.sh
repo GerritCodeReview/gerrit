@@ -63,6 +63,6 @@ git grep -A1 "\[externalId \"$1:" refs/meta/external-ids -- \
   | tr \"= : \
   | cut -d: --output-delimiter="" -f 5,8 \
   | sort -f \
-  | sed -E "s/(.*) (.*)/\2 \1/" \
+  | sed -E "s/(.*) ([0-9]+)/\2 \1/" \
   | uniq -Di -f1 \
-  | sed -E "s/(.*) (.*)/\2 \1/"
+  | sed -E "s/([0-9]+) (.*)/\2 \1/"

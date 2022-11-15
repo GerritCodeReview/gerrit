@@ -49,10 +49,8 @@ export class GrLabelScores extends LitElement {
         .abandonedMessage {
           font-style: italic;
           text-align: center;
-          width: 100%;
         }
         .permissionMessage {
-          width: 100%;
           color: var(--deemphasized-text-color);
           padding-left: var(--label-score-padding-left, 0);
         }

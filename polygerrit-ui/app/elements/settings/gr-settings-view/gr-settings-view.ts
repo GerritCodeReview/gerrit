@@ -734,32 +734,20 @@ export class GrSettingsView extends LitElement {
     super.disconnectedCallback();
   }
 
-  private mapTheme(theme: AppTheme) {
-    if (this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME)) {
-      return theme;
-    }
-    if (theme === AppTheme.AUTO) return AppTheme.LIGHT;
-    return theme;
-  }
-
   private renderTheme() {
     return html`
       <section>
         <label class="title" for="themeSelect">Theme</label>
         <span class="value">
           <gr-select
-            .bindValue=${this.mapTheme(this.localPrefs.theme ?? AppTheme.AUTO)}
+            .bindValue=${this.localPrefs.theme ?? AppTheme.AUTO}
             @change=${() => {
               this.localPrefs.theme = this.themeSelect.value as AppTheme;
               this.prefsChanged = true;
             }}
           >
             <select id="themeSelect">
-              ${when(
-                this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME),
-                () =>
-                  html`<option value="AUTO">Auto (based on OS prefs)</option>`
-              )}
+              <option value="AUTO">Auto (based on OS prefs)</option>
               <option value="LIGHT">Light</option>
               <option value="DARK">Dark</option>
             </select>

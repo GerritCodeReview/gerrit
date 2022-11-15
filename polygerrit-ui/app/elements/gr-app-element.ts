@@ -53,8 +53,13 @@ import {
   RpcLogEvent,
   TitleChangeEventDetail,
 } from '../types/events';
+<<<<<<< HEAD   (42dffc Remove feature flag for copy links)
 import {GerritView} from '../services/router/router-model';
 import {Execution, LifeCycle} from '../constants/reporting';
+=======
+import {GerritView, routerModelToken} from '../services/router/router-model';
+import {LifeCycle} from '../constants/reporting';
+>>>>>>> CHANGE (0955e1 Remove feature flag for auto theme mode)
 import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
@@ -68,7 +73,6 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
-import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
@@ -154,8 +158,6 @@ export class GrAppElement extends LitElement {
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
@@ -254,6 +256,7 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
+<<<<<<< HEAD   (42dffc Remove feature flag for copy links)
     // TODO(milutin): Remove saving preferences after while. This code is
     // for migration.
     if (window.localStorage.getItem('dark-theme')) {
@@ -272,6 +275,8 @@ export class GrAppElement extends LitElement {
       );
     }
 
+=======
+>>>>>>> CHANGE (0955e1 Remove feature flag for auto theme mode)
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
     this.settingsUrl = createSettingsUrl();
@@ -611,10 +616,7 @@ export class GrAppElement extends LitElement {
   }
 
   private applyTheme() {
-    const showDarkTheme = isDarkTheme(
-      this.theme,
-      this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME)
-    );
+    const showDarkTheme = isDarkTheme(this.theme);
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {

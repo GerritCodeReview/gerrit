@@ -23,5 +23,4 @@ export enum KnownExperimentId {
   MENTION_USERS = 'UiFeature__mention_users',
   RENDER_MARKDOWN = 'UiFeature__render_markdown',
   AUTO_APP_THEME = 'UiFeature__auto_app_theme',
-  COPY_LINK_DIALOG = 'UiFeature__copy_link_dialog',
 }

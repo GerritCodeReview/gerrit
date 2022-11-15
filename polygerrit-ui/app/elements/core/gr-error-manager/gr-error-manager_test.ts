@@ -66,15 +66,9 @@ suite('gr-error-manager tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-overlay
-            aria-hidden="true"
-            id="errorOverlay"
-            style="outline: none; display: none;"
-            tabindex="-1"
-            with-backdrop=""
-          >
+          <dialog id="errorModal" tabindex="-1">
             <gr-error-dialog id="errorDialog"> </gr-error-dialog>
-          </gr-overlay>
+          </dialog>
           <gr-overlay
             always-on-top=""
             aria-hidden="true"
@@ -594,8 +588,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show-error', async () => {
-      const openStub = sinon.stub(element.errorOverlay, 'open');
-      const closeStub = sinon.stub(element.errorOverlay, 'close');
+      const openStub = sinon.stub(element.errorModal, 'open');
+      const closeStub = sinon.stub(element.errorModal, 'close');
       const reportStub = stubReporting('reportErrorDialog');
 
       const message = 'test message';

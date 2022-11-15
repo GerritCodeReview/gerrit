@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4085ab0c_9147d172",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T15:52:37Z",
+      "side": 1,
+      "message": "The next part of the sentence is the issue description: Layer [in Critique] modify dom in a way that makes stored pointers invalid.\n\nReworded the change description.\n\nWith the change we are losing performance, but hopefully not a critical amount of it",
+      "parentUuid": "31f1b8a2_4ba470c9",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6b3327c_be2d2d7c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-15T13:51:40Z",
       "side": 1,
       "message": "Do I understand this sentence correctly, that the new solution is slower than old solution in js execution but it is same if you also calculate style and layout performance.",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89985f4f_78a4d8fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T15:52:37Z",
+      "side": 1,
+      "message": "Yes, it\u0027s slower. It\u0027s slower by a lot if you only consider the js execution (looking up the list of elements to update). If you count until repaint is done, it\u0027s slower, but not as bad (still faster than what it was, before I optimized it to the current version a month ago).",
+      "parentUuid": "d6b3327c_be2d2d7c",
       "range": {
         "startLine": 13,
         "startChar": 27,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "144f0658_ef68ceec",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T15:52:37Z",
+      "side": 1,
+      "message": "On the path in the DOM tree between the container element and token element, there are no shadowRoot elements. Is there a better term for it?\n\nReworded the comment.",
+      "parentUuid": "6b3a29ea_0f7d7356",
+      "range": {
+        "startLine": 94,
+        "startChar": 57,
+        "endLine": 94,
+        "endChar": 70
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d0c8bfb_a92a2109",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-11-15T13:51:40Z",
       "side": 1,
       "message": "It\u0027s hard to understand this.\n\nWhat is querySelectorContainer? \nif getTokenQueryContainer is defined, then tokens in this element are calculated by querySelectorContainer otherwise they are calculated by annotate?",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71650750_783b8a4d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T15:52:37Z",
+      "side": 1,
+      "message": "When the argument is not provided\n1) Elements are annotated and pointers to them are stored for highlighting later\n2) Elements are annotated, but we look for them again every time, using querySelectorAll, when updating highlighting.\n\nReworded the comment",
+      "parentUuid": "4d0c8bfb_a92a2109",
       "range": {
         "startLine": 102,
         "startChar": 11,
@@ -241,6 +337,30 @@
       "writtenOn": "2022-11-15T13:51:40Z",
       "side": 1,
       "message": "Nit: \nDo we need extra check on element getTokenQueryContainer() ?\n\nDoes it need to be attached to dom? \n\nDoes it need to have any tokens?\n\nMaybe throw warning in such cases?",
+      "range": {
+        "startLine": 297,
+        "startChar": 13,
+        "endLine": 297,
+        "endChar": 35
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c09828f_b054b8d1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T15:52:37Z",
+      "side": 1,
+      "message": "\u003e Do we need extra check on element getTokenQueryContainer()?\n\nThe signature of the method specifies the return type to be non-null\n\n\u003e Does it need to be attached to dom?\n\nThat makes it harder to use in tests. But I also don\u0027t know what the danger of not checking would be\n\n\u003e Does it need to have any tokens?\n\nIt can technically return 0, nothing would break. Though that is unlikely, since this code is triggered when hovering over the token, so it should at least return one. Added a warning.",
+      "parentUuid": "cc6cfecd_24d9e425",
       "range": {
         "startLine": 297,
         "startChar": 13,

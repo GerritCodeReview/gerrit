@@ -12,6 +12,12 @@ import {
 } from '../../api/checks';
 import {Model} from '../model';
 import {select} from '../../utils/observable-util';
+import {CoverageProvider} from '../../api/annotation';
+
+export interface CoveragePlugin {
+  pluginName: string;
+  provider: CoverageProvider;
+}
 
 export interface ChecksPlugin {
   pluginName: string;
@@ -27,6 +33,10 @@ export interface ChecksUpdate {
 
 /** Application wide state of plugins. */
 interface PluginsState {
+  /**
+   * List of plugins that have called annotationApi().setCoverageProvider().
+   */
+  coveragePlugins: CoveragePlugin[];
   /**
    * List of plugins that have called checks().register().
    */
@@ -50,19 +60,38 @@ export class PluginsModel extends Model<PluginsState> {
 
   public checksPlugins$ = select(this.state$, state => state.checksPlugins);
 
+  public coveragePlugins$ = select(this.state$, state => state.coveragePlugins);
+
   constructor() {
     super({
+      coveragePlugins: [],
       checksPlugins: [],
     });
+  }
+
+  coverageRegister(plugin: CoveragePlugin) {
+    const nextState = {...this.getState()};
+    nextState.coveragePlugins = [...nextState.coveragePlugins];
+    const alreadyRegistered = nextState.coveragePlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a coverage provider. Ignored.`
+      );
+      return;
+    }
+    nextState.coveragePlugins.push(plugin);
+    this.setState(nextState);
   }
 
   checksRegister(plugin: ChecksPlugin) {
     const nextState = {...this.getState()};
     nextState.checksPlugins = [...nextState.checksPlugins];
-    const alreadysRegistered = nextState.checksPlugins.some(
+    const alreadyRegistered = nextState.checksPlugins.some(
       p => p.pluginName === plugin.pluginName
     );
-    if (alreadysRegistered) {
+    if (alreadyRegistered) {
       console.warn(
         `${plugin.pluginName} tried to register twice as a checks provider. Ignored.`
       );

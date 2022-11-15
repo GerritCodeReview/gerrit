@@ -30,7 +30,6 @@ export enum EventType {
   REVERT = 'revert',
   REVERT_SUBMISSION = 'revert_submission',
   POST_REVERT = 'postrevert',
-  ANNOTATE_DIFF = 'annotatediff',
   ADMIN_MENU_LINKS = 'admin-menu-links',
 }
 

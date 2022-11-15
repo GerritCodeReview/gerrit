@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CoverageRange, Side} from './diff';
+import {CoverageRange} from './diff';
 import {ChangeInfo} from './rest-api';
 
 /**
@@ -28,18 +28,5 @@ export declare interface AnnotationPluginApi {
    * providers are not supported. A second call will just overwrite the
    * provider of the first call.
    */
-  setCoverageProvider(coverageProvider: CoverageProvider): AnnotationPluginApi;
-
-  /**
-   * For plugins notifying Gerrit about new annotations being ready to be
-   * applied for a certain range. Gerrit will then re-render the relevant lines
-   * of the diff and call back to the layer annotation function that was
-   * registered in addLayer().
-   *
-   * @param path The file path whose listeners should be notified.
-   * @param start The line where the update starts.
-   * @param end The line where the update ends.
-   * @param side The side of the update ('left' or 'right').
-   */
-  notify(path: string, start: number, end: number, side: Side): void;
+  setCoverageProvider(coverageProvider: CoverageProvider): void;
 }

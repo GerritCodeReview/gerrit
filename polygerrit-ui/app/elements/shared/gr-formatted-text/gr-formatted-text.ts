@@ -21,6 +21,7 @@ import '../gr-account-chip/gr-account-chip';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
 
+
 /**
  * This element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
@@ -39,6 +40,12 @@ export class GrFormattedText extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  // Private const but used in tests.
+  // Limit the length of markdown because otherwise the markdown lexer will
+  // run out of memory causing the tab to crash.
+  @state()
+  MARKDOWN_LIMIT = 100000;
 
   /**
    * Note: Do not use sharedStyles or other styles here that should not affect
@@ -175,7 +182,9 @@ export class GrFormattedText extends LitElement {
     // rewrites have been abused to attempt an XSS attack.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.content)}
+        .markdown=${this.escapeAllButBlockQuotes(
+          this.limitLength(this.content)
+        )}
         .breaks=${true}
         .renderer=${customRenderer}
         .callback=${(_error: string | null, contents: string) =>
@@ -184,6 +193,11 @@ export class GrFormattedText extends LitElement {
         <div class="markdown-html" slot="markdown-html"></div>
       </marked-element>
     `;
+  }
+
+  private limitLength(text: string) {
+    if (text.length < this.MARKDOWN_LIMIT) return text;
+    return text.slice(0, this.MARKDOWN_LIMIT).concat('...');
   }
 
   private escapeAllButBlockQuotes(text: string) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f08fade_857ac96d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T13:24:04Z",
+      "side": 1,
+      "message": "No, didn\u0027t intend it this way. The static factory is a convenience overload. Partially because I didn\u0027t really figure out what I need to do to guarantee Critique can call it and partially, because I expect they wouldn\u0027t want to bother trying to get GrDiff specifically and would just pass a larger container into it.",
+      "parentUuid": "d0aeaa43_34c60daa",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 13
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b73a3680_039dd794",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-15T13:20:27Z",
       "side": 1,
       "message": "Optional: FYI you can just put `private`/`public`/`readonly`/etc in front of these params and it will make them class fields automatically. Then you wouldn\u0027t need `this.foo \u003d foo;` lines.\n\nhttps://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "4da096d416c3bd56daff0bee546478638963954a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef141d6_cbdc2a6e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-15T13:24:04Z",
+      "side": 1,
+      "message": "What\u0027s our preferred style? Personally I like to have a list of fields all in one place (as opposed to some in the constructor and some outside)",
+      "parentUuid": "b73a3680_039dd794",
       "range": {
         "startLine": 108,
         "startChar": 4,

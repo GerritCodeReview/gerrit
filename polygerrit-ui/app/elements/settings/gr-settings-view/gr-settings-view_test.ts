@@ -177,6 +177,7 @@ suite('gr-settings-view tests', () => {
               <span class="value">
                 <gr-select>
                   <select id="themeSelect">
+                    <option value="AUTO">Auto (based on OS prefs)</option>
                     <option value="LIGHT">Light</option>
                     <option value="DARK">Dark</option>
                   </select>

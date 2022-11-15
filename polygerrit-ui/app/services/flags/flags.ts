@@ -23,5 +23,4 @@ export enum KnownExperimentId {
   CHECKS_FIXES = 'UiFeature__checks_fixes',
   MENTION_USERS = 'UiFeature__mention_users',
   RENDER_MARKDOWN = 'UiFeature__render_markdown',
-  AUTO_APP_THEME = 'UiFeature__auto_app_theme',
 }

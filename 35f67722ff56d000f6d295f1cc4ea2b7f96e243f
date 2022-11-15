@@ -22,6 +22,30 @@
       },
       "revId": "35f67722ff56d000f6d295f1cc4ea2b7f96e243f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0adeb82a_9ee622a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-15T12:05:55Z",
+      "side": 1,
+      "message": "https://imgur.com/a/cUfTLjV",
+      "parentUuid": "d7ce3a5a_9249e552",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 39
+      },
+      "revId": "35f67722ff56d000f6d295f1cc4ea2b7f96e243f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

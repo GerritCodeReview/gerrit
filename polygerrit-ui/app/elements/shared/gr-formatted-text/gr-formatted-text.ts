@@ -21,6 +21,10 @@ import '../gr-account-chip/gr-account-chip';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
 
+// Limit the length of markown because otherwise the markdown lexer will
+// run out of memory causing the tab to crash.
+const MARKDOWN_LIMIT = 500000;
+
 /**
  * This element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
@@ -173,6 +177,9 @@ export class GrFormattedText extends LitElement {
     // The `callback` property lets us do a final sanitization of the output
     // HTML string before it is rendered by `<marked-element>` in case any
     // rewrites have been abused to attempt an XSS attack.
+    if (this.content.length > MARKDOWN_LIMIT) {
+      return html`<pre>${this.content}<pre>`;
+    }
     return html`
       <marked-element
         .markdown=${this.escapeAllButBlockQuotes(this.content)}

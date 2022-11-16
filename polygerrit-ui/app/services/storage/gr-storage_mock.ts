@@ -4,27 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {NumericChangeId} from '../../types/common';
-import {StorageLocation, StorageObject, StorageService} from './gr-storage';
+import {StorageObject, StorageService} from './gr-storage';
 
 const storage = new Map<string, StorageObject>();
-
-const getDraftKey = (location: StorageLocation): string => {
-  const range = location.range
-    ? `${location.range.start_line}-${location.range.start_character}` +
-      `-${location.range.end_character}-${location.range.end_line}`
-    : null;
-  let key = [
-    'draft',
-    location.changeNum,
-    location.patchNum,
-    location.path,
-    location.line || '',
-  ].join(':');
-  if (range) {
-    key = key + ':' + range;
-  }
-  return key;
-};
 
 const getEditableContentKey = (key: string): string => `editablecontent:${key}`;
 
@@ -34,19 +16,6 @@ export function cleanUpStorage() {
 
 export const grStorageMock: StorageService = {
   finalize(): void {},
-  getDraftComment(location: StorageLocation): StorageObject | null {
-    return storage.get(getDraftKey(location)) ?? null;
-  },
-
-  setDraftComment(location: StorageLocation, message: string) {
-    const key = getDraftKey(location);
-    storage.set(key, {message, updated: Date.now()});
-  },
-
-  eraseDraftComment(location: StorageLocation) {
-    const key = getDraftKey(location);
-    storage.delete(key);
-  },
 
   getEditableContentItem(key: string): StorageObject | null {
     return storage.get(getEditableContentKey(key)) ?? null;

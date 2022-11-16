@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655f72ec_e0c329cd",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-16T08:54:21Z",
+      "side": 1,
+      "message": "MIGRATED because the NoOp label function was converted to NoBlock. No SRs were created though.",
+      "range": {
+        "startLine": 158,
+        "startChar": 70,
+        "endLine": 158,
+        "endChar": 78
+      },
+      "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

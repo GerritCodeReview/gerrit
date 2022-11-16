@@ -45,6 +45,7 @@ import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {specialFilePathCompare} from '../../../utils/path-list-util';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -92,7 +93,7 @@ export function compareThreads(
     if (c2.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
       return 1;
     }
-    return c1.path.localeCompare(c2.path);
+    return specialFilePathCompare(c1.path, c2.path);
   }
 
   // Convert 'FILE' and 'LOST' to undefined.

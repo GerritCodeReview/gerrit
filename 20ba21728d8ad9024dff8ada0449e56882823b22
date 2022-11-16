@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "341e2a1f_9f406262",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-16T12:00:26Z",
+      "side": 1,
+      "message": "Thanks for the quick review!",
+      "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "655f72ec_e0c329cd",
         "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
         "patchSetId": 2

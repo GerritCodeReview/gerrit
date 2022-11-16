@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4963770_c1299ef5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-16T09:55:58Z",
+      "side": 1,
+      "message": "is this 500kb like description? JS is 2 bytes per character I think, so 100k characters is 200k bytes?",
+      "range": {
+        "startLine": 47,
+        "startChar": 19,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "deaffe64a4c601e030d27bb84a4471a145d89081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

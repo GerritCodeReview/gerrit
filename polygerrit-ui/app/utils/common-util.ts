@@ -92,6 +92,10 @@ export function queryAndAssert<E extends Element = Element>(
   return found;
 }
 
+export function createArrayFromTo(from: number, to: number): number[] {
+  return [...Array(to - from + 1).keys()].map(i => i + from);
+}
+
 /**
  * Returns true, if both sets contain the same members.
  */

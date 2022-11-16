@@ -22,6 +22,29 @@
       },
       "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c59a118_c6cf8c2b",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-16T11:37:34Z",
+      "side": 1,
+      "message": "Not related to this change. That\u0027s interesting. I wonder if we need to update the documentation at [1] that says one should \"add an empty label with the same name as in the parent\", which doesn\u0027t seem to be possible nowadays?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_inheritance",
+      "range": {
+        "startLine": 222,
+        "startChar": 50,
+        "endLine": 222,
+        "endChar": 71
+      },
+      "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

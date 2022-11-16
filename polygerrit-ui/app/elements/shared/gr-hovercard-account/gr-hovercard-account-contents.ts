@@ -157,6 +157,9 @@ export class GrHovercardAccountContents extends LitElement {
         .reason {
           padding-top: var(--spacing-s);
         }
+        .status .value {
+          white-space: pre-wrap;
+        }
       `,
     ];
   }

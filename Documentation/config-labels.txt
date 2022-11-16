@@ -200,9 +200,9 @@ values. It is not possible to modify an inherited label by adding
 properties in the child project's configuration; all properties from
 the parent definition must be redefined in the child.
 
-To remove a label in a child project, add an empty label with the same
-name as in the parent. This will override the parent label with
-a label containing the defaults (`function = NoBlock`,
+To remove a label in a child project, add an empty label with a single "0"
+value, with the same name as in the parent. This will override the parent label
+with a label containing the defaults (`function = NoBlock`,
 `defaultValue = 0` and no further allowed values)
 
 [[label_layout]]

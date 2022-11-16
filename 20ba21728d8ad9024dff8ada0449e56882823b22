@@ -45,6 +45,30 @@
       },
       "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "975c000e_1fa64097",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-16T11:56:52Z",
+      "side": 1,
+      "message": "Thanks for checking the docs! Yes, I think the docs need to be updated: an admin need to define the single \"zero\" value.\n\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/351914",
+      "parentUuid": "3c59a118_c6cf8c2b",
+      "range": {
+        "startLine": 222,
+        "startChar": 50,
+        "endLine": 222,
+        "endChar": 71
+      },
+      "revId": "20ba21728d8ad9024dff8ada0449e56882823b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

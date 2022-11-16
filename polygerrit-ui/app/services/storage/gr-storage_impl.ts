@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {StorageLocation, StorageObject, StorageService} from './gr-storage';
+import {StorageObject, StorageService} from './gr-storage';
 import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';
 import {define} from '../../models/dependency';
@@ -22,26 +22,13 @@ export const storageServiceToken = define<StorageService>('storage-service');
 export class GrStorageService implements StorageService, Finalizable {
   private lastCleanup = 0;
 
-  private readonly storage = window.localStorage;
+  // visible for testing
+  storage = window.localStorage;
 
-  private exceededQuota = false;
+  // visible for testing
+  exceededQuota = false;
 
   finalize() {}
-
-  getDraftComment(location: StorageLocation): StorageObject | null {
-    this.cleanupItems();
-    return this.getObject(this.getDraftKey(location));
-  }
-
-  setDraftComment(location: StorageLocation, message: string) {
-    const key = this.getDraftKey(location);
-    this.setObject(key, {message, updated: Date.now()});
-  }
-
-  eraseDraftComment(location: StorageLocation) {
-    const key = this.getDraftKey(location);
-    this.storage.removeItem(key);
-  }
 
   getEditableContentItem(key: string): StorageObject | null {
     this.cleanupItems();
@@ -79,29 +66,13 @@ export class GrStorageService implements StorageService, Finalizable {
     }
   }
 
-  private getDraftKey(location: StorageLocation): string {
-    const range = location.range
-      ? `${location.range.start_line}-${location.range.start_character}` +
-        `-${location.range.end_character}-${location.range.end_line}`
-      : null;
-    let key = [
-      'draft',
-      location.changeNum,
-      location.patchNum,
-      location.path,
-      location.line || '',
-    ].join(':');
-    if (range) {
-      key = key + ':' + range;
-    }
-    return key;
-  }
-
-  private getEditableContentKey(key: string): string {
+  // visible for testing
+  getEditableContentKey(key: string): string {
     return `editablecontent:${key}`;
   }
 
-  private cleanupItems() {
+  // visible for testing
+  cleanupItems() {
     // Throttle cleanup to the throttle interval.
     if (
       this.lastCleanup &&

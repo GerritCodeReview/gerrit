@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
@@ -86,6 +87,13 @@ export class GrAccountInfo extends LitElement {
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
         box-shadow: var(--elevation-level-5);
+      }
+      iron-autogrow-textarea {
+        background-color: var(--view-background-color);
+        color: var(--primary-text-color);
+      }
+      .lengthCounter {
+        font-weight: var(--font-weight-normal);
       }
     `,
   ];
@@ -200,25 +208,26 @@ export class GrAccountInfo extends LitElement {
         </span>
       </section>
       <section>
-        <label class="title" for="statusInput">About me (e.g. employer)</label>
+        <label class="title" for="statusInput">
+          <div>About me (e.g. employer)</div>
+          <div class="lengthCounter">
+            ${this.account.status?.length ?? 0}/140
+          </div>
+        </label>
         <span class="value">
-          <iron-input
-            id="statusIronInput"
-            @keydown=${this.handleKeydown}
-            .bindValue=${this.account?.status}
+          <iron-autogrow-textarea
+            id="statusInput"
+            ?disabled=${this.saving}
+            autocomplete="on"
+            maxlength="140"
+            .value=${this.account?.status}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               const oldAccount = this.account;
               if (!oldAccount || oldAccount.status === e.detail.value) return;
               this.account = {...oldAccount, status: e.detail.value};
               this.hasStatusChange = true;
             }}
-          >
-            <input
-              id="statusInput"
-              ?disabled=${this.saving}
-              @keydown=${this.handleKeydown}
-            />
-          </iron-input>
+          ></iron-autogrow-textarea>
         </span>
       </section>
       <section>

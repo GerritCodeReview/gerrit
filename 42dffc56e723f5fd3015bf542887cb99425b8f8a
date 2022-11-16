@@ -22,6 +22,30 @@
       },
       "revId": "42dffc56e723f5fd3015bf542887cb99425b8f8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c1e2782_832e09d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2611,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-16T12:10:49Z",
+      "side": 1,
+      "message": "Good point. I forgot about that, I will do it later on master. I am cherry picking this.",
+      "parentUuid": "9cfdaa09_f861f22c",
+      "range": {
+        "startLine": 2611,
+        "startChar": 0,
+        "endLine": 2611,
+        "endChar": 41
+      },
+      "revId": "42dffc56e723f5fd3015bf542887cb99425b8f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

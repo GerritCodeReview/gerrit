@@ -12,6 +12,7 @@ import {
   intersection,
   difference,
   toggle,
+  createArrayFromTo,
 } from './common-util';
 
 suite('common-util tests', () => {
@@ -38,6 +39,14 @@ suite('common-util tests', () => {
       assert.isTrue(hasOwnProperty(obj, 'abc'));
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });
+  });
+
+  test('createArrayFromTo', () => {
+    assert.deepEqual(createArrayFromTo(0, 0), [0]);
+    assert.deepEqual(createArrayFromTo(0, 1), [0, 1]);
+    assert.deepEqual(createArrayFromTo(0, 2), [0, 1, 2]);
+    assert.deepEqual(createArrayFromTo(10, 11), [10, 11]);
+    assert.deepEqual(createArrayFromTo(1, 5), [1, 2, 3, 4, 5]);
   });
 
   test('areSetsEqual', () => {

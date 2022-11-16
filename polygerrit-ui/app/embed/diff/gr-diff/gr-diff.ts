@@ -1032,9 +1032,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
     if (changedProperties.has('coverageRanges')) {
       this.diffBuilder.updateCoverageRanges(this.coverageRanges);
-      if (this.diff) {
-        this.debounceRenderDiffTable();
-      }
     }
     if (changedProperties.has('lineOfInterest')) {
       this.lineOfInterestChanged();

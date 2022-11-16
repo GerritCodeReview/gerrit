@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfdaa09_f861f22c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2611,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-16T09:57:57Z",
+      "side": 1,
+      "message": "don\u0027t need this anymore I think?",
+      "range": {
+        "startLine": 2611,
+        "startChar": 0,
+        "endLine": 2611,
+        "endChar": 41
+      },
+      "revId": "42dffc56e723f5fd3015bf542887cb99425b8f8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

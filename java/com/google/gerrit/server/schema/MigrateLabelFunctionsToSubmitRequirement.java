@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Project;
@@ -28,9 +29,11 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectLevelConfig;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -66,9 +69,14 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * If the label has {@link LabelType#isIgnoreSelfApproval()}, the max vote is appended with the
  * 'user=non_uploader' argument.
  *
- * <p>If there is an existing label and there exists a "submit requirement" with the same name, then
- * the logic will leave the "submit requirement" as is and will not replace it. But in this case,
- * the label will be reset to NO_BLOCK anyway.
+ * <p>For labels that were skipped, i.e. had only one "zero" predefined value, the migrator creates
+ * a non-applicable submit-requirement for them. This is done so that if a parent project had a
+ * submit-requirement with the same name, then it's not inherited by this project.
+ *
+ * <p>If there is an existing label and there exists a "submit requirement" with the same name, the
+ * migrator checks if the submit-requirement to be created matches the one in project.config. If
+ * they don't match, a warning message is printed, otherwise nothing happens. In either cases, the
+ * existing submit-requirement is not altered.
  */
 public class MigrateLabelFunctionsToSubmitRequirement {
   public static final String COMMIT_MSG = "Migrate label functions to submit requirements";
@@ -150,11 +158,15 @@ public class MigrateLabelFunctionsToSubmitRequirement {
           updated = true;
           writeLabelFunction(cfg, labelName, "NoBlock");
         }
-        SubmitRequirement sr = createSrFromLabelDef(labelName, attributes);
+        Optional<SubmitRequirement> sr = createSrFromLabelDef(labelName, attributes);
+        if (!sr.isPresent()) {
+          continue;
+        }
         // Make the operation idempotent by skipping creating the submit-requirement if one was
         // already created or previously existed.
         if (existingSubmitRequirements.containsKey(labelName.toLowerCase(Locale.ROOT))) {
-          if (!sr.equals(existingSubmitRequirements.get(labelName.toLowerCase(Locale.ROOT)))) {
+          if (!sr.get()
+              .equals(existingSubmitRequirements.get(labelName.toLowerCase(Locale.ROOT)))) {
             ui.message(
                 String.format(
                     "Warning: Skipping creating a submit requirement for label '%s'. An existing "
@@ -168,7 +180,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
         ui.message(
             String.format(
                 "Project %s: Creating a submit requirement for label %s", project, labelName));
-        writeSubmitRequirement(cfg, sr);
+        writeSubmitRequirement(cfg, sr.get());
       }
       if (updated) {
         commit(projectConfig, md);
@@ -198,9 +210,18 @@ public class MigrateLabelFunctionsToSubmitRequirement {
               labelName,
               ProjectConfig.KEY_IGNORE_SELF_APPROVAL,
               /* defaultValue= */ false);
+      ImmutableList<String> values =
+          ImmutableList.<String>builder()
+              .addAll(
+                  Arrays.asList(
+                      cfg.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_VALUE)))
+              .build();
       LabelAttributes attributes =
           LabelAttributes.create(
-              function == null ? "MaxWithBlock" : function, canOverride, ignoreSelfApproval);
+              function == null ? "MaxWithBlock" : function,
+              canOverride,
+              ignoreSelfApproval,
+              values);
       labelTypes.put(labelName, attributes);
     }
     return labelTypes;
@@ -251,12 +272,14 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     projectConfig.commit(md);
   }
 
-  private static SubmitRequirement createSrFromLabelDef(
+  private static Optional<SubmitRequirement> createSrFromLabelDef(
       String labelName, LabelAttributes attributes) {
-    if (!isBlockingOrRequiredLabel(attributes.function())) {
-      return createNonApplicableSr(labelName, attributes.canOverride());
+    if (isLabelSkipped(attributes.values())) {
+      return Optional.of(createNonApplicableSr(labelName, attributes.canOverride()));
+    } else if (isBlockingOrRequiredLabel(attributes.function())) {
+      return Optional.of(createBlockingOrRequiredSr(labelName, attributes));
     }
-    return createBlockingOrRequiredSr(labelName, attributes);
+    return Optional.empty();
   }
 
   private static SubmitRequirement createNonApplicableSr(String labelName, boolean canOverride) {
@@ -304,6 +327,14 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     return function.equals("AnyWithBlock")
         || function.equals("MaxWithBlock")
         || function.equals("MaxNoBlock");
+  }
+
+  /**
+   * Returns true if the label definition was skipped in the project, i.e. it had only one defined
+   * value: zero.
+   */
+  private static boolean isLabelSkipped(List<String> values) {
+    return values.isEmpty() || (values.size() == 1 && values.get(0).startsWith("0"));
   }
 
   public boolean anyProjectHasProlog(Collection<Project.NameKey> allProjects) throws IOException {
@@ -402,10 +433,15 @@ public class MigrateLabelFunctionsToSubmitRequirement {
 
     abstract boolean ignoreSelfApproval();
 
+    abstract ImmutableList<String> values();
+
     static LabelAttributes create(
-        String function, boolean canOverride, boolean ignoreSelfApproval) {
+        String function,
+        boolean canOverride,
+        boolean ignoreSelfApproval,
+        ImmutableList<String> values) {
       return new AutoValue_MigrateLabelFunctionsToSubmitRequirement_LabelAttributes(
-          function, canOverride, ignoreSelfApproval);
+          function, canOverride, ignoreSelfApproval, values);
     }
   }
 }

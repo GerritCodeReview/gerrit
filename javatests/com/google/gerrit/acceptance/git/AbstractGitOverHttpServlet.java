@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -104,6 +106,38 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 
     uploadPackAuditEventLog(remote, Optional.empty());
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void wantNotValidErrorOverHTTPShouldResultIn200OKHttpStatus() throws Exception {
+    String remote = "origin";
+    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+    String wantNotValidCommit = "554013834d49a69a2f3c494de195ee606dd6d035";
+
+    auditService.drainHttpAuditEvents();
+
+    TransportException thrown =
+        assertThrows(
+            TransportException.class,
+            () ->
+                testRepo
+                    .git()
+                    .fetch()
+                    .setRemote(remote)
+                    .setRefSpecs(new RefSpec(wantNotValidCommit))
+                    .call());
+
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("want %s not valid", wantNotValidCommit));
+
+    assertThat(
+            auditService.drainHttpAuditEvents().stream()
+                .allMatch(e -> e.httpStatus == HttpServletResponse.SC_OK))
+        .isTrue();
   }
 
   /**

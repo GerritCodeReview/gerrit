@@ -33,6 +33,24 @@
       "message": "comment needs update",
       "revId": "899b20a627119a7677cdbf091b72c413d81d4193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc2a009d_54f893cf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-17T19:07:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48fd6208_b147b77d",
+      "revId": "899b20a627119a7677cdbf091b72c413d81d4193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

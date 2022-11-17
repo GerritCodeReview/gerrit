@@ -3727,6 +3727,19 @@ Gerrit will populate it only from the LDAP data.
 Default is `displayName` for FreeIPA and RFC 2307 servers,
 and `${givenName} ${sn}` for Active Directory.
 
+[[ldap.accountDisplayName]]ldap.account.DisplayName::
++
+_(Optional)_ Name of an attribute on the user account object which
+contains the user name to display.
++
+If set, users will be unable to modify their display name field, as
+Gerrit will populate it only from the LDAP data.
++
+When set to `disabled`, users will be unable to set a display name.
++
+Default is not set, no field is retrieved from LDAP and Gerrit shows the
+account full name (retrieved from link:#ldap.accountFullName).
+
 [[ldap.accountEmailAddress]]ldap.accountEmailAddress::
 +
 _(Optional)_ Name of an attribute on the user account object which

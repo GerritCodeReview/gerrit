@@ -87,6 +87,7 @@ export enum DefaultDisplayNameConfig {
 export enum EditableAccountField {
   FULL_NAME = 'FULL_NAME',
   USER_NAME = 'USER_NAME',
+  DISPLAY_NAME = 'DISPLAY_NAME',
   REGISTER_NEW_EMAIL = 'REGISTER_NEW_EMAIL',
 }
 

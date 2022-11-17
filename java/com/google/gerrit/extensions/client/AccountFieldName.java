@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.client;
 public enum AccountFieldName {
   FULL_NAME,
   USER_NAME,
+  DISPLAY_NAME,
   REGISTER_NEW_EMAIL
 }

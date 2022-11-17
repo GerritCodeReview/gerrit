@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01019bf_d2d2a57c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-17T08:56:01Z",
+      "side": 1,
+      "message": "Amended to add a `Release-Notes: skip`",
+      "revId": "2a3e5c2bb2d0b5ad1bbfbd202c19b3495fe4af75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

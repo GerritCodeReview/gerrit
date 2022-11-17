@@ -30,4 +30,5 @@ export declare interface Styles {
   spinner: Style;
   subPage: Style;
   table: Style;
+  modal: Style;
 }

@@ -118,6 +118,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec89633a_ebfb0928",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T16:31:23Z",
+      "side": 1,
+      "message": "Yes, we want to merge\n1.:\n```\nfrom:1, to:5, type:COVERED\nfrom:6, to:9, type:NOT_COVERED\n```\ninto \n```\nfrom:1, to:9\n```\nand 2.:\n```\nfrom:1, to:4 (old range)\nfrom:2, to:5 (new range)\n```\ninto \n```\nfrom:1, to:5\n```\n\nBut I am fine with just removing all the optimization. I think it is rare that coverage ranges are updated at all. So most likely the old ranges are empty. And then I think we can call notify for each of the new coverage ranges without any ado. WDYT?\n\nBtw, If you want to know what my functions are doing, then your best bet is to look at the tests.",
+      "parentUuid": "87fb51f1_8c5b3ec4",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

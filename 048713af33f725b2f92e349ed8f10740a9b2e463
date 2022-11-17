@@ -105,6 +105,24 @@
       "parentUuid": "c91656a8_52bd1038",
       "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6750b81b_c42974d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-17T12:37:16Z",
+      "side": 1,
+      "message": "This change fixed it(in java/com/google/gerrit/server/restapi/change/GetRevisionActions.java)",
+      "parentUuid": "6287b43b_9f69263a",
+      "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

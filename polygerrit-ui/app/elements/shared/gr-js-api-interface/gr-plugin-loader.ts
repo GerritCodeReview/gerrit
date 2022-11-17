@@ -29,6 +29,7 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {define} from '../../../models/dependency';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -88,6 +89,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     spinner: spinnerStyles,
     subPage: subpageStyles,
     table: tableStyles,
+    modal: modalStyles,
   };
 
   private pluginListLoaded = false;

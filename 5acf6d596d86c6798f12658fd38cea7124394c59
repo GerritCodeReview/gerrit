@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655106e1_eabedb57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-17T08:57:29Z",
+      "side": 1,
+      "message": "The last commit of my series of patches to the find-duplicate-usernames.sh script. This one addresses output when usernames contain spaces.\n\nPatchset2 amends the commit message to add a release notes:\n\n    Release-Notes: Fix `contrib/find-duplicate-usernames.sh` output when usernames contain spaces.",
+      "revId": "5acf6d596d86c6798f12658fd38cea7124394c59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

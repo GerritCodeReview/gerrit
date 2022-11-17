@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d1040de_ac51c6ff",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-17T09:45:38Z",
+      "side": 1,
+      "message": "While I appreciate the simplicity of using filter(unique). I feel like the `linesToRanges` makes the code complexity not easier (and together less performant) than just merging ranges directly. Something like the following (not tested)\n\n```\n  rangeBorders \u003d covRanges\n    .flatMap(r \u003d\u003e [{index: r.code_range.start_line, type: \u0027start\u0027}, {index: r.code_range.end_line, type: \u0027end\u0027}])\n    .sort(({index: index1, type: type1}, {index: index2, type: type2}) \u003d\u003e {\n      if (index1 !\u003d\u003d index2) {\n        return index1 - index2;\n      }\n      if (type1 !\u003d\u003d type2) {\n        return type1 \u003d\u003d\u003d \u0027start\u0027 ? -1 : 1;\n      }\n      return 0;\n    });\n  let cnt \u003d 0;\n  let from \u003d undefined;\n  let ranges \u003d [];\n  for (const rangeBorder of rangeBorders) {\n    if (rangeBorder.type \u003d\u003d\u003d \u0027start\u0027) {\n      if (cnt \u003d\u003d\u003d 0) from \u003d rangeBoder.index;\n      ++cnt;\n    }\n    if (rangeBorder.type \u003d\u003d\u003d \u0027end\u0027) {\n      --cnt;\n      if (cnt \u003d\u003d\u003d 0) ranges.push({from, rangeBorder.index})\n    }\n  }\n  return ranges;\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

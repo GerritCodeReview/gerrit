@@ -38,7 +38,8 @@ declare global {
  * of this class is. There are no plans for adding separate implementations.
  */
 export interface DiffBuilder {
-  clear(): void;
+  init(): void;
+  cleanup(): void;
   addGroups(groups: readonly GrDiffGroup[]): void;
   clearGroups(): void;
   replaceGroup(
@@ -127,6 +128,18 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       end: LineNumber,
       side: Side
     ) => this.renderContentByRange(start, end, side);
+    this.init();
+  }
+
+  /**
+   * This is meant to be called when the gr-diff component re-connects, or when
+   * the diff is (re-)rendered.
+   *
+   * Make sure that this method is symmetric with cleanup(), which is called
+   * when gr-diff disconnects.
+   */
+  init() {
+    this.cleanup();
     for (const layer of this.layers) {
       if (layer.addListener) {
         layer.addListener(this.layerUpdateListener);
@@ -134,7 +147,14 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     }
   }
 
-  clear() {
+  /**
+   * This is meant to be called when the gr-diff component disconnects, or when
+   * the diff is (re-)rendered.
+   *
+   * Make sure that this method is symmetric with init(), which is called when
+   * gr-diff re-connects.
+   */
+  cleanup() {
     for (const layer of this.layers) {
       if (layer.removeListener) {
         layer.removeListener(this.layerUpdateListener);

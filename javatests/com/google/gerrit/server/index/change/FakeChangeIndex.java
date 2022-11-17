@@ -110,6 +110,11 @@ public class FakeChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public int numDocs() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     return new FakeChangeIndex.Source(p);

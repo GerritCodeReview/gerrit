@@ -75,6 +75,11 @@ public class DisabledProjectIndex implements ProjectIndex {
   }
 
   @Override
+  public int numDocs() {
+    throw new UnsupportedOperationException("ProjectIndex is disabled");
+  }
+
+  @Override
   public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts) {
     throw new UnsupportedOperationException("ProjectIndex is disabled");
   }

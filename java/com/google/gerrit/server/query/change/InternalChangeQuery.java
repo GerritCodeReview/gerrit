@@ -271,21 +271,21 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(ChangePredicates.submissionId(cs));
   }
 
-  private static Predicate<ChangeData> byProjectGroupsPredicate(
-      IndexConfig indexConfig, Project.NameKey project, Collection<String> groups) {
-    int n = indexConfig.maxTerms() - 1;
+  private static Predicate<ChangeData> byBranchGroupsPredicate(
+      IndexConfig indexConfig, BranchNameKey branchAndProject, Collection<String> groups) {
+    int n = indexConfig.maxTerms() - 2;
     checkArgument(groups.size() <= n, "cannot exceed %s groups", n);
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());
     for (String g : groups) {
       groupPredicates.add(new GroupPredicate(g));
     }
-    return and(project(project), or(groupPredicates));
+    return and(project(branchAndProject.project()), ref(branchAndProject), or(groupPredicates));
   }
 
-  public static ImmutableList<ChangeData> byProjectGroups(
+  public static ImmutableList<ChangeData> byBranchGroups(
       Provider<InternalChangeQuery> queryProvider,
       IndexConfig indexConfig,
-      Project.NameKey project,
+      BranchNameKey branchAndProject,
       Collection<String> groups) {
     // These queries may be complex along multiple dimensions:
     //  * Many groups per change, if there are very many patch sets. This requires partitioning the
@@ -296,16 +296,17 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     // InternalChangeQuery is single-use.
 
     Supplier<InternalChangeQuery> querySupplier = () -> queryProvider.get().enforceVisibility(true);
-    int batchSize = indexConfig.maxTerms() - 1;
+    int batchSize = indexConfig.maxTerms() - 2;
     if (groups.size() <= batchSize) {
       return queryExhaustively(
-          querySupplier, byProjectGroupsPredicate(indexConfig, project, groups));
+          querySupplier, byBranchGroupsPredicate(indexConfig, branchAndProject, groups));
     }
     Set<Change.Id> seen = new HashSet<>();
     ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
     for (List<String> part : Iterables.partition(groups, batchSize)) {
       for (ChangeData cd :
-          queryExhaustively(querySupplier, byProjectGroupsPredicate(indexConfig, project, part))) {
+          queryExhaustively(
+              querySupplier, byBranchGroupsPredicate(indexConfig, branchAndProject, part))) {
         if (!seen.add(cd.getId())) {
           result.add(cd);
         }

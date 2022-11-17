@@ -70,6 +70,11 @@ public class DisabledAccountIndex implements AccountIndex {
   }
 
   @Override
+  public int numDocs() {
+    throw new UnsupportedOperationException("AccountIndex is disabled");
+  }
+
+  @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts) {
     throw new UnsupportedOperationException("AccountIndex is disabled");
   }

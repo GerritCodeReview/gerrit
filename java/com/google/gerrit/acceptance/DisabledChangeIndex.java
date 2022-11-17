@@ -77,6 +77,11 @@ public class DisabledChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public int numDocs() {
+    throw new UnsupportedOperationException("ChangeIndex is disabled");
+  }
+
+  @Override
   public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     throw new UnsupportedOperationException("ChangeIndex is disabled");

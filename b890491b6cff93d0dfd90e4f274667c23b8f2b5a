@@ -22,6 +22,30 @@
       },
       "revId": "b890491b6cff93d0dfd90e4f274667c23b8f2b5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "902c6f79_f6fc54bf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T11:22:03Z",
+      "side": 1,
+      "message": "Not really, because the `builder` changes between the two calls. And we want to clean up the old builder, as well, not just the new builder.",
+      "parentUuid": "cb1058b5_ef00da30",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 16
+      },
+      "revId": "b890491b6cff93d0dfd90e4f274667c23b8f2b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

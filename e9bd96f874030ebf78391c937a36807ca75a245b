@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc092c9d_9e4dcb52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-17T08:51:07Z",
+      "side": 1,
+      "message": "I forgot to add a `Release-Notes: skip` to the commit message.",
+      "revId": "e9bd96f874030ebf78391c937a36807ca75a245b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

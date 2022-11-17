@@ -87,6 +87,24 @@
       "parentUuid": "832aafe3_e13e2542",
       "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6287b43b_9f69263a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-17T10:43:54Z",
+      "side": 1,
+      "message": "Which changes actually fixed this problem ?\nI couldn\u0027t find a change removing this experimental flag.\n\nWe are still facing this problem on stable-3.4 which already contains Ia3db97037755fc364af4d1cb8fef94bb1e69fb5a\n\nI found still a number of open (duplicate ?) issues in monorail:\n- https://crbug.com/gerrit/14686\n- https://crbug.com/gerrit/14779\n- https://crbug.com/gerrit/15125\n- https://crbug.com/gerrit/16030",
+      "parentUuid": "c91656a8_52bd1038",
+      "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -78,6 +78,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e28c9b6_a03e55be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-17T14:30:23Z",
+      "side": 1,
+      "message": "You can assign it to me. I don\u0027t know ETA (maybe early 2023), but I would be interested to implement this.",
+      "parentUuid": "90a53c67_40ddfaa6",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1927d584_87aae588",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 4

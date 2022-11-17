@@ -3061,6 +3061,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
+  @Test
+  public void pushWithInvalidBaseIsRejected() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%base=invalid");
+    r.assertErrorStatus("expected SHA1 for option --base: invalid");
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

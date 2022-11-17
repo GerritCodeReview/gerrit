@@ -16,10 +16,14 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.accounts.DisplayNameInput;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -27,6 +31,8 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,25 +56,38 @@ public class PutDisplayName implements RestModifyView<AccountResource, DisplayNa
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final ExternalIds externalIds;
+  private final Realm realm;
 
   @Inject
   PutDisplayName(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
+      ExternalIds externalIds,
+      Realm realm,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.externalIds = externalIds;
+    this.realm = realm;
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, @Nullable DisplayNameInput input)
-      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException,
-          ConfigInvalidException {
+      throws RestApiException, AuthException, ResourceNotFoundException, IOException,
+          PermissionBackendException, ConfigInvalidException {
     IdentifiedUser user = rsrc.getUser();
     if (!self.get().hasSameAccountId(user)) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
+
+    Account.Id accountId = rsrc.getUser().getAccountId();
+    if (realm.accountBelongsToRealm(externalIds.byAccount(accountId))
+        && !realm.allowsEdit(AccountFieldName.USER_NAME)) {
+      throw new MethodNotAllowedException("realm does not allow editing display name");
+    }
+
     if (input == null) {
       input = new DisplayNameInput();
     }

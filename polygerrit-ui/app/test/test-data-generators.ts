@@ -188,6 +188,15 @@ export function createAccountWithIdNameAndEmail(id = 5): AccountInfo {
   };
 }
 
+export function createAccountWithIdNameEmailAndDisplayname(id = 5): AccountInfo {
+  return {
+    _account_id: id as AccountId,
+    email: `user-${id}@` as EmailAddress,
+    name: `User-${id}`,
+    display_name: `User ${id} Displayed Name`,
+  };
+}
+
 export function createReviewers(): Reviewers {
   return {};
 }

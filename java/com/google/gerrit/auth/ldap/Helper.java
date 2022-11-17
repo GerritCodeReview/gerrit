@@ -419,6 +419,7 @@ class Helper {
     final ParameterizedString accountFullName;
     final ParameterizedString accountEmailAddress;
     final ParameterizedString accountSshUserName;
+    final ParameterizedString accountDisplayName;
     final String accountMemberField;
     final boolean accountMemberExpandGroups;
     final String[] accountMemberFieldArray;
@@ -482,6 +483,10 @@ class Helper {
           LdapRealm.paramString(config, "accountSshUserName", type.accountSshUserName());
       if (accountSshUserName != null) {
         accountAtts.addAll(accountSshUserName.getParameterNames());
+      }
+      accountDisplayName = LdapRealm.paramString(config, "accountDisplayName", null);
+      if (accountDisplayName != null && !"disabled".equals(accountDisplayName.toString())) {
+        accountAtts.addAll(accountDisplayName.getParameterNames());
       }
       accountMemberField =
           LdapRealm.optdef(config, "accountMemberField", type.accountMemberField());

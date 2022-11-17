@@ -22,7 +22,7 @@ import {GrAccountInfo} from './gr-account-info';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {
   createAccountDetailWithId,
-  createAccountWithIdNameAndEmail,
+  createAccountWithIdNameEmailAndDisplayname,
   createPreferences,
   createServerInfo,
 } from '../../../test/test-data-generators';
@@ -57,7 +57,7 @@ suite('gr-account-info tests', () => {
   }
 
   setup(async () => {
-    account = createAccountWithIdNameAndEmail(123) as AccountDetailInfo;
+    account = createAccountWithIdNameEmailAndDisplayname(123) as AccountDetailInfo;
     config = createServerInfo();
 
     stubRestApi('getAccount').returns(Promise.resolve(account));
@@ -130,6 +130,37 @@ suite('gr-account-info tests', () => {
     assert.equal(
       queryIronInput('#usernameIronInput').bindValue,
       account.username
+    );
+    assert.isFalse(inputSpan.hasAttribute('hidden'));
+  });
+
+  test('displayname render (immutable)', () => {
+    const section = element.$.displayNameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
+
+    assert.isFalse(element.displayNameMutable);
+    assert.isFalse(displaySpan.hasAttribute('hidden'));
+    assert.equal(displaySpan.textContent, account.display_name);
+    assert.isTrue(inputSpan.hasAttribute('hidden'));
+  });
+
+  test('displayname render (mutable)', () => {
+    element.set('_serverConfig', {
+      auth: {editable_account_fields: ['DISPLAY_NAME']},
+    });
+    element.set('_account.display_name', '');
+    element.set('_display_name', '');
+
+    const section = element.$.displayNameSection;
+    const displaySpan = section.querySelectorAll('.value')[0];
+    const inputSpan = section.querySelectorAll('.value')[1];
+
+    assert.isTrue(element.displayNameMutable);
+    assert.isTrue(displaySpan.hasAttribute('hidden'));
+    assert.equal(
+      queryIronInput('#displayNameIronInput').bindValue,
+      account.display_name
     );
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });

@@ -95,12 +95,14 @@ export const htmlTemplate = html`
         </iron-input>
       </span>
     </section>
-    <section>
+    <section id="displayNameSection">
       <label class="title" for="displayNameInput">Display name</label>
-      <span class="value">
+      <span hidden$="[[displayNameMutable]]" class="value">[[_account.display_name]]</span>
+      <span hidden$="[[!displayNameMutable]]" class="value">
         <iron-input
           on-keydown="_handleKeydown"
           bind-value="{{_account.display_name}}"
+          id="displayNameIronInput"
         >
           <input
             id="displayNameInput"

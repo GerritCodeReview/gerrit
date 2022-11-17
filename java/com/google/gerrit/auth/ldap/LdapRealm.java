@@ -107,6 +107,10 @@ class LdapRealm extends AbstractRealm {
     if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
       readOnlyAccountFields.add(AccountFieldName.USER_NAME);
     }
+    String accountDisplayNameCfg = optdef(config, "accountDisplayName", "DEFAULT");
+    if (accountDisplayNameCfg != null || "disabled".equals(accountDisplayNameCfg)) {
+      readOnlyAccountFields.add(AccountFieldName.DISPLAY_NAME);
+    }
     if (!authConfig.isAllowRegisterNewEmail()) {
       readOnlyAccountFields.add(AccountFieldName.REGISTER_NEW_EMAIL);
     }

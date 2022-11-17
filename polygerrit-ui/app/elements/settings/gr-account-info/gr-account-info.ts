@@ -56,6 +56,13 @@ export class GrAccountInfo extends PolymerElement {
   @property({
     type: Boolean,
     notify: true,
+    computed: '_computeDisplayNameMutable(_serverConfig)',
+  })
+  displayNameMutable?: boolean;
+
+  @property({
+    type: Boolean,
+    notify: true,
     computed:
       '_computeHasUnsavedChanges(_hasNameChange, ' +
       '_hasUsernameChange, _hasStatusChange, _hasDisplayNameChange)',
@@ -211,6 +218,12 @@ export class GrAccountInfo extends PolymerElement {
   _computeNameMutable(config: ServerInfo) {
     return config.auth.editable_account_fields.includes(
       EditableAccountField.FULL_NAME
+    );
+  }
+
+  _computeDisplayNameMutable(config: ServerInfo) {
+    return config.auth.editable_account_fields.includes(
+      EditableAccountField.DISPLAY_NAME
     );
   }
 

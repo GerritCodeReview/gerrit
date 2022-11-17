@@ -89,7 +89,10 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
     assertThat(i.auth.editableAccountFields)
-        .containsExactly(AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME);
+        .containsExactly(
+            AccountFieldName.REGISTER_NEW_EMAIL,
+            AccountFieldName.FULL_NAME,
+            AccountFieldName.DISPLAY_NAME);
     assertThat(i.auth.useContributorAgreements).isTrue();
     assertThat(i.auth.loginUrl).isEqualTo("https://example.com/login");
     assertThat(i.auth.loginText).isEqualTo("LOGIN");
@@ -155,7 +158,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
         .containsExactly(
             AccountFieldName.REGISTER_NEW_EMAIL,
             AccountFieldName.FULL_NAME,
-            AccountFieldName.USER_NAME);
+            AccountFieldName.USER_NAME,
+            AccountFieldName.DISPLAY_NAME);
     assertThat(i.auth.useContributorAgreements).isNull();
     assertThat(i.auth.loginUrl).isNull();
     assertThat(i.auth.loginText).isNull();

@@ -132,7 +132,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   }
 
   @Test
-  public void migrateNonBlockingLabel_NoBlock() throws Exception {
+  public void migrateNonBlockingLabel_noBlock() throws Exception {
     // NoBlock labels are left as is, i.e. we don't create a "submit requirement" for them. Those
     // labels will then be treated as trigger votes in the change page.
     createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false);
@@ -149,7 +149,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   }
 
   @Test
-  public void migrateNonBlockingLabel_NoOp() throws Exception {
+  public void migrateNonBlockingLabel_noOp() throws Exception {
     // NoOp labels are left as is, i.e. we don't create a "submit requirement" for them. Those
     // labels will then be treated as trigger votes in the change page.
     createLabel("Foo", "NoOp", /* ignoreSelfApproval= */ false);
@@ -223,7 +223,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   }
 
   @Test
-  public void migrateNonBlockingLabel_PatchSetLock_doesNothing() throws Exception {
+  public void migrateNonBlockingLabel_patchSetLock_doesNothing() throws Exception {
     createLabel("Foo", "PatchSetLock", /* ignoreSelfApproval= */ false);
     assertNonExistentSr(/* srName = */ "Foo");
 

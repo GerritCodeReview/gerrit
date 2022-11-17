@@ -16,6 +16,24 @@
       "message": "We\u0027re using `getState()`, but is there a risk of race condition between coveragePlugins being set and them being accessed here? Should this be a listener to the model rather than using `getState()`?",
       "revId": "8635ecb33a05f25df49f3f2715fc80be1f200a4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d999a2_b59e7e5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T11:22:37Z",
+      "side": 1,
+      "message": "We are waiting for all plugins to be loaded. Moved that wait call to here.\n\nYeah, we could also listen to the model, but that would be non-trivial. Added a comment.",
+      "parentUuid": "77376a8f_e99ca2ed",
+      "revId": "8635ecb33a05f25df49f3f2715fc80be1f200a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

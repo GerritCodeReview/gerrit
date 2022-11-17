@@ -141,6 +141,24 @@
       "parentUuid": "6750b81b_c42974d3",
       "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e7d1e0_b93bd579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-17T13:36:02Z",
+      "side": 1,
+      "message": "cherry-picked to stable-3.4 in\nI65a3277d3cb0a116a56f6dcaed205c7f808443c3",
+      "parentUuid": "5c4f1ab5_5cde528b",
+      "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

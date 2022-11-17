@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';

@@ -124,13 +124,8 @@ export const sharedStyles = css`
     /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
         css rule, which prevents overriding the border color. Clear that. */
     -webkit-appearance: none;
-    --iron-autogrow-textarea: {
-      box-sizing: border-box;
-      padding: var(--spacing-s);
-    };
     --iron-autogrow-textarea_-_box-sizing: border-box;
     --iron-autogrow-textarea_-_padding: var(--spacing-s);
-    --iron-autogrow-textarea_-_white-space: pre-wrap;
   }
   a {
     color: var(--link-color);

@@ -265,6 +265,11 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public int numDocs() {
+    return openIndex.numDocs() + closedIndex.numDocs();
+  }
+
+  @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);

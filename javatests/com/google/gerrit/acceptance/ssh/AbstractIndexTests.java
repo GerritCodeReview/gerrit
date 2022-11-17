@@ -28,6 +28,8 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.List;
@@ -38,6 +40,8 @@ import org.junit.Test;
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
+
+  @Inject private ChangeIndexCollection changeIndexes;
 
   @Test
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
@@ -108,5 +112,20 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     } else {
       assertThat(ids).doesNotContain(change.getId().get());
     }
+  }
+
+  @Test
+  public void testNumDocs() throws Exception {
+    testNumDocs(changeIndexes.getSearchIndex());
+    for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
+      testNumDocs(i);
+    }
+  }
+
+  private void testNumDocs(ChangeIndex index) throws Exception {
+    int before = index.numDocs();
+    createChange("a change", "a.txt", "test");
+    int after = index.numDocs();
+    assertThat(after).isEqualTo(before + 1);
   }
 }

@@ -52,6 +52,75 @@
       "parentUuid": "51418db8_a1c33aaa",
       "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a1f3be1_d9d99a6e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-17T13:14:13Z",
+      "side": 1,
+      "message": "Is iron-input still used? Maybe this import can be removed",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "862e50e7_d02191fb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-17T13:14:13Z",
+      "side": 1,
+      "message": "Maybe aria-label for this? \n\nI am not sure how this whole label works with statusInput",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 16
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0811dfc_a28678e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-17T13:14:13Z",
+      "side": 1,
+      "message": "Do we want to autocomplete value by browser?\nIt looks it\u0027s bind to textarea:\n\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autocomplete",
+      "range": {
+        "startLine": 220,
+        "startChar": 29,
+        "endLine": 221,
+        "endChar": 29
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

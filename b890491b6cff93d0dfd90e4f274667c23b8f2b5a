@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb1058b5_ef00da30",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-17T09:56:34Z",
+      "side": 1,
+      "message": "init already calls cleanup, so the call above is redundant",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 16
+      },
+      "revId": "b890491b6cff93d0dfd90e4f274667c23b8f2b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

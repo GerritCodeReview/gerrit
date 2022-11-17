@@ -35,6 +35,9 @@ import {createChangeUrl} from '../../../models/views/change';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import { GrSyntaxLayerWorker } from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import { highlightServiceToken } from '../../../services/highlight/highlight-service';
+import { anyLineTooLong } from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 interface FilePreview {
   filepath: string;
@@ -94,15 +97,22 @@ export class GrApplyFixDialog extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly syntaxLayer = new GrSyntaxLayerWorker(
+    resolve(this, highlightServiceToken),
+    () => getAppContext().reportingService
+  );
+
   constructor() {
     super();
     subscribe(
       this,
       () => this.getUserModel().preferences$,
       preferences => {
+        const layers: DiffLayer[] = [this.syntaxLayer];
         if (!preferences?.disable_token_highlighting) {
-          this.layers = [new TokenHighlightLayer(this)];
-        }
+          layers.push(new TokenHighlightLayer(this));
+        };
+        this.layers = layers;
       }
     );
     subscribe(
@@ -111,6 +121,7 @@ export class GrApplyFixDialog extends LitElement {
       diffPreferences => {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;
+        this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
       }
     );
   }
@@ -174,16 +185,24 @@ export class GrApplyFixDialog extends LitElement {
           <span>${item.filepath}</span>
         </div>
         <div class="diffContainer">
-          <gr-diff
-            .prefs=${this.overridePartialDiffPrefs()}
-            .path=${item.filepath}
-            .diff=${item.preview}
-            .layers=${this.layers}
-          ></gr-diff>
+          ${this.renderDiff(item)}
         </div>
       `
     );
     return html`<div slot="main">${items}</div>`;
+  }
+
+  private renderDiff(preview: FilePreview) {
+    const diff = preview.preview;
+    if (!anyLineTooLong(diff)) {
+      this.syntaxLayer.process(diff);
+    }
+    return html`<gr-diff
+      .prefs=${this.overridePartialDiffPrefs()}
+      .path=${preview.filepath}
+      .diff=${diff}
+      .layers=${this.layers}
+      ></gr-diff>`;
   }
 
   private renderFooter() {

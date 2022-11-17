@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7cac460_d2945777",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-17T10:42:30Z",
+      "side": 1,
+      "message": "What happens if the backend serves a string which is longer than 140 limit. Do we have any protections on a backend when setting a status through direct rest api calls?",
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "Can these two be removed along the way?\ngoogle3/third_party/javascript/polygerrit/mixins/iron-fit-mixin/iron-fit-mixin.ts\ngoogle3/third_party/javascript/polygerrit/mixins/iron-overlay-mixin/iron-overlay-mixin.ts",
       "revId": "53f8115154ad07feb6624dfcf7a8915bde2c361a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76022b78_3f5fef1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T10:50:58Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "53f8115154ad07feb6624dfcf7a8915bde2c361a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

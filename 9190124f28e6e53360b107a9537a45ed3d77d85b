@@ -46,6 +46,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a4df52_13c4f42b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T11:20:56Z",
+      "side": 1,
+      "message": "I really appreciate that you take the time and write another algorithm for this, and I understand your point about your solution being more performant. OTOH I am not sure whether your solution is actually simpler. I think they are both equally simple. I have already written tests for `linesToRanges` and `rangesToLines`, so I would slightly prefer to keep the code as is. Maybe @poucet@google.com as the second reviewer can voice an opinion?\n\nTBH I would be open to just removing the entire optimization. We can also just call `notify()` for the original ranges and accept that certain parts of the diff might be rendered twice. This is really very much an edge case. WDYT?",
+      "parentUuid": "451cefb6_9a6cb39c",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

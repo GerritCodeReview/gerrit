@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dabf3228_df4d7f66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-17T13:35:29Z",
+      "side": 1,
+      "message": "cherry-picking this fix to stable-3.4 fixes the problem also there (see Issue 16030)\n\nrequires to be enabled in gerrit.config\n\n [experiments]\n    enabled \u003d GerritBackendRequestFeature__remove_revision_etag",
+      "revId": "9e496d5aaa6757899265333f70192ecfefe0f238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

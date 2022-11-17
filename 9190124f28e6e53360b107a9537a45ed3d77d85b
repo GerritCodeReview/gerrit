@@ -166,6 +166,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cb4f79_9f3cf4c8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-17T18:23:51Z",
+      "side": 1,
+      "message": "Sure. I think there are definitely a lot of ways how this code could be written differently (maybe more understandable, maybe more performant), but maybe we are micro-optimizing here? I think 1 hour of SWE time discussing and improving these lines could potentially be spent better on other parts of the code base. If my code is seen as lacking quality I would rather remove it, because we don\u0027t need this optimization. I was just in perfectionist mood and thought, \"oh well, let\u0027s spend 15 minutes on this\".\n\nAnother alternative would be that you upload a patchset with a tested and commented solution. I can understand that this kind of algorithmic programming does not come up much, and we all enjoy finding perfect solutions to such questions. Could be an interview question really. :-)",
+      "parentUuid": "4fa7a8c5_b837e11e",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

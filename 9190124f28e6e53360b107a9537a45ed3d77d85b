@@ -94,6 +94,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87fb51f1_8c5b3ec4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-17T13:36:58Z",
+      "side": 1,
+      "message": "I find both versions not obvious to understand what it is actually trying to do.\n\nIs my understanding correct that you\u0027re trying to merge segments?",
+      "parentUuid": "953a9d3a_83ac0deb",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

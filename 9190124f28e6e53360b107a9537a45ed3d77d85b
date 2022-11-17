@@ -70,6 +70,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953a9d3a_83ac0deb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-17T11:33:24Z",
+      "side": 1,
+      "message": "That was kind of my point. That since the simplicity is the same (ie. not that simple) makes sense to go for more performant (and the one that doesn\u0027t hurt my soul, by expanding small data into large data and back). Tbh, \"tests already written\" is not a strong argument for me. SGTM to let Chris arbitrate.\n\nNB: If I move comparator into a separate method and maybe add getBorders method (that adds a pair of borders) my code looks cleaner to me. But I do realize that this mostly a matter of opinion.",
+      "parentUuid": "a6a4df52_13c4f42b",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

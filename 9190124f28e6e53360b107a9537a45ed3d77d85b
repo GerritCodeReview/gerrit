@@ -190,6 +190,30 @@
       },
       "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3acb54f_1baae807",
+        "filename": "polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-17T18:25:18Z",
+      "side": 1,
+      "message": "My concern is that the two current solutions are not very readable. I had to guess as to what the intended functionality is.\n\nI\u0027m more than willing to take this over",
+      "parentUuid": "a2cb4f79_9f3cf4c8",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "9190124f28e6e53360b107a9537a45ed3d77d85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

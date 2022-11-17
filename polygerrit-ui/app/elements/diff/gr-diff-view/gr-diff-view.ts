@@ -698,6 +698,7 @@ export class GrDiffView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
+    if (this.diffHost) this.reInitCursor();
   }
 
   override disconnectedCallback() {

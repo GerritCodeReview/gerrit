@@ -77,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1aac438_594d2a30",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-17T14:58:03Z",
+      "side": 1,
+      "message": "Yes still used for other parts of the profile like Display Name.",
+      "parentUuid": "9a1f3be1_d9d99a6e",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "862e50e7_d02191fb",
@@ -102,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e822997a_82421f7a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-17T14:58:03Z",
+      "side": 1,
+      "message": "I moved lengthCounter out of \u003clabel\u003e.\n\nActually it seems like label + forminput does not work across shadowdom: https://github.com/whatwg/html/issues/3219\n\nFor iron-input this is ok because we give it a \u003cinput/\u003e to slot and it\u0027s not really crossing shadowdom boundary, but iron-autogrow-textarea uses it\u0027s own hidden \u003ctextarea\u003e that we cannot see. I gave it the same `name` but it doesn\u0027t seem to work (eg. clicking on the label should focus the form element).\n\nWDYT? I could maybe switch to a basic \u003ctextarea\u003e instead of iron. Since there is a character limit the autogrow feature is not so important and we can just scroll.",
+      "parentUuid": "862e50e7_d02191fb",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 16
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0811dfc_a28678e5",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
         "patchSetId": 2
@@ -113,6 +161,30 @@
       "writtenOn": "2022-11-17T13:14:13Z",
       "side": 1,
       "message": "Do we want to autocomplete value by browser?\nIt looks it\u0027s bind to textarea:\n\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autocomplete",
+      "range": {
+        "startLine": 220,
+        "startChar": 29,
+        "endLine": 221,
+        "endChar": 29
+      },
+      "revId": "d96c8fc86a0101defd907ef7a1c32724cbf68f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb99a09_40ca51b0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-17T14:58:03Z",
+      "side": 1,
+      "message": "Good point, probably don\u0027t want it. Removed.",
+      "parentUuid": "e0811dfc_a28678e5",
       "range": {
         "startLine": 220,
         "startChar": 29,

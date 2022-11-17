@@ -648,7 +648,7 @@ suite('gr-diff-builder tests', () => {
 
     test('cancel cancels the processor', () => {
       const processorCancelStub = sinon.stub(element.processor, 'cancel');
-      element.cancel();
+      element.cleanup();
       assert.isTrue(processorCancelStub.called);
     });
   });

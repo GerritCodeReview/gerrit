@@ -1857,9 +1857,9 @@ suite('gr-diff tests', () => {
   });
 
   test('cancel', () => {
-    const cancelStub = sinon.stub(element.diffBuilder, 'cancel');
+    const cleanupStub = sinon.stub(element.diffBuilder, 'cleanup');
     element.cancel();
-    assert.isTrue(cancelStub.calledOnce);
+    assert.isTrue(cleanupStub.calledOnce);
   });
 
   test('line limit with line_wrapping', async () => {

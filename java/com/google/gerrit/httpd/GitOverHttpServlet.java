@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -507,7 +506,7 @@ public class GitOverHttpServlet extends GitServlet {
         if (!rsp.isCommitted()) {
           rsp.reset();
           String msg = e instanceof PackProtocolException ? e.getMessage() : null;
-          sendError(req, rsp, SC_INTERNAL_SERVER_ERROR, msg);
+          sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), msg);
         }
       }
     }

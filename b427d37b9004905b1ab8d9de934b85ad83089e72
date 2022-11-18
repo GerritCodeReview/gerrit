@@ -22,6 +22,30 @@
       },
       "revId": "b427d37b9004905b1ab8d9de934b85ad83089e72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08000439_a39acd80",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T08:42:34Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "parentUuid": "3f96e456_5cb91c7a",
+      "range": {
+        "startLine": 317,
+        "startChar": 7,
+        "endLine": 317,
+        "endChar": 31
+      },
+      "revId": "b427d37b9004905b1ab8d9de934b85ad83089e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

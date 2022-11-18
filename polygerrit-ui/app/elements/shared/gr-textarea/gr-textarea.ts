@@ -394,10 +394,11 @@ export class GrTextarea extends LitElement {
     }
   }
 
-  private setValue(text: string) {
+  private async setValue(text: string) {
     if (this.specialCharIndex === -1) {
       return;
     }
+    const specialCharIndex = this.specialCharIndex;
     if (this.isEmojiDropdownActive()) {
       this.text = this.addValueToText(text);
       this.reporting.reportInteraction('select-emoji', {type: text});
@@ -405,9 +406,13 @@ export class GrTextarea extends LitElement {
       this.text = this.addValueToText('@' + text);
       this.reporting.reportInteraction('select-mention', {type: text});
     }
-
-    this.textarea!.selectionStart = this.specialCharIndex + 1;
-    this.textarea!.selectionEnd = this.specialCharIndex + 1;
+    // iron-autogrow-textarea unfortunately sets the cursor at the end when
+    // it's value is changed, which means the setting of selectionStart
+    // below needs to happen after iron-autogrow-textarea has set the
+    // incorrect value.
+    await this.updateComplete;
+    this.textarea!.selectionStart = specialCharIndex + 1;
+    this.textarea!.selectionEnd = specialCharIndex + 1;
     this.resetDropdown();
   }
 

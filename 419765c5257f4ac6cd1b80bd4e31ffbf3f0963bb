@@ -16,6 +16,23 @@
       "message": "@luca.milanesio@gmail.com Is there anything else that needs to be amended or corrected?",
       "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa4eca5_b2ccb407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-18T22:58:12Z",
+      "side": 1,
+      "message": "Adding Frank who worked on the refactoring that caused this issue.",
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -169,6 +169,9 @@ export class GrDiffBuilderElement implements GroupConsumer {
   }
 
   render(keyLocations: KeyLocations): Promise<void> {
+    assertIsDefined(this.diff, 'diff');
+    assertIsDefined(this.diffElement, 'diff table');
+
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -178,21 +181,12 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.showTabs = this.prefs.show_tabs;
     this.showTrailingWhitespace = this.prefs.show_whitespace_errors;
 
-    // Stop the processor if it's running.
-    this.cancel();
-
-    this.builder?.clear();
-    assertIsDefined(this.diff, 'diff');
-    assertIsDefined(this.diffElement, 'diff table');
+    this.cleanup();
     this.builder = this.getDiffBuilder();
+    this.init();
 
     this.processor.context = this.prefs.context;
     this.processor.keyLocations = keyLocations;
-
-    this.diffElement.addEventListener(
-      'diff-context-expanded',
-      this.onDiffContextExpanded
-    );
 
     this.clearDiffContent();
     this.builder.addColumns(
@@ -370,9 +364,32 @@ export class GrDiffBuilderElement implements GroupConsumer {
     });
   }
 
-  cancel() {
+  /**
+   * This is meant to be called when the gr-diff component re-connects, or when
+   * the diff is (re-)rendered.
+   *
+   * Make sure that this method is symmetric with cleanup(), which is called
+   * when gr-diff disconnects.
+   */
+  init() {
+    this.cleanup();
+    this.diffElement?.addEventListener(
+      'diff-context-expanded',
+      this.onDiffContextExpanded
+    );
+    this.builder?.init();
+  }
+
+  /**
+   * This is meant to be called when the gr-diff component disconnects, or when
+   * the diff is (re-)rendered.
+   *
+   * Make sure that this method is symmetric with init(), which is called when
+   * gr-diff re-connects.
+   */
+  cleanup() {
     this.processor.cancel();
-    this.builder?.clear();
+    this.builder?.cleanup();
     this.cancelableRenderPromise?.cancel();
     this.cancelableRenderPromise = null;
     this.diffElement?.removeEventListener(

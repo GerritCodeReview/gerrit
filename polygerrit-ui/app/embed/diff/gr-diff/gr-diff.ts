@@ -996,6 +996,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.loggedIn) {
       this.addSelectionListeners();
     }
+    if (this.diff && this.diffTable) {
+      this.diffSelection.init(this.diff, this.diffTable);
+    }
+    if (this.diffTable && this.diffBuilder) {
+      this.highlights.init(this.diffTable, this.diffBuilder);
+    }
   }
 
   override disconnectedCallback() {
@@ -1003,7 +1009,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.renderDiffTableTask?.cancel();
     this.diffSelection.cleanup();
     this.highlights.cleanup();
-    this.diffBuilder.cancel();
+    this.diffBuilder.cleanup();
     super.disconnectedCallback();
   }
 
@@ -1267,7 +1273,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
-    this.diffBuilder.cancel();
+    this.diffBuilder.cleanup();
     this.renderDiffTableTask?.cancel();
   }
 

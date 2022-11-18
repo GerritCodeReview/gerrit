@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f96e456_5cb91c7a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:41:32Z",
+      "side": 1,
+      "message": "the `margin: -10px;` would provide a 10px box around the checkbox to the left/right as well.\nAfter this change, clicking to the left of the checkbox does not work.\nright works as the \u003ctd\u003e extends to the right of the checkbox and not the left.",
+      "range": {
+        "startLine": 317,
+        "startChar": 7,
+        "endLine": 317,
+        "endChar": 31
+      },
+      "revId": "b427d37b9004905b1ab8d9de934b85ad83089e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

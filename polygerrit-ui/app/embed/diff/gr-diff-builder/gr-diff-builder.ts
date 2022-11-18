@@ -64,6 +64,10 @@ export interface DiffBuilder {
   updateRenderPrefs(renderPrefs: RenderPreferences): void;
 }
 
+export interface DiffBuilderImage {
+  renderImageDiff(): void;
+}
+
 /**
  * Base class for different diff builders, like side-by-side, unified etc.
  *
@@ -82,7 +86,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
   // visible for testing
   readonly _prefs: DiffPreferencesInfo;
 
-  protected readonly renderPrefs?: RenderPreferences;
+  protected renderPrefs?: RenderPreferences;
 
   protected readonly outputEl: HTMLElement;
 

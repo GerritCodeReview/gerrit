@@ -3,228 +3,263 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrEndpointParam} from '../../../elements/plugins/gr-endpoint-param/gr-endpoint-param';
-import {RenderPreferences} from '../../../api/diff';
+import {RenderPreferences, Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
-import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';
-import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {DiffBuilderImage} from './gr-diff-builder';
+import {html, LitElement, nothing, render} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
-export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
+export class GrDiffBuilderImage
+  extends GrDiffBuilderSideBySide
+  implements DiffBuilderImage
+{
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    private readonly _baseImage: ImageInfo | null,
-    private readonly _revisionImage: ImageInfo | null,
+    private readonly baseImage: ImageInfo | null,
+    private readonly revisionImage: ImageInfo | null,
     renderPrefs?: RenderPreferences,
-    private readonly _useNewImageDiffUi: boolean = false
+    private readonly useNewImageDiffUi: boolean = false
   ) {
     super(diff, prefs, outputEl, [], renderPrefs);
   }
 
-  public renderDiff() {
-    const section = createElementDiff('tbody', 'image-diff');
-
-    if (this._useNewImageDiffUi) {
-      this._emitImageViewer(section);
-
-      this.outputEl.appendChild(section);
-    } else {
-      this._emitImagePair(section);
-      this._emitImageLabels(section);
-
-      this.outputEl.appendChild(section);
-      this.outputEl.appendChild(this._createEndpoint());
-    }
-  }
-
-  private _createEndpoint() {
-    const tbody = createElementDiff('tbody');
-    const tr = createElementDiff('tr');
-    const td = createElementDiff('td');
-
-    // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
-    // column limit.
-    td.setAttribute('colspan', '4');
-    const endpointDomApi = createElementDiff('gr-endpoint-decorator');
-    endpointDomApi.setAttribute('name', 'image-diff');
-    endpointDomApi.appendChild(
-      this._createEndpointParam('baseImage', this._baseImage)
+  public renderImageDiff() {
+    render(
+      html`
+        ${this.useNewImageDiffUi
+          ? html`
+              <gr-diff-image-new
+                .automaticBlink=${this.autoBlink()}
+                .baseImage=${this.baseImage ?? undefined}
+                .revisionImage=${this.revisionImage ?? undefined}
+              ></gr-diff-image-new>
+            `
+          : html`
+              <gr-diff-image-old
+                .baseImage=${this.baseImage ?? undefined}
+                .revisionImage=${this.revisionImage ?? undefined}
+              ></gr-diff-image-old>
+            `}
+      `,
+      this.outputEl
     );
-    endpointDomApi.appendChild(
-      this._createEndpointParam('revisionImage', this._revisionImage)
-    );
-    td.appendChild(endpointDomApi);
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-    return tbody;
   }
 
-  private _createEndpointParam(name: string, value: ImageInfo | null) {
-    const endpointParam = createElementDiff(
-      'gr-endpoint-param'
-    ) as GrEndpointParam;
-    endpointParam.name = name;
-    endpointParam.value = value;
-    return endpointParam;
-  }
-
-  private _emitImageViewer(section: HTMLElement) {
-    const tr = createElementDiff('tr');
-    const td = createElementDiff('td');
-    // TODO(hermannloose): Support blame for image diffs, see above.
-    td.setAttribute('colspan', '4');
-    const imageViewer = createElementDiff('gr-image-viewer') as GrImageViewer;
-
-    imageViewer.baseUrl = this._getImageSrc(this._baseImage);
-    imageViewer.revisionUrl = this._getImageSrc(this._revisionImage);
-    imageViewer.automaticBlink =
-      !!this.renderPrefs?.image_diff_prefs?.automatic_blink;
-
-    td.appendChild(imageViewer);
-    tr.appendChild(td);
-    section.appendChild(tr);
-  }
-
-  private _getImageSrc(image: ImageInfo | null): string {
-    return image && IMAGE_MIME_PATTERN.test(image.type)
-      ? `data:${image.type};base64,${image.body}`
-      : '';
-  }
-
-  private _emitImagePair(section: HTMLElement) {
-    const tr = createElementDiff('tr');
-
-    tr.appendChild(createElementDiff('td', 'left lineNum blank'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
-
-    tr.appendChild(createElementDiff('td', 'right lineNum blank'));
-    tr.appendChild(
-      this._createImageCell(this._revisionImage, 'right', section)
-    );
-
-    section.appendChild(tr);
-  }
-
-  private _createImageCell(
-    image: ImageInfo | null,
-    className: string,
-    section: HTMLElement
-  ) {
-    const td = createElementDiff('td', className);
-    const src = this._getImageSrc(image);
-    if (image && src) {
-      const imageEl = createElementDiff('img') as HTMLImageElement;
-      imageEl.onload = () => {
-        image._height = imageEl.naturalHeight;
-        image._width = imageEl.naturalWidth;
-        this._updateImageLabel(section, className, image);
-      };
-      imageEl.addEventListener('error', (e: Event) => {
-        imageEl.remove();
-        td.textContent = '[Image failed to load] ' + e.type;
-      });
-      imageEl.setAttribute('src', src);
-      td.appendChild(imageEl);
-    }
-    return td;
-  }
-
-  private _updateImageLabel(
-    section: HTMLElement,
-    className: string,
-    image: ImageInfo
-  ) {
-    const label = section.querySelector(
-      '.' + className + ' span.label'
-    ) as HTMLElement;
-    this._setLabelText(label, image);
-  }
-
-  private _setLabelText(label: HTMLElement, image: ImageInfo | null) {
-    label.textContent = getImageLabel(image);
-  }
-
-  private _emitImageLabels(section: HTMLElement) {
-    const tr = createElementDiff('tr');
-
-    let addNamesInLabel = false;
-
-    if (
-      this._baseImage &&
-      this._revisionImage &&
-      this._baseImage._name !== this._revisionImage._name
-    ) {
-      addNamesInLabel = true;
-    }
-
-    tr.appendChild(createElementDiff('td', 'left lineNum blank'));
-    let td = createElementDiff('td', 'left');
-    let label = createElementDiff('label');
-    let nameSpan;
-    let labelSpan = createElementDiff('span', 'label');
-
-    if (addNamesInLabel) {
-      nameSpan = createElementDiff('span', 'name');
-      nameSpan.textContent = this._baseImage?._name ?? '';
-      label.appendChild(nameSpan);
-      label.appendChild(createElementDiff('br'));
-    }
-
-    this._setLabelText(labelSpan, this._baseImage);
-
-    label.appendChild(labelSpan);
-    td.appendChild(label);
-    tr.appendChild(td);
-
-    tr.appendChild(createElementDiff('td', 'right lineNum blank'));
-    td = createElementDiff('td', 'right');
-    label = createElementDiff('label');
-    labelSpan = createElementDiff('span', 'label');
-
-    if (addNamesInLabel) {
-      nameSpan = createElementDiff('span', 'name');
-      nameSpan.textContent = this._revisionImage?._name ?? '';
-      label.appendChild(nameSpan);
-      label.appendChild(createElementDiff('br'));
-    }
-
-    this._setLabelText(labelSpan, this._revisionImage);
-
-    label.appendChild(labelSpan);
-    td.appendChild(label);
-    tr.appendChild(td);
-
-    section.appendChild(tr);
+  private autoBlink(): boolean {
+    return !!this.renderPrefs?.image_diff_prefs?.automatic_blink;
   }
 
   override updateRenderPrefs(renderPrefs: RenderPreferences) {
-    const imageViewer = this.outputEl.querySelector(
-      'gr-image-viewer'
-    ) as GrImageViewer;
-    if (this._useNewImageDiffUi && imageViewer) {
-      imageViewer.automaticBlink =
-        !!renderPrefs?.image_diff_prefs?.automatic_blink;
-    }
+    const imageDiff = this.outputEl.querySelector(
+      'gr-diff-image-new'
+    ) as GrDiffImageNew;
+    if (!imageDiff) return;
+    this.renderPrefs = renderPrefs;
+    imageDiff.automaticBlink = this.autoBlink();
   }
 }
 
-function getImageLabel(image: ImageInfo | null) {
-  if (image) {
-    const type = image.type ?? image._expectedType;
-    if (image._width && image._height) {
-      return `${image._width}×${image._height} ${type}`;
-    } else {
-      return type;
-    }
+@customElement('gr-diff-image-new')
+class GrDiffImageNew extends LitElement {
+  @property() baseImage?: ImageInfo;
+
+  @property() revisionImage?: ImageInfo;
+
+  @property() automaticBlink = false;
+
+  /**
+   * The browser API for handling selection does not (yet) work for selection
+   * across multiple shadow DOM elements. So we are rendering gr-diff components
+   * into the light DOM instead of the shadow DOM by overriding this method,
+   * which was the recommended workaround by the lit team.
+   * See also https://github.com/WICG/webcomponents/issues/79.
+   */
+  override createRenderRoot() {
+    return this;
   }
-  return 'No image';
+
+  override render() {
+    return html`
+      <tbody class="gr-diff image-diff">
+        <tr class="gr-diff">
+          <td class="gr-diff" colspan="4">
+            <gr-image-viewer
+              class="gr-diff"
+              .baseUrl=${imageSrc(this.baseImage)}
+              .revisionUrl=${imageSrc(this.revisionImage)}
+              .automaticBlink=${this.automaticBlink}
+            >
+            </gr-image-viewer>
+          </td>
+        </tr>
+      </tbody>
+    `;
+  }
+}
+
+@customElement('gr-diff-image-old')
+class GrDiffImageOld extends LitElement {
+  @property() baseImage?: ImageInfo;
+
+  @property() revisionImage?: ImageInfo;
+
+  @query('img.left') baseImageEl?: HTMLImageElement;
+
+  @query('img.right') revisionImageEl?: HTMLImageElement;
+
+  @state() baseError?: string;
+
+  @state() revisionError?: string;
+
+  /**
+   * The browser API for handling selection does not (yet) work for selection
+   * across multiple shadow DOM elements. So we are rendering gr-diff components
+   * into the light DOM instead of the shadow DOM by overriding this method,
+   * which was the recommended workaround by the lit team.
+   * See also https://github.com/WICG/webcomponents/issues/79.
+   */
+  override createRenderRoot() {
+    return this;
+  }
+
+  override render() {
+    return html`
+      <tbody class="gr-diff image-diff">
+        ${this.renderImagePairRow()} ${this.renderImageLabelRow()}
+      </tbody>
+      ${this.renderEndpoint()}
+    `;
+  }
+
+  private renderEndpoint() {
+    return html`
+      <tbody class="gr-diff endpoint">
+        <tr class="gr-diff">
+          <td class="gr-diff" colspan="4">
+            <gr-endpoint-decorator class="gr-diff" name="image-diff">
+              ${this.renderEndpointParam('baseImage', this.baseImage)}
+              ${this.renderEndpointParam('revisionImage', this.revisionImage)}
+            </gr-endpoint-decorator>
+          </td>
+        </tr>
+      </tbody>
+    `;
+  }
+
+  private renderEndpointParam(name: string, value: unknown) {
+    if (!value) return nothing;
+    return html`
+      <gr-endpoint-param class="gr-diff" name=${name} .value=${value}>
+      </gr-endpoint-param>
+    `;
+  }
+
+  private renderImagePairRow() {
+    return html`
+      <tr class="gr-diff">
+        <td class="gr-diff left lineNum blank"></td>
+        <td class="gr-diff left">${this.renderImage(Side.LEFT)}</td>
+        <td class="gr-diff right lineNum blank"></td>
+        <td class="gr-diff right">${this.renderImage(Side.RIGHT)}</td>
+      </tr>
+    `;
+  }
+
+  private renderImage(side: Side) {
+    const image = side === Side.LEFT ? this.baseImage : this.revisionImage;
+    if (!image) return nothing;
+    const error = side === Side.LEFT ? this.baseError : this.revisionError;
+    if (error) return error;
+    const src = imageSrc(image);
+    if (!src) return nothing;
+
+    return html`
+      <img
+        class="gr-diff ${side}"
+        src=${src}
+        @load=${this.handleLoad}
+        @error=${(e: Event) => this.handleError(e, side)}
+      >
+      </img>
+    `;
+  }
+
+  private handleLoad() {
+    this.requestUpdate();
+  }
+
+  private handleError(e: Event, side: Side) {
+    const msg = `[Image failed to load] ${e.type}`;
+    if (side === Side.LEFT) this.baseError = msg;
+    if (side === Side.RIGHT) this.revisionError = msg;
+  }
+
+  private renderImageLabelRow() {
+    return html`
+      <tr class="gr-diff">
+        <td class="gr-diff left lineNum blank"></td>
+        <td class="gr-diff left">
+          <label class="gr-diff">
+            ${this.renderName(this.baseImage?._name ?? '')}
+            <span class="gr-diff label">${this.imageLabel(Side.LEFT)}</span>
+          </label>
+        </td>
+        <td class="gr-diff right lineNum blank"></td>
+        <td class="gr-diff right">
+          <label class="gr-diff">
+            ${this.renderName(this.revisionImage?._name ?? '')}
+            <span class="gr-diff label"> ${this.imageLabel(Side.RIGHT)} </span>
+          </label>
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderName(name?: string) {
+    const addNamesInLabel =
+      this.baseImage &&
+      this.revisionImage &&
+      this.baseImage._name !== this.revisionImage._name;
+    if (!addNamesInLabel) return nothing;
+    return html`
+      <span class="gr-diff name">${name}</span><br class="gr-diff" />
+    `;
+  }
+
+  private imageLabel(side: Side) {
+    const image = side === Side.LEFT ? this.baseImage : this.revisionImage;
+    const imageEl =
+      side === Side.LEFT ? this.baseImageEl : this.revisionImageEl;
+    if (image) {
+      const type = image.type ?? image._expectedType;
+      if (imageEl?.naturalWidth && imageEl.naturalHeight) {
+        return `${imageEl?.naturalWidth}×${imageEl.naturalHeight} ${type}`;
+      } else {
+        return type;
+      }
+    }
+    return 'No image';
+  }
+}
+
+function imageSrc(image?: ImageInfo): string {
+  return image && IMAGE_MIME_PATTERN.test(image.type)
+    ? `data:${image.type};base64,${image.body}`
+    : '';
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-image-new': GrDiffImageNew;
+    'gr-diff-image-old': GrDiffImageOld;
+  }
 }

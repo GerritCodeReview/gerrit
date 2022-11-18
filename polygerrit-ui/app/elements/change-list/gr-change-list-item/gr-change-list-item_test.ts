@@ -109,7 +109,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       checkbox.click();
       let selectedChangeNums = await waitUntilObserved(
@@ -138,7 +138,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       checkbox.click();
       await element.updateComplete;
@@ -161,7 +161,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       assert.isTrue(checkbox.checked);
 
@@ -356,9 +356,9 @@ suite('gr-change-list-item tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <label class="selectionLabel">
+        <div class="selectionLabel">
           <input type="checkbox" />
-        </label>
+        </div>
         <gr-change-star></gr-change-star>
         <a href="/c/test-project/+/42">42</a>
         <a href="/c/test-project/+/42" title="Test subject">

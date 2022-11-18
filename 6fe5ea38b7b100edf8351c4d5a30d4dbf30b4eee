@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a03873_9bb284a8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T09:02:04Z",
+      "side": 0,
+      "message": "looks like the negation is intentional?\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/340350/comment/fbab02a2_4aefabda/",
+      "range": {
+        "startLine": 159,
+        "startChar": 24,
+        "endLine": 159,
+        "endChar": 51
+      },
+      "revId": "6fe5ea38b7b100edf8351c4d5a30d4dbf30b4eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -109,7 +109,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       checkbox.click();
       let selectedChangeNums = await waitUntilObserved(
@@ -138,7 +138,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       checkbox.click();
       await element.updateComplete;
@@ -161,7 +161,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > label > input'
+        '.selection > .selectionLabel > input'
       );
       assert.isTrue(checkbox.checked);
 

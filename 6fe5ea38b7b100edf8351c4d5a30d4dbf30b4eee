@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8bc5a8a_d428fb30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T09:18:36Z",
+      "side": 1,
+      "message": "Tried using it manually and the checkbox isn\u0027t clicked when clicking around it.",
+      "revId": "6fe5ea38b7b100edf8351c4d5a30d4dbf30b4eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

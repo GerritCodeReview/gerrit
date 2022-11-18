@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbacc956_11593a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:52:34Z",
+      "side": 1,
+      "message": "Lost +2 due to accidentally uploading jgit changes.\ncan I get a restamp?",
+      "revId": "bea091a012b7faa29cfdbcb89eed396683c22767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

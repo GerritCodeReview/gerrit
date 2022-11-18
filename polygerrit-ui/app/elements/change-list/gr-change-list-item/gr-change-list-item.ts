@@ -325,13 +325,13 @@ export class GrChangeListItem extends LitElement {
           update the current checked state.
           See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
         -->
-        <label class="selectionLabel">
+        <div class="selectionLabel">
           <input
             type="checkbox"
             .checked=${this.checked}
             @click=${this.toggleCheckbox}
           />
-        </label>
+        </div>
       </td>
     `;
   }

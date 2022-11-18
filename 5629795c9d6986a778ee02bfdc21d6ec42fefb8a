@@ -16,6 +16,24 @@
       "message": "Syntaxlayer is after token highlight layer in the regular diff",
       "revId": "5629795c9d6986a778ee02bfdc21d6ec42fefb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6978ebf_12af6633",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-18T08:03:43Z",
+      "side": 1,
+      "message": "I used same pattern as in comment-thread for diffs for comments.",
+      "parentUuid": "c2d825c9_38b09ed9",
+      "revId": "5629795c9d6986a778ee02bfdc21d6ec42fefb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

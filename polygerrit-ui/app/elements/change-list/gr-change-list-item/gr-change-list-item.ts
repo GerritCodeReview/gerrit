@@ -275,6 +275,7 @@ export class GrChangeListItem extends LitElement {
         .selectionLabel {
           padding: 10px;
           margin: -10px;
+          display: block;
         }
         .cell.label {
           font-weight: var(--font-weight-normal);

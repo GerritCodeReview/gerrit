@@ -37,6 +37,9 @@ optionally:
   mGerrit,role=external,window=_blank]: Android client for Gerrit
 * link:https://github.com/stackforge/gertty[Gertty,role=external,window=_blank]: Console-based
   interface for Gerrit
+* link:https://github.com/gitextensions/GitExtensions.GerritPlugin[Git Extensions Gerrit
+  Plugin,role=external,window=_blank]: Gerrit integration with the
+  link:https://github.com/gitextensions/gitextensions[Git Extensions,role=external,window=_blank]
 
 [[clone]]
 == Clone Gerrit Project

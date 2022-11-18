@@ -155,7 +155,7 @@ export class GrChangeListItem extends LitElement {
   override willUpdate(changedProperties: PropertyValues<this>) {
     // When the cursor selects this item, give it focus so that the item is read
     // out by screen readers and lets users start tabbing through the item
-    if (this.selected && !changedProperties.get('selected')) {
+    if (this.selected && changedProperties.has('selected')) {
       this.focus();
     }
   }

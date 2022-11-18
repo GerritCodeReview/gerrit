@@ -273,10 +273,6 @@ export class GrChangeListItem extends LitElement {
         .cell.selection input {
           vertical-align: middle;
         }
-        .selectionLabel {
-          padding: 10px;
-          margin: -10px;
-        }
         .cell.label {
           font-weight: var(--font-weight-normal);
         }

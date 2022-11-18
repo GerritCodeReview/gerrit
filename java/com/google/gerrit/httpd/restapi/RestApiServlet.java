@@ -30,7 +30,6 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -120,9 +119,7 @@ import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.change.ChangeFinder;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
@@ -270,7 +267,6 @@ public class RestApiServlet extends HttpServlet {
     final PluginSetContext<ExceptionHook> exceptionHooks;
     final Injector injector;
     final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
-    final ExperimentFeatures experimentFeatures;
     final DeadlineChecker.Factory deadlineCheckerFactory;
     final CancellationMetrics cancellationMetrics;
 
@@ -291,7 +287,6 @@ public class RestApiServlet extends HttpServlet {
         PluginSetContext<ExceptionHook> exceptionHooks,
         Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
-        ExperimentFeatures experimentFeatures,
         DeadlineChecker.Factory deadlineCheckerFactory,
         CancellationMetrics cancellationMetrics) {
       this.currentUser = currentUser;
@@ -310,7 +305,6 @@ public class RestApiServlet extends HttpServlet {
       allowOrigin = makeAllowOrigin(config);
       this.injector = injector;
       this.dynamicBeans = dynamicBeans;
-      this.experimentFeatures = experimentFeatures;
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
     }
@@ -862,11 +856,6 @@ public class RestApiServlet extends HttpServlet {
         TraceContext.newTimer(
             "RestApiServlet#getEtagWithRetry:resource",
             Metadata.builder().restViewName(rsrc.getClass().getSimpleName()).build())) {
-      if (rsrc instanceof RevisionResource
-          && globals.experimentFeatures.isFeatureEnabled(
-              GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG)) {
-        return null;
-      }
       return invokeRestEndpointWithRetry(
           req,
           traceContext,

@@ -34,6 +34,24 @@
       "parentUuid": "d3bcbe1e_5ee6fe02",
       "revId": "e705d82d13ba14f403ed6a3cd6e4adec435efa25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377dbadf_54a0618f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T08:51:52Z",
+      "side": 1,
+      "message": "I meant to say, setting the selectionState and selectionEnd post `updated` based o specialCharIndex + 1.\n\nBut I\u0027m fine with this as is, I\u0027m just generally against `await this.updateComplete` because I feel like it makes a component hard to reason baout, even if the local code is understandable. So, I guess it\u0027s a trade-off.",
+      "parentUuid": "3219564f_3f8b2ca7",
+      "revId": "e705d82d13ba14f403ed6a3cd6e4adec435efa25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

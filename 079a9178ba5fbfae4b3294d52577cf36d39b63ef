@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "175281e6_dd2e7a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:26:24Z",
+      "side": 1,
+      "message": "Added here 340563: Increase click area of checkbox | https://gerrit-review.git.corp.google.com/c/gerrit/+/340563.\n\nIs the increased click area rolled back then?",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "079a9178ba5fbfae4b3294d52577cf36d39b63ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

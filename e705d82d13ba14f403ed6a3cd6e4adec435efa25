@@ -16,6 +16,24 @@
       "message": "An alternative approach is to set the specialCharIndex on `updated` if `text` has been modified.",
       "revId": "e705d82d13ba14f403ed6a3cd6e4adec435efa25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3219564f_3f8b2ca7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:45:27Z",
+      "side": 1,
+      "message": "How would that solve the issue exactly? specialCharIndex does not set the cursor position of the textarea I think, it just maintains where the `:`, `@` is typed and after selecting an item we set it to -1 since the interaction is over.",
+      "parentUuid": "d3bcbe1e_5ee6fe02",
+      "revId": "e705d82d13ba14f403ed6a3cd6e4adec435efa25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

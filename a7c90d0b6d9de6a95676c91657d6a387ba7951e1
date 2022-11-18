@@ -16,6 +16,24 @@
       "message": "Maybe move the comment and the await to after the if-else-block? It can happen after the reporting, right? Then you only have the await once and closer to the selection update.",
       "revId": "a7c90d0b6d9de6a95676c91657d6a387ba7951e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7342d61_b660b81b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:45:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb0201cd_81e7c62a",
+      "revId": "a7c90d0b6d9de6a95676c91657d6a387ba7951e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

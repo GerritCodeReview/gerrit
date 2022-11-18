@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3bcbe1e_5ee6fe02",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T08:43:51Z",
+      "side": 1,
+      "message": "An alternative approach is to set the specialCharIndex on `updated` if `text` has been modified.",
+      "revId": "e705d82d13ba14f403ed6a3cd6e4adec435efa25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4e61927_c3cc5931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-18T09:55:23Z",
+      "side": 1,
+      "message": "This is kind of a lot to combine into one review. I am feeling that every 5 lines of diff I am switched to a different aspect of this list, besides the test of course. Can it be separated? I am +1 but don\u0027t feel I did a great review. If other reviewer likes the change +2 then it\u0027s ok to submit.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

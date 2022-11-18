@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Side} from '../../../api/diff';
-import {CoverageRange, CoverageType, DiffLayer} from '../../../types/types';
+import {
+  CoverageRange,
+  CoverageType,
+  DiffLayer,
+  DiffLayerListener,
+} from '../../../types/types';
 
 const TOOLTIP_MAP = new Map([
   [CoverageType.COVERED, 'Covered by tests.'],
@@ -12,6 +17,31 @@ const TOOLTIP_MAP = new Map([
   [CoverageType.PARTIALLY_COVERED, 'Partially covered by tests.'],
   [CoverageType.NOT_INSTRUMENTED, 'Not instrumented by any tests.'],
 ]);
+
+// Ranges are considered half-open: [start, end)
+export type Range = {start: number; end: number};
+
+export function mergeRanges(ranges: Range[]): Range[] {
+  ranges.sort((a, b) => a.start - b.start);
+
+  if (ranges.length <= 1) {
+    return ranges;
+  }
+
+  const stack: Range[] = [];
+  stack.push(ranges[0]);
+
+  for (let j = 1; j < ranges.length; j++) {
+    const interval = ranges[j];
+    const top = stack[stack.length - 1];
+    if (top.end < interval.start) {
+      stack.push(interval);
+    } else if (top.end < interval.end) {
+      top.end = interval.end;
+    }
+  }
+  return stack;
+}
 
 export class GrCoverageLayer implements DiffLayer {
   /**
@@ -35,14 +65,56 @@ export class GrCoverageLayer implements DiffLayer {
    */
   private index = 0;
 
+  /**
+   * Has any line been annotated already in the lifetime of this layer?
+   * If not, then `setRanges()` does not have to call `notify()` and thus
+   * trigger re-rendering of the affected diff rows.
+   */
+  // visible for testing
+  annotated = false;
+
+  private listeners: DiffLayerListener[] = [];
+
   constructor(private readonly side: Side) {}
+
+  addListener(listener: DiffLayerListener) {
+    this.listeners.push(listener);
+  }
+
+  removeListener(listener: DiffLayerListener) {
+    this.listeners = this.listeners.filter(f => f !== listener);
+  }
 
   /**
    * Must be sorted by code_range.start_line.
    * Must only contain ranges that match the side.
    */
   setRanges(ranges: CoverageRange[]) {
+    const oldRanges = this.coverageRanges;
+    if (oldRanges.length === 0 && ranges.length === 0) return;
     this.coverageRanges = ranges;
+
+    // If ranges are set before any diff row was rendered, then great, no need
+    // to notify and re-render.
+    if (this.annotated) this.notify([...oldRanges, ...ranges]);
+  }
+
+  /**
+   * Notify listeners (should be just gr-diff triggering a re-render).
+   *
+   * We are optimizing the notification calls by converting the coverange ranges
+   * to an array of [start, end) ranges and then merging them to non-overlapping
+   * set of ranges.
+   */
+  private notify(ranges: CoverageRange[]) {
+    const notifyRanges = mergeRanges(
+      ranges.map(r => {
+        return {start: r.code_range.start_line, end: r.code_range.end_line + 1};
+      })
+    );
+    for (const r of notifyRanges) {
+      for (const l of this.listeners) l(r.start, r.end - 1, this.side);
+    }
   }
 
   /**
@@ -74,6 +146,7 @@ export class GrCoverageLayer implements DiffLayer {
       this.index = 0;
     }
     this.lastLineNumber = elementLineNumber;
+    this.annotated = true;
 
     // We simply loop through all the coverage ranges until we find one that
     // matches the line number.

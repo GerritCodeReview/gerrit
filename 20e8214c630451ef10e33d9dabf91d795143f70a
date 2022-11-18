@@ -16,6 +16,24 @@
       "message": "Release-Notes footer is still missing",
       "revId": "20e8214c630451ef10e33d9dabf91d795143f70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffada234_f3bcc84a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-18T20:33:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063f02b9_4cd3ee28",
+      "revId": "20e8214c630451ef10e33d9dabf91d795143f70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

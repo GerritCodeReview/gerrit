@@ -101,7 +101,7 @@ suite('gr-textarea tests', () => {
           createAccountWithEmail('abcdef@google.com'),
         ])
       );
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -139,7 +139,7 @@ suite('gr-textarea tests', () => {
           {...createAccountWithEmail('abcdef@google.com'), name: 'B'},
         ])
       );
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -165,7 +165,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('emoji selector does not open when previous char is \n', async () => {
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -186,7 +186,7 @@ suite('gr-textarea tests', () => {
         ])
       );
 
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -218,7 +218,7 @@ suite('gr-textarea tests', () => {
           createAccountWithEmail('abcdef@google.com'),
         ])
       );
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -262,7 +262,7 @@ suite('gr-textarea tests', () => {
     test('mention dropdown does not open if emoji dropdown is open', async () => {
       const listenerStub = sinon.stub();
       element.addEventListener('bind-value-changed', listenerStub);
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -304,7 +304,7 @@ suite('gr-textarea tests', () => {
         ])
       );
 
-      element.textarea!.focus();
+      element.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
@@ -342,7 +342,7 @@ suite('gr-textarea tests', () => {
   });
 
   test('emoji selector is not open when a general text is entered', async () => {
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     element.textarea!.selectionStart = 9;
     element.textarea!.selectionEnd = 9;
@@ -356,7 +356,7 @@ suite('gr-textarea tests', () => {
     // updated.
     const listenerStub = sinon.stub();
     element.addEventListener('bind-value-changed', listenerStub);
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     element.textarea!.selectionStart = 1;
     element.textarea!.selectionEnd = 1;
@@ -366,12 +366,11 @@ suite('gr-textarea tests', () => {
     assert.isTrue(element.textarea!.focused);
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
-    assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
   });
 
   test('emoji selector opens when a colon is typed after space', async () => {
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
@@ -381,12 +380,11 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 1);
-    assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
   });
 
   test('emoji selector doesn`t open when a colon is typed after character', async () => {
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
@@ -399,7 +397,7 @@ suite('gr-textarea tests', () => {
   });
 
   test('emoji selector opens when a colon is typed and some substring', async () => {
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
@@ -413,12 +411,11 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
-    assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, 't');
   });
 
   test('emoji selector opens when a colon is typed in middle of text', async () => {
-    element.textarea!.focus();
+    element.focus();
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
     element.textarea!.selectionStart = 1;
@@ -438,12 +435,11 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
-    assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
   });
 
   test('emoji selector closes when text changes before the colon', async () => {
-    element.textarea!.focus();
+    element.focus();
     await waitUntil(() => element.textarea!.focused === true);
     await element.updateComplete;
     element.textarea!.selectionStart = 10;
@@ -567,7 +563,7 @@ suite('gr-textarea tests', () => {
 
   suite('keyboard shortcuts', async () => {
     async function setupDropdown() {
-      element.textarea!.focus();
+      element.focus();
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = ':';
@@ -622,7 +618,7 @@ suite('gr-textarea tests', () => {
       const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
       pressKey(element.textarea! as HTMLElement, Key.ENTER);
       assert.isFalse(enterSpy.called);
-      element.textarea!.focus();
+      element.focus();
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = ':';

@@ -39,7 +39,78 @@ suite('gr-main-header tests', () => {
     element = basicFixture.instantiate();
   });
 
+<<<<<<< HEAD   (982fb9 Retry inserting new patch-sets on lock failures)
   test('link visibility', () => {
+=======
+  test('renders', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <nav>
+          <a class="bigTitle" href="//localhost:9876/">
+            <gr-endpoint-decorator name="header-title">
+              <span class="titleText"> </span>
+            </gr-endpoint-decorator>
+          </a>
+          <ul class="links">
+            <li>
+              <gr-dropdown down-arrow="" horizontal-align="left" link="">
+                <span class="linksTitle" id="Changes"> Changes </span>
+              </gr-dropdown>
+            </li>
+            <li>
+              <gr-dropdown down-arrow="" horizontal-align="left" link="">
+                <span class="linksTitle" id="Browse"> Browse </span>
+              </gr-dropdown>
+            </li>
+          </ul>
+          <div class="rightItems">
+            <gr-endpoint-decorator
+              class="hideOnMobile"
+              name="header-small-banner"
+            >
+            </gr-endpoint-decorator>
+            <gr-smart-search id="search" label="Search for changes">
+            </gr-smart-search>
+            <gr-endpoint-decorator
+              class="hideOnMobile"
+              name="header-browse-source"
+            >
+            </gr-endpoint-decorator>
+            <gr-endpoint-decorator
+              class="feedbackButton"
+              name="header-feedback"
+            >
+            </gr-endpoint-decorator>
+          </div>
+          <div class="accountContainer" id="accountContainer">
+            <div>
+              <gr-icon
+                aria-label="Hide Searchbar"
+                icon="search"
+                id="mobileSearch"
+                role="button"
+              >
+              </gr-icon>
+            </div>
+            <a class="loginButton" href="/login"> Sign in </a>
+            <a
+              aria-label="Settings"
+              class="settingsButton"
+              href="/settings/"
+              role="button"
+              title="Settings"
+            >
+              <gr-icon icon="settings" filled></gr-icon>
+            </a>
+          </div>
+        </nav>
+      `
+    );
+  });
+
+  test('link visibility', async () => {
+>>>>>>> CHANGE (66804a Wrap #mobileSearch in a div)
     element.loading = true;
     assert.isTrue(isHidden(query(element, '.accountContainer')));
 

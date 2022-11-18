@@ -318,20 +318,16 @@ export class GrChangeListItem extends LitElement {
 
   private renderCellSelectionBox() {
     return html`
-      <td class="cell selection">
+      <td class="cell selection" @click=${this.toggleCheckbox}>
         <!--
           The .checked property must be used rather than the attribute because
           the attribute only controls the default checked state and does not
           update the current checked state.
           See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
         -->
-        <label class="selectionLabel">
-          <input
-            type="checkbox"
-            .checked=${this.checked}
-            @click=${this.toggleCheckbox}
-          />
-        </label>
+        <div class="selectionLabel">
+          <input type="checkbox" .checked=${this.checked} />
+        </div>
       </td>
     `;
   }

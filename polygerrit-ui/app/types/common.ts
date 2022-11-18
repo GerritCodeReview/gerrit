@@ -750,8 +750,6 @@ export interface ImageInfo {
   type: string;
   _name?: string;
   _expectedType?: string;
-  _width?: number;
-  _height?: number;
 }
 
 /**

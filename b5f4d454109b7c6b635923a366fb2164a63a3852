@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4acfc32f_ff5fc47e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-18T08:43:53Z",
+      "side": 1,
+      "message": "if the extra margin is here, maybe restore the click listener to this div/input as well?\n\nor does it not matter where the click listener is?",
+      "range": {
+        "startLine": 328,
+        "startChar": 20,
+        "endLine": 328,
+        "endChar": 34
+      },
+      "revId": "b5f4d454109b7c6b635923a366fb2164a63a3852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

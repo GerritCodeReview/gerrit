@@ -130,7 +130,7 @@ public class ChangeIndexRewriterTest {
     assertThat(out.getChild(0)).isEqualTo(query(firstIndexedSubQuery));
 
     assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrPredicate.class);
-    OrPredicate indexedSubTree = (OrPredicate) out.getChild(1);
+    OrPredicate<ChangeData> indexedSubTree = (OrPredicate<ChangeData>) out.getChild(1);
 
     Predicate<ChangeData> secondIndexedSubQuery = parse("foo:a OR file:b");
     assertThat(indexedSubTree.getChildren())

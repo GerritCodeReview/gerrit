@@ -22,6 +22,98 @@
       },
       "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a447a92_4bd49605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:56:11Z",
+      "side": 1,
+      "message": "I agree. I started reviewing this but I\u0027m struggling.",
+      "parentUuid": "f4e61927_c3cc5931",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7f1c08_9f5a1b23",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:56:11Z",
+      "side": 1,
+      "message": "```suggestion\n        ${when(sideBySide, () \u003d\u003e html`\u003ctd class\u003d${diffClasses(\u0027sign\u0027)}\u003e\u003c/td\u003e`)}\n```",
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1851795f_f7fc422e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:56:11Z",
+      "side": 1,
+      "message": "${when(sideBySide, () \u003d\u003e html`\u003ctd class\u003d${diffClasses(\u0027sign\u0027)}\u003e\u003c/td\u003e`)}",
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c560ee0c_82af51d6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:56:11Z",
+      "side": 1,
+      "message": "Why do you need to fetch one deeper?",
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2ec375_6bc48f47",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:56:11Z",
+      "side": 1,
+      "message": "Nit: There\u0027s some inconsistency between `signCols` and `lineNumberCols`.  One is an array, the other a struct.",
+      "revId": "3c093f39fb637b75a5a95cd00f8e15f2645511f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

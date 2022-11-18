@@ -29,6 +29,18 @@ if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username|external)$ ]]; then
   usage
 fi
 
+if [ -z "$(git ls-remote . refs/meta/external-ids)" ]; then
+  cat <<EOF
+Could not find 'refs/meta/external-ids' in the local repository.
+
+Please fetch it using:
+
+  git fetch "$(git remote)" refs/meta/external-ids:refs/meta/external-ids
+
+EOF
+  exit 1
+fi
+
 # 1. find lines with user name and subsequent line in external-ids notes branch
 #    example output of git grep -A1 "\[externalId \"username:" refs/meta/external-ids:
 #    refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba:[externalId "username:johndoe"]
@@ -45,12 +57,12 @@ fi
 # 7. flip columns
 # 8. uniq case-insensitive, only show duplicates, avoid comparing first field
 # 9. flip columns back
-git grep -A1 "\[externalId \"$1:" refs/meta/external-ids \
+git grep -A1 "\[externalId \"$1:" refs/meta/external-ids -- \
   | sed -E "/$1/,/accountId/!d" \
   | paste -d ' ' - - \
   | tr \"= : \
   | cut -d: --output-delimiter="" -f 5,8 \
   | sort -f \
-  | sed -E "s/(.*) (.*)/\2 \1/" \
+  | sed -E "s/(.*) ([0-9]+)/\2 \1/" \
   | uniq -Di -f1 \
-  | sed -E "s/(.*) (.*)/\2 \1/"
+  | sed -E "s/([0-9]+) (.*)/\2 \1/"

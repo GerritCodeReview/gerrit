@@ -223,13 +223,15 @@ export const htmlTemplate = html`
       </gr-endpoint-decorator>
       </div>
       <div class="accountContainer" id="accountContainer">
-        <iron-icon
-          id="mobileSearch"
-          icon="gr-icons:search"
-          on-click="_onMobileSearchTap"
-          role="button"
-          aria-label="[[_computeShowHideAriaLabel(mobileSearchHidden)]]"
-        ></iron-icon>
+        <div>
+          <iron-icon
+            id="mobileSearch"
+            icon="gr-icons:search"
+            on-click="_onMobileSearchTap"
+            role="button"
+            aria-label="[[_computeShowHideAriaLabel(mobileSearchHidden)]]"
+          ></iron-icon>
+        </div>
         <div
           class="registerDiv"
           hidden="[[_computeRegisterHidden(_registerURL)]]"

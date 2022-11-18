@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import {createDiff} from '../../../test/test-data-generators';
 import './gr-diff';
-import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image';
 import {getComputedStyleValue} from '../../../utils/dom-util';
 import '@polymer/paper-button/paper-button';
 import {
@@ -2030,7 +2029,7 @@ suite('gr-diff tests', () => {
         };
       });
 
-      test('renders image diffs with same file name', async () => {
+      test('render image diff', async () => {
         element.baseImage = mockFile1;
         element.revisionImage = mockFile2;
         element.diff = {
@@ -2048,39 +2047,46 @@ suite('gr-diff tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
+
         await waitForEventOnce(element, 'render');
-
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
-
-        // Left image rendered with the parent commit's version of the file.
-        assertIsDefined(element.diffTable);
-        const diffTable = element.diffTable;
-        const leftImage = queryAndAssert(diffTable, 'td.left img');
-        const leftLabel = queryAndAssert(diffTable, 'td.left label');
-        const leftLabelContent = queryAndAssert(leftLabel, '.label');
-        const leftLabelName = query(leftLabel, '.name');
-
-        const rightImage = queryAndAssert(diffTable, 'td.right img');
-        const rightLabel = queryAndAssert(diffTable, 'td.right label');
-        const rightLabelContent = queryAndAssert(rightLabel, '.label');
-        const rightLabelName = query(rightLabel, '.name');
-
-        assert.isNotOk(rightLabelName);
-        assert.isNotOk(leftLabelName);
-
-        assert.equal(
-          leftImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile1.body
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        assert.lightDom.equal(
+          imageDiffSection,
+          /* HTML */ `
+            <tbody class="gr-diff image-diff">
+              <tr class="gr-diff">
+                <td class="blank gr-diff left lineNum"></td>
+                <td class="gr-diff left">
+                  <img
+                    class="gr-diff"
+                    src="data:image/bmp;base64,${mockFile1.body}"
+                  />
+                </td>
+                <td class="blank gr-diff lineNum right"></td>
+                <td class="gr-diff right">
+                  <img
+                    class="gr-diff"
+                    src="data:image/bmp;base64,${mockFile2.body}"
+                  />
+                </td>
+              </tr>
+              <tr class="gr-diff">
+                <td class="blank gr-diff left lineNum"></td>
+                <td class="gr-diff left">
+                  <label class="gr-diff">
+                    <span class="gr-diff label"> image/bmp </span>
+                  </label>
+                </td>
+                <td class="blank gr-diff lineNum right"></td>
+                <td class="gr-diff right">
+                  <label class="gr-diff">
+                    <span class="gr-diff label"> image/bmp </span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          `
         );
-        assert.isTrue(leftLabelContent.textContent?.includes('image/bmp'));
-
-        assert.equal(
-          rightImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile2.body
-        );
-        assert.isTrue(rightLabelContent.textContent?.includes('image/bmp'));
       });
 
       test('renders image diffs with a different file name', async () => {
@@ -2105,43 +2111,31 @@ suite('gr-diff tests', () => {
         element.revisionImage = mockFile2;
         element.revisionImage._name = mockDiff.meta_b!.name;
         element.diff = mockDiff;
+
         await waitForEventOnce(element, 'render');
-
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
-
-        // Left image rendered with the parent commit's version of the file.
-        assertIsDefined(element.diffTable);
-        const diffTable = element.diffTable;
-        const leftImage = queryAndAssert(diffTable, 'td.left img');
-        const leftLabel = queryAndAssert(diffTable, 'td.left label');
-        const leftLabelContent = queryAndAssert(leftLabel, '.label');
-        const leftLabelName = queryAndAssert(leftLabel, '.name');
-
-        const rightImage = queryAndAssert(diffTable, 'td.right img');
-        const rightLabel = queryAndAssert(diffTable, 'td.right label');
-        const rightLabelContent = queryAndAssert(rightLabel, '.label');
-        const rightLabelName = queryAndAssert(rightLabel, '.name');
-
-        assert.isOk(rightLabelName);
-        assert.isOk(leftLabelName);
-        assert.equal(leftLabelName.textContent, mockDiff.meta_a?.name);
-        assert.equal(rightLabelName.textContent, mockDiff.meta_b?.name);
-
-        assert.isOk(leftImage);
-        assert.equal(
-          leftImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile1.body
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftLabel = queryAndAssert(imageDiffSection, 'td.left label');
+        const rightLabel = queryAndAssert(imageDiffSection, 'td.right label');
+        assert.dom.equal(
+          leftLabel,
+          /* HTML */ `
+            <label class="gr-diff">
+              <span class="gr-diff name"> carrot.jpg </span>
+              <br class="gr-diff" />
+              <span class="gr-diff label"> image/bmp </span>
+            </label>
+          `
         );
-        assert.isTrue(leftLabelContent.textContent?.includes('image/bmp'));
-
-        assert.isOk(rightImage);
-        assert.equal(
-          rightImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile2.body
+        assert.dom.equal(
+          rightLabel,
+          /* HTML */ `
+            <label class="gr-diff">
+              <span class="gr-diff name"> carrot2.jpg </span>
+              <br class="gr-diff" />
+              <span class="gr-diff label"> image/bmp </span>
+            </label>
+          `
         );
-        assert.isTrue(rightLabelContent.textContent?.includes('image/bmp'));
       });
 
       test('renders added image', async () => {
@@ -2159,26 +2153,23 @@ suite('gr-diff tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-
-        const promise = mockPromise();
-        function rendered() {
-          promise.resolve();
-        }
-        element.addEventListener('render', rendered);
-
         element.revisionImage = mockFile2;
         element.diff = mockDiff;
-        await promise;
-        element.removeEventListener('render', rendered);
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
-        assertIsDefined(element.diffTable);
-        const diffTable = element.diffTable;
-        const leftImage = query(diffTable, 'td.left img');
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = query(imageDiffSection, 'td.left img');
+        const rightImage = queryAndAssert(imageDiffSection, 'td.right img');
         assert.isNotOk(leftImage);
-        queryAndAssert(diffTable, 'td.right img');
+        assert.dom.equal(
+          rightImage,
+          /* HTML */ `
+            <img
+              class="gr-diff"
+              src="data:image/bmp;base64,${mockFile2.body}"
+            />
+          `
+        );
       });
 
       test('renders removed image', async () => {
@@ -2196,25 +2187,23 @@ suite('gr-diff tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        const promise = mockPromise();
-        function rendered() {
-          promise.resolve();
-        }
-        element.addEventListener('render', rendered);
-
         element.baseImage = mockFile1;
         element.diff = mockDiff;
-        await promise;
-        element.removeEventListener('render', rendered);
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
-        assertIsDefined(element.diffTable);
-        const diffTable = element.diffTable;
-        queryAndAssert(diffTable, 'td.left img');
-        const rightImage = query(diffTable, 'td.right img');
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = queryAndAssert(imageDiffSection, 'td.left img');
+        const rightImage = query(imageDiffSection, 'td.right img');
         assert.isNotOk(rightImage);
+        assert.dom.equal(
+          leftImage,
+          /* HTML */ `
+            <img
+              class="gr-diff"
+              src="data:image/bmp;base64,${mockFile1.body}"
+            />
+          `
+        );
       });
 
       test('does not render disallowed image type', async () => {
@@ -2237,23 +2226,12 @@ suite('gr-diff tests', () => {
           binary: true,
         };
         mockFile1.type = 'image/jpeg-evil';
-
-        const promise = mockPromise();
-        function rendered() {
-          promise.resolve();
-        }
-        element.addEventListener('render', rendered);
-
         element.baseImage = mockFile1;
         element.diff = mockDiff;
-        await promise;
-        element.removeEventListener('render', rendered);
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
-        assertIsDefined(element.diffTable);
-        const diffTable = element.diffTable;
-        const leftImage = query(diffTable, 'td.left img');
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = query(imageDiffSection, 'td.left img');
         assert.isNotOk(leftImage);
       });
     });
@@ -2591,45 +2569,30 @@ suite('gr-diff tests', () => {
 
     test('large render w/ context = 10', async () => {
       element.prefs = {...MINIMAL_PREFS, context: 10};
-      const promise = mockPromise();
-      function rendered() {
-        assert.isTrue(renderStub.called);
-        assert.isFalse(element.showWarning);
-        promise.resolve();
-        element.removeEventListener('render', rendered);
-      }
-      element.addEventListener('render', rendered);
       element.renderDiffTable();
-      await promise;
+      await waitForEventOnce(element, 'render');
+
+      assert.isTrue(renderStub.called);
+      assert.isFalse(element.showWarning);
     });
 
     test('large render w/ whole file and bypass', async () => {
       element.prefs = {...MINIMAL_PREFS, context: -1};
       element.safetyBypass = 10;
-      const promise = mockPromise();
-      function rendered() {
-        assert.isTrue(renderStub.called);
-        assert.isFalse(element.showWarning);
-        promise.resolve();
-        element.removeEventListener('render', rendered);
-      }
-      element.addEventListener('render', rendered);
       element.renderDiffTable();
-      await promise;
+      await waitForEventOnce(element, 'render');
+
+      assert.isTrue(renderStub.called);
+      assert.isFalse(element.showWarning);
     });
 
     test('large render w/ whole file and no bypass', async () => {
       element.prefs = {...MINIMAL_PREFS, context: -1};
-      const promise = mockPromise();
-      function rendered() {
-        assert.isFalse(renderStub.called);
-        assert.isTrue(element.showWarning);
-        promise.resolve();
-        element.removeEventListener('render', rendered);
-      }
-      element.addEventListener('render', rendered);
       element.renderDiffTable();
-      await promise;
+      await waitForEventOnce(element, 'render');
+
+      assert.isFalse(renderStub.called);
+      assert.isTrue(element.showWarning);
     });
 
     test('toggles expand context using bypass', async () => {

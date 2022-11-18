@@ -16,6 +16,24 @@
       "message": "Tried using it manually and the checkbox isn\u0027t clicked when clicking around it.",
       "revId": "6fe5ea38b7b100edf8351c4d5a30d4dbf30b4eee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2cba367_e633637f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T09:29:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bc5a8a_d428fb30",
+      "revId": "6fe5ea38b7b100edf8351c4d5a30d4dbf30b4eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

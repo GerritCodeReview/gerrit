@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d825c9_38b09ed9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-18T07:42:18Z",
+      "side": 1,
+      "message": "Syntaxlayer is after token highlight layer in the regular diff",
+      "revId": "5629795c9d6986a778ee02bfdc21d6ec42fefb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

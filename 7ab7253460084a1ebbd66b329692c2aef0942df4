@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b72661a_f28c8bb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-19T08:12:10Z",
+      "side": 1,
+      "message": "WIP prefix should be removed.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc93c85_8607d1b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-19T08:12:10Z",
+      "side": 1,
+      "message": "This is outdated and should be removed. The issue [1] was actually fixed in 2.9.0 release.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2d9c16_919cc67e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-19T08:12:10Z",
+      "side": 1,
+      "message": "We should wait with merging this until this change is merged.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b7d60b_288ef573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-19T08:12:10Z",
+      "side": 1,
+      "message": "This issue is actually closed, with the reference to: [3] fixed in 2.8.0, but I believe that the deadlock issue: [1] is related here, but was actually fixed in 2.9.0 release, that was updated in another change 351155. So remove this issue footer here?\n\n[3] https://issues.apache.org/jira/browse/SSHD-1197",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

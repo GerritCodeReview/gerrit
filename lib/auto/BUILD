@@ -101,8 +101,6 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = [
-        "@auto-value-gson-extension//jar",
-        "@auto-value-gson-factory//jar",
         "@auto-value-gson-runtime//jar",
     ],
 )

@@ -640,20 +640,33 @@ class GitwebServlet extends HttpServlet {
     return env.getEnvArray();
   }
 
+  /**
+   * Return the project root under which the specified project is stored.
+   *
+   * @param nameKey the name of the project
+   * @return base directory
+   */
   private String getProjectRoot(Project.NameKey nameKey)
       throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(nameKey)) {
-      return getProjectRoot(repo);
+      return getRepositoryRoot(repo);
     }
   }
 
-  private String getProjectRoot(Repository repo) {
+  /**
+   * Return the repoistory root under which the specified repository is stored.
+   *
+   * @param repo the name of the repository
+   * @return base directory
+   * @throws ProvisionException if the repo is not DelegateRepository or FileRepository.
+   */
+  private String getRepositoryRoot(Repository repo) {
     if (repo instanceof DelegateRepository) {
-      return getProjectRoot(((DelegateRepository) repo).delegate());
+      return getRepositoryRoot(((DelegateRepository) repo).delegate());
     }
 
     if (repo instanceof FileRepository) {
-      return repo.getDirectory().getAbsolutePath();
+      return repo.getDirectory().getParent();
     }
 
     throw new ProvisionException("Gitweb can only be used with FileRepository");

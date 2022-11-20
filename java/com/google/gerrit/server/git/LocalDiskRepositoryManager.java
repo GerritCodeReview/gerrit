@@ -113,7 +113,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
 
   @Inject
-  LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
+  public LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");

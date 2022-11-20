@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9428931_cdcd792c",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-20T12:30:56Z",
+      "side": 1,
+      "message": "Oh yes, you remember my first attempt to address the original issue in change 341180? May be we should re-consider and just do it:\n\n```\n site.resolve(cfg.getString(\"gerrit\", null, \"basePath\"));\n```\n\nI uploaded parch set to deduce base path also for nested repository name.\n\nDone.",
+      "parentUuid": "23644d68_36f73198",
+      "range": {
+        "startLine": 670,
+        "startChar": 32,
+        "endLine": 670,
+        "endChar": 44
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b60e4ee6_13c26f58",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-20T10:16:17Z",
       "side": 1,
       "message": "The test name says that it should be the base path, but the body is asserting the parent directory of the repository dir, which is something different.",
+      "range": {
+        "startLine": 79,
+        "startChar": 14,
+        "endLine": 79,
+        "endChar": 38
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3fde196_48df9b7e",
+        "filename": "javatests/com/google/gerrit/httpd/gitweb/GitwebServletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-20T12:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e4ee6_13c26f58",
       "range": {
         "startLine": 79,
         "startChar": 14,

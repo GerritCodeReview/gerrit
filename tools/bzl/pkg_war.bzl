@@ -31,11 +31,23 @@ PGMLIBS = [
     "//java/com/google/gerrit/pgm",
 ]
 
+SKIP_DEPS = [
+    "auto-factory",
+    "auto-value",
+    "auto-value-annotations",
+    "auto-value-gson-runtime",
+]
+
 def _add_context(in_file, output):
     input_path = in_file.path
     return [
         "unzip -qd %s %s" % (output, input_path),
     ]
+
+def _skip_dep(p):
+    p = p[:p.index("-".join(p.split("-")[-1:])) - 1]
+    if p in SKIP_DEPS:
+        return True
 
 def _add_file(in_file, output):
     output_path = output
@@ -85,6 +97,8 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
+        if _skip_dep(dep.basename):
+            continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
 
@@ -95,6 +109,8 @@ def _war_impl(ctx):
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
+        if _skip_dep(dep.basename):
+            continue
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
             inputs.append(dep)

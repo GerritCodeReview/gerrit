@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "833177ba_4778edd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-20T10:19:02Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "62fb360c_56ceaa0f",
+      "revId": "b2e06dcd52c5d6ccc620ca3fd55727753138baf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93142f41_859d6974",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-20T10:01:04Z",
       "side": 1,
       "message": "Why is this check done by prefix, can\u0027t we compare by equality?",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 34
+      },
+      "revId": "b2e06dcd52c5d6ccc620ca3fd55727753138baf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b069185c_4efbbd3b",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-20T10:19:02Z",
+      "side": 1,
+      "message": "Not easily, because the version is included in the file name and we don\u0027t want to adjust the list every time auto-value-* dependency is bumped in bazel toolchain.\n\nWith this diff:\n\n```\ndiff --git a/tools/bzl/pkg_war.bzl b/tools/bzl/pkg_war.bzl\nindex ec6a1bfaec..4eddb3f9b2 100644\n--- a/tools/bzl/pkg_war.bzl\n+++ b/tools/bzl/pkg_war.bzl\n@@ -45,6 +45,7 @@ def _add_context(in_file, output):\n def _skip_dep(dep):\n     for d in SKIP_DEPS:\n         if dep.basename.startswith(d):\n+            print(dep.basename)\n             return True\n```\n\nrunning `bazel build :release` would produce:\n\n```\nDEBUG: /home/davido/projects/gerrit/tools/bzl/pkg_war.bzl:48:18: auto-value-annotations-1.7.4.jar\nDEBUG: /home/davido/projects/gerrit/tools/bzl/pkg_war.bzl:48:18: auto-value-1.7.4.jar\nDEBUG: /home/davido/projects/gerrit/tools/bzl/pkg_war.bzl:48:18: auto-value-gson-runtime-1.3.1.jar\nDEBUG: /home/davido/projects/gerrit/tools/bzl/pkg_war.bzl:48:18: auto-factory-1.0.1.jar\n```\n\nGiven that we want to exclude all of them we shouldn\u0027t really care, right?\nOf course we could remove everything after last occurrence of \u0027-\u0027 and compare by by equality as you suggested.",
+      "parentUuid": "93142f41_859d6974",
       "range": {
         "startLine": 47,
         "startChar": 24,

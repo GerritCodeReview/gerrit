@@ -32,6 +32,7 @@ package com.google.gerrit.httpd.gitweb;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
@@ -640,20 +641,33 @@ class GitwebServlet extends HttpServlet {
     return env.getEnvArray();
   }
 
-  private String getProjectRoot(Project.NameKey nameKey)
-      throws RepositoryNotFoundException, IOException {
+  /**
+   * Return the project root under which the specified project is stored.
+   *
+   * @param nameKey the name of the project
+   * @return base directory
+   */
+  @VisibleForTesting
+  String getProjectRoot(Project.NameKey nameKey) throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(nameKey)) {
-      return getProjectRoot(repo);
+      return getRepositoryRoot(repo);
     }
   }
 
-  private String getProjectRoot(Repository repo) {
+  /**
+   * Return the repoistory root under which the specified repository is stored.
+   *
+   * @param repo the name of the repository
+   * @return base directory
+   * @throws ProvisionException if the repo is not DelegateRepository or FileRepository.
+   */
+  private String getRepositoryRoot(Repository repo) {
     if (repo instanceof DelegateRepository) {
-      return getProjectRoot(((DelegateRepository) repo).delegate());
+      return getRepositoryRoot(((DelegateRepository) repo).delegate());
     }
 
     if (repo instanceof FileRepository) {
-      return repo.getDirectory().getAbsolutePath();
+      return repo.getDirectory().getParent();
     }
 
     throw new ProvisionException("Gitweb can only be used with FileRepository");

@@ -38,7 +38,7 @@ public class GitwebCgiConfig {
   private final Path logoPng;
 
   @Inject
-  GitwebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
+  public GitwebCgiConfig(SitePaths sitePaths, @GerritServerConfig Config cfg) {
     if (GitwebConfig.isDisabled(cfg)) {
       cgi = null;
       css = null;

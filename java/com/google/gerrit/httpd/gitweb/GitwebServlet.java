@@ -32,6 +32,7 @@ package com.google.gerrit.httpd.gitweb;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
@@ -640,20 +641,39 @@ class GitwebServlet extends HttpServlet {
     return env.getEnvArray();
   }
 
-  private String getProjectRoot(Project.NameKey nameKey)
-      throws RepositoryNotFoundException, IOException {
+  /**
+   * Return the project root under which the specified project is stored.
+   *
+   * @param nameKey the name of the project
+   * @return base directory
+   */
+  @VisibleForTesting
+  String getProjectRoot(Project.NameKey nameKey) throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(nameKey)) {
-      return getProjectRoot(repo);
+      return getRepositoryRoot(repo, nameKey).toString();
     }
   }
 
-  private String getProjectRoot(Repository repo) {
+  /**
+   * Return the repository root under which the specified repository is stored.
+   *
+   * @param repo the name of the repository
+   * @param nameKey project name
+   * @return base path
+   * @throws ProvisionException if the repo is not DelegateRepository or FileRepository.
+   */
+  private static Path getRepositoryRoot(Repository repo, Project.NameKey nameKey) {
     if (repo instanceof DelegateRepository) {
-      return getProjectRoot(((DelegateRepository) repo).delegate());
+      return getRepositoryRoot(((DelegateRepository) repo).delegate(), nameKey);
     }
 
     if (repo instanceof FileRepository) {
-      return repo.getDirectory().getAbsolutePath();
+      String name = nameKey.get();
+      Path current = repo.getDirectory().toPath().getParent();
+      for (int i = 0; i < CharMatcher.is('/').countIn(name); i++) {
+        current = current.getParent();
+      }
+      return current;
     }
 
     throw new ProvisionException("Gitweb can only be used with FileRepository");

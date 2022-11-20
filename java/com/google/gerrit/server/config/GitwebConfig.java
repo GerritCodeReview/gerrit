@@ -180,7 +180,7 @@ public class GitwebConfig {
   private final GitwebType type;
 
   @Inject
-  GitwebConfig(
+  public GitwebConfig(
       GitwebCgiConfig cgiConfig,
       @GerritServerConfig Config cfg,
       @Nullable @CanonicalWebUrl String gerritUrl)

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23644d68_36f73198",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-20T10:16:17Z",
+      "side": 1,
+      "message": "What if the project name contained \u0027/\u0027 in its name?\n\nExample: Project.NameKey \u003d foo/bar and the projectroot\u003d/var/git\n\nThen the repository\u0027s directory would be:\n/var/git/foo/bar.git\n\nand its parent directory would be:\n/var/git/foo\n\nwhilst the projectroot should be /var/git",
+      "range": {
+        "startLine": 670,
+        "startChar": 32,
+        "endLine": 670,
+        "endChar": 44
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b60e4ee6_13c26f58",
+        "filename": "javatests/com/google/gerrit/httpd/gitweb/GitwebServletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-20T10:16:17Z",
+      "side": 1,
+      "message": "The test name says that it should be the base path, but the body is asserting the parent directory of the repository dir, which is something different.",
+      "range": {
+        "startLine": 79,
+        "startChar": 14,
+        "endLine": 79,
+        "endChar": 38
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

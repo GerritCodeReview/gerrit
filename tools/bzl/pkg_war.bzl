@@ -14,6 +14,8 @@
 
 # War packaging.
 
+load("//tools:deps.bzl", "AUTO_FACTORY_VERSION", "AUTO_VALUE_GSON_VERSION", "AUTO_VALUE_VERSION")
+
 jar_filetype = [".jar"]
 
 LIBS = [
@@ -29,6 +31,13 @@ LIBS = [
 
 PGMLIBS = [
     "//java/com/google/gerrit/pgm",
+]
+
+SKIP_DEPS = [
+    "auto-factory-%s.jar" % AUTO_FACTORY_VERSION,
+    "auto-value-%s.jar" % AUTO_VALUE_VERSION,
+    "auto-value-annotations-%s.jar" % AUTO_VALUE_VERSION,
+    "auto-value-gson-runtime-%s.jar" % AUTO_VALUE_GSON_VERSION,
 ]
 
 def _add_context(in_file, output):
@@ -85,6 +94,8 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
+        if dep.basename in SKIP_DEPS:
+            continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
 
@@ -95,6 +106,8 @@ def _war_impl(ctx):
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
+        if dep.basename in SKIP_DEPS:
+            continue
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
             inputs.append(dep)

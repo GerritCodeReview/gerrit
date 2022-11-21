@@ -396,6 +396,17 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     } else if (line.beforeNumber === 'FILE') td.classList.add('file');
     else if (line.beforeNumber === 'LOST') td.classList.add('lost');
 
+    if (side && line.lineNumber(side)) {
+      const lineNumber = line.lineNumber(side);
+      const threadGroupEl = document.createElement('div');
+      threadGroupEl.className = 'thread-group';
+      threadGroupEl.setAttribute('data-side', side);
+      const slot = document.createElement('slot');
+      slot.name = `${side}-${lineNumber}`;
+      threadGroupEl.appendChild(slot);
+      td.appendChild(threadGroupEl);
+    }
+
     return td;
   }
 

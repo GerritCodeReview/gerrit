@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c09521e_91bdaed1",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-21T10:36:42Z",
+      "side": 0,
+      "message": "How do we manage the situation when Gitweb isn\u0027t supported?",
+      "range": {
+        "startLine": 658,
+        "startChar": 4,
+        "endLine": 658,
+        "endChar": 80
+      },
+      "revId": "35744cbc86e82537b6eef61e9711e5f1e195994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

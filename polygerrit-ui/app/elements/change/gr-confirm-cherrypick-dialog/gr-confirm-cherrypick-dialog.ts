@@ -16,6 +16,7 @@ import {
   RepoName,
   CommitId,
   ChangeInfoId,
+  TopicName,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -582,8 +583,9 @@ export class GrConfirmCherrypickDialog extends LitElement {
           if (!failedOrPending) {
             // This needs some more work, as the new topic may not always be
             // created, instead we may end up creating a new patchset */
-            const query = `topic: "${topic}"`;
-            this.getNavigation().setUrl(createSearchUrl({query}));
+            this.getNavigation().setUrl(
+              createSearchUrl({topic: topic as TopicName})
+            );
           }
         });
     });

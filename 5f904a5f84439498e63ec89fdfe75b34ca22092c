@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9930c039_83c02978",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T07:07:23Z",
+      "side": 1,
+      "message": "I still non convinced that the approach to deduce the gerrit.basePath is the right one.\n\nThe valid point in the alternative approach (change 341180) was that we should use interface provided by gerrit.\n\nIt should be resolved now, see change 352394, where I extracted GitBasePathprovider and used it in all places, also in GitwebServlet.\n\nMy suggestion would be: to avoid further regressions on very stable branches, we could restore the original approach from change 341180, and merge it up to the latest supported stable branch: stable-3.5 and replace it with backported refactoring: change 352394.\n\nWDYT?",
+      "parentUuid": "f9428931_cdcd792c",
+      "range": {
+        "startLine": 670,
+        "startChar": 32,
+        "endLine": 670,
+        "endChar": 44
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b60e4ee6_13c26f58",
         "filename": "javatests/com/google/gerrit/httpd/gitweb/GitwebServletTest.java",
         "patchSetId": 5

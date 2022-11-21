@@ -22,6 +22,30 @@
       },
       "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e89a80d5_caeba328",
+        "filename": "java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T07:07:23Z",
+      "side": 1,
+      "message": "Good point, probably yes. I also uploaded another refactoring change 352394 as possible alternative to this approach.",
+      "parentUuid": "af68dce3_5635b290",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

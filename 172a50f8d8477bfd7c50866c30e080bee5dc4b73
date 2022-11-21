@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7315ff6e_bcbf02c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T04:59:23Z",
+      "side": 1,
+      "message": "LC is required due to changes in lib/auto/BUILD.",
+      "revId": "172a50f8d8477bfd7c50866c30e080bee5dc4b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

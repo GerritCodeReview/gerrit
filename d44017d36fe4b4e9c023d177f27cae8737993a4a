@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7475d8e_838f011b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T09:01:41Z",
+      "side": 1,
+      "message": "No, in the lit component it is called `gr-diff-text`. Expanded the commit message to be clearer about that.",
+      "parentUuid": "791603e3_db1df460",
+      "revId": "d44017d36fe4b4e9c023d177f27cae8737993a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99c9b4c9_84de00ec",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-21T08:45:22Z",
       "side": 1,
       "message": "Where is gr-legacy-text defined?",
+      "revId": "d44017d36fe4b4e9c023d177f27cae8737993a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c1991b_546978b4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T09:01:41Z",
+      "side": 1,
+      "message": "Nowhere. Added a comment explaining the situation in more detail.",
+      "parentUuid": "99c9b4c9_84de00ec",
       "revId": "d44017d36fe4b4e9c023d177f27cae8737993a4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

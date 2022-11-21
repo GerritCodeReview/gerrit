@@ -16,6 +16,24 @@
       "message": "What is the motivation?",
       "revId": "e40907fa72c2345b7a39f25ab1ec1849fe88163a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "789a6893_ab5499d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T12:49:28Z",
+      "side": 1,
+      "message": "Over time we got enough customer requests that we decided to restore the feature.",
+      "parentUuid": "f607c4ab_2c5252e5",
+      "revId": "e40907fa72c2345b7a39f25ab1ec1849fe88163a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

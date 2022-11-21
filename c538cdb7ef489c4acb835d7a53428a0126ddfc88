@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9a6729e_67c91652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T07:09:00Z",
+      "side": 1,
+      "message": "This is a valid point. It should be resolved now, see change 352394, where I extracted GitBasePathprovider and used it in all places, also in GitwebServlet.",
+      "parentUuid": "54880e62_8ec16158",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "c538cdb7ef489c4acb835d7a53428a0126ddfc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "95dfc69a_05af42c4",

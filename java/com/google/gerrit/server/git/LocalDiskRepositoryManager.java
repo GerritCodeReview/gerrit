@@ -21,7 +21,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
@@ -114,11 +114,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
 
   @Inject
-  LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
-    basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
-    if (basePath == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
+  LocalDiskRepositoryManager(GitBasePathProvider basePathProvider) {
+    basePath = basePathProvider.get();
   }
 
   /**

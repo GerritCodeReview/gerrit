@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +39,13 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
 
   protected final String project;
   private final InitFlags flags;
-  private final SitePaths site;
+  private final Path basePath;
   private final String ref;
 
-  protected VersionedMetaDataOnInit(InitFlags flags, SitePaths site, String project, String ref) {
+  protected VersionedMetaDataOnInit(
+      InitFlags flags, GitBasePathProvider basePathprovider, String project, String ref) {
     this.flags = flags;
-    this.site = site;
+    this.basePath = basePathprovider.get();
     this.project = project;
     this.ref = ref;
   }
@@ -138,10 +139,6 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
   }
 
   private File getPath() {
-    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    if (basePath == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
     return FileKey.resolve(basePath.resolve(project).toFile(), FS.DETECTED);
   }
 }

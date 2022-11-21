@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -32,13 +32,12 @@ import org.eclipse.jgit.util.FS;
 
 @Singleton
 public class GitRepositoryManagerOnInit implements GitRepositoryManager {
-  private final InitFlags flags;
-  private final SitePaths site;
+
+  private final Path basePath;
 
   @Inject
-  GitRepositoryManagerOnInit(InitFlags flags, SitePaths site) {
-    this.flags = flags;
-    this.site = site;
+  GitRepositoryManagerOnInit(GitBasePathProvider basePathprovider) {
+    this.basePath = basePathprovider.get();
   }
 
   @Override
@@ -70,10 +69,6 @@ public class GitRepositoryManagerOnInit implements GitRepositoryManager {
   }
 
   private File getPath(Project.NameKey name) {
-    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    if (basePath == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
     return FileKey.resolve(basePath.resolve(name.get()).toFile(), FS.DETECTED);
   }
 }

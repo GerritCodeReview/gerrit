@@ -25,7 +25,7 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -50,13 +50,14 @@ import org.eclipse.jgit.util.FS;
 
 public class AccountsOnInit {
   private final InitFlags flags;
-  private final SitePaths site;
+  private final Path basePath;
   private final String allUsers;
 
   @Inject
-  public AccountsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  public AccountsOnInit(
+      InitFlags flags, GitBasePathProvider basePathProvider, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
-    this.site = site;
+    this.basePath = basePathProvider.get();
     this.allUsers = allUsers.get();
   }
 
@@ -127,8 +128,6 @@ public class AccountsOnInit {
   }
 
   private File getPath() {
-    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    requireNonNull(basePath, "gerrit.basePath must be configured");
     File file = basePath.resolve(allUsers).toFile();
     File resolvedFile = FileKey.resolve(file, FS.DETECTED);
     requireNonNull(resolvedFile, () -> String.format("%s does not exist", file.getAbsolutePath()));

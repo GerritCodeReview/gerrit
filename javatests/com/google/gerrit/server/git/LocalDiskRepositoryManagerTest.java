@@ -19,9 +19,11 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.ioutil.HostPlatform;
+import com.google.inject.ProvisionException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,13 +52,14 @@ public class LocalDiskRepositoryManagerTest {
     site.resolve("git").toFile().mkdir();
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
-    repoManager = new LocalDiskRepositoryManager(site, cfg);
+    repoManager = new LocalDiskRepositoryManager(new GitBasePathProvider(cfg, site));
   }
 
   @Test
   public void testThatNullBasePathThrowsAnException() {
     assertThrows(
-        IllegalStateException.class, () -> new LocalDiskRepositoryManager(site, new Config()));
+        ProvisionException.class,
+        () -> new LocalDiskRepositoryManager(new GitBasePathProvider(new Config(), site)));
   }
 
   @Test
@@ -207,7 +210,8 @@ public class LocalDiskRepositoryManagerTest {
   @Test
   public void testProjectRecreationAfterRestart() throws Exception {
     repoManager.createRepository(Project.nameKey("a"));
-    LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
+    LocalDiskRepositoryManager newRepoManager =
+        new LocalDiskRepositoryManager(new GitBasePathProvider(cfg, site));
     assertThrows(
         RepositoryExistsException.class,
         () -> newRepoManager.createRepository(Project.nameKey("a")));
@@ -262,7 +266,8 @@ public class LocalDiskRepositoryManagerTest {
     Project.NameKey name = Project.nameKey("a");
     repoManager.createRepository(name);
 
-    LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
+    LocalDiskRepositoryManager newRepoManager =
+        new LocalDiskRepositoryManager(new GitBasePathProvider(cfg, site));
     assertThrows(
         RepositoryCaseMismatchException.class,
         () -> newRepoManager.createRepository(Project.nameKey("A")));

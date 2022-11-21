@@ -37,21 +37,15 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ImmutableList.of(
               ChangeField.ADDED,
               ChangeField.APPROVAL,
-              ChangeField.ATTENTION_SET_FULL,
               ChangeField.CHANGE,
               ChangeField.CHERRY_PICK,
-              ChangeField.COMMENT,
               ChangeField.COMMENTBY,
-              ChangeField.COMMIT,
-              ChangeField.COMMIT_MESSAGE,
               ChangeField.DELETED,
               ChangeField.DELTA,
               ChangeField.DRAFTBY,
               ChangeField.EDITBY,
-              ChangeField.EXACT_COMMIT,
               ChangeField.GROUP,
               ChangeField.ID,
-              ChangeField.LABEL,
               ChangeField.LEGACY_ID_STR,
               ChangeField.MERGE,
               ChangeField.MERGEABLE,
@@ -68,19 +62,20 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.STORED_SUBMIT_REQUIREMENTS,
               ChangeField.SUBMIT_RECORD,
               ChangeField.SUBMIT_RULE_RESULT,
-              ChangeField.TOTAL_COMMENT_COUNT,
-              ChangeField.TR,
-              ChangeField.UNRESOLVED_COMMENT_COUNT,
               ChangeField.UPDATED,
               ChangeField.WIP),
           ImmutableList.<IndexedField<ChangeData, ?>>of(
               ChangeField.ASSIGNEE_FIELD,
+              ChangeField.ATTENTION_SET_FULL_FIELD,
               ChangeField.ATTENTION_SET_USERS_COUNT_FIELD,
               ChangeField.ATTENTION_SET_USERS_FIELD,
               ChangeField.AUTHOR_PARTS_FIELD,
               ChangeField.CHERRY_PICK_OF_CHANGE_FIELD,
               ChangeField.CHERRY_PICK_OF_PATCHSET_FIELD,
+              ChangeField.COMMENT_FIELD,
               ChangeField.COMMITTER_PARTS_FIELD,
+              ChangeField.COMMIT_FIELD,
+              ChangeField.COMMIT_MESSAGE_FIELD,
               ChangeField.DIRECTORY_FIELD,
               ChangeField.EXACT_AUTHOR_FIELD,
               ChangeField.EXACT_COMMITTER_FIELD,
@@ -91,6 +86,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.HASHTAG_FIELD,
               ChangeField.IS_PURE_REVERT_FIELD,
               ChangeField.IS_SUBMITTABLE_FIELD,
+              ChangeField.LABEL_FIELD,
               ChangeField.MERGED_ON_FIELD,
               ChangeField.ONLY_EXTENSIONS_FIELD,
               ChangeField.OWNER_FIELD,
@@ -105,18 +101,26 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.STATUS_FIELD,
               ChangeField.SUBMISSIONID_FIELD,
               ChangeField.TOPIC_FIELD,
+              ChangeField.TOTAL_COMMENT_COUNT_FIELD,
+              ChangeField.TR_FIELD,
+              ChangeField.UNRESOLVED_COMMENT_COUNT_FIELD,
               ChangeField.UPLOADER_FIELD),
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
               ChangeField.ASSIGNEE_SPEC,
+              ChangeField.ATTENTION_SET_FULL_SPEC,
               ChangeField.ATTENTION_SET_USERS,
               ChangeField.ATTENTION_SET_USERS_COUNT,
               ChangeField.AUTHOR_PARTS_SPEC,
               ChangeField.CHERRY_PICK_OF_CHANGE,
               ChangeField.CHERRY_PICK_OF_PATCHSET,
+              ChangeField.COMMENT_SPEC,
               ChangeField.COMMITTER_PARTS_SPEC,
+              ChangeField.COMMIT_MESSAGE,
+              ChangeField.COMMIT_SPEC,
               ChangeField.DIRECTORY_SPEC,
               ChangeField.EXACT_AUTHOR_SPEC,
               ChangeField.EXACT_COMMITTER_SPEC,
+              ChangeField.EXACT_COMMIT_SPEC,
               ChangeField.EXACT_TOPIC,
               ChangeField.EXTENSION_SPEC,
               ChangeField.FILE_PART_SPEC,
@@ -127,6 +131,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.HASHTAG_SPEC,
               ChangeField.IS_PURE_REVERT_SPEC,
               ChangeField.IS_SUBMITTABLE_SPEC,
+              ChangeField.LABEL_SPEC,
               ChangeField.MERGED_ON_SPEC,
               ChangeField.ONLY_EXTENSIONS_SPEC,
               ChangeField.OWNER_SPEC,
@@ -141,6 +146,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.REVIEWER_SPEC,
               ChangeField.STATUS_SPEC,
               ChangeField.SUBMISSIONID_SPEC,
+              ChangeField.TOTAL_COMMENT_COUNT_SPEC,
+              ChangeField.TR_SPEC,
+              ChangeField.UNRESOLVED_COMMENT_COUNT_SPEC,
               ChangeField.UPLOADER_SPEC));
 
   /**
@@ -167,7 +175,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#COMMIT_MESSAGE_EXACT}. */
   @Deprecated
   static final Schema<ChangeData> V77 =
-      new Schema.Builder<ChangeData>().add(V76).add(ChangeField.COMMIT_MESSAGE_EXACT).build();
+      new Schema.Builder<ChangeData>()
+          .add(V76)
+          .addIndexedFields(ChangeField.COMMIT_MESSAGE_EXACT_FIELD)
+          .addSearchSpecs(ChangeField.COMMIT_MESSAGE_EXACT)
+          .build();
 
   // Upgrade Lucene to 7.x requires reindexing.
   @Deprecated static final Schema<ChangeData> V78 = schema(V77);

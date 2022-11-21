@@ -59,7 +59,7 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
       int expVal,
       Account.Id account,
       @Nullable Integer count) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account, count));
+    super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, count));
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;

@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GcConfig;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -71,7 +72,8 @@ public class GarbageCollectionTest {
   }
 
   private GarbageCollection prepareObjectForTesting() throws IOException {
-    LocalDiskRepositoryManager repoManager = new DelegatedRepositoryManager(site, cfg, wrapper);
+    LocalDiskRepositoryManager repoManager =
+        new DelegatedRepositoryManager(new GitBasePathProvider(cfg, site), wrapper);
     try (Repository repo = repoManager.createRepository(FOO)) {
       assertThat(repo).isNotNull();
     }
@@ -85,8 +87,9 @@ public class GarbageCollectionTest {
   private static final class DelegatedRepositoryManager extends LocalDiskRepositoryManager {
     private final DelegateRepository wrapper;
 
-    private DelegatedRepositoryManager(SitePaths site, Config cfg, DelegateRepository wrapper) {
-      super(site, cfg);
+    private DelegatedRepositoryManager(
+        GitBasePathProvider basePathProvider, DelegateRepository wrapper) {
+      super(basePathProvider);
       this.wrapper = wrapper;
     }
 

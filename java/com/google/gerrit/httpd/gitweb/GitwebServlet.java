@@ -43,12 +43,11 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -59,7 +58,6 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -86,7 +84,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -108,9 +105,9 @@ class GitwebServlet extends HttpServlet {
   private final PermissionBackend permissionBackend;
   private final Provider<AnonymousUser> anonymousUserProvider;
   private final Provider<CurrentUser> userProvider;
+  private final Path basePath;
   private final EnvList _env;
 
-  @SuppressWarnings("CheckReturnValue")
   @Inject
   GitwebServlet(
       GitRepositoryManager repoManager,
@@ -123,7 +120,7 @@ class GitwebServlet extends HttpServlet {
       Provider<AnonymousUser> anonymousUserProvider,
       GitwebConfig gitwebConfig,
       GitwebCgiConfig gitwebCgiConfig,
-      AllProjectsName allProjects)
+      GitBasePathProvider basePathProvider)
       throws IOException {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
@@ -131,10 +128,8 @@ class GitwebServlet extends HttpServlet {
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
     this.gitwebCgi = gitwebCgiConfig.getGitwebCgi();
+    this.basePath = basePathProvider.get();
     this.deniedActions = new HashSet<>();
-
-    // ensure that Gitweb works on supported repository type by checking All-Projects project
-    getProjectRoot(allProjects);
 
     final String url = gitwebConfig.getUrl();
     if (url != null && !url.equals("gitweb")) {
@@ -541,8 +536,7 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private String[] makeEnv(HttpServletRequest req, ProjectState projectState)
-      throws RepositoryNotFoundException, IOException {
+  private String[] makeEnv(HttpServletRequest req, ProjectState projectState) {
     final EnvList env = new EnvList(_env);
     final int contentLength = Math.max(0, req.getContentLength());
 
@@ -582,7 +576,7 @@ class GitwebServlet extends HttpServlet {
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", nameKey.get());
 
-    env.set("GITWEB_PROJECTROOT", getProjectRoot(nameKey));
+    env.set("GITWEB_PROJECTROOT", basePath.toAbsolutePath().toString());
 
     if (projectState.statePermitsRead()
         && permissionBackend
@@ -637,25 +631,6 @@ class GitwebServlet extends HttpServlet {
     }
 
     return env.getEnvArray();
-  }
-
-  private String getProjectRoot(Project.NameKey nameKey)
-      throws RepositoryNotFoundException, IOException {
-    try (Repository repo = repoManager.openRepository(nameKey)) {
-      return getProjectRoot(repo);
-    }
-  }
-
-  private String getProjectRoot(Repository repo) {
-    if (repo instanceof DelegateRepository) {
-      return getProjectRoot(((DelegateRepository) repo).delegate());
-    }
-
-    if (repo instanceof FileRepository) {
-      return repo.getDirectory().getAbsolutePath();
-    }
-
-    throw new ProvisionException("Gitweb can only be used with FileRepository");
   }
 
   private void copyContentToCGI(HttpServletRequest req, OutputStream dst) throws IOException {

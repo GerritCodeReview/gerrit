@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -29,6 +27,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -61,12 +60,18 @@ public class GroupsOnInit {
 
   private final InitFlags flags;
   private final SitePaths site;
+  private final Path basePath;
   private final AllUsersName allUsers;
 
   @Inject
-  public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  public GroupsOnInit(
+      InitFlags flags,
+      SitePaths site,
+      GitBasePathProvider basePathProvider,
+      AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
+    this.basePath = basePathProvider.get();
     this.allUsers = new AllUsersName(allUsers.get());
   }
 
@@ -148,8 +153,6 @@ public class GroupsOnInit {
 
   @Nullable
   private File getPathToAllUsersRepository() {
-    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    checkArgument(basePath != null, "gerrit.basePath must be configured");
     return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
   }
 

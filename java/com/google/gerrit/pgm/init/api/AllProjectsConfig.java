@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
@@ -43,9 +43,9 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   AllProjectsConfig(
       AllProjectsNameOnInitProvider allProjects,
       AllProjectsConfigProvider allProjectsConfigProvider,
-      SitePaths site,
-      InitFlags flags) {
-    super(flags, site, allProjects.get(), RefNames.REFS_CONFIG);
+      InitFlags flags,
+      GitBasePathProvider basePathprovider) {
+    super(flags, basePathprovider, allProjects.get(), RefNames.REFS_CONFIG);
     this.baseConfig = allProjectsConfigProvider.get(new AllProjectsName(allProjects.get()));
   }
 

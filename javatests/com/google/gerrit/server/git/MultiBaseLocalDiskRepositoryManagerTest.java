@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import java.io.IOException;
@@ -55,7 +56,8 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     cfg.setString("gerrit", null, "basePath", "git");
     configMock = mock(RepositoryConfig.class);
     when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of());
-    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    repoManager =
+        new MultiBaseLocalDiskRepositoryManager(new GitBasePathProvider(cfg, site), configMock);
   }
 
   @Test
@@ -152,7 +154,9 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
         () -> {
           configMock = mock(RepositoryConfig.class);
           when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(Paths.get("repos")));
-          repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+          repoManager =
+              new MultiBaseLocalDiskRepositoryManager(
+                  new GitBasePathProvider(cfg, site), configMock);
         });
   }
 }

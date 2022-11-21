@@ -665,6 +665,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
           background-color: var(--view-background-color);
         }
 
+        .content .contentText gr-diff-text:empty:after,
+        .content .contentText gr-legacy-text:empty:after,
         .content .contentText:empty:after {
           /* Newline, to ensure empty lines are one line-height tall. */
           content: '\\A';

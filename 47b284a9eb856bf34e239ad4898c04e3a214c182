@@ -22,6 +22,30 @@
       },
       "revId": "47b284a9eb856bf34e239ad4898c04e3a214c182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd1b81b_77d97f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T11:55:49Z",
+      "side": 1,
+      "message": "\u003e but only if the 50vh constraint was hit\n\nWhat do you mean by constraint was hit?\n\nOn my screen, the dropdown height is \u0027494px\u0027 while the body height is \u00271001px\u0027.\n\nDoes the dropdown need to have height more than 50% of document body to trigger the scrollbar?",
+      "parentUuid": "9ac74383_7bedc228",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "47b284a9eb856bf34e239ad4898c04e3a214c182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

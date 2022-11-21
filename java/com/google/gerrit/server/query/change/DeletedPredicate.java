@@ -19,11 +19,11 @@ import com.google.gerrit.server.index.change.ChangeField;
 
 public class DeletedPredicate extends IntegerRangeChangePredicate {
   public DeletedPredicate(String value) throws QueryParseException {
-    super(ChangeField.DELETED, value);
+    super(ChangeField.DELETED_LINES_SPEC, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.DELETED.get(changeData);
+    return ChangeField.DELETED_LINES_SPEC.get(changeData);
   }
 }

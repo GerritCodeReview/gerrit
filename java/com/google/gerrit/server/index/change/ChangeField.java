@@ -19,8 +19,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.fullText;
-import static com.google.gerrit.index.FieldDef.intRange;
 import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
@@ -452,7 +450,7 @@ public class ChangeField {
    * Users included in the attention set of the change. This omits timestamp, reason and possible
    * future fields.
    *
-   * @see #ATTENTION_SET_FULL
+   * @see #ATTENTION_SET_FULL_SPEC
    */
   public static final IndexedField<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS_FIELD =
       IndexedField.<ChangeData>iterableIntegerBuilder("AttentionSetUsers")
@@ -464,6 +462,7 @@ public class ChangeField {
   /** Number of changes that contain attention set. */
   public static final IndexedField<ChangeData, Integer> ATTENTION_SET_USERS_COUNT_FIELD =
       IndexedField.<ChangeData>integerBuilder("AttentionSetUsersCount")
+          .stored()
           .build(cd -> additionsOnly(cd.attentionSet()).size());
 
   public static final IndexedField<ChangeData, Integer>.SearchSpec ATTENTION_SET_USERS_COUNT =
@@ -475,9 +474,11 @@ public class ChangeField {
    *
    * @see #ATTENTION_SET_USERS
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> ATTENTION_SET_FULL =
-      storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL)
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<byte[]>> ATTENTION_SET_FULL_FIELD =
+      IndexedField.<ChangeData>iterableByteArrayBuilder("AttentionSetFull")
+          .stored()
+          .required()
+          .build(
               ChangeField::storedAttentionSet,
               (cd, value) ->
                   parseAttentionSet(
@@ -485,6 +486,10 @@ public class ChangeField {
                           .map(v -> new String(v, UTF_8))
                           .collect(toImmutableSet()),
                       cd));
+
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
+      ATTENTION_SET_FULL_SPEC =
+          ATTENTION_SET_FULL_FIELD.storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL);
 
   /** The user assigned to the change. */
   public static final IndexedField<ChangeData, Integer> ASSIGNEE_FIELD =
@@ -749,25 +754,37 @@ public class ChangeField {
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
-      prefix(ChangeQueryBuilder.FIELD_COMMIT).buildRepeatable(ChangeField::getRevisions);
+  public static final IndexedField<ChangeData, Iterable<String>> COMMIT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Commit")
+          .size(40)
+          .required()
+          .build(ChangeField::getRevisions);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec COMMIT_SPEC =
+      COMMIT_FIELD.prefix(ChangeQueryBuilder.FIELD_COMMIT);
 
   /** Commit ID of any patch set on the change, using exact match. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
-      exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec EXACT_COMMIT_SPEC =
+      COMMIT_FIELD.exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT);
 
   private static ImmutableSet<String> getRevisions(ChangeData cd) {
     return cd.patchSets().stream().map(ps -> ps.commitId().name()).collect(toImmutableSet());
   }
 
   /** Tracking id extracted from a footer. */
-  public static final FieldDef<ChangeData, Iterable<String>> TR =
-      exact(ChangeQueryBuilder.FIELD_TR)
-          .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
+  public static final IndexedField<ChangeData, Iterable<String>> TR_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("TrackingFooter")
+          .build(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec TR_SPEC =
+      TR_FIELD.exact(ChangeQueryBuilder.FIELD_TR);
 
   /** List of labels on the current patch set including change owner votes. */
-  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
-      exact("label2").buildRepeatable(cd -> getLabels(cd));
+  public static final IndexedField<ChangeData, Iterable<String>> LABEL_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Label").required().build(cd -> getLabels(cd));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec LABEL_SPEC =
+      LABEL_FIELD.exact("label2");
 
   private static Iterable<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
@@ -1010,18 +1027,29 @@ public class ChangeField {
   }
 
   /** Commit message of the current patch set. */
-  public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
-      fullText(ChangeQueryBuilder.FIELD_MESSAGE).build(ChangeData::commitMessage);
+  public static final IndexedField<ChangeData, String> COMMIT_MESSAGE_FIELD =
+      IndexedField.<ChangeData>stringBuilder("CommitMessage")
+          .required()
+          .build(ChangeData::commitMessage);
 
-  /** Commit message of the current patch set. */
-  public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT)
+  public static final IndexedField<ChangeData, String>.SearchSpec COMMIT_MESSAGE =
+      COMMIT_MESSAGE_FIELD.fullText(ChangeQueryBuilder.FIELD_MESSAGE);
+
+  /** Commit message of the current patch set, used to exactly match the commit message */
+  public static final IndexedField<ChangeData, String> COMMIT_MESSAGE_EXACT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("CommitMessageExact")
+          .required()
+          .description(
+              "Same as CommitMessage, but truncated, since supporting such large tokens may be problematic for indexes.")
           .build(cd -> truncateStringValueToMaxTermLength(cd.commitMessage()));
 
+  public static final IndexedField<ChangeData, String>.SearchSpec COMMIT_MESSAGE_EXACT =
+      COMMIT_MESSAGE_EXACT_FIELD.exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT);
+
   /** Summary or inline comment. */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
-      fullText(ChangeQueryBuilder.FIELD_COMMENT)
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<String>> COMMENT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Comment")
+          .build(
               cd ->
                   Stream.concat(
                           cd.publishedComments().stream().map(c -> c.message),
@@ -1032,22 +1060,35 @@ public class ChangeField {
                           cd.messages().stream().map(ChangeMessage::getMessage))
                       .collect(toSet()));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec COMMENT_SPEC =
+      COMMENT_FIELD.fullText(ChangeQueryBuilder.FIELD_COMMENT);
+
   /** Number of unresolved comment threads of the change, including robot comments. */
-  public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
-      intRange(ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT)
+  public static final IndexedField<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("UnresolvedCommentCount")
+          .stored()
           .build(
               ChangeData::unresolvedCommentCount,
               (cd, field) -> cd.setUnresolvedCommentCount(field));
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec UNRESOLVED_COMMENT_COUNT_SPEC =
+      UNRESOLVED_COMMENT_COUNT_FIELD.integerRange(
+          ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT);
+
   /** Total number of published inline comments of the change, including robot comments. */
-  public static final FieldDef<ChangeData, Integer> TOTAL_COMMENT_COUNT =
-      intRange("total_comments")
+  public static final IndexedField<ChangeData, Integer> TOTAL_COMMENT_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("TotalCommentCount")
+          .stored()
           .build(ChangeData::totalCommentCount, (cd, field) -> cd.setTotalCommentCount(field));
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec TOTAL_COMMENT_COUNT_SPEC =
+      TOTAL_COMMENT_COUNT_FIELD.integerRange("total_comments");
+
   /** Whether the change is mergeable. */
-  public static final FieldDef<ChangeData, String> MERGEABLE =
-      exact(ChangeQueryBuilder.FIELD_MERGEABLE)
+  public static final IndexedField<ChangeData, String> MERGEABLE_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Mergeable")
           .stored()
+          .size(1)
           .build(
               cd -> {
                 Boolean m = cd.isMergeable();
@@ -1058,10 +1099,14 @@ public class ChangeField {
               },
               (cd, field) -> cd.setMergeable(field == null ? false : field.equals("1")));
 
+  public static final IndexedField<ChangeData, String>.SearchSpec MERGEABLE_SPEC =
+      MERGEABLE_FIELD.exact(ChangeQueryBuilder.FIELD_MERGEABLE);
+
   /** Whether the change is a merge commit. */
-  public static final FieldDef<ChangeData, String> MERGE =
-      exact(ChangeQueryBuilder.FIELD_MERGE)
+  public static final IndexedField<ChangeData, String> MERGE_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Merge")
           .stored()
+          .size(1)
           .build(
               cd -> {
                 Boolean m = cd.isMerge();
@@ -1071,15 +1116,23 @@ public class ChangeField {
                 return m ? "1" : "0";
               });
 
+  public static final IndexedField<ChangeData, String>.SearchSpec MERGE_SPEC =
+      MERGE_FIELD.exact(ChangeQueryBuilder.FIELD_MERGE);
+
   /** Whether the change is a cherry pick of another change. */
-  public static final FieldDef<ChangeData, String> CHERRY_PICK =
-      exact(ChangeQueryBuilder.FIELD_CHERRYPICK)
+  public static final IndexedField<ChangeData, String> CHERRY_PICK_FIELD =
+      IndexedField.<ChangeData>stringBuilder("CherryPick")
           .stored()
+          .size(1)
           .build(cd -> cd.change().getCherryPickOf() != null ? "1" : "0");
 
+  public static final IndexedField<ChangeData, String>.SearchSpec CHERRY_PICK_SPEC =
+      CHERRY_PICK_FIELD.exact(ChangeQueryBuilder.FIELD_CHERRYPICK);
+
   /** The number of inserted lines in this change. */
-  public static final FieldDef<ChangeData, Integer> ADDED =
-      intRange(ChangeQueryBuilder.FIELD_ADDED)
+  public static final IndexedField<ChangeData, Integer> ADDED_LINES_FIELD =
+      IndexedField.<ChangeData>integerBuilder("AddedLines")
+          .stored()
           .build(
               cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null,
               (cd, field) -> {
@@ -1088,9 +1141,13 @@ public class ChangeField {
                 }
               });
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec ADDED_LINES_SPEC =
+      ADDED_LINES_FIELD.integerRange(ChangeQueryBuilder.FIELD_ADDED);
+
   /** The number of deleted lines in this change. */
-  public static final FieldDef<ChangeData, Integer> DELETED =
-      intRange(ChangeQueryBuilder.FIELD_DELETED)
+  public static final IndexedField<ChangeData, Integer> DELETED_LINES_FIELD =
+      IndexedField.<ChangeData>integerBuilder("DeletedLines")
+          .stored()
           .build(
               cd -> cd.changedLines().isPresent() ? cd.changedLines().get().deletions : null,
               (cd, field) -> {
@@ -1099,28 +1156,49 @@ public class ChangeField {
                 }
               });
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec DELETED_LINES_SPEC =
+      DELETED_LINES_FIELD.integerRange(ChangeQueryBuilder.FIELD_DELETED);
+
   /** The total number of modified lines in this change. */
-  public static final FieldDef<ChangeData, Integer> DELTA =
-      intRange(ChangeQueryBuilder.FIELD_DELTA)
+  public static final IndexedField<ChangeData, Integer> DELTA_LINES_FIELD =
+      IndexedField.<ChangeData>integerBuilder("DeltaLines")
+          .stored()
           .build(cd -> cd.changedLines().map(c -> c.insertions + c.deletions).orElse(null));
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec DELTA_LINES_SPEC =
+      DELTA_LINES_FIELD.integerRange(ChangeQueryBuilder.FIELD_DELTA);
+
   /** Determines if this change is private. */
-  public static final FieldDef<ChangeData, String> PRIVATE =
-      exact(ChangeQueryBuilder.FIELD_PRIVATE).build(cd -> cd.change().isPrivate() ? "1" : "0");
+  public static final IndexedField<ChangeData, String> PRIVATE_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Private")
+          .size(1)
+          .build(cd -> cd.change().isPrivate() ? "1" : "0");
+
+  public static final IndexedField<ChangeData, String>.SearchSpec PRIVATE_SPEC =
+      PRIVATE_FIELD.exact(ChangeQueryBuilder.FIELD_PRIVATE);
 
   /** Determines if this change is work in progress. */
-  public static final FieldDef<ChangeData, String> WIP =
-      exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
+  public static final IndexedField<ChangeData, String> WIP_FIELD =
+      IndexedField.<ChangeData>stringBuilder("WIP")
+          .size(1)
+          .build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
+
+  public static final IndexedField<ChangeData, String>.SearchSpec WIP_SPEC =
+      WIP_FIELD.exact(ChangeQueryBuilder.FIELD_WIP);
 
   /** Determines if this change has started review. */
-  public static final FieldDef<ChangeData, String> STARTED =
-      exact(ChangeQueryBuilder.FIELD_STARTED)
+  public static final IndexedField<ChangeData, String> STARTED_FIELD =
+      IndexedField.<ChangeData>stringBuilder("ReviewStarted")
+          .size(1)
           .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
 
+  public static final IndexedField<ChangeData, String>.SearchSpec STARTED_SPEC =
+      STARTED_FIELD.exact(ChangeQueryBuilder.FIELD_STARTED);
+
   /** Users who have commented on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
-      integer(ChangeQueryBuilder.FIELD_COMMENTBY)
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<Integer>> COMMENTBY_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("CommentBy")
+          .build(
               cd ->
                   Stream.concat(
                           cd.messages().stream().map(ChangeMessage::getAuthor),
@@ -1128,6 +1206,9 @@ public class ChangeField {
                       .filter(Objects::nonNull)
                       .map(Account.Id::get)
                       .collect(toSet()));
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec COMMENTBY_SPEC =
+      COMMENTBY_FIELD.integer(ChangeQueryBuilder.FIELD_COMMENTBY);
 
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =

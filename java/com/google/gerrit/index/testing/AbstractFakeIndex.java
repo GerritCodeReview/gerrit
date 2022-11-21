@@ -251,7 +251,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     protected Map<String, Object> docFor(ChangeData value) {
       ImmutableMap.Builder<String, Object> doc = ImmutableMap.builder();
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
-        if (ChangeField.MERGEABLE.getName().equals(field.getName()) && skipMergable) {
+        if (ChangeField.MERGEABLE_SPEC.getName().equals(field.getName()) && skipMergable) {
           continue;
         }
         Object docifiedValue = field.get(value);

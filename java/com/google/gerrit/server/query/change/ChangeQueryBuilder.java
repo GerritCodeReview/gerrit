@@ -678,7 +678,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("reviewer".equalsIgnoreCase(value)) {
       return Predicate.and(
-          Predicate.not(new BooleanPredicate(ChangeField.WIP)), ReviewerPredicate.reviewer(self()));
+          Predicate.not(new BooleanPredicate(ChangeField.WIP_SPEC)),
+          ReviewerPredicate.reviewer(self()));
     }
 
     if ("cc".equalsIgnoreCase(value)) {
@@ -689,16 +690,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (!args.indexMergeable) {
         throw new QueryParseException("'is:mergeable' operator is not supported by server");
       }
-      return new BooleanPredicate(ChangeField.MERGEABLE);
+      return new BooleanPredicate(ChangeField.MERGEABLE_SPEC);
     }
 
     if ("merge".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.MERGE, "is:merge");
-      return new BooleanPredicate(ChangeField.MERGE);
+      checkFieldAvailable(ChangeField.MERGE_SPEC, "is:merge");
+      return new BooleanPredicate(ChangeField.MERGE_SPEC);
     }
 
     if ("private".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.PRIVATE);
+      return new BooleanPredicate(ChangeField.PRIVATE_SPEC);
     }
 
     if ("attention".equalsIgnoreCase(value)) {
@@ -736,17 +737,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("started".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.STARTED, "is:started");
-      return new BooleanPredicate(ChangeField.STARTED);
+      checkFieldAvailable(ChangeField.STARTED_SPEC, "is:started");
+      return new BooleanPredicate(ChangeField.STARTED_SPEC);
     }
 
     if ("wip".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.WIP);
+      return new BooleanPredicate(ChangeField.WIP_SPEC);
     }
 
     if ("cherrypick".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.CHERRY_PICK, "is:cherrypick");
-      return new BooleanPredicate(ChangeField.CHERRY_PICK);
+      checkFieldAvailable(ChangeField.CHERRY_PICK_SPEC, "is:cherrypick");
+      return new BooleanPredicate(ChangeField.CHERRY_PICK_SPEC);
     }
 
     // for plugins the value will be operandName_pluginName
@@ -1328,7 +1329,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (Objects.equals(byState, Predicate.<ChangeData>any())) {
       return Predicate.any();
     }
-    return Predicate.and(Predicate.not(new BooleanPredicate(ChangeField.WIP)), byState);
+    return Predicate.and(Predicate.not(new BooleanPredicate(ChangeField.WIP_SPEC)), byState);
   }
 
   @Operator

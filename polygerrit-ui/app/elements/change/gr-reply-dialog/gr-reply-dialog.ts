@@ -111,7 +111,7 @@ import {
   LabelNameToValuesMap,
   PatchSetNumber,
 } from '../../../api/rest-api';
-import {css, html, PropertyValues, LitElement} from 'lit';
+import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -606,6 +606,14 @@ export class GrReplyDialog extends LitElement {
       .patchsetLevelContainer.unresolved {
         background-color: var(--unresolved-comment-background-color);
       }
+      .privateChangeInfo {
+        display: flex;
+        justify-content: center;
+        background-color: var(--info-background);
+      }
+      .privateChangeInfo gr-icon {
+        padding: 0 var(--spacing-m);
+      }
     `,
   ];
 
@@ -791,6 +799,7 @@ export class GrReplyDialog extends LitElement {
             <gr-endpoint-slot name="below"></gr-endpoint-slot>
           </gr-endpoint-decorator>
           ${this.renderCCList()} ${this.renderReviewConfirmation()}
+          ${this.renderPrivateChangeInfo()}
         </section>
         <section class="labelsContainer">${this.renderLabels()}</section>
         <section class="newReplyDialog textareaContainer">
@@ -890,6 +899,22 @@ export class GrReplyDialog extends LitElement {
           <gr-button @click=${this.cancelPendingReviewer}>No</gr-button>
         </div>
       </dialog>
+    `;
+  }
+
+  private renderPrivateChangeInfo() {
+    const addedAccounts = [
+      ...(this.reviewersList?.additions() ?? []),
+      ...(this.ccsList?.additions() ?? []),
+    ];
+    if (!this.change?.is_private || !addedAccounts.length) return nothing;
+    return html`
+      <div class="privateChangeInfo">
+        <gr-icon icon="info"></gr-icon>
+        <div>
+          Adding a reviewer/CC will make this private change visible to them
+        </div>
+      </div>
     `;
   }
 

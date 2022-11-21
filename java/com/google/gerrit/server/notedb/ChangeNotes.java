@@ -142,6 +142,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes createChecked(
+        Repository repo,
+        Project.NameKey project,
+        Change.Id changeId,
+        @Nullable ObjectId metaRevId) {
+      Change change = newChange(project, changeId);
+      return new ChangeNotes(args, change, true, null, metaRevId).load(repo);
+    }
+
+    public ChangeNotes createChecked(
         Project.NameKey project, Change.Id changeId, @Nullable ObjectId metaRevId) {
       Change change = newChange(project, changeId);
       return new ChangeNotes(args, change, true, null, metaRevId).load();

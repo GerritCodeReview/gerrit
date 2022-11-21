@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6732ab01_2b20ba87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-21T10:37:12Z",
+      "side": 1,
+      "message": "Like the solution, however, it looks a bit too invasive for being back-ported to a stable branch.",
+      "revId": "1c2d018b6e1a38e817350461e3128de6e49b31bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb4267de_4066e78f",

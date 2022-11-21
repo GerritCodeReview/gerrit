@@ -244,6 +244,19 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
     }
   }
 
+  @Test
+  public void canCreateChangeNotesFromOpenRepoAndChangeid() throws Exception {
+    try (OpenRepo openRepo = openRepo()) {
+      Change change = newChange();
+
+      ChangeNotes changeNotes =
+          changeNotesFactory.createChecked(openRepo.repo, project, change.getId(), null);
+
+      assertThat(changeNotes).isNotNull();
+      assertThat(changeNotes.getChangeId()).isEqualTo(change.getId());
+    }
+  }
+
   private void addToAttentionSet(ChangeUpdate update) {
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(

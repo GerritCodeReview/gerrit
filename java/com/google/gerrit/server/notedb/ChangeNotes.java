@@ -37,6 +37,7 @@ import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
@@ -136,6 +137,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(Change c) {
       return createChecked(c.getProject(), c.getId());
+    }
+
+    /**
+     * Load the change-notes associated to a project/change-id using an existing open repository
+     *
+     * @param repo existing open repository
+     * @param project project associated with the repository
+     * @param changeId change-id associated with the change-notes to load
+     * @param metaRevId version of the change-id to load, null for loading the latest
+     * @return change-notes object for the change
+     */
+    @UsedAt(UsedAt.Project.MODULE_GIT_REFS_FILTER)
+    public ChangeNotes createChecked(
+        Repository repo,
+        Project.NameKey project,
+        Change.Id changeId,
+        @Nullable ObjectId metaRevId) {
+      Change change = newChange(project, changeId);
+      return new ChangeNotes(args, change, true, null, metaRevId).load(repo);
     }
 
     public ChangeNotes createChecked(

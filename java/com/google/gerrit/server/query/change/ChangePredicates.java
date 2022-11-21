@@ -268,7 +268,7 @@ public class ChangePredicates {
 
   /** Returns a predicate that matches changes with the provided {@code trackingId}. */
   public static Predicate<ChangeData> trackingId(String trackingId) {
-    return new ChangeIndexCardinalPredicate(ChangeField.TR, trackingId, 5);
+    return new ChangeIndexCardinalPredicate(ChangeField.TR_SPEC, trackingId, 5);
   }
 
   /** Returns a predicate that matches changes authored by the provided {@code exactAuthor}. */
@@ -319,9 +319,9 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> commitPrefix(String commitId) {
     if (commitId.length() == ObjectIds.STR_LEN) {
-      return new ChangeIndexCardinalPredicate(ChangeField.EXACT_COMMIT, commitId, 5);
+      return new ChangeIndexCardinalPredicate(ChangeField.EXACT_COMMIT_SPEC, commitId, 5);
     }
-    return new ChangeIndexCardinalPredicate(ChangeField.COMMIT, commitId, 5);
+    return new ChangeIndexCardinalPredicate(ChangeField.COMMIT_SPEC, commitId, 5);
   }
 
   /**
@@ -337,7 +337,7 @@ public class ChangePredicates {
    * comment on any patch set of the change. Uses full-text search semantics.
    */
   public static Predicate<ChangeData> comment(String comment) {
-    return new ChangeIndexPredicate(ChangeField.COMMENT, comment);
+    return new ChangeIndexPredicate(ChangeField.COMMENT_SPEC, comment);
   }
 
   /**

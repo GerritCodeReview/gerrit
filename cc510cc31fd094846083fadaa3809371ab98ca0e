@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc34e9b9_4a34886a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-21T15:31:52Z",
+      "side": 1,
+      "message": "consider something besides \"ChangeInfo\" which means something else in our code, like `.privacyWarning`",
+      "range": {
+        "startLine": 609,
+        "startChar": 14,
+        "endLine": 609,
+        "endChar": 24
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64604dc7_53a4e36a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-21T15:31:52Z",
+      "side": 1,
+      "message": "is this to set the icon height? Can you just use height?",
+      "range": {
+        "startLine": 615,
+        "startChar": 8,
+        "endLine": 615,
+        "endChar": 15
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

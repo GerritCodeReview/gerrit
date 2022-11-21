@@ -16,6 +16,24 @@
       "message": "Please annotate this with @UsedAt to prevent that it\u0027s removed again.",
       "revId": "ea9f13b40f7a52f475807f3a540b1ae1d741c586",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adceb2bd_4f7d7db1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-21T12:35:01Z",
+      "side": 1,
+      "message": "Yes, indeed. I\u0027ll also add one test and JavaDocs.",
+      "parentUuid": "e78f84b0_173279c3",
+      "revId": "ea9f13b40f7a52f475807f3a540b1ae1d741c586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

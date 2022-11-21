@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4afafec4_39501d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T09:30:17Z",
+      "side": 1,
+      "message": "I could not reproduce the issue, so I am also guessing, but generally you may into trouble with `display: inline-...` for direct children of a `display: flex` element. Such a parent-child relationship does not make much sense. flex children must be flex or block. So the browser has to resolve this problem in some way, and different browsers may have different strategies to cope with this scenario.\n\nWrapping any `inline-...` elements in a `\u003cdiv\u003e` is generally a good idea in flex layouts! 👍",
+      "revId": "107c3806c9f9b8b32f5f86640fbca73b838c2b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4081ff47_41407306",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T09:30:17Z",
+      "side": 1,
+      "message": "Do you need this class for anything? Maybe just drop it.",
+      "range": {
+        "startLine": 427,
+        "startChar": 20,
+        "endLine": 427,
+        "endChar": 35
+      },
+      "revId": "107c3806c9f9b8b32f5f86640fbca73b838c2b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

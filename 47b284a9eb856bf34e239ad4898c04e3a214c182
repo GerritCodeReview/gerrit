@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ac74383_7bedc228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T11:47:18Z",
+      "side": 1,
+      "message": "I think I can explain it. Let me try.\n\nBoth, gr-autocomplete and dropdown-content have height constraints.\n\nThe overflow:auto was actually working, but only if the 50vh constraint was hit. Otherwise it would just grow. And then dropdown-content would not need scrolling, because it is overflow:visible (the default) within gr-autocomplete.\n\nMakes sense?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "47b284a9eb856bf34e239ad4898c04e3a214c182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,52 @@
       "message": "Adding Frank who worked on the refactoring that caused this issue.",
       "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b03f4c7a_7e0a8868",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-21T10:23:04Z",
+      "side": 1,
+      "message": "@brohlfs@google.com can you take a quick look on this change in the context of recent awesome router refactor? Seems like these listeners are pretty chaotic between `document` and `this`.",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 12
+      },
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1249c737_1020c8c4",
+        "filename": "polygerrit-ui/app/elements/gr-app_callback_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-21T10:23:04Z",
+      "side": 1,
+      "message": "add this test to gr-app_test.ts instead of making a new file",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

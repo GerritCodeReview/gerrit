@@ -2494,7 +2494,7 @@ suite('gr-change-actions tests', () => {
               new Response()
             );
             assert.isTrue(setUrlStub.called);
-            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:T');
+            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:%2522T%2522');
           });
         });
 
@@ -2533,7 +2533,7 @@ suite('gr-change-actions tests', () => {
             );
             assert.isFalse(showActionDialogStub.called);
             assert.isTrue(setUrlStub.called);
-            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:T');
+            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:%2522T%2522');
           });
         });
 

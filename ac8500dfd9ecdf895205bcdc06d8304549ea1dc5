@@ -16,6 +16,24 @@
       "message": "1. This can be simplified as:\n\n  p \u003d p[:p.rindex(\"-\")]\n  \n2. Effectively this is still comparing by prefix and if this is the only way then we could also keep the initial code from the PS1\n\nWhen I commented on this I thought that it might be possible to deduce the version from the definition of the library as, ultimately, somewhere we have the definition of the library including its version.",
       "revId": "ac8500dfd9ecdf895205bcdc06d8304549ea1dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9e0e7a_0531e4ce",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T04:47:26Z",
+      "side": 1,
+      "message": "\u003e This can be simplified [...]\n\nNot applicable any more.\n\n\u003e it might be possible to deduce the version from the definition of the library as, ultimately, somewhere we have the definition of the library including its version.\n\nYes, you are right. Done.",
+      "parentUuid": "5b3fd12e_7bb4e91f",
+      "revId": "ac8500dfd9ecdf895205bcdc06d8304549ea1dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

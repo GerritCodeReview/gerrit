@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "84eab187_679a1e36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T17:09:39Z",
+      "side": 1,
+      "message": "Gave it spacing-s vertical padding.\n\nAdded info-foreground color.\n\nhttps://imgur.com/a/qAi0yrW",
+      "parentUuid": "e1d4dc5a_189012e7",
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a4848ecd_010b4647",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -48,6 +66,30 @@
       "writtenOn": "2022-11-21T15:31:52Z",
       "side": 1,
       "message": "consider something besides \"ChangeInfo\" which means something else in our code, like `.privacyWarning`",
+      "range": {
+        "startLine": 609,
+        "startChar": 14,
+        "endLine": 609,
+        "endChar": 24
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bf9773f_88f5e348",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T17:09:39Z",
+      "side": 1,
+      "message": "It\u0027s an info not a warning hence I was avoiding using the word \"Warning\" ,there is a different icon/color etc for that.\nReplaced with privateVisibliityInfo, hopefully that works.",
+      "parentUuid": "cc34e9b9_4a34886a",
       "range": {
         "startLine": 609,
         "startChar": 14,
@@ -119,6 +161,30 @@
       "side": 1,
       "message": "Oh I see. IMO `gap: var(--spacing-m)` on the flex container is best, since the spacing is an aspect of the group rather than an aspect of the icon",
       "parentUuid": "d7eaead2_4ee10766",
+      "range": {
+        "startLine": 615,
+        "startChar": 8,
+        "endLine": 615,
+        "endChar": 15
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd20c980_d360611e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T17:09:39Z",
+      "side": 1,
+      "message": "Replaced with margin-right.",
+      "parentUuid": "c8aa715a_102ca47b",
       "range": {
         "startLine": 615,
         "startChar": 8,

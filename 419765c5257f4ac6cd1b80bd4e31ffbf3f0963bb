@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0aa146f_61d76130",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T11:00:00Z",
+      "side": 1,
+      "message": "Thanks a lot for this fix! 👍 ❤️ 🎉",
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b03f4c7a_7e0a8868",
@@ -48,6 +65,30 @@
       "writtenOn": "2022-11-21T10:23:04Z",
       "side": 1,
       "message": "@brohlfs@google.com can you take a quick look on this change in the context of recent awesome router refactor? Seems like these listeners are pretty chaotic between `document` and `this`.",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 12
+      },
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ee3f28_1c04a181",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T11:00:00Z",
+      "side": 1,
+      "message": "I have looked at other events, and I think everything else looks good.\n\nWe are using `document` for all events that can also be fired from services and other classes that cannot do `fire(this, ...`. I guess you could argue that most of these events should be moved to `document`, but for now I think this is not a pressing issue.",
+      "parentUuid": "b03f4c7a_7e0a8868",
       "range": {
         "startLine": 187,
         "startChar": 4,

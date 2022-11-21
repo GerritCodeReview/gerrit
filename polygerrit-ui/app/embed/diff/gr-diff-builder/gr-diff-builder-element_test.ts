@@ -71,7 +71,7 @@ suite('gr-diff-builder tests', () => {
     const text = 'a'.repeat(51);
     const expected = 'a'.repeat(50) + WBR_HTML + 'a';
     const result = builder.createTextEl(null, line(text)).firstElementChild
-      ?.innerHTML;
+      ?.firstElementChild?.innerHTML;
     assert.equal(result, expected);
   });
 
@@ -80,7 +80,7 @@ suite('gr-diff-builder tests', () => {
     const text = 'a'.repeat(51);
     const expected = 'a'.repeat(50) + LINE_BREAK_HTML + 'a';
     const result = builder.createTextEl(null, line(text)).firstElementChild
-      ?.innerHTML;
+      ?.firstElementChild?.innerHTML;
     assert.equal(result, expected);
   });
 
@@ -119,7 +119,7 @@ suite('gr-diff-builder tests', () => {
     assert.equal(el.innerText, text);
     // With line length 10 and tab size 4, there should be a line break
     // after every two tabs.
-    const newlineEl = el.querySelector('.contentText > .br');
+    const newlineEl = el.querySelector('.contentText .br');
     assert.isOk(newlineEl);
     assert.equal(
       el.querySelector('.contentText .tab:nth-child(2)')?.nextSibling,

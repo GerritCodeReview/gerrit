@@ -108,14 +108,14 @@ suite('gr-diff tests', () => {
                   <td class="blame gr-diff" data-line-number="LOST"></td>
                   <td class="gr-diff left lineNum" data-value="LOST"></td>
                   <td class="gr-diff left no-intraline-info sign"></td>
-                  <td
-                    class="both content gr-diff left lost no-intraline-info"
-                  ></td>
+                  <td class="both content gr-diff left lost no-intraline-info">
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
                   <td class="gr-diff lineNum right" data-value="LOST"></td>
                   <td class="gr-diff no-intraline-info right sign"></td>
-                  <td
-                    class="both content gr-diff lost no-intraline-info right"
-                  ></td>
+                  <td class="both content gr-diff lost no-intraline-info right">
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -138,9 +138,9 @@ suite('gr-diff tests', () => {
                     </button>
                   </td>
                   <td class="gr-diff left no-intraline-info sign"></td>
-                  <td
-                    class="both content file gr-diff left no-intraline-info"
-                  ></td>
+                  <td class="both content file gr-diff left no-intraline-info">
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
                   <td class="gr-diff lineNum right" data-value="FILE">
                     <button
                       aria-label="Add file comment"
@@ -153,9 +153,9 @@ suite('gr-diff tests', () => {
                     </button>
                   </td>
                   <td class="gr-diff no-intraline-info right sign"></td>
-                  <td
-                    class="both content file gr-diff no-intraline-info right"
-                  ></td>
+                  <td class="both content file gr-diff no-intraline-info right">
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -184,9 +184,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-1"
-                    >
-                      Lorem ipsum dolor sit amet, suspendisse inceptos vehicula.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="1">
                     <button
@@ -205,9 +204,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-1"
-                    >
-                      Lorem ipsum dolor sit amet, suspendisse inceptos vehicula.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -235,9 +233,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-2"
-                    >
-                      Mattis lectus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="2">
                     <button
@@ -256,9 +253,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-2"
-                    >
-                      Mattis lectus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -286,9 +282,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-3"
-                    >
-                      Sodales duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="3">
                     <button
@@ -307,9 +302,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-3"
-                    >
-                      Sodales duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -337,9 +331,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-4"
-                    >
-                      Orci a faucibus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="4">
                     <button
@@ -358,9 +351,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-4"
-                    >
-                      Orci a faucibus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -399,9 +391,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-5"
-                    >
-                      Nullam neque, ligula ac, id blandit.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -438,9 +429,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-6"
-                    >
-                      Sagittis tincidunt torquent, tempor nunc amet.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -477,9 +467,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-7"
-                    >
-                      At rhoncus id.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -509,9 +498,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-5"
-                    >
-                      Sem nascetur, erat ut, non in.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="8">
                     <button
@@ -530,9 +518,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-8"
-                    >
-                      Sem nascetur, erat ut, non in.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -560,9 +547,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-6"
-                    >
-                      A donec, venenatis pellentesque dis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="9">
                     <button
@@ -581,9 +567,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-9"
-                    >
-                      A donec, venenatis pellentesque dis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -611,9 +596,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-7"
-                    >
-                      Mauris mauris.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="10">
                     <button
@@ -632,9 +616,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-10"
-                    >
-                      Mauris mauris.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -662,9 +645,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-8"
-                    >
-                      Quisque nisl duis, facilisis viverra.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="11">
                     <button
@@ -683,9 +665,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-11"
-                    >
-                      Quisque nisl duis, facilisis viverra.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -713,9 +694,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-9"
-                    >
-                      Justo purus, semper eget et.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="12">
                     <button
@@ -734,9 +714,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-12"
-                    >
-                      Justo purus, semper eget et.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -766,9 +745,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-10"
-                    >
-                      Est amet, vestibulum pellentesque.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -805,9 +783,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-11"
-                    >
-                      Erat ligula.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -844,9 +821,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-12"
-                    >
-                      Justo eros.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -883,9 +859,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-13"
-                    >
-                      Fringilla quisque.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -924,9 +899,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-14"
-                    >
-                      Arcu eget, rhoncus amet cursus, ipsum elementum.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="13">
                     <button
@@ -945,9 +919,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-13"
-                    >
-                      Arcu eget, rhoncus amet cursus, ipsum elementum.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -975,9 +948,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-15"
-                    >
-                      Eros suspendisse.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="14">
                     <button
@@ -996,9 +968,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-14"
-                    >
-                      Eros suspendisse.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1028,10 +999,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-16"
-                    >
-                      Rhoncus tempor, ultricies
-                      <hl class="gr-diff intraline"> aliquam </hl> ipsum.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="15">
                     <button
@@ -1050,10 +1019,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-15"
-                    >
-                      Rhoncus tempor, ultricies
-                      <hl class="gr-diff intraline"> praesent </hl> ipsum.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1083,9 +1050,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-17"
-                    >
-                      Sollicitudin duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="16">
                     <button
@@ -1104,9 +1070,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-16"
-                    >
-                      Sollicitudin duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1134,9 +1099,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-18"
-                    >
-                      Blandit blandit, ante nisl fusce.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="17">
                     <button
@@ -1155,9 +1119,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-17"
-                    >
-                      Blandit blandit, ante nisl fusce.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1185,9 +1148,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-19"
-                    >
-                      Felis ac at, tellus consectetuer.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="18">
                     <button
@@ -1206,9 +1168,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-18"
-                    >
-                      Felis ac at, tellus consectetuer.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1276,9 +1237,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-38"
-                    >
-                      Ullamcorper nunc ante, nec imperdiet felis, consectetur.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="37">
                     <button
@@ -1297,9 +1257,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-37"
-                    >
-                      Ullamcorper nunc ante, nec imperdiet felis, consectetur.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1327,9 +1286,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-39"
-                    >
-                      Ac eget.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="38">
                     <button
@@ -1348,9 +1306,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-38"
-                    >
-                      Ac eget.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1378,9 +1335,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-40"
-                    >
-                      Vel fringilla, interdum pellentesque placerat, proin ante.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="39">
                     <button
@@ -1399,9 +1355,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-39"
-                    >
-                      Vel fringilla, interdum pellentesque placerat, proin ante.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1440,9 +1395,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-40"
-                    >
-                      Eu congue risus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1479,9 +1433,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-41"
-                    >
-                      Enim ac, quis elementum.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1518,9 +1471,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-42"
-                    >
-                      Non et elit.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1557,9 +1509,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-43"
-                    >
-                      Etiam aliquam, diam vel nunc.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1589,9 +1540,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-41"
-                    >
-                      Nec at.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="44">
                     <button
@@ -1610,9 +1560,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-44"
-                    >
-                      Nec at.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1640,9 +1589,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-42"
-                    >
-                      Arcu mauris, venenatis lacus fermentum, praesent duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="45">
                     <button
@@ -1661,9 +1609,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-45"
-                    >
-                      Arcu mauris, venenatis lacus fermentum, praesent duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1691,9 +1638,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-43"
-                    >
-                      Pellentesque amet et, tellus duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="46">
                     <button
@@ -1712,9 +1658,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-46"
-                    >
-                      Pellentesque amet et, tellus duis.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1742,9 +1687,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-44"
-                    >
-                      Ipsum arcu vitae, justo elit, sed libero tellus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="47">
                     <button
@@ -1763,9 +1707,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-47"
-                    >
-                      Ipsum arcu vitae, justo elit, sed libero tellus.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1793,9 +1736,8 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="left"
                       id="left-content-45"
-                    >
-                      Metus rutrum euismod, vivamus sodales, vel arcu nisl.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="48">
                     <button
@@ -1814,15 +1756,17 @@ suite('gr-diff tests', () => {
                       class="contentText gr-diff"
                       data-side="right"
                       id="right-content-48"
-                    >
-                      Metus rutrum euismod, vivamus sodales, vel arcu nisl.
-                    </div>
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-        `
+        `,
+        {
+          ignoreTags: ['gr-legacy-text', 'slot'],
+        }
       );
     };
   });
@@ -1967,25 +1911,6 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       const container = queryAndAssert(element, '.diffContainer');
       assert.isTrue(container.classList.contains('displayLine'));
-    });
-
-    test('thread groups', () => {
-      const contentEl = document.createElement('div');
-
-      element.path = 'file.txt';
-
-      // No thread groups.
-      assert.equal(contentEl.querySelectorAll('.thread-group').length, 0);
-
-      // A thread group gets created.
-      const threadGroupEl = element.getOrCreateThreadGroup(
-        contentEl,
-        Side.LEFT
-      );
-      assert.isOk(threadGroupEl);
-
-      // The new thread group can be fetched.
-      assert.equal(contentEl.querySelectorAll('.thread-group').length, 1);
     });
 
     suite('image diffs', () => {

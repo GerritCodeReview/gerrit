@@ -46,6 +46,30 @@
       },
       "revId": "47b284a9eb856bf34e239ad4898c04e3a214c182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf70f6ab_51865c18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T12:41:43Z",
+      "side": 1,
+      "message": "Yes. Try with body height of 800px. Then use @ in a comment at the top of the screen. You should see a scroll bar just fine.\n\nBut then when you try use the same at the bottom of the screen, then gr-autocomplete gets a stronger constraint. The scroll bar stays the same though. It just makes sure that the 50vh area is scrollable, not the smaller parent container.",
+      "parentUuid": "9bd1b81b_77d97f7e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "47b284a9eb856bf34e239ad4898c04e3a214c182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,9 +24,6 @@ public class ExperimentFeaturesConstants {
 
   public static String UI_FEATURE_SUBMIT_REQUIREMENTS_UI = "UiFeature__submit_requirements_ui";
 
-  public static String GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG =
-      "GerritBackendRequestFeature__remove_revision_etag";
-
   public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
       "GerritBackendFeature__attach_nonce_to_documentation";
 

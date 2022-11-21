@@ -211,10 +211,7 @@ suite('gr-reply-dialog tests', () => {
               <div class="peopleListLabel">CC</div>
               <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
             </div>
-            <dialog
-              tabindex="-1"
-              id="reviewerConfirmationModal"
-            >
+            <dialog tabindex="-1" id="reviewerConfirmationModal">
               <div class="reviewerConfirmation">
                 Group
                 <span class="groupName"> </span>
@@ -232,7 +229,7 @@ suite('gr-reply-dialog tests', () => {
                   No
                 </gr-button>
               </div>
-            </gr-overlay>
+            </dialog>
           </section>
           <section class="labelsContainer">
             <gr-endpoint-decorator name="reply-label-scores">
@@ -327,6 +324,123 @@ suite('gr-reply-dialog tests', () => {
           </div>
         </div>
       `
+    );
+  });
+
+  test('renders private change info when reviewer is added', async () => {
+    element.change!.is_private = true;
+    element.requestUpdate();
+    await element.updateComplete;
+    const peopleContainer = queryAndAssert<HTMLDivElement>(
+      element,
+      '.peopleContainer'
+    );
+
+    // Info is rendered only if reviewer is added
+    assert.dom.equal(
+      peopleContainer,
+      `
+      <section class="peopleContainer">
+        <gr-endpoint-decorator name="reply-reviewers">
+          <gr-endpoint-param name="change"> </gr-endpoint-param>
+          <gr-endpoint-param name="reviewers"> </gr-endpoint-param>
+          <div class="peopleList">
+            <div class="peopleListLabel">Reviewers</div>
+            <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="right"> </gr-endpoint-slot>
+          </div>
+          <gr-endpoint-slot name="below"> </gr-endpoint-slot>
+        </gr-endpoint-decorator>
+        <div class="peopleList">
+          <div class="peopleListLabel">CC</div>
+          <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
+        </div>
+        <dialog
+          tabindex="-1"
+          id="reviewerConfirmationModal"
+        >
+          <div class="reviewerConfirmation">
+            Group
+            <span class="groupName"> </span>
+            has
+            <span class="groupSize"> </span>
+            members.
+            <br />
+            Are you sure you want to add them all?
+          </div>
+          <div class="reviewerConfirmationButtons">
+            <gr-button aria-disabled="false" role="button" tabindex="0">
+              Yes
+            </gr-button>
+            <gr-button aria-disabled="false" role="button" tabindex="0">
+              No
+            </gr-button>
+          </div>
+        </dialog>
+      </section>
+    `
+    );
+
+    const account = createAccountWithId(22);
+    element.reviewersList!.accounts = [];
+    element.reviewersList!.addAccountItem({account, count: 1});
+    element.reviewersList!.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account},
+      })
+    );
+    element.requestUpdate();
+    await element.updateComplete;
+
+    assert.dom.equal(
+      peopleContainer,
+      `
+      <section class="peopleContainer">
+        <gr-endpoint-decorator name="reply-reviewers">
+          <gr-endpoint-param name="change"> </gr-endpoint-param>
+          <gr-endpoint-param name="reviewers"> </gr-endpoint-param>
+          <div class="peopleList">
+            <div class="peopleListLabel">Reviewers</div>
+            <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="right"> </gr-endpoint-slot>
+          </div>
+          <gr-endpoint-slot name="below"> </gr-endpoint-slot>
+        </gr-endpoint-decorator>
+        <div class="peopleList">
+          <div class="peopleListLabel">CC</div>
+          <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
+        </div>
+        <dialog
+          tabindex="-1"
+          id="reviewerConfirmationModal"
+        >
+          <div class="reviewerConfirmation">
+            Group
+            <span class="groupName"> </span>
+            has
+            <span class="groupSize"> </span>
+            members.
+            <br />
+            Are you sure you want to add them all?
+          </div>
+          <div class="reviewerConfirmationButtons">
+            <gr-button aria-disabled="false" role="button" tabindex="0">
+              Yes
+            </gr-button>
+            <gr-button aria-disabled="false" role="button" tabindex="0">
+              No
+            </gr-button>
+          </div>
+        </dialog>
+        <div class="privateVisiblityInfo">
+          <gr-icon icon="info">
+          </gr-icon>
+          <div>
+            Adding a reviewer/CC will make this private change visible to them
+          </div>
+        </div>
+      </section>
+    `
     );
   });
 

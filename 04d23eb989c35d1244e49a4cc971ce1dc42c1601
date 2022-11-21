@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5a2e4a4_fdde9c1f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-21T15:59:50Z",
+      "side": 1,
+      "message": "maybe add a test for this?",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 330,
+        "endChar": 29
+      },
+      "revId": "04d23eb989c35d1244e49a4cc971ce1dc42c1601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

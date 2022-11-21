@@ -126,6 +126,8 @@ public abstract class AbstractChangeNotesTest {
   protected Injector injector;
   private String systemTimeZone;
 
+  @Inject protected ChangeNotes.Factory changeNotesFactory;
+
   @Before
   public void setUpTestEnvironment() throws Exception {
     setupTestPrerequisites();

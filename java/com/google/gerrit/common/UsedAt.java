@@ -45,6 +45,7 @@ public @interface UsedAt {
     PLUGIN_MULTI_SITE,
     PLUGIN_SERVICEUSER,
     PLUGIN_WEBSESSION_FLATFILE,
+    MODULE_GIT_REFS_FILTER
   }
 
   /** Reference to the project that uses the method annotated with this annotation. */

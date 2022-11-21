@@ -18,13 +18,11 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GitBasePathProvider;
 import com.google.gerrit.server.config.RepositoryConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * RepositoryManager that looks up repos stored across directories.
@@ -47,8 +45,8 @@ public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryMana
 
   @Inject
   MultiBaseLocalDiskRepositoryManager(
-      SitePaths site, @GerritServerConfig Config cfg, RepositoryConfig config) {
-    super(site, cfg);
+      GitBasePathProvider basePathProvider, RepositoryConfig config) {
+    super(basePathProvider);
     this.config = config;
 
     for (Path alternateBasePath : config.getAllBasePaths()) {

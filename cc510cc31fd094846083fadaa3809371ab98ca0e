@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1d4dc5a_189012e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T16:09:47Z",
+      "side": 1,
+      "message": "The div needs a vertical s or m padding.\n\nThe icon should be info-foreground blue.",
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4848ecd_010b4647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T16:09:47Z",
+      "side": 1,
+      "message": "Nice! ❤️",
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc34e9b9_4a34886a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 5
@@ -37,6 +71,30 @@
       "writtenOn": "2022-11-21T15:31:52Z",
       "side": 1,
       "message": "is this to set the icon height? Can you just use height?",
+      "range": {
+        "startLine": 615,
+        "startChar": 8,
+        "endLine": 615,
+        "endChar": 15
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7eaead2_4ee10766",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-21T16:09:47Z",
+      "side": 1,
+      "message": "I think this is just the spacing between the icon and the text?\n\nMaybe just margin-right instead?",
+      "parentUuid": "64604dc7_53a4e36a",
       "range": {
         "startLine": 615,
         "startChar": 8,

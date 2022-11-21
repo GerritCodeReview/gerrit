@@ -1886,7 +1886,7 @@ export class GrChangeActions
           /* If there is only 1 change then gerrit will automatically
             redirect to that change */
           const topic = revertSubmistionInfo.revert_changes[0].topic;
-          const query = `topic:${topic}`;
+          const query = `topic:"${topic}"`;
           if (topic) this.getNavigation().setUrl(createSearchUrl({query}));
           break;
         }

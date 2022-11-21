@@ -79,6 +79,11 @@ export class GrAutocompleteDropdown extends LitElement {
       css`
         :host {
           z-index: 100;
+          box-shadow: var(--elevation-level-2);
+          overflow: auto;
+          background: var(--dropdown-background-color);
+          border-radius: var(--border-radius);
+          max-height: 50vh;
         }
         :host([is-hidden]) {
           display: none;
@@ -104,13 +109,6 @@ export class GrAutocompleteDropdown extends LitElement {
         }
         li.selected {
           background-color: var(--hover-background-color);
-        }
-        .dropdown-content {
-          background: var(--dropdown-background-color);
-          box-shadow: var(--elevation-level-2);
-          border-radius: var(--border-radius);
-          max-height: 50vh;
-          overflow: auto;
         }
         @media only screen and (max-height: 35em) {
           .dropdown-content {

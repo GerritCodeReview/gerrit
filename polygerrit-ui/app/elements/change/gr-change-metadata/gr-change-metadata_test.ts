@@ -165,7 +165,12 @@ suite('gr-change-metadata tests', () => {
       </section>
       <section>
           <span class="title">
-            Repo | Branch
+            <gr-tooltip-content
+              has-tooltip=""
+              title="Repository and branch that the change will be merged into if submitted."
+            >
+              Repo | Branch
+            </gr-tooltip-content>
           </span>
           <span class="value">
             <a href="/q/project:test-project">

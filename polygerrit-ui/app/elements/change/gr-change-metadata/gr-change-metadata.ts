@@ -462,7 +462,14 @@ export class GrChangeMetadata extends LitElement {
       this.computeShowRepoBranchTogether(),
       () =>
         html`<section class=${this.computeDisplayState(Metadata.REPO_BRANCH)}>
-          <span class="title">Repo | Branch</span>
+          <span class="title">
+            <gr-tooltip-content
+              has-tooltip
+              title="Repository and branch that the change will be merged into if submitted."
+            >
+              Repo | Branch
+            </gr-tooltip-content>
+          </span>
           <span class="value">
             <a href=${this.computeProjectUrl(change.project)}
               >${change.project}</a
@@ -474,10 +481,17 @@ export class GrChangeMetadata extends LitElement {
           </span>
         </section>`,
 
-      () => html` <section
+      () => html`<section
           class=${this.computeDisplayState(Metadata.REPO_BRANCH)}
         >
-          <span class="title">Repo</span>
+          <span class="title">
+            <gr-tooltip-content
+              has-tooltip
+              title="Repository that the change will be merged into if submitted."
+            >
+              Repo
+            </gr-tooltip-content>
+          </span>
           <span class="value">
             <a href=${this.computeProjectUrl(change.project)}>
               <gr-limited-text
@@ -488,7 +502,14 @@ export class GrChangeMetadata extends LitElement {
           </span>
         </section>
         <section class=${this.computeDisplayState(Metadata.REPO_BRANCH)}>
-          <span class="title">Branch</span>
+          <span class="title">
+            <gr-tooltip-content
+              has-tooltip
+              title="Branch that the change will be merged into if submitted."
+            >
+              Branch
+            </gr-tooltip-content>
+          </span>
           <span class="value">
             <a href=${this.computeBranchUrl(change.project, change.branch)}>
               <gr-limited-text

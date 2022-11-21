@@ -5,7 +5,6 @@ junit_tests(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/json",
-        "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:gson",
         "//lib:guava",

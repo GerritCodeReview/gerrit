@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8997c774_a8c64e5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-21T07:47:43Z",
+      "side": 1,
+      "message": "There are no verification jobs for Gerrit 3.4 on the CI anymore. Thus, you will have to vote on Verified and Code-Style yourself.",
+      "revId": "29c4ccc31998f6d8fba783bf34f3a13f297f685a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

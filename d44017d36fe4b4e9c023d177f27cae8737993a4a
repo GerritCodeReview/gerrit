@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "791603e3_db1df460",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-21T08:45:22Z",
+      "side": 1,
+      "message": "gr-legacy-text?",
+      "revId": "d44017d36fe4b4e9c023d177f27cae8737993a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c9b4c9_84de00ec",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-21T08:45:22Z",
+      "side": 1,
+      "message": "Where is gr-legacy-text defined?",
+      "revId": "d44017d36fe4b4e9c023d177f27cae8737993a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

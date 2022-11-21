@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffebd6b4_353250bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083641
+      },
+      "writtenOn": "2022-11-21T14:59:02Z",
+      "side": 1,
+      "message": "Hey Ben, thanks! You bet!",
+      "parentUuid": "c0aa146f_61d76130",
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b03f4c7a_7e0a8868",
@@ -112,6 +130,30 @@
       "writtenOn": "2022-11-21T10:23:04Z",
       "side": 1,
       "message": "add this test to gr-app_test.ts instead of making a new file",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "419765c5257f4ac6cd1b80bd4e31ffbf3f0963bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d9bb5a_48b81b5b",
+        "filename": "polygerrit-ui/app/elements/gr-app_callback_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083641
+      },
+      "writtenOn": "2022-11-21T14:59:02Z",
+      "side": 1,
+      "message": "I will try.",
+      "parentUuid": "1249c737_1020c8c4",
       "range": {
         "startLine": 27,
         "startChar": 0,

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45db3f70_195c922c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-21T16:27:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "0948b512_2c2ea3d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cc93c85_8607d1b6",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "0cc93c85_8607d1b6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2911ba4_1b126309",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-21T16:27:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "bdd9fc60_5dfca38c",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -142,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb4ff6c_d6c37dca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-21T16:27:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "38bb5833_82287836",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b7d60b_288ef573",
@@ -155,6 +227,30 @@
       "writtenOn": "2022-11-19T08:12:10Z",
       "side": 1,
       "message": "This issue is actually closed, with the reference to: [3] fixed in 2.8.0, but I believe that the deadlock issue: [1] is related here, but was actually fixed in 2.9.0 release, that was updated in another change 351155. So remove this issue footer here?\n\n[3] https://issues.apache.org/jira/browse/SSHD-1197",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "7ab7253460084a1ebbd66b329692c2aef0942df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b0b336_e3213ce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-21T16:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3b7d60b_288ef573",
       "range": {
         "startLine": 19,
         "startChar": 0,

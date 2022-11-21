@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04c82411_4738fe0e",
+        "filename": "java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-11-21T07:26:52Z",
+      "side": 1,
+      "message": "Init command doesn\u0027t seem to work:\n\n```\nfatal: 1) gerrit.basePath must be configured\nfatal:   at GitBasePathProvider.\u003cinit\u003e(GitBasePathProvider.java:32)\nfatal:   at GitBasePathProvider.class(GitBasePathProvider.java:24)\nfatal:   at AllProjectsConfig.\u003cinit\u003e(AllProjectsConfig.java:48)\nfatal:       \\_ for 4th parameter basePathprovider\nfatal:   at InitLabels.\u003cinit\u003e(InitLabels.java:41)\nfatal:       \\_ for 2nd parameter allProjectsConfig\nfatal:   at InitLabels.class(InitLabels.java:41)\nfatal:   while locating InitLabels\nfatal:   while locating InitStep annotated with @UniqueAnnotations$Internal(value\u003d8)\n```",
+      "revId": "6564efc7224b7ca79e474cc5e9bf89af706e66d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

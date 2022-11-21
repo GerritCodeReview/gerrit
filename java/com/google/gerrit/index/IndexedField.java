@@ -249,6 +249,8 @@ public abstract class IndexedField<I, T> {
 
   public SearchSpec integerRange(String name) {
     checkState(fieldType().equals(INTEGER_TYPE));
+    // we currently store all integer range fields, this may change in the future
+    checkState(stored());
     return addSearchSpec(name, SearchOption.RANGE);
   }
 

@@ -14,7 +14,7 @@ import '../gr-change-list-reviewer-flow/gr-change-list-reviewer-flow';
 import '../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow';
 import '../gr-change-list-topic-flow/gr-change-list-topic-flow';
 import '../gr-change-list-hashtag-flow/gr-change-list-hashtag-flow';
-
+import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
  * will be used inside a <tr> element.
@@ -77,6 +77,7 @@ export class GrChangeListActionBar extends LitElement {
             <gr-change-list-topic-flow></gr-change-list-topic-flow>
             <gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
+            <gr-change-list-bulk-abandon-flow></gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>

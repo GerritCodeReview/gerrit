@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af68dce3_5635b290",
+        "filename": "java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-21T06:52:03Z",
+      "side": 1,
+      "message": "David I was wondering if having an integration test (instead of unit test) would mean that this and the following constructors wouldn\u0027t have to be turned public. If not then they should be marked as `@VisibleForTesting` shouldn\u0027t they?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

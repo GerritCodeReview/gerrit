@@ -103,6 +103,30 @@
       },
       "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8aa715a_102ca47b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-21T16:14:36Z",
+      "side": 1,
+      "message": "Oh I see. IMO `gap: var(--spacing-m)` on the flex container is best, since the spacing is an aspect of the group rather than an aspect of the icon",
+      "parentUuid": "d7eaead2_4ee10766",
+      "range": {
+        "startLine": 615,
+        "startChar": 8,
+        "endLine": 615,
+        "endChar": 15
+      },
+      "revId": "cc510cc31fd094846083fadaa3809371ab98ca0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8110a40_df966f34",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-21T08:18:58Z",
+      "side": 1,
+      "message": "Maybe it would be better to use\n\n```\ncreateSearchUrl({topic}); \n```\n\nas in gr-change-metadata.",
+      "range": {
+        "startLine": 1890,
+        "startChar": 49,
+        "endLine": 1890,
+        "endChar": 64
+      },
+      "revId": "3ae2f52490c214425fc2c8079f4cedbcd84636bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

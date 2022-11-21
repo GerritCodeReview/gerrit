@@ -39,7 +39,7 @@ public class MagicLabelPredicate extends ChangeIndexPredicate {
       Account.Id account,
       @Nullable Integer count) {
     super(
-        ChangeField.LABEL,
+        ChangeField.LABEL_SPEC,
         ChangeField.formatLabel(
             magicLabelVote.label(), magicLabelVote.value().name(), account, count));
     this.account = account;

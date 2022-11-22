@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b4b320f_19892d55",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T14:17:05Z",
+      "side": 1,
+      "message": "Changed to `DiffBuilder | ImageDiffBuilder` and added a `isImageDiffBuilder()` util.",
+      "parentUuid": "78e3fd5f_78c943cd",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 56
+      },
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cced1aa_302ca580",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-11-22T11:16:44Z",
       "side": 1,
       "message": "Why only update renderPrefs if imageDiff exists?",
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0795937_a2cd1ffa",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T14:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cced1aa_302ca580",
       "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "241eb0d4_22a6452b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T14:17:05Z",
+      "side": 1,
+      "message": "DiffBuilderImage actually extends DiffBuilder. Made that explicit. Hope that helps.",
+      "parentUuid": "7b881294_c095dd69",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "385fe12a_677816a2",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-11-22T11:16:44Z",
       "side": 1,
       "message": "ImageDiffBuilder?",
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e1ef9f_c9fb51cf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T14:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385fe12a_677816a2",
       "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

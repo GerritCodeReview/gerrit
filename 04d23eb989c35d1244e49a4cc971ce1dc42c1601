@@ -45,6 +45,54 @@
       },
       "revId": "04d23eb989c35d1244e49a4cc971ce1dc42c1601",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2015fb5_175e21c5",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T09:44:00Z",
+      "side": 1,
+      "message": "I am reluctant to test private methods. Instead I prefer to write DOM tests that execute this path. The two line changes in the test file implicitly capture what I think needs testing here. WDYT?",
+      "parentUuid": "a5a2e4a4_fdde9c1f",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 330,
+        "endChar": 29
+      },
+      "revId": "04d23eb989c35d1244e49a4cc971ce1dc42c1601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e1e0c1d_08b9d543",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T09:44:00Z",
+      "side": 1,
+      "message": "Yeah, I think it is not worth it.",
+      "parentUuid": "ca3ba2c6_9c5851ae",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 330,
+        "endChar": 29
+      },
+      "revId": "04d23eb989c35d1244e49a4cc971ce1dc42c1601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

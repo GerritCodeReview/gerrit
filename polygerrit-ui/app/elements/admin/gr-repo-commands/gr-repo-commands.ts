@@ -9,6 +9,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
+import '../gr-create-change-dialog/gr-create-file-edit-dialog';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
@@ -59,6 +60,12 @@ export class GrRepoCommands extends LitElement {
 
   @property({type: String})
   repo?: RepoName;
+
+  @property({type: String})
+  createBranch?: BranchName;
+
+  @property({type: String})
+  createPath?: string;
 
   @state() private loading = true;
 
@@ -181,6 +188,12 @@ export class GrRepoCommands extends LitElement {
           </div>
         </gr-dialog>
       </dialog>
+      <gr-create-file-edit-dialog
+        id="createFileEditDialog"
+        .repo=${this.repo}
+        .branch=${this.createBranch}
+        .path=${this.createPath}
+      ></gr-create-file-edit-dialog>
     `;
   }
 

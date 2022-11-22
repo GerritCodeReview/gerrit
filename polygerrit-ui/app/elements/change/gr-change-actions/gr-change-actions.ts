@@ -1570,13 +1570,10 @@ export class GrChangeActions
   handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
     assertIsDefined(this.confirmRebase, 'confirmRebase');
     assertIsDefined(this.actionsModal, 'actionsModal');
-    const el = this.confirmRebase;
     const payload = {
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,
     };
-    this.actionsModal.close();
-    el.hidden = true;
     this.fireAction(
       '/rebase',
       assertUIActionInfo(this.revisionActions.rebase),
@@ -1841,6 +1838,8 @@ export class GrChangeActions
     if (!response) {
       return;
     }
+    // response is defined only if request was successful and response.ok is
+    // true
     return this.restApiService.getResponseObject(response).then(obj => {
       switch (action.__key) {
         case ChangeActions.REVERT: {
@@ -1874,6 +1873,9 @@ export class GrChangeActions
         case ChangeActions.REBASE_EDIT:
         case ChangeActions.REBASE:
         case ChangeActions.SUBMIT:
+          // Hide rebase dialog only if the action succeeds
+          this.actionsModal?.close();
+          this.hideAllDialogs();
           fireReload(this, true);
           break;
         case ChangeActions.REVERT_SUBMISSION: {

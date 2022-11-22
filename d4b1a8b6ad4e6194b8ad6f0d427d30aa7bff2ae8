@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2cd2994_4a0d0acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T09:46:55Z",
+      "side": 1,
+      "message": "update this picture",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "d4b1a8b6ad4e6194b8ad6f0d427d30aa7bff2ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

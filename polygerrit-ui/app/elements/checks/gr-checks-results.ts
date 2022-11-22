@@ -323,8 +323,16 @@ export class GrResultRow extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = !!this.result?.summary && !!this.result?.message;
+      this.isExpandable = this.computeIsExpandable();
     }
+  }
+
+  private computeIsExpandable() {
+    const hasSummary = !!this.result?.summary;
+    const hasMessage = !!this.result?.message;
+    const hasLinks = (this.result?.links ?? []).length > 0;
+    const hasPointers = (this.result?.codePointers ?? []).length > 0;
+    return hasSummary && (hasMessage || hasLinks || hasPointers);
   }
 
   override focus() {

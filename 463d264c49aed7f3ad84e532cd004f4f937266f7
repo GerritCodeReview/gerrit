@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b023d3e_2269cb08",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:45:12Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be the case for 4 of those results, but I don\u0027t mind it being the normal pattern to live outside",
+      "parentUuid": "1e277bea_260e735f",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1972c3b0_30f9b7fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 3

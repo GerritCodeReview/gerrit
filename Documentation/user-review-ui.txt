@@ -1,21 +1,15 @@
 :linkattrs:
-= Review UI
+= Review UI Overview
 
 Reviewing changes is an important task and the Gerrit Web UI provides
 many functionalities to make the review process comfortable and
 efficient.
 
-The UI has three different main views,
-
-** The dashboard, which shows all changes that are relevant to you
-** The change screen, which shows the change with all its metadata
-** The diff view, which shows changes to a single file
-
 [[change-screen]]
 == Change Screen
 
-The change screen shows the details of a single change and provides
-various actions on it.
+The change screen is the main view for a change. It shows the details of a
+single change and allows many various actions on it.
 
 image::images/user-review-ui-change-screen.png[width=800, link="images/user-review-ui-change-screen.png"]
 
@@ -28,44 +22,81 @@ image::images/user-review-ui-change-screen-annotated.png[width=800, link="images
 
 Top left, you find the status of the change, and a permalink.
 
-image::images/user-review-ui-change-screen-topleft.png[width=400, link="images/user-review-ui-change-screen-topleft.png"]
+image::images/user-review-ui-change-screen-topleft.png[width=600, link="images/user-review-ui-change-screen-topleft.png"]
 
 [[change-status]]
 The change status shows the state of the change:
 
-- [[active]]`Active`:
+- `Active`:
 +
 The change is under active review.
 
-- [[merge-conflict]]`Merge Conflict`:
+- `Merge Conflict`:
 +
-The change can't be merged due to conflicts.
+The change can't be merged into the destination branch due to conflicts.
 
-- [[ready-to-submit]]`Ready to Submit`:
+- `Ready to Submit`:
 +
-The change has all necessary approvals and may be submitted.
+The change has all necessary approvals and fulfils all other submit
+requirements. It can be submitted.
 
-- [[merged]]`Merged`:
+- `Merged`:
 +
 The change was successfully merged into the destination branch.
 
-- [[abandoned]]`Abandoned`:
+- `Abandoned`:
 +
-The change was abandoned.
+The change was abandoned. It is not intended to be updated, reviewed or
+submitted anymore.
+
+- `Private`:
++
+The change is marked as link:intro-user.html#private-changes[Private]. And has
+reduced visibility.
+
+- `Revert Created|Revert Submitted`:
++
+The change has a corresponding revert change. Revert changes can be created
+through UI (see <<actions, Actions section>>).
+
+- `WIP`:
++
+The change was marked as "Work in Progress". For example to indicate to
+reviewers that they shouldn't review the change yet.
 
 [[star]]
 === Star Change
 
-Clicking the star icon marks the change as a favorite: it turns on
+Clicking the star icon marks the bookmarks the change: it turns on
 email notifications for this change, and the change is added to the
 list under `Your` > `Starred Changes`. They can be queried by the
 link:user-search.html#is[is:starred] search operator.
 
+[[quick-links]]
+=== Links Menu
+
+Links menu contains various change related strings for quick copying. Such as:
+Change Number, URL, Title+Url, etc. The lines in this menu can also be accessed
+via shortcuts for convenience.
+
+image::images/user-review-ui-copy-links.png[width=600, link="images/user-review-ui-copy-links.png"]
+
 [[change-info]]
 === Change metadata
 
-The change metadata block contains detailed information about the change
-and offers actions on the change.
+The change metadata block contains detailed information about the change.
+
+image::images/user-review-ui-change-metadata.png[width=600, link="images/user-review-ui-change-metadata.png"]
+
+- [[owner]]Owner/Uploader/Author/Committer
++
+Owner is the person who created the change
++
+Uploader is the person who uploaded the latest patchset (the patchset that will
+be merged if the change is submitted)
++
+Author/Committer are concepts from Git and are retrieved from commit when it's
+sent for review.
 
 - [[reviewers]]Reviewers:
 +
@@ -74,15 +105,35 @@ The reviewers of the change are displayed as chips.
 For each reviewer there is a tooltip that shows on which labels the
 reviewer is allowed to vote.
 +
-New reviewers can be added by clicking on the pencil icon. Typing
-into the pop-up text field activates auto completion of user and group
-names.
+New reviewers can be added through reply dialog that is opened by clicking on
+the pencil icon or on "Reply" button. Typing into the reviewer text field
+activates auto completion of user and group names.
 +
+
+- [[cc-list]]CC:
++
+Accounts in CC receive notifications for the updates on the change, but don't
+need to vote/review. If the CC'ed user votes they are moved to reviewers.
++
+
+- [[attention-set]]Attention set:
++
+Users in attention set are marked by "chevron" symbol (see screenshot above).
+The mark indicates that there are actions their attention is required on the
+change: Something updated/changed since last review, their vote is required,
+etc.
++
+Changes for which you are currently in attention set can be found using
+`attention:<User>` in search and show up in a separate category of personal
+dashboard.
++
+Clicking on the mark removes the user from attention set.
+
+
 [[remove-reviewer]]
-Reviewers can be removed from the change by clicking on the `x` icon
-in the reviewer's chip token. Removing a reviewer also removes the
-current votes of the reviewer. The removal of votes is recorded as a
-message on the change.
+Reviewers can be removed from the change by selecting the appropriate option on
+the chip's hovercard. Removing a reviewer also removes current votes of the
+reviewer. The removal of votes is recorded in the change log.
 +
 Removing reviewers is protected by permissions:
 
@@ -92,10 +143,7 @@ Removing reviewers is protected by permissions:
    Remove Reviewer] access right, the branch owner, the project owner
    and Gerrit administrators may remove anyone.
 
-+
-image::images/user-review-ui-change-screen-info-reviewers.png[width=600, link="images/user-review-ui-change-screen-reviewers.png"]
-
-- [[project-branch-topic]]Project / Branch / Topic:
+- [[repo-branch-topic]]Project (Repo) / Branch / Topic:
 +
 The name of the project for which the change was done is displayed as a
 link to the link:user-dashboards.html#project-default-dashboard[default
@@ -112,15 +160,54 @@ link:access-control.html#category_edit_topic_name[Edit Topic Name]
 access right. To be able to set a topic on a closed change, the
 `Edit Topic Name` must be assigned with the `force` flag.
 
+- [[parent]]Parent:
++
+Parent commit of the latest uploaded patchset. Or if the change has been merged
+the parent of the commit it was merged as into the destination branch.
+
+- [[merged-as]]Merged As:
++
+The SHA of the commit corresponding to the merged change on the destination
+branch.
+
+- [[revert-created-as]]Revert (Created|Submitted) As
++
+Points to the revert change, if one was created.
+
+- [[cherry-pick-of]]Cherry-pick of
++
+If the change was created as cherry-pick of some other change to a different
+branch, points to the original change.
+
 - [[submit-strategy]]Submit Strategy:
 +
 The link:project-setup.html#submit_type[submit strategy] that will be
 used to submit the change. The submit strategy is only displayed for
 open changes.
 
-- [[actions]]Actions:
+- [[hastags]]Hashtags:
 +
-Actions buttons are at the top, and in the overflow menu.
+Arbitrary string hashtags, that can be used to categorize changes and later use
+hashtags for search queries.
+
+[[submit-requirements]]
+=== Submit Requirements
+
+image::images/user-review-ui-submit-requirements.png[width=600, link="images/user-review-ui-copy-links.png"]
+
+Submit Requirements describe various conditions that must be fulfilled befor the
+change can be submitted. Hovering over the requirement will show the description
+of the requirement, as well as additional information, such as: corresponding
+expression that is being evaluated, who can vote on the related labels etc.
++
+Approving votes are colored green; negative votes are colored red.
++
+For more detail on Submit Requirements see
+link:config-submit-requirements.html[Submit Requirement Configuration] page.
+
+[[actions]]
+=== Actions:
+Actions buttons are at the top right and in the overflow menu.
 Depending on the change state and the permissions of the user, different
 actions are available on the change:
 
@@ -220,13 +307,7 @@ or if they are an administrator.
 +
 image::images/user-review-ui-change-screen-change-info-actions.png[width=400, link="images/user-review-ui-change-screen-change-info-actions.png"]
 
-- [[labels]]Labels & Votes:
-+
-Approving votes are colored green; negative votes are colored red.
-+
-image::images/user-review-ui-change-screen-change-info-labels.png[width=400, link="images/user-review-ui-change-screen-change-info-labels.png"]
-
-[[files]]
+[[files-tab]]
 === File List
 
 The file list shows the files that are modified in the currently viewed
@@ -251,16 +332,43 @@ information and the committer information.
 The list of commits that are being integrated into the destination
 branch by submitting the merge commit.
 
+* `File details`
++
+Every file is accompanied by a number of extra information, such as status
+(modified, added, deleted, etc.), number of changed lines, type (executable,
+link, plain), comments and others. Hovering over most icons and columns reveals
+additional information.
+
+* `Diff`
++
+Each file can be expanded to view the contents of the file and diff. For more
+information see <<diff-view, Diff View>> section.
+
+[[comments-tab]]
+=== Comments Tab
+
+Instead of the file list, a comments tab can be selected. Comments tab presents
+comments along with related file/diff snippets. It also offers some filtering
+opportunities at the top (ex. only unresolved, only comments from user X, etc.)
+
+image::images/user-review-ui-change-screen-comments-tab.png[width=800, link="images/user-review-ui-change-screen-comments-tab.png"]
+
+[[checks-tab]]
+=== Checks Tab
+Checks tab contains results of different "Check Runs" installed by plugins. For
+more information see link:pg-plugin-checks-api.html[Checks API] page.
 
 [[patch-sets]]
 === Patch Sets
 
-The change screen only presents one patch set at a time. Which patch
-set is currently viewed can be seen from the `Patch Sets` drop-down
-panel in the change header.
+The change screen only presents one pair of patch sets (`Patchset A` and
+`Patchset B`) at a time. `A` is always an earlier upload than `B` and serves as
+a base for diffing when viewing changes in the files. Which patch
+sets is currently viewed can be seen from the `Patch Sets` drop-down
+panel in the change header. If patchset 'A' is not selected a parent commit of
+patchset 'B' is used by default.
 
 image::images/user-review-ui-change-screen-patch-sets.png[width=300, link="images/user-review-ui-change-screen-patch-sets.png"]
-
 
 [[download]]
 === Download
@@ -278,7 +386,8 @@ cherry-pick a patch set.
 
 Each command has a copy-to-clipboard icon that allows the command to be
 copied into the clipboard. This makes it easy to paste and execute the
-command on a Git command line.
+command on a Git command line. Additionally each line can copied to clipboard
+using number (1..9) of the appropriate line as a keyboard shortcut.
 
 If several download schemes are configured on the server (e.g. SSH and
 HTTP) there is a drop-down list to switch between the download schemes.
@@ -306,22 +415,20 @@ release is tagged).
 
 image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
 
-
-
 [[related-changes]]
 === Related Changes
 
 If there are changes that are related to the currently viewed change
 they are displayed in the third column of the change screen.
 
-There are several lists of related changes and a tab control is used to
-display each list of related changes in its own tab.
+There are several lists of related changes that are displayed in separate
+sectionsunder each other.
 
-The following tabs may be displayed:
+The following sections may be displayed:
 
-- [[related-changes-tab]]`Related Changes`:
+- [[related-changes-section]]`Related Changes`:
 +
-This tab page shows changes on which the current change depends
+This section shows changes on which the current change depends
 (ancestors) and open changes that depend on the current change
 (descendants). For merge commits it also shows the closed changes that
 will be merged into the destination branch by submitting the merge
@@ -341,10 +448,10 @@ under review:
 +
 ** [[not-current]]Not current:
 +
-The selected patch set of the change is outdated; it is not the current
-patch set of the change.
+The patch set of the related change which is related to the current change is
+outdated; it is not the current patch set of the change.
 +
-It means that the
+For ancestor it means that the
 currently viewed patch set depends on a outdated patch set of the
 ancestor change. This is because a new patch set for the ancestor
 change was uploaded in the meantime and as result the currently viewed
@@ -364,20 +471,24 @@ this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
 
-** [[closed-ancestor]]Closed ancestor:
+** [[merged-related-change]]Merged
 +
-Indicates a closed ancestor, e.g. the commit was directly pushed into
-the repository bypassing code review, or the ancestor change was
-reviewed and submitted on another branch. The latter may indicate that
-the user has accidentally pushed the commit to the wrong branch, e.g.
-the commit was done on `branch-a`, but was then pushed to
-`refs/for/branch-b`.
+The change has been  merged.
++
+If the relationship to submitted change falls under conditions described in
+<<not-current, Not current>> the status is orange. Such changes can appear as
+both ancestors and descendants of the change.
+
+** [[submittable-related-change]]Submittable
++
+All the submit requirements are fulfilled for the related change and it can be
+submitted when all of its ancestors are submitted.
 
 ** [[closed-ancestor-abandoned]]Abandoned:
 +
 Indicates an abandoned change.
 
-- [[conflicts-with]]`Conflicts With`:
+- [[conflicts-with]]`Merge Conflicts`:
 +
 This section shows changes that conflict with the current change.
 Non-mergeable changes are filtered out; only conflicting changes that
@@ -393,10 +504,9 @@ This section shows changes that will be submitted together with the
 currently viewed change, when clicking the submit button. It includes
 ancestors of the current patch set.
 +
-This may include changes and its ancestors with the same topic if
-`change.submitWholeTopic` is enabled. Only open changes with the
-same topic are included in the list.
-+
+If `change.submitWholeTopic` is enabled this section also includes changes with
+the same topic. The list recursively includes all changes that can be reached by
+ancestor and topic relationships. Only open changes are included in the result.
 
 - [[cherry-picks]]`Cherry-Picks`:
 +
@@ -411,12 +521,18 @@ prefix in front of the change subject.
 
 If there are no related changes for a tab, the tab is not displayed.
 
+- [[same-topic]]`Same Topic`:
++
+This section shows changes which are part of the same topic. If
+`change.submitWholeTopic` is enabled, then this section is omitted and changes
+are included as part of <<submitted-together, `Submitted Together`>>
+
 [[reply]]
 === Reply
 
 The `Reply...` button in the change header allows to reply to the
 currently viewed patch set; one can add a summary comment, publish
-inline draft comments, and vote on the labels.
+inline draft comments, vote on the labels and adjust attention set.
 
 image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
 
@@ -424,10 +540,8 @@ Clicking on the `Reply...` button opens a popup panel.
 
 [[summary-comment]]
 A text box allows to type a summary comment for the currently viewed
-patch set. Some basic markdown-like syntax is supported which renders
-indented lines preformatted, lines starting with "- " or "* " as list
-items, and lines starting with "> " as block quotes (also see replying to
-link:#reply-to-message[messages] and link:#reply-inline-comment[inline comments]).
+patch set. Markdown syntax is supported same as in other
+<<comments-markdown, Comments>>.
 
 [[vote]]
 If the current patch set is viewed, buttons are displayed for
@@ -460,12 +574,12 @@ open when the quick approve button is clicked.
 
 image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
 
-[[history]]
-=== History
+[[change-log]]
+=== Change Log
 
 The history of the change can be seen in the lower part of the screen.
 
-The history contains messages for all kinds of change updates, e.g. a
+The log contains messages for all kinds of change updates, e.g. a
 message is added when a new patch set is uploaded or when a review was
 done.
 
@@ -491,12 +605,12 @@ Frontend plugins can change the UI controls in arbitrary ways.
 
 image::images/user-review-ui-change-screen-plugin-extensions.png[width=300, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
-[[side-by-side]]
+[[diff-view]]
 == Side-by-Side Diff Screen
 
-The side-by-side diff screen shows a single patch; the old file version
-is displayed on the left side of the screen; the new file version is
-displayed on the right side of the screen.
+The side-by-side diff screen shows a single patch (or difference between two
+patchsets); the old file version is displayed on the left side of the screen;
+the new file version is displayed on the right side of the screen.
 
 This screen allows to review a patch and to comment on it.
 
@@ -557,6 +671,10 @@ highlighted by a yellow background.
 Code blocks with comments may overlap. This means it is possible to
 attach several comments to the same code.
 
+[[comments-markdown]]
+The comments support markdown. It follows the CommonMark spec, except inline
+images and direct HTML are not rendered and kept as plaintext.
+
 [[line-links]]
 The lines of the patch file are linkable: simply append
 '#<linenumber>' to the URL, or click on the line-number. This not only
@@ -565,10 +683,9 @@ opens a draft comment box, but also sets the URL fragment.
 [[reply-inline-comment]]
 Clicking on the `Reply` button opens an editor to type the reply.
 
-Quoting is supported, but only by manually copying & pasting the old
-comment that should be quoted and prefixing every line by "> ". Please
-note that for a correct rendering it is important to leave a blank line
-between a quoted block and the reply to it.
+Previous comment can be quoted using "Quote" button. A new draft would be open
+on the same comment thread with the text of the previoused comment quoted using
+markdown syntax.
 
 image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]
 
@@ -609,6 +726,21 @@ that is commented.
 Clicking on the `Save` button saves the new comment as a draft. To
 make it visible to other users it must be published from the change
 screen by link:#reply[replying] to the change.
+
+[[suggest-fix]]
+=== Suggest fix
+Comments can contain suggested fixes.
++
+Clicking "Suggest Fix" will insert a special code-block in the text of the
+comment. The contents of this code block will replace the lines the comment is
+attached to (what gets highlighted when hovering over comment).
+
+image::images/user-review-ui-suggest-fix.png[width=400, link="images/user-review-ui-suggest-fix.png"]
+
+The author of the change can then preview and apply the change. This will created
+a new patchset with changes applied.
+
+image::images/user-review-ui-suggest-fix.png[width=800, link="images/user-review-ui-apply-fix.png"]
 
 [[file-level-comments]]
 === File Level Comments

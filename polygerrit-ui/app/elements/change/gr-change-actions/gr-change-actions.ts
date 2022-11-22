@@ -49,6 +49,7 @@ import {
   NumericChangeId,
   PatchSetNum,
   RequestPayload,
+  RevertInput,
   RevertSubmissionInfo,
   ReviewInput,
 } from '../../../types/common';
@@ -1641,9 +1642,14 @@ export class GrChangeActions
     assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
     assertIsDefined(this.actionsModal, 'actionsModal');
     const revertType = e.detail.revertType;
+    const skipBannedWords = e.detail.skip_banned_words_check;
     const message = e.detail.message;
     const el = this.confirmRevertDialog;
     this.actionsModal.close();
+    const payload: RevertInput = {message};
+    if (skipBannedWords) {
+      payload.validation_options = {'banned-words~skip': ''};
+    }
     el.hidden = true;
     switch (revertType) {
       case RevertType.REVERT_SINGLE_CHANGE:
@@ -1651,7 +1657,7 @@ export class GrChangeActions
           '/revert',
           assertUIActionInfo(this.actions.revert),
           false,
-          {message}
+          payload
         );
         break;
       case RevertType.REVERT_SUBMISSION:
@@ -1661,7 +1667,7 @@ export class GrChangeActions
           '/revert_submission',
           {__key: 'revert_submission', method: HttpMethod.POST} as UIActionInfo,
           false,
-          {message}
+          payload
         );
         break;
       default:

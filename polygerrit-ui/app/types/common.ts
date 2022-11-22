@@ -1502,6 +1502,19 @@ export interface CherryPickInput {
 }
 
 /**
+ * The RevertInput entity contains information for reverting a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revert-input
+ */
+export interface RevertInput {
+  message?: string;
+  notify?: NotifyType;
+  notify_details?: RecipientTypeToNotifyInfoMap;
+  topic?: TopicName;
+  work_in_progress?: boolean;
+  validation_options?: Record<string, string>;
+}
+
+/**
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
  */
 export interface MergeableInfo {

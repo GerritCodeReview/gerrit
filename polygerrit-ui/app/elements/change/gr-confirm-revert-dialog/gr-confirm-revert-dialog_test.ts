@@ -38,6 +38,10 @@ suite('gr-confirm-revert-dialog tests', () => {
                 aria-disabled="false"
               ></iron-autogrow-textarea>
             </gr-endpoint-decorator>
+            <div class="skipBannedWordsCheck">
+              <input id="skipBannedWordsCheck" type="checkbox" />
+              <label for="skipBannedWordsCheck">Skip banned words check</label>
+            </div>
           </div>
         </gr-dialog>
       `

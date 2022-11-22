@@ -139,6 +139,7 @@ suite('gr-router tests', () => {
       'handlePluginListOffsetRoute',
       'handlePluginListRoute',
       'handleRepoCommandsRoute',
+      'handleRepoEditFileRoute',
       'handleSettingsLegacyRoute',
       'handleSettingsRoute',
     ];

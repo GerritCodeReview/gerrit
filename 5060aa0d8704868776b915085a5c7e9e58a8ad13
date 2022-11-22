@@ -22,6 +22,144 @@
       },
       "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2972ea98_46cc7b5f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "suggestion: the toggling between Creating and Error could be explicit in 1 place here with `when(!errorMessage, renderCreating, renderError)` rather than spreading the toggle to be inside the top of each render method",
+      "range": {
+        "startLine": 72,
+        "startChar": 27,
+        "endLine": 72,
+        "endChar": 72
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa59df37_a815c0b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "how does this work with the parent also setting these props? Would they battle each other based on render cycles? Is this an indirect way to control the dialog hiding because the update lifecycle is automatically doing stuff?\n\nSorry for lots of questions, maybe all this signaling can be explained in a class comment or similar",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5740a5b_eff4d099",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "seems weird that the dialog is self-opening rather than the parent controlling it (gr-repo-commands). Do we usually do it this way?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71f67a27_4ab917e1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "instead of `.returns(Promise.resolve(foo))` you can just do `.resolves(foo)`",
+      "range": {
+        "startLine": 23,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1282ea68_fb31d19c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 34,
+        "startChar": 16,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8194b9d7_8b327b59",
+        "filename": "polygerrit-ui/app/models/views/repo.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:16:42Z",
+      "side": 1,
+      "message": "nit: consider a type where they are either both set or both not set, rather than independent fields. Unless it is needed to support case where only 1 is set",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

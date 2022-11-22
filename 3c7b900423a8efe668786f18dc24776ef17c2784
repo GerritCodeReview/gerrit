@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44367e1d_779a6af7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T12:32:36Z",
+      "side": 1,
+      "message": "shouldn\u0027t need to use an index signature, `payload.vaildaiton_options \u003d`",
+      "range": {
+        "startLine": 1654,
+        "startChar": 13,
+        "endLine": 1654,
+        "endChar": 35
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96235562_28d41e51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T12:32:36Z",
+      "side": 1,
+      "message": "add test that checkbox setting leads to correct payload",
+      "range": {
+        "startLine": 1654,
+        "startChar": 0,
+        "endLine": 1654,
+        "endChar": 64
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc476fdc_5daf1d4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T12:32:36Z",
+      "side": 1,
+      "message": "This should be CancelRevertEventDetail and don\u0027t add populate skipcheck field?",
+      "range": {
+        "startLine": 336,
+        "startChar": 18,
+        "endLine": 336,
+        "endChar": 42
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c84ab456_c7378377",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T12:32:36Z",
+      "side": 1,
+      "message": "reading the api doc it should be Record\u003cstring, string\u003e",
+      "range": {
+        "startLine": 1514,
+        "startChar": 23,
+        "endLine": 1514,
+        "endChar": 29
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

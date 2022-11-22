@@ -158,14 +158,15 @@ public class ChangeFieldTest {
   public void tolerateNullValuesForInsertion() {
     Project.NameKey project = Project.nameKey("project");
     ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
-    assertThat(ChangeField.ADDED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+    assertThat(ChangeField.ADDED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
   }
 
   @Test
   public void tolerateNullValuesForDeletion() {
     Project.NameKey project = Project.nameKey("project");
     ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
-    assertThat(ChangeField.DELETED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
+    assertThat(ChangeField.DELETED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null)))
+        .isTrue();
   }
 
   @Test

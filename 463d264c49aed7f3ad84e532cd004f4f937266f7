@@ -22,6 +22,30 @@
       },
       "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2721c47_02aa50ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-22T11:05:41Z",
+      "side": 1,
+      "message": "Good point. Sorry for not including those right away.",
+      "parentUuid": "f3868a3d_02ddcf71",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

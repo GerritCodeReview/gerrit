@@ -278,6 +278,11 @@ const appThemeCss = safeStyleSheet`
     --robot-comment-background-color: var(--blue-50);
     --unresolved-comment-background-color: #fef7e0;
 
+
+    /* Suggest edits */
+    --user-suggestion-header-background: var(--gray-700);
+    --user-suggestion-header-color: white;
+
     /* vote background colors */
     --vote-color-approved: var(--green-300);
     --vote-color-disliked: var(--red-50);

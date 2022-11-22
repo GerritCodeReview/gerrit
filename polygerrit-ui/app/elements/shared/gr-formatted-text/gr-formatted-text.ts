@@ -18,6 +18,10 @@ import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
+import '../gr-user-suggestion/gr-user-suggestion';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getAppContext} from '../../../services/app-context';
+import {USER_SUGGESTION_INFO_STRING} from '../../../utils/comment-util';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -33,6 +37,8 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private repoCommentLinks: CommentLinks = {};
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -134,6 +140,10 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderAsMarkdown() {
+    // need to find out here, since customRender is not arrow function
+    const suggesstEditsEnable = this.flagsService.isEnabled(
+      KnownExperimentId.SUGGEST_EDIT
+    );
     // <marked-element> internals will be in charge of calling our custom
     // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
     // closure.
@@ -167,7 +177,14 @@ export class GrFormattedText extends LitElement {
         `![${text}](${href})`;
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer['code'] = (text: string, infostring: string) => {
+        if (suggesstEditsEnable && infostring === USER_SUGGESTION_INFO_STRING) {
+          // sanitizeHtml doesn't allow class, so we use for marking a specific html tag <mark>.
+          return `<mark>${text}</mark>`;
+        } else {
+          return `<pre><code>${text}</code></pre>`;
+        }
+      };
       renderer['text'] = boundRewriteText;
     }
 
@@ -211,6 +228,9 @@ export class GrFormattedText extends LitElement {
   override updated() {
     // Look for @mentions and replace them with an account-label chip.
     this.convertEmailsToAccountChips();
+    if (this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      this.convertCodeToSuggestions();
+    }
   }
 
   private convertEmailsToAccountChips() {
@@ -233,6 +253,17 @@ export class GrFormattedText extends LitElement {
         previous.textContent = previous.textContent.slice(0, -1);
         emailLink.parentNode?.replaceChild(accountChip, emailLink);
       }
+    }
+  }
+
+  private convertCodeToSuggestions() {
+    for (const userSuggestionMark of this.renderRoot.querySelectorAll('mark')) {
+      const userSuggestion = document.createElement('gr-user-suggestion');
+      userSuggestion.code = userSuggestionMark.textContent ?? '';
+      userSuggestionMark.parentNode?.replaceChild(
+        userSuggestion,
+        userSuggestionMark
+      );
     }
   }
 }

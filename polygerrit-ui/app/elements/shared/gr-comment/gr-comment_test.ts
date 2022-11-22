@@ -29,19 +29,12 @@ import {
 import {
   createComment,
   createDraft,
-  createFixSuggestionInfo,
   createRobotComment,
   createUnsaved,
 } from '../../../test/test-data-generators';
-import {
-  ReplyToCommentEvent,
-  OpenFixPreviewEventDetail,
-} from '../../../types/events';
+import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {
-  DraftInfo,
-  USER_SUGGESTION_START_PATTERN,
-} from '../../../utils/comment-util';
+import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';
@@ -747,23 +740,6 @@ suite('gr-comment tests', () => {
       actions = query(element, '.robotActions gr-button.fix');
       assert.isNotOk(actions);
     });
-
-    test('handleShowFix fires open-fix-preview event', async () => {
-      const listener = listenOnce<CustomEvent<OpenFixPreviewEventDetail>>(
-        element,
-        'open-fix-preview'
-      );
-      element.comment = {
-        ...createRobotComment(),
-        fix_suggestions: [{...createFixSuggestionInfo()}],
-      };
-      await element.updateComplete;
-
-      queryAndAssert<GrButton>(element, '.show-fix').click();
-
-      const e = await listener;
-      assert.deepEqual(e.detail, await element.createFixPreview());
-    });
   });
 
   suite('auto saving', () => {
@@ -866,34 +842,6 @@ suite('gr-comment tests', () => {
           tabindex="0"
         >
           Suggest Fix
-        </gr-button> `
-      );
-    });
-
-    test('renders preview suggest fix', async () => {
-      element.comment = {
-        ...createComment(),
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com' as EmailAddress,
-        },
-        line: 5,
-        path: 'test',
-        message: `${USER_SUGGESTION_START_PATTERN}afterSuggestion${'\n```'}`,
-      };
-      await element.updateComplete;
-
-      assert.dom.equal(
-        queryAndAssert(element, 'gr-button.show-fix'),
-        /* HTML */ `<gr-button
-          aria-disabled="false"
-          class="action show-fix"
-          link=""
-          role="button"
-          secondary
-          tabindex="0"
-        >
-          Preview Fix
         </gr-button> `
       );
     });

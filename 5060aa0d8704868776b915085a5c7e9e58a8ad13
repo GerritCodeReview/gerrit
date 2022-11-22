@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b778410_6e43d1ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T11:32:39Z",
+      "side": 1,
+      "message": "I\u0027ve used the word modal in most other places since we unfortunately use dialog a bit differently.",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2972ea98_46cc7b5f",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 4
@@ -83,6 +106,30 @@
       "writtenOn": "2022-11-22T11:16:42Z",
       "side": 1,
       "message": "seems weird that the dialog is self-opening rather than the parent controlling it (gr-repo-commands). Do we usually do it this way?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6869884_d6551dce",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T11:32:39Z",
+      "side": 1,
+      "message": "I think self opening dialog is definitely not the common use case.\n\nUsually the overlay/modal is triggered upon some specific button click such as \"Rebase\" which opens the modal.\n\nCould you just open it on `firstUpdated` since I don\u0027t think it\u0027s possible for a user to close this dialog?",
+      "parentUuid": "d5740a5b_eff4d099",
       "range": {
         "startLine": 86,
         "startChar": 0,

@@ -23,7 +23,6 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
-  waitUntil,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
 import {
@@ -1421,45 +1420,6 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         // test
         await element.reload();
-      });
-
-      test('revert change payload with skip banned words check', async () => {
-        await element.updateComplete;
-        queryAndAssert<GrButton>(
-          element,
-          'gr-button[data-action-key="revert"]'
-        ).click();
-        const revertAction = {
-          __key: 'revert',
-          __type: 'change',
-          __primary: false,
-          method: HttpMethod.POST,
-          label: 'Revert',
-          title: 'Revert the change',
-          enabled: true,
-        };
-        const callCount = fireActionStub.callCount;
-        queryAndAssert(element, 'gr-confirm-revert-dialog').dispatchEvent(
-          new CustomEvent('confirm', {
-            detail: {
-              message: '',
-              revertType: 1,
-              skip_banned_words_check: true,
-            },
-          })
-        );
-        await waitUntil(() => fireActionStub.callCount > callCount);
-        assert.deepEqual(fireActionStub.lastCall.args, [
-          '/revert',
-          assertUIActionInfo(revertAction),
-          false,
-          {
-            message: '',
-            validation_options: {
-              'banned-words~skip': '',
-            },
-          },
-        ]);
       });
 
       test('revert change with plugin hook', async () => {

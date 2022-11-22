@@ -102,6 +102,7 @@ export class GrDialog extends LitElement {
           display: flex;
           flex-shrink: 0;
           padding-top: var(--spacing-xl);
+          align-items: center;
         }
         .flex-space {
           flex-grow: 1;

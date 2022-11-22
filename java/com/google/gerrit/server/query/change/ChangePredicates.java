@@ -66,7 +66,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> commentBy(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.COMMENTBY, id.toString());
+    return new ChangeIndexPredicate(ChangeField.COMMENTBY_SPEC, id.toString());
   }
 
   /**

@@ -19,11 +19,11 @@ import com.google.gerrit.server.index.change.ChangeField;
 
 public class AddedPredicate extends IntegerRangeChangePredicate {
   public AddedPredicate(String value) throws QueryParseException {
-    super(ChangeField.ADDED, value);
+    super(ChangeField.ADDED_LINES_SPEC, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.ADDED.get(changeData);
+    return ChangeField.ADDED_LINES_SPEC.get(changeData);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -368,7 +369,9 @@ public class PatchSetInserter implements BatchUpdateOp {
               ctx,
               patchSet,
               mailMessage,
-              approvalCopierResult.outdatedApprovals(),
+              approvalCopierResult.outdatedApprovals().stream()
+                  .map(ApprovalCopier.Result.ApprovalData::patchSetApproval)
+                  .collect(toImmutableSet()),
               oldReviewers.byState(REVIEWER),
               oldReviewers.byState(CC),
               changeKind,

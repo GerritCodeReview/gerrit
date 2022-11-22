@@ -66,7 +66,10 @@ export class GrCopyClipboard extends LitElement {
           color: var(--primary-text-color);
         }
         gr-icon {
-          color: var(--deemphasized-text-color);
+          color: var(
+            --gr-copy-clipboard-icon-color,
+            var(--deemphasized-text-color)
+          );
         }
         gr-button {
           display: block;

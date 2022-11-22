@@ -46,6 +46,75 @@
       },
       "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8103c77_72915043",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:07:04Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com in what cases is the \u003cdialog\u003e inside the \u003cgr-foo-dialog\u003e element and what cases is it outside?",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1972c3b0_30f9b7fd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:07:04Z",
+      "side": 1,
+      "message": "is this creating a change every render cycle?",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a279d829_fa4e5ed5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:07:04Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 20
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

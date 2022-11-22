@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c48c42bf_865d2db0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:07:04Z",
+      "side": 1,
+      "message": "use external URL, unfortunately all for googlers our copy UI are using this internal one :/",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

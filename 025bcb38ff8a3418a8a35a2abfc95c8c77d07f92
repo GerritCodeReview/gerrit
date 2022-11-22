@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd946359_3ee24fbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T09:58:05Z",
+      "side": 1,
+      "message": "Suggestion: `Reviewers will not be notified for WIP changes`",
+      "range": {
+        "startLine": 933,
+        "startChar": 13,
+        "endLine": 933,
+        "endChar": 52
+      },
+      "revId": "025bcb38ff8a3418a8a35a2abfc95c8c77d07f92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

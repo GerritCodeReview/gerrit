@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b38fc26_60f2024f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-22T15:17:14Z",
+      "side": 1,
+      "message": "Looks like the toString() hasn\u0027t been updated when adding multiple indexing threads per project in 3679947c7f7de39183a0f5b8d2c16d5e6a3cec4e (patch by Christian).",
+      "revId": "7fc48a436e328ed3dbf3586f86fce42da7d0ed8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

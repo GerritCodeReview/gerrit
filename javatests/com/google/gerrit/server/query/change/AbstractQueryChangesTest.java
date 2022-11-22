@@ -2755,7 +2755,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void cherrypick() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.CHERRY_PICK)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.CHERRY_PICK_SPEC)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newCherryPickChange(repo, "foo", change1.currentPatchSetId()));
@@ -2766,7 +2766,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void merge() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.MERGE)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.MERGE_SPEC)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
     RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents2").create());

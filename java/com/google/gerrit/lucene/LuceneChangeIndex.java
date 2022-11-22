@@ -143,7 +143,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.skipFields =
         MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()
             ? ImmutableSet.of()
-            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
+            : ImmutableSet.of(ChangeField.MERGEABLE_SPEC.getName());
 
     GerritIndexWriterConfig openConfig = new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig = new GerritIndexWriterConfig(cfg, "changes_closed");

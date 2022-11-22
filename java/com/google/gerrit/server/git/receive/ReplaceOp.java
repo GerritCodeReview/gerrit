@@ -510,7 +510,9 @@ public class ReplaceOp implements BatchUpdateOp {
             ctx,
             newPatchSet,
             mailMessage,
-            approvalCopierResult.outdatedApprovals(),
+            approvalCopierResult.outdatedApprovals().stream()
+                .map(ApprovalCopier.Result.PatchSetApprovalData::patchSetApproval)
+                .collect(toImmutableSet()),
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
@@ -595,6 +597,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return Optional.of(
         "The following approvals got outdated and were removed:\n"
             + approvalCopierResult.outdatedApprovals().stream()
+                .map(ApprovalCopier.Result.PatchSetApprovalData::patchSetApproval)
                 .map(
                     outdatedApproval ->
                         String.format(

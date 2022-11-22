@@ -15,8 +15,10 @@
 package com.google.gerrit.server.approval;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -25,6 +27,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -85,6 +88,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringTokenizer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -399,12 +403,17 @@ public class ApprovalsUtil {
       ChangeUpdate changeUpdate) {
     ApprovalCopier.Result approvalCopierResult =
         approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
-    approvalCopierResult.copiedApprovals().forEach(a -> changeUpdate.putCopiedApproval(a));
+    approvalCopierResult
+        .copiedApprovals()
+        .forEach(approvalData -> changeUpdate.putCopiedApproval(approvalData.patchSetApproval()));
 
     if (!notes.getChange().isWorkInProgress()) {
       // The attention set should not be updated when the change is work-in-progress.
       addAttentionSetUpdatesForOutdatedApprovals(
-          changeUpdate, approvalCopierResult.outdatedApprovals());
+          changeUpdate,
+          approvalCopierResult.outdatedApprovals().stream()
+              .map(ApprovalCopier.Result.PatchSetApprovalData::patchSetApproval)
+              .collect(toImmutableSet()));
     }
 
     return approvalCopierResult;
@@ -511,31 +520,40 @@ public class ApprovalsUtil {
    *       "is:FOO")}
    * </ul>
    *
-   * @param approvals the approvals that should be formatted
+   * @param approvalDatas the approvals that should be formatted, with approval meta data
    * @param labelTypes the label types
    * @return bullet list with the formatted approvals
    */
   private String formatApprovalListWithCopyCondition(
-      ImmutableSet<PatchSetApproval> approvals, LabelTypes labelTypes) {
+      ImmutableSet<ApprovalCopier.Result.PatchSetApprovalData> approvalDatas,
+      LabelTypes labelTypes) {
     StringBuilder message = new StringBuilder();
 
     // sort approvals by label vote so that we list them in a deterministic order
-    ImmutableList<PatchSetApproval> approvalsSortedByLabelVote =
-        approvals.stream()
-            .sorted(comparing(psa -> LabelVote.create(psa.label(), psa.value()).format()))
+    ImmutableList<ApprovalCopier.Result.PatchSetApprovalData> approvalsSortedByLabelVote =
+        approvalDatas.stream()
+            .sorted(
+                comparing(
+                    approvalData ->
+                        LabelVote.create(
+                                approvalData.patchSetApproval().label(),
+                                approvalData.patchSetApproval().value())
+                            .format()))
             .collect(toImmutableList());
 
-    ImmutableListMultimap<String, PatchSetApproval> approvalsByLabel =
-        Multimaps.index(approvalsSortedByLabelVote, PatchSetApproval::label);
+    ImmutableListMultimap<String, ApprovalCopier.Result.PatchSetApprovalData> approvalsByLabel =
+        Multimaps.index(
+            approvalsSortedByLabelVote, approvalData -> approvalData.patchSetApproval().label());
 
-    for (Map.Entry<String, Collection<PatchSetApproval>> approvalsByLabelEntry :
-        approvalsByLabel.asMap().entrySet()) {
+    for (Map.Entry<String, Collection<ApprovalCopier.Result.PatchSetApprovalData>>
+        approvalsByLabelEntry : approvalsByLabel.asMap().entrySet()) {
       String label = approvalsByLabelEntry.getKey();
-      Collection<PatchSetApproval> approvalsForSameLabel = approvalsByLabelEntry.getValue();
+      Collection<ApprovalCopier.Result.PatchSetApprovalData> approvalsForSameLabel =
+          approvalsByLabelEntry.getValue();
 
-      message.append("* ");
       if (!labelTypes.byLabel(label).isPresent()) {
         message
+            .append("* ")
             .append(formatApprovalsAsLabelVotesList(approvalsForSameLabel))
             .append(" (label type is missing)\n");
         continue;
@@ -543,22 +561,65 @@ public class ApprovalsUtil {
 
       LabelType labelType = labelTypes.byLabel(label).get();
       if (!labelType.getCopyCondition().isPresent()) {
-        message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel)).append("\n");
+        message
+            .append("* ")
+            .append(formatApprovalsAsLabelVotesList(approvalsForSameLabel))
+            .append("\n");
         continue;
       }
 
-      message
-          .append(
-              formatApprovalsWithCopyCondition(
-                  approvalsForSameLabel, labelType.getCopyCondition().get()))
-          .append("\n");
+      // Group the approvals that have the same label by the passing atoms. If approvals have the
+      // same label, but have different passing atoms, we need to list them in separate lines
+      // (because in each line we will highlight different passing atoms that matched). Approvals
+      // with the same label and the same passing atoms are formatted as a single line.
+      ImmutableListMultimap<ImmutableSet<String>, ApprovalCopier.Result.PatchSetApprovalData>
+          approvalsForSameLabelByPassingAndFailingAtoms =
+              Multimaps.index(
+                  approvalsForSameLabel, ApprovalCopier.Result.PatchSetApprovalData::passingAtoms);
+
+      // Approvals with the same label that have the same passing atoms should have the same failing
+      // atoms (since the label is the same they have the same copy condition).
+      approvalsForSameLabelByPassingAndFailingAtoms
+          .asMap()
+          .values()
+          .forEach(
+              approvalsForSameLabelAndSamePassingAtoms ->
+                  checkThatPropertyIsTheSameForAllApprovals(
+                      approvalsForSameLabelAndSamePassingAtoms,
+                      "failing atoms",
+                      approvalData -> approvalData.failingAtoms()));
+
+      // The order in which we add lines for approvals with the same label but different passing
+      // atoms needs to be deterministic for tests. Just sort them by the string representation of
+      // the passing atoms.
+      for (Collection<ApprovalCopier.Result.PatchSetApprovalData>
+          approvalsForSameLabelWithSamePassingAndFailingAtoms :
+              approvalsForSameLabelByPassingAndFailingAtoms.asMap().entrySet().stream()
+                  .sorted(
+                      comparing(
+                          (Map.Entry<
+                                      ImmutableSet<String>,
+                                      Collection<ApprovalCopier.Result.PatchSetApprovalData>>
+                                  e) -> e.getKey().toString()))
+                  .map(Map.Entry::getValue)
+                  .collect(toImmutableList())) {
+        message
+            .append("* ")
+            .append(
+                formatApprovalsWithCopyCondition(
+                    approvalsForSameLabelWithSamePassingAndFailingAtoms,
+                    labelType.getCopyCondition().get()))
+            .append("\n");
+      }
     }
 
     return message.toString();
   }
 
   /**
-   * Formats the given approvals of the same label with the given copy condition.
+   * Formats the given approvals with the given copy condition.
+   *
+   * <p>The given approvals must have the same label and the same passing and failing atoms.
    *
    * <p>E.g.: {Code-Review+1, Code-Review+2 (copy condition: "is:MIN")}
    *
@@ -578,12 +639,29 @@ public class ApprovalsUtil {
    *       "is:FOO")}
    * </ul>
    *
-   * @param approvalsForSameLabel the approvals that should be formatted, must be for the same label
+   * @param approvalsWithSameLabelAndSamePassingAndFailingAtoms the approvals that should be
+   *     formatted, must be for the same label
    * @param copyCondition the copy condition of the label
    * @return the formatted approvals
    */
   private String formatApprovalsWithCopyCondition(
-      Collection<PatchSetApproval> approvalsForSameLabel, String copyCondition) {
+      Collection<ApprovalCopier.Result.PatchSetApprovalData>
+          approvalsWithSameLabelAndSamePassingAndFailingAtoms,
+      String copyCondition) {
+    // Check that all given approvals have the same label and the same passing and failing atoms.
+    checkThatPropertyIsTheSameForAllApprovals(
+        approvalsWithSameLabelAndSamePassingAndFailingAtoms,
+        "label",
+        approvalData -> approvalData.patchSetApproval().label());
+    checkThatPropertyIsTheSameForAllApprovals(
+        approvalsWithSameLabelAndSamePassingAndFailingAtoms,
+        "passing atoms",
+        approvalData -> approvalData.passingAtoms());
+    checkThatPropertyIsTheSameForAllApprovals(
+        approvalsWithSameLabelAndSamePassingAndFailingAtoms,
+        "failing atoms",
+        approvalData -> approvalData.failingAtoms());
+
     StringBuilder message = new StringBuilder();
 
     boolean containsUserInPredicate;
@@ -591,7 +669,8 @@ public class ApprovalsUtil {
       containsUserInPredicate = containsUserInPredicate(copyCondition);
     } catch (QueryParseException e) {
       logger.atWarning().withCause(e).log("Non-parsable query condition");
-      message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel));
+      message.append(
+          formatApprovalsAsLabelVotesList(approvalsWithSameLabelAndSamePassingAndFailingAtoms));
       message.append(String.format(" (non-parseable copy condition: \"%s\")", copyCondition));
       return message.toString();
     }
@@ -618,26 +697,35 @@ public class ApprovalsUtil {
 
       // sort the approvals by their approvers name-email so that the approvers always appear in a
       // deterministic order
-      ImmutableList<PatchSetApproval> approvalsSortedByLabelVoteAndApprover =
-          approvalsForSameLabel.stream()
-              .sorted(
-                  comparing(
-                          (PatchSetApproval psa) ->
-                              LabelVote.create(psa.label(), psa.value()).format())
-                      .thenComparing(
-                          psa ->
-                              accountCache
-                                  .getEvenIfMissing(psa.accountId())
-                                  .account()
-                                  .getNameEmail(anonymousCowardName)))
-              .collect(toImmutableList());
+      ImmutableList<ApprovalCopier.Result.PatchSetApprovalData>
+          approvalsSortedByLabelVoteAndApprover =
+              approvalsWithSameLabelAndSamePassingAndFailingAtoms.stream()
+                  .sorted(
+                      comparing(
+                              (ApprovalCopier.Result.PatchSetApprovalData approvalData) ->
+                                  LabelVote.create(
+                                          approvalData.patchSetApproval().label(),
+                                          approvalData.patchSetApproval().value())
+                                      .format())
+                          .thenComparing(
+                              approvalData ->
+                                  accountCache
+                                      .getEvenIfMissing(approvalData.patchSetApproval().accountId())
+                                      .account()
+                                      .getNameEmail(anonymousCowardName)))
+                  .collect(toImmutableList());
 
       ImmutableListMultimap<LabelVote, Account.Id> approversByLabelVote =
           Multimaps.index(
                   approvalsSortedByLabelVoteAndApprover,
-                  psa -> LabelVote.create(psa.label(), psa.value()))
+                  approvalData ->
+                      LabelVote.create(
+                          approvalData.patchSetApproval().label(),
+                          approvalData.patchSetApproval().value()))
               .entries().stream()
-              .collect(toImmutableListMultimap(e -> e.getKey(), e -> e.getValue().accountId()));
+              .collect(
+                  toImmutableListMultimap(
+                      e -> e.getKey(), e -> e.getValue().patchSetApproval().accountId()));
       message.append(
           approversByLabelVote.asMap().entrySet().stream()
               .map(
@@ -647,10 +735,62 @@ public class ApprovalsUtil {
               .collect(joining(", ")));
     } else {
       // copy condition doesn't contain a UserInPredicate
-      message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel));
+      message.append(
+          formatApprovalsAsLabelVotesList(approvalsWithSameLabelAndSamePassingAndFailingAtoms));
     }
-    message.append(String.format(" (copy condition: \"%s\")", copyCondition));
+    ImmutableSet<String> passingAtoms =
+        !approvalsWithSameLabelAndSamePassingAndFailingAtoms.isEmpty()
+            ? approvalsWithSameLabelAndSamePassingAndFailingAtoms.iterator().next().passingAtoms()
+            : ImmutableSet.of();
+    message.append(
+        String.format(
+            " (copy condition: \"%s\")",
+            formatCopyConditionAsMarkdown(copyCondition, passingAtoms)));
     return message.toString();
+  }
+
+  /** Checks that all given approvals have the same value for a given property. */
+  private void checkThatPropertyIsTheSameForAllApprovals(
+      Collection<ApprovalCopier.Result.PatchSetApprovalData> approvals,
+      String propertyName,
+      Function<ApprovalCopier.Result.PatchSetApprovalData, ?> propertyExtractor) {
+    if (approvals.isEmpty()) {
+      return;
+    }
+
+    Object propertyOfFirstEntry = propertyExtractor.apply(approvals.iterator().next());
+    approvals.forEach(
+        approvalData ->
+            checkState(
+                propertyExtractor.apply(approvalData).equals(propertyOfFirstEntry),
+                "property %s of approval %s does not match, expected value: %s",
+                propertyName,
+                approvalData,
+                propertyOfFirstEntry));
+  }
+
+  /**
+   * Formats the given copy condition as a Markdown string.
+   *
+   * <p>Passing atoms are formatted as bold.
+   *
+   * @param copyCondition the copy condition that should be formatted
+   * @param passingAtoms atoms of the copy conditions which are passing/matching
+   * @return the formatted copy condition as a Markdown string
+   */
+  private String formatCopyConditionAsMarkdown(
+      String copyCondition, ImmutableSet<String> passingAtoms) {
+    StringBuilder formattedCopyCondition = new StringBuilder();
+    StringTokenizer tokenizer = new StringTokenizer(copyCondition, " ()", /* returnDelims= */ true);
+    while (tokenizer.hasMoreTokens()) {
+      String token = tokenizer.nextToken();
+      if (passingAtoms.contains(token)) {
+        formattedCopyCondition.append("**" + token.replace("*", "\\*") + "**");
+      } else {
+        formattedCopyCondition.append(token);
+      }
+    }
+    return formattedCopyCondition.toString();
   }
 
   private boolean containsUserInPredicate(String copyCondition) throws QueryParseException {
@@ -675,8 +815,9 @@ public class ApprovalsUtil {
    * @return the given approvals as a comma-separated list of label votes
    */
   private String formatApprovalsAsLabelVotesList(
-      Collection<PatchSetApproval> sortedApprovalsForSameLabel) {
+      Collection<ApprovalCopier.Result.PatchSetApprovalData> sortedApprovalsForSameLabel) {
     return sortedApprovalsForSameLabel.stream()
+        .map(ApprovalCopier.Result.PatchSetApprovalData::patchSetApproval)
         .map(psa -> LabelVote.create(psa.label(), psa.value()))
         .distinct()
         .map(LabelVote::format)

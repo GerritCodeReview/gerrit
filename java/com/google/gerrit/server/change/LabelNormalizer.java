@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
@@ -129,6 +130,20 @@ public class LabelNormalizer {
       }
     }
     return Result.create(unchanged, updated, deleted);
+  }
+
+  /**
+   * Returns a copy of the given approval normalized to the defined ranges for the label type. If
+   * the approval is for an unknown label {@link Optional#empty()} is returned
+   *
+   * @param notes change notes containing the given approval
+   * @param approval approval that should be normalized
+   */
+  public Optional<PatchSetApproval> normalize(ChangeNotes notes, PatchSetApproval approval) {
+    Result result = normalize(notes, ImmutableSet.of(approval));
+    return Optional.ofNullable(
+        Iterables.getFirst(
+            result.unchanged(), Iterables.getFirst(result.updated(), /* defaultValue= */ null)));
   }
 
   private PatchSetApproval applyTypeFloor(LabelType lt, PatchSetApproval a) {

@@ -8,7 +8,6 @@ import '../../../test/common-test-setup';
 import {createChange} from '../../../test/test-data-generators';
 import {CommitId} from '../../../types/common';
 import {EventType} from '../../../types/events';
-import {queryAndAssert} from '../../../utils/common-util';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
 
@@ -39,10 +38,6 @@ suite('gr-confirm-revert-dialog tests', () => {
                 aria-disabled="false"
               ></iron-autogrow-textarea>
             </gr-endpoint-decorator>
-            <div class="skipBannedWordsCheck">
-              <input id="skipBannedWordsCheck" type="checkbox" />
-              <label for="skipBannedWordsCheck">Skip banned words check</label>
-            </div>
           </div>
         </gr-dialog>
       `
@@ -115,26 +110,5 @@ suite('gr-confirm-revert-dialog tests', () => {
       'This reverts commit abcd123.\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);
-  });
-
-  test('skip banned words checkbox', () => {
-    const dialog = queryAndAssert(element, 'gr-dialog');
-    const fireStub = sinon.stub(element, 'dispatchEvent');
-    dialog.dispatchEvent(new CustomEvent('confirm'));
-
-    assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
-      message: '',
-      revertType: 1,
-      skip_banned_words_check: false,
-    });
-
-    queryAndAssert<HTMLInputElement>(element, '#skipBannedWordsCheck').click();
-    dialog.dispatchEvent(new CustomEvent('confirm'));
-
-    assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
-      message: '',
-      revertType: 1,
-      skip_banned_words_check: true,
-    });
   });
 });

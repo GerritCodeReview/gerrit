@@ -508,7 +508,8 @@ export function reportingDetails(comment: CommentBasics) {
   };
 }
 
-export const USER_SUGGESTION_START_PATTERN = '```suggestion\n';
+export const USER_SUGGESTION_INFO_STRING = 'suggestion';
+export const USER_SUGGESTION_START_PATTERN = `\`\`\`${USER_SUGGESTION_INFO_STRING}\n`;
 
 // This can either mean a user or a checks provided fix.
 // "Provided" means that the fix is sent along with the request

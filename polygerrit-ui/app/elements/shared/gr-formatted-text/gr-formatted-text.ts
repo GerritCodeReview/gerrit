@@ -18,8 +18,10 @@ import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
+import '../gr-user-suggestion/gr-user-suggestion';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
+import {USER_SUGGESTION_INFO_STRING} from '../../../utils/comment-util';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -171,7 +173,14 @@ export class GrFormattedText extends LitElement {
         `![${text}](${href})`;
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer['code'] = (text: string, infostring: string) => {
+        if (infostring === USER_SUGGESTION_INFO_STRING) {
+          // sanitizeHtml doesn't allow class, so we use for marking a specific html tag <samp>.
+          return `<samp>${text}</samp>`;
+        } else {
+          return `<pre><code>${text}</code></pre>`;
+        }
+      };
       renderer['text'] = boundRewriteText;
     }
 
@@ -215,6 +224,9 @@ export class GrFormattedText extends LitElement {
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       this.convertEmailsToAccountChips();
     }
+    if (this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      this.convertCodeToSuggestions();
+    }
   }
 
   private convertEmailsToAccountChips() {
@@ -237,6 +249,17 @@ export class GrFormattedText extends LitElement {
         previous.textContent = previous.textContent.slice(0, -1);
         emailLink.parentNode?.replaceChild(accountChip, emailLink);
       }
+    }
+  }
+
+  private convertCodeToSuggestions() {
+    for (const userSuggestionMark of this.renderRoot.querySelectorAll('samp')) {
+      const userSuggestion = document.createElement('gr-user-suggestion');
+      userSuggestion.code = userSuggestionMark.textContent ?? '';
+      userSuggestionMark.parentNode?.replaceChild(
+        userSuggestion,
+        userSuggestionMark
+      );
     }
   }
 }

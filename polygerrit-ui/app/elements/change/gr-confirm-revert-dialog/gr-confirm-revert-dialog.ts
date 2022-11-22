@@ -7,7 +7,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -28,6 +28,7 @@ export enum RevertType {
 export interface ConfirmRevertEventDetail {
   revertType: RevertType;
   message?: string;
+  skip_banned_words: boolean;
 }
 
 export interface CancelRevertEventDetail {
@@ -74,6 +75,9 @@ export class GrConfirmRevertDialog extends LitElement {
   @state()
   private revertMessages: string[] = [];
 
+  @query('#skipBannedWordsCheck')
+  private skipBannedWordsCheck!: HTMLInputElement;
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   static override styles = [
@@ -110,6 +114,12 @@ export class GrConfirmRevertDialog extends LitElement {
       }
       label[for='messageInput'] {
         margin-top: var(--spacing-m);
+      }
+      .skipBannedWordsCheck {
+        display: flex;
+      }
+      .skipBannedWordsCheck label {
+        margin-left: var(--spacing-m);
       }
     `,
   ];
@@ -168,6 +178,10 @@ export class GrConfirmRevertDialog extends LitElement {
               @bind-value-changed=${this.handleBindValueChanged}
             ></iron-autogrow-textarea>
           </gr-endpoint-decorator>
+          <div class="skipBannedWordsCheck">
+            <input id="skipBannedWordsCheck" type="checkbox" />
+            <label for="skipBannedWordsCheck">Skip banned words check</label>
+          </div>
         </div>
       </gr-dialog>
     `;
@@ -311,6 +325,7 @@ export class GrConfirmRevertDialog extends LitElement {
     const detail: ConfirmRevertEventDetail = {
       revertType: this.revertType,
       message: this.message,
+      skip_banned_words: this.skipBannedWordsCheck.checked,
     };
     fire(this, 'confirm', detail);
   }
@@ -320,6 +335,7 @@ export class GrConfirmRevertDialog extends LitElement {
     e.stopPropagation();
     const detail: ConfirmRevertEventDetail = {
       revertType: this.revertType,
+      skip_banned_words: this.skipBannedWordsCheck.checked,
     };
     fire(this, 'cancel', detail);
   }

@@ -24,7 +24,7 @@
 
 == Tutorials
 . Web
-.. link:user-review-ui.html[Reviewing Changes]
+.. link:user-review-ui.html[Review UI Overview]
 .. link:user-search.html[Searching Changes]
 .. link:user-inline-edit.html[Manipulating Changes in Browser]
 .. link:user-notify.html[Subscribing to Email Notifications]

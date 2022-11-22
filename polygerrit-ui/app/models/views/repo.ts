@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritView} from '../../services/router/router-model';
-import {RepoName} from '../../types/common';
+import {BranchName, RepoName} from '../../types/common';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
@@ -25,6 +25,12 @@ export interface RepoViewState extends ViewState {
   repo?: RepoName;
   filter?: string | null;
   offset?: number | string;
+  /**
+   * The two properties `createBranch` and `createPath` are for creating a
+   * change from the URL and then redirecting to a file editing page.
+   */
+  createBranch?: BranchName;
+  createPath?: string;
 }
 
 export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {

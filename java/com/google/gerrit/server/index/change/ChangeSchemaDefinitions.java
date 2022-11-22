@@ -36,17 +36,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           /* version= */ 74,
           ImmutableList.of(
               ChangeField.CHANGE,
-              ChangeField.DRAFTBY,
-              ChangeField.EDITBY,
-              ChangeField.GROUP,
               ChangeField.ID,
               ChangeField.LEGACY_ID_STR,
               ChangeField.PATCH_SET,
               ChangeField.REF_STATE,
               ChangeField.REF_STATE_PATTERN,
-              ChangeField.REVIEWEDBY,
-              ChangeField.STAR,
-              ChangeField.STARBY,
               ChangeField.STORED_SUBMIT_RECORD_LENIENT,
               ChangeField.STORED_SUBMIT_RECORD_STRICT,
               ChangeField.STORED_SUBMIT_REQUIREMENTS,
@@ -72,11 +66,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.DELETED_LINES_FIELD,
               ChangeField.DELTA_LINES_FIELD,
               ChangeField.DIRECTORY_FIELD,
+              ChangeField.DRAFTBY_FIELD,
+              ChangeField.EDITBY_FIELD,
               ChangeField.EXACT_AUTHOR_FIELD,
               ChangeField.EXACT_COMMITTER_FIELD,
               ChangeField.EXTENSION_FIELD,
               ChangeField.FILE_PART_FIELD,
               ChangeField.FOOTER_FIELD,
+              ChangeField.GROUP_FIELD,
               ChangeField.HASHTAG_CASE_AWARE_FIELD,
               ChangeField.HASHTAG_FIELD,
               ChangeField.IS_PURE_REVERT_FIELD,
@@ -96,6 +93,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.REVERT_OF_FIELD,
               ChangeField.REVIEWER_BY_EMAIL_FIELD,
               ChangeField.REVIEWER_FIELD,
+              ChangeField.STARBY_FIELD,
+              ChangeField.STARTED_FIELD,
               ChangeField.STARTED_FIELD,
               ChangeField.STATUS_FIELD,
               ChangeField.SUBMISSIONID_FIELD,
@@ -104,7 +103,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.TR_FIELD,
               ChangeField.UNRESOLVED_COMMENT_COUNT_FIELD,
               ChangeField.UPLOADER_FIELD,
-              ChangeField.WIP_FIELD),
+              ChangeField.WIP_FIELD,
+              ChangeField.REVIEWEDBY_FIELD),
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
               ChangeField.ADDED_LINES_SPEC,
               ChangeField.APPROVAL_SPEC,
@@ -124,6 +124,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.DELETED_LINES_SPEC,
               ChangeField.DELTA_LINES_SPEC,
               ChangeField.DIRECTORY_SPEC,
+              ChangeField.DRAFTBY_SPEC,
+              ChangeField.EDITBY_SPEC,
               ChangeField.EXACT_AUTHOR_SPEC,
               ChangeField.EXACT_COMMITTER_SPEC,
               ChangeField.EXACT_COMMIT_SPEC,
@@ -133,6 +135,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.FOOTER_SPEC,
               ChangeField.FUZZY_HASHTAG,
               ChangeField.FUZZY_TOPIC,
+              ChangeField.GROUP_SPEC,
               ChangeField.HASHTAG_CASE_AWARE_SPEC,
               ChangeField.HASHTAG_SPEC,
               ChangeField.IS_PURE_REVERT_SPEC,
@@ -153,14 +156,17 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.REVERT_OF,
               ChangeField.REVIEWER_BY_EMAIL,
               ChangeField.REVIEWER_SPEC,
+              ChangeField.STARBY_SPEC,
               ChangeField.STARTED_SPEC,
+              ChangeField.STAR_SPEC,
               ChangeField.STATUS_SPEC,
               ChangeField.SUBMISSIONID_SPEC,
               ChangeField.TOTAL_COMMENT_COUNT_SPEC,
               ChangeField.TR_SPEC,
               ChangeField.UNRESOLVED_COMMENT_COUNT_SPEC,
               ChangeField.UPLOADER_SPEC,
-              ChangeField.WIP_SPEC));
+              ChangeField.WIP_SPEC,
+              ChangeField.REVIEWEDBY_SPEC));
 
   /**
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
@@ -199,7 +205,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V79 =
       new Schema.Builder<ChangeData>()
           .add(V78)
-          .remove(ChangeField.DRAFTBY, ChangeField.STAR, ChangeField.STARBY)
+          .remove(ChangeField.STAR_FIELD, ChangeField.STARBY_FIELD, ChangeField.DRAFTBY_FIELD)
+          .remove(ChangeField.STAR_SPEC, ChangeField.STARBY_SPEC, ChangeField.DRAFTBY_SPEC)
           .build();
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

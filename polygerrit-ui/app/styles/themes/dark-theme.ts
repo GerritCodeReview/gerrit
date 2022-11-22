@@ -138,6 +138,10 @@ const darkThemeCss = safeStyleSheet`
     --robot-comment-background-color: #1e3a5f;
     --unresolved-comment-background-color: #614a19;
 
+    /* Suggest edits */
+    --user-suggestion-header-background: var(--gray-700);
+    --user-suggestion-header-color: white;
+
     /* vote background colors */
     --vote-color-approved: var(--green-300);
     --vote-color-disliked: var(--red-tonal);

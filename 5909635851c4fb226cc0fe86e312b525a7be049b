@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cced1aa_302ca580",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-22T11:16:44Z",
+      "side": 1,
+      "message": "Why only update renderPrefs if imageDiff exists?",
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385fe12a_677816a2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-22T11:16:44Z",
+      "side": 1,
+      "message": "ImageDiffBuilder?",
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78e3fd5f_78c943cd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:37:28Z",
+      "side": 1,
+      "message": "seems like the `this.builder` type is wrong and this cast is papering over it? should it have type `DiffBuilder | DiffBuilderImage`? Then you could even check for the presence of `renderImageDiff` field and not cast anything",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 56
+      },
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cced1aa_302ca580",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-image.ts",
         "patchSetId": 5
@@ -14,6 +37,29 @@
       "writtenOn": "2022-11-22T11:16:44Z",
       "side": 1,
       "message": "Why only update renderPrefs if imageDiff exists?",
+      "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b881294_c095dd69",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-22T11:37:28Z",
+      "side": 1,
+      "message": "consider a better name for this now that it is just 1 of 2 options, maybe DiffBuilderText. It is weird to see DiffBuilderImage is unrelated to something called DiffBuilder",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 28
+      },
       "revId": "5909635851c4fb226cc0fe86e312b525a7be049b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -606,13 +606,13 @@ export class GrReplyDialog extends LitElement {
       .patchsetLevelContainer.unresolved {
         background-color: var(--unresolved-comment-background-color);
       }
-      .privateVisiblityInfo {
+      .infoMessage {
         display: flex;
         justify-content: center;
         background-color: var(--info-background);
         padding: var(--spacing-s) 0;
       }
-      .privateVisiblityInfo gr-icon {
+      .infoMessage gr-icon {
         margin-right: var(--spacing-m);
         color: var(--info-foreground);
       }
@@ -802,6 +802,7 @@ export class GrReplyDialog extends LitElement {
           </gr-endpoint-decorator>
           ${this.renderCCList()} ${this.renderReviewConfirmation()}
           ${this.renderPrivateVisiblityInfo()}
+          ${this.renderNotificationForWipChangesInfo()}
         </section>
         <section class="labelsContainer">${this.renderLabels()}</section>
         <section class="newReplyDialog textareaContainer">
@@ -911,11 +912,25 @@ export class GrReplyDialog extends LitElement {
     ];
     if (!this.change?.is_private || !addedAccounts.length) return nothing;
     return html`
-      <div class="privateVisiblityInfo">
+      <div class="infoMessage">
         <gr-icon icon="info"></gr-icon>
         <div>
           Adding a reviewer/CC will make this private change visible to them
         </div>
+      </div>
+    `;
+  }
+
+  private renderNotificationForWipChangesInfo() {
+    const addedAccounts = [
+      ...(this.reviewersList?.additions() ?? []),
+      ...(this.ccsList?.additions() ?? []),
+    ];
+    if (!this.change?.work_in_progress || !addedAccounts.length) return nothing;
+    return html`
+      <div class="infoMessage">
+        <gr-icon icon="info"></gr-icon>
+        <div>Notifications to reviewers are not sent for WIP changes</div>
       </div>
     `;
   }

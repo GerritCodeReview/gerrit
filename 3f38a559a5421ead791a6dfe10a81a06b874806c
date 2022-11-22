@@ -70,6 +70,30 @@
       },
       "revId": "3f38a559a5421ead791a6dfe10a81a06b874806c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28660e3b_e598fd7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1837,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T11:50:04Z",
+      "side": 1,
+      "message": "Comment removed by: Dhruv Srivastava; Reason: incorrect",
+      "parentUuid": "5916014e_f94ed6d9",
+      "range": {
+        "startLine": 1837,
+        "startChar": 2,
+        "endLine": 1837,
+        "endChar": 16
+      },
+      "revId": "3f38a559a5421ead791a6dfe10a81a06b874806c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

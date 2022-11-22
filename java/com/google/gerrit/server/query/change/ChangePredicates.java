@@ -74,7 +74,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has a pending change edit.
    */
   public static Predicate<ChangeData> editBy(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.EDITBY, id.toString());
+    return new ChangeIndexPredicate(ChangeField.EDITBY_SPEC, id.toString());
   }
 
   /**
@@ -111,7 +111,7 @@ public class ChangePredicates {
   public static Predicate<ChangeData> reviewedBy(Collection<Account.Id> ids) {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
-      predicates.add(new ChangeIndexPredicate(ChangeField.REVIEWEDBY, id.toString()));
+      predicates.add(new ChangeIndexPredicate(ChangeField.REVIEWEDBY_SPEC, id.toString()));
     }
     return Predicate.or(predicates);
   }
@@ -119,7 +119,7 @@ public class ChangePredicates {
   /** Returns a predicate that matches changes that were not yet reviewed. */
   public static Predicate<ChangeData> unreviewed() {
     return Predicate.not(
-        new ChangeIndexPredicate(ChangeField.REVIEWEDBY, ChangeField.NOT_REVIEWED.toString()));
+        new ChangeIndexPredicate(ChangeField.REVIEWEDBY_SPEC, ChangeField.NOT_REVIEWED.toString()));
   }
 
   /**

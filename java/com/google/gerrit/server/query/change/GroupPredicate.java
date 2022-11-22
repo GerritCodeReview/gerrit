@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GroupPredicate extends ChangeIndexPredicate {
   public GroupPredicate(String group) {
-    super(ChangeField.GROUP, group);
+    super(ChangeField.GROUP_SPEC, group);
   }
 
   @Override

@@ -312,7 +312,7 @@ public class StarredChangesUtil {
     List<ChangeData> changeData =
         queryProvider
             .get()
-            .setRequestedFields(ChangeField.ID, ChangeField.STAR)
+            .setRequestedFields(ChangeField.ID, ChangeField.STAR_SPEC)
             .byLegacyChangeId(changeId);
     if (changeData.size() != 1) {
       throw new NoSuchChangeException(changeId);

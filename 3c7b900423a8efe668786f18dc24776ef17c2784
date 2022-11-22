@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae90dddc_002d7889",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T13:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96235562_28d41e51",
+      "range": {
+        "startLine": 1654,
+        "startChar": 0,
+        "endLine": 1654,
+        "endChar": 64
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb7af64_7f5870a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T13:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44367e1d_779a6af7",
+      "range": {
+        "startLine": 1654,
+        "startChar": 13,
+        "endLine": 1654,
+        "endChar": 35
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc476fdc_5daf1d4c",
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c82e878_5afdfda9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T13:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc476fdc_5daf1d4c",
+      "range": {
+        "startLine": 336,
+        "startChar": 18,
+        "endLine": 336,
+        "endChar": 42
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c84ab456_c7378377",
@@ -83,6 +155,54 @@
       "writtenOn": "2022-11-22T12:32:36Z",
       "side": 1,
       "message": "reading the api doc it should be Record\u003cstring, string\u003e",
+      "range": {
+        "startLine": 1514,
+        "startChar": 23,
+        "endLine": 1514,
+        "endChar": 29
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf925092_a5f7a6ab",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T13:44:26Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/extensions/api/changes/RevertInput.java;l\u003d40?q\u003d%22public%20Map%3CString,%20String%3E%20validationOptions%22\u0026sq\u003d\n\nYeah looks like it.",
+      "parentUuid": "c84ab456_c7378377",
+      "range": {
+        "startLine": 1514,
+        "startChar": 23,
+        "endLine": 1514,
+        "endChar": 29
+      },
+      "revId": "3c7b900423a8efe668786f18dc24776ef17c2784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6173d9e3_62446d94",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-22T13:44:26Z",
+      "side": 1,
+      "message": "```\nMap with key-value pairs that are forwarded as options to the commit validation listeners (e.g. can be used to skip certain validations)\n```\n\nNot sure, reading the API docs it seems like it allow the value to be anything not just a string.",
+      "parentUuid": "c84ab456_c7378377",
       "range": {
         "startLine": 1514,
         "startChar": 23,

@@ -27,6 +27,7 @@ export enum EventType {
   NETWORK_ERROR = 'network-error',
   OPEN_FIX_PREVIEW = 'open-fix-preview',
   CLOSE_FIX_PREVIEW = 'close-fix-preview',
+  OPEN_USER_SUGGEST_PREVIEW = 'open-user-suggest-preview',
   PAGE_ERROR = 'page-error',
   RELOAD = 'reload',
   REPLY = 'reply',
@@ -64,6 +65,7 @@ declare global {
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'close-fix-preview': CloseFixPreviewEvent;
+    'open-user-suggest-preview': OpenUserSuggestionPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
@@ -168,6 +170,13 @@ export interface ReplyToCommentEventDetail {
   userWantsToEdit: boolean;
   unresolved: boolean;
 }
+
+export type OpenUserSuggestionPreviewEvent =
+  CustomEvent<OpenUserSuggestionPreviewEventDetail>;
+export interface OpenUserSuggestionPreviewEventDetail {
+  code: string;
+}
+
 export type ReplyToCommentEvent = CustomEvent<ReplyToCommentEventDetail>;
 
 export interface PageErrorEventDetail {

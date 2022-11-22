@@ -40,6 +40,7 @@ import {
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
+  EventType,
   OpenFixPreviewEventDetail,
   ReplyToCommentEventDetail,
   ValueChangedEvent,
@@ -275,6 +276,9 @@ export class GrComment extends LitElement {
         this.save();
       });
     }
+    this.addEventListener(EventType.OPEN_USER_SUGGEST_PREVIEW, e => {
+      this.handleShowFix(e.detail.code);
+    });
     this.messagePlaceholder = 'Mention others with @';
     subscribe(
       this,
@@ -524,7 +528,6 @@ export class GrComment extends LitElement {
             ${this.renderCommentMessage()}
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderHumanActions()} ${this.renderRobotActions()}
-            ${this.renderSuggestEditActions()}
           </div>
         </div>
       </gr-endpoint-decorator>
@@ -776,29 +779,10 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
-        ${this.renderDiscardButton()} ${this.renderPreviewSuggestEditButton()}
-        ${this.renderEditButton()} ${this.renderCancelButton()}
-        ${this.renderSaveButton()} ${this.renderCopyLinkIcon()}
+        ${this.renderDiscardButton()} ${this.renderEditButton()}
+        ${this.renderCancelButton()} ${this.renderSaveButton()}
+        ${this.renderCopyLinkIcon()}
       </div>
-    `;
-  }
-
-  private renderPreviewSuggestEditButton() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
-      return nothing;
-    }
-    assertIsDefined(this.comment, 'comment');
-    if (!hasUserSuggestion(this.comment)) return nothing;
-    return html`
-      <gr-button
-        link
-        secondary
-        class="action show-fix"
-        ?disabled=${this.saving}
-        @click=${this.handleShowFix}
-      >
-        Preview Fix
-      </gr-button>
     `;
   }
 
@@ -889,22 +873,6 @@ export class GrComment extends LitElement {
         ${this.renderCopyLinkIcon()} ${endpoint} ${this.renderShowFixButton()}
         ${this.renderPleaseFixButton()}
       </div>
-    `;
-  }
-
-  private renderSuggestEditActions() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
-      return nothing;
-    }
-    if (
-      !this.account ||
-      isRobot(this.comment) ||
-      isDraftOrUnsaved(this.comment)
-    ) {
-      return nothing;
-    }
-    return html`
-      <div class="robotActions">${this.renderPreviewSuggestEditButton()}</div>
     `;
   }
 
@@ -1037,12 +1005,14 @@ export class GrComment extends LitElement {
   }
 
   // private, but visible for testing
-  async createFixPreview(): Promise<OpenFixPreviewEventDetail> {
+  async createFixPreview(
+    replacement?: string
+  ): Promise<OpenFixPreviewEventDetail> {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
     assertIsDefined(this.comment?.path, 'comment.path');
 
-    if (hasUserSuggestion(this.comment)) {
-      const replacement = getUserSuggestion(this.comment);
+    if (hasUserSuggestion(this.comment) || replacement) {
+      replacement = replacement || getUserSuggestion(this.comment);
       assert(!!replacement, 'malformed user suggestion');
       const line = await this.getCommentedCode();
 
@@ -1132,9 +1102,9 @@ export class GrComment extends LitElement {
     fire(this, 'reply-to-comment', eventDetail);
   }
 
-  private async handleShowFix() {
+  async handleShowFix(replacement?: string) {
     // Handled top-level in the diff and change view components.
-    fire(this, 'open-fix-preview', await this.createFixPreview());
+    fire(this, 'open-fix-preview', await this.createFixPreview(replacement));
   }
 
   async createSuggestEdit(e: MouseEvent) {

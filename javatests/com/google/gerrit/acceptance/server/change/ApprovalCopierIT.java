@@ -17,18 +17,23 @@ package com.google.gerrit.acceptance.server.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.server.change.ApprovalCopierIT.PatchSetApprovalSubject.assertThatList;
-import static com.google.gerrit.acceptance.server.change.ApprovalCopierIT.PatchSetApprovalSubject.hasTestId;
+import static com.google.gerrit.acceptance.server.change.ApprovalCopierIT.ApprovalDataSubject.assertThat;
+import static com.google.gerrit.acceptance.server.change.ApprovalCopierIT.ApprovalDataSubject.assertThatList;
+import static com.google.gerrit.acceptance.server.change.ApprovalCopierIT.ApprovalDataSubject.hasTestId;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.StandardSubjectBuilder;
+import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
+import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -43,6 +48,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -50,6 +56,7 @@ import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.eclipse.jgit.lib.Repository;
@@ -71,6 +78,24 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
 
   @Before
   public void setup() throws Exception {
+    // Overwrite "Code-Review" label that is inherited from All-Projects.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+                  LabelId.CODE_REVIEW,
+                  value(2, "Looks good to me, approved"),
+                  value(1, "Looks good to me, but someone else must approve"),
+                  value(0, "No score"),
+                  value(-1, "I would prefer this is not submitted as is"),
+                  value(-2, "This shall not be submitted"))
+              .setCopyCondition(
+                  String.format(
+                      "changekind:%s OR changekind:%s OR is:MIN",
+                      ChangeKind.NO_CHANGE, ChangeKind.TRIVIAL_REBASE.name()));
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
     // Add Verified label.
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType.Builder verified =
@@ -153,6 +178,18 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
         .containsExactly(
             PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.CODE_REVIEW, 2),
             PatchSetApprovalTestId.create(patchSet1Id, user.id(), LabelId.VERIFIED, 1));
+
+    ApprovalDataSubject codeReviewApprovalSubject =
+        assertThat(approvalCopierResult.outdatedApprovals(), LabelId.CODE_REVIEW, admin.id());
+    codeReviewApprovalSubject.hasPassingAtomsThat().isEmpty();
+    codeReviewApprovalSubject
+        .hasFailingAtomsThat()
+        .containsExactly("changekind:NO_CHANGE", "changekind:TRIVIAL_REBASE", "is:MIN");
+
+    ApprovalDataSubject verifiedApprovalSubject =
+        assertThat(approvalCopierResult.outdatedApprovals(), LabelId.VERIFIED, user.id());
+    verifiedApprovalSubject.hasPassingAtomsThat().isEmpty();
+    verifiedApprovalSubject.hasFailingAtomsThat().containsExactly("is:MIN");
   }
 
   @Test
@@ -176,6 +213,18 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
             PatchSetApprovalTestId.create(patchSet2Id, admin.id(), LabelId.CODE_REVIEW, -2),
             PatchSetApprovalTestId.create(patchSet2Id, user.id(), LabelId.VERIFIED, -1));
     assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
+
+    ApprovalDataSubject codeReviewApprovalSubject =
+        assertThat(approvalCopierResult.copiedApprovals(), LabelId.CODE_REVIEW, admin.id());
+    codeReviewApprovalSubject.hasPassingAtomsThat().containsExactly("is:MIN");
+    codeReviewApprovalSubject
+        .hasFailingAtomsThat()
+        .containsExactly("changekind:NO_CHANGE", "changekind:TRIVIAL_REBASE");
+
+    ApprovalDataSubject verifiedApprovalSubject =
+        assertThat(approvalCopierResult.copiedApprovals(), LabelId.VERIFIED, user.id());
+    verifiedApprovalSubject.hasPassingAtomsThat().containsExactly("is:MIN");
+    verifiedApprovalSubject.hasFailingAtomsThat().isEmpty();
   }
 
   @Test
@@ -230,6 +279,30 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
         .containsExactly(
             PatchSetApprovalTestId.create(patchSet1Id, user.id(), LabelId.CODE_REVIEW, 1),
             PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.VERIFIED, 1));
+
+    ApprovalDataSubject copiedCodeReviewApprovalSubject =
+        assertThat(approvalCopierResult.copiedApprovals(), LabelId.CODE_REVIEW, admin.id());
+    copiedCodeReviewApprovalSubject.hasPassingAtomsThat().containsExactly("is:MIN");
+    copiedCodeReviewApprovalSubject
+        .hasFailingAtomsThat()
+        .containsExactly("changekind:NO_CHANGE", "changekind:TRIVIAL_REBASE");
+
+    ApprovalDataSubject copiedVerifiedApprovalSubject =
+        assertThat(approvalCopierResult.copiedApprovals(), LabelId.VERIFIED, user.id());
+    copiedVerifiedApprovalSubject.hasPassingAtomsThat().containsExactly("is:MIN");
+    copiedVerifiedApprovalSubject.hasFailingAtomsThat().isEmpty();
+
+    ApprovalDataSubject outdatedCodeReviewApprovalSubject1 =
+        assertThat(approvalCopierResult.outdatedApprovals(), LabelId.CODE_REVIEW, user.id());
+    outdatedCodeReviewApprovalSubject1.hasPassingAtomsThat().isEmpty();
+    outdatedCodeReviewApprovalSubject1
+        .hasFailingAtomsThat()
+        .containsExactly("changekind:NO_CHANGE", "changekind:TRIVIAL_REBASE", "is:MIN");
+
+    ApprovalDataSubject outdatedVerifiedApprovalSubject1 =
+        assertThat(approvalCopierResult.outdatedApprovals(), LabelId.VERIFIED, admin.id());
+    outdatedVerifiedApprovalSubject1.hasPassingAtomsThat().isEmpty();
+    outdatedVerifiedApprovalSubject1.hasFailingAtomsThat().containsExactly("is:MIN");
   }
 
   @Test
@@ -275,6 +348,11 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
         .comparingElementsUsing(hasTestId())
         .containsExactly(
             PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.CODE_REVIEW, -2));
+
+    ApprovalDataSubject codeReviewApprovalSubject1 =
+        assertThat(approvalCopierResult.outdatedApprovals(), LabelId.CODE_REVIEW, admin.id());
+    codeReviewApprovalSubject1.hasPassingAtomsThat().isEmpty();
+    codeReviewApprovalSubject1.hasFailingAtomsThat().isEmpty();
   }
 
   @Test
@@ -347,12 +425,14 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         invokeApprovalCopierForCurrentPatchSet(
             r.getChange().getId(), /* expectedCurrentPatchSetNum= */ 2);
-    ImmutableSet<PatchSetApproval> copiedApprovals = approvalCopierResult.copiedApprovals();
-    assertThatList(filter(copiedApprovals, PatchSetApproval::copied))
+    ImmutableSet<ApprovalCopier.Result.ApprovalData> copiedApprovals =
+        approvalCopierResult.copiedApprovals();
+    assertThatList(filter(copiedApprovals, approval -> approval.patchSetApproval().copied()))
         .comparingElementsUsing(hasTestId())
         .containsExactly(
             PatchSetApprovalTestId.create(patchSet2Id, user.id(), LabelId.VERIFIED, -1));
-    assertThatList(filter(copiedApprovals, psa -> !psa.copied())).isEmpty();
+    assertThatList(filter(copiedApprovals, approval -> !approval.patchSetApproval().copied()))
+        .isEmpty();
   }
 
   private void vote(String changeId, TestAccount testAccount, String label, int value)
@@ -362,8 +442,9 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
   }
 
-  private ImmutableSet<PatchSetApproval> filter(
-      Set<PatchSetApproval> approvals, Predicate<PatchSetApproval> filter) {
+  private ImmutableSet<ApprovalCopier.Result.ApprovalData> filter(
+      Set<ApprovalCopier.Result.ApprovalData> approvals,
+      Predicate<ApprovalCopier.Result.ApprovalData> filter) {
     return approvals.stream().filter(filter).collect(toImmutableSet());
   }
 
@@ -378,18 +459,72 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     }
   }
 
-  public static class PatchSetApprovalSubject extends Subject {
-    public static Correspondence<PatchSetApproval, PatchSetApprovalTestId> hasTestId() {
-      return NullAwareCorrespondence.transforming(PatchSetApprovalTestId::create, "has test ID");
+  public static class ApprovalDataSubject extends Subject {
+    public static Correspondence<ApprovalCopier.Result.ApprovalData, PatchSetApprovalTestId>
+        hasTestId() {
+      return NullAwareCorrespondence.transforming(
+          approvalData -> PatchSetApprovalTestId.create(approvalData.patchSetApproval()),
+          "has test ID");
     }
 
+    public static ApprovalDataSubject assertThat(ApprovalCopier.Result.ApprovalData approvalData) {
+      return assertAbout(approvalDatas()).that(approvalData);
+    }
+
+    public static ApprovalDataSubject assertThat(
+        ImmutableSet<ApprovalCopier.Result.ApprovalData> approvalDatas,
+        String labelId,
+        Account.Id accountId) {
+      Optional<ApprovalCopier.Result.ApprovalData> approvalDataForLabelAndAccount =
+          approvalDatas.stream()
+              .filter(
+                  approvalData ->
+                      approvalData.patchSetApproval().label().equals(labelId)
+                          && approvalData.patchSetApproval().accountId().equals(accountId))
+              .findAny();
+      Truth8.assertThat(approvalDataForLabelAndAccount).isPresent();
+      return assertAbout(approvalDatas()).that(approvalDataForLabelAndAccount.get());
+    }
+
+    public static ListSubject<ApprovalDataSubject, ApprovalCopier.Result.ApprovalData>
+        assertThatList(ImmutableSet<ApprovalCopier.Result.ApprovalData> approvalDatas) {
+      return ListSubject.assertThat(approvalDatas.asList(), approvalDatas());
+    }
+
+    private static Factory<ApprovalDataSubject, ApprovalCopier.Result.ApprovalData>
+        approvalDatas() {
+      return ApprovalDataSubject::new;
+    }
+
+    private final ApprovalCopier.Result.ApprovalData approvalData;
+
+    private ApprovalDataSubject(
+        FailureMetadata metadata, ApprovalCopier.Result.ApprovalData approvalData) {
+      super(metadata, approvalData);
+      this.approvalData = approvalData;
+    }
+
+    public ListSubject<StringSubject, String> hasPassingAtomsThat() {
+      return check("passingAtoms()")
+          .about(elements())
+          .that(approvalData().passingAtoms().asList(), StandardSubjectBuilder::that);
+    }
+
+    public ListSubject<StringSubject, String> hasFailingAtomsThat() {
+      return check("failingAtoms()")
+          .about(elements())
+          .that(approvalData().failingAtoms().asList(), StandardSubjectBuilder::that);
+    }
+
+    private ApprovalCopier.Result.ApprovalData approvalData() {
+      isNotNull();
+      return approvalData;
+    }
+  }
+
+  public static class PatchSetApprovalSubject extends Subject {
     public static PatchSetApprovalSubject assertThat(PatchSetApproval patchSetApproval) {
       return assertAbout(patchSetApprovals()).that(patchSetApproval);
-    }
-
-    public static ListSubject<PatchSetApprovalSubject, PatchSetApproval> assertThatList(
-        ImmutableSet<PatchSetApproval> patchSetApprovals) {
-      return ListSubject.assertThat(patchSetApprovals.asList(), patchSetApprovals());
     }
 
     private static Factory<PatchSetApprovalSubject, PatchSetApproval> patchSetApprovals() {

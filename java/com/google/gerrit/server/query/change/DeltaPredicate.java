@@ -19,11 +19,11 @@ import com.google.gerrit.server.index.change.ChangeField;
 
 public class DeltaPredicate extends IntegerRangeChangePredicate {
   public DeltaPredicate(String value) throws QueryParseException {
-    super(ChangeField.DELTA, value);
+    super(ChangeField.DELTA_LINES_SPEC, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.DELTA.get(changeData);
+    return ChangeField.DELTA_LINES_SPEC.get(changeData);
   }
 }

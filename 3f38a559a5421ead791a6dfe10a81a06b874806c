@@ -46,6 +46,30 @@
       },
       "revId": "3f38a559a5421ead791a6dfe10a81a06b874806c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5916014e_f94ed6d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1837,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-22T10:00:50Z",
+      "side": 1,
+      "message": "nit: The comment as written is not strictly true. \n\nIf fetch happened and didn\u0027t return `ok` handleResponse is not called at all.\n\nI would suggest simply writing\n\"response is guaranteed ok if defined (due to semantics of rest-api methods)\".",
+      "parentUuid": "af85cd32_3fccfcac",
+      "range": {
+        "startLine": 1837,
+        "startChar": 2,
+        "endLine": 1837,
+        "endChar": 16
+      },
+      "revId": "3f38a559a5421ead791a6dfe10a81a06b874806c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

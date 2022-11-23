@@ -423,7 +423,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   _rowHasThread(row: HTMLElement): boolean {
-    return !!row.querySelector('.thread-group');
+    const slots = [
+      ...row.querySelectorAll<HTMLSlotElement>('.thread-group > slot'),
+    ];
+    return slots.some(slot => slot.assignedElements().length > 0);
   }
 
   /**

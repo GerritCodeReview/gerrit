@@ -240,6 +240,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c8ad544_0219ef28",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-23T13:13:55Z",
+      "side": 1,
+      "message": "Thanks for clarifying the discussion. From a rough query I see 19 cases for \u003cdialog\u003e outside gr-foo-dialog and 5 cases inside. I will leave the decision up to you two, I was mainly wondering if there was a precendent we should follow.\n\nhttps://cs.opensource.google/search?q\u003d-%22%3Cdialog%22%20f:gr-%20f:dialog%20-f:_test%20lang:ts\u0026ss\u003dgerrit",
+      "parentUuid": "3378652f_ea8f0434",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1972c3b0_30f9b7fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 3

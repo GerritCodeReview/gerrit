@@ -21,6 +21,7 @@ import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {RenderPreferences} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 
 const WHOLE_FILE = -1;
 
@@ -642,13 +643,14 @@ export class GrDiffProcessor {
     let rowIndex = 0;
     let idx = 0;
     const normalized = [];
+    const lineLengths = rows.map(r => GrAnnotation.getStringLength(r) + 1);
     for (const [skipLength, markLength] of intralineInfos) {
-      let line = rows[rowIndex] + '\n';
+      let lineLength = lineLengths[rowIndex];
       let j = 0;
       while (j < skipLength) {
-        if (idx === line.length) {
+        if (idx === lineLength) {
           idx = 0;
-          line = rows[++rowIndex] + '\n';
+          lineLength = lineLengths[++rowIndex];
           continue;
         }
         idx++;
@@ -660,10 +662,10 @@ export class GrDiffProcessor {
       };
 
       j = 0;
-      while (line && j < markLength) {
-        if (idx === line.length) {
+      while (lineLength && j < markLength) {
+        if (idx === lineLength) {
           idx = 0;
-          line = rows[++rowIndex] + '\n';
+          lineLength = lineLengths[++rowIndex];
           normalized.push(lineHighlight);
           lineHighlight = {
             contentIndex: rowIndex,

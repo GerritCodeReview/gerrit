@@ -154,6 +154,10 @@ suite('gr-diff-builder tests', () => {
       return Array.from(str).slice(start, end).join('');
     }
 
+    function charCount(str: string) {
+      return Array.from(str).length;
+    }
+
     setup(async () => {
       el = await fixture(html`
         <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
@@ -274,7 +278,7 @@ suite('gr-diff-builder tests', () => {
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
-      assert.isTrue(annotateElementSpy.called);
+      assert.isTrue(annotateElementSpy.calledWith(el, 6, charCount(str1)));
       assert.equal(el.childNodes.length, 2);
 
       assert.instanceOf(el.childNodes[0], Text);

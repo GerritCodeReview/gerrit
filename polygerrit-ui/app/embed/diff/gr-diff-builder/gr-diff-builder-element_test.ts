@@ -271,10 +271,11 @@ suite('gr-diff-builder tests', () => {
 
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6);
+      const numHighlightedChars = GrAnnotation.getStringLength(str1);
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
-      assert.isTrue(annotateElementSpy.called);
+      assert.isTrue(annotateElementSpy.calledWith(el, 6, numHighlightedChars));
       assert.equal(el.childNodes.length, 2);
 
       assert.instanceOf(el.childNodes[0], Text);

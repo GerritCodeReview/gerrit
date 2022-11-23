@@ -723,6 +723,25 @@ suite('gr-diff-processor tests', () => {
           endIndex: 41,
         },
       ]);
+
+      content = ['🙈 a', '🙉 b', '🙊 c'];
+      highlights = [[2, 7]];
+      results = element.convertIntralineInfos(content, highlights);
+      assert.deepEqual(results, [
+        {
+          contentIndex: 0,
+          startIndex: 2,
+        },
+        {
+          contentIndex: 1,
+          startIndex: 0,
+        },
+        {
+          contentIndex: 2,
+          startIndex: 0,
+          endIndex: 1,
+        },
+      ]);
     });
 
     test('scrolling pauses rendering', () => {

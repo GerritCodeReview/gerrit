@@ -264,7 +264,7 @@ public class ProjectsConsistencyChecker {
               .changeIndexQuery(
                   "projectsConsistencyCheckerQueryChanges",
                   q ->
-                      q.setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
+                      q.setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET_SPEC)
                           .query(and(basePredicate, or(predicates))))
               .call();
 

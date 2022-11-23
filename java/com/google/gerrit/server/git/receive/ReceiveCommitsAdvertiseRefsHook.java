@@ -114,7 +114,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
                   ChangeField.CHANGE,
                   ChangeField.REVIEWER_SPEC,
                   // Required during advertiseOpenChanges.
-                  ChangeField.PATCH_SET)
+                  ChangeField.PATCH_SET_SPEC)
               .enforceVisibility(true)
               .setLimit(limit)
               .query(

@@ -23,7 +23,7 @@ export const GrAnnotation = {
   },
 
   getStringLength(str: string) {
-    return str.replace(REGEX_ASTRAL_SYMBOL, '_').length;
+    return [...str].length;
   },
 
   /**

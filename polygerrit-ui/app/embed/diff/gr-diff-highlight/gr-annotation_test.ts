@@ -327,4 +327,15 @@ suite('annotation', () => {
       assert.equal(el.getAttribute('class'), 'hello world');
     });
   });
+
+  suite('getStringLength', () => {
+    test('ASCII', () => {
+      assert.equal(GrAnnotation.getStringLength('ASCII'), 5);
+    });
+
+    test('Unicode', () => {
+      assert.equal(GrAnnotation.getStringLength('Unic💢de'), 7);
+      assert.equal(GrAnnotation.getStringLength('💢💢'), 2);
+    });
+  });
 });

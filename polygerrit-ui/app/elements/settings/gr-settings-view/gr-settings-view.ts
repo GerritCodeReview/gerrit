@@ -880,7 +880,13 @@ export class GrSettingsView extends LitElement {
   private renderBrowserNotifications() {
     if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS))
       return nothing;
-    if (!areNotificationsEnabled(this.account)) return nothing;
+    if (
+      !this.flagsService.isEnabled(
+        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
+      ) &&
+      !areNotificationsEnabled(this.account)
+    )
+      return nothing;
     return html`
       <section id="allowBrowserNotificationsSection">
         <label class="title" for="allowBrowserNotifications"

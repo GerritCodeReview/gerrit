@@ -128,7 +128,7 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> idStr(Change.Id id) {
     return new ChangeIndexCardinalPredicate(
-        ChangeField.LEGACY_ID_STR, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
+        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
   }
 
   /**
@@ -302,7 +302,7 @@ public class ChangePredicates {
 
   /** Returns a predicate that matches changes whose ID starts with the provided {@code id}. */
   public static Predicate<ChangeData> idPrefix(String id) {
-    return new ChangeIndexCardinalPredicate(ChangeField.ID, id, 5);
+    return new ChangeIndexCardinalPredicate(ChangeField.CHANGE_ID_SPEC, id, 5);
   }
 
   /**
@@ -348,7 +348,7 @@ public class ChangePredicates {
    * in the form of 'gerrit~$rule_name'.
    */
   public static Predicate<ChangeData> submitRuleStatus(String value) {
-    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
+    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT_SPEC, value);
   }
 
   /**

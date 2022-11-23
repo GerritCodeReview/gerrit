@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb03d941_edb888cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-23T13:06:02Z",
+      "side": 1,
+      "message": "These are adjustments to the legacy builders but the commit message is about changing lit to match legacy?",
+      "revId": "73304decdb3da555e8b7086749fdc22a35024aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72dc8212_96069ef9",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
         "patchSetId": 1

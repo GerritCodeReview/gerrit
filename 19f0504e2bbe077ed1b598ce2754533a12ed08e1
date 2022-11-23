@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40cdd45f_4731ec51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-23T14:40:53Z",
+      "side": 1,
+      "message": "[Optional] include bug-id, or add extra context in CM of why this was detected / needed.",
+      "revId": "19f0504e2bbe077ed1b598ce2754533a12ed08e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -215,6 +215,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8891fc4e_aedf11dd",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-23T16:41:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0602cec8_0afda0b1",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfb7fe7d_d9471776",
@@ -360,6 +384,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a8a66d5_45e88ff3",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-23T16:41:03Z",
+      "side": 1,
+      "message": "\u003e Sorry I meant we do enforce this internally.\n\nAh, that makes sense, thanks!\n\n\u003e \n\u003e If it seems not useful to upstream, we can, of course, move this constraint to the internal implementation.\n\nNo, I think it\u0027s fine, but might be good to have a comment in the interface saying that it\u0027s up to each index backend implementation to enforce?",
+      "parentUuid": "f9af2f9e_d3f6f758",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78167a7d_12d87053",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 14
@@ -491,6 +539,30 @@
       "side": 1,
       "message": "Yes, this does no have to work this way in every implementation. This is just an example how it is used by us.\n\nmulti-fields actually seem more similar to what we are doing, e.g. create a string topic and then index it in different ways, (prefix, full_text).\nI am not sure what \u0027different purposes\u0027 means in the context of elastic though.\n\nSure, let\u0027s discuss in more details when we have a chance.",
       "parentUuid": "98a15d39_05cc8379",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e225a8b_8561cfa1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-11-23T16:41:03Z",
+      "side": 1,
+      "message": "\u003e Yes, this does no have to work this way in every implementation. This is just an example how it is used by us.\n\n+1\n\n\u003e \n\u003e multi-fields actually seem more similar to what we are doing, e.g. create a string topic and then index it in different ways, (prefix, full_text).\n\u003e I am not sure what \u0027different purposes\u0027 means in the context of elastic though.\n\n+1\n\n\u003e \n\u003e Sure, let\u0027s discuss in more details when we have a chance.\n\nSounds great! Once we\u0027re past our internal 3.5 upgrade we should have more time to look at these improvements 😊",
+      "parentUuid": "28bbd4d4_89b172aa",
       "range": {
         "startLine": 35,
         "startChar": 25,

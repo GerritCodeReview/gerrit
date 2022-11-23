@@ -518,7 +518,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
           // If endIndex isn't present, continue to the end of the line.
           const endIndex =
             highlight.endIndex === undefined
-              ? line.text.length
+              ? GrAnnotation.getStringLength(line.text)
               : highlight.endIndex;
 
           GrAnnotation.annotateElement(

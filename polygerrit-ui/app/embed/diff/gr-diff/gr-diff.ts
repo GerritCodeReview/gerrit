@@ -973,6 +973,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
           z-index: 10;
         }
 
+        gr-diff-image-new,
+        gr-diff-image-old,
         gr-diff-section,
         gr-context-controls-section,
         gr-diff-row {

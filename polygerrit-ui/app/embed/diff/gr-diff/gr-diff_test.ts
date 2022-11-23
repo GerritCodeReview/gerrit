@@ -1974,14 +1974,14 @@ suite('gr-diff tests', () => {
                 <td class="blank gr-diff left lineNum"></td>
                 <td class="gr-diff left">
                   <img
-                    class="gr-diff"
+                    class="gr-diff left"
                     src="data:image/bmp;base64,${mockFile1.body}"
                   />
                 </td>
                 <td class="blank gr-diff lineNum right"></td>
                 <td class="gr-diff right">
                   <img
-                    class="gr-diff"
+                    class="gr-diff right"
                     src="data:image/bmp;base64,${mockFile2.body}"
                   />
                 </td>
@@ -1999,6 +1999,22 @@ suite('gr-diff tests', () => {
                     <span class="gr-diff label"> image/bmp </span>
                   </label>
                 </td>
+              </tr>
+            </tbody>
+          `
+        );
+        const endpoint = queryAndAssert(element, 'tbody.endpoint');
+        assert.dom.equal(
+          endpoint,
+          /* HTML */ `
+            <tbody class="gr-diff endpoint">
+              <tr class="gr-diff">
+                <gr-endpoint-decorator class="gr-diff" name="image-diff">
+                  <gr-endpoint-param class="gr-diff" name="baseImage">
+                  </gr-endpoint-param>
+                  <gr-endpoint-param class="gr-diff" name="revisionImage">
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
               </tr>
             </tbody>
           `
@@ -2081,7 +2097,7 @@ suite('gr-diff tests', () => {
           rightImage,
           /* HTML */ `
             <img
-              class="gr-diff"
+              class="gr-diff right"
               src="data:image/bmp;base64,${mockFile2.body}"
             />
           `
@@ -2115,7 +2131,7 @@ suite('gr-diff tests', () => {
           leftImage,
           /* HTML */ `
             <img
-              class="gr-diff"
+              class="gr-diff left"
               src="data:image/bmp;base64,${mockFile1.body}"
             />
           `

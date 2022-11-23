@@ -7,7 +7,12 @@ import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import './gr-diff-builder-side-by-side';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {DiffBuilder, DiffContextExpandedEventDetail} from './gr-diff-builder';
+import {
+  DiffBuilder,
+  ImageDiffBuilder,
+  DiffContextExpandedEventDetail,
+  isImageDiffBuilder,
+} from './gr-diff-builder';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
@@ -114,7 +119,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   layers: DiffLayer[] = [];
 
   // visible for testing
-  builder?: DiffBuilder;
+  builder?: DiffBuilder | ImageDiffBuilder;
 
   /**
    * All layers, both from the outside and the default ones. See `layers` for
@@ -206,8 +211,8 @@ export class GrDiffBuilderElement implements GroupConsumer {
     return (
       this.cancelableRenderPromise
         .then(async () => {
-          if (this.isImageDiff) {
-            (this.builder as GrDiffBuilderImage).renderDiff();
+          if (isImageDiffBuilder(this.builder)) {
+            this.builder.renderImageDiff();
           }
           await this.untilGroupsRendered();
           this.fireDiffEvent('render-content');

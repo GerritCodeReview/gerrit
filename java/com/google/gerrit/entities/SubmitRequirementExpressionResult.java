@@ -197,8 +197,6 @@ public abstract class SubmitRequirementExpressionResult {
 
     @AutoValue.Builder
     public abstract static class Builder {
-      public abstract Builder childPredicateResults(ImmutableList<PredicateResult> value);
-
       protected abstract ImmutableList.Builder<PredicateResult> childPredicateResultsBuilder();
 
       public abstract Builder predicateString(String value);

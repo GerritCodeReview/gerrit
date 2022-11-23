@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRecord.Label;
 import java.util.Collections;
@@ -46,6 +47,16 @@ public enum LabelFunction {
       all.put(f.getFunctionName(), f);
     }
     ALL = Collections.unmodifiableMap(all);
+  }
+
+  public static final Map<String, LabelFunction> ALL_NON_DEPRECATED;
+
+  static {
+    Map<String, LabelFunction> allNonDeprecated = new LinkedHashMap<>();
+    for (LabelFunction f : ImmutableSet.of(NO_BLOCK, NO_OP, PATCH_SET_LOCK)) {
+      allNonDeprecated.put(f.getFunctionName(), f);
+    }
+    ALL_NON_DEPRECATED = Collections.unmodifiableMap(allNonDeprecated);
   }
 
   public static Optional<LabelFunction> parse(@Nullable String str) {

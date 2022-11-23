@@ -150,8 +150,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
         String.format(
             "ERROR: commit %s: invalid project configuration:\n"
                 + "ERROR: commit %s:   project.config: Invalid function for label \"foo\"."
-                + " Valid names are: AnyWithBlock, MaxWithBlock, MaxNoBlock, NoBlock, NoOp,"
-                + " PatchSetLock",
+                + " Valid names are: NoBlock, NoOp, PatchSetLock",
             abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
   }
 

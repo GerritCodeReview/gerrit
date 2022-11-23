@@ -327,4 +327,20 @@ suite('annotation', () => {
       assert.equal(el.getAttribute('class'), 'hello world');
     });
   });
+
+  suite('getStringLength', () => {
+    test('ASCII characters are counted correctly', () => {
+      assert.equal(GrAnnotation.getStringLength('ASCII'), 5);
+    });
+
+    test('Unicode surrogate pairs count as one symbol', () => {
+      assert.equal(GrAnnotation.getStringLength('Unic💢de'), 7);
+      assert.equal(GrAnnotation.getStringLength('💢💢'), 2);
+    });
+
+    test('Grapheme clusters count as multiple symbols', () => {
+      assert.equal(GrAnnotation.getStringLength('man\u0303ana'), 7); // mañana
+      assert.equal(GrAnnotation.getStringLength('q\u0307\u0323'), 3); // q̣̇
+    });
+  });
 });

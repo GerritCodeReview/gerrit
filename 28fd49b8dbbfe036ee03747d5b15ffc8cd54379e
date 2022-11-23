@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e86ae41a_8c3da756",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T13:25:14Z",
+      "side": 1,
+      "message": "Nice! Thank you! 👍 ❤️ 🎉",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5ec6431_15611f84",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T13:25:14Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 33
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a9cd16_6dd1ac79",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T13:25:14Z",
+      "side": 1,
+      "message": "before",
+      "range": {
+        "startLine": 198,
+        "startChar": 71,
+        "endLine": 198,
+        "endChar": 76
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

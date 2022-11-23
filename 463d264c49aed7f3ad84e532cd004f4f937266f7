@@ -312,6 +312,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "883b5428_a38e8cc2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-23T19:06:51Z",
+      "side": 1,
+      "message": "I tried on the latest PS and I don\u0027t see the blue border.\n\nCan you share a screenshot/steps on how to reproduce this?",
+      "parentUuid": "20af3062_db24041e",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1972c3b0_30f9b7fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 3

@@ -108,6 +108,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       "Uploading to an edit worked!".getBytes(UTF_8);
   private static final String CONTENT_BINARY_ENCODED_NEW3 =
       "data:text/plain,VXBsb2FkaW5nIHRvIGFuIGVkaXQgd29ya2VkIQ==";
+  private static final String CONTENT_BINARY_ENCODED_EMPTY = "data:text/plain;base64,";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -694,6 +695,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.fileMode = FILE_MODE;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
+  }
+
+  @Test
+  public void changeEditModifyFileSetEmptyContentModeRest() throws Exception {
+    createEmptyEditFor(changeId);
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_EMPTY;
+    in.fileMode = FILE_MODE;
+    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), "".getBytes(UTF_8));
   }
 
   @Test

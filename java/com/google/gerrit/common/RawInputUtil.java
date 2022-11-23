@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
@@ -31,7 +30,6 @@ public class RawInputUtil {
 
   public static RawInput create(byte[] bytes, String contentType) {
     requireNonNull(bytes);
-    checkArgument(bytes.length > 0);
     return new RawInput() {
       @Override
       public InputStream getInputStream() throws IOException {

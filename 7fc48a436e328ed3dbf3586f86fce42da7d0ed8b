@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bc30715b_a901de4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2022-11-23T07:40:24Z",
+      "side": 1,
+      "message": "As the commit message goes 1/64, 2/64, 3/64, ... This somewhat\nsuggests that it\u0027ll report numbers from 1 to 64.\n\nBut the slice number is 0-based (see line 353 of AllChangesIndexer.java). \nSo it would instead report 0/64, 1/64, ..., 63/64.\n\nNot much of a concern. We\u0027re already doing the same thing in line 365:\n\n    String description \u003d \"project \" + name + \" (\" + slice + \"/\" + slices + \")\";\n\nBut not sure, if the commit message should also start with 0/64 instead\nof 1/64 to set the expectations straight.",
+      "range": {
+        "startLine": 26,
+        "startChar": 21,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "7fc48a436e328ed3dbf3586f86fce42da7d0ed8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7b38fc26_60f2024f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

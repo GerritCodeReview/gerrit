@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import java.io.IOException;
 import java.util.Collections;
+import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
@@ -49,6 +50,9 @@ public class RefUtil {
     } catch (RevisionSyntaxException e) {
       throw new UnprocessableEntityException(
           String.format("base revision \"%s\" is invalid", baseRevision), e);
+    } catch (AmbiguousObjectException e) {
+      throw new UnprocessableEntityException(
+          String.format("base revision \"%s\" is ambiguous", baseRevision), e);
     }
   }
 

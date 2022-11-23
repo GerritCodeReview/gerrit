@@ -279,7 +279,7 @@ export class GrChangeMetadata extends LitElement {
       ${this.renderNonOwner(ChangeRole.AUTHOR)}
       ${this.renderNonOwner(ChangeRole.COMMITTER)} ${this.renderReviewers()}
       ${this.renderCCs()} ${this.renderProjectBranch()} ${this.renderParent()}
-      ${this.renderMergedAs()} ${this.renderShowReverCreatedAs()}
+      ${this.renderMergedAs()} ${this.renderShowRevertCreatedAs()}
       ${this.renderTopic()} ${this.renderCherryPickOf()}
       ${this.renderStrategy()} ${this.renderHashTags()}
       ${this.renderSubmitRequirements()} ${this.renderWeblinks()}
@@ -561,7 +561,7 @@ export class GrChangeMetadata extends LitElement {
     </section>`;
   }
 
-  private renderShowReverCreatedAs() {
+  private renderShowRevertCreatedAs() {
     if (!this.showRevertCreatedAs()) return nothing;
 
     return html`<section

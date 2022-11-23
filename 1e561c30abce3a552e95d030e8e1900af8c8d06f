@@ -16,6 +16,29 @@
       "message": "Thanks for the review!",
       "revId": "1e561c30abce3a552e95d030e8e1900af8c8d06f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "624dc083_a3381699",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-23T18:14:39Z",
+      "side": 1,
+      "message": "I still dislike this because this is supposed to run only once and yet it\u0027s in the `updated` lifecycle.\n\nIn the previous suggestion `firstUpdated` was rejected because the dialog may not be fully updated, but I would much prefer calling a method that would ensure dialog is fully updated and then call `showModal`.\n\nsomething like\n\n```\nfirstUpdated() {\n  openModal()\n}\n\nopenModal() {\n  await this.modal.updateComplete;\n  this.modal.showModal\n}\n```\n\nThere is also overriding the `getUpdateComplete` promise as done in GrFileList to await dialog updating.\n\nWDYT about this option? It would be nice if we can agree on a common pattern here(vs author just trying to do what the reviewer suggests).",
+      "range": {
+        "startLine": 109,
+        "startChar": 23,
+        "endLine": 109,
+        "endChar": 49
+      },
+      "revId": "1e561c30abce3a552e95d030e8e1900af8c8d06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

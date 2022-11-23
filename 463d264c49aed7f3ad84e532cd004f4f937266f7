@@ -264,6 +264,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20af3062_db24041e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-23T18:14:39Z",
+      "side": 1,
+      "message": "Then this would be the only dialog to have the border, I think the border is due to the dialog being focused in which case it having the border is probably WAI.\n\nI will take a look and see if I can get rid of the border.",
+      "parentUuid": "242e6c3b_3edbcecd",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6afe3d9_2ba35333",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-23T18:14:39Z",
+      "side": 1,
+      "message": "Thanks Ben for clarifying, I did indeed think the question was \u003cdialog\u003e inside \u003cgr-dialog\u003e and not the file structure.\nI don\u0027t think we have any consistent pattern or any precedent so fine to keep it as is.",
+      "parentUuid": "8c8ad544_0219ef28",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1972c3b0_30f9b7fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 3

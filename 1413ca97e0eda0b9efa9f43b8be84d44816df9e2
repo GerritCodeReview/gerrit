@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ee4ad0_0bf24a05",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-23T15:21:16Z",
+      "side": 1,
+      "message": "nit: I would keep an containsExactly(\"project\", \"submit\") assertion. I.e. we want to make it explicit those sections are configured, not more.",
+      "range": {
+        "startLine": 172,
+        "startChar": 43,
+        "endLine": 172,
+        "endChar": 53
+      },
+      "revId": "1413ca97e0eda0b9efa9f43b8be84d44816df9e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

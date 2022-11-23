@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "373e300e_0cf59b42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Preview page updated. Also fixed two pictures being switched around.",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8dc680d_fbf58f96",
@@ -48,6 +65,24 @@
       "writtenOn": "2022-11-23T13:33:14Z",
       "side": 1,
       "message": "`many various` is a bit redundant.",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18abbe2_59559856",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8dc680d_fbf58f96",
       "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +110,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08626397_ad3ec982",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ec6431_15611f84",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 33
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86de9d64_d2c2e4ca",
@@ -88,6 +147,24 @@
       "writtenOn": "2022-11-23T13:33:14Z",
       "side": 1,
       "message": "`from commit` -\u003e `from the commit`",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d85fbd_e13c58ae",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86de9d64_d2c2e4ca",
       "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +209,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32143ef9_9ba3cf54",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a9cd16_6dd1ac79",
+      "range": {
+        "startLine": 198,
+        "startChar": 71,
+        "endLine": 198,
+        "endChar": 76
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b5b909c_3741f9bc",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35fb4e5_d5a32837",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21b29576_24adc13a",
@@ -149,6 +268,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38968dd6_24d27bda",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Changed list to simple paragraphs.",
+      "parentUuid": "21b29576_24adc13a",
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9fb20f0_4e5378a5",
@@ -162,6 +299,30 @@
       "writtenOn": "2022-11-23T13:33:14Z",
       "side": 1,
       "message": "SEND button",
+      "range": {
+        "startLine": 556,
+        "startChar": 5,
+        "endLine": 556,
+        "endChar": 9
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d16978_612e5ace",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9fb20f0_4e5378a5",
       "range": {
         "startLine": 556,
         "startChar": 5,
@@ -195,6 +356,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf09ab7_6374090b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f1cb6c6_dca9663f",
+      "range": {
+        "startLine": 693,
+        "startChar": 44,
+        "endLine": 693,
+        "endChar": 50
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73b506e2_df8fdf66",
@@ -208,6 +393,30 @@
       "writtenOn": "2022-11-23T13:38:55Z",
       "side": 1,
       "message": "```suggestion\n\u003d\u003d\u003d Suggest fix (Experiment)\n```\n\nI am ok to leave it here and update it once we this feature is landed. But at least, we should say it\u0027s in Beta, Experiment, WIP, ... or something like that",
+      "range": {
+        "startLine": 731,
+        "startChar": 0,
+        "endLine": 731,
+        "endChar": 15
+      },
+      "revId": "28fd49b8dbbfe036ee03747d5b15ffc8cd54379e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ba2639_72903896",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-23T13:55:21Z",
+      "side": 1,
+      "message": "Done with (WIP)",
+      "parentUuid": "73b506e2_df8fdf66",
       "range": {
         "startLine": 731,
         "startChar": 0,

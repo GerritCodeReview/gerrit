@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0939e21_6984eff5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-23T10:19:51Z",
+      "side": 1,
+      "message": "nit: give a message. It makes it more clear where the string is coming from",
+      "range": {
+        "startLine": 1443,
+        "startChar": 24,
+        "endLine": 1443,
+        "endChar": 25
+      },
+      "revId": "d165021a87fdc76c2840053e69b2b57d6779b1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

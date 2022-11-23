@@ -1006,6 +1006,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.diffTable && this.diffBuilder) {
       this.highlights.init(this.diffTable, this.diffBuilder);
     }
+    this.diffBuilder.init();
   }
 
   override disconnectedCallback() {

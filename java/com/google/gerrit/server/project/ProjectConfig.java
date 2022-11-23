@@ -1143,7 +1143,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         error(
             String.format(
                 "Invalid %s for label \"%s\". Valid names are: %s",
-                KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet())));
+                KEY_FUNCTION,
+                name,
+                Joiner.on(", ").join(LabelFunction.ALL_NON_DEPRECATED.keySet())));
       }
       function.ifPresent(label::setFunction);
       label.setCopyCondition(rc.getString(LABEL, name, KEY_COPY_CONDITION));

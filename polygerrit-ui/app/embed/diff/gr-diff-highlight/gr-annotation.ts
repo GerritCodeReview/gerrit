@@ -22,8 +22,14 @@ export const GrAnnotation = {
     return this.getStringLength(node.textContent || '');
   },
 
+  /**
+   * Returns the number of Unicode code points in the given string
+   *
+   * This is not necessarily the same as the number of visible symbols.
+   * See https://mathiasbynens.be/notes/javascript-unicode for more details.
+   */
   getStringLength(str: string) {
-    return str.replace(REGEX_ASTRAL_SYMBOL, '_').length;
+    return [...str].length;
   },
 
   /**

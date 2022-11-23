@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91412c46_63514bbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-23T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50bfae3_87dd47e6",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76264804_2d0bd1ba",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-11T08:17:43Z",
       "side": 1,
       "message": "You can also add this footer here to link to our internal bug:\n\n  Bug: Google b/26172409",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1892e1e_e58d427e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-23T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76264804_2d0bd1ba",
       "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "476105c2_aafc19f2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3910,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-23T10:59:55Z",
+      "side": 1,
+      "message": "Done, used the more explicit suggestion.",
+      "parentUuid": "56f29e28_27732520",
+      "range": {
+        "startLine": 3910,
+        "startChar": 2,
+        "endLine": 3910,
+        "endChar": 42
+      },
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91ee9859_7139a6f1",
@@ -92,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9579e4_f883b7e6",
+        "filename": "java/com/google/gerrit/entities/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-23T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91ee9859_7139a6f1",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2000adb_3b3e9517",
@@ -105,6 +183,24 @@
       "writtenOn": "2022-11-11T08:15:29Z",
       "side": 1,
       "message": "Could you maybe also add a test that sets this option and pushes a commit with a forged author and committer? I think such a test could be added in AbstractPushForReview similar to the pushForMasterWithForgedAuthorAndCommitter() test that we already have there.",
+      "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84df2010_5f269add",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-23T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2000adb_3b3e9517",
       "revId": "b36d39b3be309ebe57b0d1d076194089b255e67a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

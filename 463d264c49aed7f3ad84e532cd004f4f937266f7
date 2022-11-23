@@ -192,6 +192,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "242e6c3b_3edbcecd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "If I do this, then the entire dialog gets a blue border. How do I avoid this? @dhruvsri@google.com",
+      "parentUuid": "7b4be212_a273651f",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3378652f_ea8f0434",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Maybe you are talking past each other? I think there are two ways to understand this conversation:\n\n1. Should it be \u003cdialog\u003e inside \u003cgr-dialog\u003e or \u003cgr-dialog\u003e inside \u003cdialog\u003e?\n2. Should \u003cdialog\u003e be in the same file as \u003cgr-dialog\u003e or in the parent component?\n\nI think Dhruv is answering 1.: \u003cgr-dialog\u003e should always be inside \u003cdialog\u003e.\n\nAnd Frank was wondering about 2.: My opinion is that \u003cdialog\u003e should be inside the `gr-something-dialog` component.",
+      "parentUuid": "9b023d3e_2269cb08",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1972c3b0_30f9b7fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 3
@@ -203,6 +251,30 @@
       "writtenOn": "2022-11-22T11:07:04Z",
       "side": 1,
       "message": "is this creating a change every render cycle?",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe825694_a77cfeb6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "No, but changed it to only be called in the new `activate()` method.",
+      "parentUuid": "1972c3b0_30f9b7fd",
       "range": {
         "startLine": 113,
         "startChar": 0,
@@ -226,6 +298,30 @@
       "writtenOn": "2022-11-22T11:07:04Z",
       "side": 1,
       "message": "private",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 20
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69bdb314_214ff138",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a279d829_fa4e5ed5",
       "range": {
         "startLine": 139,
         "startChar": 2,

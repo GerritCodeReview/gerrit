@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e25f3647_1bea92ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c48c42bf_865d2db0",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b778410_6e43d1ad",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-22T11:32:39Z",
       "side": 1,
       "message": "I\u0027ve used the word modal in most other places since we unfortunately use dialog a bit differently.",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da2553f_df0f3400",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b778410_6e43d1ad",
       "range": {
         "startLine": 28,
         "startChar": 10,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f88a63_e08f2b7f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2972ea98_46cc7b5f",
+      "range": {
+        "startLine": 72,
+        "startChar": 27,
+        "endLine": 72,
+        "endChar": 72
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa59df37_a815c0b2",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-11-22T11:16:42Z",
       "side": 1,
       "message": "how does this work with the parent also setting these props? Would they battle each other based on render cycles? Is this an indirect way to control the dialog hiding because the update lifecycle is automatically doing stuff?\n\nSorry for lots of questions, maybe all this signaling can be explained in a class comment or similar",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a5ef4f4_cb7dd674",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Sorry for this being confusing. Rewritten without this.",
+      "parentUuid": "fa59df37_a815c0b2",
       "range": {
         "startLine": 79,
         "startChar": 0,
@@ -142,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d6722ce_666ce169",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "I have changed the implementation a bit. The parent now calls `activate()` on the component.\n\n`firstUpdated` may not work, because with the first update we cannot be sure that everything was set and the dialog was updated.\n\nI think it is a nice feature that \u003cdialog\u003e is not rendered all the time. We normally do this, but that seems to be an anti-pattern to me. Why would we want to put a \u003cdialog\u003e into the DOM before we know that we want to show it? And if agree on that, how would be otherwise achieve this? `activate()` will change the component state such that dialog will be rendered, but then have to hook into `updated` to call `show()` or `showModal()`.\n\nI like that my component is more self contained than other dialog, which have much more logic and code in their parent containers than I think is needed.\n\nWDYT? @frankborden@google.com @dhruvsri@google.com",
+      "parentUuid": "c6869884_d6551dce",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0b0d212_2afb8016",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 4
@@ -153,6 +273,30 @@
       "writtenOn": "2022-11-22T11:40:23Z",
       "side": 1,
       "message": "nit: grammar\n```suggestion\n          The page will then redirect to the file editor\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 48
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a43033e_5b28a223",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0b0d212_2afb8016",
       "range": {
         "startLine": 100,
         "startChar": 10,
@@ -186,6 +330,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9b0fcd_e277cddc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Nice one! 👍",
+      "parentUuid": "71f67a27_4ab917e1",
+      "range": {
+        "startLine": 23,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1282ea68_fb31d19c",
@@ -209,6 +377,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e68cd5_f380a6b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1282ea68_fb31d19c",
+      "range": {
+        "startLine": 34,
+        "startChar": 16,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8194b9d7_8b327b59",
@@ -222,6 +414,30 @@
       "writtenOn": "2022-11-22T11:16:42Z",
       "side": 1,
       "message": "nit: consider a type where they are either both set or both not set, rather than independent fields. Unless it is needed to support case where only 1 is set",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c33f97a4_be4f1d8e",
+        "filename": "polygerrit-ui/app/models/views/repo.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-23T09:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8194b9d7_8b327b59",
       "range": {
         "startLine": 32,
         "startChar": 0,

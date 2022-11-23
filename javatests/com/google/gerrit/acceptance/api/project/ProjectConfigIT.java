@@ -134,6 +134,28 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rejectCreatingLabelWithInvalidFunction() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[label \"Foo\"]\n  function = INVALID");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s: invalid project configuration:\n"
+                + "ERROR: commit %s:   project.config: Invalid function for label \"foo\"."
+                + " Valid names are: AnyWithBlock, MaxWithBlock, MaxNoBlock, NoBlock, NoOp,"
+                + " PatchSetLock",
+            abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
+  }
+
+  @Test
   public void rejectSettingCopyMinScore() throws Exception {
     testRejectSettingLabelFlag(
         LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ true, "is:MIN");

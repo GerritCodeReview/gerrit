@@ -21,7 +21,7 @@ public class SubmittablePredicate extends ChangeIndexPredicate {
   protected final SubmitRecord.Status status;
 
   public SubmittablePredicate(SubmitRecord.Status status) {
-    super(ChangeField.SUBMIT_RECORD, status.name());
+    super(ChangeField.SUBMIT_RECORD_SPEC, status.name());
     this.status = status;
   }
 

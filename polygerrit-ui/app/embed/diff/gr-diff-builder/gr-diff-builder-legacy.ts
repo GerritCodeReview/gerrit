@@ -226,7 +226,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     }
 
     const cell = createElementDiff('td', 'dividerCell');
-    const colspan = viewMode === DiffViewMode.SIDE_BY_SIDE ? '5' : '3';
+    // Note that <td> table cells that have `display: none` don't count!
+    const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
     cell.setAttribute('colspan', colspan);
     row.appendChild(cell);
 

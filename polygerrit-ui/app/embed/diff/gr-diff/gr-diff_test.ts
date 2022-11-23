@@ -1163,7 +1163,7 @@ suite('gr-diff tests', () => {
                 <tr class="dividerRow gr-diff show-both">
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="gr-diff"></td>
-                  <td class="dividerCell gr-diff" colspan="5">
+                  <td class="dividerCell gr-diff" colspan="3">
                     <gr-context-controls
                       class="gr-diff"
                       showconfig="both"

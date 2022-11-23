@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72dc8212_96069ef9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-23T11:53:19Z",
+      "side": 1,
+      "message": "It seems that below you are using line.lineNumber(side).\n\nCould you simplify the logic here to be:\n\n```\nconst contentId \u003d line.lineNumber(side) \u003c\u003d 0 ? \u0027\u0027 : 1${lowercase(side)}-content-${line.lineNumber(side))}`;",
+      "revId": "73304decdb3da555e8b7086749fdc22a35024aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

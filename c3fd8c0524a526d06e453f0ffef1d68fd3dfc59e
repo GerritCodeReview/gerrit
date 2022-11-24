@@ -22,6 +22,30 @@
       },
       "revId": "c3fd8c0524a526d06e453f0ffef1d68fd3dfc59e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9adf8c4_e81b0de0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-24T13:29:13Z",
+      "side": 0,
+      "message": "I\u0027ve tracked pretty far back into history (to 2018). And I don\u0027t see gr-autocomplete-dropdown using iron-dropdown (while it always had `slot` attribute). So not sure when it was introduced.\n\nBut we are definitely not using it now.",
+      "parentUuid": "27443bd2_9e7e4021",
+      "range": {
+        "startLine": 170,
+        "startChar": 14,
+        "endLine": 170,
+        "endChar": 30
+      },
+      "revId": "c3fd8c0524a526d06e453f0ffef1d68fd3dfc59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

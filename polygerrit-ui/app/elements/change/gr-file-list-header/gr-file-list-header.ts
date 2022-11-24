@@ -159,6 +159,7 @@ export class GrFileListHeader extends LitElement {
         align-items: center;
         display: flex;
         padding: var(--spacing-s) var(--spacing-l);
+        background-color: var(--background-color-primary);
       }
       .patchInfo-left {
         align-items: baseline;

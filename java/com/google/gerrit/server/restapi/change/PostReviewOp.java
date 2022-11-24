@@ -26,11 +26,15 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Streams;
+import com.google.common.collect.Table.Cell;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
@@ -55,6 +59,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -96,6 +101,7 @@ public class PostReviewOp implements BatchUpdateOp {
   @VisibleForTesting
   public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
 
+  private final ApprovalCopier approvalCopier;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
@@ -123,6 +129,7 @@ public class PostReviewOp implements BatchUpdateOp {
   @Inject
   PostReviewOp(
       @GerritServerConfig Config gerritConfig,
+      ApprovalCopier approvalCopier,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
@@ -135,6 +142,7 @@ public class PostReviewOp implements BatchUpdateOp {
       @Assisted ProjectState projectState,
       @Assisted PatchSet.Id psId,
       @Assisted ReviewInput in) {
+    this.approvalCopier = approvalCopier;
     this.approvalsUtil = approvalsUtil;
     this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
@@ -170,6 +178,9 @@ public class PostReviewOp implements BatchUpdateOp {
     }
     try (TraceContext.TraceTimer ignored = newTimer("updateLabels")) {
       dirty |= updateLabels(projectState, ctx);
+    }
+    try (TraceContext.TraceTimer ignored = newTimer("updateCopiedApprovals")) {
+      dirty |= updateCopiedApprovalsOnFollowUpPatchSets(ctx);
     }
     try (TraceContext.TraceTimer ignored = newTimer("insertMessage")) {
       dirty |= insertMessage(ctx);
@@ -703,6 +714,197 @@ public class PostReviewOp implements BatchUpdateOp {
       }
     }
     return current;
+  }
+
+  /**
+   * Copies approvals that have been newly applied on outdated patch sets to the follow-up patch
+   * sets if they are copyable and no non-copied approvals prevent the copying.
+   *
+   * <p>Must be invoked after the new approvals on outdated patch sets have been applied (e.g. after
+   * {@link #updateLabels(ProjectState, ChangeContext)}.
+   *
+   * @param ctx the change context
+   * @return {@code true} if an update was done, otherwise {@code false}
+   */
+  private boolean updateCopiedApprovalsOnFollowUpPatchSets(ChangeContext ctx) throws IOException {
+    if (ctx.getNotes().getCurrentPatchSet().id().equals(psId)) {
+      // the updated patch set is the current patch, there a no follow-up patch set to which new
+      // approvals could be copied
+      return false;
+    }
+
+    // compute follow-up patch sets (sorted by patch set ID)
+    ImmutableList<PatchSet.Id> followUpPatchSets =
+        ctx.getNotes().getPatchSets().keySet().stream()
+            .filter(patchSetId -> patchSetId.get() > psId.get())
+            .collect(toImmutableList());
+
+    boolean dirty = false;
+    ImmutableTable<String, Account.Id, Optional<PatchSetApproval>> newApprovals =
+        ctx.getUpdate(psId).getApprovals();
+    for (Cell<String, Account.Id, Optional<PatchSetApproval>> cell : newApprovals.cellSet()) {
+      String label = cell.getRowKey();
+      Account.Id approverId = cell.getColumnKey();
+      PatchSetApproval.Key psaKey = PatchSetApproval.key(psId, approverId, LabelId.create(label));
+
+      if (isRemoval(cell)) {
+        if (removeCopies(ctx, followUpPatchSets, psaKey)) {
+          dirty = true;
+        }
+        continue;
+      }
+
+      PatchSet patchSet = psUtil.get(ctx.getNotes(), psId);
+      PatchSetApproval psaOrig = cell.getValue().get();
+
+      // Target patch sets to which the approval is copyable.
+      ImmutableList<PatchSet.Id> targetPatchSets =
+          approvalCopier.forApproval(
+              ctx.getNotes(),
+              patchSet,
+              psaKey.accountId(),
+              psaKey.labelId().get(),
+              psaOrig.value());
+
+      // Iterate over all follow-up patch sets, in patch set order.
+      for (PatchSet.Id followUpPatchSetId : followUpPatchSets) {
+        if (hasOverrideOf(ctx, followUpPatchSetId, psaKey)) {
+          // a non-copied approval exists that overrides any copied approval
+          // -> do not copy the approval to this patch set nor to any follow-up patch sets
+          break;
+        }
+
+        if (targetPatchSets.contains(followUpPatchSetId)) {
+          // The approval is copyable to the new patch set.
+
+          if (hasCopyOfWithValue(ctx, followUpPatchSetId, psaKey, psaOrig.value())) {
+            // a copy approval with the exact value already exists
+            continue;
+          }
+
+          // add/update the copied approval on the target patch set
+          PatchSetApproval copiedPatchSetApproval = psaOrig.copyWithPatchSet(followUpPatchSetId);
+          ctx.getUpdate(followUpPatchSetId).putCopiedApproval(copiedPatchSetApproval);
+          dirty = true;
+        } else {
+          // The approval is not copyable to the new patch set.
+
+          if (hasCopyOf(ctx, followUpPatchSetId, psaKey)) {
+            // a copy approval exists and should be removed
+            removeCopy(ctx, followUpPatchSetId, psaKey);
+            dirty = true;
+          }
+        }
+      }
+    }
+
+    return dirty;
+  }
+
+  /**
+   * Whether the given cell entry from the approval table represents the removal of an approval.
+   *
+   * @param cell cell entry from the approval table
+   * @return {@code true} if the approval is not set or the approval has {@code 0} as the value,
+   *     otherwise {@code false}
+   */
+  private boolean isRemoval(Cell<String, Account.Id, Optional<PatchSetApproval>> cell) {
+    return cell.getValue().isEmpty() || cell.getValue().get().value() == 0;
+  }
+
+  /**
+   * Removes copies of the given approval from all follow-up patch sets.
+   *
+   * @param ctx the change context
+   * @param followUpPatchSets the follow-up patch sets of the patch set on which the review is
+   *     posted
+   * @param psaKey the key of the patch set approval for which copies should be removed from all
+   *     follow-up patch sets
+   * @return whether any copy approval has been removed
+   */
+  private boolean removeCopies(
+      ChangeContext ctx,
+      ImmutableList<PatchSet.Id> followUpPatchSets,
+      PatchSetApproval.Key psaKey) {
+    boolean dirty = false;
+    for (PatchSet.Id followUpPatchSet : followUpPatchSets) {
+      if (hasCopyOf(ctx, followUpPatchSet, psaKey)) {
+        removeCopy(ctx, followUpPatchSet, psaKey);
+      } else {
+        // Do not remove copy from this follow-up patch sets and also not from any further follow-up
+        // patch sets (if the further follow-up patch sets have copies they are copies of a
+        // non-copied approval on this follow-up patch set and hence those should not be removed).
+        break;
+      }
+    }
+    return dirty;
+  }
+
+  /**
+   * Removes the copy approval with the given key from the given patch set.
+   *
+   * @param ctx the change context
+   * @param patchSet patch set from which the copy approval with the given key should be removed
+   * @param psaKey the key of the patch set approval for which copies should be removed from the
+   *     given patch set
+   */
+  private void removeCopy(ChangeContext ctx, PatchSet.Id patchSet, PatchSetApproval.Key psaKey) {
+    ctx.getUpdate(patchSet)
+        .removeCopiedApprovalFor(
+            ctx.getIdentifiedUser().getRealUser().isIdentifiedUser()
+                ? ctx.getIdentifiedUser().getRealUser().getAccountId()
+                : null,
+            psaKey.accountId(),
+            psaKey.labelId().get());
+  }
+
+  /**
+   * Whether the given patch set has a copy approval with the given key.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch for which it should be checked whether it has a copy
+   *     approval with the given key
+   * @param psaKey the key of the patch set approval
+   */
+  private boolean hasCopyOf(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval.Key psaKey) {
+    return ctx.getNotes().getApprovals().onlyCopied().get(patchSetId).stream()
+        .anyMatch(psa -> areAccountAndLabelTheSame(psa.key(), psaKey));
+  }
+
+  /**
+   * Whether the given patch set has a copy approval with the given key and value.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch for which it should be checked whether it has a copy
+   *     approval with the given key and value
+   * @param psaKey the key of the patch set approval
+   */
+  private boolean hasCopyOfWithValue(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval.Key psaKey, short value) {
+    return ctx.getNotes().getApprovals().onlyCopied().get(patchSetId).stream()
+        .anyMatch(psa -> areAccountAndLabelTheSame(psa.key(), psaKey) && psa.value() == value);
+  }
+
+  /**
+   * Whether the given patch set has a normal approval with the given key that overrides copy
+   * approvals with that key.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch for which it should be checked whether it has a normal
+   *     approval with the given key that overrides copy approvals with that key
+   * @param psaKey the key of the patch set approval
+   */
+  private boolean hasOverrideOf(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval.Key psaKey) {
+    return ctx.getNotes().getApprovals().onlyNonCopied().get(patchSetId).stream()
+        .anyMatch(psa -> areAccountAndLabelTheSame(psa.key(), psaKey));
+  }
+
+  private boolean areAccountAndLabelTheSame(
+      PatchSetApproval.Key psaKey1, PatchSetApproval.Key psaKey2) {
+    return psaKey1.accountId().equals(psaKey2.accountId())
+        && psaKey1.labelId().equals(psaKey2.labelId());
   }
 
   private boolean insertMessage(ChangeContext ctx) {

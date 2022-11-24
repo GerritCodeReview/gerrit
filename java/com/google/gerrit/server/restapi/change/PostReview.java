@@ -156,7 +156,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private final BatchUpdate.Factory updateFactory;
   private final PostReviewOp.Factory postReviewOpFactory;
-  private final PostReviewCopyApprovalsOpFactory postReviewCopyApprovalsOpFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
   private final AccountCache accountCache;
@@ -180,7 +179,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   PostReview(
       BatchUpdate.Factory updateFactory,
       PostReviewOp.Factory postReviewOpFactory,
-      PostReviewCopyApprovalsOpFactory postReviewCopyApprovalsOpFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       AccountCache accountCache,
@@ -200,7 +198,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ReviewerAdded reviewerAdded) {
     this.updateFactory = updateFactory;
     this.postReviewOpFactory = postReviewOpFactory;
-    this.postReviewCopyApprovalsOpFactory = postReviewCopyApprovalsOpFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.accountCache = accountCache;
@@ -384,9 +381,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PostReviewOp postReviewOp =
           postReviewOpFactory.create(projectState, revision.getPatchSet().id(), input);
       bu.addOp(revision.getChange().getId(), postReviewOp);
-      bu.addOp(
-          revision.getChange().getId(),
-          postReviewCopyApprovalsOpFactory.create(revision.getPatchSet().id()));
 
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(

@@ -876,6 +876,11 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        .header,
+        #fileListHeader {
+          position: sticky;
+          top: 0;
+        }
         .container:not(.loading) {
           background-color: var(--background-color-tertiary);
         }

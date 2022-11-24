@@ -109,6 +109,46 @@ suite('gr-autocomplete tests', () => {
     );
   });
 
+  test('renders with error', async () => {
+    const queryStub = sinon.spy((input: string) =>
+      Promise.reject(new Error(`${input} not allowed`))
+    );
+    element.query = queryStub;
+
+    focusOnInput();
+    element.text = 'blah';
+    await waitUntil(() => queryStub.called);
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <paper-input
+          aria-disabled="false"
+          autocomplete="off"
+          id="input"
+          tabindex="0"
+        >
+          <div slot="prefix">
+            <gr-icon icon="search" class="searchIcon"></gr-icon>
+          </div>
+          <div slot="suffix">
+            <slot name="suffix"> </slot>
+          </div>
+        </paper-input>
+        <gr-autocomplete-dropdown id="suggestions" role="listbox">
+        </gr-autocomplete-dropdown>
+      `,
+      {
+        // gr-autocomplete-dropdown sizing seems to vary between local & CI
+        ignoreAttributes: [
+          {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
+        ],
+      }
+    );
+    assert.equal(element.suggestionsDropdown?.errorMessage, 'blah not allowed');
+  });
+
   test('cursor starts on suggestions', async () => {
     const queryStub = sinon.spy((input: string) =>
       Promise.resolve([
@@ -173,6 +213,39 @@ suite('gr-autocomplete tests', () => {
 
       assert.isFalse(cancelHandler.called);
       assert.equal(element.suggestions.length, 0);
+
+      pressKey(inputEl(), Key.ESC);
+      await element.updateComplete;
+
+      assert.isTrue(cancelHandler.called);
+    });
+  });
+
+  test('esc key behavior on error', async () => {
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon.spy(
+      (_: string) => (promise = Promise.reject(new Error('Test error')))
+    );
+    element.query = queryStub;
+
+    assert.isTrue(suggestionsEl().isHidden);
+
+    element.setFocus(true);
+    element.text = 'blah';
+    await element.updateComplete;
+
+    return promise.catch(async () => {
+      await waitUntil(() => !suggestionsEl().isHidden);
+
+      const cancelHandler = sinon.spy();
+      element.addEventListener('cancel', cancelHandler);
+      assert.equal(element.queryErrorMessage, 'Test error');
+
+      pressKey(inputEl(), Key.ESC);
+      await waitUntil(() => suggestionsEl().isHidden);
+
+      assert.isFalse(cancelHandler.called);
+      assert.isUndefined(element.queryErrorMessage);
 
       pressKey(inputEl(), Key.ESC);
       await element.updateComplete;
@@ -403,6 +476,25 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
+  test('error should not carry over', async () => {
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon
+      .stub()
+      .returns((promise = Promise.reject(new Error('Test error'))));
+    element.query = queryStub;
+    focusOnInput();
+    element.text = 'bla';
+    await element.updateComplete;
+    return promise.catch(async () => {
+      await waitUntil(() => element.queryErrorMessage === 'Test error');
+      element.text = '';
+      element.threshold = 0;
+      element.noDebounce = false;
+      await element.updateComplete;
+      assert.isUndefined(element.queryErrorMessage);
+    });
+  });
+
   test('multi completes only the last part of the query', async () => {
     let promise;
     const queryStub = sinon
@@ -504,10 +596,21 @@ suite('gr-autocomplete tests', () => {
 
   test(
     'handleInputCommit with autocomplete hidden does nothing without' +
-      'without allowNonSuggestedValues',
+      ' allowNonSuggestedValues',
     () => {
       const commitStub = sinon.stub(element, '_commit');
       suggestionsEl().isHidden = true;
+      element.handleInputCommit();
+      assert.isFalse(commitStub.called);
+    }
+  );
+
+  test(
+    'handleInputCommit with query error does nothing without' +
+      ' allowNonSuggestedValues',
+    () => {
+      const commitStub = sinon.stub(element, '_commit');
+      element.queryErrorMessage = 'Error';
       element.handleInputCommit();
       assert.isFalse(commitStub.called);
     }
@@ -520,6 +623,17 @@ suite('gr-autocomplete tests', () => {
       const commitStub = sinon.stub(element, '_commit');
       element.allowNonSuggestedValues = true;
       suggestionsEl().isHidden = true;
+      element.handleInputCommit();
+      assert.isTrue(commitStub.called);
+    }
+  );
+
+  test(
+    'handleInputCommit with query error with' + 'allowNonSuggestedValues',
+    () => {
+      const commitStub = sinon.stub(element, '_commit');
+      element.allowNonSuggestedValues = true;
+      element.queryErrorMessage = 'Error';
       element.handleInputCommit();
       assert.isTrue(commitStub.called);
     }
@@ -587,6 +701,21 @@ suite('gr-autocomplete tests', () => {
       await element.updateComplete;
 
       assert.equal(element.suggestions.length, 0);
+      assert.isUndefined(element.queryErrorMessage);
+      assert.isTrue(suggestionsEl().isHidden);
+    });
+
+    test('enter in input does not re-render error', async () => {
+      element.allowNonSuggestedValues = true;
+      element.queryErrorMessage = 'Error message';
+
+      pressKey(inputEl(), Key.ENTER);
+
+      await waitUntil(() => commitSpy.called);
+      await element.updateComplete;
+
+      assert.equal(element.suggestions.length, 0);
+      assert.isUndefined(element.queryErrorMessage);
       assert.isTrue(suggestionsEl().isHidden);
     });
 

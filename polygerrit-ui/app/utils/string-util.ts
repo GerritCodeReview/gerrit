@@ -18,6 +18,14 @@ export function charsOnly(s: string): string {
   return s.replace(/[^a-zA-Z]+/g, '');
 }
 
+export function isCharacterLetter(ch: string): boolean {
+  return ch.toLowerCase() !== ch.toUpperCase();
+}
+
+export function isUpperCase(ch: string): boolean {
+  return ch === ch.toUpperCase();
+}
+
 export function ordinal(n?: number): string {
   if (n === undefined) return '';
   if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;

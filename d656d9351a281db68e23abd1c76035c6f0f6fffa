@@ -39,6 +39,30 @@
       },
       "revId": "d656d9351a281db68e23abd1c76035c6f0f6fffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7db2c6ef_8cdfc26e",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-24T08:51:27Z",
+      "side": 1,
+      "message": "Yeah, convoluted way of styling the input.\nSorry should have checked the whole file. 😞",
+      "parentUuid": "c38c9a04_5f64808a",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "d656d9351a281db68e23abd1c76035c6f0f6fffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

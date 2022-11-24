@@ -32,6 +32,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -85,7 +86,7 @@ public class ApprovalCopier {
      *   <li>the approval is not overridden by a current approval on the patch set
      * </ul>
      */
-    public abstract ImmutableSet<PatchSetApproval> copiedApprovals();
+    public abstract ImmutableSet<PatchSetApprovalData> copiedApprovals();
 
     /**
      * Approvals on the previous patch set that have not been copied to the patch set.
@@ -96,7 +97,7 @@ public class ApprovalCopier {
      * <p>Only returns non-copied approvals of the previous patch set. Approvals from earlier patch
      * sets that were outdated before are not included.
      */
-    public abstract ImmutableSet<PatchSetApproval> outdatedApprovals();
+    public abstract ImmutableSet<PatchSetApprovalData> outdatedApprovals();
 
     static Result empty() {
       return create(
@@ -105,9 +106,67 @@ public class ApprovalCopier {
 
     @VisibleForTesting
     public static Result create(
-        ImmutableSet<PatchSetApproval> copiedApprovals,
-        ImmutableSet<PatchSetApproval> outdatedApprovals) {
+        ImmutableSet<PatchSetApprovalData> copiedApprovals,
+        ImmutableSet<PatchSetApprovalData> outdatedApprovals) {
       return new AutoValue_ApprovalCopier_Result(copiedApprovals, outdatedApprovals);
+    }
+
+    /**
+     * A {@link PatchSetApproval} with information about which atoms of the copy condition are
+     * passing/failing.
+     */
+    @AutoValue
+    public abstract static class PatchSetApprovalData {
+      /** The approval. */
+      public abstract PatchSetApproval patchSetApproval();
+
+      /**
+       * Lists the leaf predicates of the copy condition that are fulfilled.
+       *
+       * <p>Example: The expression
+       *
+       * <pre>
+       * changekind:TRIVIAL_REBASE OR is:MIN
+       * </pre>
+       *
+       * has two leaf predicates:
+       *
+       * <ul>
+       *   <li>changekind:TRIVIAL_REBASE
+       *   <li>is:MIN
+       * </ul>
+       *
+       * This method will return the leaf predicates that are fulfilled, for example if only the
+       * first predicate is fulfilled, the returned list will be equal to
+       * ["changekind:TRIVIAL_REBASE"].
+       *
+       * <p>Empty if the label type is missing, if there is no copy condition or if the copy
+       * condition is not parseable.
+       */
+      public abstract ImmutableSet<String> passingAtoms();
+
+      /**
+       * Lists the leaf predicates of the copy condition that are not fulfilled. See {@link
+       * #passingAtoms()} for more details.
+       *
+       * <p>Empty if the label type is missing, if there is no copy condition or if the copy
+       * condition is not parseable.
+       */
+      public abstract ImmutableSet<String> failingAtoms();
+
+      @VisibleForTesting
+      public static PatchSetApprovalData create(
+          PatchSetApproval approval,
+          ImmutableSet<String> passingAtoms,
+          ImmutableSet<String> failingAtoms) {
+        return new AutoValue_ApprovalCopier_Result_PatchSetApprovalData(
+            approval, passingAtoms, failingAtoms);
+      }
+
+      private static PatchSetApprovalData createForMissingLabelType(PatchSetApproval approval) {
+        return new AutoValue_ApprovalCopier_Result_PatchSetApprovalData(
+            approval, ImmutableSet.of(), ImmutableSet.of());
+      }
     }
   }
 
@@ -227,17 +286,18 @@ public class ApprovalCopier {
                 followUpPatchSet.commitId());
         boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
 
-        if (canCopy(
-            changeNotes,
-            priorPatchSet.id(),
-            followUpPatchSet,
-            approverId,
-            labelType.get(),
-            approvalValue,
-            changeKind,
-            isMerge,
-            revWalk,
-            repo.getConfig())) {
+        if (computeCopyResult(
+                changeNotes,
+                priorPatchSet.id(),
+                followUpPatchSet,
+                approverId,
+                labelType.get(),
+                approvalValue,
+                changeKind,
+                isMerge,
+                revWalk,
+                repo.getConfig())
+            .canCopy()) {
           targetPatchSetsBuilder.add(followUpPatchSetId);
         } else {
           // The approval is not copyable to this follow-up patch set.
@@ -251,7 +311,14 @@ public class ApprovalCopier {
     return targetPatchSetsBuilder.build();
   }
 
-  private boolean canCopy(
+  /**
+   * Checks whether a given approval can be copied from the given source patch set to the given
+   * target patch set.
+   *
+   * <p>The returned result also informs about which atoms of the copy condition are
+   * passing/failing.
+   */
+  private ApprovalCopyResult computeCopyResult(
       ChangeNotes changeNotes,
       PatchSet.Id sourcePatchSetId,
       PatchSet targetPatchSet,
@@ -263,7 +330,7 @@ public class ApprovalCopier {
       RevWalk revWalk,
       Config repoConfig) {
     if (!labelType.getCopyCondition().isPresent()) {
-      return false;
+      return ApprovalCopyResult.createForMissingCopyCondition();
     }
     ApprovalContext ctx =
         ApprovalContext.create(
@@ -283,15 +350,18 @@ public class ApprovalCopier {
       // request (e.g. a group used in this query might not be visible to the person sending this
       // request).
       try (ManualRequestContext ignored = requestContext.open()) {
-        return approvalQueryBuilder
-            .parse(labelType.getCopyCondition().get())
-            .asMatchable()
-            .match(ctx);
+        Predicate<ApprovalContext> copyConditionPredicate =
+            approvalQueryBuilder.parse(labelType.getCopyCondition().get());
+        boolean canCopy = copyConditionPredicate.asMatchable().match(ctx);
+        ImmutableSet.Builder<String> passingAtoms = ImmutableSet.builder();
+        ImmutableSet.Builder<String> failingAtoms = ImmutableSet.builder();
+        evaluateAtoms(copyConditionPredicate, ctx, passingAtoms, failingAtoms);
+        return ApprovalCopyResult.create(canCopy, passingAtoms.build(), failingAtoms.build());
       }
     } catch (QueryParseException e) {
       logger.atWarning().withCause(e).log(
           "Unable to copy label because config is invalid. This should have been caught before.");
-      return false;
+      return ApprovalCopyResult.createForNonParseableCopyCondition();
     }
   }
 
@@ -321,8 +391,10 @@ public class ApprovalCopier {
     nonCopiedApprovalsForGivenPatchSet.forEach(
         psa -> currentApprovalsByUser.put(psa.label(), psa.accountId(), psa));
 
-    Table<String, Account.Id, PatchSetApproval> copiedApprovalsByUser = HashBasedTable.create();
-    ImmutableSet.Builder<PatchSetApproval> outdatedApprovalsBuilder = ImmutableSet.builder();
+    Table<String, Account.Id, Result.PatchSetApprovalData> copiedApprovalsByUser =
+        HashBasedTable.create();
+    ImmutableSet.Builder<Result.PatchSetApprovalData> outdatedApprovalsBuilder =
+        ImmutableSet.builder();
 
     ImmutableList<PatchSetApproval> priorApprovals =
         notes.load().getApprovals().all().get(priorPatchSet.getKey());
@@ -362,35 +434,55 @@ public class ApprovalCopier {
             priorPsa.key().patchSetId().changeId().get(),
             targetPsId.get(),
             projectName);
-        outdatedApprovalsBuilder.add(priorPsa);
+        outdatedApprovalsBuilder.add(
+            Result.PatchSetApprovalData.createForMissingLabelType(priorPsa));
         continue;
       }
-      if (canCopy(
-          notes,
-          priorPsa.patchSetId(),
-          targetPatchSet,
-          priorPsa.accountId(),
-          labelType.get(),
-          priorPsa.value(),
-          changeKind,
-          isMerge,
-          rw,
-          repoConfig)) {
+      ApprovalCopyResult approvalCopyResult =
+          computeCopyResult(
+              notes,
+              priorPsa.patchSetId(),
+              targetPatchSet,
+              priorPsa.accountId(),
+              labelType.get(),
+              priorPsa.value(),
+              changeKind,
+              isMerge,
+              rw,
+              repoConfig);
+      if (approvalCopyResult.canCopy()) {
         if (!currentApprovalsByUser.contains(priorPsa.label(), priorPsa.accountId())) {
+          PatchSetApproval copiedApproval = priorPsa.copyWithPatchSet(targetPatchSet.id());
+
+          // Normalize the copied approval.
+          Optional<PatchSetApproval> copiedApprovalNormalized =
+              labelNormalizer.normalize(notes, copiedApproval);
+          logger.atFine().log(
+              "Copied approval %s has been normalized to %s",
+              copiedApproval,
+              copiedApprovalNormalized.map(PatchSetApproval::toString).orElse("n/a"));
+          if (!copiedApprovalNormalized.isPresent()) {
+            continue;
+          }
+
           copiedApprovalsByUser.put(
               priorPsa.label(),
               priorPsa.accountId(),
-              priorPsa.copyWithPatchSet(targetPatchSet.id()));
+              Result.PatchSetApprovalData.create(
+                  copiedApprovalNormalized.get(),
+                  approvalCopyResult.passingAtoms(),
+                  approvalCopyResult.failingAtoms()));
         }
       } else {
-        outdatedApprovalsBuilder.add(priorPsa);
+        outdatedApprovalsBuilder.add(
+            Result.PatchSetApprovalData.create(
+                priorPsa, approvalCopyResult.passingAtoms(), approvalCopyResult.failingAtoms()));
         continue;
       }
     }
 
-    ImmutableSet<PatchSetApproval> copiedApprovals =
-        labelNormalizer.normalize(notes, copiedApprovalsByUser.values()).getNormalized();
-    return Result.create(copiedApprovals, outdatedApprovalsBuilder.build());
+    return Result.create(
+        ImmutableSet.copyOf(copiedApprovalsByUser.values()), outdatedApprovalsBuilder.build());
   }
 
   private boolean isMerge(Project.NameKey project, RevWalk rw, PatchSet patchSet) {
@@ -402,6 +494,74 @@ public class ApprovalCopier {
               "failed to check if patch set %d of change %s in project %s is a merge commit",
               patchSet.id().get(), patchSet.id().changeId(), project),
           e);
+    }
+  }
+
+  /**
+   * Evaluates a predicate of the copy condition and adds its passing and failing atoms to the given
+   * builders.
+   *
+   * @param predicate a predicate of the copy condition that should be evaluated
+   * @param approvalContext the approval context against which the predicate should be evaluated
+   * @param passingAtoms a builder to which passing atoms should be added
+   * @param failingAtoms a builder to which failing atoms should be added
+   */
+  private static void evaluateAtoms(
+      Predicate<ApprovalContext> predicate,
+      ApprovalContext approvalContext,
+      ImmutableSet.Builder<String> passingAtoms,
+      ImmutableSet.Builder<String> failingAtoms) {
+    if (predicate.isLeaf()) {
+      boolean isPassing = predicate.asMatchable().match(approvalContext);
+      (isPassing ? passingAtoms : failingAtoms).add(predicate.getPredicateString());
+      return;
+    }
+    predicate
+        .getChildren()
+        .forEach(
+            childPredicate ->
+                evaluateAtoms(childPredicate, approvalContext, passingAtoms, failingAtoms));
+  }
+
+  /** Result for checking if an approval can be copied to the next patch set. */
+  @AutoValue
+  abstract static class ApprovalCopyResult {
+    /** Whether the approval can be copied to the next patch set. */
+    abstract boolean canCopy();
+
+    /**
+     * Lists the leaf predicates of the copy condition that are fulfilled. See {@link
+     * Result.PatchSetApprovalData#passingAtoms()} for more details.
+     *
+     * <p>Empty if there is no copy condition or if the copy condition is not parseable.
+     */
+    abstract ImmutableSet<String> passingAtoms();
+
+    /**
+     * Lists the leaf predicates of the copy condition that are not fulfilled. See {@link
+     * Result.PatchSetApprovalData#passingAtoms()} for more details.
+     *
+     * <p>Empty if there is no copy condition or if the copy condition is not parseable.
+     */
+    abstract ImmutableSet<String> failingAtoms();
+
+    private static ApprovalCopyResult create(
+        boolean canCopy, ImmutableSet<String> passingAtoms, ImmutableSet<String> failingAtoms) {
+      return new AutoValue_ApprovalCopier_ApprovalCopyResult(canCopy, passingAtoms, failingAtoms);
+    }
+
+    private static ApprovalCopyResult createForMissingCopyCondition() {
+      return new AutoValue_ApprovalCopier_ApprovalCopyResult(
+          /* canCopy= */ false,
+          /* passingAtoms= */ ImmutableSet.of(),
+          /* failingAtoms= */ ImmutableSet.of());
+    }
+
+    private static ApprovalCopyResult createForNonParseableCopyCondition() {
+      return new AutoValue_ApprovalCopier_ApprovalCopyResult(
+          /* canCopy= */ false,
+          /* passingAtoms= */ ImmutableSet.of(),
+          /* failingAtoms= */ ImmutableSet.of());
     }
   }
 }

@@ -876,6 +876,11 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        .header,
+        #fileListHeader {
+          position: sticky;
+          top: 0; /* Necessary to ensure it sticks to the top. */
+        }
         .container:not(.loading) {
           background-color: var(--background-color-tertiary);
         }
@@ -1236,14 +1241,20 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private renderChangeInfoSection() {
-    return html`<section class="changeInfoSection">
+  private renderHeader() {
+    return html`
       <div class=${this.computeHeaderClass()}>
         <h1 class="assistive-tech-only">
           Change ${this.change?._number}: ${this.change?.subject}
         </h1>
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
+    `;
+  }
+
+  private renderChangeInfoSection() {
+    return html`<section class="changeInfoSection">
+      ${this.renderHeader()}
       <h2 class="assistive-tech-only">Change metadata</h2>
       ${this.renderChangeInfo()}
     </section>`;

@@ -17,7 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID_STR;
+import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
@@ -103,21 +103,21 @@ import org.eclipse.jgit.lib.Config;
 public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
+  static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED_SPEC);
   static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON_SPEC);
-  static final String ID_STR_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID_STR);
+  static final String ID_STR_SORT_FIELD = sortFieldName(ChangeField.NUMERIC_ID_STR_SPEC);
 
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
-  private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
+  private static final String CHANGE_FIELD = ChangeField.CHANGE_SPEC.getName();
 
   static Term idTerm(ChangeData cd) {
     return idTerm(cd.getId());
   }
 
   static Term idTerm(Change.Id id) {
-    return QueryBuilder.stringTerm(LEGACY_ID_STR.getName(), Integer.toString(id.get()));
+    return QueryBuilder.stringTerm(NUMERIC_ID_STR_SPEC.getName(), Integer.toString(id.get()));
   }
 
   private final ListeningExecutorService executor;
@@ -501,7 +501,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         ImmutableList.Builder<ChangeData> result =
             ImmutableList.builderWithExpectedSize(docs.size());
         for (Document doc : docs) {
-          result.add(toChangeData(fields(doc, fields), fields, LEGACY_ID_STR.getName()));
+          result.add(toChangeData(fields(doc, fields), fields, NUMERIC_ID_STR_SPEC.getName()));
         }
         return result.build();
       } catch (InterruptedException e) {

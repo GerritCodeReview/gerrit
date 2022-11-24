@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "630e28f3_4208ea64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T13:31:51Z",
+      "side": 1,
+      "message": "Thanks for the pointers, but I don\u0027t see any means in there that allows you to underline text? Gerrit\u0027s Markdown support allows to surround text by \u0027*\u0027 or \u0027_\u0027 to get the text put into an em element, but this shows up as italic text not underlined text.\n\nMarkdown support in Gerrit comments is relatively new. I\u0027m happy that we got this now. If at one point it allows to underline text or colored text, we can easily adapt the formatting of this message then.",
+      "parentUuid": "254d8c5e_2c27c98f",
+      "range": {
+        "startLine": 41,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "c6b33098285dd08a33b53c164a40d095aeb86aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "55b08ac2_c9dfdb4a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

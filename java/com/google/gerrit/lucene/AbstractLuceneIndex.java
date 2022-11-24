@@ -38,16 +38,19 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -366,8 +369,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         doc.add(new TextField(name, (String) value, store));
       }
     } else if (type == FieldType.STORED_ONLY) {
+      boolean isProtoField = SchemaFieldDefs.isProtoField(values.getField());
       for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
+        // Lucene stores protos as bytes
+        doc.add(
+            new StoredField(
+                name, isProtoField ? Protos.toByteArray((MessageLite) value) : (byte[]) value));
       }
     } else {
       throw FieldType.badFieldType(type);

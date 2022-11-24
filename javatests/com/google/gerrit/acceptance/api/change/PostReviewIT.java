@@ -16,6 +16,10 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,13 +40,16 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -100,6 +107,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private ProjectOperations projectOperations;
 
   private static final String COMMENT_TEXT = "The comment text";
   private static final CommentForValidation FILE_COMMENT_FOR_VALIDATION =
@@ -976,6 +984,36 @@ public class PostReviewIT extends AbstractDaemonTest {
             String.format(
                 "Reviewer %s doesn't exist in the change," + " hence can't delete it",
                 user.fullName()));
+  }
+
+  @Test
+  public void votesInChangeMessageAreSorted() throws Exception {
+    // Create Verify label and allow voting on it.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2).label(LabelId.VERIFIED, 1);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    Collection<ChangeMessageInfo> messages = gApi.changes().id(r.getChangeId()).get().messages;
+    assertThat(Iterables.getLast(messages).message)
+        .isEqualTo(String.format("Patch Set 1: Code-Review+2 Verified+1"));
   }
 
   private static class TestListener implements CommentAddedListener {

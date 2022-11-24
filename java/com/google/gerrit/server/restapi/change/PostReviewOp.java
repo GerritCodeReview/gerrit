@@ -709,8 +709,9 @@ public class PostReviewOp implements BatchUpdateOp {
     String msg = Strings.nullToEmpty(in.message).trim();
 
     StringBuilder buf = new StringBuilder();
-    for (LabelVote d : labelDelta) {
-      buf.append(" ").append(d.format());
+    for (String formattedLabelVote :
+        labelDelta.stream().map(LabelVote::format).sorted().collect(toImmutableList())) {
+      buf.append(" ").append(formattedLabelVote);
     }
     if (comments.size() == 1) {
       buf.append("\n\n(1 comment)");

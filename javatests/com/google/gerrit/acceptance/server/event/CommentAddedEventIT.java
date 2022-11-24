@@ -213,7 +213,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "event.comment-added.publishPatchSetLevelComment", value = "false")
-  public void publishPatchSetLevelComment() throws Exception {
+  public void publishPatchSetLevelComment_disabled() throws Exception {
     PushOneCommit.Result r = createChange();
     TestListener listener = new TestListener();
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
@@ -221,6 +221,20 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
       revision(r).review(reviewInput);
       assertThat(listener.getLastCommentAddedEvent().getComment())
           .isEqualTo(String.format("Patch Set 1:\n\n%s", "(1 comment)"));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "event.comment-added.publishPatchSetLevelComment", value = "true")
+  public void publishPatchSetLevelComment_enabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestListener listener = new TestListener();
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      String patchSetLevelComment = "a patch set level comment";
+      ReviewInput reviewInput = new ReviewInput().patchSetLevelComment(patchSetLevelComment);
+      revision(r).review(reviewInput);
+      assertThat(listener.getLastCommentAddedEvent().getComment())
+          .isEqualTo(String.format("Patch Set 1:\n\n%s", patchSetLevelComment));
     }
   }
 

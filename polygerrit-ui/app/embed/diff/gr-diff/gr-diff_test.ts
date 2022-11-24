@@ -1870,6 +1870,78 @@ suite('gr-diff tests', () => {
       assert.isTrue(container.classList.contains('displayLine'));
     });
 
+    suite('binary diffs', () => {
+      test.only('render binary diff', async () => {
+        element.prefs = {
+          ...MINIMAL_PREFS,
+        };
+        element.diff = {
+          meta_a: {name: 'carrot.exe', content_type: 'binary', lines: 0},
+          meta_b: {name: 'carrot.exe', content_type: 'binary', lines: 0},
+          change_type: 'MODIFIED',
+          intraline_status: 'OK',
+          diff_header: [],
+          content: [],
+          binary: true,
+        };
+        await waitForEventOnce(element, 'render');
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */ `
+            <div class="diffContainer sideBySide">
+              <table class="selected-right" id="diffTable">
+                <colgroup>
+                  <col class="blame gr-diff" />
+                  <col width="48" />
+                  <col width="48" />
+                  <col />
+                </colgroup>
+                <tbody class="binary-diff gr-diff"></tbody>
+                <tbody class="binary-diff gr-diff">
+                  <tr class="both diff-row gr-diff unified" tabindex="-1">
+                    <td class="blame gr-diff" data-line-number="FILE"></td>
+                    <td class="gr-diff left lineNum" data-value="FILE">
+                      <button
+                        aria-label="Add file comment"
+                        class="gr-diff left lineNumButton"
+                        data-value="FILE"
+                        id="left-button-FILE"
+                        tabindex="-1"
+                      >
+                        File
+                      </button>
+                    </td>
+                    <td class="gr-diff lineNum right" data-value="FILE">
+                      <button
+                        aria-label="Add file comment"
+                        class="gr-diff lineNumButton right"
+                        data-value="FILE"
+                        id="right-button-FILE"
+                        tabindex="-1"
+                      >
+                        File
+                      </button>
+                    </td>
+                    <td
+                      class="both content file gr-diff no-intraline-info right"
+                    >
+                      <div>
+                        <span> Difference in binary files </span>
+                      </div>
+                      <div class="thread-group" data-side="right">
+                        <slot name="right-FILE"> </slot>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        );
+      });
+    });
+
     suite('image diffs', () => {
       let mockFile1: ImageInfo;
       let mockFile2: ImageInfo;

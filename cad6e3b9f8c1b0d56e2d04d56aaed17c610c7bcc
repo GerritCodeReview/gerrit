@@ -22,6 +22,30 @@
       },
       "revId": "cad6e3b9f8c1b0d56e2d04d56aaed17c610c7bcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dbf0208_22a3153b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1154295
+      },
+      "writtenOn": "2022-11-24T13:00:46Z",
+      "side": 1,
+      "message": "Done. Thanks for pointing that out. I intended to do that but then forgot.",
+      "parentUuid": "f41e199e_ae936748",
+      "range": {
+        "startLine": 646,
+        "startChar": 72,
+        "endLine": 646,
+        "endChar": 73
+      },
+      "revId": "cad6e3b9f8c1b0d56e2d04d56aaed17c610c7bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

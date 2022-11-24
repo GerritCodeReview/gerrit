@@ -1781,6 +1781,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT
+      // ListChangesOption.SUBMITTABLE
     );
     const query = [
       `project:${repo}`,

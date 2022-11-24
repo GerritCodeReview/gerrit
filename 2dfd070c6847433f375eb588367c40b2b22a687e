@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "811abbed_ce9eb464",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-24T12:24:44Z",
+      "side": 1,
+      "message": "Thanks for the detailed explanation!\n\n\u003e Both names would be OK for me, I just dislike that they are so long\n\nRight. I also see that.\n\n\u003e Similar to how ChangeData is just a change with extra fields\n\nI was inspired by this. So Maybe \"PatchsetApprovalData\"? WDYT? [Optional] please do if you agree with the rename.",
+      "parentUuid": "6e5454d7_dcb9b9cb",
+      "range": {
+        "startLine": 118,
+        "startChar": 33,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0f058a5_eb22c1e9",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "This methods needs to be public for testing. Annotated it with @VisibleForTesting.\nThe next method can be private.\n\nDone.",
       "parentUuid": "d0f058a5_eb22c1e9",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 12
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c12639_7a13e012",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-24T12:24:44Z",
+      "side": 1,
+      "message": "Ah right. Thanks for annotating.",
+      "parentUuid": "3639136f_85050d89",
       "range": {
         "startLine": 156,
         "startChar": 6,
@@ -343,6 +391,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f824ccd_1a4cb4f4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-24T12:24:44Z",
+      "side": 1,
+      "message": "Yes, sorry pasted on the wrong file. Yes was about CopiedApprovalsInChangeMessageIT.\n\nThat\u0027s fine for me. If they are not accurate, can we add a comment in CopiedApprovalsInChangeMessageIT at the top level detailing that; i.e. that it\u0027s only testing the formatting and that conditions results are not very accurate with the copy condition definitions?",
+      "parentUuid": "7f81420a_b3b6bd5f",
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1149823c_e1edd1b0",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
         "patchSetId": 1
@@ -519,6 +585,30 @@
       "side": 1,
       "message": "This is the default copy condition for the Code-Review label that is defined at AllProjectsInput#getDefaultCodeReviewLabel\n\nI agree this is hard to discover and makes the tests here hard to read. I\u0027m now overriding the Code-Review label in the setup method so that this gets more explicit.",
       "parentUuid": "f29888ca_69a226f9",
+      "range": {
+        "startLine": 168,
+        "startChar": 49,
+        "endLine": 168,
+        "endChar": 76
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a480fe5_6ecb9ff0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-24T12:24:44Z",
+      "side": 1,
+      "message": "Nice! Thanks for adding the label def to the setup()",
+      "parentUuid": "6d8faa5b_9d08ed12",
       "range": {
         "startLine": 168,
         "startChar": 49,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "257cc798_07002768",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-24T10:44:16Z",
+      "side": 1,
+      "message": "according to [1], maybe create multiple branches then invoke an API with a \u0027base\u0027 rev parameter and supply the first one or two characters of the SHA-1, which will hopefully match with more than one?\n\n[1] https://gerrit.googlesource.com/jgit/+/3d522c6900f73f2d6d9741d987e2db2c68387a35/org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java#131",
+      "revId": "3502500a4507485130a7e8e20047d5ee9c16b498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

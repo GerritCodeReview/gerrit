@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae13868a_b61acce3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-24T19:06:54Z",
+      "side": 1,
+      "message": "IIUC this isn\u0027t the full solution?\nIe the headers are supposed to be sticky throughout the scrolling but currently the second one takes over the first one?\n\nMaybe update in the commit message explaining what is done and what is left.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

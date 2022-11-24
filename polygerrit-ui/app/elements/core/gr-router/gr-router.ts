@@ -881,7 +881,7 @@ export class GrRouter {
           hash: window.location.hash,
           pathname: window.location.pathname,
         };
-        window.dispatchEvent(
+        document.dispatchEvent(
           new CustomEvent('location-change', {
             detail,
             composed: true,

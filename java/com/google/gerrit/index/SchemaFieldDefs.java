@@ -100,4 +100,12 @@ public class SchemaFieldDefs {
   public interface Setter<I, T> {
     void set(I object, T value);
   }
+
+  public static boolean isProtoField(SchemaField<?, ?> schemaField) {
+    if (!(schemaField instanceof IndexedField<?, ?>.SearchSpec)) {
+      return false;
+    }
+    IndexedField<?, ?> indexedField = ((IndexedField<?, ?>.SearchSpec) schemaField).getField();
+    return indexedField.isProtoType() || indexedField.isProtoIterableType();
+  }
 }

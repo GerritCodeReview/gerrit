@@ -35,23 +35,42 @@ public class IndexUpgradeValidatorTest {
   // SchemaFields.
   @Test
   public void valid() {
-    IndexUpgradeValidator.assertValid(schema(1, ChangeField.ID), schema(2, ChangeField.ID));
     IndexUpgradeValidator.assertValid(
-        schema(1, ChangeField.ID),
+        schema(
+            1,
+            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
-            ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.ID),
-            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.OWNER_FIELD),
-            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.OWNER_SPEC)));
+            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)));
     IndexUpgradeValidator.assertValid(
-        schema(1, ChangeField.ID),
+        schema(
+            1,
+            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
-            ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.ID),
+            ImmutableList.<FieldDef<ChangeData, ?>>of(),
             ImmutableList.<IndexedField<ChangeData, ?>>of(
-                ChangeField.OWNER_FIELD, ChangeField.COMMITTER_PARTS_FIELD),
+                ChangeField.OWNER_FIELD, ChangeField.CHANGE_ID_FIELD),
             ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
-                ChangeField.OWNER_SPEC, ChangeField.COMMITTER_PARTS_SPEC)));
+                ChangeField.OWNER_SPEC, ChangeField.CHANGE_ID_SPEC)));
+    IndexUpgradeValidator.assertValid(
+        schema(
+            1,
+            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+        schema(
+            2,
+            ImmutableList.<IndexedField<ChangeData, ?>>of(
+                ChangeField.CHANGE_ID_FIELD,
+                ChangeField.OWNER_FIELD,
+                ChangeField.COMMITTER_PARTS_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+                ChangeField.CHANGE_ID_SPEC,
+                ChangeField.OWNER_SPEC,
+                ChangeField.COMMITTER_PARTS_SPEC)));
   }
 
   @Test
@@ -61,10 +80,12 @@ public class IndexUpgradeValidatorTest {
             AssertionError.class,
             () ->
                 IndexUpgradeValidator.assertValid(
-                    schema(1, ChangeField.ID),
+                    schema(
+                        1,
+                        ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+                        ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
                     schema(
                         2,
-                        ImmutableList.<FieldDef<ChangeData, ?>>of(),
                         ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.OWNER_FIELD),
                         ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
                             ChangeField.OWNER_SPEC))));
@@ -76,15 +97,18 @@ public class IndexUpgradeValidatorTest {
   @Test
   public void invalid_modify() {
     // Change value type from String to Integer.
-    FieldDef<ChangeData, Integer> ID_MODIFIED =
-        new FieldDef.Builder<>(FieldType.INTEGER, ChangeQueryBuilder.FIELD_CHANGE_ID)
-            .build(cd -> 42);
+    IndexedField<ChangeData, Integer> ID_MODIFIED =
+        IndexedField.<ChangeData>integerBuilder(ChangeField.CHANGE_ID_FIELD.name()).build(cd -> 42);
     AssertionError e =
         assertThrows(
             AssertionError.class,
             () ->
                 IndexUpgradeValidator.assertValid(
-                    schema(1, ChangeField.ID), schema(2, ID_MODIFIED)));
+                    schema(
+                        1,
+                        ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
+                        ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+                    schema(2, ImmutableList.of(ID_MODIFIED), ImmutableList.of())));
     assertThat(e).hasMessageThat().contains("Fields may not be modified");
     assertThat(e).hasMessageThat().contains(ChangeQueryBuilder.FIELD_CHANGE_ID);
   }
@@ -93,14 +117,17 @@ public class IndexUpgradeValidatorTest {
   public void invalid_modify_referenceEquality() {
     // Comparison uses Object.equals(), i.e. reference equality.
     Getter<ChangeData, String> getter = cd -> cd.change().getKey().get();
-    FieldDef<ChangeData, String> ID_1 =
-        new FieldDef.Builder<>(FieldType.PREFIX, ChangeQueryBuilder.FIELD_CHANGE_ID).build(getter);
-    FieldDef<ChangeData, String> ID_2 =
-        new FieldDef.Builder<>(FieldType.PREFIX, ChangeQueryBuilder.FIELD_CHANGE_ID).build(getter);
+    IndexedField<ChangeData, String> ID_1 =
+        IndexedField.<ChangeData>stringBuilder(ChangeField.CHANGE_ID_FIELD.name()).build(getter);
+    IndexedField<ChangeData, String> ID_2 =
+        IndexedField.<ChangeData>stringBuilder(ChangeField.CHANGE_ID_FIELD.name()).build(getter);
     AssertionError e =
         assertThrows(
             AssertionError.class,
-            () -> IndexUpgradeValidator.assertValid(schema(1, ID_1), schema(2, ID_2)));
+            () ->
+                IndexUpgradeValidator.assertValid(
+                    schema(1, ImmutableList.of(ID_1), ImmutableList.of()),
+                    schema(2, ImmutableList.of(ID_2), ImmutableList.of())));
     assertThat(e).hasMessageThat().contains("Fields may not be modified");
     assertThat(e).hasMessageThat().contains(ChangeQueryBuilder.FIELD_CHANGE_ID);
   }

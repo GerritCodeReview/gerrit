@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dbf1e0a_1344d373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-24T08:46:21Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t follow. :-/\n\nI don\u0027t see a \"move\" in this change.\n\nWhich plugin needs this change? What is broken?",
+      "revId": "d656d9351a281db68e23abd1c76035c6f0f6fffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c38c9a04_5f64808a",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-24T08:46:21Z",
+      "side": 1,
+      "message": "Does this make the change redundant?",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "d656d9351a281db68e23abd1c76035c6f0f6fffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

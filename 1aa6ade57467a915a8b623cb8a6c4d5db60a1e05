@@ -163,6 +163,30 @@
       },
       "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca44e07_6956271d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-24T16:08:49Z",
+      "side": 1,
+      "message": "An old experiment, removed.",
+      "parentUuid": "a9fc1f3c_ddf992e1",
+      "range": {
+        "startLine": 880,
+        "startChar": 0,
+        "endLine": 882,
+        "endChar": 0
+      },
+      "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

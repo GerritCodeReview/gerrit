@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d71c2d0_70932c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-24T15:57:58Z",
+      "side": 1,
+      "message": "It\u0027s doing it for both header and fileListHeader",
+      "parentUuid": "e1458d30_70ff540f",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2789c46_22d8faff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-24T15:57:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d833aa8_17d50444",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d607f47_91ddc089",
@@ -88,6 +136,30 @@
         "startChar": 0,
         "endLine": 882,
         "endChar": 0
+      },
+      "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2016e53_d29882d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-24T15:57:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d607f47_91ddc089",
+      "range": {
+        "startLine": 882,
+        "startChar": 0,
+        "endLine": 882,
+        "endChar": 35
       },
       "revId": "1aa6ade57467a915a8b623cb8a6c4d5db60a1e05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

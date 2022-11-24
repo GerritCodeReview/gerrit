@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ddd1781_1840ea28",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T13:27:25Z",
+      "side": 1,
+      "message": "I don\u0027t mind much.\n\nDone.",
+      "parentUuid": "811abbed_ce9eb464",
+      "range": {
+        "startLine": 118,
+        "startChar": 33,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0f058a5_eb22c1e9",
@@ -403,6 +427,24 @@
       "side": 1,
       "message": "Yes, sorry pasted on the wrong file. Yes was about CopiedApprovalsInChangeMessageIT.\n\nThat\u0027s fine for me. If they are not accurate, can we add a comment in CopiedApprovalsInChangeMessageIT at the top level detailing that; i.e. that it\u0027s only testing the formatting and that conditions results are not very accurate with the copy condition definitions?",
       "parentUuid": "7f81420a_b3b6bd5f",
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b615e5_7e56dd6e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f824ccd_1a4cb4f4",
       "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

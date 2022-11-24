@@ -110,7 +110,7 @@ suite('gr-file-list-header tests', () => {
             </span>
             <gr-tooltip-content
               has-tooltip=""
-              title="Show/hide all inline diffs (shortcut: I)"
+              title="Show/hide all inline diffs (shortcut: Shift+i)"
             >
               <gr-button
                 aria-disabled="false"
@@ -124,7 +124,7 @@ suite('gr-file-list-header tests', () => {
             </gr-tooltip-content>
             <gr-tooltip-content
               has-tooltip=""
-              title="Show/hide all inline diffs (shortcut: I)"
+              title="Show/hide all inline diffs (shortcut: Shift+i)"
             >
               <gr-button
                 aria-disabled="false"

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c95a79c2_b8eadb1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3e9d593_a0ce851d",
+      "range": {
+        "startLine": 42,
+        "startChar": 38,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78916c65_84326eed",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "[Optional]: consider renaming since this is just a patchset approval with extra fields. I suggest we rename it to something like \"DetailedPatchSetApproval\" or \"PatchSetApprovalWithAtomsInfo\" or anything alike.\n\nCurrent name is also fine. Leaving for your judgement.",
+      "range": {
+        "startLine": 118,
+        "startChar": 33,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e5454d7_dcb9b9cb",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "\u003e [Optional]: consider renaming\n\nThanks for suggesting other names for this class. I actually thought about this class name for quite a while, because I\u0027m not 100% satisfied with it, but couldn\u0027t find a better name. Considering the alternatives that you propose, I think I still like ApprovalData the most.\n\n\u003e this is just a patchset approval with extra fields\n\nSimilar to how ChangeData is just a change with extra fields :) \n\nOutside of the ApprovalCopier class we reference this type as \"ApprovalCopier.Result.ApprovalData\", so it already has the context that this class is related to approval copying.\n\n\u003e I suggest we rename it to something like \"DetailedPatchSetApproval\"\n\u003e or \"PatchSetApprovalWithAtomsInfo\" or anything alike.\n\nBoth names would be OK for me, I just dislike that they are so long, especially when prefixed by \u0027ApprovalCopier.Result.\u0027.\n\n\u003e Current name is also fine. Leaving for your judgement.\n\nIf you don\u0027t feel strongly I would keep the current name.",
+      "parentUuid": "78916c65_84326eed",
       "range": {
         "startLine": 118,
         "startChar": 33,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3639136f_85050d89",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "This methods needs to be public for testing. Annotated it with @VisibleForTesting.\nThe next method can be private.\n\nDone.",
+      "parentUuid": "d0f058a5_eb22c1e9",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 12
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b240aea3_0460464c",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48aa4410_91a21e60",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Thanks. This was supposed to use the create method.\n\nDone.",
+      "parentUuid": "b240aea3_0460464c",
+      "range": {
+        "startLine": 357,
+        "startChar": 19,
+        "endLine": 357,
+        "endChar": 62
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c653e5b_f11e9376",
@@ -106,6 +202,24 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "unused method? Please remove.",
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c59634_4fd4bab6",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Used now, after addressing your comment above.",
+      "parentUuid": "9c653e5b_f11e9376",
       "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -135,6 +249,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "77d31d0e_66ab1853",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844ba8ab_1cb424e6",
+      "range": {
+        "startLine": 549,
+        "startChar": 4,
+        "endLine": 549,
+        "endChar": 10
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ed685c86_f8c3d381",
         "filename": "java/com/google/gerrit/server/change/LabelNormalizer.java",
         "patchSetId": 1
@@ -146,6 +284,24 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "This is unrelated to this change. Javadocs might need to be improved to explain what normalization is. I think it\u0027s just a truncation of approvals with votes {greater than the max label value, or less than the min label value}.",
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d3cafa_297c7e7f",
+        "filename": "java/com/google/gerrit/server/change/LabelNormalizer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Good point. Improved the javadoc in the predecessor change:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/352958",
+      "parentUuid": "ed685c86_f8c3d381",
       "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +323,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f81420a_b3b6bd5f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Assuming this comment was supposed to be posted on CopiedApprovalsInChangeMessageIT?\n\n\u003e I just realized that this is only testing the formatting of pass/fail atoms\n\u003e in the change message, so the conditions are not very accurate?\n\nYes, this is only testing the formatting which just gets the passing/failing atoms as input. At this level there is no verification that the input data is consistent. However it was actually intended that the tests provide consistent input data that make sense so readers don\u0027t get confused. \n\n\u003e If so, please free to ignore my comments and mark as resolved if you\u0027d like to.\n\nThanks for pointing those out. I\u0027ll try to fix them.",
+      "parentUuid": "65ff0be3_2877d716",
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1149823c_e1edd1b0",
@@ -180,6 +354,30 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "In L173, a +1 vote was granted. How does this approval match with is:MIN?\n(isn\u0027t MIN\u003d-2)",
+      "range": {
+        "startLine": 179,
+        "startChar": 40,
+        "endLine": 179,
+        "endChar": 65
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7fa0bf_b555d01b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1149823c_e1edd1b0",
       "range": {
         "startLine": 179,
         "startChar": 40,
@@ -213,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2836f7e_b72bd97e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3256184_b4944174",
+      "range": {
+        "startLine": 202,
+        "startChar": 57,
+        "endLine": 202,
+        "endChar": 63
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e2a431b_870e546c",
@@ -226,6 +448,30 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "createLabelType sets the values {-2, -1, 0, 1, 2}\n\nPsApproval2 is setting Verified\u003d1; how did that match with is:MAX (passing atoms in L634)?",
+      "range": {
+        "startLine": 621,
+        "startChar": 16,
+        "endLine": 621,
+        "endChar": 31
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d92d3f57_57b66328",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e2a431b_870e546c",
       "range": {
         "startLine": 621,
         "startChar": 16,
@@ -259,6 +505,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d8faa5b_9d08ed12",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "This is the default copy condition for the Code-Review label that is defined at AllProjectsInput#getDefaultCodeReviewLabel\n\nI agree this is hard to discover and makes the tests here hard to read. I\u0027m now overriding the Code-Review label in the setup method so that this gets more explicit.",
+      "parentUuid": "f29888ca_69a226f9",
+      "range": {
+        "startLine": 168,
+        "startChar": 49,
+        "endLine": 168,
+        "endChar": 76
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f25389d_1e95bf75",
@@ -272,6 +542,30 @@
       "writtenOn": "2022-11-24T09:32:32Z",
       "side": 1,
       "message": "Forgot to update?",
+      "range": {
+        "startLine": 489,
+        "startChar": 20,
+        "endLine": 489,
+        "endChar": 30
+      },
+      "revId": "2dfd070c6847433f375eb588367c40b2b22a687e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e62de2c6_ba2a7a8d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-24T11:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f25389d_1e95bf75",
       "range": {
         "startLine": 489,
         "startChar": 20,

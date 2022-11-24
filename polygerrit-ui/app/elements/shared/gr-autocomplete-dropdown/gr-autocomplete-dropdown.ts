@@ -165,12 +165,7 @@ export class GrAutocompleteDropdown extends LitElement {
 
   override render() {
     return html`
-      <div
-        class="dropdown-content"
-        slot="dropdown-content"
-        id="suggestions"
-        role="listbox"
-      >
+      <div class="dropdown-content" id="suggestions" role="listbox">
         <ul>
           ${repeat(
             this.suggestions,
@@ -209,7 +204,7 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   setPositionTarget(target: HTMLElement) {
-    this.fitController?.setPositionTarget(target);
+    this.fitController.setPositionTarget(target);
   }
 
   private handleUp() {
@@ -300,7 +295,7 @@ export class GrAutocompleteDropdown extends LitElement {
     } else {
       this.cursor.stops = [];
     }
-    this.fitController?.refit();
+    this.fitController.refit();
   }
 
   private setIndex() {

@@ -42,12 +42,7 @@ suite('gr-autocomplete-dropdown', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <div
-          class="dropdown-content"
-          id="suggestions"
-          role="listbox"
-          slot="dropdown-content"
-        >
+        <div class="dropdown-content" id="suggestions" role="listbox">
           <ul>
             <li
               aria-label="test name 1"

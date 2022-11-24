@@ -118,7 +118,7 @@ export class GrRelatedChange extends LitElement {
               >✓</span
             >`
           : ''}
-        ${this.showChangeStatus && !isChangeInfo(change)
+        ${this.showChangeStatus
           ? html`<span class=${this._computeChangeStatusClass(change)}>
               (${this._computeChangeStatus(change)})
             </span>`
@@ -138,11 +138,14 @@ export class GrRelatedChange extends LitElement {
     return statuses.join(' ');
   }
 
-  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
+  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo | ChangeInfo) {
     const classes = ['status'];
-    if (change._revision_number !== change._current_revision_number) {
+    if (
+      !isChangeInfo(change) &&
+      change._revision_number !== change._current_revision_number
+    ) {
       classes.push('notCurrent');
-    } else if (this._isIndirectAncestor(change)) {
+    } else if (!isChangeInfo(change) && this._isIndirectAncestor(change)) {
       classes.push('indirectAncestor');
     } else if (change.submittable) {
       classes.push('submittable');
@@ -152,16 +155,19 @@ export class GrRelatedChange extends LitElement {
     return classes.join(' ');
   }
 
-  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
+  _computeChangeStatus(change: RelatedChangeAndCommitInfo | ChangeInfo) {
     switch (change.status) {
       case ChangeStatus.MERGED:
         return 'Merged';
       case ChangeStatus.ABANDONED:
         return 'Abandoned';
     }
-    if (change._revision_number !== change._current_revision_number) {
+    if (
+      !isChangeInfo(change) &&
+      change._revision_number !== change._current_revision_number
+    ) {
       return 'Not current';
-    } else if (this._isIndirectAncestor(change)) {
+    } else if (!isChangeInfo(change) && this._isIndirectAncestor(change)) {
       return 'Indirect ancestor';
     } else if (change.submittable) {
       return 'Submittable';

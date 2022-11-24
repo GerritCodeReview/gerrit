@@ -46,6 +46,30 @@
       },
       "revId": "c3fd8c0524a526d06e453f0ffef1d68fd3dfc59e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199f7078_288ec99f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-24T13:30:14Z",
+      "side": 0,
+      "message": "https://www.webcomponents.org/element/@polymer/iron-dropdown\n\nLooks like iron-dropdown provides positioning which we are doing with fitController instead hence not using iron-dropdown is fine.",
+      "parentUuid": "e9adf8c4_e81b0de0",
+      "range": {
+        "startLine": 170,
+        "startChar": 14,
+        "endLine": 170,
+        "endChar": 30
+      },
+      "revId": "c3fd8c0524a526d06e453f0ffef1d68fd3dfc59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

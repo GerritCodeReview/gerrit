@@ -249,7 +249,7 @@ suite('gr-related-changes-list', () => {
               <gr-related-collapse title="Cherry picks">
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
-                  <gr-related-change>
+                  <gr-related-change show-change-status="">
                     test-branch: Test subject
                   </gr-related-change>
                 </div>

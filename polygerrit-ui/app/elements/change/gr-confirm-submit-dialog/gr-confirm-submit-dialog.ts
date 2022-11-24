@@ -127,7 +127,7 @@ export class GrConfirmSubmitDialog extends LitElement {
     return html`
       <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
       Your unpublished edit will not be submitted. Did you forget to click
-      <b>PUBLISH</b>
+      <b>PUBLISH</b> after pressing <b>EDIT</b>?
     `;
   }
 

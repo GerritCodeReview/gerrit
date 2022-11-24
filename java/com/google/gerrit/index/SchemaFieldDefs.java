@@ -15,7 +15,14 @@
 package com.google.gerrit.index;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.converter.ProtoConverter;
+import com.google.gerrit.proto.Protos;
+
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 /** Interfaces that define properties of fields in {@link Schema}. */
 public class SchemaFieldDefs {
@@ -100,4 +107,13 @@ public class SchemaFieldDefs {
   public interface Setter<I, T> {
     void set(I object, T value);
   }
+
+  public static boolean isProtoField( SchemaField<?, ?> schemaField){
+    if(!(schemaField instanceof IndexedField<?, ?>.SearchSpec)){
+      return false;
+    }
+    IndexedField<?, ?> indexedField = ((IndexedField<?, ?>.SearchSpec)schemaField).getField();
+    return  indexedField.isProtoType() || indexedField.isProtoIterableType();
+  }
+
 }

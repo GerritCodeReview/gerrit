@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -267,9 +268,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       ChangeData cd =
           changeDataFactory.create(
               Project.nameKey((String) doc.get(ChangeField.PROJECT_SPEC.getName())),
-              Change.id(Integer.valueOf((String) doc.get(ChangeField.LEGACY_ID_STR.getName()))));
+              Change.id(Integer.valueOf((String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
-        field.setIfPossible(cd, new FakeStoredValue(doc.get(field.getName())));
+        boolean isProtoField = SchemaFieldDefs.isProtoField(field);
+        field.setIfPossible(cd, new FakeStoredValue(doc.get(field.getName()), isProtoField));
       }
       return cd;
     }

@@ -16,9 +16,11 @@ package com.google.gerrit.server.args4j;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
@@ -37,7 +39,14 @@ public class ObjectIdHandler extends OptionHandler<ObjectId> {
   @Override
   public int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
-    setter.addValue(ObjectId.fromString(n));
+    try {
+      setter.addValue(ObjectId.fromString(n));
+    } catch (InvalidObjectIdException e) {
+      throw new CmdLineException(
+          owner,
+          String.format("expected SHA1 for option %s: %s", ((NamedOptionDef) option).name(), n),
+          e);
+    }
     return 1;
   }
 

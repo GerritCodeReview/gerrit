@@ -519,7 +519,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> before(String value) throws QueryParseException {
-    return new BeforePredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_BEFORE, value);
+    return new BeforePredicate(ChangeField.UPDATED_SPEC, ChangeQueryBuilder.OPERATOR_BEFORE, value);
   }
 
   @Operator
@@ -529,7 +529,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> after(String value) throws QueryParseException {
-    return new AfterPredicate(ChangeField.UPDATED, ChangeQueryBuilder.OPERATOR_AFTER, value);
+    return new AfterPredicate(ChangeField.UPDATED_SPEC, ChangeQueryBuilder.OPERATOR_AFTER, value);
   }
 
   @Operator

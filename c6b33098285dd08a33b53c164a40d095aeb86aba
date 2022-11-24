@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "254d8c5e_2c27c98f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-11-24T12:28:32Z",
+      "side": 1,
+      "message": "pedantically, it\u0027s just gerrit that doesn\u0027t. see https://daringfireball.net/projects/markdown/syntax#em (or https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#styling-text if one wants to go for \"extended markdown\").\n\n(https://bugs.chromium.org/p/gerrit/issues/list?q\u003dmarkdown\u0026can\u003d2 reveals quite some relevant issues)",
+      "range": {
+        "startLine": 41,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "c6b33098285dd08a33b53c164a40d095aeb86aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "55b08ac2_c9dfdb4a",

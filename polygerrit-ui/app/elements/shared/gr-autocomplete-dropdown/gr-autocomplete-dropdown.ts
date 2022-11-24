@@ -11,6 +11,7 @@ import {Key} from '../../../utils/dom-util';
 import {FitController} from '../../lit/fit-controller';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ShortcutController} from '../../lit/shortcut-controller';
@@ -53,6 +54,12 @@ export class GrAutocompleteDropdown extends LitElement {
 
   @property({type: Boolean, reflect: true, attribute: 'is-hidden'})
   isHidden = true;
+
+  /** If specified a single non-interactable line is shown instead of
+   * suggestions.
+   */
+  @property({type: String})
+  errorMessage?: String;
 
   @property({type: Number})
   verticalOffset = 0;
@@ -110,6 +117,12 @@ export class GrAutocompleteDropdown extends LitElement {
         li.selected {
           background-color: var(--hover-background-color);
         }
+        li.query-error {
+          background-color: var(--disabled-background);
+          color: var(--error-foreground);
+          cursor: default;
+          white-space: pre-wrap;
+        }
         @media only screen and (max-height: 35em) {
           .dropdown-content {
             max-height: 80vh;
@@ -130,15 +143,11 @@ export class GrAutocompleteDropdown extends LitElement {
     super();
     this.cursor.cursorTargetClass = 'selected';
     this.cursor.focusOnMove = true;
-    this.shortcuts.addLocal({key: Key.UP}, () => this.handleUp());
-    this.shortcuts.addLocal({key: Key.DOWN}, () => this.handleDown());
+    this.shortcuts.addLocal({key: Key.UP}, () => this.cursorUp());
+    this.shortcuts.addLocal({key: Key.DOWN}, () => this.cursorDown());
     this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEscape());
     this.shortcuts.addLocal({key: Key.TAB}, () => this.handleTab());
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
   }
 
   override disconnectedCallback() {
@@ -167,23 +176,38 @@ export class GrAutocompleteDropdown extends LitElement {
     return html`
       <div class="dropdown-content" id="suggestions" role="listbox">
         <ul>
-          ${repeat(
-            this.suggestions,
-            (item, index) => html`
+          ${when(
+            this.errorMessage,
+            () => html`
               <li
-                data-index=${index}
-                data-value=${item.dataValue ?? ''}
                 tabindex="-1"
-                aria-label=${item.name ?? ''}
-                class="autocompleteOption"
-                role="option"
-                @click=${this.handleClickItem}
+                aria-label="autocomplete query error"
+                class="query-error"
               >
-                <span>${item.text}</span>
-                <span class="label ${this.computeLabelClass(item)}"
-                  >${item.label}</span
-                >
+                <span>${this.errorMessage}</span>
+                <span class="label">ERROR</span>
               </li>
+            `,
+            () => html`
+              ${repeat(
+                this.suggestions,
+                (item, index) => html`
+                  <li
+                    data-index=${index}
+                    data-value=${item.dataValue ?? ''}
+                    tabindex="-1"
+                    aria-label=${item.name ?? ''}
+                    class="autocompleteOption"
+                    role="option"
+                    @click=${this.handleClickItem}
+                  >
+                    <span>${item.text}</span>
+                    <span class="label ${this.computeLabelClass(item)}"
+                      >${item.label}</span
+                    >
+                  </li>
+                `
+              )}
             `
           )}
         </ul>
@@ -200,55 +224,54 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   getCurrentText() {
-    return this.getCursorTarget()?.dataset['value'] || '';
+    if (!this.errorMessage) {
+      return this.getCursorTarget()?.dataset['value'] || '';
+    }
+    return '';
   }
 
   setPositionTarget(target: HTMLElement) {
     this.fitController.setPositionTarget(target);
   }
 
-  private handleUp() {
-    if (!this.isHidden) this.cursorUp();
-  }
-
-  private handleDown() {
-    if (!this.isHidden) this.cursorDown();
-  }
-
   cursorDown() {
-    if (!this.isHidden) this.cursor.next();
+    if (!this.isHidden && !this.errorMessage) this.cursor.next();
   }
 
   cursorUp() {
-    if (!this.isHidden) this.cursor.previous();
+    if (!this.isHidden && !this.errorMessage) this.cursor.previous();
   }
 
   // private but used in tests
   handleTab() {
-    this.dispatchEvent(
-      new CustomEvent<ItemSelectedEvent>('item-selected', {
-        detail: {
-          trigger: 'tab',
-          selected: this.cursor.target,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    if (!this.errorMessage) {
+      this.dispatchEvent(
+        new CustomEvent<ItemSelectedEvent>('item-selected', {
+          detail: {
+            trigger: 'tab',
+            selected: this.cursor.target,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }
   }
 
   // private but used in tests
   handleEnter() {
-    this.dispatchEvent(
-      new CustomEvent<ItemSelectedEvent>('item-selected', {
-        detail: {
-          trigger: 'enter',
-          selected: this.cursor.target,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    if (!this.errorMessage) {
+      this.dispatchEvent(
+        new CustomEvent<ItemSelectedEvent>('item-selected', {
+          detail: {
+            trigger: 'enter',
+            selected: this.cursor.target,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }
   }
 
   private handleEscape() {
@@ -289,7 +312,7 @@ export class GrAutocompleteDropdown extends LitElement {
   computeCursorStopsAndRefit() {
     if (this.suggestions.length > 0) {
       this.cursor.stops = Array.from(
-        this.suggestionsDiv?.querySelectorAll('li') ?? []
+        this.suggestionsDiv?.querySelectorAll('li.autocompleteOption') ?? []
       );
       this.resetCursorIndex();
     } else {

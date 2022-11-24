@@ -19,6 +19,7 @@ import {Key} from '../../../utils/dom-util';
 
 suite('gr-autocomplete-dropdown', () => {
   let element: GrAutocompleteDropdown;
+  let errorElement: GrAutocompleteDropdown;
 
   const suggestionsEl = () => queryAndAssert(element, '#suggestions');
 
@@ -31,6 +32,11 @@ suite('gr-autocomplete-dropdown', () => {
       {dataValue: 'test value 1', name: 'test name 1', text: '1', label: 'hi'},
       {dataValue: 'test value 2', name: 'test name 2', text: '2'},
     ];
+    errorElement = await fixture(
+      html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`
+    );
+    errorElement.open();
+    errorElement.errorMessage = 'Failed query error';
     await waitEventLoop();
   });
 
@@ -38,7 +44,7 @@ suite('gr-autocomplete-dropdown', () => {
     element.close();
   });
 
-  test('renders', () => {
+  test('renders', async () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
@@ -72,15 +78,42 @@ suite('gr-autocomplete-dropdown', () => {
     );
   });
 
+  test('renders error', async () => {
+    assert.shadowDom.equal(
+      errorElement,
+      /* HTML */ `
+        <div class="dropdown-content" id="suggestions" role="listbox">
+          <ul>
+            <li
+              aria-label="autocomplete query error"
+              class="query-error"
+              tabindex="-1"
+            >
+              <span>Failed query error</span>
+              <span class="label">ERROR</span>
+            </li>
+          </ul>
+        </div>
+      `
+    );
+  });
+
   test('shows labels', () => {
     const els = queryAll<HTMLElement>(suggestionsEl(), 'li');
     assert.equal(els[0].innerText.trim(), '1\nhi');
     assert.equal(els[1].innerText.trim(), '2');
   });
 
-  test('escape key', async () => {
+  test('escape key close suggestions', async () => {
     const closeSpy = sinon.spy(element, 'close');
     pressKey(element, Key.ESC);
+    await waitEventLoop();
+    assert.isTrue(closeSpy.called);
+  });
+
+  test('escape key close error', async () => {
+    const closeSpy = sinon.spy(errorElement, 'close');
+    pressKey(errorElement, Key.ESC);
     await waitEventLoop();
     assert.isTrue(closeSpy.called);
   });
@@ -99,6 +132,15 @@ suite('gr-autocomplete-dropdown', () => {
     });
   });
 
+  test('tab key on error no event', () => {
+    const handleTabSpy = sinon.spy(errorElement, 'handleTab');
+    const itemSelectedStub = sinon.stub();
+    errorElement.addEventListener('item-selected', itemSelectedStub);
+    pressKey(errorElement, Key.TAB);
+    assert.isTrue(handleTabSpy.called);
+    assert.isFalse(itemSelectedStub.called);
+  });
+
   test('enter key', () => {
     const handleEnterSpy = sinon.spy(element, 'handleEnter');
     const itemSelectedStub = sinon.stub();
@@ -110,6 +152,15 @@ suite('gr-autocomplete-dropdown', () => {
       trigger: 'enter',
       selected: element.getCursorTarget(),
     });
+  });
+
+  test('enter key on error no event', () => {
+    const handleEnterSpy = sinon.spy(errorElement, 'handleEnter');
+    const itemSelectedStub = sinon.stub();
+    errorElement.addEventListener('item-selected', itemSelectedStub);
+    pressKey(errorElement, Key.ENTER);
+    assert.isTrue(handleEnterSpy.called);
+    assert.isFalse(itemSelectedStub.called);
   });
 
   test('down key', () => {
@@ -136,6 +187,15 @@ suite('gr-autocomplete-dropdown', () => {
     pressKey(element, 'ArrowUp');
     assert.isTrue(prevSpy.called);
     assert.equal(element.cursor.index, 0);
+  });
+
+  test('up/down disabled when error', () => {
+    const nextSpy = sinon.spy(errorElement.cursor, 'next');
+    const prevSpy = sinon.spy(errorElement.cursor, 'previous');
+    pressKey(errorElement, 'ArrowUp');
+    pressKey(errorElement, 'ArrowDown');
+    assert.isFalse(nextSpy.called);
+    assert.isFalse(prevSpy.called);
   });
 
   test('tapping selects item', async () => {

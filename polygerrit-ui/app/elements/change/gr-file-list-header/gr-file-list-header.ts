@@ -149,6 +149,9 @@ export class GrFileListHeader extends LitElement {
   static override styles = [
     sharedStyles,
     css`
+      :host {
+        display: block;
+      }
       .prefsButton {
         float: right;
       }
@@ -159,6 +162,7 @@ export class GrFileListHeader extends LitElement {
         align-items: center;
         display: flex;
         padding: var(--spacing-s) var(--spacing-l);
+        background-color: var(--background-color-primary);
       }
       .patchInfo-left {
         align-items: baseline;

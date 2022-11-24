@@ -119,10 +119,10 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   void add(Document doc, Values<ChangeData> values) {
     // Add separate DocValues fields for those fields needed for sorting.
     SchemaField<ChangeData, ?> f = values.getField();
-    if (f == ChangeField.LEGACY_ID_STR) {
+    if (f == ChangeField.NUMERIC_ID_STR_SPEC) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_STR_SORT_FIELD, Integer.valueOf(v)));
-    } else if (f == ChangeField.UPDATED) {
+    } else if (f == ChangeField.UPDATED_SPEC) {
       long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
       doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
     } else if (f == ChangeField.MERGED_ON_SPEC) {

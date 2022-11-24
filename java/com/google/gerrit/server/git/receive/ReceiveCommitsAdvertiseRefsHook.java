@@ -111,7 +111,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
               .get()
               .setRequestedFields(
                   // Required for ChangeIsVisibleToPrdicate.
-                  ChangeField.CHANGE,
+                  ChangeField.CHANGE_SPEC,
                   ChangeField.REVIEWER_SPEC,
                   // Required during advertiseOpenChanges.
                   ChangeField.PATCH_SET_SPEC)

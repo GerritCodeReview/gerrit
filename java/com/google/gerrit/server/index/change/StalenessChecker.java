@@ -56,9 +56,9 @@ public class StalenessChecker {
 
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
-          ChangeField.CHANGE.getName(),
-          ChangeField.REF_STATE.getName(),
-          ChangeField.REF_STATE_PATTERN.getName());
+          ChangeField.CHANGE_SPEC.getName(),
+          ChangeField.REF_STATE_SPEC.getName(),
+          ChangeField.REF_STATE_PATTERN_SPEC.getName());
 
   private final ChangeIndexCollection indexes;
   private final GitRepositoryManager repoManager;
@@ -82,8 +82,8 @@ public class StalenessChecker {
       return StalenessCheckResult
           .notStale(); // No index; caller couldn't do anything if it is stale.
     }
-    if (!i.getSchema().hasField(ChangeField.REF_STATE)
-        || !i.getSchema().hasField(ChangeField.REF_STATE_PATTERN)) {
+    if (!i.getSchema().hasField(ChangeField.REF_STATE_SPEC)
+        || !i.getSchema().hasField(ChangeField.REF_STATE_PATTERN_SPEC)) {
       return StalenessCheckResult.notStale(); // Index version not new enough for this check.
     }
 

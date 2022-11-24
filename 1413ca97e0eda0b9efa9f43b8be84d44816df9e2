@@ -22,6 +22,30 @@
       },
       "revId": "1413ca97e0eda0b9efa9f43b8be84d44816df9e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ceecd9_b2b7e892",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-11-24T09:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ee4ad0_0bf24a05",
+      "range": {
+        "startLine": 172,
+        "startChar": 43,
+        "endLine": 172,
+        "endChar": 53
+      },
+      "revId": "1413ca97e0eda0b9efa9f43b8be84d44816df9e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

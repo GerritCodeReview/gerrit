@@ -286,6 +286,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de604788_589c63c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-24T10:17:49Z",
+      "side": 1,
+      "message": "I like the activate() pattern much better than previous way, so I am ok to resolve and continue with your setup here. I just wanted to provide counter points for discussion, but it does not need to block the change.",
+      "parentUuid": "c806cce9_6b450f6d",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0b0d212_2afb8016",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
         "patchSetId": 4

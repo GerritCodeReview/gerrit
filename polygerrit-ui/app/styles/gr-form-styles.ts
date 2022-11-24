@@ -8,7 +8,12 @@ import {css} from 'lit';
 export const formStyles = css`
   .gr-form-styles input {
     background-color: var(--view-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
     color: var(--primary-text-color);
+    margin: 0;
+    padding: var(--spacing-s);
   }
   .gr-form-styles select {
     background-color: var(--select-background-color);

@@ -99,7 +99,7 @@ export class GrRelatedChange extends LitElement {
   override render() {
     const change = this.change;
     if (!change) throw new Error('Missing change');
-    const linkClass = this._computeLinkClass(change);
+    const linkClass = this.computeLinkClass(change);
     return html`
       <div class="changeContainer">
         <a
@@ -118,16 +118,16 @@ export class GrRelatedChange extends LitElement {
               >✓</span
             >`
           : ''}
-        ${this.showChangeStatus && !isChangeInfo(change)
-          ? html`<span class=${this._computeChangeStatusClass(change)}>
-              (${this._computeChangeStatus(change)})
+        ${this.showChangeStatus
+          ? html`<span class=${this.computeChangeStatusClass(change)}>
+              (${this.computeChangeStatus(change)})
             </span>`
           : ''}
       </div>
     `;
   }
 
-  _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {
+  private computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {
     const statuses = [];
     if (change.status === ChangeStatus.ABANDONED) {
       statuses.push('strikethrough');
@@ -138,11 +138,16 @@ export class GrRelatedChange extends LitElement {
     return statuses.join(' ');
   }
 
-  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
+  private computeChangeStatusClass(
+    change: RelatedChangeAndCommitInfo | ChangeInfo
+  ) {
     const classes = ['status'];
-    if (change._revision_number !== change._current_revision_number) {
+    if (
+      !isChangeInfo(change) &&
+      change._revision_number !== change._current_revision_number
+    ) {
       classes.push('notCurrent');
-    } else if (this._isIndirectAncestor(change)) {
+    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
       classes.push('indirectAncestor');
     } else if (change.submittable) {
       classes.push('submittable');
@@ -152,16 +157,19 @@ export class GrRelatedChange extends LitElement {
     return classes.join(' ');
   }
 
-  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
+  private computeChangeStatus(change: RelatedChangeAndCommitInfo | ChangeInfo) {
     switch (change.status) {
       case ChangeStatus.MERGED:
         return 'Merged';
       case ChangeStatus.ABANDONED:
         return 'Abandoned';
     }
-    if (change._revision_number !== change._current_revision_number) {
+    if (
+      !isChangeInfo(change) &&
+      change._revision_number !== change._current_revision_number
+    ) {
       return 'Not current';
-    } else if (this._isIndirectAncestor(change)) {
+    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
       return 'Indirect ancestor';
     } else if (change.submittable) {
       return 'Submittable';
@@ -169,7 +177,7 @@ export class GrRelatedChange extends LitElement {
     return '';
   }
 
-  _isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
+  private isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
     return (
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)

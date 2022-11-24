@@ -418,6 +418,7 @@ export class GrRelatedChangesList extends LitElement {
               )}<gr-related-change
                 .change=${change}
                 .href=${createChangeUrl({change, usp: 'cherry-pick'})}
+                show-change-status
                 >${change.branch}: ${change.subject}</gr-related-change
               >
             </div>`

@@ -103,6 +103,17 @@ public class SchemaUtil {
   }
 
   public static <V> Schema<V> schema(
+      int version,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .version(version)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
       Schema<V> schema,
       ImmutableList<FieldDef<V, ?>> fieldDefs,
       ImmutableList<IndexedField<V, ?>> indexedFields,
@@ -110,6 +121,17 @@ public class SchemaUtil {
     return new Schema.Builder<V>()
         .add(schema)
         .add(fieldDefs)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      Schema<V> schema,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .add(schema)
         .addIndexedFields(indexedFields)
         .addSearchSpecs(searchSpecs)
         .build();

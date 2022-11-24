@@ -81,6 +81,9 @@ export class GrAutocomplete extends LitElement {
    * next to the "name" as label text. The "value" property will be emitted
    * if that suggestion is selected.
    *
+   * If query fails, the function should return rejected promise containing
+   * an Error. The "message" property will be shown in a dropdown instead of
+   * rendering suggestions.
    */
   @property({type: Object})
   query?: AutocompleteQuery = () => Promise.resolve([]);
@@ -168,6 +171,8 @@ export class GrAutocomplete extends LitElement {
   label = '';
 
   @state() suggestions: AutocompleteSuggestion[] = [];
+
+  @state() queryErrorMessage?: string;
 
   @state() index: number | null = null;
 
@@ -269,7 +274,10 @@ export class GrAutocomplete extends LitElement {
     ) {
       this.updateSuggestions();
     }
-    if (changedProperties.has('suggestions')) {
+    if (
+      changedProperties.has('suggestions') ||
+      changedProperties.has('queryErrorMessage')
+    ) {
       this.updateDropdownVisibility();
     }
     if (changedProperties.has('text')) {
@@ -317,6 +325,7 @@ export class GrAutocomplete extends LitElement {
         @item-selected=${this.handleItemSelect}
         @dropdown-closed=${this.focusWithoutDisplayingSuggestions}
         .suggestions=${this.suggestions}
+        .errorMessage=${this.queryErrorMessage}
         role="listbox"
         .index=${this.index}
       >
@@ -424,6 +433,7 @@ export class GrAutocomplete extends LitElement {
     // This will also prevent from carrying over suggestions:
     // @see Issue 12039
     this.suggestions = [];
+    this.queryErrorMessage = undefined;
 
     // TODO(taoalpha): Also skip if text has not changed
 
@@ -446,19 +456,28 @@ export class GrAutocomplete extends LitElement {
     }
 
     const update = () => {
-      query(this.text).then(suggestions => {
-        if (this.text !== this.text) {
-          // Late response.
-          return;
-        }
-        for (const suggestion of suggestions) {
-          suggestion.text = suggestion?.name ?? '';
-        }
-        this.suggestions = suggestions;
-        if (this.index === -1) {
+      query(this.text)
+        .then(suggestions => {
+          if (this.text !== this.text) {
+            // Late response.
+            return;
+          }
+          for (const suggestion of suggestions) {
+            suggestion.text = suggestion?.name ?? '';
+          }
+          this.suggestions = suggestions;
+          if (this.index === -1) {
+            this.value = '';
+          }
+        })
+        .catch(e => {
           this.value = '';
-        }
-      });
+          if (typeof e === 'string') {
+            this.queryErrorMessage = e;
+          } else if (e instanceof Error) {
+            this.queryErrorMessage = e.message;
+          }
+        });
     };
 
     if (this.noDebounce) {
@@ -479,7 +498,10 @@ export class GrAutocomplete extends LitElement {
   }
 
   updateDropdownVisibility() {
-    if (this.suggestions.length > 0 && this.focused) {
+    if (
+      (this.suggestions.length > 0 || this.queryErrorMessage) &&
+      this.focused
+    ) {
       this.suggestionsDropdown?.open();
       return;
     }
@@ -526,6 +548,7 @@ export class GrAutocomplete extends LitElement {
         }
         if (this.suggestions.length > 0) {
           // If suggestions are shown, act as if the keypress is in dropdown.
+          // suggestions length is 0 if error is shown.
           this.handleItemSelectEnter(e);
         } else {
           e.preventDefault();
@@ -553,8 +576,9 @@ export class GrAutocomplete extends LitElement {
   }
 
   cancel() {
-    if (this.suggestions.length) {
+    if (this.suggestions.length || this.queryErrorMessage) {
       this.suggestions = [];
+      this.queryErrorMessage = undefined;
       this.requestUpdate();
     } else {
       fireEvent(this, 'cancel');
@@ -562,8 +586,11 @@ export class GrAutocomplete extends LitElement {
   }
 
   handleInputCommit(_tabComplete?: boolean) {
-    // Nothing to do if the dropdown is not open.
-    if (!this.allowNonSuggestedValues && this.suggestionsDropdown?.isHidden) {
+    // Nothing to do if no suggestions.
+    if (
+      !this.allowNonSuggestedValues &&
+      (this.suggestionsDropdown?.isHidden || this.queryErrorMessage)
+    ) {
       return;
     }
 
@@ -641,6 +668,7 @@ export class GrAutocomplete extends LitElement {
     }
 
     this.suggestions = [];
+    this.queryErrorMessage = undefined;
     // we need willUpdate to send text-changed event before we can send the
     // 'commit' event
     await this.updateComplete;

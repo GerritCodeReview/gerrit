@@ -923,6 +923,7 @@ export class GrChangeView extends LitElement {
         }
         .showCopyLinkDialogButton {
           --gr-button-padding: 0 0 0 var(--spacing-s);
+          --background-color: transparent;
           margin-left: var(--spacing-s);
         }
         #replyBtn {

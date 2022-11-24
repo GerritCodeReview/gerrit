@@ -50,6 +50,7 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -63,8 +64,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
-
-import com.google.protobuf.MessageLite;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -373,7 +372,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       boolean isProtoField = SchemaFieldDefs.isProtoField(values.getField());
       for (Object value : values.getValues()) {
         // Lucene stores protos as bytes
-        doc.add(new StoredField(name, isProtoField? Protos.toByteArray((MessageLite) value): (byte[]) value));
+        doc.add(
+            new StoredField(
+                name, isProtoField ? Protos.toByteArray((MessageLite) value) : (byte[]) value));
       }
     } else {
       throw FieldType.badFieldType(type);

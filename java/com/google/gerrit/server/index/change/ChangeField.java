@@ -18,10 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.prefix;
-import static com.google.gerrit.index.FieldDef.storedOnly;
-import static com.google.gerrit.index.FieldDef.timestamp;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
@@ -41,6 +37,7 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -58,16 +55,16 @@ import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.json.OutputFormat;
-import com.google.gerrit.proto.Protos;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -125,12 +122,28 @@ public class ChangeField {
 
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
-  public static final FieldDef<ChangeData, String> LEGACY_ID_STR =
-      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.getId().get()));
+  public static final IndexedField<ChangeData, String> NUMERIC_ID_STR_FIELD =
+      IndexedField.<ChangeData>stringBuilder("NumericIdStr")
+          .stored()
+          .required()
+          // The numeric change id is integer in string form
+          .size(10)
+          .build(cd -> String.valueOf(cd.getId().get()));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec NUMERIC_ID_STR_SPEC =
+      NUMERIC_ID_STR_FIELD.exact("legacy_id_str");
 
   /** Newer style Change-Id key. */
-  public static final FieldDef<ChangeData, String> ID =
-      prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
+  public static final IndexedField<ChangeData, String> CHANGE_ID_FIELD =
+      IndexedField.<ChangeData>stringBuilder("ChangeId")
+          .stored()
+          .required()
+          // The new style key is in form Isha1
+          .size(41)
+          .build(changeGetter(c -> c.getKey().get()));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec CHANGE_ID_SPEC =
+      CHANGE_ID_FIELD.prefix(ChangeQueryBuilder.FIELD_CHANGE_ID);
 
   /** Change status string, in the same format as {@code status:}. */
   public static final IndexedField<ChangeData, String> STATUS_FIELD =
@@ -193,10 +206,13 @@ public class ChangeField {
 
   /** Last update time since January 1, 1970. */
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
-  public static final FieldDef<ChangeData, Timestamp> UPDATED =
-      timestamp("updated2")
+  public static final IndexedField<ChangeData, Timestamp> UPDATED_FIELD =
+      IndexedField.<ChangeData>timestampBuilder("LastUpdated")
           .stored()
           .build(changeGetter(change -> Timestamp.from(change.getLastUpdatedOn())));
+
+  public static final IndexedField<ChangeData, Timestamp>.SearchSpec UPDATED_SPEC =
+      UPDATED_FIELD.timestamp("updated2");
 
   /** When this change was merged, time since January 1, 1970. */
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
@@ -971,20 +987,45 @@ public class ChangeField {
       EXACT_COMMITTER_FIELD.exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER);
 
   /** Serialized change object, used for pre-populating results. */
-  public static final FieldDef<ChangeData, byte[]> CHANGE =
-      storedOnly("_change")
+  private static final TypeToken<Entities.Change> CHANGE_TYPE_TOKEN =
+      new TypeToken<Entities.Change>() {
+        private static final long serialVersionUID = 1L;
+      };
+
+  public static final IndexedField<ChangeData, Entities.Change> CHANGE_FIELD =
+      IndexedField.<ChangeData, Entities.Change>builder("Change", CHANGE_TYPE_TOKEN)
+          .stored()
+          .required()
+          .protoConverter(Optional.of(ChangeProtoConverter.INSTANCE))
           .build(
-              changeGetter(change -> toProto(ChangeProtoConverter.INSTANCE, change)),
-              (cd, field) -> cd.setChange(parseProtoFrom(field, ChangeProtoConverter.INSTANCE)));
+              changeGetter(change -> entityToProto(ChangeProtoConverter.INSTANCE, change)),
+              (cd, value) ->
+                  cd.setChange(decodeProtoToEntity(value, ChangeProtoConverter.INSTANCE)));
+
+  public static final IndexedField<ChangeData, Entities.Change>.SearchSpec CHANGE_SPEC =
+      CHANGE_FIELD.storedOnly("_change");
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
-      storedOnly("_approval")
-          .buildRepeatable(
-              cd -> toProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()),
+  private static final TypeToken<Iterable<Entities.PatchSetApproval>> APPROVAL_TYPE_TOKEN =
+      new TypeToken<Iterable<Entities.PatchSetApproval>>() {
+        private static final long serialVersionUID = 1L;
+      };
+
+  public static final IndexedField<ChangeData, Iterable<Entities.PatchSetApproval>> APPROVAL_FIELD =
+      IndexedField.<ChangeData, Iterable<Entities.PatchSetApproval>>builder(
+              "Approval", APPROVAL_TYPE_TOKEN)
+          .stored()
+          .required()
+          .protoConverter(Optional.of(PatchSetApprovalProtoConverter.INSTANCE))
+          .build(
+              cd ->
+                  entitiesToProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()),
               (cd, field) ->
                   cd.setCurrentApprovals(
-                      decodeProtos(field, PatchSetApprovalProtoConverter.INSTANCE)));
+                      decodeProtosToEntities(field, PatchSetApprovalProtoConverter.INSTANCE)));
+
+  public static final IndexedField<ChangeData, Iterable<Entities.PatchSetApproval>>.SearchSpec
+      APPROVAL_SPEC = APPROVAL_FIELD.storedOnly("_approval");
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, /* accountId= */ null, /* count= */ null);
@@ -1246,11 +1287,24 @@ public class ChangeField {
       GROUP_FIELD.exact(ChangeQueryBuilder.FIELD_GROUP);
 
   /** Serialized patch set object, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
-      storedOnly("_patch_set")
-          .buildRepeatable(
-              cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
-              (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
+  private static final TypeToken<Iterable<Entities.PatchSet>> PATCH_SET_TYPE_TOKEN =
+      new TypeToken<Iterable<Entities.PatchSet>>() {
+        private static final long serialVersionUID = 1L;
+      };
+
+  public static final IndexedField<ChangeData, Iterable<Entities.PatchSet>> PATCH_SET_FIELD =
+      IndexedField.<ChangeData, Iterable<Entities.PatchSet>>builder(
+              "PatchSet", PATCH_SET_TYPE_TOKEN)
+          .stored()
+          .required()
+          .protoConverter(Optional.of(PatchSetProtoConverter.INSTANCE))
+          .build(
+              cd -> entitiesToProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
+              (cd, value) ->
+                  cd.setPatchSets(decodeProtosToEntities(value, PatchSetProtoConverter.INSTANCE)));
+
+  public static final IndexedField<ChangeData, Iterable<Entities.PatchSet>>.SearchSpec
+      PATCH_SET_SPEC = PATCH_SET_FIELD.storedOnly("_patch_set");
 
   /** Users who have edits on this change. */
   public static final IndexedField<ChangeData, Iterable<Integer>> EDITBY_FIELD =
@@ -1307,9 +1361,9 @@ public class ChangeField {
       SubmitRuleOptions.builder().build();
 
   /** All submit rules results in the form of "$ruleName,$status". */
-  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RULE_RESULT =
-      exact("submit_rule_result")
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<String>> SUBMIT_RULE_RESULT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("SubmitRuleResult")
+          .build(
               cd -> {
                 List<String> result = new ArrayList<>();
                 List<SubmitRecord> submitRecords = cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT);
@@ -1318,6 +1372,9 @@ public class ChangeField {
                 }
                 return result;
               });
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
+      SUBMIT_RULE_RESULT_SPEC = SUBMIT_RULE_RESULT_FIELD.exact("submit_rule_result");
 
   /**
    * JSON type for storing SubmitRecords.
@@ -1405,12 +1462,17 @@ public class ChangeField {
     }
   }
 
-  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      exact("submit_record").buildRepeatable(ChangeField::formatSubmitRecordValues);
+  public static final IndexedField<ChangeData, Iterable<String>> SUBMIT_RECORD_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("SubmitRecord")
+          .build(ChangeField::formatSubmitRecordValues);
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
-      storedOnly("full_submit_record_strict")
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec SUBMIT_RECORD_SPEC =
+      SUBMIT_RECORD_FIELD.exact("submit_record");
+
+  public static final IndexedField<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT_FIELD =
+      IndexedField.<ChangeData>iterableByteArrayBuilder("FullSubmitRecordStrict")
+          .stored()
+          .build(
               cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_STRICT),
               (cd, field) ->
                   parseSubmitRecords(
@@ -1420,17 +1482,27 @@ public class ChangeField {
                       SUBMIT_RULE_OPTIONS_STRICT,
                       cd));
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
-      storedOnly("full_submit_record_lenient")
-          .buildRepeatable(
-              cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT),
-              (cd, field) ->
-                  parseSubmitRecords(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> new String(f, UTF_8))
-                          .collect(toSet()),
-                      SUBMIT_RULE_OPTIONS_LENIENT,
-                      cd));
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
+      STORED_SUBMIT_RECORD_STRICT_SPEC =
+          STORED_SUBMIT_RECORD_STRICT_FIELD.storedOnly("full_submit_record_strict");
+
+  public static final IndexedField<ChangeData, Iterable<byte[]>>
+      STORED_SUBMIT_RECORD_LENIENT_FIELD =
+          IndexedField.<ChangeData>iterableByteArrayBuilder("FullSubmitRecordLenient")
+              .stored()
+              .build(
+                  cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT),
+                  (cd, field) ->
+                      parseSubmitRecords(
+                          StreamSupport.stream(field.spliterator(), false)
+                              .map(f -> new String(f, UTF_8))
+                              .collect(toSet()),
+                          SUBMIT_RULE_OPTIONS_LENIENT,
+                          cd));
+
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
+      STORED_SUBMIT_RECORD_LENIENT_SPEC =
+          STORED_SUBMIT_RECORD_LENIENT_FIELD.storedOnly("full_submit_record_lenient");
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
@@ -1535,22 +1607,35 @@ public class ChangeField {
   }
 
   /** Serialized submit requirements, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_REQUIREMENTS =
-      storedOnly("full_submit_requirements")
-          .buildRepeatable(
-              cd ->
-                  toProtos(
-                      SubmitRequirementProtoConverter.INSTANCE, cd.submitRequirements().values()),
-              (cd, field) -> parseSubmitRequirements(field, cd));
+  private static final TypeToken<Iterable<Cache.SubmitRequirementResultProto>>
+      STORED_SUBMIT_REQUIREMENTS_TYPE_TOKEN =
+          new TypeToken<Iterable<Cache.SubmitRequirementResultProto>>() {
+            private static final long serialVersionUID = 1L;
+          };
 
-  private static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {
+  public static final IndexedField<ChangeData, Iterable<Cache.SubmitRequirementResultProto>>
+      STORED_SUBMIT_REQUIREMENTS_FIELD =
+          IndexedField.<ChangeData, Iterable<Cache.SubmitRequirementResultProto>>builder(
+                  "StoredSubmitRequirements", STORED_SUBMIT_REQUIREMENTS_TYPE_TOKEN)
+              .stored()
+              .required()
+              .protoConverter(Optional.of(SubmitRequirementProtoConverter.INSTANCE))
+              .build(
+                  cd ->
+                      entitiesToProtos(
+                          SubmitRequirementProtoConverter.INSTANCE,
+                          cd.submitRequirements().values()),
+                  (cd, value) -> parseSubmitRequirements(value, cd));
+
+  public static final IndexedField<ChangeData, Iterable<Cache.SubmitRequirementResultProto>>
+          .SearchSpec
+      STORED_SUBMIT_REQUIREMENTS_SPEC =
+          STORED_SUBMIT_REQUIREMENTS_FIELD.storedOnly("full_submit_requirements");
+
+  private static void parseSubmitRequirements(
+      Iterable<Cache.SubmitRequirementResultProto> values, ChangeData out) {
     out.setSubmitRequirements(
-        StreamSupport.stream(values.spliterator(), false)
-            .map(
-                f ->
-                    SubmitRequirementProtoConverter.INSTANCE.fromProto(
-                        Protos.parseUnchecked(
-                            SubmitRequirementProtoConverter.INSTANCE.getParser(), f)))
+        decodeProtosToEntities(values, SubmitRequirementProtoConverter.INSTANCE).stream()
             .filter(sr -> !sr.isLegacy())
             .collect(
                 ImmutableMap.toImmutableMap(sr -> sr.submitRequirement(), Function.identity())));
@@ -1561,9 +1646,10 @@ public class ChangeField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
-      storedOnly("ref_state")
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<byte[]>> REF_STATE_FIELD =
+      IndexedField.<ChangeData>iterableByteArrayBuilder("RefState")
+          .stored()
+          .build(
               cd -> {
                 List<byte[]> result = new ArrayList<>();
                 cd.getRefStates()
@@ -1573,15 +1659,19 @@ public class ChangeField {
               },
               (cd, field) -> cd.setRefStates(RefState.parseStates(field)));
 
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec REF_STATE_SPEC =
+      REF_STATE_FIELD.storedOnly("ref_state");
+
   /**
    * All ref wildcard patterns that were used in the course of indexing this document.
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name/*}. See {@link
    * RefStatePattern} for the pattern format.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
-      storedOnly("ref_state_pattern")
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN_FIELD =
+      IndexedField.<ChangeData>iterableByteArrayBuilder("RefStatePattern")
+          .stored()
+          .build(
               cd -> {
                 Change.Id id = cd.getId();
                 Project.NameKey project = cd.change().getProject();
@@ -1600,6 +1690,9 @@ public class ChangeField {
               },
               (cd, field) -> cd.setRefStatePatterns(field));
 
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec REF_STATE_PATTERN_SPEC =
+      REF_STATE_PATTERN_FIELD.storedOnly("ref_state_pattern");
+
   @Nullable
   private static String getTopic(ChangeData cd) {
     Change c = cd.change();
@@ -1609,24 +1702,28 @@ public class ChangeField {
     return firstNonNull(c.getTopic(), "");
   }
 
-  private static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {
-    return objects.stream().map(object -> toProto(converter, object)).collect(toImmutableList());
+  private static <V extends MessageLite, T> V entityToProto(
+      ProtoConverter<V, T> converter, T object) {
+    return converter.toProto(object);
   }
 
-  private static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
-    return Protos.toByteArray(converter.toProto(object));
-  }
-
-  private static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
-    return StreamSupport.stream(raw.spliterator(), false)
-        .map(bytes -> parseProtoFrom(bytes, converter))
+  private static <V extends MessageLite, T> List<V> entitiesToProtos(
+      ProtoConverter<V, T> converter, Collection<T> objects) {
+    return objects.stream()
+        .map(object -> entityToProto(converter, object))
         .collect(toImmutableList());
   }
 
-  private static <P extends MessageLite, T> T parseProtoFrom(
-      byte[] bytes, ProtoConverter<P, T> converter) {
-    P message = Protos.parseUnchecked(converter.getParser(), bytes, 0, bytes.length);
-    return converter.fromProto(message);
+  private static <V extends MessageLite, T> List<T> decodeProtosToEntities(
+      Iterable<V> raw, ProtoConverter<V, T> converter) {
+    return StreamSupport.stream(raw.spliterator(), false)
+        .map(proto -> decodeProtoToEntity(proto, converter))
+        .collect(toImmutableList());
+  }
+
+  private static <V extends MessageLite, T> T decodeProtoToEntity(
+      V proto, ProtoConverter<V, T> converter) {
+    return converter.fromProto(proto);
   }
 
   private static <T> SchemaFieldDefs.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {

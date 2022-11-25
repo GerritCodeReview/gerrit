@@ -1965,6 +1965,9 @@ export class GrChangeActions
     return this.getChangeModel()
       .fetchChangeUpdates(change)
       .then(result => {
+        console.log(
+          `asdf fetchChangeUpdates ${result.isLatest} ${JSON.stringify(result)}`
+        );
         if (!result.isLatest) {
           this.dispatchEvent(
             new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {

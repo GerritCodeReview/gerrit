@@ -53,6 +53,7 @@ suite('gr-file-list-header tests', () => {
         .shownFileCount=${3}
       ></gr-file-list-header>`
     );
+    element.loggedIn = true;
     element.diffPrefs = createDefaultDiffPrefs();
     await element.updateComplete;
   });
@@ -77,7 +78,7 @@ suite('gr-file-list-header tests', () => {
             <div class="fileViewActions">
               <span class="fileViewActionsLabel"> Diff view: </span>
               <gr-diff-mode-selector id="modeSelect"> </gr-diff-mode-selector>
-              <span class="hideOnEdit" hidden="" id="diffPrefsContainer">
+              <span class="hideOnEdit" id="diffPrefsContainer">
                 <gr-tooltip-content has-tooltip="" title="Diff preferences">
                   <gr-button
                     aria-disabled="false"
@@ -143,17 +144,13 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('Diff preferences hidden when no prefs', async () => {
-    assert.isTrue(
-      queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden
-    );
+    assert.isOk(query<HTMLElement>(element, '#diffPrefsContainer'));
 
-    element.diffPrefs = createDefaultDiffPrefs();
+    element.diffPrefs = undefined;
     element.loggedIn = true;
     await element.updateComplete;
 
-    assert.isFalse(
-      queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden
-    );
+    assert.isNotOk(query<HTMLElement>(element, '#diffPrefsContainer'));
   });
 
   test('expandAllDiffs called when expand button clicked', async () => {

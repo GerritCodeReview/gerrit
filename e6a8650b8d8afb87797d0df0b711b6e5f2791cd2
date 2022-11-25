@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com The patchset uses document.addEventListener to listen for \u0027location-change\u0027 event but currently window.dispatchEvent is still used to trigger \u0027location-change\u0027 event in the stable-3.6 branch. \"window\" was replaced with \"document\" in change 75656e7113bfb437c73da9dde51be524c5c367ad but it is not merged into the stable-3.6 branch. We should either merge 75656e7113bfb437c73da9dde51be524c5c367ad into the stable-3.6 branch first or manually change window.dispatchEvent to document.dispatchEvent in this change.",
       "revId": "e6a8650b8d8afb87797d0df0b711b6e5f2791cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "758d29de_e3d5bf14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T07:35:11Z",
+      "side": 1,
+      "message": "Good catch. Thanks! Changed `window` to `document` when dispatching the event.",
+      "parentUuid": "0f1db381_6371ee98",
+      "revId": "e6a8650b8d8afb87797d0df0b711b6e5f2791cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

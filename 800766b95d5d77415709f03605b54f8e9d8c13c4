@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ef2ab9_1905c2a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T10:45:45Z",
+      "side": 1,
+      "message": "Nit: It would be nice to move the 1 pixel border from header-row/top to file-list-header/bottom, so that the sticky header has the bottom border.",
+      "revId": "800766b95d5d77415709f03605b54f8e9d8c13c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

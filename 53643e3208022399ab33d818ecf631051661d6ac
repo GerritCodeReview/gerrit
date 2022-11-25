@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f11e5bc_44575c6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "when it says \"can\u0027t and shouldn\u0027t select\" it means can\u0027t select as a completion, right? I would still want to select the text with my mouse and copy it",
+      "range": {
+        "startLine": 16,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4160554_2b37aa69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "optional: is it ok not to be able to have both an error and results?",
+      "range": {
+        "startLine": 183,
+        "startChar": 12,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b5cf83_a1fe81d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "optional: consider having a separate sub-suite for the error case fixture \u0026 tests",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b3adff4_5190df79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "nit: s/String/string\n\n```suggestion\n  @state() queryErrorMessage?: string;\n```",
+      "range": {
+        "startLine": 175,
+        "startChar": 31,
+        "endLine": 175,
+        "endChar": 37
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0064bc07_ef945899",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "you can probably use `else if(e instanceof Error) {` to check at runtime that it\u0027s an error instead of casting. I believe we do that elsewhere in the codebase",
+      "range": {
+        "startLine": 477,
+        "startChar": 12,
+        "endLine": 477,
+        "endChar": 18
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8acb3ea_cd2d9874",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-25T15:17:46Z",
+      "side": 1,
+      "message": "maybe there is a better way to make sure these catch blocks execute? I think it would be skipped and silently pass if the promise were to not reject",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 24
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

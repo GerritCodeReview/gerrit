@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4754debb_3d3cc195",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-25T09:00:12Z",
+      "side": 1,
+      "message": "Great, thanks for fixing 2 rows!",
+      "range": {
+        "startLine": 16,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "d86c260d6a0ed12ea4748ed0238d531eba759233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72b8d957_9dc025d5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-25T09:00:12Z",
+      "side": 1,
+      "message": "Thanks for test, it helped to review this change.",
+      "range": {
+        "startLine": 1892,
+        "startChar": 13,
+        "endLine": 1892,
+        "endChar": 16
+      },
+      "revId": "d86c260d6a0ed12ea4748ed0238d531eba759233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

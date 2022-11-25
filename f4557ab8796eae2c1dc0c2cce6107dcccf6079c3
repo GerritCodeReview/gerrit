@@ -63,6 +63,30 @@
       },
       "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd33531f_22ecba10",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-11-25T10:37:54Z",
+      "side": 1,
+      "message": "By default we are allowing REGISTERED_USERS and ANONYMOUS_USERS to be allowed to do upload-pack",
+      "parentUuid": "27b4923d_d99bb9f3",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

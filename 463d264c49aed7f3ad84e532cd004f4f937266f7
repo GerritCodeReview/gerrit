@@ -334,6 +334,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ff6b46_c6ff070b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T08:45:15Z",
+      "side": 1,
+      "message": "I have changed it such that the CANCEL button is getting the focus. That works.",
+      "parentUuid": "883b5428_a38e8cc2",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "463d264c49aed7f3ad84e532cd004f4f937266f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1972c3b0_30f9b7fd",

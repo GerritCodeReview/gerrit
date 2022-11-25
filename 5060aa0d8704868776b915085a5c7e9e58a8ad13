@@ -308,6 +308,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3e51af9_f52aee8a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T08:45:15Z",
+      "side": 1,
+      "message": "Thanks for the discussion. I agree that better documentation would be nice, but this is going a bit beyond what I can currently do during the fixit. Yes, we should not couple server requests to rendering. Maybe ideally we should actually have a model for this dialog. But it is only 150 lines, so maybe not for now.",
+      "parentUuid": "de604788_589c63c8",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "5060aa0d8704868776b915085a5c7e9e58a8ad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0b0d212_2afb8016",

@@ -63,6 +63,30 @@
       },
       "revId": "1e561c30abce3a552e95d030e8e1900af8c8d06f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e747528_5a1bdb14",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T08:45:15Z",
+      "side": 1,
+      "message": "Yeah, good point. This is much better. Done.\n```\nawait this.updateComplete;\nif (this.active \u0026\u0026 this.modal?.open \u003d\u003d\u003d false) this.modal.showModal();\n```",
+      "parentUuid": "1300a60f_b820a422",
+      "range": {
+        "startLine": 109,
+        "startChar": 23,
+        "endLine": 109,
+        "endChar": 49
+      },
+      "revId": "1e561c30abce3a552e95d030e8e1900af8c8d06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

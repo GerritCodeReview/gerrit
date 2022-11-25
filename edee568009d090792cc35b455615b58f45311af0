@@ -24,6 +24,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2f7982_d6225859",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae13868a_b61acce3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daf7606d_ce9e5af7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:47:53Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b5380fa_440f5be7",
@@ -41,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1449b2_c0d27df2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b5380fa_440f5be7",
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e8b1c33_e90ad127",
@@ -54,6 +113,24 @@
       "writtenOn": "2022-11-25T08:04:47Z",
       "side": 1,
       "message": "This may not affect what you are doing in this change, but `gr-file-list-header` should really not be `display: inline`.\n```suggestion\n    css`\n      :host {\n        display: block;\n      }\n```",
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda01463_8cdc31a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:47:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8b1c33_e90ad127",
       "revId": "edee568009d090792cc35b455615b58f45311af0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

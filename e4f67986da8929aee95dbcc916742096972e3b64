@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c52bc390_af08c36c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-25T11:32:13Z",
+      "side": 1,
+      "message": "Nit: why in polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts\nit\u0027s enough just this.loggedIn \u0026\u0026 this.diffPrefs\n\nand here is double negation?",
+      "range": {
+        "startLine": 309,
+        "startChar": 12,
+        "endLine": 309,
+        "endChar": 47
+      },
+      "revId": "e4f67986da8929aee95dbcc916742096972e3b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

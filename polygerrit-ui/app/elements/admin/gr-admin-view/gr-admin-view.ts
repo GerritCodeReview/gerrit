@@ -418,10 +418,7 @@ export class GrAdminView extends LitElement {
 
     return html`
       <div class="main breadcrumbs">
-        <gr-repo-commands
-          .repo=${this.repoViewState.repo}
-          .createEdit=${this.repoViewState.createEdit}
-        ></gr-repo-commands>
+        <gr-repo-commands .repo=${this.repoViewState.repo}></gr-repo-commands>
       </div>
     `;
   }

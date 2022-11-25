@@ -22,7 +22,6 @@ import {
   UrlEncodedCommentId,
   PARENT,
   PatchSetNumber,
-  BranchName,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
@@ -141,10 +140,6 @@ const RoutePattern = {
 
   // Matches /admin/repos/<repo>,commands.
   REPO_COMMANDS: /^\/admin\/repos\/(.+),commands$/,
-
-  // For creating a change, and going directly into editing mode for one file.
-  REPO_EDIT_FILE:
-    /^\/admin\/repos\/edit\/repo\/(.+)\/branch\/(.+)\/file\/(.+)$/,
 
   REPO_GENERAL: /^\/admin\/repos\/(.+),general$/,
 
@@ -685,13 +680,6 @@ export class GrRouter implements Finalizable, NavigationService {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.REPO_EDIT_FILE,
-      'handleRepoEditFileRoute',
-      ctx => this.handleRepoEditFileRoute(ctx),
-      true
-    );
-
     this.mapRoute(RoutePattern.REPO_GENERAL, 'handleRepoGeneralRoute', ctx =>
       this.handleRepoGeneralRoute(ctx)
     );
@@ -1160,22 +1148,6 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.COMMANDS,
       repo,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.repoViewModel.setState(state);
-    this.reporting.setRepoName(repo);
-  }
-
-  handleRepoEditFileRoute(ctx: PageContext) {
-    const repo = ctx.params[0] as RepoName;
-    const branch = ctx.params[1] as BranchName;
-    const path = ctx.params[2];
-    const state: RepoViewState = {
-      view: GerritView.REPO,
-      detail: RepoDetailView.COMMANDS,
-      repo,
-      createEdit: {branch, path},
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

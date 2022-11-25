@@ -87,6 +87,30 @@
       },
       "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7e78cd_5524414f",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-11-25T10:59:20Z",
+      "side": 1,
+      "message": "I dig into the code and it looks like it cannot be easily done because InternalUser.getEffectiveGroups always returns empty list:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/InternalUser.java#34\n\nand we are using `getEffectiveGroups` to match the group:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/permissions/ProjectControl.java#345",
+      "parentUuid": "cd33531f_22ecba10",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I do not quite understand the purpose of the LocationChangeEvent and why in the Master branch it is present in the HTMLElementEventMap interface. In the stable-3.6 branch, it is not present in either the HTMLElementEventMap interface or the DocumentEventMap interface. Why is it added to the DocumentEventMap interface?",
       "revId": "895430dcb9c1eb8d522c7d5d68cb845794c9ab18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc66f5e_c35914c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T21:41:02Z",
+      "side": 1,
+      "message": "HTMLElementEventMap and DocumentEventMap are just for TypeScript type safety. If the event in only dispatched and listened on `document`, then it should be removed from HTMLElementEventMap. Yeah, just checked master. It can be removed from HTMLElementEventMap.",
+      "parentUuid": "46cb85b2_91d13185",
+      "revId": "895430dcb9c1eb8d522c7d5d68cb845794c9ab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

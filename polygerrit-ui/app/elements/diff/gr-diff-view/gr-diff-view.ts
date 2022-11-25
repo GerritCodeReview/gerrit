@@ -961,18 +961,18 @@ export class GrDiffView extends LitElement {
           )}
         `
       )}
-      <span class="separator"></span>
-      <div class="diffModeSelector ${diffModeSelectorClass}">
-        <span>Diff view:</span>
-        <gr-diff-mode-selector
-          id="modeSelect"
-          .saveOnChange=${this.loggedIn}
-          show-tooltip-below
-        ></gr-diff-mode-selector>
-      </div>
       ${when(
         this.loggedIn && this.prefs,
         () => html`
+          <span class="separator"></span>
+          <div class="diffModeSelector ${diffModeSelectorClass}">
+            <span>Diff view:</span>
+            <gr-diff-mode-selector
+              id="modeSelect"
+              .saveOnChange=${this.loggedIn}
+              show-tooltip-below
+            ></gr-diff-mode-selector>
+          </div>
           <span id="diffPrefsContainer">
             <span class="preferences desktop">
               <gr-tooltip-content

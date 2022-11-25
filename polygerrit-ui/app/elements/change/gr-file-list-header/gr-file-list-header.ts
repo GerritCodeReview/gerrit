@@ -274,10 +274,6 @@ export class GrFileListHeader extends LitElement {
       this.allPatchSets
     );
     const expandedClass = this.computeExpandedClass(this.filesExpanded);
-    const prefsButtonHidden = this.computePrefsButtonHidden(
-      this.diffPrefs,
-      this.loggedIn
-    );
     return html`
       <div class="patchInfo-header ${editModeClass} ${patchInfoClass}">
         <div class="patchInfo-left">
@@ -315,28 +311,29 @@ export class GrFileListHeader extends LitElement {
               </span>
             `
           )}
-          <div class="fileViewActions">
-            <span class="fileViewActionsLabel">Diff view:</span>
-            <gr-diff-mode-selector
-              id="modeSelect"
-              .saveOnChange=${this.loggedIn ?? false}
-            ></gr-diff-mode-selector>
-            <span
-              id="diffPrefsContainer"
-              class="hideOnEdit"
-              ?hidden=${prefsButtonHidden}
-            >
-              <gr-tooltip-content has-tooltip title="Diff preferences">
-                <gr-button
-                  link
-                  class="prefsButton desktop"
-                  @click=${this.handlePrefsTap}
-                  ><gr-icon icon="settings" filled></gr-icon
-                ></gr-button>
-              </gr-tooltip-content>
-            </span>
-            <span class="separator"></span>
-          </div>
+          ${when(
+            this.loggedIn && this.diffPrefs,
+            () => html`
+              <div class="fileViewActions">
+                <span class="fileViewActionsLabel">Diff view:</span>
+                <gr-diff-mode-selector
+                  id="modeSelect"
+                  .saveOnChange=${true}
+                ></gr-diff-mode-selector>
+                <span id="diffPrefsContainer" class="hideOnEdit">
+                  <gr-tooltip-content has-tooltip title="Diff preferences">
+                    <gr-button
+                      link
+                      class="prefsButton desktop"
+                      @click=${this.handlePrefsTap}
+                      ><gr-icon icon="settings" filled></gr-icon
+                    ></gr-button>
+                  </gr-tooltip-content>
+                </span>
+                <span class="separator"></span>
+              </div>
+            `
+          )}
           <span class="downloadContainer desktop">
             <gr-tooltip-content
               has-tooltip
@@ -406,13 +403,6 @@ export class GrFileListHeader extends LitElement {
       classes.push('someExpanded');
     }
     return classes.join(' ');
-  }
-
-  private computePrefsButtonHidden(
-    prefs: DiffPreferencesInfo,
-    loggedIn?: boolean
-  ) {
-    return !loggedIn || !prefs;
   }
 
   private fileListActionsVisible(

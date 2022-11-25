@@ -19,7 +19,6 @@ suite('gr-diff-section test', () => {
       html`<gr-diff-section></gr-diff-section>`
     );
     element.addTableWrapperForTesting = true;
-    element.isVisible = true;
     await element.updateComplete;
   });
 

@@ -60,14 +60,6 @@ export class GrDiffRow extends LitElement {
   layers: DiffLayer[] = [];
 
   /**
-   * While not visible we are trying to optimize rendering performance by
-   * rendering a simpler version of the diff. Once this has become true it
-   * cannot be set back to false.
-   */
-  @state()
-  isVisible = false;
-
-  /**
    * Semantic DOM diff testing does not work with just table fragments, so when
    * running such tests the render() method has to wrap the DOM in a proper
    * <table> element.
@@ -120,7 +112,6 @@ export class GrDiffRow extends LitElement {
    * `this.layersApplied = true`.
    */
   private async updateLayers(side: Side) {
-    if (!this.isVisible) return;
     const line = this.line(side);
     const contentEl = this.contentRef(side).value;
     const lineNumberEl = this.lineNumberRef(side).value;
@@ -139,25 +130,8 @@ export class GrDiffRow extends LitElement {
     this.layersApplied = true;
   }
 
-  private renderInvisible() {
-    return html`
-      <tr>
-        <td class="gr-diff blame"></td>
-        <td class="gr-diff left"></td>
-        <td class="gr-diff left content">
-          <div>${this.left?.text ?? ''}</div>
-        </td>
-        <td class="gr-diff right"></td>
-        <td class="gr-diff right content">
-          <div>${this.right?.text ?? ''}</div>
-        </td>
-      </tr>
-    `;
-  }
-
   override render() {
     if (!this.left || !this.right) return;
-    if (!this.isVisible) return this.renderInvisible();
     const row = html`
       <tr
         ${ref(this.tableRowRef)}

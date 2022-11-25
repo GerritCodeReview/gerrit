@@ -15,7 +15,6 @@ suite('gr-diff-row test', () => {
 
   setup(async () => {
     element = await fixture<GrDiffRow>(html`<gr-diff-row></gr-diff-row>`);
-    element.isVisible = true;
     element.addTableWrapperForTesting = true;
     await element.updateComplete;
   });

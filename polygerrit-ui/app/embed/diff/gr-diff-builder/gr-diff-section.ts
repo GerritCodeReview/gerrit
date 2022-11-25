@@ -22,7 +22,6 @@ import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
 import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
-import {whenVisible} from '../../../utils/dom-util';
 
 @customElement('gr-diff-section')
 export class GrDiffSection extends LitElement {
@@ -42,13 +41,6 @@ export class GrDiffSection extends LitElement {
   layers: DiffLayer[] = [];
 
   /**
-   * While not visible we are trying to optimize rendering performance by
-   * rendering a simpler version of the diff.
-   */
-  @state()
-  isVisible = false;
-
-  /**
    * Semantic DOM diff testing does not work with just table fragments, so when
    * running such tests the render() method has to wrap the DOM in a proper
    * <table> element.
@@ -65,12 +57,6 @@ export class GrDiffSection extends LitElement {
    */
   override createRenderRoot() {
     return this;
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    // TODO: Refine this obviously simplistic approach to optimized rendering.
-    whenVisible(this.parentElement!, () => (this.isVisible = true), 1000);
   }
 
   override render() {
@@ -100,7 +86,6 @@ export class GrDiffSection extends LitElement {
               .layers=${this.layers}
               .lineLength=${this.diffPrefs?.line_length ?? 80}
               .tabSize=${this.diffPrefs?.tab_size ?? 2}
-              .isVisible=${this.isVisible}
             >
             </gr-diff-row>
           `;

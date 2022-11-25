@@ -367,7 +367,12 @@ public abstract class IndexedField<I, T> {
   /** Optional description of the field data. */
   public abstract Optional<String> description();
 
-  /** True if this field is mandatory. Default is false. */
+  /**
+   * True if this field is mandatory. Default is false.
+   *
+   * <p>This property is not enforced by the common indexing logic. It is up to the index
+   * implementations to enforce that the field is required.
+   */
   public abstract boolean required();
 
   /** Allow reading the actual data from the index. Default is false. */
@@ -379,6 +384,9 @@ public abstract class IndexedField<I, T> {
   /**
    * Optional size constrain on the field. The size is not constrained if this property is {@link
    * Optional#empty()}
+   *
+   * <p>This property is not enforced by the common indexing logic. It is up to the index
+   * implementations to enforce the size.
    *
    * <p>If the field is {@link #repeatable()}, the constraint applies to each element separately.
    */

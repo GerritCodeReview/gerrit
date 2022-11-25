@@ -31,6 +31,9 @@ export class GrDialog extends LitElement {
    * @event cancel
    */
 
+  @query('#cancel')
+  cancelButton?: GrButton;
+
   @query('#confirm')
   confirmButton?: GrButton;
 
@@ -102,6 +105,7 @@ export class GrDialog extends LitElement {
           display: flex;
           flex-shrink: 0;
           padding-top: var(--spacing-xl);
+          align-items: center;
         }
         .flex-space {
           flex-grow: 1;
@@ -221,6 +225,10 @@ export class GrDialog extends LitElement {
   }
 
   resetFocus() {
-    this.confirmButton!.focus();
+    if (this.disabled && this.cancelLabel) {
+      this.cancelButton!.focus();
+    } else {
+      this.confirmButton!.focus();
+    }
   }
 }

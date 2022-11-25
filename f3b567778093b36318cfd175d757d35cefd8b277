@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a51aba_5fc9fa98",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-25T09:21:30Z",
+      "side": 1,
+      "message": "do we still need to explicitly call resetFocus?\nIn case the issue was that resetFocus was not able to find a target for focus but was still being automatically called?",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "f3b567778093b36318cfd175d757d35cefd8b277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

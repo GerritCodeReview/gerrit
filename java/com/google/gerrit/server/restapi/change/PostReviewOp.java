@@ -193,12 +193,16 @@ public class PostReviewOp implements BatchUpdateOp {
       // TODO(davido): Remove this workaround when patch set level comments are exposed in comment
       // added event. For backwards compatibility, patchset level comment has a higher priority
       // than change message and should be used as comment in comment added event.
-      if (in.comments != null && in.comments.containsKey(PATCHSET_LEVEL)) {
-        List<CommentInput> patchSetLevelComments = in.comments.get(PATCHSET_LEVEL);
-        if (patchSetLevelComments != null && !patchSetLevelComments.isEmpty()) {
-          CommentInput firstComment = patchSetLevelComments.get(0);
-          if (!Strings.isNullOrEmpty(firstComment.message)) {
-            comment = String.format("Patch Set %s:\n\n%s", psId.get(), firstComment.message);
+      Optional<Comment> patchSetLevelComment =
+          comments.stream().filter(c -> c.key.filename.equals(PATCHSET_LEVEL)).findFirst();
+      if (patchSetLevelComment.isPresent()) {
+        Comment patchSetLevelComments = patchSetLevelComment.get();
+        if (patchSetLevelComments != null
+            && patchSetLevelComments.message != null
+            && !patchSetLevelComments.message.isEmpty()) {
+          String firstComment = patchSetLevelComments.message;
+          if (!Strings.isNullOrEmpty(firstComment)) {
+            comment = String.format("Patch Set %s:\n\n%s", psId.get(), firstComment);
           }
         }
       }

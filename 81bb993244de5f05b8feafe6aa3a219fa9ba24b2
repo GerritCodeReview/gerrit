@@ -16,6 +16,24 @@
       "message": "accident?",
       "revId": "81bb993244de5f05b8feafe6aa3a219fa9ba24b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46e2fa6_e1166342",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T11:59:20Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "e41f4365_819f8ea0",
+      "revId": "81bb993244de5f05b8feafe6aa3a219fa9ba24b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

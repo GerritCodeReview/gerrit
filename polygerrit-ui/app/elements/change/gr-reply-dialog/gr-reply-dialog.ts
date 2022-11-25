@@ -1413,6 +1413,14 @@ export class GrReplyDialog extends LitElement {
 
     if (startReview) {
       reviewInput.ready = true;
+    } else {
+      const addedAccounts = [
+        ...(this.reviewersList?.additions() ?? []),
+        ...(this.ccsList?.additions() ?? []),
+      ];
+      if (addedAccounts.length > 0) {
+        fireAlert(this, 'Reviewers are not notified for WIP changes');
+      }
     }
 
     this.disabled = true;

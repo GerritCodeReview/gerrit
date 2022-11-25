@@ -184,6 +184,9 @@ class ProjectControl {
 
   /** Can the user run upload pack? */
   private boolean canRunUploadPack() {
+    if (user.isInternalUser()) {
+      return true;
+    }
     for (AccountGroup.UUID group : uploadGroups) {
       if (match(group)) {
         return true;

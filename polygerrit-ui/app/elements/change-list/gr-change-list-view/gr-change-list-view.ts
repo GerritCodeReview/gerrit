@@ -160,7 +160,7 @@ export class GrChangeListView extends LitElement {
           align-items: center;
           display: flex;
           height: 3rem;
-          justify-content: flex-end;
+          justify-content: flex-fend;
           margin-right: 20px;
           color: var(--deemphasized-text-color);
         }
@@ -294,7 +294,13 @@ export class GrChangeListView extends LitElement {
   // private but used in test
   computePage() {
     if (this.offset === undefined || this.changesPerPage === undefined) return;
-    return this.offset / this.changesPerPage + 1;
+    // We use Math.ceil in case the offset is not divisible by changesPerPage.
+    // If we did not do this, you'd have page '1.2' and then when pressing left
+    // arrow 'Page 1'.  This way page '1.2' becomes page '2'.
+    return (
+      Math.ceil(this.offset / this.limitFor(this.query, this.changesPerPage)) +
+      1
+    );
   }
 
   private async handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {

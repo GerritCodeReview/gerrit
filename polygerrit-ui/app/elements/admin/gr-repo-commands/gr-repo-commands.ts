@@ -9,6 +9,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
+import '../gr-create-change-dialog/gr-create-file-edit-dialog';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
@@ -34,6 +35,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {createEditUrl} from '../../../models/views/edit';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {GrCreateFileEditDialog} from '../gr-create-change-dialog/gr-create-file-edit-dialog';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -57,8 +59,17 @@ export class GrRepoCommands extends LitElement {
   @query('#createNewChangeModal')
   private readonly createNewChangeModal?: GrCreateChangeDialog;
 
+  @query('#createFileEditDialog')
+  private readonly createFileEditDialog?: GrCreateFileEditDialog;
+
   @property({type: String})
   repo?: RepoName;
+
+  @property({type: Object})
+  createEdit?: {
+    branch: BranchName;
+    path: string;
+  };
 
   @state() private loading = true;
 
@@ -75,6 +86,9 @@ export class GrRepoCommands extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  /** Make sure that this dialog is only activated once. */
+  private createFileEditDialogWasActivated = false;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -181,6 +195,12 @@ export class GrRepoCommands extends LitElement {
           </div>
         </gr-dialog>
       </dialog>
+      <gr-create-file-edit-dialog
+        id="createFileEditDialog"
+        .repo=${this.repo}
+        .branch=${this.createEdit?.branch}
+        .path=${this.createEdit?.path}
+      ></gr-create-file-edit-dialog>
     `;
   }
 
@@ -198,6 +218,15 @@ export class GrRepoCommands extends LitElement {
         ${this.repoConfig?.actions['gc']?.label}
       </gr-button>
     `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('createEdit')) {
+      if (!this.createFileEditDialogWasActivated) {
+        this.createFileEditDialog?.activate();
+        this.createFileEditDialogWasActivated = true;
+      }
+    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {

@@ -22,6 +22,30 @@
       },
       "revId": "f3b567778093b36318cfd175d757d35cefd8b277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f408bb90_e0a09989",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-file-edit-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T09:29:13Z",
+      "side": 1,
+      "message": "Yeah, seems to work even without this call. Strange.",
+      "parentUuid": "15a51aba_5fc9fa98",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "f3b567778093b36318cfd175d757d35cefd8b277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -9,6 +9,7 @@ export const formStyles = css`
   .gr-form-styles input {
     background-color: var(--view-background-color);
     color: var(--primary-text-color);
+    font: inherit;
   }
   .gr-form-styles select {
     background-color: var(--select-background-color);

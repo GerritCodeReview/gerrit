@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "190bf646_627cc725",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-25T09:43:08Z",
+      "side": 1,
+      "message": "Looks good to me! left few comments.",
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a32a02_2db14d23",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-25T09:43:08Z",
+      "side": 1,
+      "message": "Why did we add it?",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b483c722_375017f0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-25T09:43:08Z",
+      "side": 1,
+      "message": "[Optional] we can extract all \"Indexfield\"s\u0027 names to static final Strings at the top, and add Javadocs of how these names are used? (I recall you said we don\u0027t need them internally, and only spec names are mapped to our storage defs)\n\nwe discussed before that we only use Specs, but Lucene/Elastic need the field name, they can then reference these constants if we added them here.",
+      "range": {
+        "startLine": 759,
+        "startChar": 54,
+        "endLine": 759,
+        "endChar": 60
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44bac6f7_4f8f8e97",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-25T09:43:08Z",
+      "side": 1,
+      "message": "Q: why did we add required here but, e.g., we didn\u0027t add it in the previous field \"TrackingFooter\"? What fields are we marking as required? (if relevant, can you also add the reason to the commit message)?\n\n(It can also be that a patchset still has no votes, hence this field might be empty. How is this working while we\u0027re enforcing required?)",
+      "range": {
+        "startLine": 785,
+        "startChar": 62,
+        "endLine": 785,
+        "endChar": 70
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5977e98b_051bc48d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-25T09:43:08Z",
+      "side": 1,
+      "message": "Why not drop this, and define two specs (exact, fulltext) for the same COMMIT_MESSAGE_FIELD?\n\nanswer: we truncate commit message exact.",
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

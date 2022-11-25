@@ -47,6 +47,52 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "76b1e927_8483bece",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-25T17:19:40Z",
+      "side": 1,
+      "message": "maybe extract into it\u0027s own method?\n\nI am generally not happy that to render a error we have\n\n\u003cul\u003e\n  \u003cli\u003e\n     errorText\n  \u003c/li\u003e\n\u003c/ul\u003e\n\nTo me, it seems a bit strange rendering a list for showing an error but perhaps there is no better way?",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 193,
+        "endChar": 19
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0654e43d_d0cb8218",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-25T17:19:40Z",
+      "side": 1,
+      "message": "this is again the sort of code I was hoping to avoid.\n\n`errorMessage` is essentially being used to check if we\u0027re in `errorMode` but I don\u0027t think cursor methods should ideally be aware of the `error` at all.\n\nIn case we do go with this pattern, I assume once error mode is activated there are no results shown so we should be able to call `cursor.next();` without any issues?\nor is there an error being thrown",
+      "range": {
+        "startLine": 242,
+        "startChar": 24,
+        "endLine": 242,
+        "endChar": 44
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "21b5cf83_a1fe81d8",

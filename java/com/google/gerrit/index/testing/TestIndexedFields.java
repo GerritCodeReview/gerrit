@@ -164,6 +164,12 @@ public final class TestIndexedFields {
   public static final IndexedField<TestIndexedData, String>.SearchSpec STRING_FIELD_SPEC =
       STRING_FIELD.fullText("string_test");
 
+  public static final IndexedField<TestIndexedData, String>.SearchSpec PREFIX_STRING_FIELD_SPEC =
+      STRING_FIELD.prefix("prefix_string_test");
+
+  public static final IndexedField<TestIndexedData, String>.SearchSpec EXACT_STRING_FIELD_SPEC =
+      STRING_FIELD.exact("exact_string_test");
+
   public static final IndexedField<TestIndexedData, Iterable<byte[]>> ITERABLE_STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>iterableByteArrayBuilder("IterableByteTestField")
           .stored()

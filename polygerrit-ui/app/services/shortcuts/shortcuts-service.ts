@@ -25,6 +25,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
 import {define} from '../../models/dependency';
+import {isCharacterLetter, isUpperCase} from '../../utils/string-util';
 
 export {Shortcut, ShortcutSection};
 
@@ -365,7 +366,10 @@ export function describeBinding(binding: Binding): string[] {
   if (binding.combo === ComboKey.V) {
     description.push('v');
   }
-  if (binding.modifiers?.includes(Modifier.SHIFT_KEY)) {
+  if (
+    binding.modifiers?.includes(Modifier.SHIFT_KEY) ||
+    (isCharacterLetter(binding.key) && isUpperCase(binding.key))
+  ) {
     description.push('Shift');
   }
   if (binding.modifiers?.includes(Modifier.ALT_KEY)) {
@@ -377,6 +381,12 @@ export function describeBinding(binding: Binding): string[] {
   if (binding.modifiers?.includes(Modifier.META_KEY)) {
     description.push('Meta/Cmd');
   }
-  description.push(describeKey(binding.key));
+
+  let key = describeKey(binding.key);
+  if (isCharacterLetter(key)) {
+    key = key.toLowerCase();
+  }
+  description.push(key);
+
   return description;
 }

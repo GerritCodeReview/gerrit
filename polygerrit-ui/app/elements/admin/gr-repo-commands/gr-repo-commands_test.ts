@@ -94,6 +94,8 @@ suite('gr-repo-commands tests', () => {
             </div>
           </gr-dialog>
         </dialog>
+        <gr-create-file-edit-dialog id="createFileEditDialog">
+        </gr-create-file-edit-dialog>
       `,
       {ignoreTags: ['p']}
     );

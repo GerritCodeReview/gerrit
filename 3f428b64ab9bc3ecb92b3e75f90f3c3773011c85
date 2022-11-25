@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2686d293_d5417229",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905aa9ea_e02684fa",
+      "range": {
+        "startLine": 1257,
+        "startChar": 28,
+        "endLine": 1257,
+        "endChar": 29
+      },
+      "revId": "3f428b64ab9bc3ecb92b3e75f90f3c3773011c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "467db5a1_5a3fd3f3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-25T09:50:20Z",
       "side": 1,
       "message": "why is this needed?",
+      "range": {
+        "startLine": 165,
+        "startChar": 8,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "3f428b64ab9bc3ecb92b3e75f90f3c3773011c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6661e4e5_7b0571d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-25T09:52:14Z",
+      "side": 1,
+      "message": "Because otherwise the file-lists are rendered mixed with the file-list-header.  This is to ensure that the file-list-header is not transparent and showing the file behind it.",
+      "parentUuid": "467db5a1_5a3fd3f3",
       "range": {
         "startLine": 165,
         "startChar": 8,

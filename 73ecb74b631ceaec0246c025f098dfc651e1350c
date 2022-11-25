@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "127d80e9_54a4f3b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T02:14:49Z",
+      "side": 1,
+      "message": "Current tests did not highlight the problem: hence we are missing at least ONE test that is posting draft comments and then send the review.",
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

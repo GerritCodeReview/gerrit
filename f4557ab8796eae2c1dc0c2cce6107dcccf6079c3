@@ -111,6 +111,30 @@
       },
       "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eaf7baf_062f37c3",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T13:58:34Z",
+      "side": 1,
+      "message": "\u003e I dig into the code and it looks like it cannot be easily done because InternalUser.getEffectiveGroups always returns empty list:\n\u003e https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/InternalUser.java#34\n\nTrue, but the pull-replication plugin could create a specialised version of an internal user (e.g. BearerTokenAuthenticatedUser?) and return a specialised group (e.g. BearerTokenAuthenticatedGroup?)\n\nOn Gerrit master, we could propose instead to introduce an \"Internal-Users\" System group isn\u0027t it?",
+      "parentUuid": "4f7e78cd_5524414f",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "f4557ab8796eae2c1dc0c2cce6107dcccf6079c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

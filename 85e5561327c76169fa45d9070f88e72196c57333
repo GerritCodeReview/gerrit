@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2582b237_105485fa",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-25T12:02:35Z",
+      "side": 1,
+      "message": "can\u0027t you just submit the jgit revert?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "85e5561327c76169fa45d9070f88e72196c57333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

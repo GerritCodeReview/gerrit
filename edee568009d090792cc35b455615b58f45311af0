@@ -22,6 +22,40 @@
       },
       "revId": "edee568009d090792cc35b455615b58f45311af0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5380fa_440f5be7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T08:04:47Z",
+      "side": 1,
+      "message": "Maybe add a comment about why this is needed.",
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8b1c33_e90ad127",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-25T08:04:47Z",
+      "side": 1,
+      "message": "This may not affect what you are doing in this change, but `gr-file-list-header` should really not be `display: inline`.\n```suggestion\n    css`\n      :host {\n        display: block;\n      }\n```",
+      "revId": "edee568009d090792cc35b455615b58f45311af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

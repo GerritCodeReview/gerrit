@@ -16,6 +16,24 @@
       "message": "After upgrading to Gerrit 3.6.3 the GitWeb si not working anymore with 404 Error.\nDo we need to make additional config changes for Gerrit after this change?",
       "revId": "09d6669f4d5c32ee2b5c4f79b6d995e689061853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95300105_102f5019",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:00:38Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com has uploaded a fix with Change 352390",
+      "parentUuid": "0a04253f_f118079f",
+      "revId": "09d6669f4d5c32ee2b5c4f79b6d995e689061853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

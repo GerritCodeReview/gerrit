@@ -130,8 +130,12 @@ export class GrAutocompleteDropdown extends LitElement {
     super();
     this.cursor.cursorTargetClass = 'selected';
     this.cursor.focusOnMove = true;
-    this.shortcuts.addLocal({key: Key.UP}, () => this.handleUp());
-    this.shortcuts.addLocal({key: Key.DOWN}, () => this.handleDown());
+    this.shortcuts.addLocal({key: Key.UP, allowRepeat: true}, () =>
+      this.handleUp()
+    );
+    this.shortcuts.addLocal({key: Key.DOWN, allowRepeat: true}, () =>
+      this.handleDown()
+    );
     this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEscape());
     this.shortcuts.addLocal({key: Key.TAB}, () => this.handleTab());

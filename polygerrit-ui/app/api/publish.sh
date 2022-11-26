@@ -7,6 +7,8 @@
 #
 # Adding the `--upload` argument will also publish the package.
 
+set -e
+
 bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then
     echo "Warning: bazelisk is not installed; falling back to bazel."

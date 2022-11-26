@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "846f9d75_dbfcc9ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-11-26T00:46:31Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "4afafec4_39501d11",
+      "revId": "107c3806c9f9b8b32f5f86640fbca73b838c2b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9fc2b60d_a048f0f5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -48,6 +66,30 @@
       "writtenOn": "2022-11-21T09:30:17Z",
       "side": 1,
       "message": "Do you need this class for anything? Maybe just drop it.",
+      "range": {
+        "startLine": 427,
+        "startChar": 20,
+        "endLine": 427,
+        "endChar": 35
+      },
+      "revId": "107c3806c9f9b8b32f5f86640fbca73b838c2b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3dedbec_01171305",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-11-26T00:46:31Z",
+      "side": 1,
+      "message": "Nope, i can drop it, thanks!",
+      "parentUuid": "4081ff47_41407306",
       "range": {
         "startLine": 427,
         "startChar": 20,

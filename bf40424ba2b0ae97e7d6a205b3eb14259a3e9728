@@ -159,6 +159,24 @@
       "parentUuid": "8523f4cf_771acc0b",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e633fb2_45705217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-26T22:30:23Z",
+      "side": 1,
+      "message": "- JGit updated to 1.72, will be released with 6.4.0 next week, I will update this change to update Gerrit to 1.72\n- according to the maven dependencies [1] and release notes [2] bcpkix depends on bcutil. It was introduced in 1.69\n\n[1] https://search.maven.org/artifact/org.bouncycastle/bcpkix-jdk18on/1.72/jar\n[2] https://www.bouncycastle.org/releasenotes.html",
+      "parentUuid": "85e497db_d0d9ab5d",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -43,6 +43,7 @@ pkg_npm(
         ["**/*"],
         exclude = [
             "BUILD",
+            "BUILD_for_publishing_api_only",
             "tsconfig.json",
             "publish.sh",
         ],

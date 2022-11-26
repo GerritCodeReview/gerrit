@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e872c36f_a4ee3f62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-26T22:24:59Z",
+      "side": 1,
+      "message": "The fix was made to master / stable-3.6 but did not get cherry picked to stable-3.5 ;)",
+      "revId": "37ac9a53461aa4be44782c46a537a0ea4f75d893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

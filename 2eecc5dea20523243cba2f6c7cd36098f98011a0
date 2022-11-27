@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "321e0f87_d1eb10d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-27T10:43:13Z",
+      "side": 1,
+      "message": "When browsing the plugin development doc ( https://gerrit-review.googlesource.com/Documentation/pg-plugin-dev.html )  I would have loved to be informed about the TypeScript npm package: https://www.npmjs.com/package/@gerritcodereview/typescript-api   This change document it.\n\nWhile developing a standalone plugin (aka a simple JavaScript file without any java/bazel etc), I have added @gerritcodereview/typescript-api  and copy pasted the content of Gerrit plugins/tsconfig-plugins-base.json.  Shipping it in the plugin API would lets one avoid the copy paste.\n\nNote there are 8 versions published at https://www.npmjs.com/package/@gerritcodereview/typescript-api?activeTab\u003dversions:\n\n* 3.4.0 3.4.1 3.4.2 3.4.3 3.4.4 3.4.5\n* 3.6.0\n* 3.7.0\n\nMaybe they could use to be manually redone with an incremental suffix to incorporate this change and the tsconfig-plugins-base.json aka:\n\n* 3.6.0-1\n* 3.7.0-1\n\nFor 3.4 I think it is EOL, so maybe there could be a 3.5.0 published which sole difference with 3.4.4 would be the addition of the tsconfig-plugins-base.json.  Or I move this change to stable-3.4 (but all packages would still have to be manually published).",
+      "revId": "2eecc5dea20523243cba2f6c7cd36098f98011a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

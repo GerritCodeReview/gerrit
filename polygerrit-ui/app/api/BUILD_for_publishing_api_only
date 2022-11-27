@@ -48,5 +48,8 @@ pkg_npm(
             "publish.sh",
         ],
     ),
-    deps = [":js_plugin_api_compiled"],
+    deps = [
+        ":js_plugin_api_compiled",
+        "//plugins:tsconfig-plugins-base.json"
+    ],
 )

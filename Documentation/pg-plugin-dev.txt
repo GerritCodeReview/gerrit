@@ -34,6 +34,33 @@ You can find more elaborate examples in the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/samples/[polygerrit-ui/app/samples/]
 directory of the source tree.
 
+== TypeScript API ==
+
+Gerrit provides a TypeScript plugin API.
+
+For a plugin built inline, its `tsconfig.json` can extends Gerrit plugin
+TypeScript configuration:
+
+`tsconfig.json`:
+``` json
+{
+  "extends": "../tsconfig-plugins-base.json"
+}
+```
+
+For standalone plugins (outside of a Gerrit tree), a TypeScript plugin API is
+published:
+link:https://www.npmjs.com/package/@gerritcodereview/typescript-api[@gerritcodereview/typescript-api].
+It provides a TypeScript configuration `tsconfig-plugins-base.json` which can
+be used in your plugin `tsconfig.json`:
+
+``` json
+{
+  "extends": "node_modules/@gerritcodereview/typescript-api/tsconfig-plugins-base.json",
+  // your custom configuration and overrides
+}
+```
+
 [[low-level-api-concepts]]
 == Low-level DOM API concepts
 

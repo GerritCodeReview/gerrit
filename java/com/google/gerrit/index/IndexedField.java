@@ -79,7 +79,6 @@ public abstract class IndexedField<I, T> {
     return new AutoValue_IndexedField.Builder<I, T>()
         .name(name)
         .fieldType(fieldType)
-        .stored(false)
         .required(false);
   }
 
@@ -126,16 +125,24 @@ public abstract class IndexedField<I, T> {
   public class SearchSpec implements SchemaField<I, T> {
     private final String name;
     private final SearchOption searchOption;
+    /** Allow reading the actual data from the index. */
+    private final boolean stored;
 
-    public SearchSpec(String name, SearchOption searchOption) {
+    public SearchSpec(String name, SearchOption searchOption, boolean stored) {
       checkName(name);
       this.name = name;
+      this.stored = stored;
       this.searchOption = searchOption;
+    }
+
+    public SearchSpec(String name, SearchOption searchOption) {
+      this(name, searchOption, /* stored= */ false);
+      checkName(name);
     }
 
     @Override
     public boolean isStored() {
-      return getField().stored();
+      return stored;
     }
 
     @Override
@@ -222,10 +229,11 @@ public abstract class IndexedField<I, T> {
    *
    * @param name the name to use for in the search.
    * @param searchOption the tokenization option, enabled by the new {@link SearchSpec}
+   * @param stored see {@link SearchSpec#stored}
    * @return the added {@link SearchSpec}.
    */
-  public SearchSpec addSearchSpec(String name, SearchOption searchOption) {
-    SearchSpec searchSpec = new SearchSpec(name, searchOption);
+  private SearchSpec addSearchSpec(String name, SearchOption searchOption, boolean stored) {
+    SearchSpec searchSpec = new SearchSpec(name, searchOption, stored);
     checkArgument(
         !searchSpecs.containsKey(searchSpec.getName()),
         "Can not add search spec %s, because it is already defined on field %s",
@@ -235,45 +243,108 @@ public abstract class IndexedField<I, T> {
     return searchSpec;
   }
 
+  private SearchSpec exact(String name, boolean stored) {
+    return addSearchSpec(name, SearchOption.EXACT, stored);
+  }
+
   public SearchSpec exact(String name) {
-    return addSearchSpec(name, SearchOption.EXACT);
+    return exact(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedExact(String name) {
+    return exact(name, /* stored= */ true);
+  }
+
+  private SearchSpec fullText(String name, boolean stored) {
+    return addSearchSpec(name, SearchOption.FULL_TEXT, stored);
   }
 
   public SearchSpec fullText(String name) {
-    return addSearchSpec(name, SearchOption.FULL_TEXT);
+    return fullText(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedFullText(String name) {
+    return fullText(name, /* stored= */ true);
+  }
+
+  private SearchSpec range(String name, boolean stored) {
+    return addSearchSpec(name, SearchOption.RANGE, stored);
   }
 
   public SearchSpec range(String name) {
-    return addSearchSpec(name, SearchOption.RANGE);
+    return range(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedRange(String name) {
+    return range(name, /* stored= */ true);
+  }
+
+  private SearchSpec integerRange(String name, boolean stored) {
+    checkState(fieldType().equals(INTEGER_TYPE));
+    return addSearchSpec(name, SearchOption.RANGE, stored);
   }
 
   public SearchSpec integerRange(String name) {
-    checkState(fieldType().equals(INTEGER_TYPE));
-    return addSearchSpec(name, SearchOption.RANGE);
+    return integerRange(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedIntegerRange(String name) {
+    return integerRange(name, /* stored= */ true);
+  }
+
+  private SearchSpec integer(String name, boolean stored) {
+    checkState(fieldType().equals(INTEGER_TYPE) || fieldType().equals(ITERABLE_INTEGER_TYPE));
+    return addSearchSpec(name, SearchOption.EXACT, stored);
   }
 
   public SearchSpec integer(String name) {
-    checkState(fieldType().equals(INTEGER_TYPE) || fieldType().equals(ITERABLE_INTEGER_TYPE));
-    return addSearchSpec(name, SearchOption.EXACT);
+    return integer(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedInteger(String name) {
+    return integer(name, /* stored= */ true);
+  }
+
+  private SearchSpec longSearch(String name, boolean stored) {
+    checkState(fieldType().equals(LONG_TYPE) || fieldType().equals(ITERABLE_LONG_TYPE));
+    return addSearchSpec(name, SearchOption.EXACT, stored);
   }
 
   public SearchSpec longSearch(String name) {
-    checkState(fieldType().equals(LONG_TYPE) || fieldType().equals(ITERABLE_LONG_TYPE));
-    return addSearchSpec(name, SearchOption.EXACT);
+    return longSearch(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedLongSearch(String name) {
+    return longSearch(name, /* stored= */ true);
+  }
+
+  private SearchSpec prefix(String name, boolean stored) {
+    return addSearchSpec(name, SearchOption.PREFIX, stored);
   }
 
   public SearchSpec prefix(String name) {
-    return addSearchSpec(name, SearchOption.PREFIX);
+    return prefix(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedPrefix(String name) {
+    return prefix(name, /* stored= */ true);
   }
 
   public SearchSpec storedOnly(String name) {
-    checkState(stored());
-    return addSearchSpec(name, SearchOption.STORE_ONLY);
+    return addSearchSpec(name, SearchOption.STORE_ONLY, /* stored= */ true);
+  }
+
+  private SearchSpec timestamp(String name, boolean stored) {
+    checkState(fieldType().equals(TIMESTAMP_TYPE));
+    return addSearchSpec(name, SearchOption.RANGE, stored);
   }
 
   public SearchSpec timestamp(String name) {
-    checkState(fieldType().equals(TIMESTAMP_TYPE));
-    return addSearchSpec(name, SearchOption.RANGE);
+    return timestamp(name, /* stored= */ false);
+  }
+
+  public SearchSpec storedTimestamp(String name) {
+    return timestamp(name, /* stored= */ true);
   }
 
   /** A builder for {@link IndexedField}. */
@@ -290,14 +361,6 @@ public abstract class IndexedField<I, T> {
 
     public Builder<I, T> required() {
       required(true);
-      return this;
-    }
-
-    /** Allow reading the actual data from the index. */
-    public abstract Builder<I, T> stored(boolean stored);
-
-    public Builder<I, T> stored() {
-      stored(true);
       return this;
     }
 
@@ -369,9 +432,6 @@ public abstract class IndexedField<I, T> {
 
   /** True if this field is mandatory. Default is false. */
   public abstract boolean required();
-
-  /** Allow reading the actual data from the index. Default is false. */
-  public abstract boolean stored();
 
   /** True if this field is repeatable. */
   public abstract boolean repeatable();

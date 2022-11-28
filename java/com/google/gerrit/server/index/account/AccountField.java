@@ -45,22 +45,18 @@ import org.eclipse.jgit.lib.ObjectId;
 public class AccountField {
 
   public static final IndexedField<AccountState, Integer> ID_FIELD =
-      IndexedField.<AccountState>integerBuilder("Id")
-          .stored()
-          .required()
-          .build(a -> a.account().id().get());
+      IndexedField.<AccountState>integerBuilder("Id").required().build(a -> a.account().id().get());
 
   public static final IndexedField<AccountState, Integer>.SearchSpec ID_FIELD_SPEC =
-      ID_FIELD.integer("id");
+      ID_FIELD.storedInteger("id");
 
   public static final IndexedField<AccountState, String> ID_STR_FIELD =
       IndexedField.<AccountState>stringBuilder("IdStr")
-          .stored()
           .required()
           .build(a -> String.valueOf(a.account().id().get()));
 
   public static final IndexedField<AccountState, String>.SearchSpec ID_STR_FIELD_SPEC =
-      ID_STR_FIELD.exact("id_str");
+      ID_STR_FIELD.storedExact("id_str");
 
   /**
    * External IDs.
@@ -199,7 +195,6 @@ public class AccountField {
    */
   public static final IndexedField<AccountState, Iterable<byte[]>> REF_STATE_FIELD =
       IndexedField.<AccountState>iterableByteArrayBuilder("RefState")
-          .stored()
           .required()
           .build(
               a -> {
@@ -229,7 +224,6 @@ public class AccountField {
    */
   public static final IndexedField<AccountState, Iterable<byte[]>> EXTERNAL_ID_STATE_FIELD =
       IndexedField.<AccountState>iterableByteArrayBuilder("ExternalIdState")
-          .stored()
           .required()
           .build(
               a ->

@@ -166,16 +166,13 @@ public final class TestIndexedFields {
 
   public static final IndexedField<TestIndexedData, Iterable<byte[]>> ITERABLE_STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>iterableByteArrayBuilder("IterableByteTestField")
-          .stored()
           .build(getter(), setter());
 
   public static final IndexedField<TestIndexedData, Iterable<byte[]>>.SearchSpec
       ITERABLE_STORED_BYTE_SPEC = ITERABLE_STORED_BYTE_FIELD.storedOnly("iterable_byte_test");
 
   public static final IndexedField<TestIndexedData, byte[]> STORED_BYTE_FIELD =
-      IndexedField.<TestIndexedData>byteArrayBuilder("ByteTestField")
-          .stored()
-          .build(getter(), setter());
+      IndexedField.<TestIndexedData>byteArrayBuilder("ByteTestField").build(getter(), setter());
 
   public static final IndexedField<TestIndexedData, byte[]>.SearchSpec STORED_BYTE_SPEC =
       STORED_BYTE_FIELD.storedOnly("byte_test");
@@ -186,7 +183,6 @@ public final class TestIndexedFields {
               new TypeToken<Entities.Change>() {
                 private static final long serialVersionUID = 1L;
               })
-          .stored()
           .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
   public static final IndexedField<TestIndexedData, Entities.Change>.SearchSpec
@@ -199,7 +195,6 @@ public final class TestIndexedFields {
                   new TypeToken<Iterable<Entities.Change>>() {
                     private static final long serialVersionUID = 1L;
                   })
-              .stored()
               .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
   public static final IndexedField<TestIndexedData, Iterable<Entities.Change>>.SearchSpec

@@ -149,12 +149,11 @@ public class ChangeField {
   public static final IndexedField<ChangeData, String> PROJECT_FIELD =
       IndexedField.<ChangeData>stringBuilder("Project")
           .required()
-          .stored()
           .size(200)
           .build(changeGetter(c -> c.getProject().get()));
 
   public static final IndexedField<ChangeData, String>.SearchSpec PROJECT_SPEC =
-      PROJECT_FIELD.exact(ChangeQueryBuilder.FIELD_PROJECT);
+      PROJECT_FIELD.storedExact(ChangeQueryBuilder.FIELD_PROJECT);
 
   /** Project containing the change, as a prefix field. */
   public static final IndexedField<ChangeData, String>.SearchSpec PROJECTS_SPEC =
@@ -205,13 +204,12 @@ public class ChangeField {
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
   public static final IndexedField<ChangeData, Timestamp> MERGED_ON_FIELD =
       IndexedField.<ChangeData>timestampBuilder("MergedOn")
-          .stored()
           .build(
               cd -> cd.getMergedOn().map(Timestamp::from).orElse(null),
               (cd, field) -> cd.setMergedOn(field != null ? field.toInstant() : null));
 
   public static final IndexedField<ChangeData, Timestamp>.SearchSpec MERGED_ON_SPEC =
-      MERGED_ON_FIELD.timestamp(ChangeQueryBuilder.FIELD_MERGED_ON);
+      MERGED_ON_FIELD.storedTimestamp(ChangeQueryBuilder.FIELD_MERGED_ON);
 
   /** List of full file paths modified in the current patch set. */
   public static final IndexedField<ChangeData, Iterable<String>> PATH_FIELD =
@@ -257,7 +255,6 @@ public class ChangeField {
   /** Hashtags with original case. */
   public static final IndexedField<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE_FIELD =
       IndexedField.<ChangeData>iterableByteArrayBuilder("HashtagCaseAware")
-          .stored()
           .build(
               cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet()),
               (cd, field) ->
@@ -497,41 +494,37 @@ public class ChangeField {
   /** Reviewer(s) associated with the change. */
   public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Reviewer")
-          .stored()
           .build(
               cd -> getReviewerFieldValues(cd.reviewers()),
               (cd, field) -> cd.setReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec REVIEWER_SPEC =
-      REVIEWER_FIELD.exact("reviewer2");
+      REVIEWER_FIELD.storedExact("reviewer2");
 
   /** Reviewer(s) associated with the change that do not have a gerrit account. */
   public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("ReviewerByEmail")
-          .stored()
           .build(
               cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()),
               (cd, field) ->
                   cd.setReviewersByEmail(parseReviewerByEmailFieldValues(cd.getId(), field)));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec REVIEWER_BY_EMAIL =
-      REVIEWER_BY_EMAIL_FIELD.exact("reviewer_by_email");
+      REVIEWER_BY_EMAIL_FIELD.storedExact("reviewer_by_email");
 
   /** Reviewer(s) modified during change's current WIP phase. */
   public static final IndexedField<ChangeData, Iterable<String>> PENDING_REVIEWER_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("PendingReviewer")
-          .stored()
           .build(
               cd -> getReviewerFieldValues(cd.pendingReviewers()),
               (cd, field) -> cd.setPendingReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec PENDING_REVIEWER_SPEC =
-      PENDING_REVIEWER_FIELD.exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER);
+      PENDING_REVIEWER_FIELD.storedExact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER);
 
   /** Reviewer(s) by email modified during change's current WIP phase. */
   public static final IndexedField<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("PendingReviewerByEmail")
-          .stored()
           .build(
               cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()),
               (cd, field) ->
@@ -540,7 +533,8 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
       PENDING_REVIEWER_BY_EMAIL =
-          PENDING_REVIEWER_BY_EMAIL_FIELD.exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL);
+          PENDING_REVIEWER_BY_EMAIL_FIELD.storedExact(
+              ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL);
 
   /** References a change that this change reverts. */
   public static final IndexedField<ChangeData, Integer> REVERT_OF_FIELD =

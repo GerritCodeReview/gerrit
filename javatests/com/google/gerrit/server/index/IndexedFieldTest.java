@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_RANGE_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_RANGE_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_INTEGER_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_INTEGER_RANGE_FIELD_SPEC;
@@ -29,13 +30,17 @@ import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STORED_
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STORED_PROTO_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STRING_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STRING_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.LONG_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.LONG_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.LONG_RANGE_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.LONG_RANGE_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_BYTE_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_BYTE_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_PROTO_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_PROTO_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.STRING_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.STRING_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.TIMESTAMP_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.TIMESTAMP_FIELD_SPEC;
 
 import com.google.common.collect.ImmutableList;
@@ -172,5 +177,37 @@ public class IndexedFieldTest {
     assertThat(ITERABLE_STRING_FIELD.isProtoIterableType()).isFalse();
     assertThat(STORED_BYTE_FIELD.isProtoIterableType()).isFalse();
     assertThat(ITERABLE_STORED_BYTE_FIELD.isProtoType()).isFalse();
+  }
+
+  @Test
+  public void test_isStoredSearchSpec() {
+    assertThat(STORED_PROTO_FIELD_SPEC.isStored()).isTrue();
+    assertThat(ITERABLE_PROTO_FIELD_SPEC.isStored()).isTrue();
+    assertThat(STORED_BYTE_SPEC.isStored()).isTrue();
+    assertThat(ITERABLE_STORED_BYTE_SPEC.isStored()).isTrue();
+
+    assertThat(STRING_FIELD.storedExact("stored_spec").isStored()).isTrue();
+    assertThat(STRING_FIELD.exact("non_stored_spec").isStored()).isFalse();
+
+    assertThat(INTEGER_FIELD.storedInteger("stored_spec").isStored()).isTrue();
+    assertThat(INTEGER_FIELD.integer("non_stored_spec").isStored()).isFalse();
+
+    assertThat(TIMESTAMP_FIELD.storedTimestamp("stored_spec").isStored()).isTrue();
+    assertThat(TIMESTAMP_FIELD.timestamp("non_stored_spec").isStored()).isFalse();
+
+    assertThat(LONG_FIELD.storedLongSearch("stored_spec").isStored()).isTrue();
+    assertThat(LONG_FIELD.longSearch("non_stored_spec").isStored()).isFalse();
+
+    assertThat(STRING_FIELD.storedFullText("stored_spec_full_text").isStored()).isTrue();
+    assertThat(STRING_FIELD.fullText("non_stored_spec_full_text").isStored()).isFalse();
+
+    assertThat(LONG_RANGE_FIELD.storedRange("stored_spec").isStored()).isTrue();
+    assertThat(LONG_RANGE_FIELD.range("non_stored_spec").isStored()).isFalse();
+
+    assertThat(INTEGER_RANGE_FIELD.storedIntegerRange("stored_spec").isStored()).isTrue();
+    assertThat(INTEGER_RANGE_FIELD.integerRange("non_stored_spec").isStored()).isFalse();
+
+    assertThat(STRING_FIELD.storedPrefix("stored_spec_prefix").isStored()).isTrue();
+    assertThat(STRING_FIELD.prefix("non_stored_spec_prefix").isStored()).isFalse();
   }
 }

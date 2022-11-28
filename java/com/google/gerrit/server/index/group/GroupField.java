@@ -44,11 +44,10 @@ public class GroupField {
   public static final IndexedField<InternalGroup, String> UUID_FIELD =
       IndexedField.<InternalGroup>stringBuilder("UUID")
           .required()
-          .stored()
           .build(g -> g.getGroupUUID().get());
 
   public static final IndexedField<InternalGroup, String>.SearchSpec UUID_FIELD_SPEC =
-      UUID_FIELD.exact("uuid");
+      UUID_FIELD.storedExact("uuid");
 
   /** Group owner UUID. */
   public static final IndexedField<InternalGroup, String> OWNER_UUID_FIELD =
@@ -125,7 +124,6 @@ public class GroupField {
   /** ObjectId of HEAD:refs/groups/<UUID>. */
   public static final IndexedField<InternalGroup, byte[]> REF_STATE_FIELD =
       IndexedField.<InternalGroup>byteArrayBuilder("RefState")
-          .stored()
           .required()
           .build(
               g -> {

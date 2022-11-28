@@ -1,5 +1,125 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2e8d70_afc0fd88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "render",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "960ae17f_73688ecd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "doing",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b53f8b_377eb4cd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "please use `nothing`",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e1bdaf_856409c3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "Should there be a function from viewMode to colspan? There\u0027s two locations now where it maps from side-by-side ? 5 : 3.\n\nHere and in gr-context-controls-section.",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75cb0d2f_f9f3b75c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "```\nconst contentId \u003d line.lineNumber(side) \u003e 0 ? `${side}-content-${line.lineNumber(side}` : \u0027\u0027;\n```",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8716f026_6889dba9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "Why is this a dict but lineNumberCols an array?",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cd3d7ce_6e7ed667",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T09:53:39Z",
+      "side": 1,
+      "message": "Why is the id no longer necessary?",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12b0a3dd_3f7269d0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T11:48:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4586f938_e1ada828",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 193,
+        "endChar": 19
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0654e43d_d0cb8218",
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "The proper fix is that in error mode cursor methods are not called.\nThis I agree with.\n\nWhat is happening is that instead cursor methods are being called but then it becomes the cursor\u0027s responsibility to realise that it should not be called by checking the existence of \"!this.errorMessage\".\n\nThen there is the check `!this.isHidden` which for ex is used in the `cursorDown` method but not in the `handleTab` method, I am assuming if it\u0027s hidden then we don\u0027t want to trigger the `handleTab` method as well?\n\nPerhaps a better fix would be to compute a variable based on both `isHidden` and `errorMessage` which denotes if the dropdown is active or not. (`isActive`).\n\nThen we have one descriptive variable computed which can be added to all these methods.\n\nI agree with the overall goal but I don\u0027t like the \"!this.errorMessage\" checks everywhere in cursor methods, it\u0027s ideally the responsibility of the caller to not call a method when it\u0027s not supposed to be invoked instead of the method adding checks.\n\nMy proposal\n\n```\noverride willUpdate(changedProperties: PropertyValues) {\n  this.isActive \u003d !this.isHidden \u0026\u0026 !this.errorMessage\n}\n\nthis.shortcuts.addLocal({key: Key.ENTER}, () \u003d\u003e {\n  if (this.isActive)   this.handleEnter()\n}\n\n```\n\nWDYT?",
       "parentUuid": "ac4dfe59_1bb2f72c",
+      "range": {
+        "startLine": 242,
+        "startChar": 24,
+        "endLine": 242,
+        "endChar": 44
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a7b1627_2b8b2da0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T11:48:46Z",
+      "side": 1,
+      "message": "Added `isSuggestionListInteractable` (felt \"Active\" can be a bit ambiguous) method that joins isHidden and errorMessage.",
+      "parentUuid": "22abda54_95600dab",
       "range": {
         "startLine": 242,
         "startChar": 24,
@@ -439,6 +487,30 @@
       "side": 1,
       "message": "now this is basically our `assertFails` util. Consider using it directly in the future. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/test-utils.ts;l\u003d297;drc\u003d4eb8c98db26f8d5aa7504b2ab0841d93fa47b09d",
       "parentUuid": "4e1d40d7_0869cd59",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 24
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d0b362_3828b4c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T11:48:46Z",
+      "side": 1,
+      "message": "Changed to `assertFails`",
+      "parentUuid": "92caae33_95418772",
       "range": {
         "startLine": 237,
         "startChar": 11,

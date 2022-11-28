@@ -12,7 +12,6 @@ import {
   Side,
   LineNumber,
   DiffLayer,
-  DiffViewMode,
 } from '../../../api/diff';
 import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -48,8 +47,12 @@ export class GrDiffRow extends LitElement {
   @property({type: Object})
   responsiveMode?: DiffResponsiveMode;
 
-  @property({type: Object})
-  viewMode?: DiffViewMode;
+  /**
+   * true: side-by-side diff
+   * false: unified diff
+   */
+  @property({type: Boolean})
+  unifiedDiff = false;
 
   @property({type: Number})
   tabSize = 2;
@@ -136,9 +139,9 @@ export class GrDiffRow extends LitElement {
 
   override render() {
     if (!this.left || !this.right) return;
-    const classes = this.isUnifiedDiff() ? ['unified'] : ['side-by-side'];
+    const classes = this.unifiedDiff ? ['unified'] : ['side-by-side'];
     const unifiedType = this.unifiedType();
-    if (this.isUnifiedDiff() && unifiedType) classes.push(unifiedType);
+    if (this.unifiedDiff && unifiedType) classes.push(unifiedType);
     const row = html`
       <tr
         ${ref(this.tableRowRef)}
@@ -165,10 +168,10 @@ export class GrDiffRow extends LitElement {
   private ariaLabelIds() {
     const ids: string[] = [];
     ids.push(this.lineNumberId(Side.LEFT));
-    if (!this.isUnifiedDiff()) ids.push(this.contentId(Side.LEFT));
+    if (!this.unifiedDiff) ids.push(this.contentId(Side.LEFT));
     ids.push(this.lineNumberId(Side.RIGHT));
-    if (!this.isUnifiedDiff()) ids.push(this.contentId(Side.RIGHT));
-    if (this.isUnifiedDiff()) ids.push(this.contentId(this.unifiedSide()));
+    if (!this.unifiedDiff) ids.push(this.contentId(Side.RIGHT));
+    if (this.unifiedDiff) ids.push(this.contentId(this.unifiedSide()));
     return ids.filter(id => !!id).join(' ');
   }
 
@@ -253,8 +256,7 @@ export class GrDiffRow extends LitElement {
     const lineNumber = this.lineNumber(side);
     const isBlank = line?.type === GrDiffLineType.BLANK;
     if (!line || !lineNumber || isBlank || this.layersApplied) {
-      const blankClass =
-        isBlank && this.isSideBySideDiff() ? 'blankLineNum' : '';
+      const blankClass = isBlank && !this.unifiedDiff ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
         class=${diffClasses(side, blankClass)}
@@ -318,7 +320,7 @@ export class GrDiffRow extends LitElement {
 
   private renderContentCell(side: Side) {
     let line = this.line(side);
-    if (this.isUnifiedDiff()) {
+    if (this.unifiedDiff) {
       if (side === Side.LEFT) return nothing;
       if (line?.type === GrDiffLineType.BLANK) {
         side = Side.LEFT;
@@ -351,7 +353,7 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderSignCell(side: Side) {
-    if (this.isUnifiedDiff()) return nothing;
+    if (this.unifiedDiff) return nothing;
     const line = this.line(side);
     assertIsDefined(line, 'line');
     const isBlank = line.type === GrDiffLineType.BLANK;
@@ -393,18 +395,10 @@ export class GrDiffRow extends LitElement {
   }
 
   private getType(side?: Side): string | undefined {
-    if (this.isUnifiedDiff()) return undefined;
+    if (this.unifiedDiff) return undefined;
     if (side === Side.LEFT) return this.left?.type;
     if (side === Side.RIGHT) return this.right?.type;
     return undefined;
-  }
-
-  private isUnifiedDiff() {
-    return this.viewMode === DiffViewMode.UNIFIED;
-  }
-
-  private isSideBySideDiff() {
-    return !this.isUnifiedDiff();
   }
 
   private unifiedType() {

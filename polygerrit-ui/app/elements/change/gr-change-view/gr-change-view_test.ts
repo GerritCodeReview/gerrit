@@ -1484,47 +1484,6 @@ suite('gr-change-view tests', () => {
     assert.equal(element.fileList.selectedIndex, 0);
   });
 
-  test('don’t reload entire page when patchRange changes', async () => {
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const reloadPatchDependentStub = sinon
-      .stub(element, 'reloadPatchNumDependentResources')
-      .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
-    assertIsDefined(element.fileList);
-    await element.fileList.updateComplete;
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: ChangeViewState = {
-      ...createChangeViewState(),
-      view: GerritView.CHANGE,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
-    element.changeNum = undefined;
-    element.viewState = value;
-    await element.updateComplete;
-    assert.isTrue(reloadStub.calledOnce);
-
-    element.initialLoadComplete = true;
-    element.fileList.selectedIndex = 15;
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        rev1: createRevision(1),
-        rev2: createRevision(2),
-      },
-    };
-
-    value.basePatchNum = 1 as BasePatchSetNum;
-    value.patchNum = 2 as RevisionPatchSetNum;
-    element.viewState = {...value};
-    await element.updateComplete;
-    await waitEventLoop();
-    assert.equal(element.fileList.selectedIndex, 0);
-    assert.isFalse(reloadStub.calledTwice);
-    assert.isTrue(reloadPatchDependentStub.calledOnce);
-    assert.isTrue(collapseStub.calledTwice);
-  });
-
   test('reload ported comments when patchNum changes', async () => {
     assertIsDefined(element.fileList);
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
@@ -1563,25 +1522,6 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
     assert.isTrue(reloadPortedDraftsStub.calledOnce);
-  });
-
-  test('do not reload entire page when patchRange doesnt change', async () => {
-    assertIsDefined(element.fileList);
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
-    // change already loaded
-    assert.isOk(element.changeNum);
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledOnce);
-    element.initialLoadComplete = true;
-    element.viewState = {...value};
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledTwice);
-    assert.isFalse(collapseStub.calledTwice);
   });
 
   test('forceReload updates the change', async () => {

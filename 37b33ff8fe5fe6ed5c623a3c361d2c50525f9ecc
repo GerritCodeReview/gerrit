@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0351963_cda25fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:23Z",
+      "side": 1,
+      "message": "This change is abandoned. Please comment on 353182: Tweak lit diff such that it passes the DOM render test | https://gerrit-review.git.corp.google.com/c/gerrit/+/353182",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97b53f8b_377eb4cd",

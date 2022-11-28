@@ -144,12 +144,7 @@ import {
   GerritView,
   routerModelToken,
 } from '../../../services/router/router-model';
-import {
-  debounce,
-  DelayedTask,
-  throttleWrap,
-  until,
-} from '../../../utils/async-util';
+import {DelayedTask, throttleWrap, until} from '../../../utils/async-util';
 import {Interaction, Timing, Execution} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
@@ -563,12 +558,6 @@ export class GrChangeView extends LitElement {
 
   private diffViewMode?: DiffViewMode;
 
-  /**
-   * If the user comes back to the change page we want to remember the scroll
-   * position when we re-render the page as is.
-   */
-  private scrollPosition?: number;
-
   private connected$ = new BehaviorSubject(false);
 
   /**
@@ -794,7 +783,6 @@ export class GrChangeView extends LitElement {
     // Make sure to reverse everything below this line in disconnectedCallback().
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('scroll', this.handleScroll);
   }
 
   override firstUpdated() {
@@ -849,7 +837,6 @@ export class GrChangeView extends LitElement {
       'visibilitychange',
       this.handleVisibilityChange
     );
-    document.removeEventListener('scroll', this.handleScroll);
     this.scrollTask?.cancel();
 
     if (this.updateCheckTimerHandle) {
@@ -1668,15 +1655,6 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private readonly handleScroll = () => {
-    if (!this.isViewCurrent) return;
-    this.scrollTask = debounce(
-      this.scrollTask,
-      () => (this.scrollPosition = document.documentElement.scrollTop),
-      150
-    );
-  };
-
   private onOpenFixPreview(e: OpenFixPreviewEvent) {
     assertIsDefined(this.applyFixDialog);
     this.applyFixDialog.open(e);
@@ -2097,9 +2075,11 @@ export class GrChangeView extends LitElement {
     if (this.isChangeObsolete()) {
       // Tell the app element that we are not going to handle the new change
       // number and that they have to create a new change view.
+      debugger;
       fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
       return;
     }
+    debugger;
 
     if (this.viewState.changeNum && this.viewState.repo) {
       this.restApiService.setInProjectLookup(
@@ -2111,55 +2091,11 @@ export class GrChangeView extends LitElement {
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 
-    const patchChanged = this.hasPatchRangeChanged(this.viewState);
-    let patchNumChanged = this.hasPatchNumChanged(this.viewState);
-
     this.patchRange = {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
     };
     this.scrollCommentId = this.viewState.commentId;
-
-    const patchKnown =
-      !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange!.patchNum
-      );
-    // _allPatchsets does not know value.patchNum so force a reload.
-    const forceReload = this.viewState.forceReload || !patchKnown;
-
-    // If changeNum is defined that means the change has already been
-    // rendered once before so a full reload is not required.
-    if (this.changeNum !== undefined && !forceReload) {
-      if (!this.patchRange.patchNum) {
-        this.patchRange = {
-          ...this.patchRange,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-        patchNumChanged = true;
-      }
-      if (patchChanged) {
-        // We need to collapse all diffs when viewState changes so that a non
-        // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetFileState();
-        this.fileList?.collapseAllDiffs();
-        this.reloadPatchNumDependentResources(patchNumChanged).then(() => {
-          this.sendShowChangeEvent();
-        });
-      }
-
-      // If there is no change in patchset or changeNum, such as when user goes
-      // to the diff view and then comes back to change page then there is no
-      // need to reload anything and we render the change view component as is.
-      document.documentElement.scrollTop = this.scrollPosition ?? 0;
-      this.reporting.reportInteraction('change-view-re-rendered');
-      this.updateTitle(this.change);
-      // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
-      // page should open the reply dialog
-      this.performPostLoadTasks();
-      return;
-    }
 
     // We need to collapse all diffs when viewState changes so that a non
     // existing diff is not requested. See Issue 125270 for more details.
@@ -2168,17 +2104,6 @@ export class GrChangeView extends LitElement {
       this.fileList?.collapseAllDiffs();
       this.fileList?.resetFileState();
     });
-
-    // If the change was loaded before, then we are firing a 'reload' event
-    // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
-    //    is only relevant for the initial load of a change.
-    // 2. We have to somehow trigger the change-model reloading. Otherwise
-    //    this.change is not updated.
-    if (this.changeNum) {
-      fireReload(this);
-      return;
-    }
 
     this.initialLoadComplete = false;
     this.changeNum = this.viewState.changeNum;

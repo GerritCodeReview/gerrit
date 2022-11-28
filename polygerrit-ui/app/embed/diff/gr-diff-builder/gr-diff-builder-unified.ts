@@ -77,17 +77,17 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     colgroup.appendChild(col);
 
     // Add left-side line number.
-    col = document.createElement('col');
+    col = createElementDiff('col');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add right-side line number.
-    col = document.createElement('col');
+    col = createElementDiff('col');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add the content.
-    colgroup.appendChild(document.createElement('col'));
+    colgroup.appendChild(createElementDiff('col'));
 
     outputEl.appendChild(colgroup);
   }

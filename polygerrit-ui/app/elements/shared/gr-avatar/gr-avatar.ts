@@ -25,6 +25,9 @@ export class GrAvatar extends LitElement {
 
   @state() private hasAvatars = false;
 
+  @property({type: Boolean})
+  forceFetch = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -90,7 +93,7 @@ export class GrAvatar extends LitElement {
     const avatars = account.avatars || [];
     // if there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.
-    if (avatars.length === 0) {
+    if (avatars.length === 0 && !this.forceFetch) {
       return '';
     }
     for (let i = 0; i < avatars.length; i++) {

@@ -16,6 +16,24 @@
       "message": "Maybe add the comment from the commit message here.",
       "revId": "84f9646c0432d5562234ffb220738b7d521bca10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bc2b79f_c73ef1d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-28T13:24:27Z",
+      "side": 1,
+      "message": "Done. Also had to change gr-avatar-stack.",
+      "parentUuid": "df21d01c_809fd285",
+      "revId": "84f9646c0432d5562234ffb220738b7d521bca10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

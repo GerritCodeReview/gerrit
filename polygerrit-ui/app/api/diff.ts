@@ -249,6 +249,13 @@ export declare interface RenderPreferences {
    */
   use_lit_components?: boolean;
   show_sign_col?: boolean;
+  /**
+   * The default view mode is SIDE_BY_SIDE.
+   *
+   * Note that gr-diff also still supports setting viewMode as a dedicated
+   * property on <gr-diff>. TODO: Migrate usages to RenderPreferences.
+   */
+  view_mode?: DiffViewMode;
 }
 
 /**

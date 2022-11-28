@@ -93,9 +93,9 @@ suite('gr-diff tests', () => {
             <table class="selected-right" id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
-                <col width="48" />
-                <col width="48" />
-                <col />
+                <col class="gr-diff" width="48" />
+                <col class="gr-diff" width="48" />
+                <col class="gr-diff" />
               </colgroup>
               <tbody class="both gr-diff section">
                 <tr class="both diff-row gr-diff unified" tabindex="-1">
@@ -3170,9 +3170,9 @@ suite('gr-diff tests', () => {
               <table class="selected-right" id="diffTable">
                 <colgroup>
                   <col class="blame gr-diff" />
-                  <col width="48" />
-                  <col width="48" />
-                  <col />
+                  <col class="gr-diff" width="48" />
+                  <col class="gr-diff" width="48" />
+                  <col class="gr-diff" />
                 </colgroup>
                 <tbody class="binary-diff gr-diff"></tbody>
                 <tbody class="binary-diff gr-diff">

@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4586f938_e1ada828",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T10:57:13Z",
+      "side": 1,
+      "message": "\u003e Moved to it\u0027s own method?\n\n```\nrenderAutocompleteError() {\n  return html`\n              \u003cli\n                tabindex\u003d\"-1\"\n                aria-label\u003d\"autocomplete query error\"\n                class\u003d\"query-error\"\n              \u003e\n                \u003cspan\u003e${this.errorMessage}\u003c/span\u003e\n                \u003cspan class\u003d\"label\"\u003eERROR\u003c/span\u003e\n              \u003c/li\u003e\n            `,\n}\n```\n\nI would have expected the error to not be inside a list since it\u0027s semantically not a list item but if that means the styling becomes a lot more difficult, then I am fine with keeping it as is.",
+      "parentUuid": "4850b63d_75517a18",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 193,
+        "endChar": 19
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0654e43d_d0cb8218",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
         "patchSetId": 2
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "\u003e `errorMessage` is essentially being used to check if we\u0027re in `errorMode`\n\nWould you prefer to have a separate boolean for \"Error mode\"?\n\n\nCalling cursor methods would work. ie will do nothing, but maybe call focus (which is fixable). I, however, disagree that we should call them. Semantically in \"error mode\" there is no list of suggestions. They don\u0027t exist, so calling methods to manipulate the object that logically doesn\u0027t exist, doesn\u0027t seem right to me. I want \"Error mode\" to mean that the suggestion list is not interactable and in that sense cursor manipulation methods (ie. `cusor.next` and `cursor.previous`) shouldn\u0027t be called.\n\nDoes that make sense to you?",
       "parentUuid": "0654e43d_d0cb8218",
+      "range": {
+        "startLine": 242,
+        "startChar": 24,
+        "endLine": 242,
+        "endChar": 44
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22abda54_95600dab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T10:57:13Z",
+      "side": 1,
+      "message": "The proper fix is that in error mode cursor methods are not called.\nThis I agree with.\n\nWhat is happening is that instead cursor methods are being called but then it becomes the cursor\u0027s responsibility to realise that it should not be called by checking the existence of \"!this.errorMessage\".\n\nThen there is the check `!this.isHidden` which for ex is used in the `cursorDown` method but not in the `handleTab` method, I am assuming if it\u0027s hidden then we don\u0027t want to trigger the `handleTab` method as well?\n\nPerhaps a better fix would be to compute a variable based on both `isHidden` and `errorMessage` which denotes if the dropdown is active or not. (`isActive`).\n\nThen we have one descriptive variable computed which can be added to all these methods.\n\nI agree with the overall goal but I don\u0027t like the \"!this.errorMessage\" checks everywhere in cursor methods, it\u0027s ideally the responsibility of the caller to not call a method when it\u0027s not supposed to be invoked instead of the method adding checks.\n\nMy proposal\n\n```\noverride willUpdate(changedProperties: PropertyValues) {\n  this.isActive \u003d !this.isHidden \u0026\u0026 !this.errorMessage\n}\n\nthis.shortcuts.addLocal({key: Key.ENTER}, () \u003d\u003e {\n  if (this.isActive)   this.handleEnter()\n}\n\n```\n\nWDYT?",
+      "parentUuid": "ac4dfe59_1bb2f72c",
       "range": {
         "startLine": 242,
         "startChar": 24,

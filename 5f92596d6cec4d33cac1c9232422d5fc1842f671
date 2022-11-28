@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3cd84f4_3b6b1ade",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-28T10:24:46Z",
+      "side": 1,
+      "message": "why is so much ignored in this one?",
+      "range": {
+        "startLine": 1724,
+        "startChar": 10,
+        "endLine": 1724,
+        "endChar": 20
+      },
+      "revId": "5f92596d6cec4d33cac1c9232422d5fc1842f671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

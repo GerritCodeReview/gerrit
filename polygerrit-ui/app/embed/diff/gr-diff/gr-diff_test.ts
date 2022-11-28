@@ -139,7 +139,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
-                  aria-labelledby="left-button-1 right-button-1  right-content-1"
+                  aria-labelledby="left-button-1 right-button-1 right-content-1"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -176,7 +176,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-2 right-button-2  right-content-2"
+                  aria-labelledby="left-button-2 right-button-2 right-content-2"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -213,7 +213,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-3 right-button-3  right-content-3"
+                  aria-labelledby="left-button-3 right-button-3 right-content-3"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -250,7 +250,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-4 right-button-4  right-content-4"
+                  aria-labelledby="left-button-4 right-button-4 right-content-4"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -289,7 +289,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="delta gr-diff section total">
                 <tr
-                  aria-labelledby="right-button-5  right-content-5"
+                  aria-labelledby="right-button-5 right-content-5"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -316,7 +316,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-6  right-content-6"
+                  aria-labelledby="right-button-6 right-content-6"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -343,7 +343,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-7  right-content-7"
+                  aria-labelledby="right-button-7 right-content-7"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -372,7 +372,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
-                  aria-labelledby="left-button-5 right-button-8  right-content-8"
+                  aria-labelledby="left-button-5 right-button-8 right-content-8"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -409,7 +409,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-6 right-button-9  right-content-9"
+                  aria-labelledby="left-button-6 right-button-9 right-content-9"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -446,7 +446,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-7 right-button-10  right-content-10"
+                  aria-labelledby="left-button-7 right-button-10 right-content-10"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -483,7 +483,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-8 right-button-11  right-content-11"
+                  aria-labelledby="left-button-8 right-button-11 right-content-11"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -520,7 +520,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-9 right-button-12  right-content-12"
+                  aria-labelledby="left-button-9 right-button-12 right-content-12"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -559,7 +559,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="delta gr-diff section total">
                 <tr
-                  aria-labelledby="left-button-10  left-content-10"
+                  aria-labelledby="left-button-10 left-content-10"
                   class="diff-row gr-diff remove unified"
                   tabindex="-1"
                 >
@@ -586,7 +586,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-11  left-content-11"
+                  aria-labelledby="left-button-11 left-content-11"
                   class="diff-row gr-diff remove unified"
                   tabindex="-1"
                 >
@@ -613,7 +613,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-12  left-content-12"
+                  aria-labelledby="left-button-12 left-content-12"
                   class="diff-row gr-diff remove unified"
                   tabindex="-1"
                 >
@@ -640,7 +640,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-13  left-content-13"
+                  aria-labelledby="left-button-13 left-content-13"
                   class="diff-row gr-diff remove unified"
                   tabindex="-1"
                 >
@@ -669,7 +669,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="delta gr-diff ignoredWhitespaceOnly section">
                 <tr
-                  aria-labelledby="right-button-13  right-content-13"
+                  aria-labelledby="right-button-13 right-content-13"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -696,7 +696,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-14  right-content-14"
+                  aria-labelledby="right-button-14 right-content-14"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -725,7 +725,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="delta gr-diff section">
                 <tr
-                  aria-labelledby="left-button-16  left-content-16"
+                  aria-labelledby="left-button-16 left-content-16"
                   class="diff-row gr-diff remove unified"
                   tabindex="-1"
                 >
@@ -752,7 +752,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-15  right-content-15"
+                  aria-labelledby="right-button-15 right-content-15"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -781,7 +781,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
-                  aria-labelledby="left-button-17 right-button-16  right-content-16"
+                  aria-labelledby="left-button-17 right-button-16 right-content-16"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -818,7 +818,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-18 right-button-17  right-content-17"
+                  aria-labelledby="left-button-18 right-button-17 right-content-17"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -855,7 +855,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-19 right-button-18  right-content-18"
+                  aria-labelledby="left-button-19 right-button-18 right-content-18"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -915,7 +915,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
-                  aria-labelledby="left-button-38 right-button-37  right-content-37"
+                  aria-labelledby="left-button-38 right-button-37 right-content-37"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -952,7 +952,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-39 right-button-38  right-content-38"
+                  aria-labelledby="left-button-39 right-button-38 right-content-38"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -989,7 +989,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-40 right-button-39  right-content-39"
+                  aria-labelledby="left-button-40 right-button-39 right-content-39"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1028,7 +1028,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="delta gr-diff section total">
                 <tr
-                  aria-labelledby="right-button-40  right-content-40"
+                  aria-labelledby="right-button-40 right-content-40"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1055,7 +1055,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-41  right-content-41"
+                  aria-labelledby="right-button-41 right-content-41"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1082,7 +1082,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-42  right-content-42"
+                  aria-labelledby="right-button-42 right-content-42"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1109,7 +1109,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="right-button-43  right-content-43"
+                  aria-labelledby="right-button-43 right-content-43"
                   class="add diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1138,7 +1138,7 @@ suite('gr-diff tests', () => {
               </tbody>
               <tbody class="both gr-diff section">
                 <tr
-                  aria-labelledby="left-button-41 right-button-44  right-content-44"
+                  aria-labelledby="left-button-41 right-button-44 right-content-44"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1175,7 +1175,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-42 right-button-45  right-content-45"
+                  aria-labelledby="left-button-42 right-button-45 right-content-45"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1212,7 +1212,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-43 right-button-46  right-content-46"
+                  aria-labelledby="left-button-43 right-button-46 right-content-46"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1249,7 +1249,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-44 right-button-47  right-content-47"
+                  aria-labelledby="left-button-44 right-button-47 right-content-47"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >
@@ -1286,7 +1286,7 @@ suite('gr-diff tests', () => {
                   </td>
                 </tr>
                 <tr
-                  aria-labelledby="left-button-45 right-button-48  right-content-48"
+                  aria-labelledby="left-button-45 right-button-48 right-content-48"
                   class="both diff-row gr-diff unified"
                   tabindex="-1"
                 >

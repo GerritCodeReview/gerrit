@@ -177,6 +177,24 @@
       "parentUuid": "85e497db_d0d9ab5d",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d94d2f7_c50ad286",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-28T15:05:09Z",
+      "side": 1,
+      "message": "bumped the new version to 1.72",
+      "parentUuid": "6e633fb2_45705217",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

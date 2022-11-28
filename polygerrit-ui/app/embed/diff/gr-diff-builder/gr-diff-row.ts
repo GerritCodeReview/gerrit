@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, TemplateResult} from 'lit';
+import {html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
@@ -12,6 +12,7 @@ import {
   Side,
   LineNumber,
   DiffLayer,
+  DiffViewMode,
 } from '../../../api/diff';
 import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -46,6 +47,9 @@ export class GrDiffRow extends LitElement {
 
   @property({type: Object})
   responsiveMode?: DiffResponsiveMode;
+
+  @property({type: Object})
+  viewMode?: DiffViewMode;
 
   @property({type: Number})
   tabSize = 2;
@@ -132,18 +136,17 @@ export class GrDiffRow extends LitElement {
 
   override render() {
     if (!this.left || !this.right) return;
+    const classes = this.isUnifiedDiff() ? ['unified'] : ['side-by-side'];
+    const unifiedType = this.unifiedType();
+    if (this.isUnifiedDiff() && unifiedType) classes.push(unifiedType);
     const row = html`
       <tr
         ${ref(this.tableRowRef)}
-        class=${diffClasses('diff-row', 'side-by-side')}
-        left-type=${this.left.type}
-        right-type=${this.right.type}
+        class=${diffClasses('diff-row', ...classes)}
+        left-type=${ifDefined(this.getType(Side.LEFT))}
+        right-type=${ifDefined(this.getType(Side.RIGHT))}
         tabindex="-1"
-        aria-labelledby=${`${this.lineNumberId(Side.LEFT)} ${this.contentId(
-          Side.LEFT
-        )} ${this.lineNumberId(Side.RIGHT)} ${this.contentId(
-          Side.RIGHT
-        )}`.trim()}
+        aria-labelledby=${this.ariaLabelIds()}
       >
         ${this.renderBlameCell()} ${this.renderLineNumberCell(Side.LEFT)}
         ${this.renderSignCell(Side.LEFT)} ${this.renderContentCell(Side.LEFT)}
@@ -159,10 +162,25 @@ export class GrDiffRow extends LitElement {
     return row;
   }
 
+  private ariaLabelIds() {
+    const ids: string[] = [];
+    ids.push(this.lineNumberId(Side.LEFT));
+    if (!this.isUnifiedDiff()) ids.push(this.contentId(Side.LEFT));
+    ids.push(this.lineNumberId(Side.RIGHT));
+    if (!this.isUnifiedDiff()) ids.push(this.contentId(Side.RIGHT));
+    if (this.isUnifiedDiff()) ids.push(this.contentId(this.unifiedSide()));
+    return ids.filter(id => !!id).join(' ');
+  }
+
   private lineNumberId(side: Side): string {
     const lineNumber = this.lineNumber(side);
     if (!lineNumber) return '';
     return `${side}-button-${lineNumber}`;
+  }
+
+  private unifiedSide() {
+    const isLeft = this.line(Side.RIGHT)?.type === GrDiffLineType.BLANK;
+    return isLeft ? Side.LEFT : Side.RIGHT;
   }
 
   private contentId(side: Side): string {
@@ -235,7 +253,8 @@ export class GrDiffRow extends LitElement {
     const lineNumber = this.lineNumber(side);
     const isBlank = line?.type === GrDiffLineType.BLANK;
     if (!line || !lineNumber || isBlank || this.layersApplied) {
-      const blankClass = isBlank ? 'blankLineNum' : '';
+      const blankClass =
+        isBlank && this.isSideBySideDiff() ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
         class=${diffClasses(side, blankClass)}
@@ -297,8 +316,15 @@ export class GrDiffRow extends LitElement {
     }
   }
 
-  private renderContentCell(side: Side): TemplateResult {
-    const line = this.line(side);
+  private renderContentCell(side: Side) {
+    let line = this.line(side);
+    if (this.isUnifiedDiff()) {
+      if (side === Side.LEFT) return nothing;
+      if (line?.type === GrDiffLineType.BLANK) {
+        side = Side.LEFT;
+        line = this.line(Side.LEFT);
+      }
+    }
     const lineNumber = this.lineNumber(side);
     assertIsDefined(line, 'line');
     const extras: string[] = [line.type, side];
@@ -325,6 +351,7 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderSignCell(side: Side) {
+    if (this.isUnifiedDiff()) return nothing;
     const line = this.line(side);
     assertIsDefined(line, 'line');
     const isBlank = line.type === GrDiffLineType.BLANK;
@@ -363,6 +390,27 @@ export class GrDiffRow extends LitElement {
 
   private line(side: Side) {
     return side === Side.LEFT ? this.left : this.right;
+  }
+
+  private getType(side?: Side): string | undefined {
+    if (this.isUnifiedDiff()) return undefined;
+    if (side === Side.LEFT) return this.left?.type;
+    if (side === Side.RIGHT) return this.right?.type;
+    return undefined;
+  }
+
+  private isUnifiedDiff() {
+    return this.viewMode === DiffViewMode.UNIFIED;
+  }
+
+  private isSideBySideDiff() {
+    return !this.isUnifiedDiff();
+  }
+
+  private unifiedType() {
+    return this.left?.type === GrDiffLineType.BLANK
+      ? this.right?.type
+      : this.left?.type;
   }
 
   /**

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e684aba_332a2640",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1501,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T14:20:37Z",
+      "side": 1,
+      "message": "eslintfix is keeping this line wrapped, line length is not an issue.",
+      "range": {
+        "startLine": 1501,
+        "startChar": 4,
+        "endLine": 1501,
+        "endChar": 95
+      },
+      "revId": "f970bf15fdb49b32ee642c8df823a9a2c7f2d0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

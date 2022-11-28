@@ -8,6 +8,8 @@ import {LineRange, Side} from '../../../api/diff';
 import {LineNumber} from './gr-diff-line';
 import {assertIsDefined, assert} from '../../../utils/common-util';
 import {untilRendered} from '../../../utils/dom-util';
+import {groupBy} from 'rxjs/operators';
+import {isDefined} from '../../../types/types';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -385,10 +387,7 @@ export class GrDiffGroup {
       this.type === GrDiffGroupType.CONTEXT_CONTROL
     ) {
       return this.lines.map(line => {
-        return {
-          left: line,
-          right: line,
-        };
+        return {left: line, right: line};
       });
     }
 
@@ -404,6 +403,21 @@ export class GrDiffGroup {
       j++;
     }
     return pairs;
+  }
+
+  getUnifiedPairs(): GrDiffLinePair[] {
+    return this.lines
+      .map(line => {
+        if (line.type === GrDiffLineType.ADD) {
+          return {left: BLANK_LINE, right: line};
+        }
+        if (line.type === GrDiffLineType.REMOVE) {
+          if (this.ignoredWhitespaceOnly) return undefined;
+          return {left: line, right: BLANK_LINE};
+        }
+        return {left: line, right: line};
+      })
+      .filter(isDefined);
   }
 
   /** Returns true if it is, or contains, a skip group. */

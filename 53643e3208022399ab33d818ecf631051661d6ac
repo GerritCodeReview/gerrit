@@ -375,6 +375,30 @@
       },
       "revId": "53643e3208022399ab33d818ecf631051661d6ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92caae33_95418772",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-28T10:47:21Z",
+      "side": 1,
+      "message": "now this is basically our `assertFails` util. Consider using it directly in the future. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/test-utils.ts;l\u003d297;drc\u003d4eb8c98db26f8d5aa7504b2ab0841d93fa47b09d",
+      "parentUuid": "4e1d40d7_0869cd59",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 24
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "LGTM.\n\nOne general comment: Can we add more context to the commit message. Some things that cross my mind:\n\n1) Right now, do we store any fields as proto? (answer is no I guess, but it\u0027d be nice to mention this in CM).\n2) Is this change done in preparation for adding new proto fields to the index soon (i.e. in follow up changes soon), or is it just to support such functionality in the future? If so, please mention that we, e.g., intend to convert some of the byte[] serialized fields to actual protos.\n3) [Optional] what\u0027s the benefit of supporting protos storage?",
       "revId": "f0f1cd0e5b4b3d602318721160785e2a9cd1351c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03ef3d1_4f2eff4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-28T11:43:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "1ad005b8_cfc25cf3",
+      "revId": "f0f1cd0e5b4b3d602318721160785e2a9cd1351c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

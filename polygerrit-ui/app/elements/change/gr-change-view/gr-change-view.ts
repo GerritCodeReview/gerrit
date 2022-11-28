@@ -280,6 +280,8 @@ export class GrChangeView extends LitElement {
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
+  @query('.header') private header?: HTMLDivElement;
+
   private _viewState?: ChangeViewState;
 
   @property({type: Object})
@@ -876,7 +878,7 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
-        .header,
+        .sticky.header,
         #fileListHeader {
           position: sticky;
           top: 0; /* Necessary to ensure it sticks to the top. */
@@ -1681,6 +1683,13 @@ export class GrChangeView extends LitElement {
 
   private readonly handleScroll = () => {
     if (!this.isViewCurrent) return;
+    if (this.header) {
+      if (window.scrollY > 44) { // Size of the header-bar.
+        this.header.classList.add('sticky');
+      } else {
+        this.header.classList.remove('sticky');
+      }
+    }
     this.scrollTask = debounce(
       this.scrollTask,
       () => (this.scrollPosition = document.documentElement.scrollTop),

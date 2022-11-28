@@ -34,6 +34,24 @@
       "parentUuid": "1ad005b8_cfc25cf3",
       "revId": "f0f1cd0e5b4b3d602318721160785e2a9cd1351c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "472a3d42_fb0978f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T11:51:58Z",
+      "side": 1,
+      "message": "Awesome! thanks for updating the commit message.",
+      "parentUuid": "c03ef3d1_4f2eff4b",
+      "revId": "f0f1cd0e5b4b3d602318721160785e2a9cd1351c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

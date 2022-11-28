@@ -75,8 +75,6 @@ suite('gr-diff tests', () => {
 
     test('a unified diff lit', async () => {
       element.viewMode = DiffViewMode.UNIFIED;
-      // TODO(brohlfs): Write a lit based builder for unified diff. At the
-      // moment setting `use_lit_components:true` is a no-op for unified diff.
       element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
       await testUnified();
     });

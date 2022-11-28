@@ -131,10 +131,10 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
         'aria-labelledby',
         [
           line.beforeNumber ? `left-button-${line.beforeNumber}` : '',
-          line.afterNumber ? `right-button-${line.afterNumber}` : '',
           side === Side.LEFT && line.beforeNumber
             ? `left-content-${line.beforeNumber}`
             : '',
+          line.afterNumber ? `right-button-${line.afterNumber}` : '',
           side === Side.RIGHT && line.afterNumber
             ? `right-content-${line.afterNumber}`
             : '',

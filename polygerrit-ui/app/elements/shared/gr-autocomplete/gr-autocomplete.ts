@@ -471,6 +471,7 @@ export class GrAutocomplete extends LitElement {
           }
         })
         .catch(e => {
+          debugger;
           this.value = '';
           if (typeof e === 'string') {
             this.queryErrorMessage = e;

@@ -81,6 +81,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -1141,7 +1142,7 @@ export class GrChangeMetadata extends LitElement {
     input: string
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getChangesWithSimilarTopic(input)
+      .getChangesWithSimilarTopic(input, throwingErrorCallback)
       .then(response =>
         (response ?? [])
           .map(change => change.topic)
@@ -1157,7 +1158,7 @@ export class GrChangeMetadata extends LitElement {
     input: string
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getChangesWithSimilarHashtag(input)
+      .getChangesWithSimilarHashtag(input, throwingErrorCallback)
       .then(response =>
         (response ?? [])
           .flatMap(change => change.hashtags ?? [])

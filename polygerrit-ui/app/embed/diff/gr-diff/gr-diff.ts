@@ -1603,7 +1603,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // smell. We are planning to introduce a diff model for managing all this
     // data. Then diff builder will only need access to that model.
     this.diffBuilder.prefs = this.getBypassPrefs();
-    this.diffBuilder.renderPrefs = this.renderPrefs;
+    this.diffBuilder.renderPrefs = this.renderPrefs ?? {};
     this.diffBuilder.diff = this.diff;
     this.diffBuilder.path = this.path;
     this.diffBuilder.viewMode = this.viewMode;

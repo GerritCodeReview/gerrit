@@ -16,6 +16,24 @@
       "message": "Q: fields like WIP \u0026 Private, why aren\u0027t we setting them as stored?\nif this is intended, shall we add a comment why they are not stored?",
       "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c3b3f5d_d64e942f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-28T11:25:53Z",
+      "side": 1,
+      "message": "Not sure about the original motivation, but since they were not stored before, there is no reason to make them stored while refactoring.\n\nStrictly speaking, I think the only fields that we actually want to store are PROJECT_FIELD, ID and CHNAGE proto,since having those fields we can always get the change from cache. Maybe storing this is required in some other index implementations.",
+      "parentUuid": "09eb1ae5_d3d5ddda",
+      "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

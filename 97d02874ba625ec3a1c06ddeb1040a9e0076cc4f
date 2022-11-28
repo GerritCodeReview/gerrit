@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c198efe4_e165ac81",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T09:29:06Z",
+      "side": 1,
+      "message": "thanks for explaining. I\u0027m a bit confused, since this is an \"integer\" field, not an \"intRange\". Am I missing something?",
+      "parentUuid": "fc3ebaa3_42f5288b",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b483c722_375017f0",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 8
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "All indexes only reference fields, never field names directly. I think that is actually the reason why the field names are not separate constants.\nI would keep it as is. I.e. if we introduce such public constant,imagine someone changes the value of such constant, but the field name remains the same. If index implementation rely on the constant, but the field is stored under a different name, they can easily break.",
       "parentUuid": "b483c722_375017f0",
+      "range": {
+        "startLine": 759,
+        "startChar": 54,
+        "endLine": 759,
+        "endChar": 60
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf51fce9_1a0823a1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T09:29:06Z",
+      "side": 1,
+      "message": "Ack. Thanks for explaining.",
+      "parentUuid": "7ea83c6a_7cd19342",
       "range": {
         "startLine": 759,
         "startChar": 54,
@@ -149,6 +197,30 @@
       "side": 1,
       "message": "required just means NOT NULL, so it is always true for the Iterable, unless we return NULL instead of a list somewhere.\n\nI only added required for the fields that (I think) the basic change info, e.g. the info that the change can not be surfaced without on the UI (such as labels, owner, id ...).\n\nI could set required for tracking footers, but this is not strictly necessary.",
       "parentUuid": "44bac6f7_4f8f8e97",
+      "range": {
+        "startLine": 785,
+        "startChar": 62,
+        "endLine": 785,
+        "endChar": 70
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1e8fb90_a1acade3",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T09:29:06Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "02e71db3_43ce2ecc",
       "range": {
         "startLine": 785,
         "startChar": 62,

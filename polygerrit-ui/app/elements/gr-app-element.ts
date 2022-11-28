@@ -28,6 +28,7 @@ import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
+import './shared/gr-button/gr-button';
 import {getBaseUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
@@ -73,6 +74,8 @@ import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
+import {fontStyles} from '../styles/gr-font-styles';
+import {serviceWorkerInstallerToken} from '../services/service-worker-installer';
 
 interface ErrorInfo {
   text: string;
@@ -153,6 +156,10 @@ export class GrAppElement extends LitElement {
 
   @state() private themeEndpoint = 'app-theme-light';
 
+  @state() private hideNotificationDialog = false;
+
+  @state() private shouldShowPrompt = false;
+
   readonly getRouter = resolve(this, routerToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -168,6 +175,11 @@ export class GrAppElement extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getRouterModel = resolve(this, routerModelToken);
+
+  private readonly serviceWorkerInstaller = resolve(
+    this,
+    serviceWorkerInstallerToken
+  );
 
   constructor() {
     super();
@@ -228,6 +240,16 @@ export class GrAppElement extends LitElement {
         if (view) this.errorView?.classList.remove('show');
       }
     );
+    subscribe(
+      this,
+      () => this.serviceWorkerInstaller().initialized$,
+      initialized => {
+        if (initialized) {
+          this.shouldShowPrompt =
+            this.serviceWorkerInstaller().shouldShowPrompt();
+        }
+      }
+    );
 
     prefersDarkColorScheme().addEventListener('change', () => {
       if (this.theme === AppTheme.AUTO) {
@@ -265,6 +287,7 @@ export class GrAppElement extends LitElement {
 
   static override get styles() {
     return [
+      fontStyles,
       sharedStyles,
       modalStyles,
       css`
@@ -342,6 +365,41 @@ export class GrAppElement extends LitElement {
         .errorMoreInfo {
           color: var(--deemphasized-text-color);
         }
+        #notificationsDialog {
+          position: absolute;
+          right: 30px;
+          top: 100px;
+          z-index: 150;
+          display: flex;
+          background-color: var(--background-color-primary);
+          padding: var(--spacing-l);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          box-shadow: var(--elevation-level-5);
+        }
+        #notificationsDialog .icon {
+          flex: 0 0 30px;
+        }
+        #notificationsDialog .content {
+          width: 300px;
+        }
+        #notificationsDialog div.section {
+          margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
+          display: flex;
+          align-items: center;
+        }
+        #notificationsDialog div.sectionIcon {
+          flex: 0 0 30px;
+        }
+        #notificationsDialog .message {
+          margin: var(--spacing-m) 0;
+        }
+        #notificationsDialog div.sectionIcon gr-icon {
+          position: relative;
+        }
+        #notificationsDialog b {
+          font-weight: var(--font-weight-bold);
+        }
       `,
     ];
   }
@@ -365,7 +423,7 @@ export class GrAppElement extends LitElement {
         </div>
       </main>
       ${this.renderFooter()} ${this.renderKeyboardShortcutsDialog()}
-      ${this.renderRegistrationDialog()}
+      ${this.renderRegistrationDialog()} ${this.renderNotificationsDialog()}
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
       <gr-error-manager
         id="errorManager"
@@ -564,6 +622,51 @@ export class GrAppElement extends LitElement {
         </gr-registration-dialog>
       </dialog>
     `;
+  }
+
+  private renderNotificationsDialog() {
+    if (this.hideNotificationDialog) return nothing;
+    if (!this.shouldShowPrompt) return nothing;
+    return html`<div id="notificationsDialog" role="dialog">
+      <div class="icon">
+        <gr-icon icon="info"></gr-icon>
+      </div>
+      <div class="content">
+        <h3 class="heading-3">Missing your turn notifications?</h3>
+        <div class="message">
+          Get notified whenever it’s your turn on a change. Gerrit needs
+          permission to send notifications. To turn on notifications, click
+          <b>Continue</b> and then <b>Allow</b> when prompted by your browser.
+        </div>
+        <div class="buttons">
+          <gr-button
+            primary=""
+            @click=${() => {
+              this.hideNotificationDialog = true;
+              this.serviceWorkerInstaller().requestPermission();
+            }}
+            >Continue</gr-button
+          >
+          <gr-button
+            @click=${() => {
+              this.hideNotificationDialog = true;
+              this.getNavigation().setUrl(createSettingsUrl());
+            }}
+            >Disable in settings</gr-button
+          >
+        </div>
+      </div>
+      <div class="icon">
+        <gr-button
+          @click=${() => {
+            this.hideNotificationDialog = true;
+          }}
+          link
+        >
+          <gr-icon icon="close"></gr-icon>
+        </gr-button>
+      </div>
+    </div>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

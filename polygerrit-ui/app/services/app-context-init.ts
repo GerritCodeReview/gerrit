@@ -66,6 +66,10 @@ import {
   pluginLoaderToken,
 } from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {authServiceToken} from './gr-auth/gr-auth';
+import {
+  ServiceWorkerInstaller,
+  serviceWorkerInstallerToken,
+} from './service-worker-installer';
 
 /**
  * The AppContext lazy initializator for all services
@@ -210,6 +214,15 @@ export function createAppDependencies(
     [
       highlightServiceToken,
       () => new HighlightService(appContext.reportingService),
+    ],
+    [
+      serviceWorkerInstallerToken,
+      () =>
+        new ServiceWorkerInstaller(
+          appContext.flagsService,
+          appContext.reportingService,
+          resolver(userModelToken)
+        ),
     ],
   ]);
 }

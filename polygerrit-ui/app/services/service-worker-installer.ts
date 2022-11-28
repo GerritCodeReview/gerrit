@@ -14,6 +14,10 @@ import {AccountDetailInfo} from '../api/rest-api';
 import {until} from '../utils/async-util';
 import {LifeCycle} from '../constants/reporting';
 import {ReportingService} from './gr-reporting/gr-reporting';
+import {define} from '../models/dependency';
+import {Model} from '../models/model';
+import {Observable} from 'rxjs';
+import {select} from '../utils/observable-util';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
@@ -24,7 +28,20 @@ export enum ServiceWorkerMessageType {
 
 export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
 
-export class ServiceWorkerInstaller {
+export const serviceWorkerInstallerToken = define<ServiceWorkerInstaller>(
+  'service-worker-installer'
+);
+
+export interface ServiceWorkerInstallerState {
+  initialized: boolean;
+}
+
+export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
+  readonly initialized$: Observable<Boolean | undefined> = select(
+    this.state$,
+    state => state.initialized
+  );
+
   initialized = false;
 
   account?: AccountDetailInfo;
@@ -36,6 +53,7 @@ export class ServiceWorkerInstaller {
     private readonly reportingService: ReportingService,
     private readonly userModel: UserModel
   ) {
+    super({initialized: false});
     if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
       return;
     }
@@ -77,12 +95,13 @@ export class ServiceWorkerInstaller {
       return;
     }
     await registerServiceWorker('/service-worker.js');
-    const permission = await Notification.requestPermission();
+    const permission = Notification.permission;
     this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
       permission,
     });
     if (this.isPermitted(permission)) this.startTriggerTimer();
     this.initialized = true;
+    this.updateState({initialized: true});
     // Assumption: service worker will send event only to 1 client.
     navigator.serviceWorker.onmessage = event => {
       if (event.data?.type === ServiceWorkerMessageType.REPORTING) {
@@ -91,6 +110,25 @@ export class ServiceWorkerInstaller {
         });
       }
     };
+  }
+
+  public shouldShowPrompt(): boolean {
+    if (!this.initialized) return false;
+    if (this.isPermitted(Notification.permission)) return false;
+    if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
+      return false;
+    }
+    if (!this.areNotificationsEnabled()) return false;
+    return true;
+  }
+
+  public async requestPermission() {
+    const permission = await Notification.requestPermission();
+    this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
+      requested: true,
+      permission,
+    });
+    if (this.isPermitted(permission)) this.startTriggerTimer();
   }
 
   areNotificationsEnabled() {

@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RenderPreferences} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -17,6 +17,7 @@ import {GrDiffSection} from './gr-diff-section';
 import '../gr-context-controls/gr-context-controls';
 import './gr-diff-section';
 import {GrDiffRow} from './gr-diff-row';
+import {when} from 'lit/directives/when.js';
 
 /**
  * Base class for builders that are creating the diff using Lit elements.
@@ -161,12 +162,26 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
       html`
         <colgroup>
          <col class=${diffClasses('blame')}></col>
-         <col class=${diffClasses(Side.LEFT)} width=${lineNumberWidth}></col>
-         <col class=${diffClasses(Side.LEFT, 'sign')}></col>
-         <col class=${diffClasses(Side.LEFT)}></col>
-         <col class=${diffClasses(Side.RIGHT)} width=${lineNumberWidth}></col>
-         <col class=${diffClasses(Side.RIGHT, 'sign')}></col>
-         <col class=${diffClasses(Side.RIGHT)}></col>
+         ${when(
+           this.renderPrefs?.view_mode === DiffViewMode.UNIFIED,
+           () => html`
+             <col class=${diffClasses()} width=${lineNumberWidth}></col>
+             <col class=${diffClasses()} width=${lineNumberWidth}></col>
+             <col class=${diffClasses()}></col>
+           `,
+           () => html`
+             <col class=${diffClasses(
+               Side.LEFT
+             )} width=${lineNumberWidth}></col>
+             <col class=${diffClasses(Side.LEFT, 'sign')}></col>
+             <col class=${diffClasses(Side.LEFT)}></col>
+             <col class=${diffClasses(
+               Side.RIGHT
+             )} width=${lineNumberWidth}></col>
+             <col class=${diffClasses(Side.RIGHT, 'sign')}></col>
+             <col class=${diffClasses(Side.RIGHT)}></col>
+           `
+         )}
         </colgroup>
       `,
       outputEl

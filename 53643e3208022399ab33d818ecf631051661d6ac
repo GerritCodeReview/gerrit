@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "23e0c08e_1f1179e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Correct. You can still select the text with the mouse",
+      "parentUuid": "3f11e5bc_44575c6e",
+      "range": {
+        "startLine": 16,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d4160554_2b37aa69",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-25T15:17:46Z",
       "side": 1,
       "message": "optional: is it ok not to be able to have both an error and results?",
+      "range": {
+        "startLine": 183,
+        "startChar": 12,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dfe7c4a_009bf065",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "We don\u0027t have any cases where we for example get suggestions from several sources and could benefit from showing suggestions and the error at the same time. Besides it would make it much harder to make UI not confusing. So this is very much intentional that if error is specified, it overrides and disables suggestions.",
+      "parentUuid": "d4160554_2b37aa69",
       "range": {
         "startLine": 183,
         "startChar": 12,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4850b63d_75517a18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Moved to it\u0027s own method?\n\nRe: element of the list\n\nThere is any number of ways that it can be done. To me this seems the easiest and most intuitive. I can reuse the styling, the positioning and everything from suggestions, user gets the same shape they expect, but the message still clearly shows that it\u0027s an error. Feel free to suggest an option that looks better to you.",
+      "parentUuid": "76b1e927_8483bece",
+      "range": {
+        "startLine": 186,
+        "startChar": 14,
+        "endLine": 193,
+        "endChar": 19
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0654e43d_d0cb8218",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-11-25T17:19:40Z",
       "side": 1,
       "message": "this is again the sort of code I was hoping to avoid.\n\n`errorMessage` is essentially being used to check if we\u0027re in `errorMode` but I don\u0027t think cursor methods should ideally be aware of the `error` at all.\n\nIn case we do go with this pattern, I assume once error mode is activated there are no results shown so we should be able to call `cursor.next();` without any issues?\nor is there an error being thrown",
+      "range": {
+        "startLine": 242,
+        "startChar": 24,
+        "endLine": 242,
+        "endChar": 44
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac4dfe59_1bb2f72c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "\u003e `errorMessage` is essentially being used to check if we\u0027re in `errorMode`\n\nWould you prefer to have a separate boolean for \"Error mode\"?\n\n\nCalling cursor methods would work. ie will do nothing, but maybe call focus (which is fixable). I, however, disagree that we should call them. Semantically in \"error mode\" there is no list of suggestions. They don\u0027t exist, so calling methods to manipulate the object that logically doesn\u0027t exist, doesn\u0027t seem right to me. I want \"Error mode\" to mean that the suggestion list is not interactable and in that sense cursor manipulation methods (ie. `cusor.next` and `cursor.previous`) shouldn\u0027t be called.\n\nDoes that make sense to you?",
+      "parentUuid": "0654e43d_d0cb8218",
       "range": {
         "startLine": 242,
         "startChar": 24,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96f11b95_75e28b48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "21b5cf83_a1fe81d8",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b3adff4_5190df79",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-11-25T15:17:46Z",
       "side": 1,
       "message": "nit: s/String/string\n\n```suggestion\n  @state() queryErrorMessage?: string;\n```",
+      "range": {
+        "startLine": 175,
+        "startChar": 31,
+        "endLine": 175,
+        "endChar": 37
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d119ce08_c645ba7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b3adff4_5190df79",
       "range": {
         "startLine": 175,
         "startChar": 31,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa3b90f_cd292035",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0064bc07_ef945899",
+      "range": {
+        "startLine": 477,
+        "startChar": 12,
+        "endLine": 477,
+        "endChar": 18
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8acb3ea_cd2d9874",
@@ -175,6 +343,30 @@
       "writtenOn": "2022-11-25T15:17:46Z",
       "side": 1,
       "message": "maybe there is a better way to make sure these catch blocks execute? I think it would be skipped and silently pass if the promise were to not reject",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 24
+      },
+      "revId": "53643e3208022399ab33d818ecf631051661d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1d40d7_0869cd59",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T10:42:18Z",
+      "side": 1,
+      "message": "Replaced with then(...) with resolve branch with simply assert.fail()\n\nIf I existing tests correctly. Return statement will guarantee that test will wait for the promise to either resolve or reject.",
+      "parentUuid": "a8acb3ea_cd2d9874",
       "range": {
         "startLine": 237,
         "startChar": 11,

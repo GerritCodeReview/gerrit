@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c37908e_01b79b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9d2e8d70_afc0fd88",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "960ae17f_73688ecd",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-28T09:53:39Z",
       "side": 1,
       "message": "doing",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1de0116f_fcd1b719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "960ae17f_73688ecd",
       "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67e9940_7ed3ecb1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97b53f8b_377eb4cd",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50e1bdaf_856409c3",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-11-28T09:53:39Z",
       "side": 1,
       "message": "Should there be a function from viewMode to colspan? There\u0027s two locations now where it maps from side-by-side ? 5 : 3.\n\nHere and in gr-context-controls-section.",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c8dc9b_d43cf21f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "50e1bdaf_856409c3",
       "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f5606d_01fa7fb3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-legacy.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "75cb0d2f_f9f3b75c",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8716f026_6889dba9",
@@ -120,6 +210,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d55530a9_1ad6d32c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8716f026_6889dba9",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cd3d7ce_6e7ed667",
@@ -133,6 +241,24 @@
       "writtenOn": "2022-11-28T09:53:39Z",
       "side": 1,
       "message": "Why is the id no longer necessary?",
+      "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e15a567b_ac62307d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-28T10:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cd3d7ce_6e7ed667",
       "revId": "37b33ff8fe5fe6ed5c623a3c361d2c50525f9ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

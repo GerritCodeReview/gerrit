@@ -1804,7 +1804,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     options?: {
       openChangesOnly?: boolean;
       changeToExclude?: NumericChangeId;
-    }
+    },
+    errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined> {
     const requestOptions = listChangesOptionsToHex(
       ListChangesOption.LABELS,
@@ -1827,6 +1828,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/topic:*',
+      errFn
     }) as Promise<ChangeInfo[] | undefined>;
   }
 

@@ -81,6 +81,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
+import {ErrorCallback} from '../../../api/rest';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -1140,6 +1141,20 @@ export class GrChangeMetadata extends LitElement {
   private getTopicSuggestions(
     input: string
   ): Promise<AutocompleteSuggestion[]> {
+    // TODO: move to util.
+    const errFn: ErrorCallback = (response?: Response | null, err?: Error) => {
+      err += `Error ${status}`;
+      if (statusText) {
+        err += ` (${statusText})`;
+      }
+      if (errorText || url) {
+        err += ': ';
+      }
+      if (errorText) {
+        err += errorText;
+      }
+    };
+
     return this.restApiService
       .getChangesWithSimilarTopic(input)
       .then(response =>

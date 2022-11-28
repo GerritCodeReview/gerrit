@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d17ce5d6_48c6755f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T11:08:39Z",
+      "side": 1,
+      "message": "Ah right. L469 has that. Thanks!\n\nAre you sure we should move stored property to spec? e.g. it looks to me if we have {one field, with 3 specs}, we should specify if the field is stored for the field, not the spec? i.e. from the server POV we want the change \"ID\" to be stored, such that when we recover ChangeData from an index document (row, etc...) we are able to deserialize the \"ID\" field into ChangeData. That shouldn\u0027t be related to how this field is searchable (e.g. full_text, vs. exact)?\n\nIn other words, what does it mean to have the \"full_text\" spec stored, but not the \"exact\"?",
+      "parentUuid": "253f3744_69734e30",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b483c722_375017f0",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 8

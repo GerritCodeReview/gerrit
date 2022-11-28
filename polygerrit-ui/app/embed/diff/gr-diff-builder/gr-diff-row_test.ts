@@ -112,7 +112,7 @@ suite('gr-diff-row test', () => {
               tabindex="-1"
             >
               <td class="blame gr-diff" data-line-number="0"></td>
-              <td class="blankLineNum gr-diff left"></td>
+              <td class="gr-diff left"></td>
               <td class="blank gr-diff left no-intraline-info sign"></td>
               <td class="blank gr-diff left no-intraline-info">
                 <div class="contentText gr-diff" data-side="left"></div>
@@ -191,7 +191,7 @@ suite('gr-diff-row test', () => {
                   <slot name="left-1"> </slot>
                 </div>
               </td>
-              <td class="blankLineNum gr-diff right"></td>
+              <td class="gr-diff right"></td>
               <td class="blank gr-diff no-intraline-info right sign"></td>
               <td class="blank gr-diff no-intraline-info right">
                 <div class="contentText gr-diff" data-side="right"></div>

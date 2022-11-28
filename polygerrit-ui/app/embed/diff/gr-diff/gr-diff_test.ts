@@ -75,8 +75,7 @@ suite('gr-diff tests', () => {
 
     test('a unified diff lit', async () => {
       element.viewMode = DiffViewMode.UNIFIED;
-      // TODO(brohlfs): Enable this test (happens in next change).
-      // element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
+      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
       await testUnified();
     });
 

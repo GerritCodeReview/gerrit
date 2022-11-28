@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f618e2d_1de355a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:40:06Z",
+      "side": 1,
+      "message": "I don\u0027t see the icon by itself as being sufficient, since in this case we don\u0027t control the wording of an error. It might or might not be obvious that the message received from the failed query is an error.\n\nIn the current version when dialog is shown. It also states explicitly \"An error occurred\" (https://imgur.com/a/PRY03G9)",
+      "parentUuid": "ee685929_063137cf",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 40
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29cba743_6e64ca86",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "Still there?",
       "parentUuid": "4dcc2ef4_02d11b21",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cdbc804_f58734a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:40:06Z",
+      "side": 1,
+      "message": "Thought you were pointing to \"renders error\" test. removed from both.",
+      "parentUuid": "49c938f3_4e93e46c",
       "range": {
         "startLine": 47,
         "startChar": 20,

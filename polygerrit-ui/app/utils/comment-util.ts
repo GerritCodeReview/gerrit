@@ -22,6 +22,7 @@ import {
   VotingRangeInfo,
   FixSuggestionInfo,
   FixId,
+  PatchSetNumber,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -132,6 +133,20 @@ export function createUnsavedComment(thread: CommentThread): UnsavedInfo {
     parent: thread.mergeParentNum,
     message: '',
     unresolved: true,
+    __unsaved: true,
+  };
+}
+
+export function createPatchsetLevelUnsavedDraft(
+  patchNum?: PatchSetNumber,
+  message?: string,
+  unresolved?: boolean
+): UnsavedInfo {
+  return {
+    patch_set: patchNum,
+    message,
+    unresolved,
+    path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
     __unsaved: true,
   };
 }

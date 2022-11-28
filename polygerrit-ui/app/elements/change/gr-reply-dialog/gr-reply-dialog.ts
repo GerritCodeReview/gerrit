@@ -75,6 +75,7 @@ import {
 } from '../../../utils/common-util';
 import {
   CommentThread,
+  createPatchsetLevelUnsavedDraft,
   DraftInfo,
   getFirstComment,
   isDraft,
@@ -940,20 +941,13 @@ export class GrReplyDialog extends LitElement {
     `;
   }
 
-  // TODO: move to comment-util
-  private createDraft(): UnsavedInfo {
-    return {
-      patch_set: this.latestPatchNum,
-      message: this.patchsetLevelDraftMessage,
-      unresolved: !this.patchsetLevelDraftIsResolved,
-      path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
-      __unsaved: true,
-    };
-  }
-
   private renderPatchsetLevelComment() {
     if (!this.patchsetLevelComment)
-      this.patchsetLevelComment = this.createDraft();
+      this.patchsetLevelComment = createPatchsetLevelUnsavedDraft(
+        this.latestPatchNum,
+        this.patchsetLevelDraftMessage,
+        !this.patchsetLevelDraftIsResolved
+      );
     return html`
       <gr-comment
         id="patchsetLevelComment"

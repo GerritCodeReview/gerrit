@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "253f3744_69734e30",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-28T10:54:00Z",
+      "side": 1,
+      "message": "In our new definitions, \u0027range\u0027 is a search spec, IndexedFields are only types for storage purposes (so IndexedField is an integer, but SearchSpec is a Field (see Line 469).\n\nI think this is actually not correct, since the \u0027stored\u0027 property defines if the field is allowed to be returned from the index, and applies per search.\n\nI changed this property to apply to the search spec in https://gerrit-review.git.corp.google.com/c/gerrit/+/353215",
+      "parentUuid": "c198efe4_e165ac81",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b483c722_375017f0",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 8

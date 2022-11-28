@@ -84,6 +84,17 @@ export function uniqueDefinedAvatar(
   );
 }
 
+export function uniqueAccountId(
+  account: AccountInfo,
+  index: number,
+  accountArray: AccountInfo[]
+) {
+  return (
+    index ===
+    accountArray.findIndex(other => account._account_id === other._account_id)
+  );
+}
+
 export function isDetailedAccount(account?: AccountInfo) {
   // In case ChangeInfo is requested without DetailedAccount option, the
   // reviewer entry is returned as just {_account_id: 123}

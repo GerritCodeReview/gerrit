@@ -11,6 +11,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {diffClasses} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {when} from 'lit/directives/when.js';
 
 @customElement('gr-context-controls-section')
 export class GrContextControlsSection extends LitElement {
@@ -20,8 +21,6 @@ export class GrContextControlsSection extends LitElement {
   /** Should context controls be rendered for expanding below the section? */
   @property({type: Boolean}) showBelow = false;
 
-  @property({type: Object}) viewMode = DiffViewMode.SIDE_BY_SIDE;
-
   /** Must be of type GrDiffGroupType.CONTEXT_CONTROL. */
   @property({type: Object})
   group?: GrDiffGroup;
@@ -30,7 +29,7 @@ export class GrContextControlsSection extends LitElement {
   diff?: DiffInfo;
 
   @property({type: Object})
-  renderPrefs?: RenderPreferences;
+  renderPrefs: RenderPreferences = {};
 
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
@@ -54,9 +53,10 @@ export class GrContextControlsSection extends LitElement {
   private renderPaddingRow(whereClass: 'above' | 'below') {
     if (!this.showAbove && whereClass === 'above') return;
     if (!this.showBelow && whereClass === 'below') return;
-    const sideBySide = this.viewMode === DiffViewMode.SIDE_BY_SIDE;
-    const modeClass = sideBySide ? 'side-by-side' : 'unified';
-    const type = sideBySide ? GrDiffGroupType.CONTEXT_CONTROL : undefined;
+    const modeClass = this.isSideBySide() ? 'side-by-side' : 'unified';
+    const type = this.isSideBySide()
+      ? GrDiffGroupType.CONTEXT_CONTROL
+      : undefined;
     return html`
       <tr
         class=${diffClasses('contextBackground', modeClass, whereClass)}
@@ -65,24 +65,38 @@ export class GrContextControlsSection extends LitElement {
       >
         <td class=${diffClasses('blame')} data-line-number="0"></td>
         <td class=${diffClasses('contextLineNum')}></td>
-        <td class=${diffClasses('sign')}></td>
-        ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
+        ${when(
+          this.isSideBySide(),
+          () => html`
+            <td class=${diffClasses('sign')}></td>
+            <td class=${diffClasses()}></td>
+          `
+        )}
         <td class=${diffClasses('contextLineNum')}></td>
-        <td class=${diffClasses('sign')}></td>
+        ${when(
+          this.isSideBySide(),
+          () => html`<td class=${diffClasses('sign')}></td>`
+        )}
         <td class=${diffClasses()}></td>
       </tr>
     `;
   }
 
+  private isSideBySide() {
+    return this.renderPrefs.view_mode !== DiffViewMode.UNIFIED;
+  }
+
   private createContextControlRow() {
-    const sideBySide = this.viewMode === DiffViewMode.SIDE_BY_SIDE;
     // Note that <td> table cells that have `display: none` don't count!
     const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
     const showConfig = getShowConfig(this.showAbove, this.showBelow);
     return html`
       <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
         <td class=${diffClasses('blame')} data-line-number="0"></td>
-        ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
+        ${when(
+          this.isSideBySide(),
+          () => html`<td class=${diffClasses()}></td>`
+        )}
         <td class=${diffClasses('dividerCell')} colspan=${colspan}>
           <gr-context-controls
             class=${diffClasses()}

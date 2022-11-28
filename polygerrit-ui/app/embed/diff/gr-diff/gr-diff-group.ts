@@ -385,10 +385,7 @@ export class GrDiffGroup {
       this.type === GrDiffGroupType.CONTEXT_CONTROL
     ) {
       return this.lines.map(line => {
-        return {
-          left: line,
-          right: line,
-        };
+        return {left: line, right: line};
       });
     }
 
@@ -404,6 +401,16 @@ export class GrDiffGroup {
       j++;
     }
     return pairs;
+  }
+
+  getUnifiedPairs(): GrDiffLinePair[] {
+    return this.lines.map(line => {
+      if (line.type === GrDiffLineType.ADD)
+        return {left: BLANK_LINE, right: line};
+      if (line.type === GrDiffLineType.REMOVE)
+        return {left: line, right: BLANK_LINE};
+      return {left: line, right: line};
+    });
   }
 
   /** Returns true if it is, or contains, a skip group. */

@@ -249,6 +249,8 @@ export declare interface RenderPreferences {
    */
   use_lit_components?: boolean;
   show_sign_col?: boolean;
+  /** The default view mode is SIDE_BY_SIDE. */
+  view_mode?: DiffViewMode;
 }
 
 /**

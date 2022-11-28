@@ -1478,28 +1478,31 @@ suite('gr-change-view tests', () => {
     assert.equal(element.fileList.selectedIndex, 0);
   });
 
-  test('don’t reload entire page when patchRange changes', async () => {
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const reloadPatchDependentStub = sinon
-      .stub(element, 'reloadPatchNumDependentResources')
-      .callsFake(() => Promise.resolve());
+  test.only('reload ported comments when patchNum changes', async () => {
+    debugger;
     assertIsDefined(element.fileList);
-    await element.fileList.updateComplete;
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
+    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
+    sinon.stub(element, 'loadAndSetCommitInfo');
+    await element.updateComplete;
+    const reloadPortedCommentsStub = sinon.stub(
+      commentsModel,
+      'reloadPortedComments'
+    );
+    const reloadPortedDraftsStub = sinon.stub(
+      commentsModel,
+      'reloadPortedDrafts'
+    );
+    sinon.stub(element.fileList, 'collapseAllDiffs');
+
     const value: ChangeViewState = {
       ...createChangeViewState(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element.changeNum = undefined;
     element.viewState = value;
     await element.updateComplete;
-    assert.isTrue(reloadStub.calledOnce);
 
     element.initialLoadComplete = true;
-    element.fileList.selectedIndex = 15;
     element.change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1512,30 +1515,8 @@ suite('gr-change-view tests', () => {
     value.patchNum = 2 as RevisionPatchSetNum;
     element.viewState = {...value};
     await element.updateComplete;
-    await waitEventLoop();
-    assert.equal(element.fileList.selectedIndex, 0);
-    assert.isFalse(reloadStub.calledTwice);
-    assert.isTrue(reloadPatchDependentStub.calledOnce);
-    assert.isTrue(collapseStub.calledTwice);
-  });
-
-  test('do not reload entire page when patchRange doesnt change', async () => {
-    assertIsDefined(element.fileList);
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
-    // change already loaded
-    assert.isOk(element.changeNum);
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledOnce);
-    element.initialLoadComplete = true;
-    element.viewState = {...value};
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledTwice);
-    assert.isFalse(collapseStub.calledTwice);
+    assert.isTrue(reloadPortedCommentsStub.calledOnce);
+    assert.isTrue(reloadPortedDraftsStub.calledOnce);
   });
 
   test('forceReload updates the change', async () => {

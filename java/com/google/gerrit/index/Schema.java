@@ -209,7 +209,10 @@ public class Schema<T> {
     return indexedFields;
   }
 
-  /** Returns all fields in this schema where {@link FieldDef#isStored()} is true. */
+  /**
+   * Returns names of {@link SchemaField} fields in this schema where {@link SchemaField#isStored()}
+   * is true.
+   */
   public final ImmutableSet<String> getStoredFields() {
     return storedFields;
   }

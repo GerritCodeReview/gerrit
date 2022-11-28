@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.index.testing.TestIndexedFields.EXACT_STRING_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.INTEGER_RANGE_FIELD_SPEC;
@@ -31,6 +32,7 @@ import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STRING_
 import static com.google.gerrit.index.testing.TestIndexedFields.ITERABLE_STRING_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.LONG_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.LONG_RANGE_FIELD_SPEC;
+import static com.google.gerrit.index.testing.TestIndexedFields.PREFIX_STRING_FIELD_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_BYTE_FIELD;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_BYTE_SPEC;
 import static com.google.gerrit.index.testing.TestIndexedFields.STORED_PROTO_FIELD;
@@ -78,6 +80,8 @@ public class IndexedFieldTest {
               .put(ITERABLE_LONG_RANGE_FIELD_SPEC, ImmutableList.of(123456L, 654321L))
               .put(TIMESTAMP_FIELD_SPEC, new Timestamp(1234567L))
               .put(STRING_FIELD_SPEC, "123456")
+              .put(PREFIX_STRING_FIELD_SPEC, "123456")
+              .put(EXACT_STRING_FIELD_SPEC, "123456")
               .put(ITERABLE_STRING_FIELD_SPEC, ImmutableList.of("123456"))
               .put(
                   ITERABLE_STORED_BYTE_SPEC,

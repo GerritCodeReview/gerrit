@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2168034_b1db4cf2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T15:28:08Z",
+      "side": 1,
+      "message": "Typescript gets confused with the types here (not sure why), so we specify them explicitly",
+      "range": {
+        "startLine": 514,
+        "startChar": 11,
+        "endLine": 514,
+        "endChar": 41
+      },
+      "revId": "0185f52f06fdebb6fe572a78dfbec4fb5f600922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

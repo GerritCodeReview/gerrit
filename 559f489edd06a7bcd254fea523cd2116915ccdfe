@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a955ad2_487927ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T15:28:08Z",
+      "side": 0,
+      "message": "Both in before and after this change, this seems to be a potential case of NPE. getResponseObject expects `res` to be defined, but it\u0027s not necessarily. If errFn is defined then it would be undefined (in old code it would have type \u0027void\u0027 for typescript purposes)\n\nAdded a nullness check, to be safe. With the nullness check the TODO comment is no longer relevant\n\nThe other comment is outdated. errFn doesn\u0027t allow returning the value anymore (or rather it\u0027s value is not used)",
+      "range": {
+        "startLine": 524,
+        "startChar": 6,
+        "endLine": 529,
+        "endChar": 70
+      },
+      "revId": "559f489edd06a7bcd254fea523cd2116915ccdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc606fe3_bbc65434",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T15:28:08Z",
+      "side": 0,
+      "message": "The caset is removed by eslintfix (because of explicit `return undefined;` instead \" of `return;` above)\n\nThe comment is therefore no longer relevant.",
+      "range": {
+        "startLine": 533,
+        "startChar": 14,
+        "endLine": 533,
+        "endChar": 47
+      },
+      "revId": "559f489edd06a7bcd254fea523cd2116915ccdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

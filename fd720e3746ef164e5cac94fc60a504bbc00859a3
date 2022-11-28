@@ -52,6 +52,24 @@
       "parentUuid": "3c3b3f5d_d64e942f",
       "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc76baa_c4dbc1ae",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T11:32:59Z",
+      "side": 1,
+      "message": "One more note: I also verified by checking your change to the SDL file containing the changes table, and it does not contain these fields (Y), so I think it\u0027s fine.",
+      "parentUuid": "1c8640f8_12b0387e",
+      "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee685929_063137cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T12:27:36Z",
+      "side": 1,
+      "message": "Yeah I meant to remove the `\u003cspan class\u003d\"label\"\u003eERROR\u003c/span\u003e` since the icon is a much better indicator of the error.\n\nFollow the other existing patterns of showing an error with the icon and the background color.",
+      "parentUuid": "b8b762c9_33256148",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 40
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29cba743_6e64ca86",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
         "patchSetId": 4

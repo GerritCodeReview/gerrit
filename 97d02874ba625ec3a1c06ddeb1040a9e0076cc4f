@@ -185,6 +185,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a970b2_4757da23",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T11:21:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "305ae998_c653a744",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 17
+      },
+      "revId": "97d02874ba625ec3a1c06ddeb1040a9e0076cc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b483c722_375017f0",

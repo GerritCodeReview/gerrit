@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8b762c9_33256148",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:24:54Z",
+      "side": 1,
+      "message": "I am not sure. I think the icon doesn\u0027t add anything when used together with \"ERROR\" label spelled out. On it\u0027s own it\u0027s not as clear imo.\n\nThis is what it would look like: https://imgur.com/a/zvYTESr\n\nI will keep as is. Reopen, if you disagree",
+      "parentUuid": "56ded23e_dcce49ce",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 40
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29cba743_6e64ca86",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-28T11:58:22Z",
       "side": 1,
       "message": "is the async required?",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dcc2ef4_02d11b21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:24:54Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "29cba743_6e64ca86",
       "range": {
         "startLine": 47,
         "startChar": 20,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c432499_21510365",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:24:54Z",
+      "side": 1,
+      "message": "Yes, it\u0027s the same thing.\n\nChanged to \"close dropdown with error\"",
+      "parentUuid": "3bd45db7_db285bdb",
+      "range": {
+        "startLine": 216,
+        "startChar": 27,
+        "endLine": 216,
+        "endChar": 32
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fc8fb2d_c7fcec74",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-11-28T11:58:22Z",
       "side": 1,
       "message": "\"error no event\" doesn\u0027t feel like a complete sentence",
+      "range": {
+        "startLine": 223,
+        "startChar": 21,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46682545_052c815c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-28T12:24:54Z",
+      "side": 1,
+      "message": "Reworded",
+      "parentUuid": "7fc8fb2d_c7fcec74",
       "range": {
         "startLine": 223,
         "startChar": 21,

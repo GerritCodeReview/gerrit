@@ -39,6 +39,15 @@ export class GrAvatarStack extends LitElement {
   imageSize = 16;
 
   /**
+   * In gr-app, gr-account-chip is in charge of loading a full account, so
+   * avatars will be set. However, code-owners will create gr-avatars with a
+   * bare account-id. To enable fetching of those avatars, a flag is added to
+   * gr-avatar that will disregard the absence of avatar urls.
+   */
+  @property({type: Boolean})
+  forceFetch = false;
+
+  /**
    * Reflects plugins.has_avatars value of server configuration.
    */
   @state() private hasAvatars = false;
@@ -75,7 +84,7 @@ export class GrAvatarStack extends LitElement {
 
   override render() {
     const uniqueAvatarAccounts = this.accounts
-      .filter(account => !!account?.avatars?.[0]?.url)
+      .filter(account => !!account?.avatars?.[0]?.url || this.forceFetch)
       .filter(uniqueDefinedAvatar);
     if (
       !this.hasAvatars ||
@@ -86,7 +95,11 @@ export class GrAvatarStack extends LitElement {
     }
     return uniqueAvatarAccounts.map(
       account =>
-        html`<gr-avatar .account=${account} .imageSize=${this.imageSize}>
+        html`<gr-avatar
+          .forceFetch=${this.forceFetch}
+          .account=${account}
+          .imageSize=${this.imageSize}
+        >
         </gr-avatar>`
     );
   }

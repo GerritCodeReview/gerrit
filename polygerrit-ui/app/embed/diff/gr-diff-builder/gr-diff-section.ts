@@ -86,6 +86,8 @@ export class GrDiffSection extends LitElement {
               .layers=${this.layers}
               .lineLength=${this.diffPrefs?.line_length ?? 80}
               .tabSize=${this.diffPrefs?.tab_size ?? 2}
+              .viewMode=${this.renderPrefs?.view_mode ??
+              DiffViewMode.SIDE_BY_SIDE}
             >
             </gr-diff-row>
           `;

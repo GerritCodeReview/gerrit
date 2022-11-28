@@ -45,8 +45,10 @@ import {
 } from '../services/gr-reporting/gr-reporting_impl';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {ServiceWorkerInstaller} from '../services/service-worker-installer';
-import {userModelToken} from '../models/user/user-model';
+import {
+  ServiceWorkerInstaller,
+  serviceWorkerInstallerToken,
+} from '../services/service-worker-installer';
 import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 const appContext = createAppContext();
@@ -106,13 +108,8 @@ export class GrApp extends LitElement {
 
     initGerrit(resolver(pluginLoaderToken));
 
-    // TODO(milutin): Move inside app dependencies.
     if (!this.serviceWorkerInstaller) {
-      this.serviceWorkerInstaller = new ServiceWorkerInstaller(
-        appContext.flagsService,
-        appContext.reportingService,
-        resolver(userModelToken)
-      );
+      this.serviceWorkerInstaller = resolver(serviceWorkerInstallerToken);
     }
   }
 

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ded23e_dcce49ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T11:58:22Z",
+      "side": 1,
+      "message": "I think it makes sense to use an error icon here?\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts;l\u003d315?q\u003d%22Failed%20to%20add%20$%7BlistForSentence(failedAccounts%22",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 40
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cba743_6e64ca86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T11:58:22Z",
+      "side": 1,
+      "message": "is the async required?",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd45db7_db285bdb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T11:58:22Z",
+      "side": 1,
+      "message": "it\u0027s spying on the dropdown close and not the error close right?\nError and dropdown are kind of the same thing I guess",
+      "range": {
+        "startLine": 216,
+        "startChar": 27,
+        "endLine": 216,
+        "endChar": 32
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fc8fb2d_c7fcec74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-11-28T11:58:22Z",
+      "side": 1,
+      "message": "\"error no event\" doesn\u0027t feel like a complete sentence",
+      "range": {
+        "startLine": 223,
+        "startChar": 21,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "68355aa86f5c4c14bc6e8096b4b2d10bf14ca619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

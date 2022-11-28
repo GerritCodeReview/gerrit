@@ -34,6 +34,24 @@
       "parentUuid": "09eb1ae5_d3d5ddda",
       "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8640f8_12b0387e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T11:32:15Z",
+      "side": 1,
+      "message": "mmm OK, thanks for explaining. I was just wondering if, e.g. these fields are not stored, how do we know when we display the dashboard that a change is WIP or private?\n\nMaybe since these fields are queryable, we just query for `is:private` or `is:wip` and what we get is treated as private or wip respectively, but the actual retrieved change data does not contain this boolean.\n\nSGTM.",
+      "parentUuid": "3c3b3f5d_d64e942f",
+      "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

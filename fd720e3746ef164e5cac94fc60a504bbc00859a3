@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09eb1ae5_d3d5ddda",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-28T09:36:54Z",
+      "side": 1,
+      "message": "Q: fields like WIP \u0026 Private, why aren\u0027t we setting them as stored?\nif this is intended, shall we add a comment why they are not stored?",
+      "revId": "fd720e3746ef164e5cac94fc60a504bbc00859a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

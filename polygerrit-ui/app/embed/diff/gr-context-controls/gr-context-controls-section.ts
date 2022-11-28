@@ -65,8 +65,10 @@ export class GrContextControlsSection extends LitElement {
       >
         <td class=${diffClasses('blame')} data-line-number="0"></td>
         <td class=${diffClasses('contextLineNum')}></td>
+        <td class=${diffClasses('sign')}></td>
         ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
         <td class=${diffClasses('contextLineNum')}></td>
+        <td class=${diffClasses('sign')}></td>
         <td class=${diffClasses()}></td>
       </tr>
     `;
@@ -74,13 +76,16 @@ export class GrContextControlsSection extends LitElement {
 
   private createContextControlRow() {
     const sideBySide = this.viewMode === DiffViewMode.SIDE_BY_SIDE;
+    // Note that <td> table cells that have `display: none` don't count!
+    const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
     const showConfig = getShowConfig(this.showAbove, this.showBelow);
     return html`
       <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
         <td class=${diffClasses('blame')} data-line-number="0"></td>
         ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
-        <td class=${diffClasses('dividerCell')} colspan="3">
+        <td class=${diffClasses('dividerCell')} colspan=${colspan}>
           <gr-context-controls
+            class=${diffClasses()}
             .diff=${this.diff}
             .renderPreferences=${this.renderPrefs}
             .group=${this.group}

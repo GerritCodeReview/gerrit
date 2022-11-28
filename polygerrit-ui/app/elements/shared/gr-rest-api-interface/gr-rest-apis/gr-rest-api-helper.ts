@@ -361,27 +361,26 @@ s   */
    *
    * @param noAcceptHeader - don't add default accept json header
    */
-  fetchJSON(
+  async fetchJSON(
     req: FetchJSONRequest,
     noAcceptHeader?: boolean
   ): Promise<ParsedJSON | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
-    return this.fetchRawJSON(req).then(response => {
-      if (!response) {
+    const response = await this.fetchRawJSON(req);
+    if (!response) {
+      return;
+    }
+    if (!response.ok) {
+      if (req.errFn) {
+        await req.errFn.call(undefined, response);
         return;
       }
-      if (!response.ok) {
-        if (req.errFn) {
-          req.errFn.call(null, response);
-          return;
-        }
-        fireServerError(response, req);
-        return;
-      }
-      return this.getResponseObject(response);
-    });
+      fireServerError(response, req);
+      return;
+    }
+    return this.getResponseObject(response);
   }
 
   urlWithParams(url: string, fetchParams?: FetchParams): string {
@@ -474,7 +473,7 @@ s   */
    *     (i.e. no exception and response.ok is true). If response fails then
    *     promise resolves either to void if errFn is set or rejects if errFn
    *     is not set   */
-  send(req: SendRequest): Promise<Response | ParsedJSON | undefined> {
+  async send(req: SendRequest): Promise<Response | ParsedJSON | undefined> {
     const options: AuthRequestInit = {method: req.method};
     if (req.body) {
       options.headers = new Headers();
@@ -499,38 +498,30 @@ s   */
       fetchOptions: options,
       anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
     };
-    const xhr = this.fetch(fetchReq)
-      .catch(err => {
-        fireNetworkError(err);
-        if (req.errFn) {
-          req.errFn.call(undefined, null, err);
-          return;
-        } else {
-          throw err;
-        }
-      })
-      .then(response => {
-        if (response && !response.ok) {
-          if (req.errFn) {
-            req.errFn.call(undefined, response);
-            return;
-          }
-          fireServerError(response, fetchReq);
-        }
-        return response;
-      });
+    let xhr;
+    try {
+      xhr = await this.fetch(fetchReq);
+    } catch (err) {
+      fireNetworkError(err as Error);
+      if (req.errFn) {
+        req.errFn.call(undefined, null, err as Error);
+        xhr = undefined;
+      } else {
+        throw err;
+      }
+    }
+    if (xhr && !xhr.ok) {
+      if (req.errFn) {
+        await req.errFn.call(undefined, xhr);
+      } else {
+        fireServerError(xhr, fetchReq);
+      }
+    }
 
     if (req.parseResponse) {
-      // TODO(TS): remove as Response and fix error.
-      // Javascript code allows returning of a Response object from errFn.
-      // This can be a mistake and we should add check here or it can be used
-      // somewhere - in this case we should fix it carefully (define
-      // different type of callback if parseResponse is true, etc...).
-      return xhr.then(res => this.getResponseObject(res as Response));
+      xhr = xhr && this.getResponseObject(xhr);
     }
-    // The actual xhr type is Promise<Response|undefined|void> because of the
-    // catch callback
-    return xhr as Promise<Response | undefined>;
+    return xhr;
   }
 
   invalidateFetchPromisesPrefix(prefix: string) {

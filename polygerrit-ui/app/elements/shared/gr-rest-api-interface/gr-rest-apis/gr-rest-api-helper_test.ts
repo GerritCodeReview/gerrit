@@ -9,7 +9,7 @@ import {
   FetchPromisesCache,
   GrRestApiHelper,
 } from './gr-rest-api-helper';
-import {waitEventLoop} from '../../../../test/test-utils';
+import {assertFails, waitEventLoop} from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
 import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';
 import {ParsedJSON} from '../../../../types/common';
@@ -227,6 +227,79 @@ suite('gr-rest-api-helper tests', () => {
     const obj = await promise;
     assert.isUndefined(obj);
     assert.isTrue(cancelCalled);
+  });
+
+  suite('throwing in errFn', () => {
+    function throwInPromise(response?: Response | null, _?: Error) {
+      return response?.text().then(text => {
+        throw new Error(text);
+      });
+    }
+
+    function throwImmediately(_1?: Response | null, _2?: Error) {
+      throw new Error('Error Callback error');
+    }
+
+    setup(() => {
+      authFetchStub.returns(
+        Promise.resolve({
+          ...new Response(),
+          status: 400,
+          ok: false,
+          text() {
+            return Promise.resolve('Nope');
+          },
+        })
+      );
+    });
+
+    test('errFn with Promise throw cause send to reject on error', async () => {
+      const promise = helper.send({
+        method: HttpMethod.GET,
+        url: '/dummy/url',
+        parseResponse: false,
+        errFn: throwInPromise,
+      });
+      await assertReadRequest();
+
+      const err = await assertFails(promise);
+      assert.equal((err as Error).message, 'Nope');
+    });
+
+    test('errFn with Promise throw cause fetchJSON to reject on error', async () => {
+      const promise = helper.fetchJSON({
+        url: '/dummy/url',
+        errFn: throwInPromise,
+      });
+      await assertReadRequest();
+
+      const err = await assertFails(promise);
+      assert.equal((err as Error).message, 'Nope');
+    });
+
+    test('errFn with immediate throw cause send to reject on error', async () => {
+      const promise = helper.send({
+        method: HttpMethod.GET,
+        url: '/dummy/url',
+        parseResponse: false,
+        errFn: throwImmediately,
+      });
+      await assertReadRequest();
+
+      const err = await assertFails(promise);
+      assert.equal((err as Error).message, 'Error Callback error');
+    });
+
+    test('errFn with immediate Promise cause fetchJSON to reject on error', async () => {
+      const promise = helper.fetchJSON({
+        url: '/dummy/url',
+        errFn: throwImmediately,
+      });
+      await assertReadRequest();
+
+      const err = await assertFails(promise);
+      assert.equal((err as Error).message, 'Error Callback error');
+    });
   });
 
   suite('429 errors', () => {

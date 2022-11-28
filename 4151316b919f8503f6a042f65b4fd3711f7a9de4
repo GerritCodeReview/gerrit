@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9bc2d16_7114c403",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-28T11:41:44Z",
+      "side": 1,
+      "message": "-1 Because I want to wait that the previous changes land before I submit the last bits.",
+      "revId": "4151316b919f8503f6a042f65b4fd3711f7a9de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

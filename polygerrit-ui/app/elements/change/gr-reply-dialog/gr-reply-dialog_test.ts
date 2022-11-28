@@ -1457,6 +1457,70 @@ suite('gr-reply-dialog tests', () => {
     }
   }
 
+  suite('reviewer toast for WIP changes', () => {
+    let fireStub: sinon.SinonStub;
+    setup(() => {
+      fireStub = sinon.stub(element, 'dispatchEvent');
+    });
+
+    test('toast not fired if change is already active', async () => {
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+      };
+      element.send(false, false);
+
+      await waitUntil(() => fireStub.called);
+
+      const events = fireStub.args.map(arg => arg[0].type || '');
+      assert.isFalse(events.includes('show-alert'));
+    });
+
+    test('toast is not fired if change is WIP and becomes active', async () => {
+      const account = createAccountWithId(22);
+      element.reviewersList!.accounts = [];
+      element.reviewersList!.addAccountItem({account, count: 1});
+      element.reviewersList!.dispatchEvent(
+        new CustomEvent('account-added', {
+          detail: {account},
+        })
+      );
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+        work_in_progress: true,
+      };
+      element.send(false, true);
+
+      await waitUntil(() => fireStub.called);
+
+      const events = fireStub.args.map(arg => arg[0].type || '');
+      assert.isFalse(events.includes('show-alert'));
+    });
+
+    test('toast is fired if change is WIP and becomes active and reviewer added', async () => {
+      const account = createAccountWithId(22);
+      element.reviewersList!.accounts = [];
+      element.reviewersList!.addAccountItem({account, count: 1});
+      element.reviewersList!.dispatchEvent(
+        new CustomEvent('account-added', {
+          detail: {account},
+        })
+      );
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+        work_in_progress: true,
+      };
+      element.send(false, false);
+
+      await waitUntil(() => fireStub.called);
+
+      const events = fireStub.args.map(arg => arg[0].type || '');
+      assert.isTrue(events.includes('show-alert'));
+    });
+  });
+
   test('cc confirmation', async () => {
     testConfirmationDialog(true);
   });

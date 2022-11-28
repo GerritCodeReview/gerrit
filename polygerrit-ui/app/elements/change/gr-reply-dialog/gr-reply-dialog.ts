@@ -1407,7 +1407,7 @@ export class GrReplyDialog extends LitElement {
 
     if (startReview) {
       reviewInput.ready = true;
-    } else {
+    } else if (this.change?.work_in_progress) {
       const addedAccounts = [
         ...(this.reviewersList?.additions() ?? []),
         ...(this.ccsList?.additions() ?? []),

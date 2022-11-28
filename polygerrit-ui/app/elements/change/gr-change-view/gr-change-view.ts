@@ -144,12 +144,7 @@ import {
   GerritView,
   routerModelToken,
 } from '../../../services/router/router-model';
-import {
-  debounce,
-  DelayedTask,
-  throttleWrap,
-  until,
-} from '../../../utils/async-util';
+import {DelayedTask, throttleWrap, until} from '../../../utils/async-util';
 import {Interaction, Timing, Execution} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
@@ -563,12 +558,6 @@ export class GrChangeView extends LitElement {
 
   private diffViewMode?: DiffViewMode;
 
-  /**
-   * If the user comes back to the change page we want to remember the scroll
-   * position when we re-render the page as is.
-   */
-  private scrollPosition?: number;
-
   private connected$ = new BehaviorSubject(false);
 
   /**
@@ -794,7 +783,6 @@ export class GrChangeView extends LitElement {
     // Make sure to reverse everything below this line in disconnectedCallback().
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('scroll', this.handleScroll);
   }
 
   override firstUpdated() {
@@ -849,7 +837,6 @@ export class GrChangeView extends LitElement {
       'visibilitychange',
       this.handleVisibilityChange
     );
-    document.removeEventListener('scroll', this.handleScroll);
     this.scrollTask?.cancel();
 
     if (this.updateCheckTimerHandle) {
@@ -1668,15 +1655,6 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private readonly handleScroll = () => {
-    if (!this.isViewCurrent) return;
-    this.scrollTask = debounce(
-      this.scrollTask,
-      () => (this.scrollPosition = document.documentElement.scrollTop),
-      150
-    );
-  };
-
   private onOpenFixPreview(e: OpenFixPreviewEvent) {
     assertIsDefined(this.applyFixDialog);
     this.applyFixDialog.open(e);
@@ -2147,18 +2125,6 @@ export class GrChangeView extends LitElement {
           this.sendShowChangeEvent();
         });
       }
-
-      // If there is no change in patchset or changeNum, such as when user goes
-      // to the diff view and then comes back to change page then there is no
-      // need to reload anything and we render the change view component as is.
-      document.documentElement.scrollTop = this.scrollPosition ?? 0;
-      this.reporting.reportInteraction('change-view-re-rendered');
-      this.updateTitle(this.change);
-      // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
-      // page should open the reply dialog
-      this.performPostLoadTasks();
-      return;
     }
 
     // We need to collapse all diffs when viewState changes so that a non

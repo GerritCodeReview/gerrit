@@ -43,6 +43,7 @@ suite('gr-diff-section test', () => {
         <table>
           <tbody class="both gr-diff section">
             <tr
+              aria-labelledby="left-button-1 left-content-1 right-button-1 right-content-1"
               class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
@@ -51,20 +52,23 @@ suite('gr-diff-section test', () => {
               <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff left lineNumButton"
                   data-value="1"
+                  id="left-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
-                  aria-label="asdf"
-                  class="contentText gr-diff left"
+                  class="contentText gr-diff"
                   data-side="left"
+                  id="left-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -72,20 +76,23 @@ suite('gr-diff-section test', () => {
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff lineNumButton right"
                   data-value="1"
+                  id="right-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
-                  aria-label="asdf"
-                  class="contentText gr-diff right"
+                  class="contentText gr-diff"
                   data-side="right"
+                  id="right-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>
@@ -93,6 +100,7 @@ suite('gr-diff-section test', () => {
               </td>
             </tr>
             <tr
+              aria-labelledby="left-button-1 left-content-1 right-button-1 right-content-1"
               class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
@@ -101,20 +109,23 @@ suite('gr-diff-section test', () => {
               <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff left lineNumButton"
                   data-value="1"
+                  id="left-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
-                  aria-label="qwer"
-                  class="contentText gr-diff left"
+                  class="contentText gr-diff"
                   data-side="left"
+                  id="left-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -122,20 +133,23 @@ suite('gr-diff-section test', () => {
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff lineNumButton right"
                   data-value="1"
+                  id="right-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
-                  aria-label="qwer"
-                  class="contentText gr-diff right"
+                  class="contentText gr-diff"
                   data-side="right"
+                  id="right-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>
@@ -143,6 +157,7 @@ suite('gr-diff-section test', () => {
               </td>
             </tr>
             <tr
+              aria-labelledby="left-button-1 left-content-1 right-button-1 right-content-1"
               class="diff-row gr-diff side-by-side"
               left-type="both"
               right-type="both"
@@ -151,20 +166,23 @@ suite('gr-diff-section test', () => {
               <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff left lineNumButton"
                   data-value="1"
+                  id="left-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
-                  aria-label="zxcv"
-                  class="contentText gr-diff left"
+                  class="contentText gr-diff"
                   data-side="left"
+                  id="left-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -172,20 +190,23 @@ suite('gr-diff-section test', () => {
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
+                  aria-label="1 unmodified"
                   class="gr-diff lineNumButton right"
                   data-value="1"
+                  id="right-button-1"
                   tabindex="-1"
                 >
                   1
                 </button>
               </td>
+              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
-                  aria-label="zxcv"
-                  class="contentText gr-diff right"
+                  class="contentText gr-diff"
                   data-side="right"
+                  id="right-content-1"
                 >
-                  <gr-diff-text></gr-diff-text>
+                  <gr-diff-text> </gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>

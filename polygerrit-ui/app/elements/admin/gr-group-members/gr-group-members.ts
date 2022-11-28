@@ -489,7 +489,7 @@ export class GrGroupMembers extends LitElement {
           if (errResponse) {
             if (errResponse.status === 404) {
               fireAlert(this, SAVING_ERROR_TEXT);
-              return errResponse;
+              return;
             }
             throw Error(errResponse.statusText);
           }

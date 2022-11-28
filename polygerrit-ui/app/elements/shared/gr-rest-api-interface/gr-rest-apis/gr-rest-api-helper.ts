@@ -368,20 +368,22 @@ s   */
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
-    return this.fetchRawJSON(req).then(response => {
-      if (!response) {
-        return;
-      }
-      if (!response.ok) {
-        if (req.errFn) {
-          req.errFn.call(null, response);
+    return this.fetchRawJSON(req)
+      .then<[ParsedJSON | undefined, void] | undefined>(response => {
+        if (!response) {
           return;
         }
-        fireServerError(response, req);
-        return;
-      }
-      return this.getResponseObject(response);
-    });
+        let errPromise;
+        if (!response.ok) {
+          if (req.errFn) {
+            return Promise.all([undefined, errPromise]);
+          }
+          fireServerError(response, req);
+          return;
+        }
+        return Promise.all([this.getResponseObject(response), undefined]);
+      })
+      .then(responseAndMaybeError => responseAndMaybeError?.[0]);
   }
 
   urlWithParams(url: string, fetchParams?: FetchParams): string {
@@ -504,33 +506,29 @@ s   */
         fireNetworkError(err);
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
-          return;
+          return undefined;
         } else {
           throw err;
         }
       })
-      .then(response => {
+      .then<[Response | undefined, void]>(response => {
         if (response && !response.ok) {
           if (req.errFn) {
-            req.errFn.call(undefined, response);
-            return;
+            return Promise.all([
+              undefined,
+              req.errFn.call(undefined, response),
+            ]);
           }
           fireServerError(response, fetchReq);
         }
-        return response;
-      });
+        return Promise.all([response, undefined]);
+      })
+      .then(promiseAndMaybeError => promiseAndMaybeError[0]);
 
     if (req.parseResponse) {
-      // TODO(TS): remove as Response and fix error.
-      // Javascript code allows returning of a Response object from errFn.
-      // This can be a mistake and we should add check here or it can be used
-      // somewhere - in this case we should fix it carefully (define
-      // different type of callback if parseResponse is true, etc...).
-      return xhr.then(res => this.getResponseObject(res as Response));
+      return xhr.then(res => res && this.getResponseObject(res));
     }
-    // The actual xhr type is Promise<Response|undefined|void> because of the
-    // catch callback
-    return xhr as Promise<Response | undefined>;
+    return xhr;
   }
 
   invalidateFetchPromisesPrefix(prefix: string) {

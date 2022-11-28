@@ -128,8 +128,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_copied_noCurrentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -161,8 +161,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -200,8 +200,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -278,7 +278,7 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void updatedApprovals_notCopied_copyingNotEnabled_unsetsCopiedApprovals()
       throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:max"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:MAX"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -320,7 +320,7 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   @Test
   public void updatedApprovals_copied_noCurrentVote() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:max"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:MAX"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -361,8 +361,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -404,8 +404,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -451,8 +451,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_copied_currentCopiedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -573,8 +573,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -616,8 +616,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -662,8 +662,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_copied_currentCopiedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -701,8 +701,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   /** Tests that new approvals on an outdated patch set are copied to all follow-up patch sets. */
   @Test
   public void copyNewApprovalAcrossMultipleFollowUpPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -748,8 +748,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void
       copyNewApprovalAcrossMultipleFollowUpPatchSets_stopOnFirstFollowUpPatchSetToWhichTheVoteIsNotCopyable()
           throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 or is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -804,8 +804,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void copyApprovalDeletionAcrossMultipleFollowUpPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -860,8 +860,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void
       copyApprovalDeletionAcrossMultipleFollowUpPatchSets_stopOnFirstFollowUpPatchSetToWhichTheVoteIsNotCopyable()
           throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 or is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -917,8 +917,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   /** Tests that new approvals on an outdated patch set are not copied to predecessor patch sets. */
   @Test
   public void notCopyToPredecessorPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

@@ -337,9 +337,6 @@ export class GrFileList extends LitElement {
           min-height: calc(var(--line-height-normal) + 2 * var(--spacing-s));
           padding: var(--spacing-xs) var(--spacing-l);
         }
-        .header-row.row {
-          border-top: none;
-        }
         /* The class defines a content visible only to screen readers */
         .noCommentsScreenReaderText {
           opacity: 0;

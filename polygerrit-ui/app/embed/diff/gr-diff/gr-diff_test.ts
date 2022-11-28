@@ -72,9 +72,8 @@ suite('gr-diff tests', () => {
       await testNormal();
     });
 
-    test('a normal diff lit', async () => {
-      // TODO(brohlfs): Make sure that test passes. Then uncomment next line.
-      // element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
+    test.only('a normal diff lit', async () => {
+      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
       await testNormal();
     });
 
@@ -1722,7 +1721,14 @@ suite('gr-diff tests', () => {
           </div>
         `,
         {
-          ignoreTags: ['gr-legacy-text', 'slot'],
+          ignoreTags: [
+            'gr-context-controls-section',
+            'gr-diff-section',
+            'gr-diff-row',
+            'gr-diff-text',
+            'gr-legacy-text',
+            'slot',
+          ],
         }
       );
     };

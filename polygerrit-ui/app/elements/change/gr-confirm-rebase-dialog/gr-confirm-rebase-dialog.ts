@@ -16,6 +16,7 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export interface RebaseChange {
   name: string;
@@ -222,7 +223,13 @@ export class GrConfirmRebaseDialog extends LitElement {
   // last time it was run.
   fetchRecentChanges() {
     return this.restApiService
-      .getChanges(undefined, 'is:open -age:90d')
+      .getChanges(
+        undefined,
+        'is:open -age:90d',
+        /* offset=*/ undefined,
+        /* options=*/ undefined,
+        throwingErrorCallback
+      )
       .then(response => {
         if (!response) return [];
         const changes: RebaseChange[] = [];

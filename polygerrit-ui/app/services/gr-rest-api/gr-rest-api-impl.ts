@@ -1313,13 +1313,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   queryChangeFiles(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    query: string
+    query: string,
+    errFn?: ErrorCallback
   ) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/files?q=${encodeURIComponent(query)}`,
       revision: patchNum,
       anonymizedEndpoint: '/files?q=*',
+      errFn,
     }) as Promise<string[] | undefined>;
   }
 
@@ -1350,22 +1352,37 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     >;
   }
 
-  getChangeSuggestedReviewers(changeNum: NumericChangeId, inputVal: string) {
+  getChangeSuggestedReviewers(
+    changeNum: NumericChangeId,
+    inputVal: string,
+    errFn?: ErrorCallback
+  ) {
     return this._getChangeSuggestedGroup(
       ReviewerState.REVIEWER,
       changeNum,
-      inputVal
+      inputVal,
+      errFn
     );
   }
 
-  getChangeSuggestedCCs(changeNum: NumericChangeId, inputVal: string) {
-    return this._getChangeSuggestedGroup(ReviewerState.CC, changeNum, inputVal);
+  getChangeSuggestedCCs(
+    changeNum: NumericChangeId,
+    inputVal: string,
+    errFn?: ErrorCallback
+  ) {
+    return this._getChangeSuggestedGroup(
+      ReviewerState.CC,
+      changeNum,
+      inputVal,
+      errFn
+    );
   }
 
   _getChangeSuggestedGroup(
     reviewerState: ReviewerState,
     changeNum: NumericChangeId,
-    inputVal: string
+    inputVal: string,
+    errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     // More suggestions may obscure content underneath in the reply dialog,
     // see issue 10793.
@@ -1381,6 +1398,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       endpoint: '/suggest_reviewers',
       params,
       reportEndpointAsIs: true,
+      errFn,
     }) as Promise<SuggestedReviewerInfo[] | undefined>;
   }
 
@@ -1468,7 +1486,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getRepos(
     filter: string | undefined,
     reposPerPage: number,
-    offset?: number
+    offset?: number,
+    errFn?: ErrorCallback
   ): Promise<ProjectInfoWithName[] | undefined> {
     const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
 
@@ -1482,11 +1501,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       return this._fetchSharedCacheURL({
         url,
         anonymizedUrl: '/projects/?*',
+        errFn,
       }) as Promise<ProjectInfoWithName[] | undefined>;
     } else {
       const result = await (this._fetchSharedCacheURL({
         url,
         anonymizedUrl: '/projects/?*',
+        errFn,
       }) as Promise<NameToProjectInfoMap | undefined>);
       if (result === undefined) return [];
       return Object.entries(result).map(([name, project]) => {
@@ -1612,7 +1633,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getSuggestedGroups(
     inputVal: string,
     project?: RepoName,
-    n?: number
+    n?: number,
+    errFn?: ErrorCallback
   ): Promise<GroupNameToGroupInfoMap | undefined> {
     const params: QueryGroupsParams = {s: inputVal};
     if (n) {
@@ -1625,12 +1647,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/groups/',
       params,
       reportUrlAsIs: true,
+      errFn,
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
   }
 
   getSuggestedRepos(
     inputVal: string,
-    n?: number
+    n?: number,
+    errFn?: ErrorCallback
   ): Promise<NameToProjectInfoMap | undefined> {
     const params = {
       m: inputVal,
@@ -1644,6 +1668,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/projects/',
       params,
       reportUrlAsIs: true,
+      errFn,
     });
   }
 
@@ -1651,7 +1676,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     inputVal: string,
     n?: number,
     canSee?: NumericChangeId,
-    filterActive?: boolean
+    filterActive?: boolean,
+    errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined> {
     const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
     const queryParams = [];
@@ -1678,6 +1704,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/accounts/',
       params,
       anonymizedUrl: '/accounts/?n=*',
+      errFn,
     }) as Promise<AccountInfo[] | undefined>;
   }
 

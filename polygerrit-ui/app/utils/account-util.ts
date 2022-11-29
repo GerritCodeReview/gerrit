@@ -24,6 +24,7 @@ import {getAccountDisplayName, getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../types/types';
+import {throwingErrorCallback} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;
@@ -185,7 +186,13 @@ export function getAccountSuggestions(
   filterActive = false
 ) {
   return restApiService
-    .getSuggestedAccounts(input, SUGGESTIONS_LIMIT, canSee, filterActive)
+    .getSuggestedAccounts(
+      input,
+      SUGGESTIONS_LIMIT,
+      canSee,
+      filterActive,
+      throwingErrorCallback
+    )
     .then(accounts => {
       if (!accounts) return [];
       const accountSuggestions = [];

@@ -9,7 +9,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences, Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {ImageDiffBuilder} from './gr-diff-builder';
-import {html, LitElement, nothing, render} from 'lit';
+import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
@@ -33,25 +33,25 @@ export class GrDiffBuilderImage
   }
 
   public renderImageDiff() {
-    render(
-      html`
-        ${this.useNewImageDiffUi
-          ? html`
-              <gr-diff-image-new
-                .automaticBlink=${this.autoBlink()}
-                .baseImage=${this.baseImage ?? undefined}
-                .revisionImage=${this.revisionImage ?? undefined}
-              ></gr-diff-image-new>
-            `
-          : html`
-              <gr-diff-image-old
-                .baseImage=${this.baseImage ?? undefined}
-                .revisionImage=${this.revisionImage ?? undefined}
-              ></gr-diff-image-old>
-            `}
-      `,
-      this.outputEl
-    );
+    const imageDiff = this.useNewImageDiffUi
+      ? this.createImageDiffNew()
+      : this.createImageDiffOld();
+    this.outputEl.appendChild(imageDiff);
+  }
+
+  private createImageDiffNew() {
+    const imageDiff = document.createElement('gr-diff-image-new');
+    imageDiff.automaticBlink = this.autoBlink();
+    imageDiff.baseImage = this.baseImage ?? undefined;
+    imageDiff.revisionImage = this.revisionImage ?? undefined;
+    return imageDiff;
+  }
+
+  private createImageDiffOld() {
+    const imageDiff = document.createElement('gr-diff-image-old');
+    imageDiff.baseImage = this.baseImage ?? undefined;
+    imageDiff.revisionImage = this.revisionImage ?? undefined;
+    return imageDiff;
   }
 
   private autoBlink(): boolean {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eedf0d9_6f224713",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:35:40Z",
+      "side": 1,
+      "message": "Same comment about inconsistency betrween signCols and lineNumberCols",
+      "revId": "28858e6a22f0476ad9635bd0b94f292c7e3d2d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7706c06a_27358623",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:35:40Z",
+      "side": 1,
+      "message": "```\nconst sign \u003d isAdd ? \u0027+\u0027 : isRemove ? \u0027-\u0027 : \u0027\u0027;\n```",
+      "revId": "28858e6a22f0476ad9635bd0b94f292c7e3d2d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

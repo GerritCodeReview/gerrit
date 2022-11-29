@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4e926c5_7a0afed7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T14:20:58Z",
+      "side": 1,
+      "message": "No. SIDE_BY_SIDE should be the default, even when `undefined`.",
+      "parentUuid": "4f86b9fc_2cde10ad",
+      "range": {
+        "startLine": 86,
+        "startChar": 39,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "9d3e1be83a76f42903e8116f789a3f859e7b862c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "902d136d_810c6dcc",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-11-29T13:24:18Z",
       "side": 1,
       "message": "!\u003d\u003d SIDE_BY_SIDE?",
+      "revId": "9d3e1be83a76f42903e8116f789a3f859e7b862c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10d5530_4b61373d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T14:20:58Z",
+      "side": 1,
+      "message": "No. SIDE_BY_SIDE should be the default.",
+      "parentUuid": "902d136d_810c6dcc",
       "revId": "9d3e1be83a76f42903e8116f789a3f859e7b862c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03f4355_e1fa81ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-29T21:37:13Z",
+      "side": 1,
+      "message": "Thanks! I am quite happy you like it given I never had touched TypeScript before that and discovered the published API while randomly browsing npmjs.org :-]",
+      "parentUuid": "531c1056_3a18845c",
+      "revId": "2eecc5dea20523243cba2f6c7cd36098f98011a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ce6e80_33ef6142",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-11-27T13:05:35Z",
       "side": 1,
       "message": "Missing trailing comma.",
+      "revId": "2eecc5dea20523243cba2f6c7cd36098f98011a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a331627_f18b7649",
+        "filename": "polygerrit-ui/app/api/BUILD_for_publishing_api_only",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-11-29T21:37:13Z",
+      "side": 1,
+      "message": "Thank you to have pointed that out directly.",
+      "parentUuid": "78ce6e80_33ef6142",
       "revId": "2eecc5dea20523243cba2f6c7cd36098f98011a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

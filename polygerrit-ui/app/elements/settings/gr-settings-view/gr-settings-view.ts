@@ -889,9 +889,17 @@ export class GrSettingsView extends LitElement {
       return nothing;
     return html`
       <section id="allowBrowserNotificationsSection">
-        <label class="title" for="allowBrowserNotifications"
-          >Allow browser notifications</label
-        >
+        <div class="title">
+          <label for="allowBrowserNotifications"
+            >Allow browser notifications</label
+          >
+          <a
+            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
+            target="_blank"
+          >
+            <gr-icon icon="help" title="read documentation"></gr-icon>
+          </a>
+        </div>
         <span class="value">
           <input
             id="allowBrowserNotifications"

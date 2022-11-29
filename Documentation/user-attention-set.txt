@@ -134,6 +134,19 @@ in the attention set, e.g.
 Gerrit-Attention: Marian Harbach <mharbach@google.com>
 ----
 
+=== Browser notifications
+
+You'll automatically get notifications when you are in the attention set. You must enable desktop notifications
+on your browser to see them.
+
+image::images/browser-notification-example.png["browser notification example", align="center"]
+
+You can turn off automatic notifications in user preferences. They are enabled by default.
+
+image::images/browser-notification-preference.png["user preference for browser notifications", align="center"]
+
+Current implementation works only when gerrit is open one of the tabs. We poll every 5 minutes for changes in attention set.
+
 === Bold Changes / Mark Reviewed
 
 Before the attention set feature, changes were bolded in the dashboard when

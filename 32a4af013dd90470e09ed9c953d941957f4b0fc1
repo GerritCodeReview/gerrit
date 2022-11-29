@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "730e1016_3749f933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:05:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this happen after \"Add unified diff mode to lit diff\"?",
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

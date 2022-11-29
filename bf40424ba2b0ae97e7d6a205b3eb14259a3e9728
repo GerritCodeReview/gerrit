@@ -195,6 +195,24 @@
       "parentUuid": "6e633fb2_45705217",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37bdba66_bb9c5fb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T08:42:41Z",
+      "side": 1,
+      "message": "Thanks a lot! If I see this correctly, we are on 1.71 now. I believe Brandon is still doing the upgrade to 1.72. Not sure when it\u0027s the best moment to submit this change.",
+      "parentUuid": "2d94d2f7_c50ad286",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

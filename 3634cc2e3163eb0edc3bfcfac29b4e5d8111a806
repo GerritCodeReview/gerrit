@@ -71,6 +71,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71538711_7ab60580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T13:54:26Z",
+      "side": 1,
+      "message": "Ack. Makes sense. Thanks for explaining.",
+      "parentUuid": "b4b92270_c88d5e09",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97fb87ce_bf5ff21c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T13:54:26Z",
+      "side": 1,
+      "message": "Ah yes, that\u0027s what I was asking about (is this change generating a new change message, or are we reusing/extending the existing one).\n\nThanks for clarifying.",
+      "parentUuid": "737210b3_10860ebb",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6603ba7d_f7bca5e5",
@@ -108,6 +144,30 @@
       "side": 1,
       "message": "\u003e do you mean the smaller patchset? \n\nNo. The user changes/removes a vote on an outdated patch set (smaller patch set). As consequence of this we remove the copied votes on the follow-up patch sets (larger patch sets). The intention of this change is to inform the user about the updates that we do on the follow-up patch sets (e.g. removal of the copied vote from the follow-up patch set in this case). Note that the change message already contains the information about the user action (removal of the vote from the outdated patch set), so this information is already there.\n\n\u003e \"follow-up\" gives the impression it\u0027s the larger patchset.\n\nExactly, this is what we want to convey with this term. An approval is applied on an (outdated) patch set and then it is copied to the follow-up patch sets (all patch sets larger then the patch set on which the approval was applied). So the term follow-up patch set seems fine? Changing this term is out-of-scope for this change as it is already used in the existing code and the new code just sticks to this term to be consistent. So if we want to change this, this should be a separate change.\n\n\u003e Otherwise, we can clarify the \"follow-up patchset\" meaning at the beginning\n\u003e of the commit message\n\nGood idea. Done.\n\n\u003e follow-up patchset: the older patchset at which a vote is applied\n\u003e target patchset: the newer patchset to which the vote is forward-copied\n\u003e from the follow-up patchset.\n\nThe terms are:\n1. outdated patch set: non-current patch set on which the vote is applied\n2. follow-up patch sets: all patch sets that are newer than the outdated patch set\n\nI hope this is clearer with the rewritten commit message now?",
       "parentUuid": "6603ba7d_f7bca5e5",
+      "range": {
+        "startLine": 32,
+        "startChar": 42,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b189af50_c3706e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T13:54:26Z",
+      "side": 1,
+      "message": "Thanks a lot for the clarifications. Now makes sense.",
+      "parentUuid": "8ffffe3c_933204d3",
       "range": {
         "startLine": 32,
         "startChar": 42,
@@ -212,6 +272,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43193710_c39be04a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T13:54:26Z",
+      "side": 1,
+      "message": "Awesome! but if the user voted again on the outdated PS, I hope the server will reprocess the copy as expected? e.g.\n\n  * change has three patchsets\n  * user votes on PS1 CR+2\n  * server copies the vote to PS2, PS3\n  * user removed the vote on PS3\n  * server does not re-attempt the copying (as per your explanation)\n  * user changes the vote on PS1 to CR+1\n  * now, the server should re-attempt the copying, right?\n  \nsorry for going into this in depth. I know it\u0027s not related to the change.",
+      "parentUuid": "44951c2e_d744a811",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c83d3d_84b59435",
@@ -243,6 +327,24 @@
       "side": 1,
       "message": "The source patch set is already part of the change message, e.g. \"Patch Set 1: Code-Review+2\". Clarified this in the commit message.\n\n\u003e Minor point: also we agreed before to name them \"patchsets\" not \"patch sets\".\n\u003e Can we fix it?\n\nI\u0027m not aware that we agreed on this? Looking at the existing code it seems we do use \"patch set\" in other change messages:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/change/CherryPickChange.java#398",
       "parentUuid": "e0c83d3d_84b59435",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8c3533_87a81428",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T13:54:26Z",
+      "side": 1,
+      "message": "It was a thread on chat, Ben made a vote of \"patch set\" vs. \"patchset\" and we agreed to use the latter everywhere for consistency.\n\nFine to leave as is.",
+      "parentUuid": "5f9cf864_84f8e23b",
       "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

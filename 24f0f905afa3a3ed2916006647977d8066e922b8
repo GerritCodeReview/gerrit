@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "671c3320_ec368f48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-29T11:14:49Z",
+      "side": 1,
+      "message": "Consider more directly converting your `void` type to `undefined` from `req.errFn` rather than `Promise.all` and an odd `.then\u003cT\u003e` type. Even casting to undefined is probably a reasonable choice. Same in the below `send()` case.\n\n```suggestion\n    return this.fetchRawJSON(req)\n      .then(response \u003d\u003e {\n        if (!response) {\n          return;\n        }\n        if (!response.ok) {\n          if (req.errFn) {\n            // must convert type `void` to `undefined`.\n            return req.errFn.call(undefined, response) as undefined;\n          }\n          fireServerError(response, req);\n          return;\n        }\n        return this.getResponseObject(response);\n      });\n```",
+      "range": {
+        "startLine": 371,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 65
+      },
+      "revId": "24f0f905afa3a3ed2916006647977d8066e922b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

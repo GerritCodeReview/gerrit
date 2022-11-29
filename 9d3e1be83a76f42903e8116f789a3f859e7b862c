@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f86b9fc_2cde10ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-29T12:52:12Z",
+      "side": 1,
+      "message": "nit: check `\u003d\u003d\u003d SIDE_BY_SIDE` instead of `!\u003d\u003d UNIFIED`",
+      "range": {
+        "startLine": 86,
+        "startChar": 39,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "9d3e1be83a76f42903e8116f789a3f859e7b862c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

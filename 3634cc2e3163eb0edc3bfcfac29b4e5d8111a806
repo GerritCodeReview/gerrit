@@ -320,6 +320,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b45a2b8_9caa0af4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T15:49:20Z",
+      "side": 1,
+      "message": "I see. Thanks for explaining.",
+      "parentUuid": "f5c45223_77c6db3c",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c83d3d_84b59435",

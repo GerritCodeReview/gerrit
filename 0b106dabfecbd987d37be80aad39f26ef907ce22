@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0babe942_5586c3c7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T13:20:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this viewMode be reflected to renderPrefs regardless of whether it is lit or not?",
+      "revId": "0b106dabfecbd987d37be80aad39f26ef907ce22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

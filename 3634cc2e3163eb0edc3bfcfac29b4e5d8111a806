@@ -296,6 +296,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c45223_77c6db3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T15:24:59Z",
+      "side": 1,
+      "message": "If you vote on an outdated patch set we only copy the approval to all follow-up patch sets that have either no approval yet (neither a copied nor a non-copied) or that have a copied approval. We do not update patch sets that have a non-copied approval are an approval deletion (approval deletion \u003d removal of an approval by voting with 0, so basically this is a special case of having a non-copied vote).\n\nApplying this to your example means:\n\n\u003e * change has three patchsets\n\u003e * user votes on PS1 CR+2\n\u003e * server copies the vote to PS2, PS3\n\u003e * user removed the vote on PS3\n\nSemantically this means PS3 has a non-copied 0 veto from the user now.\n\n\u003e server does not re-attempt the copying (as per your explanation)\n\u003e user changes the vote on PS1 to CR+1\n\nAs result of this the copied vote on PS2 is updated, but the vote on PS3 is not touched (as it is a non-copied 0 approval and we never change non-copied approvals by copying votes).\n\nIt\u0027s not possible to just remove a copied approval without this action being stored as an explicit action in NoteDb so that approval copying would be reattempted at a later point in time.",
+      "parentUuid": "43193710_c39be04a",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c83d3d_84b59435",
@@ -345,6 +369,24 @@
       "side": 1,
       "message": "It was a thread on chat, Ben made a vote of \"patch set\" vs. \"patchset\" and we agreed to use the latter everywhere for consistency.\n\nFine to leave as is.",
       "parentUuid": "5f9cf864_84f8e23b",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c45162_0992ab49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T15:24:59Z",
+      "side": 1,
+      "message": "Ah OK, so no action has been taken yet to make this change happen. Then I would leave it as it is to stay consistent with what we have now.",
+      "parentUuid": "0e8c3533_87a81428",
       "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

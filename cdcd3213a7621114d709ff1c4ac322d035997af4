@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a39d2a01_e1fbaddb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T16:25:48Z",
+      "side": 1,
+      "message": "Peter: I think lit is overcaching with the fix to get around the chrome bug.",
+      "revId": "cdcd3213a7621114d709ff1c4ac322d035997af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,25 +33,25 @@ export class GrDiffBuilderImage
   }
 
   public renderImageDiff() {
-    render(
-      html`
-        ${this.useNewImageDiffUi
-          ? html`
-              <gr-diff-image-new
-                .automaticBlink=${this.autoBlink()}
-                .baseImage=${this.baseImage ?? undefined}
-                .revisionImage=${this.revisionImage ?? undefined}
-              ></gr-diff-image-new>
-            `
-          : html`
-              <gr-diff-image-old
-                .baseImage=${this.baseImage ?? undefined}
-                .revisionImage=${this.revisionImage ?? undefined}
-              ></gr-diff-image-old>
-            `}
-      `,
-      this.outputEl
-    );
+    const imageDiff = this.useNewImageDiffUi
+      ? this.createImageDiffNew()
+      : this.createImageDiffOld();
+    this.outputEl.appendChild(imageDiff);
+  }
+
+  private createImageDiffNew() {
+    const imageDiff = document.createElement('gr-diff-image-new');
+    imageDiff.automaticBlink = this.autoBlink();
+    imageDiff.baseImage = this.baseImage ?? undefined;
+    imageDiff.revisionImage = this.revisionImage ?? undefined;
+    return imageDiff;
+  }
+
+  private createImageDiffOld() {
+    const imageDiff = document.createElement('gr-diff-image-old');
+    imageDiff.baseImage = this.baseImage ?? undefined;
+    imageDiff.revisionImage = this.revisionImage ?? undefined;
+    return imageDiff;
   }
 
   private autoBlink(): boolean {

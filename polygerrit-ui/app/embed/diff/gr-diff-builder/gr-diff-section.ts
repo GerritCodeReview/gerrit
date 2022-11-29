@@ -70,8 +70,7 @@ export class GrDiffSection extends LitElement {
     if (this.group.moveDetails?.changed) extras.push('changed');
     if (this.group.ignoredWhitespaceOnly) extras.push('ignoredWhitespaceOnly');
 
-    const isControl = this.group.type === GrDiffGroupType.CONTEXT_CONTROL;
-    const pairs = isControl ? [] : this.group.getSideBySidePairs();
+    const pairs = this.getLinePairs();
     const body = html`
       <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
@@ -86,6 +85,7 @@ export class GrDiffSection extends LitElement {
               .layers=${this.layers}
               .lineLength=${this.diffPrefs?.line_length ?? 80}
               .tabSize=${this.diffPrefs?.tab_size ?? 2}
+              .unifiedDiff=${this.isUnifiedDiff()}
             >
             </gr-diff-row>
           `;
@@ -98,6 +98,19 @@ export class GrDiffSection extends LitElement {
       </table>`;
     }
     return body;
+  }
+
+  private isUnifiedDiff() {
+    return this.renderPrefs?.view_mode === DiffViewMode.UNIFIED;
+  }
+
+  getLinePairs() {
+    if (!this.group) return [];
+    const isControl = this.group.type === GrDiffGroupType.CONTEXT_CONTROL;
+    if (isControl) return [];
+    return this.isUnifiedDiff()
+      ? this.group.getUnifiedPairs()
+      : this.group.getSideBySidePairs();
   }
 
   getDiffRows(): GrDiffRow[] {
@@ -125,7 +138,6 @@ export class GrDiffSection extends LitElement {
         .group=${this.group}
         .diff=${this.diff}
         .renderPrefs=${this.renderPrefs}
-        .viewMode=${DiffViewMode.SIDE_BY_SIDE}
       >
       </gr-context-controls-section>
     `;

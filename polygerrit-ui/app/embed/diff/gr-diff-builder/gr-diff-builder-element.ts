@@ -433,6 +433,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     }
 
     let builder = null;
+    const useLit = this.renderPrefs?.use_lit_components ?? false;
     if (this.isImageDiff) {
       builder = new GrDiffBuilderImage(
         this.diff,
@@ -447,7 +448,10 @@ export class GrDiffBuilderElement implements GroupConsumer {
       // If the diff is binary, but not an image.
       return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-      const useLit = this.renderPrefs?.use_lit_components;
+      this.renderPrefs = {
+        ...this.renderPrefs,
+        view_mode: DiffViewMode.SIDE_BY_SIDE,
+      };
       if (useLit) {
         builder = new GrDiffBuilderLit(
           this.diff,
@@ -466,13 +470,27 @@ export class GrDiffBuilderElement implements GroupConsumer {
         );
       }
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
-      builder = new GrDiffBuilderUnified(
-        this.diff,
-        localPrefs,
-        this.diffElement,
-        this.layersInternal,
-        this.renderPrefs
-      );
+      this.renderPrefs = {
+        ...this.renderPrefs,
+        view_mode: DiffViewMode.UNIFIED,
+      };
+      if (useLit) {
+        builder = new GrDiffBuilderLit(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this.layersInternal,
+          this.renderPrefs
+        );
+      } else {
+        builder = new GrDiffBuilderUnified(
+          this.diff,
+          localPrefs,
+          this.diffElement,
+          this.layersInternal,
+          this.renderPrefs
+        );
+      }
     }
     if (!builder) {
       throw Error(`Unsupported diff view mode: ${this.viewMode}`);

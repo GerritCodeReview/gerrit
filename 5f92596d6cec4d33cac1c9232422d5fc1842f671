@@ -22,6 +22,30 @@
       },
       "revId": "5f92596d6cec4d33cac1c9232422d5fc1842f671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd2aec98_c0588873",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T08:46:05Z",
+      "side": 1,
+      "message": "```\n            \u0027gr-context-controls-section\u0027,\n            \u0027gr-diff-section\u0027,\n            \u0027gr-diff-row\u0027,\n```\nThese are all `display:contents`. lit has them, legacy does not. And the DOM tester does not deal well with them.\n\n```\n            \u0027gr-diff-text\u0027,\n            \u0027gr-legacy-text\u0027,\n```\nWe don\u0027t want to test the content of those. And lit has `gr-diff-text` while legacy has `gr-legacy-text`.\n\n```\n            \u0027slot\u0027,\n```\nThis is just bloat.",
+      "parentUuid": "b3cd84f4_3b6b1ade",
+      "range": {
+        "startLine": 1724,
+        "startChar": 10,
+        "endLine": 1724,
+        "endChar": 20
+      },
+      "revId": "5f92596d6cec4d33cac1c9232422d5fc1842f671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

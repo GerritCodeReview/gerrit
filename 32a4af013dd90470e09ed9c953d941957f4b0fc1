@@ -16,6 +16,52 @@
       "message": "Shouldn\u0027t this happen after \"Add unified diff mode to lit diff\"?",
       "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01fa6c4_08c4ebbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-29T11:21:44Z",
+      "side": 1,
+      "message": "mention that it\u0027s still under the flag. I thought it meant you were enabling for users.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81bfbb9_d1c598ee",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-29T11:21:44Z",
+      "side": 1,
+      "message": "what is this introduced for? it looks unused. Isn\u0027t it already a render preference?",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 11
+      },
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

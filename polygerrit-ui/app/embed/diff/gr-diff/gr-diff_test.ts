@@ -68,13 +68,1291 @@ suite('gr-diff tests', () => {
       );
     });
 
+    test('a unified diff legacy', async () => {
+      element.viewMode = DiffViewMode.UNIFIED;
+      await testUnified();
+    });
+
+    test('a unified diff lit', async () => {
+      element.viewMode = DiffViewMode.UNIFIED;
+      // TODO(brohlfs): Write a lit based builder for unified diff. At the
+      // moment setting `use_lit_components:true` is a no-op for unified diff.
+      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
+      await testUnified();
+    });
+
+    const testUnified = async () => {
+      element.prefs = {...MINIMAL_PREFS};
+      element.diff = createDiff();
+      await element.updateComplete;
+      await waitForEventOnce(element, 'render');
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div class="diffContainer unified">
+            <table class="selected-right" id="diffTable">
+              <colgroup>
+                <col class="blame gr-diff" />
+                <col class="gr-diff" width="48" />
+                <col class="gr-diff" width="48" />
+                <col class="gr-diff" />
+              </colgroup>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-LOST right-button-LOST right-content-LOST"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="LOST"></td>
+                  <td class="gr-diff left lineNum" data-value="LOST"></td>
+                  <td class="gr-diff lineNum right" data-value="LOST"></td>
+                  <td class="both content gr-diff lost no-intraline-info right">
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-FILE right-button-FILE right-content-FILE"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="FILE"></td>
+                  <td class="gr-diff left lineNum" data-value="FILE">
+                    <button
+                      aria-label="Add file comment"
+                      class="gr-diff left lineNumButton"
+                      data-value="FILE"
+                      id="left-button-FILE"
+                      tabindex="-1"
+                    >
+                      File
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="FILE">
+                    <button
+                      aria-label="Add file comment"
+                      class="gr-diff lineNumButton right"
+                      data-value="FILE"
+                      id="right-button-FILE"
+                      tabindex="-1"
+                    >
+                      File
+                    </button>
+                  </td>
+                  <td class="both content file gr-diff no-intraline-info right">
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-1 right-button-1 right-content-1"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="1"></td>
+                  <td class="gr-diff left lineNum" data-value="1">
+                    <button
+                      aria-label="1 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="1"
+                      id="left-button-1"
+                      tabindex="-1"
+                    >
+                      1
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="1">
+                    <button
+                      aria-label="1 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="1"
+                      id="right-button-1"
+                      tabindex="-1"
+                    >
+                      1
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-1"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-2 right-button-2 right-content-2"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="2"></td>
+                  <td class="gr-diff left lineNum" data-value="2">
+                    <button
+                      aria-label="2 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="2"
+                      id="left-button-2"
+                      tabindex="-1"
+                    >
+                      2
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="2">
+                    <button
+                      aria-label="2 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="2"
+                      id="right-button-2"
+                      tabindex="-1"
+                    >
+                      2
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-2"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-3 right-button-3 right-content-3"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="3"></td>
+                  <td class="gr-diff left lineNum" data-value="3">
+                    <button
+                      aria-label="3 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="3"
+                      id="left-button-3"
+                      tabindex="-1"
+                    >
+                      3
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="3">
+                    <button
+                      aria-label="3 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="3"
+                      id="right-button-3"
+                      tabindex="-1"
+                    >
+                      3
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-3"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-4 right-button-4 right-content-4"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="4"></td>
+                  <td class="gr-diff left lineNum" data-value="4">
+                    <button
+                      aria-label="4 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="4"
+                      id="left-button-4"
+                      tabindex="-1"
+                    >
+                      4
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="4">
+                    <button
+                      aria-label="4 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="4"
+                      id="right-button-4"
+                      tabindex="-1"
+                    >
+                      4
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-4"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="delta gr-diff section total">
+                <tr
+                  aria-labelledby="right-button-5 right-content-5"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="5">
+                    <button
+                      aria-label="5 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="5"
+                      id="right-button-5"
+                      tabindex="-1"
+                    >
+                      5
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-5"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-6 right-content-6"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="6">
+                    <button
+                      aria-label="6 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="6"
+                      id="right-button-6"
+                      tabindex="-1"
+                    >
+                      6
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-6"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-7 right-content-7"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="7">
+                    <button
+                      aria-label="7 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="7"
+                      id="right-button-7"
+                      tabindex="-1"
+                    >
+                      7
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-7"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-5 right-button-8 right-content-8"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="5"></td>
+                  <td class="gr-diff left lineNum" data-value="5">
+                    <button
+                      aria-label="5 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="5"
+                      id="left-button-5"
+                      tabindex="-1"
+                    >
+                      5
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="8">
+                    <button
+                      aria-label="8 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="8"
+                      id="right-button-8"
+                      tabindex="-1"
+                    >
+                      8
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-8"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-6 right-button-9 right-content-9"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="6"></td>
+                  <td class="gr-diff left lineNum" data-value="6">
+                    <button
+                      aria-label="6 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="6"
+                      id="left-button-6"
+                      tabindex="-1"
+                    >
+                      6
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="9">
+                    <button
+                      aria-label="9 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="9"
+                      id="right-button-9"
+                      tabindex="-1"
+                    >
+                      9
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-9"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-7 right-button-10 right-content-10"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="7"></td>
+                  <td class="gr-diff left lineNum" data-value="7">
+                    <button
+                      aria-label="7 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="7"
+                      id="left-button-7"
+                      tabindex="-1"
+                    >
+                      7
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="10">
+                    <button
+                      aria-label="10 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="10"
+                      id="right-button-10"
+                      tabindex="-1"
+                    >
+                      10
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-10"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-8 right-button-11 right-content-11"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="8"></td>
+                  <td class="gr-diff left lineNum" data-value="8">
+                    <button
+                      aria-label="8 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="8"
+                      id="left-button-8"
+                      tabindex="-1"
+                    >
+                      8
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="11">
+                    <button
+                      aria-label="11 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="11"
+                      id="right-button-11"
+                      tabindex="-1"
+                    >
+                      11
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-11"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-9 right-button-12 right-content-12"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="9"></td>
+                  <td class="gr-diff left lineNum" data-value="9">
+                    <button
+                      aria-label="9 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="9"
+                      id="left-button-9"
+                      tabindex="-1"
+                    >
+                      9
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="12">
+                    <button
+                      aria-label="12 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="12"
+                      id="right-button-12"
+                      tabindex="-1"
+                    >
+                      12
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-12"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="delta gr-diff section total">
+                <tr
+                  aria-labelledby="left-button-10 left-content-10"
+                  class="diff-row gr-diff remove unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="10"></td>
+                  <td class="gr-diff left lineNum" data-value="10">
+                    <button
+                      aria-label="10 removed"
+                      class="gr-diff left lineNumButton"
+                      data-value="10"
+                      id="left-button-10"
+                      tabindex="-1"
+                    >
+                      10
+                    </button>
+                  </td>
+                  <td class="gr-diff right"></td>
+                  <td class="content gr-diff left no-intraline-info remove">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="left"
+                      id="left-content-10"
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-11 left-content-11"
+                  class="diff-row gr-diff remove unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="11"></td>
+                  <td class="gr-diff left lineNum" data-value="11">
+                    <button
+                      aria-label="11 removed"
+                      class="gr-diff left lineNumButton"
+                      data-value="11"
+                      id="left-button-11"
+                      tabindex="-1"
+                    >
+                      11
+                    </button>
+                  </td>
+                  <td class="gr-diff right"></td>
+                  <td class="content gr-diff left no-intraline-info remove">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="left"
+                      id="left-content-11"
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-12 left-content-12"
+                  class="diff-row gr-diff remove unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="12"></td>
+                  <td class="gr-diff left lineNum" data-value="12">
+                    <button
+                      aria-label="12 removed"
+                      class="gr-diff left lineNumButton"
+                      data-value="12"
+                      id="left-button-12"
+                      tabindex="-1"
+                    >
+                      12
+                    </button>
+                  </td>
+                  <td class="gr-diff right"></td>
+                  <td class="content gr-diff left no-intraline-info remove">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="left"
+                      id="left-content-12"
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-13 left-content-13"
+                  class="diff-row gr-diff remove unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="13"></td>
+                  <td class="gr-diff left lineNum" data-value="13">
+                    <button
+                      aria-label="13 removed"
+                      class="gr-diff left lineNumButton"
+                      data-value="13"
+                      id="left-button-13"
+                      tabindex="-1"
+                    >
+                      13
+                    </button>
+                  </td>
+                  <td class="gr-diff right"></td>
+                  <td class="content gr-diff left no-intraline-info remove">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="left"
+                      id="left-content-13"
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="delta gr-diff ignoredWhitespaceOnly section">
+                <tr
+                  aria-labelledby="right-button-13 right-content-13"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="13">
+                    <button
+                      aria-label="13 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="13"
+                      id="right-button-13"
+                      tabindex="-1"
+                    >
+                      13
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-13"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-14 right-content-14"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="14">
+                    <button
+                      aria-label="14 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="14"
+                      id="right-button-14"
+                      tabindex="-1"
+                    >
+                      14
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-14"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="delta gr-diff section">
+                <tr
+                  aria-labelledby="left-button-16 left-content-16"
+                  class="diff-row gr-diff remove unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="16"></td>
+                  <td class="gr-diff left lineNum" data-value="16">
+                    <button
+                      aria-label="16 removed"
+                      class="gr-diff left lineNumButton"
+                      data-value="16"
+                      id="left-button-16"
+                      tabindex="-1"
+                    >
+                      16
+                    </button>
+                  </td>
+                  <td class="gr-diff right"></td>
+                  <td class="content gr-diff left remove">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="left"
+                      id="left-content-16"
+                    ></div>
+                    <div class="thread-group" data-side="left"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-15 right-content-15"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="15">
+                    <button
+                      aria-label="15 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="15"
+                      id="right-button-15"
+                      tabindex="-1"
+                    >
+                      15
+                    </button>
+                  </td>
+                  <td class="add content gr-diff right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-15"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-17 right-button-16 right-content-16"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="17"></td>
+                  <td class="gr-diff left lineNum" data-value="17">
+                    <button
+                      aria-label="17 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="17"
+                      id="left-button-17"
+                      tabindex="-1"
+                    >
+                      17
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="16">
+                    <button
+                      aria-label="16 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="16"
+                      id="right-button-16"
+                      tabindex="-1"
+                    >
+                      16
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-16"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-18 right-button-17 right-content-17"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="18"></td>
+                  <td class="gr-diff left lineNum" data-value="18">
+                    <button
+                      aria-label="18 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="18"
+                      id="left-button-18"
+                      tabindex="-1"
+                    >
+                      18
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="17">
+                    <button
+                      aria-label="17 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="17"
+                      id="right-button-17"
+                      tabindex="-1"
+                    >
+                      17
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-17"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-19 right-button-18 right-content-18"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="19"></td>
+                  <td class="gr-diff left lineNum" data-value="19">
+                    <button
+                      aria-label="19 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="19"
+                      id="left-button-19"
+                      tabindex="-1"
+                    >
+                      19
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="18">
+                    <button
+                      aria-label="18 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="18"
+                      id="right-button-18"
+                      tabindex="-1"
+                    >
+                      18
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-18"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="contextControl gr-diff section">
+                <tr class="above contextBackground gr-diff unified">
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="contextLineNum gr-diff"></td>
+                  <td class="contextLineNum gr-diff"></td>
+                  <td class="gr-diff"></td>
+                </tr>
+                <tr class="dividerRow gr-diff show-both">
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="dividerCell gr-diff" colspan="3">
+                    <gr-context-controls class="gr-diff" showconfig="both">
+                    </gr-context-controls>
+                  </td>
+                </tr>
+                <tr class="below contextBackground gr-diff unified">
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="contextLineNum gr-diff"></td>
+                  <td class="contextLineNum gr-diff"></td>
+                  <td class="gr-diff"></td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-38 right-button-37 right-content-37"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="38"></td>
+                  <td class="gr-diff left lineNum" data-value="38">
+                    <button
+                      aria-label="38 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="38"
+                      id="left-button-38"
+                      tabindex="-1"
+                    >
+                      38
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="37">
+                    <button
+                      aria-label="37 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="37"
+                      id="right-button-37"
+                      tabindex="-1"
+                    >
+                      37
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-37"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-39 right-button-38 right-content-38"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="39"></td>
+                  <td class="gr-diff left lineNum" data-value="39">
+                    <button
+                      aria-label="39 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="39"
+                      id="left-button-39"
+                      tabindex="-1"
+                    >
+                      39
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="38">
+                    <button
+                      aria-label="38 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="38"
+                      id="right-button-38"
+                      tabindex="-1"
+                    >
+                      38
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-38"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-40 right-button-39 right-content-39"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="40"></td>
+                  <td class="gr-diff left lineNum" data-value="40">
+                    <button
+                      aria-label="40 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="40"
+                      id="left-button-40"
+                      tabindex="-1"
+                    >
+                      40
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="39">
+                    <button
+                      aria-label="39 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="39"
+                      id="right-button-39"
+                      tabindex="-1"
+                    >
+                      39
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-39"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="delta gr-diff section total">
+                <tr
+                  aria-labelledby="right-button-40 right-content-40"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="40">
+                    <button
+                      aria-label="40 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="40"
+                      id="right-button-40"
+                      tabindex="-1"
+                    >
+                      40
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-40"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-41 right-content-41"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="41">
+                    <button
+                      aria-label="41 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="41"
+                      id="right-button-41"
+                      tabindex="-1"
+                    >
+                      41
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-41"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-42 right-content-42"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="42">
+                    <button
+                      aria-label="42 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="42"
+                      id="right-button-42"
+                      tabindex="-1"
+                    >
+                      42
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-42"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="right-button-43 right-content-43"
+                  class="add diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="0"></td>
+                  <td class="gr-diff left"></td>
+                  <td class="gr-diff lineNum right" data-value="43">
+                    <button
+                      aria-label="43 added"
+                      class="gr-diff lineNumButton right"
+                      data-value="43"
+                      id="right-button-43"
+                      tabindex="-1"
+                    >
+                      43
+                    </button>
+                  </td>
+                  <td class="add content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-43"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="both gr-diff section">
+                <tr
+                  aria-labelledby="left-button-41 right-button-44 right-content-44"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="41"></td>
+                  <td class="gr-diff left lineNum" data-value="41">
+                    <button
+                      aria-label="41 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="41"
+                      id="left-button-41"
+                      tabindex="-1"
+                    >
+                      41
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="44">
+                    <button
+                      aria-label="44 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="44"
+                      id="right-button-44"
+                      tabindex="-1"
+                    >
+                      44
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-44"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-42 right-button-45 right-content-45"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="42"></td>
+                  <td class="gr-diff left lineNum" data-value="42">
+                    <button
+                      aria-label="42 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="42"
+                      id="left-button-42"
+                      tabindex="-1"
+                    >
+                      42
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="45">
+                    <button
+                      aria-label="45 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="45"
+                      id="right-button-45"
+                      tabindex="-1"
+                    >
+                      45
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-45"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-43 right-button-46 right-content-46"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="43"></td>
+                  <td class="gr-diff left lineNum" data-value="43">
+                    <button
+                      aria-label="43 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="43"
+                      id="left-button-43"
+                      tabindex="-1"
+                    >
+                      43
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="46">
+                    <button
+                      aria-label="46 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="46"
+                      id="right-button-46"
+                      tabindex="-1"
+                    >
+                      46
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-46"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-44 right-button-47 right-content-47"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="44"></td>
+                  <td class="gr-diff left lineNum" data-value="44">
+                    <button
+                      aria-label="44 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="44"
+                      id="left-button-44"
+                      tabindex="-1"
+                    >
+                      44
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="47">
+                    <button
+                      aria-label="47 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="47"
+                      id="right-button-47"
+                      tabindex="-1"
+                    >
+                      47
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-47"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+                <tr
+                  aria-labelledby="left-button-45 right-button-48 right-content-48"
+                  class="both diff-row gr-diff unified"
+                  tabindex="-1"
+                >
+                  <td class="blame gr-diff" data-line-number="45"></td>
+                  <td class="gr-diff left lineNum" data-value="45">
+                    <button
+                      aria-label="45 unmodified"
+                      class="gr-diff left lineNumButton"
+                      data-value="45"
+                      id="left-button-45"
+                      tabindex="-1"
+                    >
+                      45
+                    </button>
+                  </td>
+                  <td class="gr-diff lineNum right" data-value="48">
+                    <button
+                      aria-label="48 unmodified"
+                      class="gr-diff lineNumButton right"
+                      data-value="48"
+                      id="right-button-48"
+                      tabindex="-1"
+                    >
+                      48
+                    </button>
+                  </td>
+                  <td class="both content gr-diff no-intraline-info right">
+                    <div
+                      class="contentText gr-diff"
+                      data-side="right"
+                      id="right-content-48"
+                    ></div>
+                    <div class="thread-group" data-side="right"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `,
+        {
+          ignoreTags: [
+            'gr-context-controls-section',
+            'gr-diff-section',
+            'gr-diff-row',
+            'gr-diff-text',
+            'gr-legacy-text',
+            'slot',
+          ],
+        }
+      );
+    };
+
     test('a normal diff legacy', async () => {
       await testNormal();
     });
 
     test('a normal diff lit', async () => {
-      // TODO(brohlfs): Make sure that test passes. Then uncomment next line.
-      // element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
+      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
       await testNormal();
     });
 
@@ -1722,7 +3000,14 @@ suite('gr-diff tests', () => {
           </div>
         `,
         {
-          ignoreTags: ['gr-legacy-text', 'slot'],
+          ignoreTags: [
+            'gr-context-controls-section',
+            'gr-diff-section',
+            'gr-diff-row',
+            'gr-diff-text',
+            'gr-legacy-text',
+            'slot',
+          ],
         }
       );
     };
@@ -1893,13 +3178,17 @@ suite('gr-diff tests', () => {
               <table class="selected-right" id="diffTable">
                 <colgroup>
                   <col class="blame gr-diff" />
-                  <col width="48" />
-                  <col width="48" />
-                  <col />
+                  <col class="gr-diff" width="48" />
+                  <col class="gr-diff" width="48" />
+                  <col class="gr-diff" />
                 </colgroup>
                 <tbody class="binary-diff gr-diff"></tbody>
                 <tbody class="binary-diff gr-diff">
-                  <tr class="both diff-row gr-diff unified" tabindex="-1">
+                  <tr
+                    aria-labelledby="left-button-FILE right-button-FILE right-content-FILE"
+                    class="both diff-row gr-diff unified"
+                    tabindex="-1"
+                  >
                     <td class="blame gr-diff" data-line-number="FILE"></td>
                     <td class="gr-diff left lineNum" data-value="FILE">
                       <button

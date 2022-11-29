@@ -77,17 +77,17 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     colgroup.appendChild(col);
 
     // Add left-side line number.
-    col = document.createElement('col');
+    col = createElementDiff('col');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add right-side line number.
-    col = document.createElement('col');
+    col = createElementDiff('col');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add the content.
-    colgroup.appendChild(document.createElement('col'));
+    colgroup.appendChild(createElementDiff('col'));
 
     outputEl.appendChild(colgroup);
   }
@@ -126,23 +126,22 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     // pushing browser to compute aria even for tr. This can be removed, once
     // browsers will again compute a11y label even for tr when it is focused.
     // TODO: Remove when Chrome 102 is out of date for 1 year.
-    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
-      row.setAttribute(
-        'aria-labelledby',
-        [
-          line.beforeNumber ? `left-button-${line.beforeNumber}` : '',
-          line.afterNumber ? `right-button-${line.afterNumber}` : '',
-          side === Side.LEFT && line.beforeNumber
-            ? `left-content-${line.beforeNumber}`
-            : '',
-          side === Side.RIGHT && line.afterNumber
-            ? `right-content-${line.afterNumber}`
-            : '',
-        ]
-          .join(' ')
-          .trim()
-      );
-    }
+    row.setAttribute(
+      'aria-labelledby',
+      [
+        line.beforeNumber ? `left-button-${line.beforeNumber}` : '',
+        side === Side.LEFT && line.beforeNumber
+          ? `left-content-${line.beforeNumber}`
+          : '',
+        line.afterNumber ? `right-button-${line.afterNumber}` : '',
+        side === Side.RIGHT && line.afterNumber
+          ? `right-content-${line.afterNumber}`
+          : '',
+      ]
+        .filter(id => !!id)
+        .join(' ')
+        .trim()
+    );
     row.appendChild(this.createTextEl(lineNumberEl, line, side));
     return row;
   }

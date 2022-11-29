@@ -139,11 +139,16 @@ export class GrDiffRow extends LitElement {
         left-type=${this.left.type}
         right-type=${this.right.type}
         tabindex="-1"
+        aria-labelledby=${`${this.lineNumberId(Side.LEFT)} ${this.contentId(
+          Side.LEFT
+        )} ${this.lineNumberId(Side.RIGHT)} ${this.contentId(
+          Side.RIGHT
+        )}`.trim()}
       >
         ${this.renderBlameCell()} ${this.renderLineNumberCell(Side.LEFT)}
-        ${this.renderContentCell(Side.LEFT)}
+        ${this.renderSignCell(Side.LEFT)} ${this.renderContentCell(Side.LEFT)}
         ${this.renderLineNumberCell(Side.RIGHT)}
-        ${this.renderContentCell(Side.RIGHT)}
+        ${this.renderSignCell(Side.RIGHT)} ${this.renderContentCell(Side.RIGHT)}
       </tr>
     `;
     if (this.addTableWrapperForTesting) {
@@ -152,6 +157,18 @@ export class GrDiffRow extends LitElement {
       </table>`;
     }
     return row;
+  }
+
+  private lineNumberId(side: Side): string {
+    const lineNumber = this.lineNumber(side);
+    if (!lineNumber) return '';
+    return `${side}-button-${lineNumber}`;
+  }
+
+  private contentId(side: Side): string {
+    const lineNumber = this.lineNumber(side);
+    if (!lineNumber) return '';
+    return `${side}-content-${lineNumber}`;
   }
 
   getTableRow(): HTMLTableRowElement | undefined {
@@ -216,15 +233,12 @@ export class GrDiffRow extends LitElement {
   private renderLineNumberCell(side: Side): TemplateResult {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (
-      !line ||
-      !lineNumber ||
-      line.type === GrDiffLineType.BLANK ||
-      this.layersApplied
-    ) {
+    const isBlank = line?.type === GrDiffLineType.BLANK;
+    if (!line || !lineNumber || isBlank || this.layersApplied) {
+      const blankClass = isBlank ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
-        class=${diffClasses(side)}
+        class=${diffClasses(side, blankClass)}
       ></td>`;
     }
 
@@ -248,6 +262,7 @@ export class GrDiffRow extends LitElement {
     // prettier-ignore
     return html`
       <button
+        id=${this.lineNumberId(side)}
         class=${diffClasses('lineNumButton', side)}
         tabindex="-1"
         data-value=${lineNumber}
@@ -278,7 +293,7 @@ export class GrDiffRow extends LitElement {
         return `${lineNumber} added`;
       case GrDiffLineType.BOTH:
       case GrDiffLineType.BLANK:
-        return undefined;
+        return `${lineNumber} unmodified`;
     }
   }
 
@@ -309,14 +324,24 @@ export class GrDiffRow extends LitElement {
     `;
   }
 
+  private renderSignCell(side: Side) {
+    const line = this.line(side);
+    assertIsDefined(line, 'line');
+    const isBlank = line.type === GrDiffLineType.BLANK;
+    const isAdd = line.type === GrDiffLineType.ADD && side === Side.RIGHT;
+    const isRemove = line.type === GrDiffLineType.REMOVE && side === Side.LEFT;
+    const extras: string[] = ['sign', side];
+    if (isBlank) extras.push('blank');
+    if (isAdd) extras.push('add');
+    if (isRemove) extras.push('remove');
+    if (!line.hasIntralineInfo) extras.push('no-intraline-info');
+
+    const sign = isAdd ? '+' : isRemove ? '-' : '';
+    return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
+  }
+
   private renderThreadGroup(side: Side, lineNumber?: LineNumber) {
     if (!lineNumber) return;
-    // TODO: For the LOST line number the convention is that a <tr> will always
-    // be rendered, but it will not be visible, because of all cells being
-    // empty. For this to work with lit-based rendering we may only render a
-    // thread-group and a <slot> when there is a thread using that slot. The
-    // cleanest solution for that is probably introducing a gr-diff-model, where
-    // each diff row can look up or observe comment threads.
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<div class="thread-group" data-side=${side}><slot name="${side}-${lineNumber}"></slot></div>`;
@@ -365,9 +390,9 @@ export class GrDiffRow extends LitElement {
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<div
-        class=${diffClasses('contentText', side)}
-        .ariaLabel=${line?.text ?? ''}
+        class=${diffClasses('contentText')}
         data-side=${ifDefined(side)}
+        id=${this.contentId(side)}
       >${textElement}</div>`;
   }
 }

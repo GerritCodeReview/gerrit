@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7ffd69_bc2236e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "The dialog does not look like other Gerrit dialogs. It does look more modern, but I think I would prefer consistency.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552be68f_3ac9b456",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "The installer could also expose a `shouldShowPrompt$` observable.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3ef00d_88ade659",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "Add a comment explaining why you chose 150.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4f511b_e2248244",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "Can you try using shared modal styles?",
+      "range": {
+        "startLine": 376,
+        "startChar": 9,
+        "endLine": 377,
+        "endChar": 46
+      },
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17f09992_936e168c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "The css and the render method are too large to keep them in gr-app-element. Move to separate file.",
+      "range": {
+        "startLine": 368,
+        "startChar": 7,
+        "endLine": 402,
+        "endChar": 9
+      },
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05dcf66_1cb8ded0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "Maybe try using \u003cdialog\u003e and \u003cgr-dialog\u003e.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31df5566_a5def4e1",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "Add documentation.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36881a92_e5fd1a2f",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T06:50:15Z",
+      "side": 1,
+      "message": "Add a comment explaining how this is different from `state.initialized`.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

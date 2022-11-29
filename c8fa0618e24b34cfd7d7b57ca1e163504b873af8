@@ -16,6 +16,24 @@
       "message": "Should this be mocked out in the test-app-context-init?",
       "revId": "c8fa0618e24b34cfd7d7b57ca1e163504b873af8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea5ab71f_10fd890b",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T13:20:21Z",
+      "side": 1,
+      "message": "I tested gr-app and gr-notifications-prompt and they are good. service worker without setting register service worker, and right preferences is noop.",
+      "parentUuid": "884dcf3f_f9585000",
+      "revId": "c8fa0618e24b34cfd7d7b57ca1e163504b873af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

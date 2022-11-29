@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7957e398_6d69ed12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "general point: shall we ban posting votes on any non-latest patchset? is there a reason or blocker for not doing so?\n\nthe only use case that crosses my mind is, if I post a review to latest PS, and meanwhile a new PS is being uploaded and happens first. What if we fail this \u0027post review\u0027 request and ask the user to re-attempt posting the review to the latest PS?\n\n[this is optional and out of scope of this change, I\u0027m only bringing to attention. Please feel free to resolve]",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c5a0a13_9291ac2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "Another general comment: can we make it clear if, in all cases, we are generating a new change message?\n\nIf that\u0027s not the case, can we make it clear which case has an exception? (i.e. reuses the same change message)",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6603ba7d_f7bca5e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "do you mean the smaller patchset? (the remaining sentences - vote on PS1 is change, L34 - convey this). This contradicts with L10 which suggests that \u0027follow-up\u0027 patchsets are the newer patchsets.\n\nmaybe we could change the terms here. \"follow-up\" gives the impression it\u0027s the larger patchset. Not sure if \"source\" and \"target\" patchsets are clearer. Otherwise, we can clarify the \"follow-up patchset\" meaning at the beginning of the commit message, e.g.:\n\n  * follow-up patchset: the older patchset at which a vote is applied\n  * target patchset: the newer patchset to which the vote is forward-copied from the follow-up patchset.",
+      "range": {
+        "startLine": 32,
+        "startChar": 42,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2b44ee0_6435d93c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "nit: changed.",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d827e95_eb26459f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "bonus: what happens if the user removed the vote on PS2? does the server reattempt the copying later?",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c83d3d_84b59435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "what do you think about mentioning the src patchset, i.e.\n\n\"\u003clabel-vote\u003e has been copied from patchset 2 to patchsets: 3, 4 ...\"\n\nMinor point: also we agreed before to name them \"patchsets\" not \"patch sets\". Can we fix it?",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "565012ca_8757f34f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "Logic LGTM. Left some minor comments on the change message mostly to clarify the terms.",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33ab28e4_dfbd8607",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:43:15Z",
+      "side": 1,
+      "message": "same as in commit message: can we clarify this term? Also, isn\u0027t the label vote performed on the older patchset, then propagated to follow-up patchsets? the javadocs here suggest that the vote is applied to the newer patchsets.",
+      "range": {
+        "startLine": 104,
+        "startChar": 60,
+        "endLine": 104,
+        "endChar": 69
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

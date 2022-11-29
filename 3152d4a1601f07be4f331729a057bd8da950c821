@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6013c090_c77384a1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T13:24:18Z",
+      "side": 1,
+      "message": "If you\u0027re going for a dumb component, why not pass in the \u0027isUnifiedDiff\" boolean rather than a view-mode, it removes the need for a method around it.",
+      "parentUuid": "09d01e53_54ddca1e",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a22035e0_53afa5e2",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
         "patchSetId": 8

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2d7948d_e9e5cc3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T11:40:01Z",
+      "side": 1,
+      "message": "I\u0027ll counter this. If we always require consistency, we\u0027ll never make forward progress towards a more modern UI.",
+      "parentUuid": "cc7ffd69_bc2236e5",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "552be68f_3ac9b456",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

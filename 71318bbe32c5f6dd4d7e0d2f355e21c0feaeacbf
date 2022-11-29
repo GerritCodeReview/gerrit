@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e4a16b7_786c6585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:13:59Z",
+      "side": 1,
+      "message": "Awesome! commit message is now much easier to understand. Thanks for reworking it!",
+      "parentUuid": "9fffb7cc_c41cbe4c",
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f495419e_d4e3765b",
@@ -167,6 +185,30 @@
       "side": 1,
       "message": "No, PostReviewCopyApprovalsOp is not about copying approvals from a previous patch set to the current patch set. This is done when a new patch set is created and not during PostReview. What is meant here, when an approval is applied on an outdated/non-current patch set, then we copy that approval to the follow-up patch sets if copyable. E.g. if you have a change with 4 patch sets, and an approval is added on patch set 2, then we try to copy that approval to the follow-up patch sets 3 and 4.\n\nI rephrased this to make this clearer.",
       "parentUuid": "27b1b9b6_8a69fde9",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cff1594_93078f0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T10:13:59Z",
+      "side": 1,
+      "message": "Ah, got that. Thanks for explaining.",
+      "parentUuid": "165212bd_ebba69c2",
       "range": {
         "startLine": 11,
         "startChar": 26,

@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c170eed6_2d3184e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "I have some suggestions to make the commit message clearer to the reader: maybe state that PostReview executes the following ops in order: (enumerate all ops - if the order of execution doesn\u0027t matter, we can also mention it in the commit message)\n  1) PostReviewOp - which does A, B (e.g. adds approvals, posts the change message)\n  2) PostReviewCopyApprovalsOp - which does C, D\n  \n  \nAnother thing: it seems like there is a problem we are solving with this change. We can also mention how the current code works? is there a limitation with our change message posting? it wasn\u0027t clear if this change (and follow-ups) will fix a limitation we have, or will clear a blocker for future updates? For example, given current state, how does the change message (which is generated in PostReviewOp) knows about copied approvals, given that they are computed in a different op?",
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f495419e_d4e3765b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "typo? did you mean \"adds updated approvals\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f78066b_1ca99621",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "should be dropped?",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b1b9b6_8a69fde9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be: \"copies approvals from previous patchsets to current patchset, if they are copyable\"? Am I missing something?",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "254afd64_b5d0ec04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part, because copied approvals are the approvals attached to previous patchsets, so the logic can be processed without knowledge of the current post-review approvals? \n\nHow is this dependent on approvals posted with the current review?\n\nUpdate: answer is in next statement: I think because it affects the change message, which is both updated by current review + copied approvals?",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46f461f5_0a9e0132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "do we need to submit all changes in a topic? i.e. if only this change is submitted will the logic be broken?\n\nIf so, please mention in the commit message.",
+      "range": {
+        "startLine": 24,
+        "startChar": 42,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26c0f66f_27428f29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-11-29T08:34:27Z",
+      "side": 1,
+      "message": "Nice! Change looks good to me. Left minor comments on the commit message to make it clearer for the reader.",
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

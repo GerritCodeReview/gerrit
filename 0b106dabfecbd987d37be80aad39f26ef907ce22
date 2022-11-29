@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this viewMode be reflected to renderPrefs regardless of whether it is lit or not?",
       "revId": "0b106dabfecbd987d37be80aad39f26ef907ce22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b4386e_56666914",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T14:24:35Z",
+      "side": 1,
+      "message": "It does not matter much, because the viewMode is only used in the lit based diff builders and the legacy ones are removed soon. But moved it outside the if statement.",
+      "parentUuid": "0babe942_5586c3c7",
+      "revId": "0b106dabfecbd987d37be80aad39f26ef907ce22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

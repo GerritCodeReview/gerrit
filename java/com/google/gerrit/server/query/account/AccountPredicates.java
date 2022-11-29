@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.account;
 
+import static com.google.gerrit.server.index.account.AccountField.USERNAME_SPEC;
+
+import com.google.common.base.Ascii;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
@@ -59,7 +62,9 @@ public class AccountPredicates {
         }
       }
     }
-    preds.add(username(query));
+    if (schema.hasField(USERNAME_SPEC)) {
+      preds.add(username(query));
+    }
     // Adapt the capacity of the "predicates" list when adding more default
     // predicates.
     return Predicate.or(preds);
@@ -76,14 +81,14 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> emailIncludingSecondaryEmails(String email) {
     return new AccountPredicate(
-        AccountField.EMAIL_SPEC, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
+        AccountField.EMAIL_SPEC, AccountQueryBuilder.FIELD_EMAIL, Ascii.toLowerCase(email));
   }
 
   public static Predicate<AccountState> preferredEmail(String email) {
     return new AccountPredicate(
         AccountField.PREFERRED_EMAIL_LOWER_CASE_SPEC,
         AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
-        email.toLowerCase());
+        Ascii.toLowerCase(email));
   }
 
   public static Predicate<AccountState> preferredEmailExact(String email) {
@@ -95,14 +100,14 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> equalsNameIncludingSecondaryEmails(String name) {
     return new AccountPredicate(
-        AccountField.NAME_PART_SPEC, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
+        AccountField.NAME_PART_SPEC, AccountQueryBuilder.FIELD_NAME, Ascii.toLowerCase(name));
   }
 
   public static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART_NO_SECONDARY_EMAIL_SPEC,
         AccountQueryBuilder.FIELD_NAME,
-        name.toLowerCase());
+        Ascii.toLowerCase(name));
   }
 
   public static Predicate<AccountState> externalIdIncludingSecondaryEmails(String externalId) {
@@ -123,7 +128,7 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
-        AccountField.USERNAME_SPEC, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
+        USERNAME_SPEC, AccountQueryBuilder.FIELD_USERNAME, Ascii.toLowerCase(username));
   }
 
   public static Predicate<AccountState> watchedProject(Project.NameKey project) {

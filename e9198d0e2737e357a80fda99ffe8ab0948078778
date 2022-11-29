@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78af125f_fdc169bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "It\u0027s not dialog, so maybe it\u0027s good that there is less consistency. It doesn\u0027t have backdrop, it\u0027s not centered, it\u0027s prompt or notifications in top right corner. I would like to try it under feature flag as it is now. I tried to combine our dialog UI (for consistency) with gmail prompt UI and this is result.",
+      "parentUuid": "c2d7948d_e9e5cc3f",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "552be68f_3ac9b456",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-11-29T06:50:15Z",
       "side": 1,
       "message": "The installer could also expose a `shouldShowPrompt$` observable.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d476420_a9f6a2f3",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "552be68f_3ac9b456",
       "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c6c0a9_2c9da577",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3ef00d_88ade659",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba4f511b_e2248244",
@@ -83,6 +137,30 @@
       "writtenOn": "2022-11-29T06:50:15Z",
       "side": 1,
       "message": "Can you try using shared modal styles?",
+      "range": {
+        "startLine": 376,
+        "startChar": 9,
+        "endLine": 377,
+        "endChar": 46
+      },
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba3442e_1aff26a2",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "They are done for dialog only.",
+      "parentUuid": "ba4f511b_e2248244",
       "range": {
         "startLine": 376,
         "startChar": 9,
@@ -116,6 +194,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0654cd31_947a5daa",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f09992_936e168c",
+      "range": {
+        "startLine": 368,
+        "startChar": 7,
+        "endLine": 402,
+        "endChar": 9
+      },
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f05dcf66_1cb8ded0",
@@ -129,6 +231,24 @@
       "writtenOn": "2022-11-29T06:50:15Z",
       "side": 1,
       "message": "Maybe try using \u003cdialog\u003e and \u003cgr-dialog\u003e.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afca0844_88acdf55",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Dialog is centered and it may use backdrop. This is prompt that is shown in top right corner. I find simple div easier to start with. I might migrate to dialog later.",
+      "parentUuid": "f05dcf66_1cb8ded0",
       "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +270,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69992a23_33f1c033",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31df5566_a5def4e1",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36881a92_e5fd1a2f",
@@ -163,6 +301,24 @@
       "writtenOn": "2022-11-29T06:50:15Z",
       "side": 1,
       "message": "Add a comment explaining how this is different from `state.initialized`.",
+      "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e0c1de_0261a371",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-11-29T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36881a92_e5fd1a2f",
       "revId": "e9198d0e2737e357a80fda99ffe8ab0948078778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

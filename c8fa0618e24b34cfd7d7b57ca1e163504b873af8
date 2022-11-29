@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884dcf3f_f9585000",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T12:27:26Z",
+      "side": 1,
+      "message": "Should this be mocked out in the test-app-context-init?",
+      "revId": "c8fa0618e24b34cfd7d7b57ca1e163504b873af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

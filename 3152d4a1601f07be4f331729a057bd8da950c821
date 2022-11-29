@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf513ed8_ea516668",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da873f2_2ff7cf3a",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2040301_2b5acdf9",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "529880f7_9fbbb259",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Yeah, but this is overriding a superclass method. I don\u0027t want to go into the detail of updating the existing superclass methods and their signatures.",
+      "parentUuid": "b2040301_2b5acdf9",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3b54521_df5416e6",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-11-29T09:09:16Z",
       "side": 1,
       "message": "Consider moving this to a utility function:\n\n```\nprivate getClassesForSide(side: Side) {\n  return html`\n     \u003ccol class\u003d${diffClasses(side} width\u003d${lineNumberWidth}\u003e\u003c/col\u003e\n             \u003ccol class\u003d${diffClasses(side, \u0027sign\u0027)}\u003e\u003c/col\u003e\n             \u003ccol class\u003d${diffClasses(side)}\u003e\u003c/col\u003e\n             `;\n}\n```",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72fade8_0165f212",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3b54521_df5416e6",
       "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09d01e53_54ddca1e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "I had considered it, but `gr-diff-row` is meant to get its values from the outside. So I wanted to be consitent with `tabSize` and other properties. I was thinking that it would be good to design `gr-diff-row` as a \"dumb\" component, but `gr-diff-section` as a \"smart\" component that subscribes to a model and \"knows\" more about the bigger gr-diff context. WDYT?",
+      "parentUuid": "2c7cbb1a_2087345f",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a22035e0_53afa5e2",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
         "patchSetId": 8
@@ -82,6 +154,24 @@
       "writtenOn": "2022-11-29T09:09:16Z",
       "side": 1,
       "message": "this.getType? type is a typescript keyword.",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea2fef31_ec4d76a0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a22035e0_53afa5e2",
       "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cc75eec_18bac44f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be25a62_8e3b4e86",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07da087e_8f44eacf",
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6125620_569d3fd4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "07da087e_8f44eacf",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73f48149_248445bf",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-11-29T09:09:16Z",
       "side": 1,
       "message": "As mentioned before, consider passing in renderPrefs and then make a simple utitity function \"isSideBySide\" that works on a potentially undefined renderPrefs.",
+      "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "619ae628_c772b81d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73f48149_248445bf",
       "revId": "3152d4a1601f07be4f331729a057bd8da950c821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

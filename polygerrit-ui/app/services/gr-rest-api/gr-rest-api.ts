@@ -478,7 +478,8 @@ export interface RestApiService extends Finalizable {
     changesPerPage?: number,
     query?: string,
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
+    errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined>;
   getChangesForMultipleQueries(
     changesPerPage?: number,

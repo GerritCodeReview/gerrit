@@ -27,6 +27,7 @@ import {allSettled} from '../../../utils/async-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {Interaction} from '../../../constants/reporting';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 @customElement('gr-change-list-hashtag-flow')
 export class GrChangeListHashtagFlow extends LitElement {
@@ -298,7 +299,8 @@ export class GrChangeListHashtagFlow extends LitElement {
     query: string
   ): Promise<AutocompleteSuggestion[]> {
     const suggestions = await this.restApiService.getChangesWithSimilarHashtag(
-      query
+      query,
+      throwingErrorCallback
     );
     this.existingHashtagSuggestions = (suggestions ?? [])
       .flatMap(change => change.hashtags ?? [])

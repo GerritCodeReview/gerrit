@@ -11,6 +11,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import '../../shared/gr-page-nav/gr-page-nav';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-account-info/gr-account-info';
 import '../gr-agreements-list/gr-agreements-list';
 import '../gr-edit-preferences/gr-edit-preferences';
@@ -889,9 +890,17 @@ export class GrSettingsView extends LitElement {
       return nothing;
     return html`
       <section id="allowBrowserNotificationsSection">
-        <label class="title" for="allowBrowserNotifications"
-          >Allow browser notifications</label
-        >
+        <div class="title">
+          <label for="allowBrowserNotifications"
+            >Allow browser notifications</label
+          >
+          <a
+            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
+            target="_blank"
+          >
+            <gr-icon icon="help" title="read documentation"></gr-icon>
+          </a>
+        </div>
         <span class="value">
           <input
             id="allowBrowserNotifications"

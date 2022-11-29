@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e9c88da_ab9d9aab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c01fa6c4_08c4ebbc",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68c3ea54_360e3da0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "730e1016_3749f933",
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c81bfbb9_d1c598ee",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-11-29T11:21:44Z",
       "side": 1,
       "message": "what is this introduced for? it looks unused. Isn\u0027t it already a render preference?",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 11
+      },
+      "revId": "32a4af013dd90470e09ed9c953d941957f4b0fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c713fc7d_e3399ccf",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-29T12:31:22Z",
+      "side": 1,
+      "message": "This is used by the lit components. I did not want to continue passing many individual properties, but instead just one or two pref objects. At the gr-diff level this still needs to be implemented. Added a comment and a TODO.",
+      "parentUuid": "c81bfbb9_d1c598ee",
       "range": {
         "startLine": 253,
         "startChar": 2,

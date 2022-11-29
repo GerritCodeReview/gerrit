@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f249b14a_5a8ed3bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:05:01Z",
+      "side": 1,
+      "message": "Could you add a bit more details. You\u0027re not just changing the ordering but also adding it to LOST rows.",
+      "revId": "17f7df476aa69b549b40ce57d82860e4a1614293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5afa6209_44df28da",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-unified.ts",
         "patchSetId": 4
@@ -14,6 +31,24 @@
       "writtenOn": "2022-11-29T09:03:58Z",
       "side": 1,
       "message": "What about this todo?",
+      "revId": "17f7df476aa69b549b40ce57d82860e4a1614293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a8de2e_bd4e1ac0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:05:01Z",
+      "side": 1,
+      "message": "Actually, never mind. Chrome 102 is only out for half a year.",
+      "parentUuid": "5afa6209_44df28da",
       "revId": "17f7df476aa69b549b40ce57d82860e4a1614293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

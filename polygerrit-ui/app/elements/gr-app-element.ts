@@ -28,6 +28,7 @@ import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
+import './core/gr-notifications-prompt/gr-notifications-prompt';
 import {getBaseUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
@@ -366,6 +367,7 @@ export class GrAppElement extends LitElement {
       </main>
       ${this.renderFooter()} ${this.renderKeyboardShortcutsDialog()}
       ${this.renderRegistrationDialog()}
+      <gr-notifications-prompt></gr-notifications-prompt>
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
       <gr-error-manager
         id="errorManager"

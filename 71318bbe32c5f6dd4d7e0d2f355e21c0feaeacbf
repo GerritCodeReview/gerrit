@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fffb7cc_c41cbe4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ve incorporated this feedback into the commit message now. PTAL.",
+      "parentUuid": "c170eed6_2d3184e4",
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f495419e_d4e3765b",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc76a8d_afd2330d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "Done. I initially wrote \"adds approvals\" but then intended to change it to \"updates approvals\".",
+      "parentUuid": "f495419e_d4e3765b",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f78066b_1ca99621",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-11-29T08:34:27Z",
       "side": 1,
       "message": "should be dropped?",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee4729a7_2d1cec13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f78066b_1ca99621",
       "range": {
         "startLine": 10,
         "startChar": 9,
@@ -89,6 +155,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "165212bd_ebba69c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "No, PostReviewCopyApprovalsOp is not about copying approvals from a previous patch set to the current patch set. This is done when a new patch set is created and not during PostReview. What is meant here, when an approval is applied on an outdated/non-current patch set, then we copy that approval to the follow-up patch sets if copyable. E.g. if you have a change with 4 patch sets, and an approval is added on patch set 2, then we try to copy that approval to the follow-up patch sets 3 and 4.\n\nI rephrased this to make this clearer.",
+      "parentUuid": "27b1b9b6_8a69fde9",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "254afd64_b5d0ec04",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -100,6 +190,30 @@
       "writtenOn": "2022-11-29T08:34:27Z",
       "side": 1,
       "message": "I don\u0027t understand this part, because copied approvals are the approvals attached to previous patchsets, so the logic can be processed without knowledge of the current post-review approvals? \n\nHow is this dependent on approvals posted with the current review?\n\nUpdate: answer is in next statement: I think because it affects the change message, which is both updated by current review + copied approvals?",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5068141_c4b2f351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "Also see my reply to your previous comment. This is about forward copying of approvals that are applied on outdated patch sets.\n\nI reworked the commit message to make the dependencies clearer.",
+      "parentUuid": "254afd64_b5d0ec04",
       "range": {
         "startLine": 12,
         "startChar": 35,
@@ -123,6 +237,30 @@
       "writtenOn": "2022-11-29T08:34:27Z",
       "side": 1,
       "message": "do we need to submit all changes in a topic? i.e. if only this change is submitted will the logic be broken?\n\nIf so, please mention in the commit message.",
+      "range": {
+        "startLine": 24,
+        "startChar": 42,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "71318bbe32c5f6dd4d7e0d2f355e21c0feaeacbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d84963_31a887aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T09:30:02Z",
+      "side": 1,
+      "message": "\u003e do we need to submit all changes in a topic?\n\nNo, this is a pure refactoring which doesn\u0027t change any behaviour. So submitting it on its own is fine.\n\n\u003e i.e. if only this change is submitted will the logic be broken?\n\nNo, nothing gets broken.\n\nI clarified this in the commit message and marked the whole change as a refactoring in the commit subject line.",
+      "parentUuid": "46f461f5_0a9e0132",
       "range": {
         "startLine": 24,
         "startChar": 42,

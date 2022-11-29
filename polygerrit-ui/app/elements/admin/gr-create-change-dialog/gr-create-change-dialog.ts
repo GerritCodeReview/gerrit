@@ -29,6 +29,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -241,7 +242,13 @@ export class GrCreateChangeDialog extends LitElement {
       input = input.substring(REF_PREFIX.length);
     }
     return this.restApiService
-      .getRepoBranches(input, this.repoName, SUGGESTIONS_LIMIT)
+      .getRepoBranches(
+        input,
+        this.repoName,
+        SUGGESTIONS_LIMIT,
+        /* offset=*/ undefined,
+        throwingErrorCallback
+      )
       .then(response => {
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];

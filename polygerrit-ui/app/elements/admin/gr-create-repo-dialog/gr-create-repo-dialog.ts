@@ -23,6 +23,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -204,7 +205,11 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private async getRepoSuggestions(input: string) {
-    const response = await this.restApiService.getSuggestedRepos(input);
+    const response = await this.restApiService.getSuggestedRepos(
+      input,
+      /* n=*/ undefined,
+      throwingErrorCallback
+    );
 
     const repos = [];
     for (const [name, repo] of Object.entries(response ?? {})) {
@@ -214,7 +219,12 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private async getGroupSuggestions(input: string) {
-    const response = await this.restApiService.getSuggestedGroups(input);
+    const response = await this.restApiService.getSuggestedGroups(
+      input,
+      /* project=*/ undefined,
+      /* n=*/ undefined,
+      throwingErrorCallback
+    );
 
     const groups = [];
     for (const [name, group] of Object.entries(response ?? {})) {

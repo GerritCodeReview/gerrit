@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737210b3_10860ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m not sure I fully understand what you mean. PostReview always posts a new change message if votes are updated (existing behaviour). With this change we extend this change message if a vote an on outdated patch sets is copied forward to follow-up patch sets. There is never a second new change message, nor any exceptions. I hope this is clearer now with the rewritten commit message?",
+      "parentUuid": "0c5a0a13_9291ac2c",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b92270_c88d5e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "\u003e general point: shall we ban posting votes on any non-latest patchset\n\u003e is there a reason or blocker for not doing so?\n\nNo. See commit message of this change [1] and the comment at b/230442415#comment4. The use case that should be supported is this:\n\n1. CI verifies PS1\n2. While the CI runs, the commit message is updated and PS2 is created\n3. CI votes on PS1\n4. vote is copied to PS2 (since the code did not change there is no need to rerun the CI on PS2)\n\nWithout 4. the CI unnecessarily needs to rerun the verification on PS2, as it cannot know that the results of verifying PS1 are still valid for PS2.\n\n\u003e the only use case that crosses my mind is, if I post a review to latest PS,\n\u003e and meanwhile a new PS is being uploaded and happens first. What if we fail\n\u003e this \u0027post review\u0027 request and ask the user to re-attempt posting the review\n\u003e to the latest PS?\n\nWhy bother the user in this case if we can just copy their approval automatically (if approval copying is enabled)?\n\nFailing the request is bad for automated callers like CI systems, because then every CI system has to learn what this error means and how to deal with it.\n\nIn the past approvals were copied on the fly (at the moment when approvals for a change were requested), with this an approval that was posted on an outdated patch set was showing up on the follow-up patch sets. We broke this when we started to persist copied votes (approvals on outdated patch sets were just ignored) and our stakeholders complained about this. [1] fixed this.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/337968",
+      "parentUuid": "7957e398_6d69ed12",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6603ba7d_f7bca5e5",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-11-29T10:43:15Z",
       "side": 1,
       "message": "do you mean the smaller patchset? (the remaining sentences - vote on PS1 is change, L34 - convey this). This contradicts with L10 which suggests that \u0027follow-up\u0027 patchsets are the newer patchsets.\n\nmaybe we could change the terms here. \"follow-up\" gives the impression it\u0027s the larger patchset. Not sure if \"source\" and \"target\" patchsets are clearer. Otherwise, we can clarify the \"follow-up patchset\" meaning at the beginning of the commit message, e.g.:\n\n  * follow-up patchset: the older patchset at which a vote is applied\n  * target patchset: the newer patchset to which the vote is forward-copied from the follow-up patchset.",
+      "range": {
+        "startLine": 32,
+        "startChar": 42,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ffffe3c_933204d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "\u003e do you mean the smaller patchset? \n\nNo. The user changes/removes a vote on an outdated patch set (smaller patch set). As consequence of this we remove the copied votes on the follow-up patch sets (larger patch sets). The intention of this change is to inform the user about the updates that we do on the follow-up patch sets (e.g. removal of the copied vote from the follow-up patch set in this case). Note that the change message already contains the information about the user action (removal of the vote from the outdated patch set), so this information is already there.\n\n\u003e \"follow-up\" gives the impression it\u0027s the larger patchset.\n\nExactly, this is what we want to convey with this term. An approval is applied on an (outdated) patch set and then it is copied to the follow-up patch sets (all patch sets larger then the patch set on which the approval was applied). So the term follow-up patch set seems fine? Changing this term is out-of-scope for this change as it is already used in the existing code and the new code just sticks to this term to be consistent. So if we want to change this, this should be a separate change.\n\n\u003e Otherwise, we can clarify the \"follow-up patchset\" meaning at the beginning\n\u003e of the commit message\n\nGood idea. Done.\n\n\u003e follow-up patchset: the older patchset at which a vote is applied\n\u003e target patchset: the newer patchset to which the vote is forward-copied\n\u003e from the follow-up patchset.\n\nThe terms are:\n1. outdated patch set: non-current patch set on which the vote is applied\n2. follow-up patch sets: all patch sets that are newer than the outdated patch set\n\nI hope this is clearer with the rewritten commit message now?",
+      "parentUuid": "6603ba7d_f7bca5e5",
       "range": {
         "startLine": 32,
         "startChar": 42,
@@ -104,6 +164,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44951c2e_d744a811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "No, if the copied approval has been removed by the user we record an explicit approval deletion in NoteDb and approval copying is not re-attempted, see commit message of [1].\n\nAdded a note about this.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/337968",
+      "parentUuid": "0d827e95_eb26459f",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b7fb82_c0b8cfd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2b44ee0_6435d93c",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c83d3d_84b59435",
@@ -117,6 +225,24 @@
       "writtenOn": "2022-11-29T10:43:15Z",
       "side": 1,
       "message": "what do you think about mentioning the src patchset, i.e.\n\n\"\u003clabel-vote\u003e has been copied from patchset 2 to patchsets: 3, 4 ...\"\n\nMinor point: also we agreed before to name them \"patchsets\" not \"patch sets\". Can we fix it?",
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9cf864_84f8e23b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "The source patch set is already part of the change message, e.g. \"Patch Set 1: Code-Review+2\". Clarified this in the commit message.\n\n\u003e Minor point: also we agreed before to name them \"patchsets\" not \"patch sets\".\n\u003e Can we fix it?\n\nI\u0027m not aware that we agreed on this? Looking at the existing code it seems we do use \"patch set\" in other change messages:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/change/CherryPickChange.java#398",
+      "parentUuid": "e0c83d3d_84b59435",
       "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -151,6 +277,30 @@
       "writtenOn": "2022-11-29T10:43:15Z",
       "side": 1,
       "message": "same as in commit message: can we clarify this term? Also, isn\u0027t the label vote performed on the older patchset, then propagated to follow-up patchsets? the javadocs here suggest that the vote is applied to the newer patchsets.",
+      "range": {
+        "startLine": 104,
+        "startChar": 60,
+        "endLine": 104,
+        "endChar": 69
+      },
+      "revId": "3634cc2e3163eb0edc3bfcfac29b4e5d8111a806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c12534_7f2281b4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-11-29T12:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33ab28e4_dfbd8607",
       "range": {
         "startLine": 104,
         "startChar": 60,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5afa6209_44df28da",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-11-29T09:03:58Z",
+      "side": 1,
+      "message": "What about this todo?",
+      "revId": "17f7df476aa69b549b40ce57d82860e4a1614293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

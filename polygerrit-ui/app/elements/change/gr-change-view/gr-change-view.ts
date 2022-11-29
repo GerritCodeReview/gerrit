@@ -1377,6 +1377,12 @@ export class GrChangeView extends base {
     // 2. We have to somehow trigger the change-model reloading. Otherwise
     //    this._change is not updated.
     if (this._changeNum) {
+      if (!this._patchRange?.patchNum) {
+        this._patchRange = {
+          basePatchNum: ParentPatchSetNum,
+          patchNum: computeLatestPatchNum(this._allPatchSets),
+        };
+      }
       fireReload(this);
       return;
     }

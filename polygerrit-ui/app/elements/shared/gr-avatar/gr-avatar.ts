@@ -25,6 +25,14 @@ export class GrAvatar extends LitElement {
 
   @state() private hasAvatars = false;
 
+  // In gr-app, gr-account-chip is in charge of loading a full account, so
+  // avatars will be set. However, code-owners will create gr-avatars with a
+  // bare account-id. To enable fetching of those avatars, a flag is added to
+  // gr-avatar that will disregard the absence of avatar urls.
+
+  @property({type: Boolean})
+  forceFetch = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -90,7 +98,7 @@ export class GrAvatar extends LitElement {
     const avatars = account.avatars || [];
     // if there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.
-    if (avatars.length === 0) {
+    if (avatars.length === 0 && !this.forceFetch) {
       return '';
     }
     for (let i = 0; i < avatars.length; i++) {

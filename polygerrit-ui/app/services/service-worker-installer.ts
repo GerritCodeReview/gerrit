@@ -126,14 +126,14 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     };
   }
 
-  private shouldShowPrompt(): boolean {
+  // private, used in test
+  shouldShowPrompt(): boolean {
     if (!this.initialized) return false;
-    if (this.isPermitted(Notification.permission)) return false;
     if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
       return false;
     }
     if (!this.areNotificationsEnabled()) return false;
-    return true;
+    return Notification.permission === 'default';
   }
 
   public async requestPermission() {

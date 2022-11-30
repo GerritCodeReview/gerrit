@@ -18,15 +18,22 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Streams;
+import com.google.common.collect.Table.Cell;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
@@ -55,6 +62,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -93,9 +101,85 @@ public class PostReviewOp implements BatchUpdateOp {
     PostReviewOp create(ProjectState projectState, PatchSet.Id psId, ReviewInput in);
   }
 
+  /**
+   * Update of a copied label that has been performed on a follow-up patch set after a vote has been
+   * applied on an outdated patch set (follow-up patch sets = all patch sets that are newer than the
+   * outdated patch set on which the user voted).
+   */
+  @AutoValue
+  abstract static class CopiedLabelUpdate {
+    /**
+     * Type of the update that has been performed for a copied vote on a follow-up patch set.
+     *
+     * <p>Whether the copied vote has been added
+     *
+     * <ul>
+     *   <li>added to
+     *   <li>updated on
+     *   <li>removed from
+     * </ul>
+     *
+     * a follow-up patch set.
+     */
+    enum Type {
+      /** A copied vote was added. No copied vote existed for this label yet. */
+      ADDED,
+
+      /** An existing copied vote has been updated. */
+      UPDATED,
+
+      /** An existing copied vote has been removed. */
+      REMOVED;
+    }
+
+    /** The ID of the (follow-up) patch set on which the copied label update has been performed. */
+    abstract PatchSet.Id patchSetId();
+
+    /**
+     * The old copied label vote that has been updated or that has been removed.
+     *
+     * <p>Not set if {@link #type()} is {@link Type#ADDED}.
+     */
+    abstract Optional<LabelVote> oldLabelVote();
+
+    /**
+     * The type of the update that has been performed for the copied vote on the (follow-up) patch
+     * set.
+     */
+    abstract Type type();
+
+    /** Returns a string with the patch set number and if present the old label vote. */
+    private String formatPatchSetWithOldLabelVote() {
+      StringBuilder b = new StringBuilder();
+      b.append(patchSetId().get());
+      if (oldLabelVote().isPresent()) {
+        b.append(" (was ").append(oldLabelVote().get().format()).append(")");
+      }
+      return b.toString();
+    }
+
+    private static CopiedLabelUpdate added(PatchSet.Id patchSetId) {
+      return create(patchSetId, Optional.empty(), Type.ADDED);
+    }
+
+    private static CopiedLabelUpdate updated(PatchSet.Id patchSetId, LabelVote oldLabelVote) {
+      return create(patchSetId, Optional.of(oldLabelVote), Type.UPDATED);
+    }
+
+    private static CopiedLabelUpdate removed(PatchSet.Id patchSetId, LabelVote oldLabelVote) {
+      return create(patchSetId, Optional.of(oldLabelVote), Type.REMOVED);
+    }
+
+    private static CopiedLabelUpdate create(
+        PatchSet.Id patchSetId, Optional<LabelVote> oldLabelVote, Type type) {
+      return new AutoValue_PostReviewOp_CopiedLabelUpdate(patchSetId, oldLabelVote, type);
+    }
+  }
+
   @VisibleForTesting
   public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
 
+  private final ApprovalCopier approvalCopier;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
@@ -117,12 +201,15 @@ public class PostReviewOp implements BatchUpdateOp {
   private String mailMessage;
   private List<Comment> comments = new ArrayList<>();
   private List<LabelVote> labelDelta = new ArrayList<>();
+  private SortedSetMultimap<LabelVote, CopiedLabelUpdate> labelUpdatesOnFollowUpPatchSets =
+      MultimapBuilder.hashKeys().treeSetValues(comparing(CopiedLabelUpdate::patchSetId)).build();
   private Map<String, Short> approvals = new HashMap<>();
   private Map<String, Short> oldApprovals = new HashMap<>();
 
   @Inject
   PostReviewOp(
       @GerritServerConfig Config gerritConfig,
+      ApprovalCopier approvalCopier,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
@@ -135,6 +222,7 @@ public class PostReviewOp implements BatchUpdateOp {
       @Assisted ProjectState projectState,
       @Assisted PatchSet.Id psId,
       @Assisted ReviewInput in) {
+    this.approvalCopier = approvalCopier;
     this.approvalsUtil = approvalsUtil;
     this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
@@ -170,6 +258,9 @@ public class PostReviewOp implements BatchUpdateOp {
     }
     try (TraceContext.TraceTimer ignored = newTimer("updateLabels")) {
       dirty |= updateLabels(projectState, ctx);
+    }
+    try (TraceContext.TraceTimer ignored = newTimer("updateCopiedApprovals")) {
+      dirty |= updateCopiedApprovalsOnFollowUpPatchSets(ctx);
     }
     try (TraceContext.TraceTimer ignored = newTimer("insertMessage")) {
       dirty |= insertMessage(ctx);
@@ -705,6 +796,204 @@ public class PostReviewOp implements BatchUpdateOp {
     return current;
   }
 
+  /**
+   * Copies approvals that have been newly applied on outdated patch sets to the follow-up patch
+   * sets if they are copyable and no non-copied approvals prevent the copying.
+   *
+   * <p>Must be invoked after the new approvals on outdated patch sets have been applied (e.g. after
+   * {@link #updateLabels(ProjectState, ChangeContext)}.
+   *
+   * @param ctx the change context
+   * @return {@code true} if an update was done, otherwise {@code false}
+   */
+  private boolean updateCopiedApprovalsOnFollowUpPatchSets(ChangeContext ctx) throws IOException {
+    if (ctx.getNotes().getCurrentPatchSet().id().equals(psId)) {
+      // the updated patch set is the current patch, there a no follow-up patch set to which new
+      // approvals could be copied
+      return false;
+    }
+
+    // compute follow-up patch sets (sorted by patch set ID)
+    ImmutableList<PatchSet.Id> followUpPatchSets =
+        ctx.getNotes().getPatchSets().keySet().stream()
+            .filter(patchSetId -> patchSetId.get() > psId.get())
+            .collect(toImmutableList());
+
+    boolean dirty = false;
+    ImmutableTable<String, Account.Id, Optional<PatchSetApproval>> newApprovals =
+        ctx.getUpdate(psId).getApprovals();
+    for (Cell<String, Account.Id, Optional<PatchSetApproval>> cell : newApprovals.cellSet()) {
+      PatchSetApproval psaOrig = cell.getValue().get();
+
+      if (isRemoval(cell)) {
+        if (removeCopies(ctx, followUpPatchSets, psaOrig)) {
+          dirty = true;
+        }
+        continue;
+      }
+
+      PatchSet patchSet = psUtil.get(ctx.getNotes(), psId);
+
+      // Target patch sets to which the approval is copyable.
+      ImmutableList<PatchSet.Id> targetPatchSets =
+          approvalCopier.forApproval(
+              ctx.getNotes(), patchSet, psaOrig.accountId(), psaOrig.label(), psaOrig.value());
+
+      // Iterate over all follow-up patch sets, in patch set order.
+      for (PatchSet.Id followUpPatchSetId : followUpPatchSets) {
+        if (hasOverrideOf(ctx, followUpPatchSetId, psaOrig.key())) {
+          // a non-copied approval exists that overrides any copied approval
+          // -> do not copy the approval to this patch set nor to any follow-up patch sets
+          break;
+        }
+
+        if (targetPatchSets.contains(followUpPatchSetId)) {
+          // The approval is copyable to the new patch set.
+
+          if (hasCopyOfWithValue(ctx, followUpPatchSetId, psaOrig)) {
+            // a copy approval with the exact value already exists
+            continue;
+          }
+
+          // add/update the copied approval on the target patch set
+          Optional<PatchSetApproval> copiedPsa = getCopyOf(ctx, followUpPatchSetId, psaOrig.key());
+          PatchSetApproval copiedPatchSetApproval = psaOrig.copyWithPatchSet(followUpPatchSetId);
+          ctx.getUpdate(followUpPatchSetId).putCopiedApproval(copiedPatchSetApproval);
+          labelUpdatesOnFollowUpPatchSets.put(
+              LabelVote.createFrom(psaOrig),
+              copiedPsa.isPresent()
+                  ? CopiedLabelUpdate.updated(
+                      followUpPatchSetId, LabelVote.createFrom(copiedPsa.get()))
+                  : CopiedLabelUpdate.added(followUpPatchSetId));
+          dirty = true;
+        } else {
+          // The approval is not copyable to the new patch set.
+          Optional<PatchSetApproval> copiedPsa = getCopyOf(ctx, followUpPatchSetId, psaOrig.key());
+          if (copiedPsa.isPresent()) {
+            // a copy approval exists and should be removed
+            removeCopy(ctx, psaOrig, copiedPsa.get());
+            dirty = true;
+          }
+        }
+      }
+    }
+
+    return dirty;
+  }
+
+  /**
+   * Whether the given cell entry from the approval table represents the removal of an approval.
+   *
+   * @param cell cell entry from the approval table
+   * @return {@code true} if the approval is not set or the approval has {@code 0} as the value,
+   *     otherwise {@code false}
+   */
+  private boolean isRemoval(Cell<String, Account.Id, Optional<PatchSetApproval>> cell) {
+    return cell.getValue().isEmpty() || cell.getValue().get().value() == 0;
+  }
+
+  /**
+   * Removes copies of the given approval from all follow-up patch sets.
+   *
+   * @param ctx the change context
+   * @param followUpPatchSets the follow-up patch sets of the patch set on which the review is
+   *     posted
+   * @param psaOrig the original patch set approval for which copies should be removed from all
+   *     follow-up patch sets
+   * @return whether any copy approval has been removed
+   */
+  private boolean removeCopies(
+      ChangeContext ctx, ImmutableList<PatchSet.Id> followUpPatchSets, PatchSetApproval psaOrig) {
+    boolean dirty = false;
+    for (PatchSet.Id followUpPatchSet : followUpPatchSets) {
+      Optional<PatchSetApproval> copiedPsa = getCopyOf(ctx, followUpPatchSet, psaOrig.key());
+      if (copiedPsa.isPresent()) {
+        removeCopy(ctx, psaOrig, copiedPsa.get());
+      } else {
+        // Do not remove copy from this follow-up patch sets and also not from any further follow-up
+        // patch sets (if the further follow-up patch sets have copies they are copies of a
+        // non-copied approval on this follow-up patch set and hence those should not be removed).
+        break;
+      }
+    }
+    return dirty;
+  }
+
+  /**
+   * Removes the copy approval with the given key from the given patch set.
+   *
+   * @param ctx the change context
+   * @param psaOrig the original patch set approval for which copies should be removed from the
+   *     given patch set
+   * @param copiedPsa the copied patch set approval that should be removed
+   */
+  private void removeCopy(ChangeContext ctx, PatchSetApproval psaOrig, PatchSetApproval copiedPsa) {
+    ctx.getUpdate(copiedPsa.patchSetId())
+        .removeCopiedApprovalFor(
+            ctx.getIdentifiedUser().getRealUser().isIdentifiedUser()
+                ? ctx.getIdentifiedUser().getRealUser().getAccountId()
+                : null,
+            copiedPsa.accountId(),
+            copiedPsa.labelId().get());
+    labelUpdatesOnFollowUpPatchSets.put(
+        LabelVote.createFrom(psaOrig),
+        CopiedLabelUpdate.removed(copiedPsa.patchSetId(), LabelVote.createFrom(copiedPsa)));
+  }
+
+  /**
+   * Retrieves the copy of the given approval from the given patch set if it exists.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch from which it the copied approval should be returned
+   * @param psaKey the key of the patch set approval for which the copied approval should be
+   *     returned
+   * @return the copy of the given approval from the given patch set if it exists
+   */
+  private Optional<PatchSetApproval> getCopyOf(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval.Key psaKey) {
+    return ctx.getNotes().getApprovals().onlyCopied().get(patchSetId).stream()
+        .filter(psa -> areAccountAndLabelTheSame(psa.key(), psaKey))
+        .findAny();
+  }
+
+  /**
+   * Whether the given patch set has a copy approval with the given key and value.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch for which it should be checked whether it has a copy
+   *     approval with the given key and value
+   * @param psaOrig the original patch set approval
+   */
+  private boolean hasCopyOfWithValue(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval psaOrig) {
+    return ctx.getNotes().getApprovals().onlyCopied().get(patchSetId).stream()
+        .anyMatch(
+            psa ->
+                areAccountAndLabelTheSame(psa.key(), psaOrig.key())
+                    && psa.value() == psaOrig.value());
+  }
+
+  /**
+   * Whether the given patch set has a normal approval with the given key that overrides copy
+   * approvals with that key.
+   *
+   * @param ctx the change context
+   * @param patchSetId the ID of the patch for which it should be checked whether it has a normal
+   *     approval with the given key that overrides copy approvals with that key
+   * @param psaKey the key of the patch set approval
+   */
+  private boolean hasOverrideOf(
+      ChangeContext ctx, PatchSet.Id patchSetId, PatchSetApproval.Key psaKey) {
+    return ctx.getNotes().getApprovals().onlyNonCopied().get(patchSetId).stream()
+        .anyMatch(psa -> areAccountAndLabelTheSame(psa.key(), psaKey));
+  }
+
+  private boolean areAccountAndLabelTheSame(
+      PatchSetApproval.Key psaKey1, PatchSetApproval.Key psaKey2) {
+    return psaKey1.accountId().equals(psaKey2.accountId())
+        && psaKey1.labelId().equals(psaKey2.labelId());
+  }
+
   private boolean insertMessage(ChangeContext ctx) {
     String msg = Strings.nullToEmpty(in.message).trim();
 
@@ -712,6 +1001,21 @@ public class PostReviewOp implements BatchUpdateOp {
     for (String formattedLabelVote :
         labelDelta.stream().map(LabelVote::format).sorted().collect(toImmutableList())) {
       buf.append(" ").append(formattedLabelVote);
+    }
+    if (!labelUpdatesOnFollowUpPatchSets.isEmpty()) {
+      buf.append("\n\nCopied votes on follow-up patch sets have been updated:");
+      for (Map.Entry<LabelVote, Collection<CopiedLabelUpdate>> e :
+          labelUpdatesOnFollowUpPatchSets.asMap().entrySet().stream()
+              .sorted(Map.Entry.comparingByKey(comparing(LabelVote::label)))
+              .collect(toImmutableList())) {
+        Optional<String> copyCondition =
+            projectState
+                .getLabelTypes(ctx.getNotes())
+                .byLabel(e.getKey().label())
+                .map(LabelType::getCopyCondition)
+                .map(Optional::get);
+        buf.append(formatVotesCopiedToFollowUpPatchSets(e.getKey(), e.getValue(), copyCondition));
+      }
     }
     if (comments.size() == 1) {
       buf.append("\n\n(1 comment)");
@@ -747,6 +1051,88 @@ public class PostReviewOp implements BatchUpdateOp {
     mailMessage =
         cmUtil.setChangeMessage(ctx.getUpdate(psId), "Patch Set " + psId.get() + ":" + buf, in.tag);
     return true;
+  }
+
+  /**
+   * Given a label vote that has been applied on an outdated patch set, this method formats the
+   * updates to the copied labels on the follow-up patch sets that have been performed for that
+   * label vote.
+   *
+   * <p>If label votes have been copied to follow-up patch sets the formatted message is
+   * "<label-vote> has been copied to patch sets: 3, 4 (copy condition: "<copy-condition>").".
+   *
+   * <p>If existing copied votes on follow-up patch sets have been updated, the old copied votes are
+   * included into the message: "<label-vote> has been copied to patch sets: 3 (was
+   * <old-label-vote>), 4 (was <old-label-vote>) (copy condition: "<copy-condition>").".
+   *
+   * <p>If existing copied votes on follow-up patch sets have been removed (because the new vote is
+   * not copyable) the message is: "Copied <label> vote has been removed from patch set 3 (was
+   * <old-label-vote>), 4 (was <old-label-vote>) (copy condition: "<copy-condition>").".
+   *
+   * <p>If copied votes have been both added/updated and removed, 2 messages are returned.
+   *
+   * <p>Each returned message is formatted as a list item (prefixed with '* ').
+   *
+   * <p>Passing atoms in copy conditions are not highlighted. This is because the passing atoms can
+   * be different for different follow-up patch sets (e.g. 'changekind:TRIVIAL_REBASE OR
+   * changekind:NO_CODE_CHANGE' can have 'changekind:TRIVIAL_REBASE' passing for one follow-up patch
+   * set and 'changekind:NO_CODE_CHANGE' passing for another follow-up patch set). Including the
+   * copy condition once per follow-up patch set with differently highlighted passing atoms would
+   * make the message unreadable. Hence we don't highlight passing atoms here.
+   *
+   * @param labelVote the label vote that has been applied on an outdated patch set
+   * @param followUpPatchSetUpdates updates to copied votes on follow-up patch sets that have been
+   *     done by copying the label vote on the outdated patch set to follow-up patch sets
+   * @param copyCondition the copy condition of the label for which a vote was applied on an
+   *     outdated patch set
+   * @return formatted string to be included into a change message
+   */
+  private String formatVotesCopiedToFollowUpPatchSets(
+      LabelVote labelVote,
+      Collection<CopiedLabelUpdate> followUpPatchSetUpdates,
+      Optional<String> copyCondition) {
+    StringBuilder b = new StringBuilder();
+
+    // Add line for added/updated copied approvals.
+    ImmutableList<CopiedLabelUpdate> additionsAndUpdates =
+        followUpPatchSetUpdates.stream()
+            .filter(
+                copiedLabelUpdate ->
+                    copiedLabelUpdate.type() == CopiedLabelUpdate.Type.ADDED
+                        || copiedLabelUpdate.type() == CopiedLabelUpdate.Type.UPDATED)
+            .collect(toImmutableList());
+    if (!additionsAndUpdates.isEmpty()) {
+      b.append("\n* ");
+      b.append(labelVote.format());
+      b.append(" has been copied to patch set ");
+      b.append(
+          additionsAndUpdates.stream()
+              .map(CopiedLabelUpdate::formatPatchSetWithOldLabelVote)
+              .collect(joining(", ")));
+      copyCondition.ifPresent(cc -> b.append(" (copy condition: \"" + cc + "\")"));
+      b.append(".");
+    }
+
+    // Add line for removed copied approvals.
+    ImmutableList<CopiedLabelUpdate> removals =
+        followUpPatchSetUpdates.stream()
+            .filter(copiedLabelUpdate -> copiedLabelUpdate.type() == CopiedLabelUpdate.Type.REMOVED)
+            .collect(toImmutableList());
+    if (!removals.isEmpty()) {
+      b.append("\n* Copied ");
+      b.append(labelVote.label());
+      b.append(" vote has been removed from patch set ");
+      b.append(
+          removals.stream()
+              .map(CopiedLabelUpdate::formatPatchSetWithOldLabelVote)
+              .collect(joining(", ")));
+      b.append(" since the new ");
+      b.append(labelVote.value() != 0 ? labelVote.format() : labelVote.formatWithEquals());
+      b.append(" vote is not copyable");
+      copyCondition.ifPresent(cc -> b.append(" (copy condition: \"" + cc + "\")"));
+      b.append(".");
+    }
+    return b.toString();
   }
 
   private void addLabelDelta(String name, short value) {

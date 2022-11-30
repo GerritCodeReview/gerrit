@@ -25,6 +25,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -38,6 +39,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
@@ -47,8 +49,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test to verify that {@link com.google.gerrit.server.restapi.change.PostReviewCopyApprovalsOp}
- * copies approvals to follow-up patch sets if possible.
+ * Test to verify that {@link com.google.gerrit.server.restapi.change.PostReviewOp} copies approvals
+ * to follow-up patch sets if possible.
  */
 public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
@@ -106,9 +108,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     r.assertOkStatus();
     PatchSet patchSet2 = r.getChange().currentPatchSet();
 
-    // Vote on the first patch set.
+    // Vote on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review+2 Verified+1");
     vote(user, changeId, patchSet1.number(), -2, -1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review-2 Verified-1");
 
     // Verify that no votes have been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -128,8 +132,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_copied_noCurrentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -139,9 +143,23 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     r.assertOkStatus();
     PatchSet patchSet2 = r.getChange().currentPatchSet();
 
-    // Vote on the first patch set.
+    // Vote on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 2 (copy condition: \"is:ANY\").\n"
+                + "* Verified+1 has been copied to patch set 2 (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), -2, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review-2 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review-2 has been copied to patch set 2 (copy condition: \"is:ANY\").\n"
+                + "* Verified-1 has been copied to patch set 2 (copy condition: \"is:ANY\")."));
 
     // Verify that the votes have been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -161,8 +179,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -176,9 +194,13 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     vote(admin, changeId, patchSet2.number(), 2, 1);
     vote(user, changeId, patchSet2.number(), -2, -1);
 
-    // Vote on the first patch set.
+    // Vote on the first patch set and verify change message.
     vote(admin, changeId, patchSet1.number(), 1, -1);
+    assertLastChangeMessage(
+        r.getChangeId(), String.format("Patch Set 1: Code-Review+1 Verified-1"));
     vote(user, changeId, patchSet1.number(), -1, 1);
+    assertLastChangeMessage(
+        r.getChangeId(), String.format("Patch Set 1: Code-Review-1 Verified+1"));
 
     // Verify that the votes have not been copied to the current patch set (since a current vote
     // already exists).
@@ -200,8 +222,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void newApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -219,9 +241,13 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     deleteCurrentVotes(admin, changeId);
     deleteCurrentVotes(user, changeId);
 
-    // Vote on the first patch set.
+    // Vote on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 1, -1);
+    assertLastChangeMessage(
+        r.getChangeId(), String.format("Patch Set 1: Code-Review+1 Verified-1"));
     vote(user, changeId, patchSet1.number(), -1, 1);
+    assertLastChangeMessage(
+        r.getChangeId(), String.format("Patch Set 1: Code-Review-1 Verified+1"));
 
     // Verify that the votes have not been copied to the current patch set (since a deletion vote
     // already exists on the current patch set).
@@ -254,9 +280,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     r.assertOkStatus();
     PatchSet patchSet2 = r.getChange().currentPatchSet();
 
-    // Update the votes on the first patch set.
+    // Update the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 2, -1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review+2 Verified-1");
     vote(user, changeId, patchSet1.number(), -1, 1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review-1 Verified+1");
 
     // Verify that no votes have been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -278,7 +306,7 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void updatedApprovals_notCopied_copyingNotEnabled_unsetsCopiedApprovals()
       throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:max"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:MAX"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -297,9 +325,30 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, 1, 1);
     assertCurrentVotes(c, user, 2, 1);
 
-    // Update the votes on the first patch set with votes that are not copied
+    // Update the votes on the first patch set with votes that are not copied and verify the change
+    // messages.
     vote(admin, changeId, patchSet1.number(), -1, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review-1 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review+1)"
+                + " since the new Code-Review-1 vote is not copyable"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified+1)"
+                + " since the new Verified-1 vote is not copyable (copy condition: \"is:MAX\")."));
     vote(user, changeId, patchSet1.number(), -2, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review-2 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review+2)"
+                + " since the new Code-Review-2 vote is not copyable"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified+1)"
+                + " since the new Verified-1 vote is not copyable (copy condition: \"is:MAX\")."));
 
     // Verify that the copied votes on the current patch set have been unset.
     c = detailedChange(changeId);
@@ -320,7 +369,7 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   @Test
   public void updatedApprovals_copied_noCurrentVote() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:max"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:MAX"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -339,9 +388,26 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, 0, 0);
     assertCurrentVotes(c, user, 0, 0);
 
-    // Update the votes on the first patch set with votes that are copied.
+    // Update the votes on the first patch set with votes that are copied and verify the change
+    // messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 2"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Verified+1 has been copied to patch set 2 (copy condition: \"is:MAX\")."));
     vote(user, changeId, patchSet1.number(), 1, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+1 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+1 has been copied to patch set 2"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Verified+1 has been copied to patch set 2 (copy condition: \"is:MAX\")."));
 
     // Verify that the votes have been copied to the current patch set.
     c = detailedChange(changeId);
@@ -361,8 +427,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -380,9 +446,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     vote(admin, changeId, patchSet2.number(), 2, 1);
     vote(user, changeId, patchSet2.number(), -2, -1);
 
-    // Update the votes on the first patch set.
+    // Update the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), -1, 1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review-1 Verified+1");
     vote(user, changeId, patchSet1.number(), 1, -1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review+1 Verified-1");
 
     // Verify that the votes have not been copied to the current patch set (since a current vote
     // already exists).
@@ -404,8 +472,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -427,9 +495,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     deleteCurrentVotes(admin, changeId);
     deleteCurrentVotes(user, changeId);
 
-    // Update the votes on the first patch set.
+    // Update the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), -1, 1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review-1 Verified+1");
     vote(user, changeId, patchSet1.number(), 1, -1);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: Code-Review+1 Verified-1");
 
     // Verify that the votes have not been copied to the current patch set (since a deletion vote
     // already exists on the current patch set).
@@ -451,8 +521,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void updatedApprovals_copied_currentCopiedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -471,9 +541,28 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, -2, -1);
     assertCurrentVotes(c, user, 2, 1);
 
-    // Update the votes on the first patch set with votes that are copied.
+    // Update the votes on the first patch set with votes that are copied and verify the change
+    // messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 2 (was Code-Review-2)"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Verified+1 has been copied to patch set 2 (was Verified-1)"
+                + " (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), -2, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review-2 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review-2 has been copied to patch set 2 (was Code-Review+2)"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Verified-1 has been copied to patch set 2 (was Verified+1)"
+                + " (copy condition: \"is:ANY\")."));
 
     // Verify that the votes have been copied to the current patch set.
     c = detailedChange(changeId);
@@ -509,9 +598,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     vote(admin, changeId, patchSet2.number(), -2, -1);
     vote(user, changeId, patchSet2.number(), 2, 1);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
 
     // Verify that the vote deletions have not been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -551,9 +642,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, 0, 0);
     assertCurrentVotes(c, user, 0, 0);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
 
     // Verify that there are still no votes on the current patch set.
     c = detailedChange(changeId);
@@ -573,8 +666,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_notCopied_currentVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -592,9 +685,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     vote(admin, changeId, patchSet2.number(), 2, 1);
     vote(user, changeId, patchSet2.number(), -2, -1);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
 
     // Verify that the vote deletions have not been copied to the current patch set (since a current
     // vote already exists).
@@ -616,8 +711,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_notCopied_currentDeletedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -639,9 +734,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     deleteCurrentVotes(admin, changeId);
     deleteCurrentVotes(user, changeId);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(r.getChangeId(), "Patch Set 1: -Code-Review -Verified");
 
     // Verify that there are still no votes on the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -662,8 +759,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void deletedApprovals_copied_currentCopiedVote() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -682,9 +779,29 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, -2, -1);
     assertCurrentVotes(c, user, 2, 1);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review-2)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified-1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review+2)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified+1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
 
     // Verify that the vote deletions have been copied to the current patch set.
     c = detailedChange(changeId);
@@ -701,8 +818,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   /** Tests that new approvals on an outdated patch set are copied to all follow-up patch sets. */
   @Test
   public void copyNewApprovalAcrossMultipleFollowUpPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -720,9 +837,27 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     r.assertOkStatus();
     PatchSet patchSet4 = r.getChange().currentPatchSet();
 
-    // Vote on the first patch set.
+    // Vote on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 2, 3, 4"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Verified+1 has been copied to patch set 2, 3, 4"
+                + " (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), -2, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review-2 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review-2 has been copied to patch set 2, 3, 4"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Verified-1 has been copied to patch set 2, 3, 4"
+                + " (copy condition: \"is:ANY\")."));
 
     // Verify that votes have been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -748,8 +883,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void
       copyNewApprovalAcrossMultipleFollowUpPatchSets_stopOnFirstFollowUpPatchSetToWhichTheVoteIsNotCopyable()
           throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 or is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -777,9 +912,25 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, 0, -1);
     assertCurrentVotes(c, user, 0, -1);
 
-    // Vote on the first patch set with copyable votes.
+    // Vote on the first patch set with copyable votes and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 2 "
+                + "(copy condition: \"is:1 OR is:2\").\n"
+                + "* Verified+1 has been copied to patch set 2 (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), 1, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: Code-Review+1 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+1 has been copied to patch set 2"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Verified+1 has been copied to patch set 2 (copy condition: \"is:ANY\")."));
 
     // Verify that votes have been not copied to the current patch set.
     c = detailedChange(changeId);
@@ -804,8 +955,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
    */
   @Test
   public void copyApprovalDeletionAcrossMultipleFollowUpPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -832,9 +983,33 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertCurrentVotes(c, admin, 2, 1);
     assertCurrentVotes(c, user, -2, -1);
 
-    // Delete the votes on the first patch set.
+    // Delete the votes on the first patch set and verify the change messages.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set"
+                + " 2 (was Code-Review+2), 3 (was Code-Review+2), 4 (was Code-Review+2)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Copied Verified vote has been removed from patch set"
+                + " 2 (was Verified+1), 3 (was Verified+1), 4 (was Verified+1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set"
+                + " 2 (was Code-Review-2), 3 (was Code-Review-2), 4 (was Code-Review-2)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:ANY\").\n"
+                + "* Copied Verified vote has been removed from patch set"
+                + " 2 (was Verified-1), 3 (was Verified-1), 4 (was Verified-1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
 
     // Verify that the votes has been copied to the current patch set.
     c = detailedChange(changeId);
@@ -860,8 +1035,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   public void
       copyApprovalDeletionAcrossMultipleFollowUpPatchSets_stopOnFirstFollowUpPatchSetToWhichTheVoteIsNotCopyable()
           throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 or is:2"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:1 OR is:2"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -894,7 +1069,27 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
 
     // Delete the votes on the first patch set.
     vote(admin, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review+2)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified+1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet1.number(), 0, 0);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 1: -Code-Review -Verified\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Copied Code-Review vote has been removed from patch set 2 (was Code-Review+1)"
+                + " since the new Code-Review=0 vote is not copyable"
+                + " (copy condition: \"is:1 OR is:2\").\n"
+                + "* Copied Verified vote has been removed from patch set 2 (was Verified-1)"
+                + " since the new Verified=0 vote is not copyable (copy condition: \"is:ANY\")."));
 
     // Verify that the vote deletions have been not copied to the current patch set.
     c = detailedChange(changeId);
@@ -917,8 +1112,8 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   /** Tests that new approvals on an outdated patch set are not copied to predecessor patch sets. */
   @Test
   public void notCopyToPredecessorPatchSets() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    updateVerifiedLabel(b -> b.setCopyCondition("is:any"));
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+    updateVerifiedLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -936,9 +1131,23 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     r.assertOkStatus();
     PatchSet patchSet4 = r.getChange().currentPatchSet();
 
-    // Vote on the third patch set.
+    // Vote on the third patch set and verify the change messages.
     vote(admin, changeId, patchSet3.number(), 2, 1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 3: Code-Review+2 Verified+1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review+2 has been copied to patch set 4 (copy condition: \"is:ANY\").\n"
+                + "* Verified+1 has been copied to patch set 4 (copy condition: \"is:ANY\")."));
     vote(user, changeId, patchSet3.number(), -2, -1);
+    assertLastChangeMessage(
+        r.getChangeId(),
+        String.format(
+            "Patch Set 3: Code-Review-2 Verified-1\n\n"
+                + "Copied votes on follow-up patch sets have been updated:\n"
+                + "* Code-Review-2 has been copied to patch set 4 (copy condition: \"is:ANY\").\n"
+                + "* Verified-1 has been copied to patch set 4 (copy condition: \"is:ANY\")."));
 
     // Verify that votes have been copied to the current patch set.
     ChangeInfo c = detailedChange(changeId);
@@ -1056,5 +1265,11 @@ public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
     assertThat(patchSetApproval).isPresent();
     assertThat(patchSetApproval.get().value()).isEqualTo((short) expectedVote);
     assertThat(patchSetApproval.get().copied()).isEqualTo(expectedToBeCopied);
+  }
+
+  private void assertLastChangeMessage(String changeId, String expectedMessage)
+      throws RestApiException {
+    assertThat(Iterables.getLast(gApi.changes().id(changeId).get().messages).message)
+        .isEqualTo(expectedMessage);
   }
 }

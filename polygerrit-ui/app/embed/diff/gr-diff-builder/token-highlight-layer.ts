@@ -139,11 +139,17 @@ export class TokenHighlightLayer implements DiffLayer {
     let atLeastOneTokenMatched = false;
     while ((match = tokenMatcher.exec(text))) {
       const token = match[0];
-      const index = match.index;
-      const length = token.length;
+
       // Binary files encoded as text for example can have super long lines
       // with super long tokens. Let's guard against this scenario.
-      if (length > TOKEN_LENGTH_LIMIT) continue;
+      if (token.length > TOKEN_LENGTH_LIMIT) continue;
+
+      // This is to correctly count surrogate pairs in text and token.
+      // If the index calculation becomes a hotspot, we could precompute a code
+      // unit to code point index map for text before iterating over the results
+      const index = GrAnnotation.getStringLength(text.slice(0, match.index));
+      const length = GrAnnotation.getStringLength(token);
+
       atLeastOneTokenMatched = true;
       const highlightTypeClass =
         token === this.currentHighlight ? CSS_HIGHLIGHT : '';
@@ -339,7 +345,7 @@ export class TokenHighlightLayer implements DiffLayer {
       start_line: line,
       start_column: index + 1, // 1-based inclusive
       end_line: line,
-      end_column: index + token.length, // 1-based inclusive
+      end_column: index + GrAnnotation.getStringLength(token), // 1-based inclusive
     };
     this.tokenHighlightListener({token, element, side, range});
   }

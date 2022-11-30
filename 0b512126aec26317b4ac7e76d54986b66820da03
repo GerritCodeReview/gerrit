@@ -16,6 +16,23 @@
       "message": "This rewrite of convertInlineDiff is a by-product of my recent changes for unicode compatibility. I think it improves readability a lot, but that might be subjective.\n\nLet me know what you think.",
       "revId": "0b512126aec26317b4ac7e76d54986b66820da03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80b8e8f6_41e2ceb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-30T13:34:14Z",
+      "side": 1,
+      "message": "Thanks! It reads better to me than the previous code, but I think someone else should also take a look @brohlfs@google.com",
+      "revId": "0b512126aec26317b4ac7e76d54986b66820da03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

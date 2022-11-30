@@ -26,7 +26,7 @@ export enum ServiceWorkerMessageType {
   REPORTING = 'REPORTING',
 }
 
-export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
+export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 10;
 
 export const serviceWorkerInstallerToken = define<ServiceWorkerInstaller>(
   'service-worker-installer'

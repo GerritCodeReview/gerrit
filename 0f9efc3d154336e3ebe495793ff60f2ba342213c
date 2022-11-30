@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c715a9_fcfdde6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T15:21:20Z",
+      "side": 1,
+      "message": "Better: `Release-Notes: skip`\n\nThis is about public releases and should only contain API changes and major feature updates.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "0f9efc3d154336e3ebe495793ff60f2ba342213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62bf5d42_33951c81",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T15:21:20Z",
+      "side": 1,
+      "message": "`this.` is not being used, so can you change this from method to function?",
+      "revId": "0f9efc3d154336e3ebe495793ff60f2ba342213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eb6db50_c41f1cc3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T15:21:20Z",
+      "side": 1,
+      "message": "Maybe convert from inline function to top-level functions.",
+      "revId": "0f9efc3d154336e3ebe495793ff60f2ba342213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

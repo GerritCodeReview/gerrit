@@ -39,6 +39,30 @@
       },
       "revId": "46e5da2ae44039ebc3a5c939c4e7b3c7c92df543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98b5b87_f72925cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T10:16:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6e471079_ae68cee5",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 180,
+        "endChar": 30
+      },
+      "revId": "46e5da2ae44039ebc3a5c939c4e7b3c7c92df543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

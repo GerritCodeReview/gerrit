@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afda3c3a_e6508b7c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T09:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25fcf6aa_ee487979",
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "707b0758_28ccd2c0",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "497062d7_bdcc8edd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T09:31:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "707b0758_28ccd2c0",
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1aa14e6_14bff2d8",
@@ -65,6 +101,30 @@
       "writtenOn": "2022-11-30T09:03:36Z",
       "side": 1,
       "message": "Nit: Again, we don\u0027t have a formatting rule to enforce this, but if you just `return`, then I think one-liners are a bit nicer.\n```suggestion\n  if (err) throw err;\n  if (!response) return;\n```",
+      "range": {
+        "startLine": 196,
+        "startChar": 1,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d504d4_b2f130c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T09:31:13Z",
+      "side": 1,
+      "message": "Done. Though personally, I prefer the if always being separate.",
+      "parentUuid": "c1aa14e6_14bff2d8",
       "range": {
         "startLine": 196,
         "startChar": 1,

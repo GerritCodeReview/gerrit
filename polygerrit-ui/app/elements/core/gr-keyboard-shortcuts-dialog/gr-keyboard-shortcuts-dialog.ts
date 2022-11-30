@@ -61,7 +61,6 @@ export class GrKeyboardShortcutsDialog extends LitElement {
           display: block;
           max-height: 100vh;
           min-width: 60vw;
-          overflow-y: auto;
         }
         main {
           display: flex;

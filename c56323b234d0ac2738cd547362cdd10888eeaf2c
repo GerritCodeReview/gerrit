@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97484176_a1be5992",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-11-30T11:09:58Z",
+      "side": 1,
+      "message": "why 10 now? 1000 made sense for `_MS` variable",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "c56323b234d0ac2738cd547362cdd10888eeaf2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

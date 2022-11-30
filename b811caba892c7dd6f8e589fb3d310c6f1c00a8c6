@@ -33,6 +33,24 @@
       "message": "Thank you for looking into error handling of REST API calls! ❤️\n\nYou may be interested in looking at this 2 year old WIP change and its 3 children. I had started a refactoring and wanted to get rid of errFn, but never managed to complete it: https://gerrit-review.git.corp.google.com/c/gerrit/+/290917",
       "revId": "b811caba892c7dd6f8e589fb3d310c6f1c00a8c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8acad638_262ca31f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T09:21:57Z",
+      "side": 1,
+      "message": "Thank you for the link. Tbh I mostly looked at what I need for my case (autocomplete not showing the error dialog). There are existing usages errFn, I would need to go through them if they can be removed in favour of just boolean/enum option on what to do (fire event/throw, etc). I can take a look when I have some time.",
+      "parentUuid": "f2efc19f_a3c80501",
+      "revId": "b811caba892c7dd6f8e589fb3d310c6f1c00a8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

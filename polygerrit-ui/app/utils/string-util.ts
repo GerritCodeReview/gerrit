@@ -40,7 +40,7 @@ export function ordinal(n?: number): string {
  * contain spaces and colons.
  */
 export function escapeAndWrapSearchOperatorValue(value: string): string {
-  return `"${value.replace('\\', '\\\\').replace('"', '\\"')}"`;
+  return `"${value.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"`;
 }
 
 /**

@@ -105,15 +105,17 @@ suite('token-highlight-layer', () => {
   suite('annotate', () => {
     function assertAnnotation(
       args: any[],
-      el: HTMLElement,
-      start: number,
-      length: number,
-      cssClass: string
+      expected: {
+        parent: HTMLElement;
+        offset: number;
+        length: number;
+        cssClass: string;
+      }
     ) {
-      assert.equal(args[0], el);
-      assert.equal(args[1], start);
-      assert.equal(args[2], length);
-      assert.equal(args[3], cssClass);
+      assert.equal(args[0], expected.parent);
+      assert.equal(args[1], expected.offset);
+      assert.equal(args[2], expected.length);
+      assert.equal(args[3], expected.cssClass);
     }
 
     test('annotate adds css token', () => {
@@ -121,27 +123,24 @@ suite('token-highlight-layer', () => {
       const el = createLine('these are words');
       annotate(el);
       assert.isTrue(annotateElementStub.calledThrice);
-      assertAnnotation(
-        annotateElementStub.args[0],
-        el,
-        0,
-        5,
-        'tk-text-these tk-index-0 token '
-      );
-      assertAnnotation(
-        annotateElementStub.args[1],
-        el,
-        6,
-        3,
-        'tk-text-are tk-index-6 token '
-      );
-      assertAnnotation(
-        annotateElementStub.args[2],
-        el,
-        10,
-        5,
-        'tk-text-words tk-index-10 token '
-      );
+      assertAnnotation(annotateElementStub.args[0], {
+        parent: el,
+        offset: 0,
+        length: 5,
+        cssClass: 'tk-text-these tk-index-0 token ',
+      });
+      assertAnnotation(annotateElementStub.args[1], {
+        parent: el,
+        offset: 6,
+        length: 3,
+        cssClass: 'tk-text-are tk-index-6 token ',
+      });
+      assertAnnotation(annotateElementStub.args[2], {
+        parent: el,
+        offset: 10,
+        length: 5,
+        cssClass: 'tk-text-words tk-index-10 token ',
+      });
     });
 
     test('annotate adds mouse handlers', () => {

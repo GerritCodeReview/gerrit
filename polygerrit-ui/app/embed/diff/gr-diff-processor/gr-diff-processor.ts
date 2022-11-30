@@ -643,45 +643,49 @@ export class GrDiffProcessor {
     // +1 to account for the \n that is not part of the rows passed here
     const lineLengths = rows.map(r => GrAnnotation.getStringLength(r) + 1);
 
-    let rowIndex = 0;
-    let idx = 0;
-    const normalized = [];
-    for (const [skipLength, markLength] of intralineInfos) {
-      let lineLength = lineLengths[rowIndex];
-      let j = 0;
-      while (j < skipLength) {
-        if (idx === lineLength) {
-          idx = 0;
-          lineLength = lineLengths[++rowIndex];
-          continue;
-        }
-        idx++;
-        j++;
-      }
-      let lineHighlight: Highlights = {
-        contentIndex: rowIndex,
-        startIndex: idx,
-      };
+    type Index = Readonly<{row: number; col: number}>;
 
-      j = 0;
-      while (lineLength && j < markLength) {
-        if (idx === lineLength) {
-          idx = 0;
-          lineLength = lineLengths[++rowIndex];
-          normalized.push(lineHighlight);
-          lineHighlight = {
-            contentIndex: rowIndex,
-            startIndex: idx,
-          };
-          continue;
-        }
-        idx++;
-        j++;
+    // Returns the resulting [row, col] index after skipping `skipCount`
+    // characters starting from the beginning of `rowIdx`
+    function skipChars(rowIdx: number, skipCount: number): Index {
+      while (skipCount > lineLengths[rowIdx]) {
+        skipCount -= lineLengths[rowIdx];
+        ++rowIdx;
       }
-      lineHighlight.endIndex = idx;
-      normalized.push(lineHighlight);
+      return {row: rowIdx, col: skipCount};
     }
-    return normalized;
+
+    // Converts the given range to line-scoped Highlights
+    function rangeToHighlights({row, col}: Index, end: Index): Highlights[] {
+      const highlights = [];
+
+      for (; row < end.row; ++row) {
+        highlights.push({
+          contentIndex: row,
+          startIndex: col,
+          // missing endIndex means EOL
+        });
+        col = 0;
+      }
+
+      highlights.push({
+        contentIndex: row,
+        startIndex: col,
+        endIndex: end.col,
+      });
+
+      return highlights;
+    }
+
+    let cursor: Index = {row: 0, col: 0};
+    return intralineInfos.flatMap(([skipLength, markLength]) => {
+      // Determine start and end of the marked range
+      const start = skipChars(cursor.row, cursor.col + skipLength);
+      cursor = skipChars(start.row, start.col + markLength);
+
+      // Split the marked range on line boundaries
+      return rangeToHighlights(start, cursor);
+    });
   }
 
   /**

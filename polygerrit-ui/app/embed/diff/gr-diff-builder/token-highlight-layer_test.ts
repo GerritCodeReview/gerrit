@@ -143,6 +143,33 @@ suite('token-highlight-layer', () => {
       });
     });
 
+    test('annotate adds css tokens w/ emojis', () => {
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const el = createLine('these 💩 are 👨‍👩‍👧‍👦 words');
+
+      annotate(el);
+
+      assert.isTrue(annotateElementStub.calledThrice);
+      assertAnnotation(annotateElementStub.args[0], {
+        parent: el,
+        offset: 0,
+        length: 5,
+        cssClass: 'tk-text-these tk-index-0 token ',
+      });
+      assertAnnotation(annotateElementStub.args[1], {
+        parent: el,
+        offset: 8,
+        length: 3,
+        cssClass: 'tk-text-are tk-index-8 token ',
+      });
+      assertAnnotation(annotateElementStub.args[2], {
+        parent: el,
+        offset: 20,
+        length: 5,
+        cssClass: 'tk-text-words tk-index-20 token ',
+      });
+    });
+
     test('annotate adds mouse handlers', () => {
       const el = createLine('these are words');
       const addEventListenerStub = sinon.stub(el, 'addEventListener');

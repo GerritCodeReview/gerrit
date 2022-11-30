@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a771768_9658469e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T16:45:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "061ecd2f_d620b770",
+      "revId": "f70983a26311e9ef47fe0db7f4e96c18dc502609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a57567c_d00d764c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-30T16:34:35Z",
       "side": 1,
       "message": "Don\u0027t you want to use the other ide from teh side used in 376?",
+      "revId": "f70983a26311e9ef47fe0db7f4e96c18dc502609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29ac6d8_989f977b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T16:45:12Z",
+      "side": 1,
+      "message": "For unified diff, the other side is *always* RIGHT.",
+      "parentUuid": "0a57567c_d00d764c",
       "revId": "f70983a26311e9ef47fe0db7f4e96c18dc502609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -16,6 +16,63 @@
       "message": "Should this throwingError become the default?",
       "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25fcf6aa_ee487979",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T09:03:36Z",
+      "side": 1,
+      "message": "Nit: I think `/**` should have a line of its own, but if the formatter does not complain, then I guess I can\u0027t complain. 😊",
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707b0758_28ccd2c0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T09:03:36Z",
+      "side": 1,
+      "message": "Maybe add the return type and potentially also document it, because it is not obvious from reading the code.",
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1aa14e6_14bff2d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T09:03:36Z",
+      "side": 1,
+      "message": "Nit: Again, we don\u0027t have a formatting rule to enforce this, but if you just `return`, then I think one-liners are a bit nicer.\n```suggestion\n  if (err) throw err;\n  if (!response) return;\n```",
+      "range": {
+        "startLine": 196,
+        "startChar": 1,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

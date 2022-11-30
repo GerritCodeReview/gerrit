@@ -19,6 +19,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -98,7 +99,11 @@ export class GrSmartSearch extends LitElement {
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getSuggestedRepos(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedRepos(
+        expression,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
       .then(projects => {
         if (!projects) {
           return [];
@@ -128,7 +133,12 @@ export class GrSmartSearch extends LitElement {
       return Promise.resolve([]);
     }
     return this.restApiService
-      .getSuggestedGroups(expression, undefined, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedGroups(
+        expression,
+        undefined,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
       .then(groups => {
         if (!groups) {
           return [];
@@ -158,7 +168,13 @@ export class GrSmartSearch extends LitElement {
       return Promise.resolve([]);
     }
     return this.restApiService
-      .getSuggestedAccounts(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedAccounts(
+        expression,
+        MAX_AUTOCOMPLETE_RESULTS,
+        /* canSee=*/ undefined,
+        /* filterActive=*/ undefined,
+        throwingErrorCallback
+      )
       .then(accounts => {
         if (!accounts) {
           return [];

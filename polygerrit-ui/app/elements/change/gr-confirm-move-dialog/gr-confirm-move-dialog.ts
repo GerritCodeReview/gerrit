@@ -14,6 +14,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -163,7 +164,13 @@ export class GrConfirmMoveDialog extends LitElement {
       input = input.substring('refs/heads/'.length);
     }
     return this.restApiService
-      .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
+      .getRepoBranches(
+        input,
+        this.project,
+        SUGGESTIONS_LIMIT,
+        /* offest=*/ undefined,
+        throwingErrorCallback
+      )
       .then(response => {
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];

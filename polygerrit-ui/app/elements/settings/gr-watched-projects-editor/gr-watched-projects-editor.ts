@@ -21,6 +21,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 
@@ -193,13 +194,15 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   // private but used in tests.
   getProjectSuggestions(input: string) {
-    return this.restApiService.getSuggestedRepos(input).then(response => {
-      const repos: AutocompleteSuggestion[] = [];
-      for (const [name, repo] of Object.entries(response ?? {})) {
-        repos.push({name, value: repo.id});
-      }
-      return repos;
-    });
+    return this.restApiService
+      .getSuggestedRepos(input, /* n=*/ undefined, throwingErrorCallback)
+      .then(response => {
+        const repos: AutocompleteSuggestion[] = [];
+        for (const [name, repo] of Object.entries(response ?? {})) {
+          repos.push({name, value: repo.id});
+        }
+        return repos;
+      });
   }
 
   private handleRemoveProject(project: ProjectWatchInfo) {

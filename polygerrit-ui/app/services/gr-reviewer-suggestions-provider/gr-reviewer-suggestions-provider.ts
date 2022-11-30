@@ -29,6 +29,7 @@ import {
   GroupId,
   ReviewerState,
 } from '../../api/rest-api';
+import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -52,6 +53,11 @@ export class GrReviewerSuggestionsProvider
     this.changes = changes;
   }
 
+  /**
+   * Requests related suggestions.
+   *
+   * If the request fails the returned promise is rejected.
+   */
   async getSuggestions(input: string): Promise<Suggestion[]> {
     if (!this.loggedIn) return [];
 
@@ -121,8 +127,16 @@ export class GrReviewerSuggestionsProvider
     input: string
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     return this.type === ReviewerState.REVIEWER
-      ? this.restApi.getChangeSuggestedReviewers(changeNumber, input)
-      : this.restApi.getChangeSuggestedCCs(changeNumber, input);
+      ? this.restApi.getChangeSuggestedReviewers(
+          changeNumber,
+          input,
+          throwingErrorCallback
+        )
+      : this.restApi.getChangeSuggestedCCs(
+          changeNumber,
+          input,
+          throwingErrorCallback
+        );
   }
 }
 

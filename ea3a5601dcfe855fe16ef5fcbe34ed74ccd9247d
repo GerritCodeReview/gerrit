@@ -406,6 +406,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c0e34ee_475091dc",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-11-30T14:28:31Z",
+      "side": 1,
+      "message": "Added the comment in change\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/353130",
+      "parentUuid": "0a8a66d5_45e88ff3",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78167a7d_12d87053",

@@ -3218,6 +3218,7 @@ suite('gr-diff tests', () => {
                       </div>
                       <div class="thread-group" data-side="right">
                         <slot name="right-FILE"> </slot>
+                        <slot name="left-FILE"> </slot>
                       </div>
                     </td>
                   </tr>

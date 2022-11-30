@@ -142,7 +142,8 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
         .join(' ')
         .trim()
     );
-    row.appendChild(this.createTextEl(lineNumberEl, line, side));
+    const twoSlots = line.type === GrDiffLineType.BOTH;
+    row.appendChild(this.createTextEl(lineNumberEl, line, side, twoSlots));
     return row;
   }
 

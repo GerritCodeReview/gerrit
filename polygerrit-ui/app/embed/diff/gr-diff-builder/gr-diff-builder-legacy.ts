@@ -347,7 +347,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
   createTextEl(
     lineNumberEl: HTMLElement | null,
     line: GrDiffLine,
-    side?: Side
+    side?: Side,
+    twoSlots?: boolean
   ) {
     const td = createElementDiff('td');
     if (line.type !== GrDiffLineType.BLANK) {
@@ -403,9 +404,19 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       const threadGroupEl = document.createElement('div');
       threadGroupEl.className = 'thread-group';
       threadGroupEl.setAttribute('data-side', side);
+
       const slot = document.createElement('slot');
       slot.name = `${side}-${lineNumber}`;
       threadGroupEl.appendChild(slot);
+
+      // For line.type === BOTH in unified diff we want two slots.
+      if (twoSlots) {
+        const slot = document.createElement('slot');
+        const otherSide = side === Side.LEFT ? Side.RIGHT : Side.LEFT;
+        slot.name = `${otherSide}-${line.lineNumber(otherSide)}`;
+        threadGroupEl.appendChild(slot);
+      }
+
       td.appendChild(threadGroupEl);
     }
 

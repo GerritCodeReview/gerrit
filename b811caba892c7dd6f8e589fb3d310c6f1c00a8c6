@@ -16,6 +16,23 @@
       "message": "Added tests",
       "revId": "b811caba892c7dd6f8e589fb3d310c6f1c00a8c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2efc19f_a3c80501",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-11-30T08:59:15Z",
+      "side": 1,
+      "message": "Thank you for looking into error handling of REST API calls! ❤️\n\nYou may be interested in looking at this 2 year old WIP change and its 3 children. I had started a refactoring and wanted to get rid of errFn, but never managed to complete it: https://gerrit-review.git.corp.google.com/c/gerrit/+/290917",
+      "revId": "b811caba892c7dd6f8e589fb3d310c6f1c00a8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

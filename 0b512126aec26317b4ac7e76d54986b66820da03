@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125923be_8e77c582",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154295
+      },
+      "writtenOn": "2022-11-30T12:54:00Z",
+      "side": 1,
+      "message": "This rewrite of convertInlineDiff is a by-product of my recent changes for unicode compatibility. I think it improves readability a lot, but that might be subjective.\n\nLet me know what you think.",
+      "revId": "0b512126aec26317b4ac7e76d54986b66820da03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

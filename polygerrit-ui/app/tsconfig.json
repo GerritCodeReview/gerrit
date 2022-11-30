@@ -47,7 +47,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "es2020",
+      "es2021",
       "webworker"
     ],
 

@@ -10,6 +10,7 @@ import {
   ordinal,
   listForSentence,
   diffFilePaths,
+  escapeAndWrapSearchOperatorValue,
 } from './string-util';
 
 suite('string-util tests', () => {
@@ -83,5 +84,12 @@ suite('string-util tests', () => {
       newFolders: '',
       fileName: 'COMMIT_MSG',
     });
+  });
+
+  test('escapeAndWrapSearchOperatorValue', () => {
+    assert.equal(
+      escapeAndWrapSearchOperatorValue('"value of \\: \\"something"'),
+      '"\\"value of \\\\: \\\\\\"something\\""'
+    );
   });
 });

@@ -9,13 +9,17 @@ import {GrNotificationsPrompt} from './gr-notifications-prompt';
 import {fixture, html, assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 import {testResolver} from '../../../test/common-test-setup';
-import {serviceWorkerInstallerToken} from '../../../services/service-worker-installer';
+import {
+  ServiceWorkerInstaller,
+  serviceWorkerInstallerToken,
+} from '../../../services/service-worker-installer';
 import {waitUntilObserved} from '../../../test/test-utils';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {userModelToken} from '../../../models/user/user-model';
 
 suite('gr-notifications-prompt tests', () => {
   let element: GrNotificationsPrompt;
+  let serviceWorkerInstaller: ServiceWorkerInstaller;
 
   setup(async () => {
     sinon
@@ -37,14 +41,17 @@ suite('gr-notifications-prompt tests', () => {
       userModel.preferences$,
       pref => pref.allow_browser_notifications === true
     );
-    const serviceWorkerInstaller = testResolver(serviceWorkerInstallerToken);
+    serviceWorkerInstaller = testResolver(serviceWorkerInstallerToken);
+    // Since we cannot stub Notification.permission, we stub shouldShowPrompt.
+    sinon.stub(serviceWorkerInstaller, 'shouldShowPrompt').returns(true);
     element = await fixture(
       html`<gr-notifications-prompt></gr-notifications-prompt>`
     );
     await waitUntilObserved(
-      serviceWorkerInstaller.initialized$,
+      serviceWorkerInstaller.shouldShowPrompt$,
       shouldShowPrompt => shouldShowPrompt === true
     );
+    await element.updateComplete;
   });
 
   test('renders', () => {

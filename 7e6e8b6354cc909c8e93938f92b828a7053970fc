@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad231285_134dde93",
+        "filename": "polygerrit-ui/app/tsconfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T11:15:22Z",
+      "side": 1,
+      "message": "The es2021 support is introduced in typescript 4.3.2 (May 26, 2021) Google internal we have 4.7.4.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 15
+      },
+      "revId": "7e6e8b6354cc909c8e93938f92b828a7053970fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

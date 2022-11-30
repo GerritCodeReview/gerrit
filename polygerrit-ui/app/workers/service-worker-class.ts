@@ -131,9 +131,12 @@ export class ServiceWorker {
     // User can have different service workers for different origins/hosts.
     // TODO(milutin): Check if this works properly with getBaseUrl()
     const data = {url: `${self.location.origin}${changeUrl}`};
-
-    // TODO(milutin): Add gerrit host icon
-    this.ctx.registration.showNotification(change.subject, {body, data});
+    const icon = `${self.location.origin}/favicon.ico`;
+    this.ctx.registration.showNotification(change.subject, {
+      body,
+      data,
+      icon,
+    });
     this.sendReport('notify about 1 change');
   }
 
@@ -141,7 +144,8 @@ export class ServiceWorker {
     const title = `You are in the attention set for ${numOfChangesToNotifyAbout} changes.`;
     const dashboardUrl = createDashboardUrl({});
     const data = {url: `${self.location.origin}${dashboardUrl}`};
-    this.ctx.registration.showNotification(title, {data});
+    const icon = `${self.location.origin}/favicon.ico`;
+    this.ctx.registration.showNotification(title, {data, icon});
     this.sendReport(`notify about ${numOfChangesToNotifyAbout} changes`);
   }
 

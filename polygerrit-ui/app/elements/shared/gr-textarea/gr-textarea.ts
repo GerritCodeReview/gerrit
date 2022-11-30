@@ -236,7 +236,6 @@ export class GrTextarea extends LitElement {
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()}
       ${this.renderMentionsDropdown()}
-      </gr-autocomplete-dropdown>
       <iron-autogrow-textarea
         id="textarea"
         class=${classMap({noBorder: this.hideBorder})}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2341e1a8_bfdb6336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-11-30T10:10:29Z",
+      "side": 1,
+      "message": "The default behaviour is to show the error dialog (for now at least). These changes will only throw when using autocomplete. There is no default surface to surface the thrown error for all cases, so it can\u0027t be the default.",
+      "parentUuid": "93c93cfa_c5e29920",
+      "revId": "913cdd20d647f331881917d68562e306b4e7cd04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25fcf6aa_ee487979",

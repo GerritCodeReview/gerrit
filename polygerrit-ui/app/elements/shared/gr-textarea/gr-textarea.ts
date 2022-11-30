@@ -234,9 +234,7 @@ export class GrTextarea extends LitElement {
       hiddenText in order to correctly position the dropdown. After being moved,
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
-      ${this.renderEmojiDropdown()}
-      ${this.renderMentionsDropdown()}
-      </gr-autocomplete-dropdown>
+      ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
       <iron-autogrow-textarea
         id="textarea"
         class=${classMap({noBorder: this.hideBorder})}

@@ -33,7 +33,7 @@ export class GrRelatedChange extends LitElement {
   showChangeStatus = false;
 
   /*
-   * Needed for calculation if change is direct or indirect ancestor/descendant
+   * Needed for calculation if change is direct or indirect descendant
    * to current change.
    */
   @property({type: Array})
@@ -69,8 +69,8 @@ export class GrRelatedChange extends LitElement {
         .notCurrent {
           color: var(--warning-foreground);
         }
-        .indirectAncestor {
-          color: var(--indirect-ancestor-text-color);
+        .indirectDescendant {
+          color: var(--indirect-descendant-text-color);
         }
         .submittableCheck {
           padding-left: var(--spacing-s);
@@ -147,8 +147,8 @@ export class GrRelatedChange extends LitElement {
       change._revision_number !== change._current_revision_number
     ) {
       classes.push('notCurrent');
-    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
-      classes.push('indirectAncestor');
+    } else if (!isChangeInfo(change) && this.isIndirectDescendant(change)) {
+      classes.push('indirectDescendant');
     } else if (change.submittable) {
       classes.push('submittable');
     } else if (change.status === ChangeStatus.NEW) {
@@ -169,15 +169,15 @@ export class GrRelatedChange extends LitElement {
       change._revision_number !== change._current_revision_number
     ) {
       return 'Not current';
-    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
-      return 'Indirect ancestor';
+    } else if (!isChangeInfo(change) && this.isIndirectDescendant(change)) {
+      return 'Indirect descendant';
     } else if (change.submittable) {
       return 'Submittable';
     }
     return '';
   }
 
-  private isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
+  private isIndirectDescendant(change: RelatedChangeAndCommitInfo) {
     return (
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)

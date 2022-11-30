@@ -226,7 +226,7 @@ const appThemeCss = safeStyleSheet`
     --tooltip-button-text-color: var(--gerrit-blue-dark);
     --negative-red-text-color: var(--red-600);
     --positive-green-text-color: var(--green-700);
-    --indirect-ancestor-text-color: var(--green-700);
+    --indirect-descendant-text-color: var(--green-700);
 
     /* background colors */
     /* primary background colors */

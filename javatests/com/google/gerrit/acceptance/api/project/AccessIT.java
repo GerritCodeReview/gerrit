@@ -67,6 +67,7 @@ import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -260,6 +261,32 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  public void addDuplicatedAccessSection_doesNotAddDuplicateEntry() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    pApi().access(accessInput);
+    List<String> projectConfigLines =
+        Arrays.asList(projectOperations.project(newProjectName).getConfig().toText().split("\n"));
+    assertThat(projectConfigLines)
+        .containsExactly(
+            "[submit]",
+            "\taction = inherit",
+            "[access \"refs/heads/*\"]",
+            "\tlabel-Code-Review = deny group Registered Users",
+            "\tlabel-Code-Review = -1..+1 group Project Owners",
+            "\tpush = group Registered Users");
+
+    // Apply the same permission once more
+    pApi().access(accessInput);
+
+    List<String> newProjectConfigLines =
+        Arrays.asList(projectOperations.project(newProjectName).getConfig().toText().split("\n"));
+    assertThat(projectConfigLines).isEqualTo(newProjectConfigLines);
   }
 
   @Test

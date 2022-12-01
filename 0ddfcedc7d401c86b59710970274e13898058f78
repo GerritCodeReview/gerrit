@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b1ca036_88457b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-12-01T21:51:25Z",
+      "side": 1,
+      "message": "You\u0027ll need to add a \"Release-Notes\" footer in order to make the change submittable. For this change, you could just add:\n\n`Release-Notes: skip`",
+      "revId": "0ddfcedc7d401c86b59710970274e13898058f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

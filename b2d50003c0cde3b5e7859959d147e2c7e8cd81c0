@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45d1af8_6fca47a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-12-01T10:31:59Z",
+      "side": 1,
+      "message": "nit: one",
+      "range": {
+        "startLine": 13,
+        "startChar": 68,
+        "endLine": 13,
+        "endChar": 72
+      },
+      "revId": "b2d50003c0cde3b5e7859959d147e2c7e8cd81c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b24f0bc_10fb37e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-12-01T10:31:59Z",
+      "side": 1,
+      "message": "Thanks a lot for the quick fix!",
+      "revId": "b2d50003c0cde3b5e7859959d147e2c7e8cd81c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ac514a_02402801",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-12-01T10:31:59Z",
+      "side": 1,
+      "message": "[for future] since we also do validation in project.config, it makes sense to reuse the same validation code from the rest API (here) and on direct push (in ProjectConfig). This will make the code more resilient. (Are there other code paths to updating project config?)\n\nNow, one might also need to check if the same case is handled for direct push.",
+      "revId": "b2d50003c0cde3b5e7859959d147e2c7e8cd81c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

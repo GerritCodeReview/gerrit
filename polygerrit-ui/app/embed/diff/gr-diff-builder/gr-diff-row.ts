@@ -348,7 +348,7 @@ export class GrDiffRow extends LitElement {
           if (lineNumber)
             fire(this, 'line-mouse-leave', {lineNum: lineNumber, side});
         }}
-      >${this.renderText(side)}${this.renderThreadGroup(side, lineNumber)}</td>
+      >${this.renderText(side)}${this.renderThreadGroup(side)}</td>
     `;
   }
 
@@ -369,11 +369,21 @@ export class GrDiffRow extends LitElement {
     return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
   }
 
-  private renderThreadGroup(side: Side, lineNumber?: LineNumber) {
-    if (!lineNumber) return;
-    // .content has `white-space: pre`, so prettier must not add spaces.
-    // prettier-ignore
-    return html`<div class="thread-group" data-side=${side}><slot name="${side}-${lineNumber}"></slot></div>`;
+  private renderThreadGroup(side: Side) {
+    const lineNumber = this.lineNumber(side);
+    if (!lineNumber) return nothing;
+    return html`<div class="thread-group" data-side=${side}>
+      <slot name="${side}-${lineNumber}"></slot>
+      ${this.renderSecondSlot()}
+    </div>`;
+  }
+
+  private renderSecondSlot() {
+    if (!this.unifiedDiff) return nothing;
+    if (this.line(Side.LEFT)?.type !== GrDiffLineType.BOTH) return nothing;
+    return html`<slot
+      name="${Side.LEFT}-${this.lineNumber(Side.LEFT)}"
+    ></slot>`;
   }
 
   private contentRef(side: Side) {

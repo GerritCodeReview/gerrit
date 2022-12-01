@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabelRemoval;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.ABANDONED_CHANGES;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.ALL_COMMENTS;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.NEW_CHANGES;
@@ -98,6 +99,11 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .add(allow(Permission.SUBMIT_AS).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.ABANDON).ref("refs/*").group(REGISTERED_USERS))
         .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
+        .add(
+            allowLabelRemoval(LabelId.CODE_REVIEW)
+                .ref("refs/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
         .update();
   }
 

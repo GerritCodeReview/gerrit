@@ -557,6 +557,7 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, String> IS_PURE_REVERT_FIELD =
       IndexedField.<ChangeData>stringBuilder("IsPureRevert")
+          .size(1)
           .build(cd -> Boolean.TRUE.equals(cd.isPureRevert()) ? "1" : "0");
 
   public static final IndexedField<ChangeData, String>.SearchSpec IS_PURE_REVERT_SPEC =
@@ -568,6 +569,7 @@ public class ChangeField {
    */
   public static final IndexedField<ChangeData, String> IS_SUBMITTABLE_FIELD =
       IndexedField.<ChangeData>stringBuilder("IsSubmittable")
+          .size(1)
           .build(
               cd ->
                   // All submit requirements should be fulfilled

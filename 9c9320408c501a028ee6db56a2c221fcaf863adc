@@ -16,6 +16,24 @@
       "message": "Should we be closing it before we update the text and button?",
       "revId": "9c9320408c501a028ee6db56a2c221fcaf863adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cbb6eca_c420e042",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-01T10:32:45Z",
+      "side": 1,
+      "message": "Text and button is updated of dialog and not the modal.\n\nI don\u0027t think updating the dialog content has any effect on the modal.",
+      "parentUuid": "efb4a23f_8ed597c1",
+      "revId": "9c9320408c501a028ee6db56a2c221fcaf863adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

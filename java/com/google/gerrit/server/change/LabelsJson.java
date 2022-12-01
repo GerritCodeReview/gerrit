@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
@@ -131,6 +132,28 @@ public class LabelsJson {
     }
     clearOnlyZerosEntries(permitted);
     return permitted.asMap();
+  }
+
+  /**
+   * Returns A list of all label names that the provided user has permission to remove.
+   *
+   * @param permissionsFor a Gerrit user ID.
+   * @param cd {@link ChangeData} corresponding to a specific gerrit change.
+   * @return A List of label names that the user can remove votes from.
+   */
+  List<String> removableLabels(Account.Id permissionsFor, ChangeData cd)
+      throws PermissionBackendException {
+    if (cd.change().isMerged()) {
+      return Collections.emptyList();
+    }
+    Set<String> votes = cd.currentApprovals().stream().map(a -> a.label()).collect(toSet());
+    Set<String> permittedRemovals =
+        permissionBackend.absentUser(permissionsFor).change(cd)
+            .testLabelRemovals(cd.getLabelTypes().getLabelTypes()).stream()
+            .map(p -> p.label())
+            .collect(toSet());
+    votes.retainAll(permittedRemovals);
+    return votes.stream().sorted().collect(toList());
   }
 
   private static void clearOnlyZerosEntries(SetMultimap<String, String> permitted) {

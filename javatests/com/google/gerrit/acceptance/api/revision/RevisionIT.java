@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabelRemoval;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
@@ -234,6 +235,11 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
 
     requestScopeOperations.setApiUser(admin.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabelRemoval(LabelId.CODE_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
     gApi.changes().id(changeId).reviewer(user.username()).deleteVote(LabelId.CODE_REVIEW);
     Optional<ApprovalInfo> crUser =
         get(changeId, DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all.stream()
@@ -2001,6 +2007,11 @@ public class RevisionIT extends AbstractDaemonTest {
     recommend(r.getChangeId());
 
     requestScopeOperations.setApiUser(admin.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabelRemoval(LabelId.CODE_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
     gApi.changes()
         .id(r.getChangeId())
         .current()

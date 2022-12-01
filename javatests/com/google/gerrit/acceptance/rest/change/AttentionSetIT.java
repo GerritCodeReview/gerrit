@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabelRemoval;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -1944,6 +1945,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   @Test
   public void deleteVotesDoesNotAffectAttentionSetWhenIgnoreAutomaticRulesIsSet() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabelRemoval(LabelId.CODE_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());
@@ -1968,6 +1975,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   @Test
   public void deleteVotesOfOthersAddThemToAttentionSet() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabelRemoval(LabelId.CODE_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());

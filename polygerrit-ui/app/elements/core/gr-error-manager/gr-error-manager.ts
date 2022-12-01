@@ -528,6 +528,9 @@ export class GrErrorManager extends LitElement {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;
     this.errorDialog.showSignInButton = !!options && !!options.showSignInButton;
+    if (this.errorModal.hasAttribute('open')) {
+      this.errorModal.close();
+    }
     this.errorModal.showModal();
   }
 }

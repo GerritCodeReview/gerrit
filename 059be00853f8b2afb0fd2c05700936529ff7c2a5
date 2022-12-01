@@ -22,6 +22,30 @@
       },
       "revId": "059be00853f8b2afb0fd2c05700936529ff7c2a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd394b3_fa0637c5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-01T11:27:59Z",
+      "side": 1,
+      "message": "I was using that, but the DOM differ does not respect the whitespace, so I reverted to just checking `innerHTML`.",
+      "parentUuid": "6a8034d0_a9dfaf35",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "059be00853f8b2afb0fd2c05700936529ff7c2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

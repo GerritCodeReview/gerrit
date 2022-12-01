@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873ffcbc_cbe1e5c2",
+        "filename": "polygerrit-ui/app/api/styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-01T18:52:55Z",
+      "side": 1,
+      "message": "maybe insertCSSRule?\nwithout reading the comment it wasn\u0027t obvious to me the rule was a CSS rule but maybe I\u0027m not familiar enough with the term.",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3892beab_6094de5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-01T18:52:55Z",
+      "side": 1,
+      "message": "maybe add a test that the `style#plugin-style` is re-used and not created again when getOrCreatePluginStyleEl is called twice?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

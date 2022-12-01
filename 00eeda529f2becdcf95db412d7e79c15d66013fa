@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "944f7a56_ff62d79e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-01T08:49:34Z",
+      "side": 1,
+      "message": "Does this third level fix that comment is created after 2 selected lines and not 3 selected lines?\n\n\nI tested this change and highlighting works well, thanks! But small nit is that comment is added after line 3 even when lines 1 and 2 were selected.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "00eeda529f2becdcf95db412d7e79c15d66013fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "669a6f41_32062b7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-01T08:49:34Z",
+      "side": 1,
+      "message": "Thanks for fix, this area is not easy to change - at least for me.",
+      "revId": "00eeda529f2becdcf95db412d7e79c15d66013fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

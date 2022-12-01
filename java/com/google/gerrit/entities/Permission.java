@@ -278,7 +278,10 @@ public abstract class Permission implements Comparable<Permission> {
 
     public Permission build() {
       setRules(
-          rulesBuilders.stream().map(PermissionRule.Builder::build).collect(toImmutableList()));
+          rulesBuilders.stream()
+              .map(PermissionRule.Builder::build)
+              .distinct()
+              .collect(toImmutableList()));
       return autoBuild();
     }
 

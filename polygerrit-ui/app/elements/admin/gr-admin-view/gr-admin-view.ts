@@ -129,6 +129,7 @@ export class GrAdminView extends LitElement {
 
   constructor() {
     super();
+    this.addEventListener('reload', () => window.location.reload());
     subscribe(
       this,
       () => this.getAdminViewModel().state$,

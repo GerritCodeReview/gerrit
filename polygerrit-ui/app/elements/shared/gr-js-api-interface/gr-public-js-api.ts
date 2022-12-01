@@ -35,6 +35,8 @@ import {JsApiService} from './gr-js-api-types';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {GrPluginStyleApi} from './gr-plugin-style-api';
+import {StylePluginApi} from '../../../api/styles';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -242,6 +244,10 @@ export class Plugin implements PluginApi {
 
   reporting(): ReportingPluginApi {
     return new GrReportingJsApi(this.report, this);
+  }
+
+  styleApi(): StylePluginApi {
+    return new GrPluginStyleApi(this.report, this);
   }
 
   admin(): AdminPluginApi {

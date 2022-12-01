@@ -19,6 +19,9 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.InvalidNameException;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -39,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -79,6 +83,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   public Response<ProjectAccessInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
       throws Exception {
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
+
+    validateInput(input);
 
     ProjectConfig config;
 
@@ -136,5 +142,66 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     }
 
     return Response.ok(getAccess.apply(rsrc.getNameKey()));
+  }
+
+  private static void validateInput(ProjectAccessInput input) throws BadRequestException {
+    if (input.add != null) {
+      for (Map.Entry<String, AccessSectionInfo> accessSectionEntry : input.add.entrySet()) {
+        validateAccessSection(accessSectionEntry.getKey(), accessSectionEntry.getValue());
+      }
+    }
+  }
+
+  private static void validateAccessSection(String ref, AccessSectionInfo accessSectionInfo)
+      throws BadRequestException {
+    if (accessSectionInfo != null) {
+      for (Map.Entry<String, PermissionInfo> permissionEntry :
+          accessSectionInfo.permissions.entrySet()) {
+        validatePermission(ref, permissionEntry.getKey(), permissionEntry.getValue());
+      }
+    }
+  }
+
+  private static void validatePermission(
+      String ref, String permission, PermissionInfo permissionInfo) throws BadRequestException {
+    if (permissionInfo != null) {
+      for (Map.Entry<String, PermissionRuleInfo> permissionRuleEntry :
+          permissionInfo.rules.entrySet()) {
+        validatePermissionRule(
+            ref, permission, permissionRuleEntry.getKey(), permissionRuleEntry.getValue());
+      }
+    }
+  }
+
+  private static void validatePermissionRule(
+      String ref, String permission, String groupId, PermissionRuleInfo permissionRuleInfo)
+      throws BadRequestException {
+    if (permissionRuleInfo != null) {
+      if (permissionRuleInfo.min != null || permissionRuleInfo.max != null) {
+        if (permissionRuleInfo.min == null) {
+          throw new BadRequestException(
+              String.format(
+                  "Invalid range for permission rule that assigns %s to group %s on ref %s:"
+                      + " ..%d (min is required if max is set)",
+                  permission, groupId, ref, permissionRuleInfo.max));
+        }
+
+        if (permissionRuleInfo.max == null) {
+          throw new BadRequestException(
+              String.format(
+                  "Invalid range for permission rule that assigns %s to group %s on ref %s:"
+                      + " %d.. (max is required if min is set)",
+                  permission, groupId, ref, permissionRuleInfo.min));
+        }
+
+        if (permissionRuleInfo.min > permissionRuleInfo.max) {
+          throw new BadRequestException(
+              String.format(
+                  "Invalid range for permission rule that assigns %s to group %s on ref %s:"
+                      + " %d..%d (min must be <= max)",
+                  permission, groupId, ref, permissionRuleInfo.min, permissionRuleInfo.max));
+        }
+      }
+    }
   }
 }

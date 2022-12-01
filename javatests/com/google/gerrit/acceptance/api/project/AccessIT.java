@@ -352,6 +352,79 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addAccessSectionWithInvalidLabelRange_minGreaterThanMax() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    PermissionInfo permissionInfo = newPermissionInfo();
+    PermissionRuleInfo permissionRuleInfo =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    permissionInfo.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), permissionRuleInfo);
+    permissionRuleInfo.min = 1;
+    permissionRuleInfo.max = -1;
+    accessSectionInfo.permissions.put("label-Code-Review", permissionInfo);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Invalid range for permission rule that assigns label-Code-Review to group %s"
+                    + " on ref refs/heads/*: 1..-1 (min must be <= max)",
+                SystemGroupBackend.REGISTERED_USERS.get()));
+  }
+
+  @Test
+  public void addAccessSectionWithInvalidLabelRange_minSetMaxMissing() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    PermissionInfo permissionInfo = newPermissionInfo();
+    PermissionRuleInfo permissionRuleInfo =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    permissionInfo.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), permissionRuleInfo);
+    permissionRuleInfo.min = -1;
+    accessSectionInfo.permissions.put("label-Code-Review", permissionInfo);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Invalid range for permission rule that assigns label-Code-Review to group %s"
+                    + " on ref refs/heads/*: -1.. (max is required if min is set)",
+                SystemGroupBackend.REGISTERED_USERS.get()));
+  }
+
+  @Test
+  public void addAccessSectionWithInvalidLabelRange_maxSetMinMissing() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    PermissionInfo permissionInfo = newPermissionInfo();
+    PermissionRuleInfo permissionRuleInfo =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    permissionInfo.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), permissionRuleInfo);
+    permissionRuleInfo.max = 1;
+    accessSectionInfo.permissions.put("label-Code-Review", permissionInfo);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(ex)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Invalid range for permission rule that assigns label-Code-Review to group %s"
+                    + " on ref refs/heads/*: ..1 (min is required if max is set)",
+                SystemGroupBackend.REGISTERED_USERS.get()));
+  }
+
+  @Test
   public void createAccessChangeNop() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     assertThrows(BadRequestException.class, () -> pApi().accessChange(accessInput));

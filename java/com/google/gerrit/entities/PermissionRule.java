@@ -202,6 +202,9 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
         int dotdot = range.indexOf("..");
         int min = parseInt(range.substring(0, dotdot));
         int max = parseInt(range.substring(dotdot + 2));
+        if (min > max) {
+          throw new IllegalArgumentException("Invalid range in rule: " + orig);
+        }
         rule.setRange(min, max);
       } else {
         throw new IllegalArgumentException("Invalid range in rule: " + orig);

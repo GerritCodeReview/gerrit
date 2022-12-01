@@ -56,6 +56,30 @@
       },
       "revId": "1c2d018b6e1a38e817350461e3128de6e49b31bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aff974f_77818391",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-01T20:48:31Z",
+      "side": 1,
+      "message": "Bind the provider to Path and use a named binding to identify which binding is needed ?\n `bind(GitBasePathProvider.class).annotatedWith(Names.named(\"BasePath\")).toProvider(Path.class).in(SINGLETON)`\n \nThen this constructor can inject the basePath like this:\n\n```\n@Inject\nLocalDiskRepositoryManager(@Named(\"BasePath\") GitBasePathProvider basePathProvider)\n```\n\nsee https://github.com/google/guice/wiki/BindingAnnotations",
+      "parentUuid": "bb4267de_4066e78f",
+      "range": {
+        "startLine": 117,
+        "startChar": 29,
+        "endLine": 117,
+        "endChar": 48
+      },
+      "revId": "1c2d018b6e1a38e817350461e3128de6e49b31bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

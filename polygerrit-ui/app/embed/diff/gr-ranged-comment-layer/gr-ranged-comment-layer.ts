@@ -144,12 +144,13 @@ export class GrRangedCommentLayer implements DiffLayer {
       side,
       range,
       operation: (forLine, startChar, endChar) => {
-        forLine.push({
-          start: startChar,
-          end: endChar,
-          id: id(commentRange),
-          longRange,
-        });
+        if (startChar !== endChar)
+          forLine.push({
+            start: startChar,
+            end: endChar,
+            id: id(commentRange),
+            longRange,
+          });
       },
     });
   }
@@ -202,7 +203,7 @@ export class GrRangedCommentLayer implements DiffLayer {
       // Normalize invalid ranges where the start is after the end but the
       // start still makes sense. Set the end to the end of the line.
       // @see Issue 5744
-      if (range.start >= range.end && range.start < line.text.length) {
+      if (range.start > range.end && range.start < line.text.length) {
         range.end = line.text.length;
       }
 

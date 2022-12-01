@@ -69,6 +69,16 @@ const rangeE: CommentRangeLayer = {
   },
 };
 
+const rangeF: CommentRangeLayer = {
+  side: Side.RIGHT,
+  range: {
+    end_character: 0,
+    end_line: 24,
+    start_character: 0,
+    start_line: 23,
+  },
+};
+
 suite('gr-ranged-comment-layer', () => {
   let element: GrRangedCommentLayer;
 
@@ -79,6 +89,7 @@ suite('gr-ranged-comment-layer', () => {
       rangeC,
       rangeD,
       rangeE,
+      rangeF,
     ];
 
     element = new GrRangedCommentLayer();
@@ -217,6 +228,16 @@ suite('gr-ranged-comment-layer', () => {
         annotateElementStub.lastCall.args[3],
         'gr-diff range generated_right-60-1-71-1'
       );
+    });
+
+    test('do not annotate lines with end_character 0', () => {
+      line = new GrDiffLine(GrDiffLineType.BOTH);
+      line.afterNumber = 24;
+      el.setAttribute('data-side', Side.RIGHT);
+
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isFalse(annotateElementStub.called);
     });
 
     test('updateRanges remove all', () => {

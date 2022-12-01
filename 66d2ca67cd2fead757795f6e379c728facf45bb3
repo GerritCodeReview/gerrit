@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0cf8f7cb_7bba4714",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44468462_3b255700",
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c7b3a0b8_e20d374b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "Tip for future changes: If you need larger refactorings please frontload them in their own changes and make a dependency chain basing your desired change on top. It helps reviewing but also makes rolling back the actual change easier should that be necessary.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e14c99fc_29a51573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Thanks for the tip!",
+      "parentUuid": "c7b3a0b8_e20d374b",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -54,6 +96,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "please explain what happens when the chain is out of sync. e.g.:\n\nc3\nc2\nc1\n\n\nwhere c2 depends on an outdated version of c1.",
+      "range": {
+        "startLine": 1516,
+        "startChar": 98,
+        "endLine": 1516,
+        "endChar": 99
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11348746_19875a22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07bf89d6_0161a310",
       "range": {
         "startLine": 1516,
         "startChar": 98,
@@ -110,6 +176,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "084762a7_d3f5b363",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1520,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada65ae6_1ce2cd48",
+      "range": {
+        "startLine": 1520,
+        "startChar": 55,
+        "endLine": 1520,
+        "endChar": 56
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf73c14_fb07cb55",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1520,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9387b1ed_280ec9a1",
+      "range": {
+        "startLine": 1520,
+        "startChar": 101,
+        "endLine": 1520,
+        "endChar": 104
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ea673d4_9a2f3122",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "nit: extra .",
+      "range": {
+        "startLine": 23,
+        "startChar": 78,
+        "endLine": 23,
+        "endChar": 80
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3084cdb_b6df93e1",
+        "filename": "java/com/google/gerrit/extensions/common/RebaseChainInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea673d4_9a2f3122",
       "range": {
         "startLine": 23,
         "startChar": 78,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e5b5bc_8733e935",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ed79c2_f1ef552f",
+      "range": {
+        "startLine": 280,
+        "startChar": 6,
+        "endLine": 286,
+        "endChar": 44
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cf84c57_d790ae38",
@@ -169,6 +331,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "Please explain the logic here.",
+      "range": {
+        "startLine": 176,
+        "startChar": 61,
+        "endLine": 176,
+        "endChar": 62
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcc6ada_5aec3992",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cf84c57_d790ae38",
       "range": {
         "startLine": 176,
         "startChar": 61,
@@ -202,6 +388,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6633ba88_de876c24",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "This sha1 is provided textually using the input.base field.\nMost of this methods is for obtaining the ObjectId.",
+      "parentUuid": "97c281b8_5ef8d1ce",
+      "range": {
+        "startLine": 193,
+        "startChar": 16,
+        "endLine": 193,
+        "endChar": 22
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b14255b9_6cd34ac4",
@@ -215,6 +425,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "objectId.equals(ObjectId.zeroId())",
+      "range": {
+        "startLine": 202,
+        "startChar": 11,
+        "endLine": 202,
+        "endChar": 22
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da30b854_a9bcc7da",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure why would an empty string have a dedicated behavior in this method, but I don\u0027t want to change it as part of a larger change.",
+      "parentUuid": "b14255b9_6cd34ac4",
       "range": {
         "startLine": 202,
         "startChar": 11,
@@ -242,6 +476,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d91265_a7d6fc2f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53c8b07_dfc1154a",
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "651ca19b_2ccbd1eb",
@@ -255,6 +507,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "remove :-)",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 78
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fffd25f_e76673fc",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "651ca19b_2ccbd1eb",
       "range": {
         "startLine": 134,
         "startChar": 6,
@@ -288,6 +564,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a89d123_292e16f3",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf724cd2_da3e1403",
+      "range": {
+        "startLine": 143,
+        "startChar": 30,
+        "endLine": 143,
+        "endChar": 50
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "508ab831_25e326e3",
@@ -301,6 +601,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "nit: line too long",
+      "range": {
+        "startLine": 161,
+        "startChar": 100,
+        "endLine": 161,
+        "endChar": 101
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a841dc2_f9eba305",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "508ab831_25e326e3",
       "range": {
         "startLine": 161,
         "startChar": 100,
@@ -334,6 +658,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb10ee2d_199a8d56",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234741dc_f400b902",
+      "range": {
+        "startLine": 189,
+        "startChar": 23,
+        "endLine": 189,
+        "endChar": 24
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c405bc6d_416dfa3e",
@@ -357,6 +705,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "121d5860_f5bf2b6e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c405bc6d_416dfa3e",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 43
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d031fe6c_2835c0d2",
@@ -370,6 +742,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "This computation is expensive and doesn\u0027t give correct results (because it checks if the individual change can be rebased individually on the target branch).\n\nSo we\u0027d need to do what rebasechainop does to make the result correct.",
+      "range": {
+        "startLine": 200,
+        "startChar": 23,
+        "endLine": 200,
+        "endChar": 32
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262cee1b_0969b1e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "I don\u0027t think that the result is wrong, but that it is only useful for the first ancestor. `canRebase` checks whether `findBaseRevision` returns a valid revision. This is exactly what `RebaseChangeOp::rebaseCommit` does for the top ancestor when no `input.base` is specified.\nFor the rest of the chain - we rebase on the fetched parents, so I don\u0027t think there\u0027s a benefit in checking reachablity there.",
+      "parentUuid": "d031fe6c_2835c0d2",
       "range": {
         "startLine": 200,
         "startChar": 23,
@@ -426,6 +822,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "464e8795_fdc7b4c8",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "946c81d8_beae6302",
+      "range": {
+        "startLine": 214,
+        "startChar": 67,
+        "endLine": 214,
+        "endChar": 68
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f556946_52e68dba",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Changed to reuse the logic of the \"related changes\" tab.",
+      "parentUuid": "793b28c5_d1435ff3",
+      "range": {
+        "startLine": 214,
+        "startChar": 11,
+        "endLine": 214,
+        "endChar": 100
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "474bd86a_dd54328b",
@@ -439,6 +883,30 @@
       "writtenOn": "2022-11-25T08:29:45Z",
       "side": 1,
       "message": "Can we also test for:\n\n- wrong api inputs\n- partially outdated chains?",
+      "range": {
+        "startLine": 890,
+        "startChar": 14,
+        "endLine": 890,
+        "endChar": 27
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e4948d4_c8fe61a2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-01T13:55:26Z",
+      "side": 1,
+      "message": "Added a test for outdated chains.\n\nAs per wrong API inputs - I think they have a good coverage in the base class test. Added a test for disallowing recursion.",
+      "parentUuid": "474bd86a_dd54328b",
       "range": {
         "startLine": 890,
         "startChar": 14,

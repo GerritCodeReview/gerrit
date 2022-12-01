@@ -43,6 +43,7 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String FORGE_SERVER = "forgeServerAsCommitter";
   public static final String LABEL = "label-";
   public static final String LABEL_AS = "labelAs-";
+  public static final String REMOVE_LABEL = "removeLabel-";
   public static final String OWNER = "owner";
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
@@ -60,6 +61,7 @@ public abstract class Permission implements Comparable<Permission> {
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
   private static final int LABEL_AS_INDEX;
+  private static final int REMOVE_LABEL_INDEX;
 
   static {
     NAMES_LC = new ArrayList<>();
@@ -79,6 +81,7 @@ public abstract class Permission implements Comparable<Permission> {
     NAMES_LC.add(FORGE_SERVER.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(LABEL_AS.toLowerCase());
+    NAMES_LC.add(REMOVE_LABEL.toLowerCase());
     NAMES_LC.add(OWNER.toLowerCase());
     NAMES_LC.add(PUSH.toLowerCase());
     NAMES_LC.add(PUSH_MERGE.toLowerCase());
@@ -93,15 +96,19 @@ public abstract class Permission implements Comparable<Permission> {
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
+    REMOVE_LABEL_INDEX = NAMES_LC.indexOf(Permission.REMOVE_LABEL.toLowerCase());
   }
 
   /** Returns true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
-    return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
+    return isLabel(varName)
+        || isLabelAs(varName)
+        || isRemoveLabel(varName)
+        || NAMES_LC.contains(varName.toLowerCase());
   }
 
   public static boolean hasRange(String varName) {
-    return isLabel(varName) || isLabelAs(varName);
+    return isLabel(varName) || isLabelAs(varName) || isRemoveLabel(varName);
   }
 
   /** Returns true if the permission name is actually for a review label. */
@@ -114,6 +121,11 @@ public abstract class Permission implements Comparable<Permission> {
     return var.startsWith(LABEL_AS) && LABEL_AS.length() < var.length();
   }
 
+  /** Returns true if the permission is for impersonated review labels. */
+  public static boolean isRemoveLabel(String var) {
+    return var.startsWith(REMOVE_LABEL) && REMOVE_LABEL.length() < var.length();
+  }
+
   /** Returns permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
@@ -124,12 +136,19 @@ public abstract class Permission implements Comparable<Permission> {
     return LABEL_AS + labelName;
   }
 
+  /** Returns permission name to remove a label for another user. */
+  public static String forRemoveLabel(String labelName) {
+    return REMOVE_LABEL + labelName;
+  }
+
   @Nullable
   public static String extractLabel(String varName) {
     if (isLabel(varName)) {
       return varName.substring(LABEL.length());
     } else if (isLabelAs(varName)) {
       return varName.substring(LABEL_AS.length());
+    } else if (isRemoveLabel(varName)) {
+      return varName.substring(REMOVE_LABEL.length());
     }
     return null;
   }
@@ -205,6 +224,8 @@ public abstract class Permission implements Comparable<Permission> {
       return LABEL_INDEX;
     } else if (isLabelAs(a.getName())) {
       return LABEL_AS_INDEX;
+    } else if (isRemoveLabel(a.getName())) {
+      return REMOVE_LABEL_INDEX;
     }
 
     int index = NAMES_LC.indexOf(a.getName().toLowerCase());

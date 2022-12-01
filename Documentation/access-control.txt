@@ -800,6 +800,19 @@ the `Revert Change` button.
 Users without this access right who are able to upload changes can
 still do the revert locally and upload the revert commit as a new change.
 
+[[category_remove_label]]
+=== Remove Label (Remove Vote)
+
+This category permits users to remove other users' votes from a change.
+
+Change owners can always remove zero or positive votes (even without
+having the `Remove Vote` access right assigned).
+
+Project owners and site administrators can always remove any vote (even
+without having the `Remove Vote` access right assigned).
+
+Users without this access right can still remove their own votes.
+
 [[category_remove_reviewer]]
 === Remove Reviewer
 

@@ -36,15 +36,18 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.DeleteVoteControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -69,10 +72,12 @@ public class LabelsJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
+  private final DeleteVoteControl deleteVoteControl;
 
   @Inject
-  LabelsJson(PermissionBackend permissionBackend) {
+  LabelsJson(PermissionBackend permissionBackend, DeleteVoteControl deleteVoteControl) {
     this.permissionBackend = permissionBackend;
+    this.deleteVoteControl = deleteVoteControl;
   }
 
   /**
@@ -131,6 +136,45 @@ public class LabelsJson {
     }
     clearOnlyZerosEntries(permitted);
     return permitted.asMap();
+  }
+
+  /**
+   * Returns A map of all labels that the provided user has permission to remove.
+   *
+   * @param accountLoader to load the reviewers' data with.
+   * @param user a Gerrit user.
+   * @param cd {@link ChangeData} corresponding to a specific gerrit change.
+   * @return A Map of {@code labelName} -> {Map of {@code value} -> List of {@link AccountInfo}}
+   *     that the user can remove votes from.
+   */
+  Map<String, Map<String, List<AccountInfo>>> removableLabels(
+      AccountLoader accountLoader, CurrentUser user, ChangeData cd)
+      throws PermissionBackendException {
+    if (cd.change().isMerged()) {
+      return new HashMap<>();
+    }
+
+    Map<String, Map<String, List<AccountInfo>>> res = new HashMap<>();
+    LabelTypes labelTypes = cd.getLabelTypes();
+    for (PatchSetApproval approval : cd.currentApprovals()) {
+      Optional<LabelType> labelType = labelTypes.byLabel(approval.labelId());
+      if (!labelType.isPresent()) {
+        continue;
+      }
+      if (!deleteVoteControl.testDeleteVotePermissions(
+          user, cd.notes(), approval, labelType.get())) {
+        continue;
+      }
+      if (!res.containsKey(approval.label())) {
+        res.put(approval.label(), new HashMap<>());
+      }
+      String labelValue = LabelValue.formatValue(approval.value());
+      if (!res.get(approval.label()).containsKey(labelValue)) {
+        res.get(approval.label()).put(labelValue, new ArrayList<>());
+      }
+      res.get(approval.label()).get(labelValue).add(accountLoader.get(approval.accountId()));
+    }
+    return res;
   }
 
   private static void clearOnlyZerosEntries(SetMultimap<String, String> permitted) {
@@ -217,10 +261,10 @@ public class LabelsJson {
     }
   }
 
-  private Map<String, Short> currentLabels(Account.Id accountId, ChangeData cd) {
+  private Map<String, Short> currentLabels(@Nullable Account.Id accountId, ChangeData cd) {
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa : cd.currentApprovals()) {
-      if (psa.accountId().equals(accountId)) {
+      if (accountId == null || psa.accountId().equals(accountId)) {
         result.put(psa.label(), psa.value());
       }
     }

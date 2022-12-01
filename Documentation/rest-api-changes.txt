@@ -7071,6 +7071,11 @@ labels] are requested.
 A map of the permitted labels that maps a label name to the list of
 values that are allowed for that label. +
 Only set if link:#detailed-labels[detailed labels] are requested.
+|`removable_labels`   |optional|
+A map of the removable labels that maps a label name to the map of
+values and reviewers that are allowed to be removed from the change. +
+Only set if link:#labels[labels] or
+link:#detailed-labels[detailed labels] are requested.
 |`removable_reviewers`|optional|
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +

@@ -170,6 +170,20 @@ public abstract class TestProjectUpdate {
     return TestLabelPermission.builder().name(name).action(PermissionRule.Action.BLOCK);
   }
 
+  /** Starts a builder for allowing a remove-label permission. */
+  public static TestPermission.Builder allowLabelRemoval(String name) {
+    return TestPermission.builder()
+        .name(Permission.forRemoveLabelAs(name))
+        .action(PermissionRule.Action.ALLOW);
+  }
+
+  /** Starts a builder for denying a remove-label permission. */
+  public static TestPermission.Builder blockLabelRemoval(String name) {
+    return TestPermission.builder()
+        .name(Permission.forRemoveLabelAs(name))
+        .action(PermissionRule.Action.BLOCK);
+  }
+
   /** Records a label permission to be updated. */
   @AutoValue
   public abstract static class TestLabelPermission {
@@ -241,6 +255,12 @@ public abstract class TestProjectUpdate {
   public static TestPermissionKey.Builder labelPermissionKey(String name) {
     checkLabelName(name);
     return TestPermissionKey.builder().name(Permission.forLabel(name));
+  }
+
+  /** Starts a builder for describing a label removal permission key for deletion. */
+  public static TestPermissionKey.Builder labelRemovalPermissionKey(String name) {
+    checkLabelName(name);
+    return TestPermissionKey.builder().name(Permission.forRemoveLabelAs(name));
   }
 
   /** Starts a builder for describing a capability key for deletion. */

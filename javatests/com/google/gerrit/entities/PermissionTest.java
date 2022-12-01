@@ -36,6 +36,7 @@ public class PermissionTest {
 
     assertThat(Permission.isPermission(Permission.LABEL + LabelId.CODE_REVIEW)).isTrue();
     assertThat(Permission.isPermission(Permission.LABEL_AS + LabelId.CODE_REVIEW)).isTrue();
+    assertThat(Permission.isPermission(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW)).isTrue();
     assertThat(Permission.isPermission(LabelId.CODE_REVIEW)).isFalse();
   }
 
@@ -56,6 +57,7 @@ public class PermissionTest {
 
     assertThat(Permission.isLabel(Permission.LABEL + LabelId.CODE_REVIEW)).isTrue();
     assertThat(Permission.isLabel(Permission.LABEL_AS + LabelId.CODE_REVIEW)).isFalse();
+    assertThat(Permission.isLabel(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW)).isFalse();
     assertThat(Permission.isLabel(LabelId.CODE_REVIEW)).isFalse();
   }
 
@@ -66,7 +68,20 @@ public class PermissionTest {
 
     assertThat(Permission.isLabelAs(Permission.LABEL + LabelId.CODE_REVIEW)).isFalse();
     assertThat(Permission.isLabelAs(Permission.LABEL_AS + LabelId.CODE_REVIEW)).isTrue();
+    assertThat(Permission.isLabelAs(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW)).isFalse();
     assertThat(Permission.isLabelAs(LabelId.CODE_REVIEW)).isFalse();
+  }
+
+  @Test
+  public void isRemoveLabelAs() {
+    assertThat(Permission.isRemoveLabelAs(Permission.ABANDON)).isFalse();
+    assertThat(Permission.isRemoveLabelAs("no-permission")).isFalse();
+
+    assertThat(Permission.isRemoveLabelAs(Permission.LABEL + LabelId.CODE_REVIEW)).isFalse();
+    assertThat(Permission.isRemoveLabelAs(Permission.LABEL_AS + LabelId.CODE_REVIEW)).isFalse();
+    assertThat(Permission.isRemoveLabelAs(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW))
+        .isTrue();
+    assertThat(Permission.isRemoveLabelAs(LabelId.CODE_REVIEW)).isFalse();
   }
 
   @Test
@@ -82,10 +97,18 @@ public class PermissionTest {
   }
 
   @Test
+  public void forRemoveLabelAs() {
+    assertThat(Permission.forRemoveLabelAs(LabelId.CODE_REVIEW))
+        .isEqualTo(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW);
+  }
+
+  @Test
   public void extractLabel() {
     assertThat(Permission.extractLabel(Permission.LABEL + LabelId.CODE_REVIEW))
         .isEqualTo(LabelId.CODE_REVIEW);
     assertThat(Permission.extractLabel(Permission.LABEL_AS + LabelId.CODE_REVIEW))
+        .isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(Permission.extractLabel(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW))
         .isEqualTo(LabelId.CODE_REVIEW);
     assertThat(Permission.extractLabel(LabelId.CODE_REVIEW)).isNull();
     assertThat(Permission.extractLabel(Permission.ABANDON)).isNull();
@@ -103,6 +126,10 @@ public class PermissionTest {
             Permission.canBeOnAllProjects(
                 AccessSection.ALL, Permission.LABEL_AS + LabelId.CODE_REVIEW))
         .isTrue();
+    assertThat(
+            Permission.canBeOnAllProjects(
+                AccessSection.ALL, Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW))
+        .isTrue();
 
     assertThat(Permission.canBeOnAllProjects("refs/heads/*", Permission.ABANDON)).isTrue();
     assertThat(Permission.canBeOnAllProjects("refs/heads/*", Permission.OWNER)).isTrue();
@@ -112,6 +139,10 @@ public class PermissionTest {
     assertThat(
             Permission.canBeOnAllProjects(
                 "refs/heads/*", Permission.LABEL_AS + LabelId.CODE_REVIEW))
+        .isTrue();
+    assertThat(
+            Permission.canBeOnAllProjects(
+                "refs/heads/*", Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW))
         .isTrue();
   }
 
@@ -125,6 +156,8 @@ public class PermissionTest {
     assertThat(Permission.create(Permission.LABEL + LabelId.CODE_REVIEW).getLabel())
         .isEqualTo(LabelId.CODE_REVIEW);
     assertThat(Permission.create(Permission.LABEL_AS + LabelId.CODE_REVIEW).getLabel())
+        .isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(Permission.create(Permission.REMOVE_LABEL_AS + LabelId.CODE_REVIEW).getLabel())
         .isEqualTo(LabelId.CODE_REVIEW);
     assertThat(Permission.create(LabelId.CODE_REVIEW).getLabel()).isNull();
     assertThat(Permission.create(Permission.ABANDON).getLabel()).isNull();

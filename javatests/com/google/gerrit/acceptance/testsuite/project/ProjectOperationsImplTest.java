@@ -329,7 +329,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
-  public void addDuplicatePermissions() throws Exception {
+  public void addDuplicatePermissions_isIgnored() throws Exception {
     TestPermission permission =
         TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS).build();
     Project.NameKey key = projectOperations.newProject().create();
@@ -340,9 +340,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
-        .containsExactly(
-            "abandon", "group global:Registered-Users",
-            "abandon", "group global:Registered-Users");
+        // Duplicated permission was recorded only once
+        .containsExactly("abandon", "group global:Registered-Users");
 
     projectOperations.project(key).forUpdate().add(permission).update();
     config = projectOperations.project(key).getConfig();
@@ -350,10 +349,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config).subsections("access").containsExactly("refs/foo");
     assertThat(config)
         .subsectionValues("access", "refs/foo")
-        .containsExactly(
-            "abandon", "group global:Registered-Users",
-            "abandon", "group global:Registered-Users",
-            "abandon", "group global:Registered-Users");
+        // Duplicated permission in request was dropped
+        .containsExactly("abandon", "group global:Registered-Users");
   }
 
   @Test

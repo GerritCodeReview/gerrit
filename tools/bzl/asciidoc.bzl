@@ -122,7 +122,7 @@ _asciidoc_attrs = {
     ),
     "_exe": attr.label(
         default = Label("//java/com/google/gerrit/asciidoctor:asciidoc"),
-        cfg = "host",
+        cfg = "exec",
         allow_files = True,
         executable = True,
     ),

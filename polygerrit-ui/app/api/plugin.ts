@@ -14,6 +14,7 @@ import {ReportingPluginApi} from './reporting';
 import {ChangeActionsPluginApi} from './change-actions';
 import {RestPluginApi} from './rest';
 import {HookApi, RegisterOptions} from './hook';
+import {StylePluginApi} from './styles';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -83,4 +84,5 @@ export declare interface PluginApi {
   restApi(): RestPluginApi;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   screen(screenName: string, moduleName?: string): any;
+  styleApi(): StylePluginApi;
 }

@@ -294,7 +294,13 @@ export function applyTheme() {
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'dark-theme');
   safeStyleEl.setTextContent(styleEl, darkThemeCss);
-  document.head.appendChild(styleEl);
+
+  // We would like to insert the dark theme styles after the light theme such
+  // that the dark theme values override the defaults in the light theme. But
+  // OTOH we want to insert before any plugin provided styles, because we do NOT
+  // want to override those.
+  const pluginStyleEl = document.head.querySelector('style.plugin-style');
+  document.head.insertBefore(styleEl, pluginStyleEl);
 }
 
 export function removeTheme() {

@@ -19,7 +19,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
@@ -1213,10 +1212,10 @@ public class ChangeField {
       COMMENTBY_FIELD.integer(ChangeQueryBuilder.FIELD_COMMENTBY);
 
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
-  public static final FieldDef<ChangeData, Iterable<String>> STAR =
-      exact(ChangeQueryBuilder.FIELD_STAR)
+  public static final IndexedField<ChangeData, Iterable<String>> STAR_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Star")
           .stored()
-          .buildRepeatable(
+          .build(
               cd ->
                   Iterables.transform(
                       cd.stars().entries(),
@@ -1228,16 +1227,25 @@ public class ChangeField {
                           .map(f -> StarredChangesUtil.StarField.parse(f))
                           .collect(toImmutableListMultimap(e -> e.accountId(), e -> e.label()))));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec STAR_SPEC =
+      STAR_FIELD.exact(ChangeQueryBuilder.FIELD_STAR);
+
   /** Users that have starred the change with any label. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> STARBY =
-      integer(ChangeQueryBuilder.FIELD_STARBY)
-          .buildRepeatable(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
+  public static final IndexedField<ChangeData, Iterable<Integer>> STARBY_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("StarBy")
+          .build(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec STARBY_SPEC =
+      STARBY_FIELD.integer(ChangeQueryBuilder.FIELD_STARBY);
 
   /** Opaque group identifiers for this change's patch sets. */
-  public static final FieldDef<ChangeData, Iterable<String>> GROUP =
-      exact(ChangeQueryBuilder.FIELD_GROUP)
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<String>> GROUP_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Group")
+          .build(
               cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()).collect(toSet()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec GROUP_SPEC =
+      GROUP_FIELD.exact(ChangeQueryBuilder.FIELD_GROUP);
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
@@ -1247,14 +1255,20 @@ public class ChangeField {
               (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
 
   /** Users who have edits on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> EDITBY =
-      integer(ChangeQueryBuilder.FIELD_EDITBY)
-          .buildRepeatable(cd -> cd.editsByUser().stream().map(Account.Id::get).collect(toSet()));
+  public static final IndexedField<ChangeData, Iterable<Integer>> EDITBY_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("EditBy")
+          .build(cd -> cd.editsByUser().stream().map(Account.Id::get).collect(toSet()));
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec EDITBY_SPEC =
+      EDITBY_FIELD.integer(ChangeQueryBuilder.FIELD_EDITBY);
 
   /** Users who have draft comments on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> DRAFTBY =
-      integer(ChangeQueryBuilder.FIELD_DRAFTBY)
-          .buildRepeatable(cd -> cd.draftsByUser().stream().map(Account.Id::get).collect(toSet()));
+  public static final IndexedField<ChangeData, Iterable<Integer>> DRAFTBY_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("DraftBy")
+          .build(cd -> cd.draftsByUser().stream().map(Account.Id::get).collect(toSet()));
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec DRAFTBY_SPEC =
+      DRAFTBY_FIELD.integer(ChangeQueryBuilder.FIELD_DRAFTBY);
 
   public static final Integer NOT_REVIEWED = -1;
 
@@ -1268,10 +1282,10 @@ public class ChangeField {
    * <p>If the latest update is by the change owner, then the special value {@link #NOT_REVIEWED} is
    * emitted.
    */
-  public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWEDBY =
-      integer(ChangeQueryBuilder.FIELD_REVIEWEDBY)
+  public static final IndexedField<ChangeData, Iterable<Integer>> REVIEWEDBY_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("ReviewedBy")
           .stored()
-          .buildRepeatable(
+          .build(
               cd -> {
                 Set<Account.Id> reviewedBy = cd.reviewedBy();
                 if (reviewedBy.isEmpty()) {
@@ -1284,6 +1298,9 @@ public class ChangeField {
                       StreamSupport.stream(field.spliterator(), false)
                           .map(Account::id)
                           .collect(toImmutableSet())));
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec REVIEWEDBY_SPEC =
+      REVIEWEDBY_FIELD.integer(ChangeQueryBuilder.FIELD_REVIEWEDBY);
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();

@@ -22,6 +22,7 @@ export declare interface Style {
   toString(): string;
 }
 
+/** Accessible via `window.Gerrit.styles`. */
 export declare interface Styles {
   font: Style;
   form: Style;
@@ -31,4 +32,25 @@ export declare interface Styles {
   subPage: Style;
   table: Style;
   modal: Style;
+}
+
+/** Accessible via `window.Gerrit.install(plugin => {plugin.styleApi()})`. */
+export declare interface StylePluginApi {
+  /**
+   * Convenience method for adding a <style> element to <head>.
+   *
+   * @param css the css rules, e.g.:
+   *        ```
+   *          html {
+   *            --header-background-color: green;
+   *          }
+   *          html.lightTheme {
+   *            --header-background-color: red;
+   *          }
+   *          html.darkTheme {
+   *            --header-background-color: blue;
+   *          }
+   *        ```
+   */
+  addStyle(css: string): void;
 }

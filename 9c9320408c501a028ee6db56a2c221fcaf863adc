@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb4a23f_8ed597c1",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-01T10:31:41Z",
+      "side": 1,
+      "message": "Should we be closing it before we update the text and button?",
+      "revId": "9c9320408c501a028ee6db56a2c221fcaf863adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

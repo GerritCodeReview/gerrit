@@ -27,79 +27,77 @@ suite('annotation', () => {
     str = textNode.textContent!;
   });
 
+  test('_annotateText length:0 offset:0', () => {
+    GrAnnotation._annotateText(textNode, 0, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      '<hl class="foobar"></hl>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula'
+    );
+  });
+
+  test('_annotateText length:0 offset:1', () => {
+    GrAnnotation._annotateText(textNode, 1, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'L<hl class="foobar"></hl>orem ipsum dolor sit amet, suspendisse inceptos vehicula'
+    );
+  });
+
+  test('_annotateText length:0 offset:str.length', () => {
+    GrAnnotation._annotateText(textNode, str.length, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula<hl class="foobar"></hl>'
+    );
+  });
+
   test('_annotateText Case 1', () => {
     GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
 
-    assert.equal(parent.childNodes.length, 1);
-    assert.instanceOf(parent.childNodes[0], HTMLElement);
-    const firstChild = parent.childNodes[0] as HTMLElement;
-    assert.equal(firstChild.className, 'foobar');
-    assert.instanceOf(firstChild.childNodes[0], Text);
-    assert.equal(firstChild.childNodes[0].textContent, str);
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      '<hl class="foobar">Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</hl>'
+    );
   });
 
   test('_annotateText Case 2', () => {
-    const length = 12;
-    const substr = str.substr(0, length);
-    const remainder = str.substr(length);
+    GrAnnotation._annotateText(textNode, 0, 12, 'foobar');
 
-    GrAnnotation._annotateText(textNode, 0, length, 'foobar');
-
-    assert.equal(parent.childNodes.length, 2);
-
-    assert.instanceOf(parent.childNodes[0], HTMLElement);
-    const firstChild = parent.childNodes[0] as HTMLElement;
-    assert.equal(firstChild.className, 'foobar');
-    assert.instanceOf(firstChild.childNodes[0], Text);
-    assert.equal(firstChild.childNodes[0].textContent, substr);
-
-    assert.instanceOf(parent.childNodes[1], Text);
-    assert.equal(parent.childNodes[1].textContent, remainder);
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      '<hl class="foobar">Lorem ipsum </hl>dolor sit amet, suspendisse inceptos vehicula'
+    );
   });
 
   test('_annotateText Case 3', () => {
-    const index = 12;
-    const length = str.length - index;
-    const remainder = str.substr(0, index);
-    const substr = str.substr(index);
+    GrAnnotation._annotateText(textNode, 12, str.length - 12, 'foobar');
 
-    GrAnnotation._annotateText(textNode, index, length, 'foobar');
-
-    assert.equal(parent.childNodes.length, 2);
-
-    assert.instanceOf(parent.childNodes[0], Text);
-    assert.equal(parent.childNodes[0].textContent, remainder);
-
-    const secondChild = parent.childNodes[1] as HTMLElement;
-    assert.instanceOf(secondChild, HTMLElement);
-    assert.equal(secondChild.className, 'foobar');
-    assert.instanceOf(secondChild.childNodes[0], Text);
-    assert.equal(secondChild.childNodes[0].textContent, substr);
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'Lorem ipsum <hl class="foobar">dolor sit amet, suspendisse inceptos vehicula</hl>'
+    );
   });
 
   test('_annotateText Case 4', () => {
     const index = str.indexOf('dolor');
     const length = 'dolor '.length;
 
-    const remainderPre = str.substr(0, index);
-    const substr = str.substr(index, length);
-    const remainderPost = str.substr(index + length);
-
     GrAnnotation._annotateText(textNode, index, length, 'foobar');
 
-    assert.equal(parent.childNodes.length, 3);
-
-    assert.instanceOf(parent.childNodes[0], Text);
-    assert.equal(parent.childNodes[0].textContent, remainderPre);
-
-    const secondChild = parent.childNodes[1] as HTMLElement;
-    assert.instanceOf(secondChild, HTMLElement);
-    assert.equal(secondChild.className, 'foobar');
-    assert.instanceOf(secondChild.childNodes[0], Text);
-    assert.equal(secondChild.childNodes[0].textContent, substr);
-
-    assert.instanceOf(parent.childNodes[2], Text);
-    assert.equal(parent.childNodes[2].textContent, remainderPost);
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'Lorem ipsum <hl class="foobar">dolor </hl>sit amet, suspendisse inceptos vehicula'
+    );
   });
 
   test('_annotateElement design doc example', () => {
@@ -116,45 +114,9 @@ suite('annotation', () => {
     });
 
     assert.equal(parent.textContent, str);
-
-    // Layer 1:
-    const layer1 = parent.querySelectorAll<HTMLElement>('.layer-1');
-    assert.equal(layer1.length, 1);
-    assert.equal(layer1[0].textContent, layers[0]);
-    assert.equal(layer1[0].parentElement, parent);
-
-    // Layer 2:
-    const layer2 = parent.querySelectorAll<HTMLElement>('.layer-2');
-    assert.equal(layer2.length, 1);
-    assert.equal(layer2[0].textContent, layers[1]);
-    assert.equal(layer2[0].parentElement, parent);
-
-    // Layer 3:
-    const layer3 = parent.querySelectorAll<HTMLElement>('.layer-3');
-    assert.equal(layer3.length, 1);
-    assert.equal(layer3[0].textContent, layers[2]);
-    assert.equal(layer3[0].parentElement, layer1[0]);
-
-    // Layer 4:
-    const layer4 = parent.querySelectorAll<HTMLElement>('.layer-4');
-    assert.equal(layer4.length, 3);
-
-    assert.equal(layer4[0].textContent, 'et, ');
-    assert.equal(layer4[0].parentElement, layer3[0]);
-
-    assert.equal(layer4[1].textContent, 'suspendisse ');
-    assert.equal(layer4[1].parentElement, parent);
-
-    assert.equal(layer4[2].textContent, 'ince');
-    assert.equal(layer4[2].parentElement, layer2[0]);
-
     assert.equal(
-      [
-        layer4[0].textContent,
-        layer4[1].textContent,
-        layer4[2].textContent,
-      ].join(''),
-      layers[3]
+      parent.innerHTML,
+      'Lorem ipsum dolor sit <hl class="layer-1"><hl class="layer-3">am<hl class="layer-4">et, </hl></hl></hl><hl class="layer-4">suspendisse </hl><hl class="layer-2"><hl class="layer-4">ince</hl>ptos </hl>vehicula'
     );
   });
 

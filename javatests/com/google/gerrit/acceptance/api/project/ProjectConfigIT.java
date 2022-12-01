@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -32,6 +33,8 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
@@ -151,6 +154,81 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             "ERROR: commit %s: invalid project configuration:\n"
                 + "ERROR: commit %s:   project.config: Invalid function for label \"foo\"."
                 + " Valid names are: NoBlock, NoOp, PatchSetLock",
+            abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectCreatingLabelPermissionWithInvalidRange_minGreaterThanMax() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ImmutableMap.of(
+                ProjectConfig.PROJECT_CONFIG,
+                "[access \"refs/heads/*\"]\n  label-Code-Review = 1..-1 group Registered-Users",
+                GroupList.FILE_NAME,
+                String.format("%s\tRegistered-Users", SystemGroupBackend.REGISTERED_USERS.get())));
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s: invalid project configuration:\n"
+                + "ERROR: commit %s:   project.config: invalid rule in"
+                + " access.refs/heads/*.label-Code-Review:"
+                + " invalid range in rule: 1..-1 group Registered-Users",
+            abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectCreatingLabelPermissionWithInvalidRange_minSetMaxMissing() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ImmutableMap.of(
+                ProjectConfig.PROJECT_CONFIG,
+                "[access \"refs/heads/*\"]\n  label-Code-Review = -1.. group Registered-Users",
+                GroupList.FILE_NAME,
+                String.format("%s\tRegistered-Users", SystemGroupBackend.REGISTERED_USERS.get())));
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s: invalid project configuration:\n"
+                + "ERROR: commit %s:   project.config: invalid rule in"
+                + " access.refs/heads/*.label-Code-Review:"
+                + " invalid range in rule: -1.. group Registered-Users",
+            abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectCreatingLabelPermissionWithInvalidRange_maxSetMinMissing() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ImmutableMap.of(
+                ProjectConfig.PROJECT_CONFIG,
+                "[access \"refs/heads/*\"]\n  label-Code-Review = ..1 group Registered-Users",
+                GroupList.FILE_NAME,
+                String.format("%s\tRegistered-Users", SystemGroupBackend.REGISTERED_USERS.get())));
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s: invalid project configuration:\n"
+                + "ERROR: commit %s:   project.config: invalid rule in"
+                + " access.refs/heads/*.label-Code-Review:"
+                + " invalid range in rule: ..1 group Registered-Users",
             abbreviateName(r.getCommit()), abbreviateName(r.getCommit())));
   }
 

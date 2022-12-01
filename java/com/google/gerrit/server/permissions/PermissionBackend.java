@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
@@ -490,6 +491,44 @@ public abstract class PermissionBackend {
       return label.getValues().stream()
           .map(v -> new LabelPermission.WithValue(label, v))
           .collect(toSet());
+    }
+
+    /**
+     * Check whether the user may be able to remove the provided label on behalf of other users.
+     *
+     * @param label definition of the label to check removal for.
+     * @throws ResourceNotFoundException if the permission is denied
+     */
+    public void checkLabelRemoval(LabelType label)
+        throws ResourceNotFoundException, PermissionBackendException, AuthException {
+      check(new LabelRemovalPermission(label));
+    }
+
+    /**
+     * Test whether the user may be able to remove the provided label on behalf of other users.
+     *
+     * @param label definition of the label to test removal for.
+     * @return the removal permission if the user is able to remove the label; empty otherwise.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Optional<LabelRemovalPermission> testLabelRemoval(LabelType label)
+        throws PermissionBackendException {
+      return testLabelRemovals(ImmutableList.of(requireNonNull(label, "LabelRemovalType"))).stream()
+          .findFirst();
+    }
+
+    /**
+     * Test which labels of a group of labels the user may be able to remove on behalf of other
+     * users.
+     *
+     * @param types definition of the labels to test removal for.
+     * @return set containing labels the user may be able to remove; may be empty if none.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Set<LabelRemovalPermission> testLabelRemovals(Collection<LabelType> types)
+        throws PermissionBackendException {
+      requireNonNull(types, "LabelRemovalType");
+      return test(types.stream().map(t -> new LabelRemovalPermission(t)).collect(toSet()));
     }
   }
 }

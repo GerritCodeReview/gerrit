@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelRemovalPermissionName;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Maps;
@@ -197,6 +198,7 @@ class ChangeControl {
 
   private class ForChangeImpl extends ForChange {
     private Map<String, PermissionRange> labels;
+    private Map<String, Boolean> labelRemovals;
     private String resourcePath;
 
     private ForChangeImpl() {}
@@ -244,6 +246,8 @@ class ChangeControl {
         return can((LabelPermission) perm);
       } else if (perm instanceof LabelPermission.WithValue) {
         return can((LabelPermission.WithValue) perm);
+      } else if (perm instanceof LabelRemovalPermission) {
+        return can((LabelRemovalPermission) perm);
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
@@ -308,6 +312,22 @@ class ChangeControl {
       if (r == null) {
         r = getRange(permission);
         labels.put(permission, r);
+      }
+      return r;
+    }
+
+    private boolean can(LabelRemovalPermission perm) {
+      return labelRemoval(labelRemovalPermissionName(perm));
+    }
+
+    private boolean labelRemoval(String permission) {
+      if (labelRemovals == null) {
+        labelRemovals = Maps.newHashMapWithExpectedSize(4);
+      }
+      Boolean r = labelRemovals.get(permission);
+      if (r == null) {
+        r = refControl.canRemoveLabel(permission);
+        labelRemovals.put(permission, r);
       }
       return r;
     }

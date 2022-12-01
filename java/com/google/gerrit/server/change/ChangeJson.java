@@ -688,6 +688,7 @@ public class ChangeJson {
             !cd.change().isAbandoned()
                 ? labelsJson.permittedLabels(user.getAccountId(), cd)
                 : ImmutableMap.of();
+        out.removableVotes = labelsJson.removableLabels(user.getAccountId(), cd);
       }
     }
 

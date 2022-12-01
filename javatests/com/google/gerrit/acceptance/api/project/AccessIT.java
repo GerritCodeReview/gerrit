@@ -67,6 +67,8 @@ import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,10 +76,13 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -260,6 +265,32 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  public void addDuplicatedAccessSection_doesNotAddDuplicateEntry() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    pApi().access(accessInput);
+    List<String> fileContent =
+        getFileContent(newProjectName, RefNames.REFS_CONFIG, "project.config");
+    assertThat(fileContent)
+        .containsExactly(
+            "[submit]",
+            "\taction = inherit",
+            "[access \"refs/heads/*\"]",
+            "\tlabel-Code-Review = deny group Registered Users",
+            "\tlabel-Code-Review = -1..+1 group Project Owners",
+            "\tpush = group Registered Users");
+
+    // Apply the same permission once more
+    pApi().access(accessInput);
+
+    List<String> newFileContent =
+        getFileContent(newProjectName, RefNames.REFS_CONFIG, "project.config");
+    assertThat(fileContent).isEqualTo(newFileContent);
   }
 
   @Test
@@ -1134,5 +1165,19 @@ public class AccessIT extends AbstractDaemonTest {
     accessSection.permissions.put(Permission.READ, read);
 
     return accessSection;
+  }
+
+  private List<String> getFileContent(Project.NameKey project, String branch, String fileName)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(branch);
+      RevCommit revCommit = rw.parseCommit(ref.getObjectId());
+      TreeWalk tw = TreeWalk.forPath(repo, fileName, revCommit.getTree().getId());
+      String content =
+          new String(
+              repo.open(tw.getObjectId(0), Constants.OBJ_BLOB).getBytes(), StandardCharsets.UTF_8);
+      return Arrays.asList(content.split("\n"));
+    }
   }
 }

@@ -175,5 +175,9 @@ public class DefaultPermissionMappings {
     return Permission.forLabel(labelPermission.label());
   }
 
+  public static String labelRemovalPermissionName(LabelRemovalPermission labelRemovalPermission) {
+    return Permission.forRemoveLabelAs(labelRemovalPermission.label());
+  }
+
   private DefaultPermissionMappings() {}
 }

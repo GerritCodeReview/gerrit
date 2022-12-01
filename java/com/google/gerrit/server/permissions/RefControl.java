@@ -186,6 +186,11 @@ class RefControl {
     return null;
   }
 
+  /** Returns true if this user can remove votes on a given label. */
+  boolean canRemoveLabel(String permission) {
+    return canPerform(permission);
+  }
+
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
     return canPerform(permissionName, false, false);

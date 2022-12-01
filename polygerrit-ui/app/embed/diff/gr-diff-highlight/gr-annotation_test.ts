@@ -27,6 +27,36 @@ suite('annotation', () => {
     str = textNode.textContent!;
   });
 
+  test('_annotateText length:0 offset:0', () => {
+    GrAnnotation._annotateText(textNode, 0, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      '<hl class="foobar"></hl>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula'
+    );
+  });
+
+  test('_annotateText length:0 offset:1', () => {
+    GrAnnotation._annotateText(textNode, 1, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'L<hl class="foobar"></hl>orem ipsum dolor sit amet, suspendisse inceptos vehicula'
+    );
+  });
+
+  test('_annotateText length:0 offset:str.length', () => {
+    GrAnnotation._annotateText(textNode, str.length, 0, 'foobar');
+
+    assert.equal(parent.textContent, str);
+    assert.equal(
+      parent.innerHTML,
+      'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula<hl class="foobar"></hl>'
+    );
+  });
+
   test('_annotateText Case 1', () => {
     GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
 

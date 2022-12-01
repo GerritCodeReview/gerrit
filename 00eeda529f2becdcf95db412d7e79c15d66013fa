@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5b453245_7b95ea35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-01T10:02:37Z",
+      "side": 1,
+      "message": "No, it is not going to fix that. And I am aware of this nit, but I fear that this might not be so easy to change. I think we have to defer that.",
+      "parentUuid": "944f7a56_ff62d79e",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "00eeda529f2becdcf95db412d7e79c15d66013fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "669a6f41_32062b7a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

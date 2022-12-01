@@ -75,6 +75,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -268,8 +269,11 @@ public class AccessIT extends AbstractDaemonTest {
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
+    // Update project config. Record the file content and the refs_config object ID
     accessInput.add.put(REFS_HEADS, accessSectionInfo);
     pApi().access(accessInput);
+    ObjectId refsConfigId =
+        projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG).getId();
     List<String> projectConfigLines =
         Arrays.asList(projectOperations.project(newProjectName).getConfig().toText().split("\n"));
     assertThat(projectConfigLines)
@@ -281,12 +285,15 @@ public class AccessIT extends AbstractDaemonTest {
             "\tlabel-Code-Review = -1..+1 group Project Owners",
             "\tpush = group Registered Users");
 
-    // Apply the same permission once more
+    // Apply the same update once more. Make sure that the file content and the ref did not change
     pApi().access(accessInput);
 
     List<String> newProjectConfigLines =
         Arrays.asList(projectOperations.project(newProjectName).getConfig().toText().split("\n"));
+    ObjectId newRefsConfigId =
+        projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG).getId();
     assertThat(projectConfigLines).isEqualTo(newProjectConfigLines);
+    assertThat(refsConfigId).isEqualTo(newRefsConfigId);
   }
 
   @Test

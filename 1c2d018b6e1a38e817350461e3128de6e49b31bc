@@ -80,6 +80,30 @@
       },
       "revId": "1c2d018b6e1a38e817350461e3128de6e49b31bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36df11e7_8440f7b4",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:23:57Z",
+      "side": 1,
+      "message": "👍 like the proposal",
+      "parentUuid": "3aff974f_77818391",
+      "range": {
+        "startLine": 117,
+        "startChar": 29,
+        "endLine": 117,
+        "endChar": 48
+      },
+      "revId": "1c2d018b6e1a38e817350461e3128de6e49b31bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

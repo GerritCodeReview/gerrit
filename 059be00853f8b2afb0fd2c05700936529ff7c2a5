@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8034d0_a9dfaf35",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-01T10:59:58Z",
+      "side": 1,
+      "message": "Nit: this could be done by assert.dom.equal with /* HTML */ as formatting.",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "059be00853f8b2afb0fd2c05700936529ff7c2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

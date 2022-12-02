@@ -345,8 +345,7 @@ public class ChangeField {
 
   /** Folders that are touched by the current patch set. */
   public static final IndexedField<ChangeData, Iterable<String>> DIRECTORY_FIELD =
-      IndexedField.<ChangeData>iterableStringBuilder("Directory")
-          .build(ChangeField::getDirectories);
+      IndexedField.<ChangeData>iterableStringBuilder("DirField").build(ChangeField::getDirectories);
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec DIRECTORY_SPEC =
       DIRECTORY_FIELD.exact(ChangeQueryBuilder.FIELD_DIRECTORY);

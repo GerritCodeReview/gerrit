@@ -73,6 +73,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fbd4859_29ceaeb0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-02T08:36:31Z",
+      "side": 1,
+      "message": "Rather than caching at the function level, why not cache at the styleApi() level?",
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0eb8ea55_58fe96e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
         "patchSetId": 5
@@ -113,6 +130,23 @@
         "endLine": 14,
         "endChar": 16
       },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083d3aa8_5f14ec5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-02T08:36:31Z",
+      "side": 1,
+      "message": "Why do we always return a new instance?",
       "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

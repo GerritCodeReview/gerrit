@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a2d345d9_83ed00b5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1464,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-12-02T09:56:55Z",
+      "side": 1,
+      "message": "Yes, but we need to have it compatible with the old indexes. I.e. for old indexes, it will be an actual version upgrade.",
+      "parentUuid": "cb1d7ce0_4d3ab3cd",
+      "range": {
+        "startLine": 1464,
+        "startChar": 56,
+        "endLine": 1464,
+        "endChar": 62
+      },
+      "revId": "4151316b919f8503f6a042f65b4fd3711f7a9de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bd6c9ee6_4367735a",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 6
@@ -71,6 +95,30 @@
       "writtenOn": "2022-12-01T16:21:16Z",
       "side": 1,
       "message": "Do these serialVersionUID need to be updated whenever the underlying proto is changed? (e.g. by adding a new field)",
+      "range": {
+        "startLine": 1588,
+        "startChar": 57,
+        "endLine": 1588,
+        "endChar": 59
+      },
+      "revId": "4151316b919f8503f6a042f65b4fd3711f7a9de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "356f8dde_02ff4064",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1588,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-12-02T09:56:55Z",
+      "side": 1,
+      "message": "No, it is actually not required for anything. I saw Edwin added it in change 347724 to fix some warning.",
+      "parentUuid": "a2eafdcc_7ea43c3c",
       "range": {
         "startLine": 1588,
         "startChar": 57,

@@ -14,6 +14,7 @@ import {ReportingPluginApi} from './reporting';
 import {ChangeActionsPluginApi} from './change-actions';
 import {RestPluginApi} from './rest';
 import {HookApi, RegisterOptions} from './hook';
+import {StylePluginApi} from './styles';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -77,10 +78,11 @@ export declare interface PluginApi {
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi<T>;
-  // DEPRECATED: Just add <style> elements to `document.head`.
+  // DEPRECATED: Use styleApi() instead.
   registerStyleModule(endpoint: string, moduleName: string): void;
   reporting(): ReportingPluginApi;
   restApi(): RestPluginApi;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   screen(screenName: string, moduleName?: string): any;
+  styleApi(): StylePluginApi;
 }

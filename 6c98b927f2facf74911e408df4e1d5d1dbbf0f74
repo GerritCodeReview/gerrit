@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ddfeb63_76c76e77",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cccaf30_9e9596ff",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 61
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "873ffcbc_cbe1e5c2",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9162ae4d_ce5d6e5f",
+        "filename": "polygerrit-ui/app/api/styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Changed to `insertCSSRule`.\n\nI used `insertRule`, because that matched the name of the method on `CSSStyleSheet`: https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule\n\n@milutin@google.com: You cannot put a list of rules. Added a comment to the documentation.",
+      "parentUuid": "af3823a2_55685138",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fbd4859_29ceaeb0",
@@ -90,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30a8f60f_b62d9420",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Why not cache at the function level?\n\nI think it is easier to just have one \u003cstyle\u003e element for all plugins than having multiple elements, because you have to take care ordering those style elements within head, and that is easier, if there is just one \u003cstyle\u003e element for all plugins.",
+      "parentUuid": "7fbd4859_29ceaeb0",
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0eb8ea55_58fe96e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
         "patchSetId": 5
@@ -101,6 +167,30 @@
       "writtenOn": "2022-12-02T07:33:47Z",
       "side": 1,
       "message": "I would expect \u0027insertRule\u0027.",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fe53ba0_9adc2bbf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Good catch. Forgot this during renaming.",
+      "parentUuid": "0eb8ea55_58fe96e7",
       "range": {
         "startLine": 32,
         "startChar": 51,
@@ -134,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "704f4015_ffed65f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3892beab_6094de5e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "083d3aa8_5f14ec5e",
@@ -153,6 +267,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9e566e86_7a48742b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Plugin APIs maintain state per plugin, at least they keep a reference to the `plugin` object and thus the name of the plugin. This is used for tracking everywhere, but can be useful for other purposes.\n\nI guess we could cache the plugin API instances per plugin. That is a separate PE or TE task. I have not seen that being a problem, so it has not come up before. And in this change I just want to be consistent with other APIs.",
+      "parentUuid": "083d3aa8_5f14ec5e",
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "36c9b91c_2958c8c3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 5
@@ -164,6 +296,30 @@
       "writtenOn": "2022-12-02T07:33:47Z",
       "side": 1,
       "message": "If this is null, then newNode is inserted at the end of node\u0027s child nodes.",
+      "range": {
+        "startLine": 303,
+        "startChar": 16,
+        "endLine": 303,
+        "endChar": 28
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b6edc10_8bc16862",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-02T09:18:04Z",
+      "side": 1,
+      "message": "Yes, that is intended.",
+      "parentUuid": "36c9b91c_2958c8c3",
       "range": {
         "startLine": 303,
         "startChar": 16,

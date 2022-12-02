@@ -1297,7 +1297,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           parsedConfig.fromText(cfg);
           projectLevelConfigs.put(pathInfo.path, parsedConfig);
         } catch (ConfigInvalidException e) {
-          logger.atWarning().withCause(e).log("Unable to parse config");
+          logger.atWarning().withCause(e).log(
+              "Unable to parse config for project %s", projectName.get());
         }
       }
     }

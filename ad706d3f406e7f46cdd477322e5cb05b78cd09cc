@@ -52,6 +52,24 @@
       "parentUuid": "0ebb2292_06a3afa3",
       "revId": "ad706d3f406e7f46cdd477322e5cb05b78cd09cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd5e424e_5531aa09",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-02T10:30:34Z",
+      "side": 1,
+      "message": "Yeah if they followed the exact same logic, then we could re-use the method but unfortunately there is an exception for the SpecialFilePaths.",
+      "parentUuid": "09b99dc5_af22bd17",
+      "revId": "ad706d3f406e7f46cdd477322e5cb05b78cd09cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa21a41_9f978c4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-02T10:26:18Z",
+      "side": 1,
+      "message": "What about generalizing computeSizeBarsClass to not take a path and reuse it here?",
+      "revId": "ad706d3f406e7f46cdd477322e5cb05b78cd09cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

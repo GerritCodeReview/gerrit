@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com I think you added a lot of the other retries. Did this case not show up for you?",
       "revId": "982fb9bb01f6f7be3e3a9a0c4055818a9b3194dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9401741f_da8dff83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-02T10:56:47Z",
+      "side": 1,
+      "message": "I was mostly looking at REST requests. We still have a lot of lock failures despite of retrying, but it\u0027s at a bearable level. I would be surprised if we didn\u0027t have lock failures here too.",
+      "parentUuid": "75e3a5f3_57596750",
+      "revId": "982fb9bb01f6f7be3e3a9a0c4055818a9b3194dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

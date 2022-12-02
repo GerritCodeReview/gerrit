@@ -219,6 +219,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         );
       }
       this.addEventListener('request-dependency', this.resolveDep);
+      this.addEventListener('reload', this.reload);
     }
 
     private removeTargetEventListeners() {
@@ -231,6 +232,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       }
       this.targetCleanups = [];
       this.removeEventListener('request-dependency', this.resolveDep);
+      this.removeEventListener('reload', this.reload);
     }
 
     /**
@@ -245,6 +247,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.addTargetEventListeners();
       }
     }
+
+    readonly reload = () => {
+      this.dispatchEventThroughTarget('reload');
+    };
 
     readonly mouseDebounceHide = (e: MouseEvent) => {
       this.debounceHide({mouseEvent: e});

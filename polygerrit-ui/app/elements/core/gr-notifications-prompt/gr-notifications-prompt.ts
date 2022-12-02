@@ -51,7 +51,7 @@ export class GrNotificationsPrompt extends LitElement {
         #notificationsPrompt {
           position: absolute;
           right: 30px;
-          top: 100px;
+          top: 50px;
           z-index: 150; /* Less than gr-hovercard's, higher than rest */
           display: flex;
           background-color: var(--background-color-primary);

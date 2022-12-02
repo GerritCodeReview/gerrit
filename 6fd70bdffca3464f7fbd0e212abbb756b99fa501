@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "585cfe19_ece67210",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-02T12:32:56Z",
+      "side": 1,
+      "message": "Should this be done generically for all hovercards by doing the listening in the hovercard mixin?",
+      "revId": "6fd70bdffca3464f7fbd0e212abbb756b99fa501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

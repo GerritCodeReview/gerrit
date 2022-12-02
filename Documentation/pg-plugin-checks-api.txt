@@ -10,6 +10,10 @@ Each plugin can link:#register[register] a checks provider that will be called
 when a change page is loaded. Such a call would return a list of `Runs` and each
 run can contain a list of `Results`.
 
+`Results` messages will render as markdown. It follows the
+[CommonMark](https://commonmark.org/help/) spec except inline images and direct
+HTML are not rendered and kept as plaintext.
+
 The details of the ChecksApi are documented in the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/checks.ts[source code].
 Note that this link points to the `master` branch and might thus reflect a

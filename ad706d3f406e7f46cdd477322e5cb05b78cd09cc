@@ -16,6 +16,24 @@
       "message": "What about generalizing computeSizeBarsClass to not take a path and reuse it here?",
       "revId": "ad706d3f406e7f46cdd477322e5cb05b78cd09cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ebb2292_06a3afa3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-02T10:27:28Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of that?\nWe already have a state maintained that maps to exactly what we want.\n\nWe would need to maintain that state to use in the computeSizeBarsClass so I don\u0027t think we can avoid having that state.",
+      "parentUuid": "4fa21a41_9f978c4d",
+      "revId": "ad706d3f406e7f46cdd477322e5cb05b78cd09cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

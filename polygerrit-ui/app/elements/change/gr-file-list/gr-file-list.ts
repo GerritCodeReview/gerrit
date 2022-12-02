@@ -955,7 +955,10 @@ export class GrFileList extends LitElement {
       <div class="path" role="columnheader">File</div>
       <div class="comments desktop" role="columnheader">Comments</div>
       <div class="comments mobile" role="columnheader" title="Comments">C</div>
-      <div class="sizeBars desktop" role="columnheader">Size</div>
+      ${when(
+        this.showSizeBars,
+        () => html`<div class="sizeBars desktop" role="columnheader">Size</div>`
+      )}
       <div class="header-stats" role="columnheader">Delta</div>
       <!-- endpoint: change-view-file-list-header -->
       ${when(showDynamicColumns, () => this.renderDynamicHeaderEndpoints())}

@@ -113,6 +113,7 @@ suite('gr-file-list tests', () => {
         .stub(element, '_saveReviewedState')
         .callsFake(() => Promise.resolve());
       await element.updateComplete;
+      element.showSizeBars = true;
       // Wait for expandedFilesChanged to complete.
       await waitEventLoop();
     });
@@ -205,7 +206,7 @@ suite('gr-file-list tests', () => {
             </div>
           </div>
           <div class="desktop" role="gridcell">
-            <div aria-hidden="true" class="hide sizeBars"></div>
+            <div aria-hidden="true" class="sizeBars"></div>
           </div>
           <div class="stats" role="gridcell">
             <div>

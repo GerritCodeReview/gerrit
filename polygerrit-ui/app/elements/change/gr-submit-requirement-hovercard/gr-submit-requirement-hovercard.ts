@@ -232,6 +232,7 @@ export class GrSubmitRequirementHovercard extends base {
         .mutable=${this.mutable}
         .label=${labelName}
         .labelInfo=${labels[labelName]}
+        @reload=${() => this.dispatchEventThroughTarget('reload')}
       ></gr-label-info>
     `;
   }

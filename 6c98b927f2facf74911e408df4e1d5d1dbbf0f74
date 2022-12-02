@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cccaf30_9e9596ff",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-02T07:33:47Z",
+      "side": 1,
+      "message": "Nit: Maybe, we could write that they should use styleApi instead.",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 61
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "873ffcbc_cbe1e5c2",
         "filename": "polygerrit-ui/app/api/styles.ts",
         "patchSetId": 5
@@ -26,6 +49,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af3823a2_55685138",
+        "filename": "polygerrit-ui/app/api/styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-02T07:33:47Z",
+      "side": 1,
+      "message": "Maybe insertStyleSheet?\n\nThis looks you can put only 1 css rule. But I think you can put a list of css styles.",
+      "parentUuid": "873ffcbc_cbe1e5c2",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eb8ea55_58fe96e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-02T07:33:47Z",
+      "side": 1,
+      "message": "I would expect \u0027insertRule\u0027.",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3892beab_6094de5e",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-style-api_test.ts",
         "patchSetId": 5
@@ -42,6 +112,29 @@
         "startChar": 0,
         "endLine": 14,
         "endChar": 16
+      },
+      "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c9b91c_2958c8c3",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-12-02T07:33:47Z",
+      "side": 1,
+      "message": "If this is null, then newNode is inserted at the end of node\u0027s child nodes.",
+      "range": {
+        "startLine": 303,
+        "startChar": 16,
+        "endLine": 303,
+        "endChar": 28
       },
       "revId": "6c98b927f2facf74911e408df4e1d5d1dbbf0f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

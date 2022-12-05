@@ -148,6 +148,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -635,7 +636,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo), userId);
     assertQuery("is:uploader", change1);
     assertQuery("uploader:" + userId.get(), change1);
-    change1 = newPatchSet(repo, change1, user2CurrentUser);
+    change1 = newPatchSet(repo, change1, user2CurrentUser, /* message= */ Optional.empty());
     // Uploader has changed
     assertQuery("uploader:" + userId.get());
     assertQuery("uploader:" + user2.get(), change1);
@@ -770,7 +771,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     CurrentUser user2CurrentUser = userFactory.create(user2);
-    newPatchSet(repo, change1, user2CurrentUser);
+    newPatchSet(repo, change1, user2CurrentUser, /* message= */ Optional.empty());
     assertQuery("uploaderin:Administrators");
   }
 
@@ -1030,6 +1031,54 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("message:\"^.*HELLO WORLD.*\"", change3);
     assertQuery(
         "message:\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"", change4, change3);
+  }
+
+  @Test
+  public void bySubject() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.SUBJECT_SPEC)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "First commit with test subject\n\n"
+                        + "Message body\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b920")
+                .create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "Second commit with test subject\n\n"
+                        + "Message body for another commit\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b921")
+                .create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "Third commit with test subject\n\n"
+                        + "Last message body\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b921")
+                .create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+
+    assertQuery("subject:First", change1);
+    assertQuery("subject:Second", change2);
+    assertQuery("subject:Third", change3);
+    assertQuery("subject:\"commit with test subject\"", change3, change2, change1);
+    assertQuery("subject:\"Message body\"");
+    assertQuery("subject:body");
+    newPatchSet(
+        repo,
+        change1,
+        user,
+        Optional.of("Rework of commit with test subject\n\n" + "Message body\n\n"));
+    assertQuery("subject:Rework", change1);
+    assertQuery("subject:First");
+    assertQuery("subject:\"commit with test subject\"", change1, change3, change2);
   }
 
   @Test
@@ -2807,7 +2856,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change2.getId().get()).current().review(new ReviewInput().message("comment"));
 
     PatchSet.Id ps3_1 = change3.currentPatchSetId();
-    change3 = newPatchSet(repo, change3, user);
+    change3 = newPatchSet(repo, change3, user, /* message= */ Optional.empty());
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
     // Response to previous patch set still counts as reviewing.
     gApi.changes()
@@ -4040,13 +4089,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  protected Change newPatchSet(TestRepository<Repo> repo, Change c, CurrentUser user)
+  protected Change newPatchSet(
+      TestRepository<Repo> repo, Change c, CurrentUser user, Optional<String> message)
       throws Exception {
     // Add a new file so the patch set is not a trivial rebase, to avoid default
     // Code-Review label copying.
     int n = c.currentPatchSetId().get() + 1;
     RevCommit commit =
-        repo.parseBody(repo.commit().message("message").add("file" + n, "contents " + n).create());
+        repo.parseBody(
+            repo.commit()
+                .message(message.orElse("message"))
+                .add("file" + n, "contents " + n)
+                .create());
 
     PatchSetInserter inserter =
         patchSetFactory

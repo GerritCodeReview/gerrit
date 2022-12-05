@@ -1046,6 +1046,15 @@ public class ChangeField {
   public static final IndexedField<ChangeData, String>.SearchSpec COMMIT_MESSAGE_EXACT =
       COMMIT_MESSAGE_EXACT_FIELD.exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT);
 
+  /** Commit message of the current patch set. */
+  public static final IndexedField<ChangeData, String> SUBJECT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Subject")
+          .required()
+          .build(changeGetter(Change::getSubject));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec SUBJECT_SPEC =
+      SUBJECT_FIELD.fullText(ChangeQueryBuilder.FIELD_SUBJECT);
+
   /** Summary or inline comment. */
   public static final IndexedField<ChangeData, Iterable<String>> COMMENT_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Comment")

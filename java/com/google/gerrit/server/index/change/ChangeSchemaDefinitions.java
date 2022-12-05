@@ -207,6 +207,15 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .remove(ChangeField.STAR_SPEC, ChangeField.STARBY_SPEC, ChangeField.DRAFTBY_SPEC)
           .remove(ChangeField.STAR_FIELD, ChangeField.STARBY_FIELD, ChangeField.DRAFTBY_FIELD)
           .build();
+
+  /** Add subject field. */
+  static final Schema<ChangeData> V80 =
+      new Schema.Builder<ChangeData>()
+          .add(V79)
+          .addIndexedFields(ChangeField.SUBJECT_FIELD)
+          .addSearchSpecs(ChangeField.SUBJECT_SPEC)
+          .build();
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

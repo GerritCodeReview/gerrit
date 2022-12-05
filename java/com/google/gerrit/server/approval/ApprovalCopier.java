@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
@@ -353,10 +354,25 @@ public class ApprovalCopier {
         Predicate<ApprovalContext> copyConditionPredicate =
             approvalQueryBuilder.parse(labelType.getCopyCondition().get());
         boolean canCopy = copyConditionPredicate.asMatchable().match(ctx);
-        ImmutableSet.Builder<String> passingAtoms = ImmutableSet.builder();
-        ImmutableSet.Builder<String> failingAtoms = ImmutableSet.builder();
-        evaluateAtoms(copyConditionPredicate, ctx, passingAtoms, failingAtoms);
-        return ApprovalCopyResult.create(canCopy, passingAtoms.build(), failingAtoms.build());
+        ImmutableSet.Builder<String> passingAtomsBuilder = ImmutableSet.builder();
+        ImmutableSet.Builder<String> failingAtomsBuilder = ImmutableSet.builder();
+        evaluateAtoms(copyConditionPredicate, ctx, passingAtomsBuilder, failingAtomsBuilder);
+        ImmutableSet<String> passingAtoms = passingAtomsBuilder.build();
+        ImmutableSet<String> failingAtoms = failingAtomsBuilder.build();
+        logger.atFine().log(
+            "%s copy %s of account %d on change %d from patch set %d to patch set %d"
+                + " (copyCondition = %s, passingAtoms = %s, failingAtoms = %s, changeKind = %s)",
+            canCopy ? "Can" : "Cannot",
+            LabelVote.create(labelType.getName(), approvalValue).format(),
+            approverId.get(),
+            changeNotes.getChangeId().get(),
+            sourcePatchSetId.get(),
+            targetPatchSet.id().get(),
+            labelType.getCopyCondition().get(),
+            passingAtoms,
+            failingAtoms,
+            changeKind.name());
+        return ApprovalCopyResult.create(canCopy, passingAtoms, failingAtoms);
       }
     } catch (QueryParseException e) {
       logger.atWarning().withCause(e).log(

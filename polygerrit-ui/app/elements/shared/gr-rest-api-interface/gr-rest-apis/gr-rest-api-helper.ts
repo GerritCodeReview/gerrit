@@ -533,7 +533,7 @@ s   */
     } catch (err) {
       fireNetworkError(err as Error);
       if (req.errFn) {
-        req.errFn.call(undefined, null, err as Error);
+        await req.errFn.call(undefined, null, err as Error);
         xhr = undefined;
       } else {
         throw err;

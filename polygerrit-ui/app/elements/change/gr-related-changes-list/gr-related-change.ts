@@ -69,8 +69,8 @@ export class GrRelatedChange extends LitElement {
         .notCurrent {
           color: var(--warning-foreground);
         }
-        .indirectAncestor {
-          color: var(--indirect-ancestor-text-color);
+        .indirectRelation {
+          color: var(--indirect-relation-text-color);
         }
         .submittableCheck {
           padding-left: var(--spacing-s);
@@ -147,8 +147,8 @@ export class GrRelatedChange extends LitElement {
       change._revision_number !== change._current_revision_number
     ) {
       classes.push('notCurrent');
-    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
-      classes.push('indirectAncestor');
+    } else if (!isChangeInfo(change) && this.isIndirectRelation(change)) {
+      classes.push('indirectRelation');
     } else if (change.submittable) {
       classes.push('submittable');
     } else if (change.status === ChangeStatus.NEW) {
@@ -169,15 +169,15 @@ export class GrRelatedChange extends LitElement {
       change._revision_number !== change._current_revision_number
     ) {
       return 'Not current';
-    } else if (!isChangeInfo(change) && this.isIndirectAncestor(change)) {
-      return 'Indirect ancestor';
+    } else if (!isChangeInfo(change) && this.isIndirectRelation(change)) {
+      return 'Indirect relation';
     } else if (change.submittable) {
       return 'Submittable';
     }
     return '';
   }
 
-  private isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
+  private isIndirectRelation(change: RelatedChangeAndCommitInfo) {
     return (
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)

@@ -113,7 +113,7 @@ const darkThemeCss = safeStyleSheet`
     --tooltip-button-text-color: var(--gerrit-blue-light);
     --negative-red-text-color: var(--red-200);
     --positive-green-text-color: var(--green-200);
-    --indirect-ancestor-text-color: var(--green-200);
+    --indirect-relation-text-color: var(--green-200);
 
     /* background colors */
     /* primary background colors */

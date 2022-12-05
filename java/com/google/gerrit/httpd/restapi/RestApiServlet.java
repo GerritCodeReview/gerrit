@@ -1386,22 +1386,21 @@ public class RestApiServlet extends HttpServlet {
     throw new BadRequestException("Expected JSON object");
   }
 
-  @SuppressWarnings("unchecked")
   private static Object createInstance(Type type)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException,
           InvocationTargetException {
     if (type instanceof Class) {
-      Class<Object> clazz = (Class<Object>) type;
-      Constructor<Object> c = clazz.getDeclaredConstructor();
+      Class<?> clazz = (Class<?>) type;
+      Constructor<?> c = clazz.getDeclaredConstructor();
       c.setAccessible(true);
       return c.newInstance();
     }
     if (type instanceof ParameterizedType) {
       Type rawType = ((ParameterizedType) type).getRawType();
-      if (rawType instanceof Class && List.class.isAssignableFrom((Class<Object>) rawType)) {
+      if (rawType instanceof Class && List.class.isAssignableFrom((Class<?>) rawType)) {
         return new ArrayList<>();
       }
-      if (rawType instanceof Class && Map.class.isAssignableFrom((Class<Object>) rawType)) {
+      if (rawType instanceof Class && Map.class.isAssignableFrom((Class<?>) rawType)) {
         return new HashMap<>();
       }
     }

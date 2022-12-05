@@ -186,6 +186,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_MERGEABLE = "mergeable2";
   public static final String FIELD_MERGED_ON = "mergedon";
   public static final String FIELD_MESSAGE = "message";
+  public static final String FIELD_SUBJECT = "subject";
   public static final String FIELD_MESSAGE_EXACT = "messageexact";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -1138,6 +1139,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new RegexMessagePredicate(text);
     }
     return ChangePredicates.message(text);
+  }
+
+  @Operator
+  public Predicate<ChangeData> subject(String value) throws QueryParseException {
+    checkFieldAvailable(ChangeField.SUBJECT_SPEC, ChangeQueryBuilder.FIELD_SUBJECT);
+    return ChangePredicates.subject(value);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {

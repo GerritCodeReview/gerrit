@@ -332,6 +332,10 @@ public class ChangePredicates {
     return new ChangeIndexPredicate(ChangeField.COMMIT_MESSAGE, message);
   }
 
+  public static Predicate<ChangeData> subject(String subject) {
+    return new ChangeIndexPredicate(ChangeField.SUBJECT_SPEC, subject);
+  }
+
   /**
    * Returns a predicate that matches changes where the provided {@code comment} appears in any
    * comment on any patch set of the change. Uses full-text search semantics.

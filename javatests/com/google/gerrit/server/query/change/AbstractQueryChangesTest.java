@@ -771,8 +771,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     CurrentUser user2CurrentUser = userFactory.create(user2);
-    newPatchSet(repo, change1, user2CurrentUser, /* message= */ Optional.empty());
+    change1 = newPatchSet(repo, change1, user2CurrentUser, /* message= */ Optional.empty());
     assertQuery("uploaderin:Administrators");
+    assertQuery("uploaderin:\"Registered Users\"", change1);
   }
 
   @Test
@@ -1071,11 +1072,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("subject:\"commit with test subject\"", change3, change2, change1);
     assertQuery("subject:\"Message body\"");
     assertQuery("subject:body");
-    newPatchSet(
-        repo,
-        change1,
-        user,
-        Optional.of("Rework of commit with test subject\n\n" + "Message body\n\n"));
+    change1 =
+        newPatchSet(
+            repo,
+            change1,
+            user,
+            Optional.of("Rework of commit with test subject\n\n" + "Message body\n\n"));
     assertQuery("subject:Rework", change1);
     assertQuery("subject:First");
     assertQuery("subject:\"commit with test subject\"", change1, change3, change2);

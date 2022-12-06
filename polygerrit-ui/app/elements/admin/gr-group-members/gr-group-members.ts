@@ -42,7 +42,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
@@ -530,20 +529,13 @@ export class GrGroupMembers extends LitElement {
 
   /* private but used in test */
   getGroupSuggestions(input: string) {
-    return this.restApiService
-      .getSuggestedGroups(
-        input,
-        /* project=*/ undefined,
-        /* n=*/ undefined,
-        throwingErrorCallback
-      )
-      .then(response => {
-        const groups: AutocompleteSuggestion[] = [];
-        for (const [name, group] of Object.entries(response ?? {})) {
-          groups.push({name, value: decodeURIComponent(group.id)});
-        }
-        return groups;
-      });
+    return this.restApiService.getSuggestedGroups(input).then(response => {
+      const groups: AutocompleteSuggestion[] = [];
+      for (const [name, group] of Object.entries(response ?? {})) {
+        groups.push({name, value: decodeURIComponent(group.id)});
+      }
+      return groups;
+    });
   }
 
   private handleGroupMemberTextChanged(e: CustomEvent) {

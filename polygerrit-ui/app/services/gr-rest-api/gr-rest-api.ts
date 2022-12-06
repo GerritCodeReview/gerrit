@@ -127,8 +127,7 @@ export interface RestApiService extends Finalizable {
   getRepos(
     filter: string | undefined,
     reposPerPage: number,
-    offset?: number,
-    errFn?: ErrorCallback
+    offset?: number
   ): Promise<ProjectInfoWithName[] | undefined>;
 
   send(
@@ -153,13 +152,11 @@ export interface RestApiService extends Finalizable {
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
-    input: string,
-    errFn?: ErrorCallback
+    input: string
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
-    input: string,
-    errFn?: ErrorCallback
+    input: string
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   /**
    * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
@@ -169,14 +166,12 @@ export interface RestApiService extends Finalizable {
     input: string,
     n?: number,
     canSee?: NumericChangeId,
-    filterActive?: boolean,
-    errFn?: ErrorCallback
+    filterActive?: boolean
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     project?: RepoName,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   /**
    * Execute a change action or revision action on a change.
@@ -272,8 +267,7 @@ export interface RestApiService extends Finalizable {
   queryChangeFiles(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    query: string,
-    errFn?: ErrorCallback
+    query: string
   ): Promise<string[] | undefined>;
 
   getRepoAccessRights(
@@ -521,8 +515,7 @@ export interface RestApiService extends Finalizable {
 
   getSuggestedRepos(
     inputVal: string,
-    n?: number,
-    errFn?: ErrorCallback
+    n?: number
   ): Promise<NameToProjectInfoMap | undefined>;
 
   invalidateGroupsCache(): void;

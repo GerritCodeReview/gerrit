@@ -43,7 +43,6 @@ import {ValueChangedEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -398,12 +397,7 @@ export class GrRepoAccess extends LitElement {
 
   private getInheritFromSuggestions(): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getRepos(
-        this.inheritFromFilter,
-        MAX_AUTOCOMPLETE_RESULTS,
-        /* offset=*/ undefined,
-        throwingErrorCallback
-      )
+      .getRepos(this.inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
         const repos: AutocompleteSuggestion[] = [];
         if (!response) {

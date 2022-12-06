@@ -33,7 +33,6 @@ import {createEditUrl} from '../../../models/views/edit';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -515,12 +514,7 @@ export class GrEditControls extends LitElement {
     assertIsDefined(this.change, 'this.change');
     assertIsDefined(this.patchNum, 'this.patchNum');
     return this.restApiService
-      .queryChangeFiles(
-        this.change._number,
-        this.patchNum,
-        input,
-        throwingErrorCallback
-      )
+      .queryChangeFiles(this.change._number, this.patchNum, input)
       .then(res => {
         if (!res)
           throw new Error('Failed to retrieve files. Response not set.');

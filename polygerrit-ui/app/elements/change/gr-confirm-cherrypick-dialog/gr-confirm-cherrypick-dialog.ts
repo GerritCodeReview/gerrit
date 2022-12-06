@@ -37,7 +37,6 @@ import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createSearchUrl} from '../../../models/views/search';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -632,13 +631,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
       input = input.substring('refs/heads/'.length);
     }
     return this.restApiService
-      .getRepoBranches(
-        input,
-        this.project,
-        SUGGESTIONS_LIMIT,
-        /* offset=*/ undefined,
-        throwingErrorCallback
-      )
+      .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
       .then(response => {
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];

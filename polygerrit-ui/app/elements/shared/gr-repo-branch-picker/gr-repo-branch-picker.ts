@@ -21,7 +21,6 @@ import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
-import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -122,13 +121,7 @@ export class GrRepoBranchPicker extends LitElement {
       input = input.substring(REF_PREFIX.length);
     }
     return this.restApiService
-      .getRepoBranches(
-        input,
-        this.repo,
-        SUGGESTIONS_LIMIT,
-        /* offset=*/ undefined,
-        throwingErrorCallback
-      )
+      .getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
       .then(res => this.branchResponseToSuggestions(res));
   }
 
@@ -150,12 +143,7 @@ export class GrRepoBranchPicker extends LitElement {
   // private but used in test
   getRepoSuggestions(input: string) {
     return this.restApiService
-      .getRepos(
-        input,
-        SUGGESTIONS_LIMIT,
-        /* offset=*/ undefined,
-        throwingErrorCallback
-      )
+      .getRepos(input, SUGGESTIONS_LIMIT)
       .then(res => this.repoResponseToSuggestions(res));
   }
 

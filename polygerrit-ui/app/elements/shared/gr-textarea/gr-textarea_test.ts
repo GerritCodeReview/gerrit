@@ -617,19 +617,6 @@ suite('gr-textarea tests', () => {
       await element.updateComplete;
       assert.equal(element.text, '💯');
     });
-
-    test('enter key - ignored on just colon without more information', async () => {
-      const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
-      pressKey(element.textarea! as HTMLElement, Key.ENTER);
-      assert.isFalse(enterSpy.called);
-      element.textarea!.focus();
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = ':';
-      await element.updateComplete;
-      pressKey(element.textarea! as HTMLElement, Key.ENTER);
-      assert.isFalse(enterSpy.called);
-    });
   });
 
   suite('gr-textarea monospace', () => {

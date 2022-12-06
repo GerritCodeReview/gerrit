@@ -1830,29 +1830,23 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
-  getChangesWithSimilarTopic(
-    topic: string,
-    errFn?: ErrorCallback
-  ): Promise<ChangeInfo[] | undefined> {
+  getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
     const query = `intopic:${escapeAndWrapSearchOperatorValue(topic)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/intopic:*',
-      errFn,
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
   getChangesWithSimilarHashtag(
-    hashtag: string,
-    errFn?: ErrorCallback
+    hashtag: string
   ): Promise<ChangeInfo[] | undefined> {
     const query = `inhashtag:${escapeAndWrapSearchOperatorValue(hashtag)}`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/inhashtag:*',
-      errFn,
     }) as Promise<ChangeInfo[] | undefined>;
   }
 

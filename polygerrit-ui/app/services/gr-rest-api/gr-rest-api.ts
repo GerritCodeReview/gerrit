@@ -652,13 +652,9 @@ export interface RestApiService extends Finalizable {
       changeToExclude?: NumericChangeId;
     }
   ): Promise<ChangeInfo[] | undefined>;
-  getChangesWithSimilarTopic(
-    topic: string,
-    errFn?: ErrorCallback
-  ): Promise<ChangeInfo[] | undefined>;
+  getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined>;
   getChangesWithSimilarHashtag(
-    hashtag: string,
-    errFn?: ErrorCallback
+    hashtag: string
   ): Promise<ChangeInfo[] | undefined>;
 
   /**

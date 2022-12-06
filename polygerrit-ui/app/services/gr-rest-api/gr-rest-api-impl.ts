@@ -1076,8 +1076,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changesPerPage?: number,
     query?: string,
     offset?: 'n,z' | number,
-    options?: string,
-    errFn?: ErrorCallback
+    options?: string
   ): Promise<ChangeInfo[] | undefined> {
     const request = this.getRequestForGetChanges(
       changesPerPage,
@@ -1087,13 +1086,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
 
     return Promise.resolve(
-      this._restApiHelper.fetchJSON(
-        {
-          ...request,
-          errFn,
-        },
-        true
-      ) as Promise<ChangeInfo[] | undefined>
+      this._restApiHelper.fetchJSON(request, true) as Promise<
+        ChangeInfo[] | undefined
+      >
     ).then(response => {
       if (!response) {
         return;

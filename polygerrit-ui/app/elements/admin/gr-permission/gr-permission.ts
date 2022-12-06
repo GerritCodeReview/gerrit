@@ -41,7 +41,6 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {when} from 'lit/directives/when.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -472,8 +471,7 @@ export class GrPermission extends LitElement {
       .getSuggestedGroups(
         this.groupFilter || '',
         this.repo,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
+        MAX_AUTOCOMPLETE_RESULTS
       )
       .then(response => {
         const groups: GroupSuggestion[] = [];

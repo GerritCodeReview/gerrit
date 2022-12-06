@@ -24,7 +24,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -428,20 +427,13 @@ export class GrGroup extends LitElement {
   }
 
   private getGroupSuggestions(input: string) {
-    return this.restApiService
-      .getSuggestedGroups(
-        input,
-        /* project=*/ undefined,
-        /* n=*/ undefined,
-        throwingErrorCallback
-      )
-      .then(response => {
-        const groups: AutocompleteSuggestion[] = [];
-        for (const [name, group] of Object.entries(response ?? {})) {
-          groups.push({name, value: decodeURIComponent(group.id)});
-        }
-        return groups;
-      });
+    return this.restApiService.getSuggestedGroups(input).then(response => {
+      const groups: AutocompleteSuggestion[] = [];
+      for (const [name, group] of Object.entries(response ?? {})) {
+        groups.push({name, value: decodeURIComponent(group.id)});
+      }
+      return groups;
+    });
   }
 
   // private but used in test

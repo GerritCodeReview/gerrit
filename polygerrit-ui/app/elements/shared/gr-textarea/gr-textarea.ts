@@ -357,12 +357,8 @@ export class GrTextarea extends LitElement {
   }
 
   private handleTabKey(e: KeyboardEvent) {
-    // Tab should have normal behavior if the picker is closed or if the user
-    // has only typed ':'.
-    if (
-      !this.isDropdownVisible() ||
-      (this.isEmojiDropdownActive() && this.currentSearchString === '')
-    ) {
+    // Tab should have normal behavior if the picker is closed.
+    if (!this.isDropdownVisible()) {
       return;
     }
     e.preventDefault();
@@ -372,12 +368,9 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   handleEnterByKey(e: KeyboardEvent) {
-    // Enter should have newline behavior if the picker is closed or if the user
-    // has only typed ':'. Also make sure that shortcuts aren't clobbered.
-    if (
-      !this.isDropdownVisible() ||
-      (this.isEmojiDropdownActive() && this.currentSearchString === '')
-    ) {
+    // Enter should have newline behavior if the picker is closed. Also make
+    // sure that shortcuts aren't clobbered.
+    if (!this.isDropdownVisible()) {
       this.indent(e);
       return;
     }

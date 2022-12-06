@@ -119,7 +119,7 @@ class LoginForm extends HttpServlet {
       } else {
         mode = SignInMode.SIGN_IN;
       }
-      discover(req, res, false, ssoUrl, false, token, mode);
+      discover(req, res, false, ssoUrl, true, token, mode);
     } else {
       String id = Strings.nullToEmpty(req.getParameter("id")).trim();
       if (!id.isEmpty()) {
@@ -188,9 +188,6 @@ class LoginForm extends HttpServlet {
       String token,
       SignInMode mode)
       throws IOException {
-    if (ssoUrl != null) {
-      remember = false;
-    }
 
     DiscoveryResult r = impl.discover(req, id, mode, remember, token);
     switch (r.status) {

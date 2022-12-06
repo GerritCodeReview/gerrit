@@ -15,10 +15,7 @@ export enum HttpMethod {
   PUT = 'PUT',
 }
 
-export type ErrorCallback = (
-  response?: Response | null,
-  err?: Error
-) => Promise<void> | void;
+export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 
 export declare interface RestPluginApi {
   getLoggedIn(): Promise<boolean>;

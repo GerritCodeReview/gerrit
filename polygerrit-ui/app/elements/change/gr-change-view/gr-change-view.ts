@@ -2112,7 +2112,6 @@ export class GrChangeView extends LitElement {
       this.viewState.basePatchNum = PARENT;
 
     const patchChanged = this.hasPatchRangeChanged(this.viewState);
-    let patchNumChanged = this.hasPatchNumChanged(this.viewState);
 
     this.patchRange = {
       patchNum: this.viewState.patchNum,
@@ -2136,14 +2135,13 @@ export class GrChangeView extends LitElement {
           ...this.patchRange,
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
-        patchNumChanged = true;
       }
       if (patchChanged) {
         // We need to collapse all diffs when viewState changes so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
-        this.reloadPatchNumDependentResources(patchNumChanged).then(() => {
+        this.reloadPatchNumDependentResources().then(() => {
           this.sendShowChangeEvent();
         });
       }
@@ -2978,25 +2976,8 @@ export class GrChangeView extends LitElement {
    * Kicks off requests for resources that rely on the patch range
    * (`this.patchRange`) being defined.
    */
-  reloadPatchNumDependentResources(patchNumChanged?: boolean) {
-    assertIsDefined(this.changeNum, 'changeNum');
-    if (!this.patchRange?.patchNum) throw new Error('missing patchNum');
-    const promises = [this.loadAndSetCommitInfo()];
-    if (patchNumChanged) {
-      promises.push(
-        this.getCommentsModel().reloadPortedComments(
-          this.changeNum,
-          this.patchRange?.patchNum
-        )
-      );
-      promises.push(
-        this.getCommentsModel().reloadPortedDrafts(
-          this.changeNum,
-          this.patchRange?.patchNum
-        )
-      );
-    }
-    return Promise.all(promises);
+  reloadPatchNumDependentResources() {
+    return this.loadAndSetCommitInfo();
   }
 
   // Private but used in tests

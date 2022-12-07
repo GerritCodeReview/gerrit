@@ -103,10 +103,6 @@ import {ChangeViewState} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
-import {
-  CommentsModel,
-  commentsModelToken,
-} from '../../../models/comments/comments-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-change-view tests', () => {
@@ -114,7 +110,6 @@ suite('gr-change-view tests', () => {
   let setUrlStub: sinon.SinonStub;
   let userModel: UserModel;
   let changeModel: ChangeModel;
-  let commentsModel: CommentsModel;
 
   const ROBOT_COMMENTS_LIMIT = 10;
 
@@ -382,7 +377,6 @@ suite('gr-change-view tests', () => {
       sinon.stub(element.actions, 'reload').returns(Promise.resolve());
     });
     userModel = testResolver(userModelToken);
-    commentsModel = testResolver(commentsModelToken);
     changeModel = testResolver(changeModelToken);
   });
 
@@ -1490,7 +1484,7 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve());
     const reloadPatchDependentStub = sinon
       .stub(element, 'reloadPatchNumDependentResources')
-      .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
+      .callsFake(() => Promise.resolve());
     assertIsDefined(element.fileList);
     await element.fileList.updateComplete;
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
@@ -1523,46 +1517,6 @@ suite('gr-change-view tests', () => {
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
     assert.isTrue(collapseStub.calledTwice);
-  });
-
-  test('reload ported comments when patchNum changes', async () => {
-    assertIsDefined(element.fileList);
-    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
-    sinon.stub(element, 'loadAndSetCommitInfo');
-    await element.updateComplete;
-    const reloadPortedCommentsStub = sinon.stub(
-      commentsModel,
-      'reloadPortedComments'
-    );
-    const reloadPortedDraftsStub = sinon.stub(
-      commentsModel,
-      'reloadPortedDrafts'
-    );
-    sinon.stub(element.fileList, 'collapseAllDiffs');
-
-    const value: ChangeViewState = {
-      ...createChangeViewState(),
-      view: GerritView.CHANGE,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
-    element.viewState = value;
-    await element.updateComplete;
-
-    element.initialLoadComplete = true;
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        rev1: createRevision(1),
-        rev2: createRevision(2),
-      },
-    };
-
-    value.basePatchNum = 1 as BasePatchSetNum;
-    value.patchNum = 2 as RevisionPatchSetNum;
-    element.viewState = {...value};
-    await element.updateComplete;
-    assert.isTrue(reloadPortedCommentsStub.calledOnce);
-    assert.isTrue(reloadPortedDraftsStub.calledOnce);
   });
 
   test('do not reload entire page when patchRange doesnt change', async () => {
@@ -2382,7 +2336,7 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, 'getLatestCommitMessage').returns(Promise.resolve());
       sinon
         .stub(element, 'reloadPatchNumDependentResources')
-        .returns(Promise.resolve([undefined, undefined, undefined]));
+        .returns(Promise.resolve());
     });
 
     test("don't report changeDisplayed on reply", async () => {

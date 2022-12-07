@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1edf75_069242b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-07T16:59:33Z",
+      "side": 1,
+      "message": "consider adding a test since you are still relying on the hierarchy",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e571f1_3d95062b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-07T16:59:33Z",
+      "side": 1,
+      "message": "can you detail here the relevant parts of the hierarchy?",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 73
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16960453_a4df8310",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-07T16:59:33Z",
+      "side": 1,
+      "message": "seems like we shouldn\u0027t cast here since we have to check that it isn\u0027t null and that it is an element anyway",
+      "range": {
+        "startLine": 424,
+        "startChar": 47,
+        "endLine": 424,
+        "endChar": 58
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899a8141_77849c6a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-07T16:59:33Z",
+      "side": 1,
+      "message": "what do we need to rule out by doing this? Should the same be done for `parent`?",
+      "range": {
+        "startLine": 427,
+        "startChar": 7,
+        "endLine": 427,
+        "endChar": 16
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

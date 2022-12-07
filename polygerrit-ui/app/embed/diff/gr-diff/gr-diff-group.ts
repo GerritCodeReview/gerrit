@@ -9,6 +9,7 @@ import {LineNumber} from './gr-diff-line';
 import {assertIsDefined, assert} from '../../../utils/common-util';
 import {untilRendered} from '../../../utils/dom-util';
 import {isDefined} from '../../../types/types';
+import {LitElement} from 'lit';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -487,12 +488,13 @@ export class GrDiffGroup {
     // This is a temporary hack while migration to lit based diff rendering:
     // Elements with 'display: contents;' do not have a height, so they
     // won't work as intended with `untilRendered()`.
-    const watchEl =
-      this.element.tagName === 'GR-DIFF-SECTION'
-        ? this.element.firstElementChild
-        : this.element;
-    assertIsDefined(watchEl);
-    await untilRendered(watchEl as HTMLElement);
+    const isLitDiff = this.element.tagName === 'GR-DIFF-SECTION';
+    if (isLitDiff) {
+      await (this.element as LitElement).updateComplete;
+      await untilRendered(this.element.firstElementChild as HTMLElement);
+    } else {
+      await untilRendered(this.element);
+    }
   }
 
   /**

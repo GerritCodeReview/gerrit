@@ -1351,7 +1351,6 @@ export class GrChangeActions
   showRevertDialog() {
     const change = this.change;
     if (!change) return;
-    // The search is still broken if there is a " in the topic.
     const query = `submissionid: "${change.submission_id}"`;
     /* A chromium plugin expects that the modifyRevertMsg hook will only
     be called after the revert button is pressed, hence we populate the

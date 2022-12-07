@@ -11,7 +11,7 @@ import {
   LineNumberEventDetail,
 } from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
-import {toggleClass} from '../../../utils/dom-util';
+import {isElement, toggleClass} from '../../../utils/dom-util';
 import {
   GrCursorManager,
   isTargetable,
@@ -413,12 +413,19 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   _isFirstRowOfChunk(row: HTMLElement) {
-    const parentClassList = (row.parentNode as HTMLElement).classList;
+    let parent = row.parentNode as HTMLElement;
+    // In Lit based diff there is an additional element in the hierarchy.
+    if (parent.tagName === 'GR-DIFF-ROW') {
+      parent = parent.parentNode as HTMLElement;
+    }
+    const parentClassList = parent.classList;
     const isInChunk =
       parentClassList.contains('section') && parentClassList.contains('delta');
     const previousRow = row.previousSibling as HTMLElement;
     const firstContentRow =
-      !previousRow || previousRow.classList.contains('moveControls');
+      !previousRow ||
+      !isElement(previousRow) ||
+      previousRow.classList.contains('moveControls');
     return isInChunk && firstContentRow;
   }
 

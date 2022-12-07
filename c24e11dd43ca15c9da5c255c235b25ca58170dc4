@@ -16,6 +16,23 @@
       "message": "Nice! ❤️",
       "revId": "c24e11dd43ca15c9da5c255c235b25ca58170dc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc326263_0f8c998d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-07T12:05:30Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "c24e11dd43ca15c9da5c255c235b25ca58170dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,112 @@
+#!/bin/bash
+# Copyright (C) 2022 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+usage() { # error_message
+  cat <<-EOF
+NAME
+    git-gc-preserve - Run git gc and preserve old packs to avoid races for JGit
+
+    This command uses custom git config options to configure if preserved packs
+    from the last run of git gc should be pruned and if packs should be preserved:
+
+    This is similar to the implementation in JGit [1] which is used by
+    JGit to avoid errors [2] in such situations.
+
+    [1] https://git.eclipse.org/r/c/jgit/jgit/+/87969
+    [2] https://git.eclipse.org/r/c/jgit/jgit/+/122288
+
+SYNOPSIS
+    git gc-preserve
+
+DESCRIPTION
+    Runs git gc and can preserve old packs to avoid races with concurrently
+    executed commands in JGit.
+
+CONFIGURATION
+    "gc.prunepreserved": if set to "true" preserved packs from the last gc run
+      are pruned before current packs are preserved.
+
+    "gc.preserveoldpacks": if set to "true" current packs will be hard linked
+      to objects/pack/preserved before git gc is executed. JGit will
+      fallback to the preserved packs in this directory in case it comes
+      across missing objects which might be caused by a concurrent run of
+      git gc.
+EOF
+  exit
+}
+
+# prune preserved packs if gc.prunepreserved == true
+prune_preserved() { # repo
+  configured=$(git --git-dir="$1" config --get gc.prunepreserved)
+  if [ "$configured" != "true" ]; then
+    return 0
+  fi
+  local preserved=$1/objects/pack/preserved
+  if [ -d "$preserved" ]; then
+    printf '%s' "Pruning old preserved packs: "
+    count=$(find $preserved -name *.old-pack | wc -l)
+    rm -rf "$preserved"
+    echo "$count, done."
+  fi
+}
+
+# preserve packs if gc.preserveoldpacks == true
+preserve_packs() { # repo
+  configured=$(git --git-dir="$1" config --get gc.preserveoldpacks)
+  if [ "$configured" != "true" ]; then
+    return 0
+  fi
+  local packdir=$1/objects/pack
+  cd "$packdir"
+  mkdir -p preserved
+  printf '%s' "Preserving packs: "
+  count=0
+  for file in pack-*{.pack,.idx} ; do
+    ln -f "$file" preserved/"$(get_preserved_packfile_name "$file")"
+    if [[ "$file" == pack-*.pack ]]; then
+      ((count++))
+    fi
+  done
+  echo "$count, done."
+  cd - >/dev/null
+}
+
+# pack-0...2.pack to pack-0...2.old-pack
+# pack-0...2.idx to pack-0...2.old-idx
+get_preserved_packfile_name() { # packfile > preserved_packfile
+  local old=${1/%\.pack/.old-pack}
+  old=${old/%\.idx/.old-idx}
+  echo "$old"
+}
+
+# main
+
+while [ $# -gt 0 ] ; do
+    case "$1" in
+        -u|-h)  usage ;;
+    esac
+    shift
+done
+args=$(git rev-parse --sq-quote "$@")
+
+repopath=$(git rev-parse --git-dir)
+if [ -z "$repopath" ]; then
+  usage
+  exit $?
+fi
+
+prune_preserved "$repopath"
+preserve_packs "$repopath"
+git gc ${args:+"$args"}

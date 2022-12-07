@@ -776,6 +776,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "697db37e_6a5e79ec",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-07T08:24:11Z",
+      "side": 1,
+      "message": "Doing it just for tip-of-chain as you do now SGTM.",
+      "parentUuid": "262cee1b_0969b1e2",
+      "range": {
+        "startLine": 200,
+        "startChar": 23,
+        "endLine": 200,
+        "endChar": 32
+      },
+      "revId": "66d2ca67cd2fead757795f6e379c728facf45bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "793b28c5_d1435ff3",

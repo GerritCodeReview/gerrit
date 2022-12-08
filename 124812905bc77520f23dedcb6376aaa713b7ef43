@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31db9e63_7e144899",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-08T08:56:28Z",
+      "side": 1,
+      "message": "Done. Converted the entire test suite to be lit rendering based.",
+      "parentUuid": "ce1edf75_069242b1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64e571f1_3d95062b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-07T16:59:33Z",
       "side": 1,
       "message": "can you detail here the relevant parts of the hierarchy?",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 73
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec643bd_4fe20cb8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-08T08:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64e571f1_3d95062b",
       "range": {
         "startLine": 417,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "206eabdc_451514ce",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-08T08:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16960453_a4df8310",
+      "range": {
+        "startLine": 424,
+        "startChar": 47,
+        "endLine": 424,
+        "endChar": 58
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "899a8141_77849c6a",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-12-07T16:59:33Z",
       "side": 1,
       "message": "what do we need to rule out by doing this? Should the same be done for `parent`?",
+      "range": {
+        "startLine": 427,
+        "startChar": 7,
+        "endLine": 427,
+        "endChar": 16
+      },
+      "revId": "124812905bc77520f23dedcb6376aaa713b7ef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba28af8_40ea584f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-08T08:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899a8141_77849c6a",
       "range": {
         "startLine": 427,
         "startChar": 7,

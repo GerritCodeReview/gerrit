@@ -450,6 +450,8 @@ export class GrChangeActions
   // private but used in test
   @state() actionLoadingMessage = '';
 
+  @state() private inProgressActionKeys = new Set<string>();
+
   // _computeAllActions always returns an array
   // private but used in test
   @state() allActionValues: UIActionInfo[] = [];
@@ -676,6 +678,9 @@ export class GrChangeActions
           .changeNumber=${this.change?._number}
           @confirm=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
+          .disableActions=${this.inProgressActionKeys.has(
+            RevisionActions.REBASE
+          )}
           .branch=${this.change?.branch}
           .hasParent=${this.hasParent}
           .rebaseOnCurrent=${this.revisionRebaseAction
@@ -1746,7 +1751,9 @@ export class GrChangeActions
   }
 
   // private but used in test
-  setLoadingOnButtonWithKey(type: string, key: string) {
+  setLoadingOnButtonWithKey(action: UIActionInfo) {
+    const key = action.__key;
+    this.inProgressActionKeys.add(key);
     this.actionLoadingMessage = this.computeLoadingLabel(key);
     let buttonKey = key;
     // TODO(dhruvsri): clean this up later
@@ -1757,12 +1764,14 @@ export class GrChangeActions
     }
 
     // If the action appears in the overflow menu.
-    if (this.getActionOverflowIndex(type, buttonKey) !== -1) {
+    if (this.getActionOverflowIndex(action.__type, buttonKey) !== -1) {
       this.disabledMenuActions.push(buttonKey === '/' ? 'delete' : buttonKey);
       this.requestUpdate('disabledMenuActions');
       return () => {
+        this.inProgressActionKeys.delete(key);
         this.actionLoadingMessage = '';
         this.disabledMenuActions = [];
+        this.requestUpdate();
       };
     }
 
@@ -1776,9 +1785,11 @@ export class GrChangeActions
     buttonEl.setAttribute('loading', 'true');
     buttonEl.disabled = true;
     return () => {
+      this.inProgressActionKeys.delete(action.__key);
       this.actionLoadingMessage = '';
       buttonEl.removeAttribute('loading');
       buttonEl.disabled = false;
+      this.requestUpdate();
     };
   }
 
@@ -1790,10 +1801,7 @@ export class GrChangeActions
     payload?: RequestPayload,
     toReport?: Object
   ) {
-    const cleanupFn = this.setLoadingOnButtonWithKey(
-      action.__type,
-      action.__key
-    );
+    const cleanupFn = this.setLoadingOnButtonWithKey(action);
     this.reporting.reportInteraction(Interaction.CHANGE_ACTION_FIRED, {
       endpoint,
       toReport,

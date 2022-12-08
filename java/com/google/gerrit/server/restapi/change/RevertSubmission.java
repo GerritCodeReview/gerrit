@@ -236,6 +236,7 @@ public class RevertSubmission
     cherryPickInput = createCherryPickInput(revertInput);
     Instant timestamp = TimeUtil.now();
 
+    String initialMessage = revertInput.message;
     for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
@@ -253,6 +254,7 @@ public class RevertSubmission
               .collect(Collectors.toSet());
 
       revertAllChangesInProjectAndBranch(
+          initialMessage,
           revertInput,
           project,
           sortedChangesInProjectAndBranch,
@@ -265,7 +267,9 @@ public class RevertSubmission
     return revertSubmissionInfo;
   }
 
+  // Warning: reuses and modifies revertInput.message.
   private void revertAllChangesInProjectAndBranch(
+      String initialMessage,
       RevertInput revertInput,
       Project.NameKey project,
       Iterator<PatchSetData> sortedChangesInProjectAndBranch,
@@ -273,8 +277,6 @@ public class RevertSubmission
       Instant timestamp)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException,
           PermissionBackendException {
-
-    String initialMessage = revertInput.message;
     while (sortedChangesInProjectAndBranch.hasNext()) {
       ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();
       if (cherryPickInput.base == null) {

@@ -1269,18 +1269,28 @@ suite('gr-change-actions tests', () => {
       await keyTapped;
     });
 
-    test('setLoadingOnButtonWithKey top-level', () => {
+    test('setLoadingOnButtonWithKey top-level', async () => {
       const key = 'rebase';
-      const type = 'revision';
-      const cleanup = element.setLoadingOnButtonWithKey(type, key);
+      const type = ActionType.REVISION;
+      const cleanup = element.setLoadingOnButtonWithKey({
+        __type: type,
+        __key: key,
+        label: 'label',
+      });
       assert.equal(element.actionLoadingMessage, 'Rebasing...');
 
       const button = queryAndAssert<GrButton>(
         element,
         '[data-action-key="' + key + '"]'
       );
+      const dialog = queryAndAssert<GrConfirmRebaseDialog>(
+        element,
+        'gr-confirm-rebase-dialog'
+      );
       assert.isTrue(button.hasAttribute('loading'));
       assert.isTrue(button.disabled);
+      await dialog.updateComplete;
+      assert.isTrue(dialog.disableActions);
 
       assert.isOk(cleanup);
       assert.isFunction(cleanup);
@@ -1289,12 +1299,18 @@ suite('gr-change-actions tests', () => {
       assert.isFalse(button.hasAttribute('loading'));
       assert.isFalse(button.disabled);
       assert.isNotOk(element.actionLoadingMessage);
+      await dialog.updateComplete;
+      assert.isFalse(dialog.disableActions);
     });
 
     test('setLoadingOnButtonWithKey overflow menu', () => {
       const key = 'cherrypick';
-      const type = 'revision';
-      const cleanup = element.setLoadingOnButtonWithKey(type, key);
+      const type = ActionType.REVISION;
+      const cleanup = element.setLoadingOnButtonWithKey({
+        __type: type,
+        __key: key,
+        label: 'label',
+      });
       assert.equal(element.actionLoadingMessage, 'Cherry-picking...');
       assert.include(element.disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);

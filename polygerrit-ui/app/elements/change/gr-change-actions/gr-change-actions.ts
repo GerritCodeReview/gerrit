@@ -450,6 +450,8 @@ export class GrChangeActions
   // private but used in test
   @state() actionLoadingMessage = '';
 
+  @state() private inProgressAction?: UIActionInfo;
+
   // _computeAllActions always returns an array
   // private but used in test
   @state() allActionValues: UIActionInfo[] = [];
@@ -676,6 +678,7 @@ export class GrChangeActions
           .changeNumber=${this.change?._number}
           @confirm=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
+          .disableActions=${this.inProgressAction !== undefined}
           .branch=${this.change?.branch}
           .hasParent=${this.hasParent}
           .rebaseOnCurrent=${this.revisionRebaseAction
@@ -1742,9 +1745,10 @@ export class GrChangeActions
   }
 
   // private but used in test
-  setLoadingOnButtonWithKey(type: string, key: string) {
-    this.actionLoadingMessage = this.computeLoadingLabel(key);
-    let buttonKey = key;
+  setLoadingOnButtonWithKey(action: UIActionInfo) {
+    this.inProgressAction = action;
+    this.actionLoadingMessage = this.computeLoadingLabel(action.__key);
+    let buttonKey = action.__key;
     // TODO(dhruvsri): clean this up later
     // If key is revert-submission, then button key should be 'revert'
     if (buttonKey === ChangeActions.REVERT_SUBMISSION) {
@@ -1753,10 +1757,11 @@ export class GrChangeActions
     }
 
     // If the action appears in the overflow menu.
-    if (this.getActionOverflowIndex(type, buttonKey) !== -1) {
+    if (this.getActionOverflowIndex(action.__type, buttonKey) !== -1) {
       this.disabledMenuActions.push(buttonKey === '/' ? 'delete' : buttonKey);
       this.requestUpdate('disabledMenuActions');
       return () => {
+        this.inProgressAction = undefined;
         this.actionLoadingMessage = '';
         this.disabledMenuActions = [];
       };
@@ -1772,6 +1777,7 @@ export class GrChangeActions
     buttonEl.setAttribute('loading', 'true');
     buttonEl.disabled = true;
     return () => {
+      this.inProgressAction = undefined;
       this.actionLoadingMessage = '';
       buttonEl.removeAttribute('loading');
       buttonEl.disabled = false;
@@ -1786,10 +1792,7 @@ export class GrChangeActions
     payload?: RequestPayload,
     toReport?: Object
   ) {
-    const cleanupFn = this.setLoadingOnButtonWithKey(
-      action.__type,
-      action.__key
-    );
+    const cleanupFn = this.setLoadingOnButtonWithKey(action);
     this.reporting.reportInteraction(Interaction.CHANGE_ACTION_FIRED, {
       endpoint,
       toReport,

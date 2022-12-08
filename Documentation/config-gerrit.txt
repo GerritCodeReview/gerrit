@@ -561,7 +561,8 @@ By default this is false (no agreements are used).
 +
 To enable the actual usage of contributor agreement the project
 specific config option in the `project.config` must be set:
-link:config-project-config.html[receive.requireContributorAgreement].
+link:config-project-config.html#receive.requireContributorAgreement[
+receive.requireContributorAgreement].
 
 [[auth.trustContainerAuth]]auth.trustContainerAuth::
 +

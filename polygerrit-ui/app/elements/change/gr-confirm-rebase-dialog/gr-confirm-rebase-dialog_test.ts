@@ -16,6 +16,7 @@ import {NumericChangeId, BranchName} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
@@ -87,6 +88,19 @@ suite('gr-confirm-rebase-dialog tests', () => {
         </div>
       </gr-dialog> `
     );
+  });
+
+  test('disableActions property disables dialog confirm', async () => {
+    element.disableActions = false;
+    await element.updateComplete;
+
+    const dialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+    assert.isFalse(dialog.disabled);
+
+    element.disableActions = true;
+    await element.updateComplete;
+
+    assert.isTrue(dialog.disabled);
   });
 
   test('controls with parent and rebase on current available', async () => {

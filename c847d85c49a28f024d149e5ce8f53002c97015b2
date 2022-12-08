@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa088768_ffbfe792",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-08T17:37:17Z",
+      "side": 1,
+      "message": "Comment as to why this is not private?",
+      "revId": "c847d85c49a28f024d149e5ce8f53002c97015b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

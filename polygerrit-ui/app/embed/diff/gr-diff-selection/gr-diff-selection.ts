@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
-import {
-  normalize,
-  NormalizedRange,
-} from '../gr-diff-highlight/gr-range-normalizer';
+import {normalize} from '../gr-diff-highlight/gr-range-normalizer';
 import {
   descendedFromClass,
   parentWithClass,
@@ -21,7 +18,6 @@ import {
   getSideByLineEl,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
-import {assertIsDefined} from '../../../utils/common-util';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -121,19 +117,17 @@ export class GrDiffSelection {
   }
 
   handleCopy = (e: ClipboardEvent) => {
-    let commentSelected = false;
     const target = e.composedPath()[0];
     if (!(target instanceof Element)) return;
     if (target instanceof HTMLTextAreaElement) return;
     if (!descendedFromClass(target, 'diff-row', this.diffTable)) return;
     if (!this.diffTable) return;
-    if (this.diffTable.classList.contains(SelectionClass.COMMENT)) {
-      commentSelected = true;
-    }
+    if (this.diffTable.classList.contains(SelectionClass.COMMENT)) return;
+
     const lineEl = getLineElByChild(target);
     if (!lineEl) return;
     const side = getSideByLineEl(lineEl);
-    const text = this.getSelectedText(side, commentSelected);
+    const text = this.getSelectedText(side);
     if (text && e.clipboardData) {
       e.clipboardData.setData('Text', text);
       e.preventDefault();
@@ -166,13 +160,10 @@ export class GrDiffSelection {
    * @param commentSelected Whether or not a comment is selected.
    * @return The selected text.
    */
-  getSelectedText(side: Side, commentSelected: boolean) {
+  getSelectedText(side: Side) {
     const sel = this.getSelection();
     if (!sel || sel.rangeCount !== 1) {
       return ''; // No multi-select support yet.
-    }
-    if (commentSelected) {
-      return this.getCommentLines(sel, side);
     }
     const range = normalize(sel.getRangeAt(0));
     const startLineEl = getLineElByChild(range.startContainer);
@@ -252,83 +243,5 @@ export class GrDiffSelection {
     }
     this.linesCache[side] = lines;
     return lines;
-  }
-
-  /**
-   * Query the diffElement for comments and check whether they lie inside the
-   * selection range.
-   *
-   * @param sel The selection of the window.
-   * @param side The side that is currently selected.
-   * @return The selected comment text.
-   */
-  getCommentLines(sel: Selection, side: Side) {
-    const range = normalize(sel.getRangeAt(0));
-    const content = [];
-    assertIsDefined(this.diffTable, 'diffTable');
-    const messages = this.diffTable.querySelectorAll(
-      `.side-by-side [data-side="${side}"] .message *, .unified .message *`
-    );
-
-    for (let i = 0; i < messages.length; i++) {
-      const el = messages[i];
-      // Check if the comment element exists inside the selection.
-      if (sel.containsNode(el, true)) {
-        // Padded elements require newlines for accurate spacing.
-        if (
-          el.parentElement!.id === 'container' ||
-          el.parentElement!.nodeName === 'BLOCKQUOTE'
-        ) {
-          if (content.length && content[content.length - 1] !== '') {
-            content.push('');
-          }
-        }
-
-        if (
-          el.id === 'output' &&
-          !descendedFromClass(el, 'collapsed', this.diffTable)
-        ) {
-          content.push(this.getTextContentForRange(el, sel, range));
-        }
-      }
-    }
-
-    return content.join('\n');
-  }
-
-  /**
-   * Given a DOM node, a selection, and a selection range, recursively get all
-   * of the text content within that selection.
-   * Using a domNode that isn't in the selection returns an empty string.
-   *
-   * @param domNode The root DOM node.
-   * @param sel The selection.
-   * @param range The normalized selection range.
-   * @return The text within the selection.
-   */
-  getTextContentForRange(
-    domNode: Node,
-    sel: Selection,
-    range: NormalizedRange
-  ) {
-    if (!sel.containsNode(domNode, true)) {
-      return '';
-    }
-
-    let text = '';
-    if (domNode instanceof Text) {
-      text = domNode.textContent || '';
-      if (domNode === range.endContainer) {
-        text = text.substring(0, range.endOffset);
-      }
-      if (domNode === range.startContainer) {
-        text = text.substring(range.startOffset);
-      }
-    } else {
-      for (const childNode of domNode.childNodes) {
-        text += this.getTextContentForRange(childNode, sel, range);
-      }
-    }
-    return text;
   }
 }

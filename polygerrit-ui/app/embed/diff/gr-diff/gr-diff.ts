@@ -259,7 +259,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   renderDiffTableTask?: DelayedPromise<void>;
 
-  private diffSelection = new GrDiffSelection();
+  // Private but used in tests.
+  diffSelection = new GrDiffSelection();
 
   // Private but used in tests.
   highlights = new GrDiffHighlight();

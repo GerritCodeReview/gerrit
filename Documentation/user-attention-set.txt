@@ -146,8 +146,14 @@ by default.
 
 image::images/browser-notification-preference.png["user preference for browser notifications", align="center"]
 
-Current implementation works only when gerrit is open in one of the tabs. We
-poll every 5 minutes for changes in attention set.
+The notifications work only when Gerrit is open in one of the browser tabs.
+The latency to get the notification is up to 5 minutes.
+
+If you are not getting notifications:
+ - Check Your user preferences - Allow browser notification setting
+ - Make sure notifications are turned on for the Gerrit site in the browser
+ - Make sure browser notifications are turned on in your operating system
+ - Your host can have browser notifications disabled for some user groups
 
 === Bold Changes / Mark Reviewed
 

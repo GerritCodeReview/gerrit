@@ -1582,13 +1582,8 @@ suite('gr-change-actions tests', () => {
             'Revert submission 199 0' +
             '\n\n' +
             'Reason for revert: <INSERT REASONING HERE>' +
-            '\n' +
-            'Reverted Changes:' +
-            '\n' +
-            '1234567890:random' +
-            '\n' +
-            '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
-            '\n';
+            '\n\n' +
+            'Reverted changes: /q/submissionid:199+0\n';
           assert.equal(confirmRevertDialog.message, expectedMsg);
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
@@ -1648,13 +1643,8 @@ suite('gr-change-actions tests', () => {
             'Revert submission 199 0' +
             '\n\n' +
             'Reason for revert: <INSERT REASONING HERE>' +
-            '\n' +
-            'Reverted Changes:' +
-            '\n' +
-            '1234567890:random' +
-            '\n' +
-            '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
-            '\n';
+            '\n\n' +
+            'Reverted changes: /q/submissionid:199+0\n';
           const singleChangeMsg =
             'Revert "random commit message"\n\nThis reverts ' +
             'commit 2000.\n\nReason' +

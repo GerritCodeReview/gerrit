@@ -1364,7 +1364,11 @@ export class GrChangeActions
         return;
       }
       assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
-      this.confirmRevertDialog.populate(change, this.commitMessage, changes);
+      this.confirmRevertDialog.populate(
+        change,
+        this.commitMessage,
+        changes.length
+      );
       this.showActionDialog(this.confirmRevertDialog);
     });
   }

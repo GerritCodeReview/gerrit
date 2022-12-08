@@ -14,9 +14,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {createSearchUrl} from '../../../models/views/search';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
-const CHANGE_SUBJECT_LIMIT = 50;
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
@@ -58,8 +58,9 @@ export class GrConfirmRevertDialog extends LitElement {
   @state()
   private showRevertSubmission = false;
 
+  // Value supplied by populate(). Non-private for access in tests.
   @state()
-  private changesCount?: number;
+  changesCount?: number;
 
   @state()
   showErrorMessage = false;
@@ -189,15 +190,15 @@ export class GrConfirmRevertDialog extends LitElement {
     );
   }
 
-  populate(change: ChangeInfo, commitMessage: string, changes: ChangeInfo[]) {
-    this.changesCount = changes.length;
+  populate(change: ChangeInfo, commitMessage: string, changesCount: number) {
+    this.changesCount = changesCount;
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
       change,
       commitMessage,
       change.current_revision
     );
-    this.populateRevertSubmissionMessage(change, changes, commitMessage);
+    this.populateRevertSubmissionMessage(change, commitMessage);
   }
 
   populateRevertSingleChangeMessage(
@@ -225,12 +226,6 @@ export class GrConfirmRevertDialog extends LitElement {
     this.originalRevertMessages[this.revertType] = this.message;
   }
 
-  private getTrimmedChangeSubject(subject: string) {
-    if (!subject) return '';
-    if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
-    return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
-  }
-
   private modifyRevertSubmissionMsg(
     change: ChangeInfo,
     msg: string,
@@ -243,30 +238,22 @@ export class GrConfirmRevertDialog extends LitElement {
     );
   }
 
-  populateRevertSubmissionMessage(
-    change: ChangeInfo,
-    changes: ChangeInfo[],
-    commitMessage: string
-  ) {
+  populateRevertSubmissionMessage(change: ChangeInfo, commitMessage: string) {
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {
       fireAlert(this, ERR_COMMIT_NOT_FOUND);
       return;
     }
-    if (!changes || changes.length <= 1) return;
-    const revertTitle = `Revert submission ${change.submission_id}`;
-    let message =
-      revertTitle +
+    if (this.changesCount! <= 1) return;
+    const message =
+      `Revert submission ${change.submission_id}` +
       '\n\n' +
       'Reason for revert: <INSERT ' +
-      'REASONING HERE>\n';
-    message += 'Reverted Changes:\n';
-    changes.forEach(change => {
-      message +=
-        `${change.change_id.substring(0, 10)}:` +
-        `${this.getTrimmedChangeSubject(change.subject)}\n`;
-    });
+      'REASONING HERE>\n\n' +
+      'Reverted changes: ' +
+      createSearchUrl({query: `submissionid:${change.submission_id}`}) +
+      '\n';
     this.message = this.modifyRevertSubmissionMsg(
       change,
       message,

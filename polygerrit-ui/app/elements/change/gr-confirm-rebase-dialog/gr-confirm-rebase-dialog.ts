@@ -54,6 +54,9 @@ export class GrConfirmRebaseDialog extends LitElement {
   @property({type: Boolean})
   rebaseOnCurrent?: boolean;
 
+  @property({type: Boolean})
+  disableActions = false;
+
   @state()
   text = '';
 
@@ -130,6 +133,7 @@ export class GrConfirmRebaseDialog extends LitElement {
       <gr-dialog
         id="confirmDialog"
         confirm-label="Rebase"
+        .disabled=${this.disableActions}
         @confirm=${this.handleConfirmTap}
         @cancel=${this.handleCancelTap}
       >

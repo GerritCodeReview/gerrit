@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d89595_46f4d7ae",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-08T14:35:38Z",
+      "side": 1,
+      "message": "```suggestion\n - Check your user preferences - Allow browser notification setting\n```",
+      "range": {
+        "startLine": 153,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 13
+      },
+      "revId": "2185c646ee313a55d0e0b2bbb4f0a35b2808d3fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

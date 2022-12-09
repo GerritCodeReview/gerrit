@@ -136,7 +136,6 @@ public class ChangeField {
   /** Newer style Change-Id key. */
   public static final IndexedField<ChangeData, String> CHANGE_ID_FIELD =
       IndexedField.<ChangeData>stringBuilder("ChangeId")
-          .stored()
           .required()
           // The new style key is in form Isha1
           .size(41)

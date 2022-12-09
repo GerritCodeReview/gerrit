@@ -16,6 +16,24 @@
       "message": "Comment as to why this is not private?",
       "revId": "c847d85c49a28f024d149e5ce8f53002c97015b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31ebc24_058af314",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-09T09:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa088768_ffbfe792",
+      "revId": "c847d85c49a28f024d149e5ce8f53002c97015b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,63 @@
       "message": "PS2 now forwards additional options not handled by git-gc-preserve to git gc",
       "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d6e7617_32282171",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-12-09T11:47:14Z",
+      "side": 1,
+      "message": "Maybe a more robust way of going into subdirectory and ensuring to exit that subdirectory is to use parentheses in order to open a subshell. The the current directory only changes in the subshell and when the subshell exits the current directory is unchanged in the parent shell:\n\n```\n  (cd \"$packdir\" ; mkdir -p preserved ...)\n```",
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3227396d_b8759d2e",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-12-09T11:47:14Z",
+      "side": 1,
+      "message": "why is redirection to /dev/null needed in this command?",
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c9bb0ef_423487a8",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-12-09T11:47:14Z",
+      "side": 1,
+      "message": "The referenced JGit implementation performs these actions in the context of a successful gcLog.lock() operation. The same lock which shields one gc process from another is used to guard these operations too. This is not the case here? I also do not see how this can be done from a script which wraps git-gc.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 26
+      },
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

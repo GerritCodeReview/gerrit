@@ -133,6 +133,30 @@
       },
       "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98e3d379_ca7747c6",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T14:45:07Z",
+      "side": 1,
+      "message": "I added a sentence to the usage string stating that this command doesn\u0027t attempt to implement the locking protocol done by git gc --auto",
+      "parentUuid": "18d1b510_339759ea",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 26
+      },
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

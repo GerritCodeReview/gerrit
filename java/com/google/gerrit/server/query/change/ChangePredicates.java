@@ -352,7 +352,7 @@ public class ChangePredicates {
    * in the form of 'gerrit~$rule_name'.
    */
   public static Predicate<ChangeData> submitRuleStatus(String value) {
-    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
+    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT_SPEC, value);
   }
 
   /**

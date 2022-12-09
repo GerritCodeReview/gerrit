@@ -36,7 +36,7 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
   }
 
   private SubmitRecordPredicate(String value) {
-    super(ChangeField.SUBMIT_RECORD, value);
+    super(ChangeField.SUBMIT_RECORD_SPEC, value);
   }
 
   @Override

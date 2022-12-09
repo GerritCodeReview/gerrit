@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGE_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -69,7 +69,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       int limit,
       Set<String> fields) {
     // Always include project since it is needed to load the change from NoteDb.
-    if (!fields.contains(CHANGE.getName()) && !fields.contains(PROJECT_SPEC.getName())) {
+    if (!fields.contains(CHANGE_SPEC.getName()) && !fields.contains(PROJECT_SPEC.getName())) {
       fields = new HashSet<>(fields);
       fields.add(PROJECT_SPEC.getName());
     }
@@ -176,6 +176,6 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
   @Override
   public boolean hasChange() {
-    return index.getSchema().hasField(ChangeField.CHANGE);
+    return index.getSchema().hasField(ChangeField.CHANGE_SPEC);
   }
 }

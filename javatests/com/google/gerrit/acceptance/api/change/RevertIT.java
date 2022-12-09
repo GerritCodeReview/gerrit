@@ -63,6 +63,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -1278,10 +1279,38 @@ public class RevertIT extends AbstractDaemonTest {
                 .distinct()
                 .count())
         .isEqualTo(1);
+
+    // Size
     List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    assertThat(revertChanges).hasSize(3);
+    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(2);
+
+    // Contents
     assertThat(revertChanges.get(0).current().files().get("c.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(2).current().files().get("b.txt").linesDeleted).isEqualTo(1);
+
+    // Commit message
+    assertThat(revertChanges.get(0).current().commit(false).message)
+        .matches(
+            Pattern.compile(
+                "Revert \"first change\"\n\n"
+                    + "This reverts commit [a-f0-9]+\\.\n\n"
+                    + "Change-Id: I[a-f0-9]+\n"));
+    assertThat(revertChanges.get(1).current().commit(false).message)
+        .matches(
+            Pattern.compile(
+                "Revert \"second change\"\n\n"
+                    + "This reverts commit [a-f0-9]+\\.\n\n"
+                    + "Change-Id: I[a-f0-9]+\n"));
+    assertThat(revertChanges.get(2).current().commit(false).message)
+        .matches(
+            Pattern.compile(
+                "Revert \"third change\"\n\n"
+                    + "This reverts commit [a-f0-9]+\\.\n\n"
+                    + "Change-Id: I[a-f0-9]+\n"));
+
+    // Relationships
     String sha1FirstChange = resultCommits.get(0).getCommit().getName();
     String sha1ThirdChange = resultCommits.get(2).getCommit().getName();
     String sha1SecondRevert = revertChanges.get(2).current().commit(false).commit;
@@ -1291,9 +1320,6 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(sha1ThirdChange);
     assertThat(revertChanges.get(1).current().commit(false).parents.get(0).commit)
         .isEqualTo(sha1SecondRevert);
-
-    assertThat(revertChanges).hasSize(3);
-    assertThat(gApi.changes().id(revertChanges.get(1).id()).current().related().changes).hasSize(2);
   }
 
   @Test

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4079c014_8e8c3d70",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T13:50:15Z",
+      "side": 1,
+      "message": "creating another shell takes time, I now use pushd and popd and exit if they fail",
+      "parentUuid": "4d6e7617_32282171",
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3227396d_b8759d2e",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "527d523b_bbb2797d",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T13:50:15Z",
+      "side": 1,
+      "message": "cd -\n\nmoves the working directory to the previous working directory and prints the resulting path. Redirecting to /dev/null suppresses this path output.",
+      "parentUuid": "3227396d_b8759d2e",
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c9bb0ef_423487a8",
@@ -65,6 +101,30 @@
       "writtenOn": "2022-12-09T11:47:14Z",
       "side": 1,
       "message": "The referenced JGit implementation performs these actions in the context of a successful gcLog.lock() operation. The same lock which shields one gc process from another is used to guard these operations too. This is not the case here? I also do not see how this can be done from a script which wraps git-gc.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 26
+      },
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d1b510_339759ea",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T13:50:15Z",
+      "side": 1,
+      "message": "logging output of asynchronously executed `git gc` to `gc.log` and locking on this file is done (by both git and jgit) only if `gc.autoDetach` is `true` which is enabled by default if option `--auto` is passed:\n\n```\ngit gc --auto\n```\n\nor\n\n```\ngit -c gc.autoDetach\u003dtrue gc\n```\n\nimplementing this in a bash scripting wrapping git gc seems impossible since that would skip auto gc if gc.log already exists, see https://github.com/git/git/blob/master/Documentation/RelNotes/2.12.2.txt#L30",
+      "parentUuid": "9c9bb0ef_423487a8",
       "range": {
         "startLine": 110,
         "startChar": 0,

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "653f5387_c9d0f315",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-12-09T15:23:23Z",
+      "side": 1,
+      "message": "This should tell Git/Gerrit admins to not run two instances of this script concurrently on the same Git repository because of a possible race with the handling of prune/preserve options.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "dc6fb3e08a109c45737cd045d3650c3b9f1d0c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbfd4007_e8e74e41",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-12-09T15:23:23Z",
+      "side": 1,
+      "message": "this is equivalent to:\n\n  printf \"Preserving packs: \"\n  \nsame in the line 78",
+      "revId": "dc6fb3e08a109c45737cd045d3650c3b9f1d0c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

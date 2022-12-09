@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44fc088_ae34543e",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T16:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "653f5387_c9d0f315",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "dc6fb3e08a109c45737cd045d3650c3b9f1d0c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbfd4007_e8e74e41",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-12-09T15:23:23Z",
       "side": 1,
       "message": "this is equivalent to:\n\n  printf \"Preserving packs: \"\n  \nsame in the line 78",
+      "revId": "dc6fb3e08a109c45737cd045d3650c3b9f1d0c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27912f9_f1ba5824",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T16:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbfd4007_e8e74e41",
       "revId": "dc6fb3e08a109c45737cd045d3650c3b9f1d0c33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63b6e69_fa49a223",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-09T09:54:03Z",
+      "side": 1,
+      "message": "PS2 now forwards additional options not handled by git-gc-preserve to git gc",
+      "revId": "2b6114a55c8b7c072ca633977978175ad869b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

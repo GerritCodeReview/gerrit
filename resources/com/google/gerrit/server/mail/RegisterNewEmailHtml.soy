@@ -30,8 +30,10 @@
   {/if}:
 
   <p>
-
-    {$email.gerritUrl}#/VE/{$email.emailRegistrationToken}
+    {let $emailRegistrationUrl kind="uri"}
+      {$email.gerritUrl}#/VE/{$email.emailRegistrationToken}
+    {/let}
+    <a href="{$emailRegistrationUrl}">{$emailRegistrationUrl}</a>
   </p>
   <p>
     If you have received this mail in error, you do not need to take any

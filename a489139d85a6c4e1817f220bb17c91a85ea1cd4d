@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f8222f_972b807c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-12-09T10:16:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b90860c3_811fc967",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "a489139d85a6c4e1817f220bb17c91a85ea1cd4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683dd767_0099f6b8",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-12-02T10:04:35Z",
       "side": 1,
       "message": "I think we can now use the \n\nschema(\n      int version,\n      ImmutableList\u003cIndexedField\u003cV, ?\u003e\u003e indexedFields,\n      ImmutableList\u003cIndexedField\u003cV, ?\u003e.SearchSpec\u003e searchSpecs)\n      \ninstead of passing the ImmutableList.of() empty list for fieldDefs?",
+      "revId": "a489139d85a6c4e1817f220bb17c91a85ea1cd4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c57d8b09_0e792904",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-12-09T10:16:02Z",
+      "side": 1,
+      "message": "Yes, I decided to explicitly keep it until we get rid of FieldDef completely.",
+      "parentUuid": "683dd767_0099f6b8",
       "revId": "a489139d85a6c4e1817f220bb17c91a85ea1cd4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

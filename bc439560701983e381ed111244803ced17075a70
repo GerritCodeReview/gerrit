@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25a45e6d_bf5c1e5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-10T23:02:19Z",
+      "side": 1,
+      "message": "you are updating JGit to e74f3855a",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "bc439560701983e381ed111244803ced17075a70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

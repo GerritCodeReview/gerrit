@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
@@ -28,7 +29,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class Sequences {
@@ -52,12 +56,15 @@ public class Sequences {
   }
 
   private final RepoSequence accountSeq;
-  private final RepoSequence changeSeq;
+  private final Map<Project.NameKey, RepoSequence> changeSeq;
   private final RepoSequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
   private final int accountBatchSize;
   private final int changeBatchSize;
   private final int groupBatchSize = 1;
+  private final AllProjectsName allProjects;
+  private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   public Sequences(
@@ -89,14 +96,11 @@ public class Sequences {
             NAME_CHANGES,
             KEY_SEQUENCE_BATCH_SIZE,
             DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE);
-    changeSeq =
-        new RepoSequence(
-            repoManager,
-            gitRefUpdated,
-            allProjects,
-            NAME_CHANGES,
-            () -> FIRST_CHANGE_ID,
-            changeBatchSize);
+    changeSeq = new ConcurrentHashMap<>();
+
+    this.repoManager = repoManager;
+    this.gitRefUpdated = gitRefUpdated;
+    this.allProjects = allProjects;
 
     groupSeq =
         new RepoSequence(
@@ -128,17 +132,24 @@ public class Sequences {
     }
   }
 
-  public int nextChangeId() {
+  public int nextChangeId(Project.NameKey projectName) {
     try (Timer2.Context<SequenceType, Boolean> timer =
         nextIdLatency.start(SequenceType.CHANGES, false)) {
-      return changeSeq.next();
+      return changeSeqForProject(projectName).next();
     }
   }
 
-  public ImmutableList<Integer> nextChangeIds(int count) {
+  public int nextChangeId(Repository repo) {
+    try (Timer2.Context<SequenceType, Boolean> timer =
+        nextIdLatency.start(SequenceType.CHANGES, false)) {
+      return changeSeqForProject(repo).next();
+    }
+  }
+
+  public ImmutableList<Integer> nextChangeIds(Project.NameKey projectName, int count) {
     try (Timer2.Context<SequenceType, Boolean> timer =
         nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
-      return changeSeq.next(count);
+      return changeSeqForProject(projectName).next(count);
     }
   }
 
@@ -161,8 +172,8 @@ public class Sequences {
     return accountBatchSize;
   }
 
-  public int currentChangeId() {
-    return changeSeq.current();
+  public int currentChangeId(Project.NameKey projectName) {
+    return changeSeqForProject(projectName).current();
   }
 
   public int currentAccountId() {
@@ -173,8 +184,26 @@ public class Sequences {
     return groupSeq.current();
   }
 
-  public int lastChangeId() {
-    return changeSeq.last();
+  public int lastChangeId(Project.NameKey projectName) {
+    return changeSeqForProject(projectName).last();
+  }
+
+  private RepoSequence changeSeqForProject(Project.NameKey projectName) {
+    return changeSeq.computeIfAbsent(
+        projectName,
+        (pn) ->
+            new RepoSequence(
+                repoManager,
+                gitRefUpdated,
+                pn,
+                NAME_CHANGES,
+                () -> FIRST_CHANGE_ID,
+                changeBatchSize));
+  }
+
+  private RepoSequence changeSeqForProject(Repository repo) {
+    return new RepoSequence(
+        repo, gitRefUpdated, NAME_CHANGES, () -> FIRST_CHANGE_ID, changeBatchSize);
   }
 
   public int lastGroupId() {
@@ -186,7 +215,7 @@ public class Sequences {
   }
 
   public void setChangeIdValue(int value) {
-    changeSeq.storeNew(value);
+    changeSeqForProject(allProjects).storeNew(value);
   }
 
   public void setAccountIdValue(int value) {

@@ -153,7 +153,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   @Override
   protected int getIndexSize() {
-    return sequences.lastChangeId();
+    return Integer.MAX_VALUE;
   }
 
   @Override

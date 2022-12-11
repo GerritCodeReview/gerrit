@@ -2518,7 +2518,7 @@ class ReceiveCommits {
       }
 
       SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
-      List<Integer> newIds = seq.nextChangeIds(newChanges.size());
+      List<Integer> newIds = seq.nextChangeIds(project.getNameKey(), newChanges.size());
       for (int i = 0; i < newChanges.size(); i++) {
         CreateRequest create = newChanges.get(i);
         create.setChangeId(newIds.get(i));

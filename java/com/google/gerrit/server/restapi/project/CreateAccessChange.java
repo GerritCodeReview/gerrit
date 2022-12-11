@@ -141,7 +141,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
       md.setMessage("Review access change");
       md.setInsertChangeId(true);
-      Change.Id changeId = Change.id(seq.nextChangeId());
+      Change.Id changeId = Change.id(seq.nextChangeId(rsrc.getNameKey()));
 
       RevCommit commit =
           config.commitToNewRef(md, PatchSet.id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());

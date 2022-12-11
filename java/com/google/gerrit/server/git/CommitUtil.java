@@ -304,7 +304,7 @@ public class CommitUtil {
       Repository git)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
-    Change.Id changeId = Change.id(seq.nextChangeId());
+    Change.Id changeId = Change.id(seq.nextChangeId(notes.getProjectName()));
     if (input.workInProgress) {
       input.notify = firstNonNull(input.notify, NotifyHandling.NONE);
     }

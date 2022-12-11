@@ -305,7 +305,7 @@ public class RevertSubmission
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revertInput.message;
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
-    Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+    Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId(project));
     try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.setNotify(
           notifyResolver.resolve(

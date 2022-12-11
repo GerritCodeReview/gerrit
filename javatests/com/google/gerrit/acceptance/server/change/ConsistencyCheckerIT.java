@@ -233,7 +233,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   @Test
   public void onlyPatchSetObjectMissingWithFix() throws Exception {
-    Change c = TestChanges.newChange(project, admin.id(), sequences.nextChangeId());
+    Change c = TestChanges.newChange(project, admin.id(), sequences.nextChangeId(project));
 
     PatchSet.Id psId = c.currentPatchSetId();
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
@@ -744,7 +744,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes insertChange(TestAccount owner, String dest) throws Exception {
-    Change.Id id = Change.id(sequences.nextChangeId());
+    Change.Id id = Change.id(sequences.nextChangeId(project));
     ChangeInserter ins;
     try (BatchUpdate bu = newUpdate(owner.id())) {
       RevCommit commit = patchSetCommit(PatchSet.id(id, 1));

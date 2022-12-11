@@ -106,6 +106,8 @@ public class RepoSequence {
 
   @VisibleForTesting int acquireCount;
 
+  private final Repository repo;
+
   public RepoSequence(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
@@ -171,6 +173,7 @@ public class RepoSequence {
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = requireNonNull(projectName, "projectName");
+    this.repo = null;
 
     checkArgument(
         name != null
@@ -190,6 +193,50 @@ public class RepoSequence {
 
     logger.atFine().log("sequence batch size for %s is %s", name, batchSize);
     counterLock = new ReentrantLock(true);
+  }
+
+  RepoSequence(
+      Repository repo,
+      GitReferenceUpdated gitRefUpdated,
+      String name,
+      Seed seed,
+      int batchSize,
+      Runnable afterReadRef,
+      Retryer<ImmutableList<Integer>> retryer,
+      int floor) {
+    this.repo = requireNonNull(repo, "repo");
+    this.repoManager = null;
+    this.projectName = null;
+
+    this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
+
+    checkArgument(
+        name != null
+            && !name.startsWith(REFS)
+            && !name.startsWith(REFS_SEQUENCES.substring(REFS.length())),
+        "name should be a suffix to follow \"refs/sequences/\", got: %s",
+        name);
+    this.refName = RefNames.REFS_SEQUENCES + name;
+
+    this.seed = requireNonNull(seed, "seed");
+    this.floor = floor;
+
+    checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
+    this.batchSize = batchSize;
+    this.afterReadRef = requireNonNull(afterReadRef, "afterReadRef");
+    this.retryer = requireNonNull(retryer, "retryer");
+
+    logger.atFine().log("sequence batch size for %s is %s", name, batchSize);
+    counterLock = new ReentrantLock(true);
+  }
+
+  public RepoSequence(
+      Repository repo,
+      GitReferenceUpdated gitRefUpdated,
+      String name,
+      Seed seed,
+      int changeBatchSize) {
+    this(repo, gitRefUpdated, name, seed, changeBatchSize, Runnables.doNothing(), RETRYER, 0);
   }
 
   /**
@@ -253,6 +300,18 @@ public class RepoSequence {
     }
   }
 
+  private void acquire(int count) {
+    if (repo != null) {
+      acquire(repo, count);
+    } else {
+      try (Repository openRepo = repoManager.openRepository(projectName)) {
+        acquire(openRepo, count);
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+  }
+
   /**
    * Updates the next available sequence number in NoteDb in order to have a batch of sequence
    * numbers available that can be handed out. {@link #counter} stores the next sequence number that
@@ -262,11 +321,11 @@ public class RepoSequence {
    * <p><strong>Note:</strong> Callers are required to acquire the {@link #counterLock} before
    * calling this method.
    *
+   * @param repo the repository to use for looking up the sequence
    * @param count the number of sequence numbers which should be retrieved
    */
-  private void acquire(int count) {
-    try (Repository repo = repoManager.openRepository(projectName);
-        RevWalk rw = new RevWalk(repo)) {
+  private void acquire(Repository repo, int count) {
+    try (RevWalk rw = new RevWalk(repo)) {
       logger.atFine().log("acquire %d ids on %s in %s", count, refName, projectName);
       Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
       afterReadRef.run();

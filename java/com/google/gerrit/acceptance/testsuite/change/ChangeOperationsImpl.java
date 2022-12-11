@@ -131,8 +131,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
   }
 
   private Change.Id createChange(TestChangeCreation changeCreation) throws Exception {
-    Change.Id changeId = Change.id(seq.nextChangeId());
     Project.NameKey project = getTargetProject(changeCreation);
+    Change.Id changeId = Change.id(seq.nextChangeId(project));
 
     try (Repository repository = repositoryManager.openRepository(project);
         ObjectInserter objectInserter = repository.newObjectInserter();

@@ -365,7 +365,7 @@ public class BatchUpdateTest {
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
-    Change.Id id = Change.id(sequences.nextChangeId());
+    Change.Id id = Change.id(sequences.nextChangeId(project));
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.insertChange(
           changeInserterFactory.create(

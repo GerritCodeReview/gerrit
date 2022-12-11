@@ -4055,7 +4055,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       branch = "refs/heads/" + branch;
     }
 
-    Change.Id id = Change.id(seq.nextChangeId());
+    Change.Id id = Change.id(seq.nextChangeId(repo.getRepository()));
     ChangeInserter ins =
         changeFactory
             .create(id, commit, branch)

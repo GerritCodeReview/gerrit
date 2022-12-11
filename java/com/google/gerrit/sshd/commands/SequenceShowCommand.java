@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -29,6 +30,9 @@ final class SequenceShowCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "sequence name")
   private String name;
 
+  @Argument(index = 0, metaVar = "PROJECT_NAME", required = false, usage = "project name")
+  private String projectName;
+
   @Inject Sequences sequences;
 
   @Override
@@ -36,7 +40,7 @@ final class SequenceShowCommand extends SshCommand {
     int current;
     switch (name) {
       case "changes":
-        current = sequences.currentChangeId();
+        current = sequences.currentChangeId(Project.nameKey(projectName));
         break;
       case "accounts":
         current = sequences.currentAccountId();

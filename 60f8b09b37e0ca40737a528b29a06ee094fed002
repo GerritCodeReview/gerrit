@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "751906da_6a4deff4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-12T10:12:40Z",
+      "side": 1,
+      "message": "please update to explain that we are pulling rug out from Lit when we do clearDiffContent, so this is temporary workaround until we let lit control that stuff.",
+      "revId": "60f8b09b37e0ca40737a528b29a06ee094fed002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d42a37_c02f49f1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-12T10:12:40Z",
+      "side": 1,
+      "message": "leave comment to explain the purpose of temp element, and TODO that it will not be needed after clearDiffContext is give to lit to manage.",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 0
+      },
+      "revId": "60f8b09b37e0ca40737a528b29a06ee094fed002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

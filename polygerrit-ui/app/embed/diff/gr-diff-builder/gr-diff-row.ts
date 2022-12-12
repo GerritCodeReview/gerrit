@@ -27,6 +27,10 @@ export class GrDiffRow extends LitElement {
 
   contentRightRef: Ref<LitElement> = createRef();
 
+  contentCellLeftRef: Ref<HTMLTableCellElement> = createRef();
+
+  contentCellRightRef: Ref<HTMLTableCellElement> = createRef();
+
   lineNumberLeftRef: Ref<HTMLTableCellElement> = createRef();
 
   lineNumberRightRef: Ref<HTMLTableCellElement> = createRef();
@@ -201,9 +205,7 @@ export class GrDiffRow extends LitElement {
   }
 
   getContentCell(side: Side) {
-    const div = this.contentRef(side)?.value;
-    if (!div) return undefined;
-    return div.parentElement as HTMLTableCellElement;
+    return this.contentCellRef(side)?.value;
   }
 
   getBlameCell() {
@@ -339,6 +341,7 @@ export class GrDiffRow extends LitElement {
     // prettier-ignore
     return html`
       <td
+        ${ref(this.contentCellRef(side))}
         class=${diffClasses(...extras)}
         @mouseenter=${() => {
           if (lineNumber)
@@ -388,6 +391,12 @@ export class GrDiffRow extends LitElement {
 
   private contentRef(side: Side) {
     return side === Side.LEFT ? this.contentLeftRef : this.contentRightRef;
+  }
+
+  private contentCellRef(side: Side) {
+    return side === Side.LEFT
+      ? this.contentCellLeftRef
+      : this.contentCellRightRef;
   }
 
   private lineNumberRef(side: Side) {

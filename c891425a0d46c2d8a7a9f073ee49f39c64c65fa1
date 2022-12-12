@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "517e3b15_0bb23d00",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-12T07:22:51Z",
+      "side": 0,
+      "message": "This test was identical to `copies content correctly`, so let\u0027s remove it.",
+      "revId": "c891425a0d46c2d8a7a9f073ee49f39c64c65fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

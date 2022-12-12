@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a95ac43_adda7109",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d590188_3bda60cf",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e0d69cc_4ee2efd7",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-07T08:24:11Z",
       "side": 1,
       "message": "nit: weird line break",
+      "range": {
+        "startLine": 21,
+        "startChar": 44,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feecf801_abfe8bfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e0d69cc_4ee2efd7",
       "range": {
         "startLine": 21,
         "startChar": 44,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a086b3_293c6c1e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5af7d884_df9f13ed",
+      "range": {
+        "startLine": 1516,
+        "startChar": 53,
+        "endLine": 1516,
+        "endChar": 86
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a38cc659_5278e651",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "897c2491_68f44e82",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38cc659_5278e651",
+      "range": {
+        "startLine": 1520,
+        "startChar": 86,
+        "endLine": 1521,
+        "endChar": 9
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6cbacc_baba29e5",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-12-07T08:24:11Z",
       "side": 1,
       "message": "```suggestion\nIf the chain is outdated, i.e., there\u0027s a change that depends on an old revision of its parent, the is the same as individually rebasing all outdated changes on top of their parent\u0027s latest revision before running the rebase chain action.\n```",
+      "range": {
+        "startLine": 1523,
+        "startChar": 0,
+        "endLine": 1524,
+        "endChar": 97
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9bd81a4_ebdb2dea",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c6cbacc_baba29e5",
       "range": {
         "startLine": 1523,
         "startChar": 0,
@@ -141,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a059774c_c3b15a59",
+        "filename": "java/com/google/gerrit/extensions/common/RebaseChainInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "You could also say that about `ChangeInfo`\u0027s `containsGitConflicts` and going over the files.\nI expect that to be the second check (after status check) that every client does, and so I think it makes sense to keep.",
+      "parentUuid": "0de78a62_695b4a22",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59cb105b_a16ea6a6",
         "filename": "java/com/google/gerrit/server/PatchSetUtil.java",
         "patchSetId": 15
@@ -152,6 +296,30 @@
       "writtenOn": "2022-12-07T08:24:11Z",
       "side": 1,
       "message": "```suggestion\n   * Gets the commit ID for the latest patch-set of a given change. This also takes patch sets into account that are added in the provided {@link RepoContext}.\n```",
+      "range": {
+        "startLine": 176,
+        "startChar": 5,
+        "endLine": 176,
+        "endChar": 94
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1ec72f_152294c6",
+        "filename": "java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59cb105b_a16ea6a6",
       "range": {
         "startLine": 176,
         "startChar": 5,
@@ -185,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "940c196e_be1b96bc",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97c3db05_2f945556",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 12
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fd7ab61_c460ac23",
@@ -208,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7afc0b6_6c44f1ed",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Moved the `input.base` parsing inside and splitted to several methods. Note that `input.base` is not necessarily even a SHA1, `parseBase()` is doing the work of converting this string to a real entity.\n\nBoth callers should follow the same logic, so I think it\u0027s best to make it all here.",
+      "parentUuid": "0fd7ab61_c460ac23",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54053fc5_7a8dff49",
@@ -221,6 +437,30 @@
       "writtenOn": "2022-12-07T08:24:11Z",
       "side": 1,
       "message": "nit: seems more like a \"applyRebaseInputToOp\" ?",
+      "range": {
+        "startLine": 331,
+        "startChar": 25,
+        "endLine": 331,
+        "endChar": 37
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc5809fd_e3443a6d",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54053fc5_7a8dff49",
       "range": {
         "startLine": 331,
         "startChar": 25,
@@ -256,6 +496,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa9c3bdb_94b7b141",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure walking through the commits will give the desired solution, specifically, in case the chain is outdated. IIUC, we will have to check for each commit whether its the latest, and walk through the new path otherwise.\n`GetRelatedChangesUtil` uses project groups instead, which is more elegant.\n\nI\u0027ve splitted the logic to 2 methods and I think it looks reasonable now. WDYT?",
+      "parentUuid": "bcacb323_392f4c75",
+      "range": {
+        "startLine": 85,
+        "startChar": 46,
+        "endLine": 85,
+        "endChar": 97
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cff7a07c_a38bcfb4",
         "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
         "patchSetId": 15
@@ -267,6 +531,30 @@
       "writtenOn": "2022-12-07T08:24:11Z",
       "side": 1,
       "message": "nit: isRequestedChange? or isTipChange ...\n\nancestor would already imply that it\u0027s a parent of the change that this action is requested for?",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3287ec_b0a26c72",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-12T11:34:55Z",
+      "side": 1,
+      "message": "This is the oldest ancestor, i.e. the one that is closest to the target branch. I\u0027m open for a better naming suggestions.",
+      "parentUuid": "cff7a07c_a38bcfb4",
       "range": {
         "startLine": 184,
         "startChar": 12,

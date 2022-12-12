@@ -62,6 +62,30 @@
       },
       "revId": "8cae48bbb403686078d1c9adb4924551a78c11e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9835ab4c_2466b203",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-12T21:41:33Z",
+      "side": 1,
+      "message": "thanks that was a good basis to make the change off.",
+      "parentUuid": "8714af01_e18c34d1",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 297,
+        "endChar": 7
+      },
+      "revId": "8cae48bbb403686078d1c9adb4924551a78c11e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

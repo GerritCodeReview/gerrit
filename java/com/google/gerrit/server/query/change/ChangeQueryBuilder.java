@@ -234,6 +234,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String OPERATOR_BEFORE = "before";
   public static final String OPERATOR_AFTER = "after";
 
+  // How to handle a value present outside an operator.
+  public enum DefaultFieldBehaviour {
+    MATCH_ALL,
+    DO_NOT_MATCH_USERS
+  }
+
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
 
@@ -486,6 +492,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
   private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private final DefaultFieldBehaviour defaultFieldBehaviour;
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -498,8 +505,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @VisibleForTesting
+  ChangeQueryBuilder(DefaultFieldBehaviour defaultFieldBehaviour, Arguments args) {
+    this(mydef, defaultFieldBehaviour, args);
+  }
+
+  @VisibleForTesting
   protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
+    this(def, DefaultFieldBehaviour.MATCH_ALL, args);
+  }
+
+  @VisibleForTesting
+  protected ChangeQueryBuilder(
+      Definition<ChangeData, ChangeQueryBuilder> def,
+      DefaultFieldBehaviour defaultFieldBehaviour,
+      Arguments args) {
     super(def, args.opFactories);
+    this.defaultFieldBehaviour = defaultFieldBehaviour;
     this.args = args;
   }
 
@@ -510,6 +531,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public ChangeQueryBuilder asUser(CurrentUser user) {
     return new ChangeQueryBuilder(builderDef, args.asUser(user));
+  }
+
+  public ChangeQueryBuilder asWatcher(CurrentUser user) {
+    return new ChangeQueryBuilder(
+        builderDef, DefaultFieldBehaviour.DO_NOT_MATCH_USERS, args.asUser(user));
   }
 
   @Operator
@@ -1570,7 +1596,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {
       return ref(query);
-    } else if (DEF_CHANGE.matcher(query).matches()) {
+    }
+
+    if (DEF_CHANGE.matcher(query).matches()) {
       List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(2);
       try {
         predicates.add(change(query));
@@ -1588,21 +1616,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
-    try {
-      Predicate<ChangeData> p = ownerDefaultField(query);
-      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
-        predicates.add(p);
+    if (defaultFieldBehaviour != DefaultFieldBehaviour.DO_NOT_MATCH_USERS) {
+      try {
+        Predicate<ChangeData> p = ownerDefaultField(query);
+        if (!Objects.equals(p, Predicate.<ChangeData>any())) {
+          predicates.add(p);
+        }
+      } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
+        // Skip.
       }
-    } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
-      // Skip.
-    }
-    try {
-      Predicate<ChangeData> p = reviewerDefaultField(query);
-      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
-        predicates.add(p);
+      try {
+        Predicate<ChangeData> p = reviewerDefaultField(query);
+        if (!Objects.equals(p, Predicate.<ChangeData>any())) {
+          predicates.add(p);
+        }
+      } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
+        // Skip.
       }
-    } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
-      // Skip.
     }
     predicates.add(file(query));
     try {

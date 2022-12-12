@@ -141,6 +141,10 @@ public class AccountCreator {
     return create(username, null, username, null, (String[]) null);
   }
 
+  public TestAccount createValid(String username) throws Exception {
+    return create(username, username + "@example.com", username, username);
+  }
+
   public TestAccount admin() throws Exception {
     return create("admin", "admin@example.com", "Administrator", "Adminny", "Administrators");
   }

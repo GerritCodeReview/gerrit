@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.DefaultFieldBehaviour.DO_NOT_MATCH_USERS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -44,7 +46,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   protected static List<Predicate<ChangeData>> filters(ChangeQueryBuilder.Arguments args)
       throws QueryParseException {
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(DO_NOT_MATCH_USERS, args);
     for (ProjectWatchKey w : getWatches(args)) {
       Predicate<ChangeData> f = null;
       if (w.filter() != null) {

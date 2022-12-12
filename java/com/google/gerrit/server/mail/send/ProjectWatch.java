@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -24,6 +25,7 @@ import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
@@ -35,11 +37,13 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.GroupBackedUser;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ProjectWatch {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -240,13 +244,13 @@ public class ProjectWatch {
   }
 
   private boolean filterMatch(CurrentUser user, String filter) throws QueryParseException {
-    ChangeQueryBuilder qb;
+    WatcherChangeQueryBuilder qb;
     Predicate<ChangeData> p = null;
 
     if (user == null) {
-      qb = args.queryBuilder.get().asUser(args.anonymousUser.get());
+      qb = WatcherChangeQueryBuilder.asUser(args.queryBuilder.get(), args.anonymousUser.get());
     } else {
-      qb = args.queryBuilder.get().asUser(user);
+      qb = WatcherChangeQueryBuilder.asUser(args.queryBuilder.get(), user);
       p = qb.isVisible();
     }
     qb.forceVisibilityCheck();
@@ -260,5 +264,41 @@ public class ProjectWatch {
       }
     }
     return p == null || p.asMatchable().match(changeData);
+  }
+
+  private static class WatcherChangeQueryBuilder extends ChangeQueryBuilder {
+    private WatcherChangeQueryBuilder(Arguments args) {
+      super(args);
+    }
+
+    public static WatcherChangeQueryBuilder asUser(ChangeQueryBuilder other, CurrentUser user) {
+      return new WatcherChangeQueryBuilder(other.getArgs().asUser(user));
+    }
+
+    @Override
+    protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
+      if (query.startsWith("refs/")) {
+        return ref(query);
+      }
+
+      // Adapt the capacity of this list when adding more default predicates.
+      List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
+      predicates.add(file(query));
+      try {
+        predicates.add(label(query));
+      } catch (StorageException | IOException | ConfigInvalidException | QueryParseException e) {
+        // Skip.
+      }
+      predicates.add(commit(query));
+      predicates.add(message(query));
+      predicates.add(comment(query));
+      predicates.add(projects(query));
+      predicates.add(ref(query));
+      predicates.add(branch(query));
+      predicates.add(topic(query));
+      // Adapt the capacity of the "predicates" list when adding more default
+      // predicates.
+      return Predicate.or(predicates);
+    }
   }
 }

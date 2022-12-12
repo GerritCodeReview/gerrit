@@ -349,6 +349,58 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noNotificationForWatchKeywordWhenKeywordMatchesChangeOwner() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // watch keyword in project as user
+    watch(watchedProject, admin.email());
+
+    // push a change with owner=keyword -> should not trigger email notification
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void noNotificationForWatchKeywordWhenKeywordMatchesChangeReviewer() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // watch keyword in project as user
+    watch(watchedProject, user2.email());
+
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+    sender.clear();
+
+    // Add reviewer=keyword -> should trigger email notification only to new reviewer
+    gApi.changes().id(r.getChangeId()).addReviewer(user2.email());
+
+    // assert email notification
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertNotifyTo(user2);
+    assertThat(m.body()).contains("Change subject: subject\n");
+  }
+
+  @Test
   public void watchOwner() throws Exception {
     String watchedProject = projectOperations.newProject().create().get();
     requestScopeOperations.setApiUser(user.id());

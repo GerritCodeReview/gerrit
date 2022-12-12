@@ -3312,6 +3312,40 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void queryChangesDefaultFieldMatchesOwner() throws Exception {
+    // We have to create a new user since changes are not deleted between tests, which means
+    // querying the standard users will lead to dirty results.
+    TestAccount changeOwner = accountCreator.createValid("changeOwner");
+    requestScopeOperations.setApiUser(changeOwner.id());
+    // Creating a change through the API since PushOneCommit changes are always owned by admin().
+    ChangeInput in = new ChangeInput();
+    in.branch = Constants.MASTER;
+    in.subject = "subject";
+    in.project = project.get();
+    ChangeInfo info = gApi.changes().createAsInfo(in);
+    assertThat(info.owner._accountId).isEqualTo(changeOwner.id().get());
+    requestScopeOperations.setApiUser(user.id());
+    List<ChangeInfo> results = query(changeOwner.email());
+    assertThat(Iterables.getOnlyElement(results).changeId).isEqualTo(info.changeId);
+  }
+
+  @Test
+  public void queryChangesDefaultFieldMatchesReviewer() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    // We have to create a new user since changes are not deleted between tests, which means
+    // querying the standard users will lead to dirty results.
+    TestAccount changeReviewer = accountCreator.createValid("changeReviewer");
+    gApi.changes().id(r.getChangeId()).addReviewer(changeReviewer.email());
+    requestScopeOperations.setApiUser(user.id());
+    List<ChangeInfo> results = query(changeReviewer.email());
+    assertThat(Iterables.getOnlyElement(results).changeId).isEqualTo(r.getChangeId());
+  }
+
+  @Test
   public void checkReviewedFlagBeforeAndAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewerInput in = new ReviewerInput();

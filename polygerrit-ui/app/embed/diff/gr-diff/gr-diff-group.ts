@@ -434,6 +434,15 @@ export class GrDiffGroup {
     return lineRange.start_line <= line && line <= lineRange.end_line;
   }
 
+  startLine(side: Side): LineNumber {
+    if (this.type === GrDiffGroupType.CONTEXT_CONTROL) {
+      return side === Side.LEFT
+        ? this.lineRange.left.start_line
+        : this.lineRange.right.start_line;
+    }
+    return this.lines[0].lineNumber(side);
+  }
+
   private _updateRangeWithNewLine(line: GrDiffLine) {
     if (
       line.beforeNumber === 'FILE' ||

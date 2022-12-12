@@ -409,7 +409,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.submitRules = submitRules;
     }
 
-    Arguments asUser(CurrentUser otherUser) {
+    public Arguments asUser(CurrentUser otherUser) {
       return new Arguments(
           queryProvider,
           rewriter,
@@ -492,7 +492,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
-  ChangeQueryBuilder(Arguments args) {
+  protected ChangeQueryBuilder(Arguments args) {
     this(mydef, args);
     setupAliases();
   }
@@ -510,6 +510,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public ChangeQueryBuilder asUser(CurrentUser user) {
     return new ChangeQueryBuilder(builderDef, args.asUser(user));
+  }
+
+  public Arguments getArgs() {
+    return args;
   }
 
   @Operator

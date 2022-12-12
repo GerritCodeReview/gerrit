@@ -149,25 +149,39 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
         .renderPrefs=${this.renderPrefs}
       ></gr-diff-section>
     `;
-    // TODO: Refactor GrDiffBuilder.emitGroup() and buildSectionElement()
-    // such that we can render directly into the correct container.
-    const tempContainer = document.createElement('div');
-    render(section, tempContainer);
-    return tempContainer.firstElementChild as GrDiffSection;
+    // When using Lit's `render()` method it wants to be in full control of the
+    // element that it renders into, so we let it render into a temp element.
+    // Rendering into the diff table directly would interfere with
+    // `clearDiffContent()`for example.
+    // TODO: Remove legacy diff builder, then convert <gr-diff> to be fully lit
+    // controlled, then this code will become part of the standard `render()` of
+    // <gr-diff> as a LitElement.
+    const tempEl = document.createElement('div');
+    render(section, tempEl);
+    const sectionEl = tempEl.firstElementChild as GrDiffSection;
+    return sectionEl;
   }
 
   override addColumns(outputEl: HTMLElement, lineNumberWidth: number): void {
-    render(
-      html`
-        <colgroup>
-          <col class=${diffClasses('blame')}></col>
-          ${this.renderUnifiedColumns(lineNumberWidth)}
-          ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}
-          ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}
-        </colgroup>
-      `,
-      outputEl
-    );
+    const colgroup = html`
+      <colgroup>
+        <col class=${diffClasses('blame')}></col>
+        ${this.renderUnifiedColumns(lineNumberWidth)}
+        ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}
+        ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}
+      </colgroup>
+    `;
+    // When using Lit's `render()` method it wants to be in full control of the
+    // element that it renders into, so we let it render into a temp element.
+    // Rendering into the diff table directly would interfere with
+    // `clearDiffContent()`for example.
+    // TODO: Remove legacy diff builder, then convert <gr-diff> to be fully lit
+    // controlled, then this code will become part of the standard `render()` of
+    // <gr-diff> as a LitElement.
+    const tempEl = document.createElement('div');
+    render(colgroup, tempEl);
+    const colgroupEl = tempEl.firstElementChild as HTMLElement;
+    outputEl.appendChild(colgroupEl);
   }
 
   private renderUnifiedColumns(lineNumberWidth: number) {

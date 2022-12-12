@@ -22,6 +22,30 @@
       },
       "revId": "d8f14e405c86496c7213e28c9a29f535332051d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18c6c6d_58cb8960",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-12T17:30:32Z",
+      "side": 1,
+      "message": "sorry missed the e-mail notification.",
+      "parentUuid": "6d84df4a_24cd3f64",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "d8f14e405c86496c7213e28c9a29f535332051d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3482632_371cc779",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-12T17:07:45Z",
+      "side": 1,
+      "message": "I am not sure, if this change improves the situation or makes it worse. Feel free to submit, but be prepared to revert, if other problems come up. Also feel free to keep the issue open and assign to me. I will try to tackle the change-view for good next week.",
+      "revId": "e5c56d8a0376bf0c00446529c79afcd01d8920e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b2e312df_f554f64f",

@@ -2173,7 +2173,7 @@ export class GrChangeView extends LitElement {
     //    is only relevant for the initial load of a change.
     // 2. We have to somehow trigger the change-model reloading. Otherwise
     //    this.change is not updated.
-    if (this.changeNum) {
+    if (this.changeNum && !forceReload) {
       fireReload(this);
       return;
     }

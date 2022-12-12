@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e76a18c_62382437",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-12T20:03:22Z",
+      "side": 1,
+      "message": "It\u0027s been a while since I used Optional and the examples are from memory but it should be something in the vicinity of what I wrote below.",
+      "revId": "8cae48bbb403686078d1c9adb4924551a78c11e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31e9ee06_0695be3c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-12T20:03:22Z",
+      "side": 1,
+      "message": "Optional\u003cString\u003e name \u003d who.getUserName();",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 5
+      },
+      "revId": "8cae48bbb403686078d1c9adb4924551a78c11e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8714af01_e18c34d1",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-12T20:03:22Z",
+      "side": 1,
+      "message": "```\nOptional\u003cExternalId\u003e externalId \u003d name.map(n -\u003e externalIds.get(externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, n));\nAccount.Id accountId \u003d externalId.map(eid -\u003e eid.accountId()).orElse(// create new AccountId);\n```",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 297,
+        "endChar": 7
+      },
+      "revId": "8cae48bbb403686078d1c9adb4924551a78c11e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e312df_f554f64f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2132,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-12T16:31:35Z",
+      "side": 1,
+      "message": "The check below should match this check",
+      "range": {
+        "startLine": 2132,
+        "startChar": 4,
+        "endLine": 2132,
+        "endChar": 55
+      },
+      "revId": "e5c56d8a0376bf0c00446529c79afcd01d8920e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

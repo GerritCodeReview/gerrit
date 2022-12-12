@@ -103,8 +103,8 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
 
   private findSection(group?: GrDiffGroup): GrDiffSection | undefined {
     if (!group) return undefined;
-    const leftClass = `left-${group.lineRange.left.start_line}`;
-    const rightClass = `right-${group.lineRange.right.start_line}`;
+    const leftClass = `left-${group.startLine(Side.LEFT)}`;
+    const rightClass = `right-${group.startLine(Side.RIGHT)}`;
     return (
       this.outputEl.querySelector<GrDiffSection>(
         `gr-diff-section.${leftClass}.${rightClass}`
@@ -137,8 +137,8 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
   }
 
   protected override buildSectionElement(group: GrDiffGroup) {
-    const leftCl = `left-${group.lineRange.left.start_line}`;
-    const rightCl = `right-${group.lineRange.right.start_line}`;
+    const leftCl = `left-${group.startLine(Side.LEFT)}`;
+    const rightCl = `right-${group.startLine(Side.RIGHT)}`;
     const section = html`
       <gr-diff-section
         class="${leftCl} ${rightCl}"

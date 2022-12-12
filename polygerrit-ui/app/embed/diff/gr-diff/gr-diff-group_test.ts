@@ -11,6 +11,7 @@ import {
   hideInContextControl,
 } from './gr-diff-group';
 import {assert} from '@open-wc/testing';
+import {Side} from '../../../api/diff';
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
@@ -250,6 +251,44 @@ suite('gr-diff-group tests', () => {
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isFalse(group.isTotal());
+    });
+  });
+
+  suite('startLine', () => {
+    test('DELTA', () => {
+      const lines: GrDiffLine[] = [];
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 3, 4));
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.equal(group.startLine(Side.LEFT), 3);
+      assert.equal(group.startLine(Side.RIGHT), 4);
+    });
+
+    test('CONTEXT CONTROL', () => {
+      const lines: GrDiffLine[] = [];
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 3, 4));
+      const delta = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.CONTEXT_CONTROL,
+        contextGroups: [delta],
+      });
+      assert.equal(group.startLine(Side.LEFT), 3);
+      assert.equal(group.startLine(Side.RIGHT), 4);
+    });
+
+    test('FILE', () => {
+      const lines: GrDiffLine[] = [];
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE'));
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.equal(group.startLine(Side.LEFT), 'FILE');
+      assert.equal(group.startLine(Side.RIGHT), 'FILE');
+    });
+
+    test('LOST', () => {
+      const lines: GrDiffLine[] = [];
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 'LOST', 'LOST'));
+      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
+      assert.equal(group.startLine(Side.LEFT), 'LOST');
+      assert.equal(group.startLine(Side.RIGHT), 'LOST');
     });
   });
 });

@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e2631c8_dfd6174c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T13:43:49Z",
+      "side": 1,
+      "message": "I still see the code in the wrong place: shouldn\u0027t this be put in `ChangeResource#prepareETag` instead?",
+      "parentUuid": "a87b88b0_0e92dda3",
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6b83451_11fe67e6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 2

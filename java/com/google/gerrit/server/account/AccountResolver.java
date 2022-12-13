@@ -26,6 +26,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
@@ -132,12 +133,22 @@ public class AccountResolver {
     private final String input;
     private final ImmutableList<AccountState> list;
     private final ImmutableList<AccountState> filteredInactive;
+    private final CurrentUser searchedAsUser;
 
     @VisibleForTesting
     Result(String input, List<AccountState> list, List<AccountState> filteredInactive) {
+      this(input, list, filteredInactive, null);
+    }
+
+    Result(
+        String input,
+        List<AccountState> list,
+        List<AccountState> filteredInactive,
+        CurrentUser searchedAsUser) {
       this.input = requireNonNull(input);
       this.list = canonicalize(list);
       this.filteredInactive = canonicalize(filteredInactive);
+      this.searchedAsUser = searchedAsUser;
     }
 
     private ImmutableList<AccountState> canonicalize(List<AccountState> list) {
@@ -180,13 +191,21 @@ public class AccountResolver {
       }
     }
 
-    public IdentifiedUser asUniqueUser() throws UnresolvableAccountException {
+    private void ensureSelfIsUniqueIdentifiedUser() throws UnresolvableAccountException {
       ensureUnique();
+      if (!searchedAsUser.isIdentifiedUser()) {
+        throw new UnresolvableAccountException(this);
+      }
+    }
+
+    public IdentifiedUser asUniqueUser() throws UnresolvableAccountException {
       if (isSelf()) {
+        ensureSelfIsUniqueIdentifiedUser();
         // In the special case of "self", use the exact IdentifiedUser from the request context, to
         // preserve the peer address and any other per-request state.
-        return self.get().asIdentifiedUser();
+        return searchedAsUser.asIdentifiedUser();
       }
+      ensureUnique();
       return userFactory.create(asUnique());
     }
 
@@ -194,8 +213,7 @@ public class AccountResolver {
         throws UnresolvableAccountException {
       ensureUnique();
       if (isSelf()) {
-        // TODO(dborowitz): This preserves old behavior, but it seems wrong to discard the caller.
-        return self.get().asIdentifiedUser();
+        return searchedAsUser.asIdentifiedUser();
       }
       return userFactory.runAs(
           null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
@@ -221,16 +239,39 @@ public class AccountResolver {
       return false;
     }
 
+    // Searches can be done on behalf of either the current user or another provided user. The
+    // results of some searchers, such as BySelf, are affected by the context user.
+    default boolean requiresContextUser() {
+      return false;
+    }
+
     Optional<I> tryParse(String input) throws IOException;
 
-    Stream<AccountState> search(I input) throws IOException, ConfigInvalidException;
+    default Stream<AccountState> search(I input) throws IOException, ConfigInvalidException {
+      // This method should be implemented for every searcher which doesn't require a context user.
+      throw new IllegalStateException("search(I) default implementation should never be called.");
+    }
+
+    default Stream<AccountState> search(I input, CurrentUser asUser)
+        throws IOException, ConfigInvalidException {
+      if (!requiresContextUser()) {
+        return search(input);
+      }
+      throw new IllegalStateException(
+          "The searcher requires a context user, but doesn't implement search(input, asUser).");
+    }
 
     boolean shortCircuitIfNoResults();
 
-    default Optional<Stream<AccountState>> trySearch(String input)
+    default Optional<Stream<AccountState>> trySearch(String input, CurrentUser asUser)
         throws IOException, ConfigInvalidException {
       Optional<I> parsed = tryParse(input);
-      return parsed.isPresent() ? Optional.of(search(parsed.get())) : Optional.empty();
+      if (!parsed.isPresent()) {
+        return Optional.empty();
+      }
+      return requiresContextUser()
+          ? Optional.of(search(parsed.get(), asUser))
+          : Optional.of(search(parsed.get()));
     }
   }
 
@@ -263,13 +304,18 @@ public class AccountResolver {
     }
 
     @Override
+    public boolean requiresContextUser() {
+      return true;
+    }
+
+    @Override
     protected boolean matches(String input) {
       return "self".equals(input) || "me".equals(input);
     }
 
     @Override
-    public Stream<AccountState> search(String input) {
-      CurrentUser user = self.get();
+    public Stream<AccountState> search(String input, CurrentUser asUser) {
+      CurrentUser user = asUser != null ? asUser : self.get();
       if (!user.isIdentifiedUser()) {
         return Stream.empty();
       }
@@ -400,9 +446,20 @@ public class AccountResolver {
   }
 
   private class ByFullName implements Searcher<AccountState> {
+    boolean allowSkippingVisibilityCheck = true;
+
+    ByFullName() {
+      super();
+    }
+
+    ByFullName(boolean allowSkippingVisibilityCheck) {
+      this();
+      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
+    }
+
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return true; // Rely on enforceVisibility from the index.
+      return allowSkippingVisibilityCheck;
     }
 
     @Override
@@ -424,9 +481,25 @@ public class AccountResolver {
   }
 
   private class ByDefaultSearch extends StringSearcher {
+    boolean allowSkippingVisibilityCheck = true;
+
+    ByDefaultSearch() {
+      super();
+    }
+
+    ByDefaultSearch(boolean allowSkippingVisibilityCheck) {
+      this();
+      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
+    }
+
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return true; // Rely on enforceVisibility from the index.
+      return allowSkippingVisibilityCheck;
+    }
+
+    @Override
+    public boolean requiresContextUser() {
+      return true;
     }
 
     @Override
@@ -435,14 +508,16 @@ public class AccountResolver {
     }
 
     @Override
-    public Stream<AccountState> search(String input) {
+    public Stream<AccountState> search(String input, CurrentUser asUser) {
       // At this point we have no clue. Just perform a whole bunch of suggestions and pray we come
       // up with a reasonable result list.
       // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
       // more strict here.
       boolean canSeeSecondaryEmails = false;
       try {
-        if (permissionBackend.user(self.get()).test(GlobalPermission.MODIFY_ACCOUNT)) {
+        if (permissionBackend
+            .user(asUser != null ? asUser : self.get())
+            .test(GlobalPermission.MODIFY_ACCOUNT)) {
           canSeeSecondaryEmails = true;
         }
       } catch (PermissionBackendException e) {
@@ -476,6 +551,18 @@ public class AccountResolver {
           .add(new ByUsername())
           .addAll(nameOrEmailSearchers)
           .build();
+
+  private final ImmutableList<Searcher<?>> forcedVisibilitySearchers =
+      ImmutableList.of(
+          new ByNameAndEmail(),
+          new ByEmail(),
+          new FromRealm(),
+          new ByFullName(false),
+          new ByDefaultSearch(false),
+          new BySelf(),
+          new ByExactAccountId(),
+          new ByParenthesizedAccountId(),
+          new ByUsername());
 
   private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
@@ -538,12 +625,63 @@ public class AccountResolver {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::isActive);
+    return searchImpl(
+        input, searchers, null, this::currentUserCanSeePredicate, AccountResolver::isActive);
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, accountActivityPredicate);
+    return searchImpl(
+        input, searchers, null, this::currentUserCanSeePredicate, accountActivityPredicate);
+  }
+
+  /**
+   * Resolves all accounts matching the input string, visible to the provided user.
+   *
+   * <p>The following input formats are recognized:
+   *
+   * <ul>
+   *   <li>The strings {@code "self"} and {@code "me"}, if the provided user is an {@link
+   *       IdentifiedUser}. In this case, may return exactly one inactive account.
+   *   <li>A bare account ID ({@code "18419"}). In this case, may return exactly one inactive
+   *       account. This case short-circuits if the input matches.
+   *   <li>An account ID in parentheses following a full name ({@code "Full Name (18419)"}). This
+   *       case short-circuits if the input matches.
+   *   <li>A username ({@code "username"}).
+   *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
+   *       short-circuits if the input matches.
+   *   <li>An email address ({@code "email@example"}. This case short-circuits if the input matches.
+   *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
+   *   <li>A full name ({@code "Full Name"}).
+   *   <li>As a fallback, a {@link
+   *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
+   *       boolean, String) default search} against the account index.
+   * </ul>
+   *
+   * @param asUser user to resolve the users by.
+   * @param input input string.
+   * @param forceVisibilityCheck whether to force all searches to check for visibility.
+   * @return a result describing matching accounts. Never null even if the result set is empty.
+   * @throws ConfigInvalidException if an error occurs.
+   * @throws IOException if an error occurs.
+   */
+  public Result resolveAsUser(CurrentUser asUser, String input, boolean forceVisibilityCheck)
+      throws ConfigInvalidException, IOException {
+    return resolveAsUser(asUser, input, AccountResolver::isActive, forceVisibilityCheck);
+  }
+
+  public Result resolveAsUser(
+      CurrentUser asUser,
+      String input,
+      Predicate<AccountState> accountActivityPredicate,
+      boolean forceVisibilityCheck)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input,
+        forceVisibilityCheck ? forcedVisibilitySearchers : searchers,
+        asUser,
+        new ProvidedUserCanSeePredicate(asUser),
+        accountActivityPredicate);
   }
 
   /**
@@ -556,22 +694,24 @@ public class AccountResolver {
    * instead will be stored as a link to the corresponding Gerrit Account.
    */
   public Result resolveIncludeInactive(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::allVisible);
+    return searchImpl(
+        input, searchers, null, this::currentUserCanSeePredicate, AccountResolver::allVisible);
   }
 
   public Result resolveIncludeInactiveIgnoreVisibility(String input)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::allVisiblePredicate, AccountResolver::allVisible);
+    return searchImpl(
+        input, searchers, null, this::allVisiblePredicate, AccountResolver::allVisible);
   }
 
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::allVisiblePredicate, AccountResolver::isActive);
+    return searchImpl(input, searchers, null, this::allVisiblePredicate, AccountResolver::isActive);
   }
 
   public Result resolveIgnoreVisibility(
       String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::allVisiblePredicate, accountActivityPredicate);
+    return searchImpl(input, searchers, null, this::allVisiblePredicate, accountActivityPredicate);
   }
 
   /**
@@ -600,7 +740,11 @@ public class AccountResolver {
   @Deprecated
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
-        input, nameOrEmailSearchers, this::canSeePredicate, AccountResolver::isActive);
+        input,
+        nameOrEmailSearchers,
+        null,
+        this::currentUserCanSeePredicate,
+        AccountResolver::isActive);
   }
 
   /**
@@ -619,16 +763,26 @@ public class AccountResolver {
     return searchImpl(
         input,
         ImmutableList.of(new ByNameAndEmail(), new ByEmail(), new ByFullName(), new ByUsername()),
-        this::canSeePredicate,
+        null,
+        this::currentUserCanSeePredicate,
         AccountResolver::isActive);
   }
 
-  private Predicate<AccountState> canSeePredicate() {
-    return this::canSee;
+  private Predicate<AccountState> currentUserCanSeePredicate() {
+    return accountControlFactory.get()::canSee;
   }
 
-  private boolean canSee(AccountState accountState) {
-    return accountControlFactory.get().canSee(accountState);
+  private class ProvidedUserCanSeePredicate implements Supplier<Predicate<AccountState>> {
+    CurrentUser asUser;
+
+    ProvidedUserCanSeePredicate(CurrentUser asUser) {
+      this.asUser = asUser;
+    }
+
+    @Override
+    public Predicate<AccountState> get() {
+      return accountControlFactory.get(asUser.asIdentifiedUser())::canSee;
+    }
   }
 
   private Predicate<AccountState> allVisiblePredicate() {
@@ -648,6 +802,7 @@ public class AccountResolver {
   Result searchImpl(
       String input,
       ImmutableList<Searcher<?>> searchers,
+      @Nullable CurrentUser asUser,
       Supplier<Predicate<AccountState>> visibilitySupplier,
       Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
@@ -655,7 +810,7 @@ public class AccountResolver {
     List<AccountState> inactive = new ArrayList<>();
 
     for (Searcher<?> searcher : searchers) {
-      Optional<Stream<AccountState>> maybeResults = searcher.trySearch(input);
+      Optional<Stream<AccountState>> maybeResults = searcher.trySearch(input, asUser);
       if (!maybeResults.isPresent()) {
         continue;
       }
@@ -677,22 +832,27 @@ public class AccountResolver {
       }
 
       if (!list.isEmpty()) {
-        return createResult(input, list);
+        return createResult(input, list, asUser);
       }
       if (searcher.shortCircuitIfNoResults()) {
         // For a short-circuiting searcher, return results even if empty.
-        return !inactive.isEmpty() ? emptyResult(input, inactive) : createResult(input, list);
+        return !inactive.isEmpty()
+            ? emptyResult(input, inactive, asUser)
+            : createResult(input, list, asUser);
       }
     }
-    return emptyResult(input, inactive);
+    return emptyResult(input, inactive, asUser);
   }
 
-  private Result createResult(String input, List<AccountState> list) {
-    return new Result(input, list, ImmutableList.of());
+  private Result createResult(String input, List<AccountState> list, CurrentUser searchedAsUser) {
+    return new Result(
+        input, list, ImmutableList.of(), searchedAsUser != null ? searchedAsUser : self.get());
   }
 
-  private Result emptyResult(String input, List<AccountState> inactive) {
-    return new Result(input, ImmutableList.of(), inactive);
+  private Result emptyResult(
+      String input, List<AccountState> inactive, CurrentUser searchedAsUser) {
+    return new Result(
+        input, ImmutableList.of(), inactive, searchedAsUser != null ? searchedAsUser : self.get());
   }
 
   private Stream<AccountState> toAccountStates(Set<Account.Id> ids) {

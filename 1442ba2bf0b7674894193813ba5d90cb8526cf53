@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0169221b_f0594a72",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-13T10:40:20Z",
+      "side": 1,
+      "message": "flatMap used and orElse dropped.",
+      "parentUuid": "64788071_5e7776a7",
+      "range": {
+        "startLine": 292,
+        "startChar": 13,
+        "endLine": 292,
+        "endChar": 37
+      },
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d63bcda_05a178b4",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8262a8ff_f60ed8b6",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-13T10:40:20Z",
+      "side": 1,
+      "message": "That is correct, altered to be externalId.isEmpty() \u0026\u0026 !name.isEmpty(), i.e., create the username extID if we have not fouind one and a username is present",
+      "parentUuid": "7d63bcda_05a178b4",
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7da85b59_4ef147eb",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-12-13T09:00:06Z",
       "side": 1,
       "message": "Since there is now 2 ExternalIds in this context perhaps rename this one to emailExtId?\nShouldn\u0027t we check if there already exists an email external id?",
+      "range": {
+        "startLine": 298,
+        "startChar": 15,
+        "endLine": 298,
+        "endChar": 20
+      },
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adaaa8b3_a7b56d97",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-13T10:40:20Z",
+      "side": 1,
+      "message": "renamned, checking for dup e-mails is done in heckEmailNotUsed(accountId, extId) on like 301 and will error out if it finds if an email already exists.",
+      "parentUuid": "7da85b59_4ef147eb",
       "range": {
         "startLine": 298,
         "startChar": 15,

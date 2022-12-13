@@ -22,6 +22,30 @@
       },
       "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f547937e_dcbfe24e",
+        "filename": "java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-13T12:31:46Z",
+      "side": 1,
+      "message": "I don\u0027t feel comfortable with mimicking that internal logic in an unrelated class.\n\nHow about having a subclass of `ChangeQueryBuilder` within `ProjectWatch` that overrides the `defaultField()` method?",
+      "parentUuid": "c25e8f44_487751d2",
+      "range": {
+        "startLine": 247,
+        "startChar": 35,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

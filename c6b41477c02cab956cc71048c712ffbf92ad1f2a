@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165bc449_1ed1b523",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T11:56:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be a warning, it\u0027s the norm that a new Account.Id is created.\nThis log event would be issued regardless of whether a new Account.Id is created or not.\nI would log that a username-external-id was found above.\n\n```\n    if (externalId.exists()) {\n      logger.atInfo().log(\"Found an existing username external id for %s, name.get());\n    } \n```\nDon\u0027t know if ifPresent(...) works here:\n```\nexternalId.ifPresent(e -\u003e logger.atInfo().log(\"Found an existing username external id for %s, e));\n```",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b2ae40_c4ef72f7",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T11:56:29Z",
+      "side": 1,
+      "message": "If we found am existing username-external-id then userNameExtId is null?\nShouldn\u0027t it be something like:\n\n```\nexternalId.orElse(name.isPresent() ? createUsername(accountId, name.get()) : null);\n```",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 297,
+        "endChar": 95
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db943700_26049337",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T11:56:29Z",
+      "side": 1,
+      "message": "Not a warning, at the most info, probably fine.",
+      "range": {
+        "startLine": 300,
+        "startChar": 4,
+        "endLine": 300,
+        "endChar": 65
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

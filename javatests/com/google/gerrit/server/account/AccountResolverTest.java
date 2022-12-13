@@ -352,7 +352,8 @@ public class AccountResolverTest {
       Supplier<Predicate<AccountState>> visibilitySupplier,
       Predicate<AccountState> activityPredicate)
       throws Exception {
-    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier, activityPredicate);
+    return newAccountResolver()
+        .searchImpl(input, searchers, null, visibilitySupplier, activityPredicate);
   }
 
   private static AccountResolver newAccountResolver() {

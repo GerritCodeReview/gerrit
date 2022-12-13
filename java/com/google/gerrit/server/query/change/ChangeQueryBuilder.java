@@ -488,6 +488,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
   private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private boolean forceAccountVisibilityCheck = false;
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -516,6 +517,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public Arguments getArgs() {
     return args;
+  }
+
+  /** Whether to force account visibility check when searching for changes by account(s). */
+  public void forceAccountVisibilityCheck() {
+    forceAccountVisibilityCheck = true;
   }
 
   @Operator
@@ -1696,7 +1702,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private Set<Account.Id> parseAccount(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
-      return args.accountResolver.resolve(who).asNonEmptyIdSet();
+      return args.accountResolver
+          .resolveAsUser(args.getUser().asIdentifiedUser(), who, forceAccountVisibilityCheck)
+          .asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);
@@ -1709,6 +1717,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       String who, java.util.function.Predicate<AccountState> activityFilter)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
+      if (args.getUser().isIdentifiedUser()) {
+        return args.accountResolver
+            .resolveAsUser(
+                args.getUser().asIdentifiedUser(), who, activityFilter, forceAccountVisibilityCheck)
+            .asNonEmptyIdSet();
+      }
       return args.accountResolver.resolve(who, activityFilter).asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {

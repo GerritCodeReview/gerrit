@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa61501_6c30c173",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T00:29:37Z",
+      "side": 1,
+      "message": "I still don\u0027t get why this change is needed: what are you willing to achieve? What is the benefit from an E2E perspective?",
+      "revId": "5e04d04fc57ea95cf85a775817e5cab7eaabbee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

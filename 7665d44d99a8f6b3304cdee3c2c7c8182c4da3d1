@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1af7b9e_fcd699f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T00:28:56Z",
+      "side": 1,
+      "message": "I deeply apologise for my -2 on this change: I made a mistake of judgement and this can actually happen outside the high-availability or multi-site scenarios.\n\nI believe Edwin had a good suggestion, @maczech@gmail.com can you review his comment and my proposed change?\n\nAlso the test can be simplified and made clearer.",
+      "revId": "7665d44d99a8f6b3304cdee3c2c7c8182c4da3d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

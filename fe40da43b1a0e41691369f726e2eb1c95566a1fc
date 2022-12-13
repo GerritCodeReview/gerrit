@@ -545,6 +545,30 @@
       },
       "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5006f4e7_d2f82e48",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T00:28:56Z",
+      "side": 1,
+      "message": "I believe this can be hugely simplified by simply asserting that the reindex of a change which alter its status should influence the ETag, isn\u0027t it?",
+      "parentUuid": "2fc5af68_7de39a1d",
+      "range": {
+        "startLine": 1746,
+        "startChar": 4,
+        "endLine": 1746,
+        "endChar": 71
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

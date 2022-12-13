@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "af229a9a_9c57802c",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Why not adapt ChangeResource#prepareETag?",
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "91564393_2f87c84a",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -32,10 +33,28 @@
       "message": "I was following patter from GetRevisionActions class where we are doing the same. We are using the ChangeResource#prepateEtag to calculate ETag based on ChangeNotes and then in GetRevisionActions we are adding UI specific information. ChangeResource#prepareETag is commented with: \u0027This includes all information relevant for ETag computation unrelated to the UI.\u0027 so I thought that adding index based fields here will break the design",
       "parentUuid": "af229a9a_9c57802c",
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "be506f75_f9f9ec33",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T00:28:56Z",
+      "side": 1,
+      "message": "+1 to @ekempin@google.com this can be hugely simplified with simply this addition to `ChangeResource#prepareETag`:\n\n```\n\ttry {\n\t\tfor (ChangeData changeFromIndex : changeQueryProvider.get().byLegacyChangeId(getChange().getId())) {\n\t\t\th.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())\n\t\t\t.putInt(changeFromIndex.change().getRowVersion());\n\t\t}\n\t} catch (OrmException e) {\n\t\tlogger.atWarning().withCause(e).log(\"Unable to include the index status in ETag\");\n\t}\n```",
+      "parentUuid": "91564393_2f87c84a",
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b6b83451_11fe67e6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -55,10 +74,10 @@
         "endChar": 7
       },
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "55aea3a2_130fd914",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -79,10 +98,10 @@
         "endChar": 7
       },
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f3475223_1e3144a7",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -103,10 +122,10 @@
         "endChar": 7
       },
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d631da38_ffc4ec51",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -127,10 +146,10 @@
         "endChar": 7
       },
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "36bcf250_0ef600ad",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
@@ -151,8 +170,31 @@
         "endChar": 7
       },
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90eb232e_31fe498a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T00:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bcf250_0ef600ad",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

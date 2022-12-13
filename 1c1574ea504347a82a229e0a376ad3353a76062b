@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4129fb72_9f279b43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T15:02:33Z",
+      "side": 1,
+      "message": "I vote for merging this. It is perhaps not perfect but it\u0027s a non-intrusive way of fixing the breakage for Gitweb support.\nAfter this we can discuss a better alternative solution but right now we have Gitweb users that are getting upset with Gerrit 😊",
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af68dce3_5635b290",

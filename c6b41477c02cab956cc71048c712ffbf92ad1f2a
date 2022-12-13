@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16b9b6a_5a749f17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-13T14:30:35Z",
+      "side": 1,
+      "message": "SO the main issue here is that when a user is signed up with LDAP the have the email on thei LDAP account. When we go to sign in through OAuth it will then error as the e-mail will be used. Now we can always delete this e-mail no problem, but then we will get another error as it will try to receate the `username:\u003cuser\u003e` external ID.\n\nWhat this code does is it still requirese the user to manually delete the LDAP email associated, but it will then allow the user to login by resuing their username:\u003cuser\u003e external ID. If we did not do it this way then when we are transitioned for LDAP to OAUTH all user history is deleted which does not seem desirable.\n\nSo going back to what you said, you are suggesting is that when signing in, we check if the e-mail is already associatd with another externa-ID and if so we reuse that account ID and delete that e-mail for that other external ID?",
+      "parentUuid": "c5cb5b29_416d2769",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c8d49c3_8cda88b9",
@@ -117,6 +135,30 @@
       "writtenOn": "2022-12-13T13:23:52Z",
       "side": 1,
       "message": "What happens here, if the user requests an account that already existed in LDAP with OAuth and the email is the same in both cases, wouldn\u0027t it fail at this point then?",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4264f2d_36680085",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-13T14:30:35Z",
+      "side": 1,
+      "message": "yes, e-mail is a primary key so this cannot be done. The NoteDB info will have to be changed to make this work",
+      "parentUuid": "6537868b_4196d046",
       "range": {
         "startLine": 301,
         "startChar": 4,

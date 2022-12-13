@@ -264,21 +264,38 @@ suite('gr-formatted-text tests', () => {
 
     test('does not render if too long', async () => {
       element.content = `text
-        \ntext with plain link: google.com
-        \ntext with config link: LinkRewriteMe
-        \ntext without a link: NotA Link 15 cats
-        \ntext with complex link: A Link 12`;
+        text with plain link: google.com
+        text with config link: LinkRewriteMe
+        text without a link: NotA Link 15 cats
+        text with complex link: A Link 12`;
       element.MARKDOWN_LIMIT = 10;
       await element.updateComplete;
 
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div class="markdown-html" slot="markdown-html">
-              <p>text<br />...</p>
-            </div>
-          </marked-element>
+          <pre class="plaintext">
+          text
+        text with plain link:
+          <a href="http://google.com" rel="noopener" target="_blank">google.com</a>
+          text with config link:
+          <a
+            href="http://google.com/LinkRewriteMe"
+            rel="noopener"
+            target="_blank"
+          >
+            LinkRewriteMe
+          </a>
+        text without a link: NotA Link 15 cats
+        text with complex link: A
+          <a
+            href="http://localhost/page?id=12"
+            rel="noopener"
+            target="_blank"
+          >
+            Link 12
+          </a>
+        </pre>
         `
       );
     });

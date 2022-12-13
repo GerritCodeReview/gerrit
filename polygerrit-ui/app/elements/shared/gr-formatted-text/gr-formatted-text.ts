@@ -119,7 +119,7 @@ export class GrFormattedText extends LitElement {
   }
 
   override render() {
-    if (this.markdown) {
+    if (this.markdown && this.content.length < this.MARKDOWN_LIMIT) {
       return this.renderAsMarkdown();
     } else {
       return this.renderAsPlaintext();
@@ -181,9 +181,7 @@ export class GrFormattedText extends LitElement {
     // rewrites have been abused to attempt an XSS attack.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(
-          this.limitLength(this.content)
-        )}
+        .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
         .callback=${(_error: string | null, contents: string) =>
@@ -192,11 +190,6 @@ export class GrFormattedText extends LitElement {
         <div class="markdown-html" slot="markdown-html"></div>
       </marked-element>
     `;
-  }
-
-  private limitLength(text: string) {
-    if (text.length < this.MARKDOWN_LIMIT) return text;
-    return text.slice(0, this.MARKDOWN_LIMIT).concat('...');
   }
 
   private escapeAllButBlockQuotes(text: string) {

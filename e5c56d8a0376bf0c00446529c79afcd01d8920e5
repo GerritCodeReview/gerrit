@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b66bd539_471f13d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-13T14:00:48Z",
+      "side": 1,
+      "message": "My change is wrong. The code under this if, is unreachable now (because the same condition above will always return before it). The test that expects `getChangeDetail` to be called fails, which corresponds to the explanation in the comment:\n\n```\n// 2. We have to somehow trigger the change-model reloading. Otherwise\n//    this.change is not updated.\n```\n\nThough I don\u0027t really understand what\u0027s happening here, I will try to dig into it later",
+      "parentUuid": "f3482632_371cc779",
+      "revId": "e5c56d8a0376bf0c00446529c79afcd01d8920e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b2e312df_f554f64f",

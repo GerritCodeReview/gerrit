@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7995fc5a_25a0b1c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T09:00:06Z",
+      "side": 1,
+      "message": "I suggest you add a reviewer that is more up-to-date with the auth parts. Looking at the git blame it seems as thought the last persons to touch this code is David Ostrovsky, Thomas Draebing. I\u0027d also ping on Discord, you cannot be the only ones with this issue.",
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64788071_5e7776a7",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T09:00:06Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. I didn\u0027t realize externalIds#get returns an Optional, in this case you should use flatMap() and not map().",
+      "range": {
+        "startLine": 292,
+        "startChar": 13,
+        "endLine": 292,
+        "endChar": 37
+      },
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d63bcda_05a178b4",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T09:00:06Z",
+      "side": 1,
+      "message": "If externalId.exists() then it is exactly the same ExternalId as the one you are creating here, right?",
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da85b59_4ef147eb",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-13T09:00:06Z",
+      "side": 1,
+      "message": "Since there is now 2 ExternalIds in this context perhaps rename this one to emailExtId?\nShouldn\u0027t we check if there already exists an email external id?",
+      "range": {
+        "startLine": 298,
+        "startChar": 15,
+        "endLine": 298,
+        "endChar": 20
+      },
+      "revId": "1442ba2bf0b7674894193813ba5d90cb8526cf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

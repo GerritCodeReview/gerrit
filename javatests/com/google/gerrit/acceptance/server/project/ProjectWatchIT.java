@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -397,6 +398,111 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     Message m = messages.get(0);
     assertNotifyTo(user2);
     assertThat(m.body()).contains("Change subject: subject\n");
+  }
+
+  @Test
+  public void watchOwner() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // watch keyword in project as user
+    watch(watchedProject, "owner:admin");
+
+    // push a change with keyword -> should trigger email notification
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification for user
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void watchNonVisibleOwner() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // watch keyword in project as user
+    watch(watchedProject, "owner:admin");
+
+    // Verify that 'user' can't see 'admin'
+    assertThatAccountIsNotVisible(admin);
+
+    // push a change with keyword -> should trigger email notification
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert no email notifications for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchChangesCommentedBySelf() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // user watches all changes that have a comment by themselves
+    watch(watchedProject, "commentby:self");
+
+    // pushing a change as admin should not trigger an email to user
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(sender.getMessages()).isEmpty();
+
+    // commenting by admin should not trigger an email to user
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.message = "A Comment";
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(sender.getMessages()).isEmpty();
+
+    // commenting by user matches the project watch, but doesn't send an email to user because
+    // CC_ON_OWN_COMMENTS is false by default, so the user is removed from the TO list, but an email
+    // is sent to the admin user
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(admin.getNameEmail());
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+
+    // commenting by admin now triggers an email to user because the change has a comment by user
+    // and hence matches the project watch
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
   }
 
   @Test

@@ -23,11 +23,14 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver.Result;
 import com.google.gerrit.server.account.AccountResolver.Searcher;
 import com.google.gerrit.server.account.AccountResolver.StringSearcher;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.inject.Provider;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -35,6 +38,8 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AccountResolverTest {
+  private final Provider<CurrentUser> user = () -> new AnonymousUser();
+
   private static class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;
@@ -352,11 +357,12 @@ public class AccountResolverTest {
       Supplier<Predicate<AccountState>> visibilitySupplier,
       Predicate<AccountState> activityPredicate)
       throws Exception {
-    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier, activityPredicate);
+    return newAccountResolver()
+        .searchImpl(input, searchers, null, visibilitySupplier, activityPredicate);
   }
 
-  private static AccountResolver newAccountResolver() {
-    return new AccountResolver(null, null, null, null, null, null, null, null, "Anonymous Name");
+  private AccountResolver newAccountResolver() {
+    return new AccountResolver(null, null, null, null, user, null, null, null, "Anonymous Name");
   }
 
   private AccountState newAccount(int id) {

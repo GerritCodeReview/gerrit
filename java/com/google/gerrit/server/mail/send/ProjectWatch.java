@@ -253,6 +253,7 @@ public class ProjectWatch {
       qb = WatcherChangeQueryBuilder.asUser(args.queryBuilder.get(), user);
       p = qb.isVisible();
     }
+    qb.forceAccountVisibilityCheck();
 
     if (filter != null) {
       Predicate<ChangeData> filterPredicate = qb.parse(filter);

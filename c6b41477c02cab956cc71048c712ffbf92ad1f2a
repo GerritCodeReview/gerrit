@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5cb5b29_416d2769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-13T13:23:52Z",
+      "side": 1,
+      "message": "I am not familiar with Oauth in Gerrit and thus can also not say much. @david.ostrovsky@gmail.com might know more about it.\n\nHowever, I am not sure whether doing what you suggest would be safe. There are no guarantees that the usernames in LDAP and OAuth map to the same person. If that is not the case, somebody could get access to somebody else\u0027s account. At the very least, we should compare the emails, which are more unique identifiers and also used as the \"primary keys\" for accounts in Gerrit. Since emails are also used by git to identify authors and committers, this would be the most important identifier. I.e. do not only check whether the username already exists, but also whether the primary email matches as well. This still requires us to assume that the OAuth provider verifies the emails of users, but that should be acceptable I guess.",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c8d49c3_8cda88b9",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-13T13:23:52Z",
+      "side": 1,
+      "message": "Can we get rid of the lambda expression by unpacking the Optional before getting the externalId to correctly handle the IOException?",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 15
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "165bc449_1ed1b523",
@@ -59,6 +99,75 @@
         "startChar": 4,
         "endLine": 300,
         "endChar": 65
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6537868b_4196d046",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-13T13:23:52Z",
+      "side": 1,
+      "message": "What happens here, if the user requests an account that already existed in LDAP with OAuth and the email is the same in both cases, wouldn\u0027t it fail at this point then?",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7d71c5_66318055",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-13T13:23:52Z",
+      "side": 1,
+      "message": "`externalId.isPresent()` is more straightforward and since we don\u0027t support Java 8 on master we can use it.",
+      "range": {
+        "startLine": 307,
+        "startChar": 10,
+        "endLine": 307,
+        "endChar": 31
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c69242_f22bdf1b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-13T13:23:52Z",
+      "side": 1,
+      "message": "What if the Optional is empty?",
+      "range": {
+        "startLine": 373,
+        "startChar": 43,
+        "endLine": 373,
+        "endChar": 49
       },
       "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

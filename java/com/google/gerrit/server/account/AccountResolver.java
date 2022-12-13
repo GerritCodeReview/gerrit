@@ -400,9 +400,20 @@ public class AccountResolver {
   }
 
   private class ByFullName implements Searcher<AccountState> {
+    boolean allowSkippingVisibilityCheck = true;
+
+    ByFullName() {
+      super();
+    }
+
+    ByFullName(boolean allowSkippingVisibilityCheck) {
+      this();
+      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
+    }
+
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return true; // Rely on enforceVisibility from the index.
+      return allowSkippingVisibilityCheck;
     }
 
     @Override
@@ -424,9 +435,20 @@ public class AccountResolver {
   }
 
   private class ByDefaultSearch extends StringSearcher {
+    boolean allowSkippingVisibilityCheck = true;
+
+    ByDefaultSearch() {
+      super();
+    }
+
+    ByDefaultSearch(boolean allowSkippingVisibilityCheck) {
+      this();
+      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
+    }
+
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return true; // Rely on enforceVisibility from the index.
+      return allowSkippingVisibilityCheck;
     }
 
     @Override
@@ -476,6 +498,18 @@ public class AccountResolver {
           .add(new ByUsername())
           .addAll(nameOrEmailSearchers)
           .build();
+
+  private final ImmutableList<Searcher<?>> forcedVisibilitySearchers =
+      ImmutableList.of(
+          new ByNameAndEmail(),
+          new ByEmail(),
+          new FromRealm(),
+          new ByFullName(false),
+          new ByDefaultSearch(false),
+          new BySelf(),
+          new ByExactAccountId(),
+          new ByParenthesizedAccountId(),
+          new ByUsername());
 
   private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
@@ -538,12 +572,61 @@ public class AccountResolver {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::isActive);
+    return searchImpl(
+        input, searchers, this::currentUserCanSeePredicate, AccountResolver::isActive);
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, accountActivityPredicate);
+    return searchImpl(input, searchers, this::currentUserCanSeePredicate, accountActivityPredicate);
+  }
+
+  /**
+   * Resolves all accounts matching the input string, visible to the provided user.
+   *
+   * <p>The following input formats are recognized:
+   *
+   * <ul>
+   *   <li>The strings {@code "self"} and {@code "me"}, if the current user is an {@link
+   *       IdentifiedUser}. In this case, may return exactly one inactive account.
+   *   <li>A bare account ID ({@code "18419"}). In this case, may return exactly one inactive
+   *       account. This case short-circuits if the input matches.
+   *   <li>An account ID in parentheses following a full name ({@code "Full Name (18419)"}). This
+   *       case short-circuits if the input matches.
+   *   <li>A username ({@code "username"}).
+   *   <li>A full name and email address ({@code "Full Name <email@example>"}). This case
+   *       short-circuits if the input matches.
+   *   <li>An email address ({@code "email@example"}. This case short-circuits if the input matches.
+   *   <li>An account name recognized by the configured {@link Realm#lookup(String)} Realm}.
+   *   <li>A full name ({@code "Full Name"}).
+   *   <li>As a fallback, a {@link
+   *       com.google.gerrit.server.query.account.AccountPredicates#defaultPredicate(Schema,
+   *       boolean, String) default search} against the account index.
+   * </ul>
+   *
+   * @param asUser user to resolve the users by.
+   * @param input input string.
+   * @param forceVisibilityCheck whether to force all searches to check for visibility.
+   * @return a result describing matching accounts. Never null even if the result set is empty.
+   * @throws ConfigInvalidException if an error occurs.
+   * @throws IOException if an error occurs.
+   */
+  public Result resolveAsUser(IdentifiedUser asUser, String input, boolean forceVisibilityCheck)
+      throws ConfigInvalidException, IOException {
+    return resolveAsUser(asUser, input, AccountResolver::isActive, forceVisibilityCheck);
+  }
+
+  public Result resolveAsUser(
+      IdentifiedUser asUser,
+      String input,
+      Predicate<AccountState> accountActivityPredicate,
+      boolean forceVisibilityCheck)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input,
+        forceVisibilityCheck ? forcedVisibilitySearchers : searchers,
+        new ProvidedUserCanSeePredicate(asUser),
+        accountActivityPredicate);
   }
 
   /**
@@ -556,7 +639,8 @@ public class AccountResolver {
    * instead will be stored as a link to the corresponding Gerrit Account.
    */
   public Result resolveIncludeInactive(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::allVisible);
+    return searchImpl(
+        input, searchers, this::currentUserCanSeePredicate, AccountResolver::allVisible);
   }
 
   public Result resolveIncludeInactiveIgnoreVisibility(String input)
@@ -600,7 +684,7 @@ public class AccountResolver {
   @Deprecated
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
-        input, nameOrEmailSearchers, this::canSeePredicate, AccountResolver::isActive);
+        input, nameOrEmailSearchers, this::currentUserCanSeePredicate, AccountResolver::isActive);
   }
 
   /**
@@ -619,16 +703,25 @@ public class AccountResolver {
     return searchImpl(
         input,
         ImmutableList.of(new ByNameAndEmail(), new ByEmail(), new ByFullName(), new ByUsername()),
-        this::canSeePredicate,
+        this::currentUserCanSeePredicate,
         AccountResolver::isActive);
   }
 
-  private Predicate<AccountState> canSeePredicate() {
-    return this::canSee;
+  private Predicate<AccountState> currentUserCanSeePredicate() {
+    return accountControlFactory.get()::canSee;
   }
 
-  private boolean canSee(AccountState accountState) {
-    return accountControlFactory.get().canSee(accountState);
+  private class ProvidedUserCanSeePredicate implements Supplier<Predicate<AccountState>> {
+    IdentifiedUser asUser;
+
+    ProvidedUserCanSeePredicate(IdentifiedUser asUser) {
+      this.asUser = asUser;
+    }
+
+    @Override
+    public Predicate<AccountState> get() {
+      return accountControlFactory.get(asUser)::canSee;
+    }
   }
 
   private Predicate<AccountState> allVisiblePredicate() {

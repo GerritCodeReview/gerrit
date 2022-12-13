@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a87b88b0_0e92dda3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-13T11:28:04Z",
+      "side": 1,
+      "message": "this comment was addressed in the latest patch set. This is what we have there:\n```\n    List\u003cChangeData\u003e cds \u003d queryProvider.get().byLegacyChangeId(rsrc.getChange().getId());\n      checkState(cds.size() \u003c\u003d 1, \"Expected one or zero ChangeData, got \" + cds.size());\n      ChangeData cd \u003d Iterables.getFirst(cds, null);\n      if (cd !\u003d null) {\n        h.putLong(cd.change().getLastUpdatedOn().getTime());\n        h.putInt(cd.change().getRowVersion());\n      }\n```",
+      "parentUuid": "be506f75_f9f9ec33",
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6b83451_11fe67e6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 2

@@ -1677,7 +1677,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private Set<Account.Id> parseAccount(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
-      return args.accountResolver.resolve(who).asNonEmptyIdSet();
+      return args.accountResolver
+          .resolveAsUser(args.getUser().asIdentifiedUser())
+          .resolve(who)
+          .asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);
@@ -1690,6 +1693,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       String who, java.util.function.Predicate<AccountState> activityFilter)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
+      if (args.getUser().isIdentifiedUser()) {
+        return args.accountResolver
+            .resolveAsUser(args.getUser().asIdentifiedUser())
+            .resolve(who, activityFilter)
+            .asNonEmptyIdSet();
+      }
       return args.accountResolver.resolve(who, activityFilter).asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {

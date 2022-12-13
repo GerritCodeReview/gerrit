@@ -348,6 +348,34 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void watchOwner() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    // watch keyword in project as user
+    watch(watchedProject, "owner:admin");
+
+    // push a change with keyword -> should trigger email notification
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert email notification for user
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
+  }
+
+  @Test
   public void watchAllProjects() throws Exception {
     String anyProject = projectOperations.newProject().create().get();
     requestScopeOperations.setApiUser(user.id());

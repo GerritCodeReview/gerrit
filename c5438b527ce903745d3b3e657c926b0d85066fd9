@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee37f5dc_10a7bcc4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-13T14:44:52Z",
+      "side": 1,
+      "message": "Do we need more coverage for approval copying?\n\n@ekempin@google.com - what we are doing here (see RebaseChangeOp) is just selecting the commit to rebase on differently compared to doing just a single rebase. I think this is fine and the approval copying will work as expected, but would appreciate your input on this.",
+      "revId": "c5438b527ce903745d3b3e657c926b0d85066fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

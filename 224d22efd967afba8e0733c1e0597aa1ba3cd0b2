@@ -283,6 +283,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f029b8b_75f3641b",
+        "filename": "java/com/google/gerrit/extensions/common/RebaseChainInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-13T14:44:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a059774c_c3b15a59",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59cb105b_a16ea6a6",
@@ -518,6 +542,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8250f7d_efb2ce34",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-13T14:44:52Z",
+      "side": 1,
+      "message": "LGTM!",
+      "parentUuid": "fa9c3bdb_94b7b141",
+      "range": {
+        "startLine": 85,
+        "startChar": 46,
+        "endLine": 85,
+        "endChar": 97
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cff7a07c_a38bcfb4",
@@ -555,6 +603,30 @@
       "side": 1,
       "message": "This is the oldest ancestor, i.e. the one that is closest to the target branch. I\u0027m open for a better naming suggestions.",
       "parentUuid": "cff7a07c_a38bcfb4",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c4a69fe_0c8f676d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-13T14:44:52Z",
+      "side": 1,
+      "message": "Maybe isMostRecent?\n\nJust bikeshed. Feel free to pick a name you think is good.",
+      "parentUuid": "ce3287ec_b0a26c72",
       "range": {
         "startLine": 184,
         "startChar": 12,

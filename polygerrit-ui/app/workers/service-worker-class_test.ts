@@ -105,7 +105,7 @@ suite('service worker class tests', () => {
     assert.isTrue(showNotificationMock.calledOnce);
     assert.isTrue(
       showNotificationMock.calledWithMatch(
-        'You are in the attention set for 2 changes.'
+        'You are in the attention set for 2 new changes.'
       )
     );
   });

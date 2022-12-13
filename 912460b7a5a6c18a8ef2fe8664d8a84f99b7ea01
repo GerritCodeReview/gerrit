@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25e8f44_487751d2",
+        "filename": "java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-13T10:38:24Z",
+      "side": 1,
+      "message": "Can we keep the changes contained in ProjectWatch and leave ChangeQueryBuilder as-is? If we can, I think we should not spread this out as ChangeQueryB is already rather complex and this use case seems (for now) limitted to ProjectWatches\n\nFor example, could we do:\nList\u003cPredicates\u003e predicates;\n\n```\nif (QueryParser.parse(filter).getType() \u003d\u003d QueryParser.DEFAULT_FIELD) {\n // The change default predicates are expensive and might change over time. Use\n // a set of fast default predicates for project watches that allow searches\n // over content.\n predicates \u003d ImmutableList.of(ChangePredicates.commitPrefix(predicates), ...comment...message..)\n} else {\npredicates \u003d qb.parse(filter);\n}\n```\n\n... leave rest as is",
+      "range": {
+        "startLine": 247,
+        "startChar": 35,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

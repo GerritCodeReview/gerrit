@@ -63,6 +63,76 @@
       },
       "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f87607_a5dc96f7",
+        "filename": "java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e89a80d5_caeba328",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "683b6a4a_574c820a",
+        "filename": "java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:33:58Z",
+      "side": 1,
+      "message": "change is not needed",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 9
+      },
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8aa5160_51e696e0",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:33:58Z",
+      "side": 1,
+      "message": "change not needed, instance can be created through the dependency injection",
+      "range": {
+        "startLine": 116,
+        "startChar": 2,
+        "endLine": 116,
+        "endChar": 9
+      },
+      "revId": "1c1574ea504347a82a229e0a376ad3353a76062b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

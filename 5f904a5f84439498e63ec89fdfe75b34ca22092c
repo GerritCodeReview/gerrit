@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f5c8f31_5f453ad5",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:33:58Z",
+      "side": 1,
+      "message": "@luca I have cleaned the change from all unnecessary modifications so that it is even less invasive",
+      "parentUuid": "9930c039_83c02978",
+      "range": {
+        "startLine": 670,
+        "startChar": 32,
+        "endLine": 670,
+        "endChar": 44
+      },
+      "revId": "5f904a5f84439498e63ec89fdfe75b34ca22092c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b60e4ee6_13c26f58",
         "filename": "javatests/com/google/gerrit/httpd/gitweb/GitwebServletTest.java",
         "patchSetId": 5

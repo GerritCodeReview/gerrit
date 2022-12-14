@@ -141,7 +141,7 @@ export class ServiceWorker {
   }
 
   private showNotificationForDashboard(numOfChangesToNotifyAbout: number) {
-    const title = `You are in the attention set for ${numOfChangesToNotifyAbout} changes.`;
+    const title = `You are in the attention set for ${numOfChangesToNotifyAbout} new changes.`;
     const dashboardUrl = createDashboardUrl({});
     const data = {url: `${self.location.origin}${dashboardUrl}`};
     const icon = `${self.location.origin}/favicon.ico`;

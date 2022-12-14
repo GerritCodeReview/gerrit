@@ -16,6 +16,24 @@
       "message": "Do we need more coverage for approval copying?\n\n@ekempin@google.com - what we are doing here (see RebaseChangeOp) is just selecting the commit to rebase on differently compared to doing just a single rebase. I think this is fine and the approval copying will work as expected, but would appreciate your input on this.",
       "revId": "c5438b527ce903745d3b3e657c926b0d85066fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4485779_12f85c3e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:17:39Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t expect any issues with approval copying. This should just work. I think it would be nice though to have one basic test (have a chain with \u003e\u003d2 changes, have a copyable approval on each of them, rebase the chain, check that the approvals have been copied correctly).",
+      "parentUuid": "ee37f5dc_10a7bcc4",
+      "revId": "c5438b527ce903745d3b3e657c926b0d85066fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

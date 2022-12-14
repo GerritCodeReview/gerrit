@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd7021f_c2ddc8c1",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:17:39Z",
+      "side": 0,
+      "message": "nit: unintended line removal?",
+      "revId": "ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20144a4c_e4f08ace",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:17:39Z",
+      "side": 0,
+      "message": "Why is the flushing removed here?",
+      "revId": "ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

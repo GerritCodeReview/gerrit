@@ -16,6 +16,23 @@
       "message": "Verified by calling\n```\nbazel test javatests/com/google/gerrit/httpd/...\n```",
       "revId": "1bb6cf06af8d563cf8b95e0988d4ebeb0e69df9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c5074b_117382b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:41:32Z",
+      "side": 1,
+      "message": "Style checked with\n```\ngit diff 1bb6cf06af~..1bb6cf06af --name-only | grep java$ | xargs java -jar ~/workspace/open/gjf/google-java-format-1.7-all-deps.jar -i\n```\nand no changes were reported",
+      "revId": "1bb6cf06af8d563cf8b95e0988d4ebeb0e69df9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

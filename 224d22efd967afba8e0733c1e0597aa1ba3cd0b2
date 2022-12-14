@@ -635,6 +635,30 @@
       },
       "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1b5257_02185703",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-14T08:41:48Z",
+      "side": 1,
+      "message": "Renamed and moved it out of the loop to make it more clear.",
+      "parentUuid": "3c4a69fe_0c8f676d",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "224d22efd967afba8e0733c1e0597aa1ba3cd0b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

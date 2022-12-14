@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f081c56_5cce3300",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-14T21:38:17Z",
+      "side": 1,
+      "message": "Verified by calling\n```\nbazel test javatests/com/google/gerrit/httpd/...\n```",
+      "revId": "1bb6cf06af8d563cf8b95e0988d4ebeb0e69df9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

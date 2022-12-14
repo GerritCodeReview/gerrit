@@ -46,6 +46,30 @@
       },
       "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f38ff59_2a821a6e",
+        "filename": "java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:37:47Z",
+      "side": 1,
+      "message": "I don\u0027t mind much about this.",
+      "parentUuid": "f547937e_dcbfe24e",
+      "range": {
+        "startLine": 247,
+        "startChar": 35,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

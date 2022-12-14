@@ -88,7 +88,7 @@ The change metadata block contains detailed information about the change.
 
 image::images/user-review-ui-change-metadata.png[width=600, link="images/user-review-ui-change-metadata.png"]
 
-- [[owner]]Owner/Uploader/Author/Committer
+- [[owner]]Owner/Uploader/Author/Committer:
 +
 Owner is the person who created the change
 +
@@ -170,11 +170,11 @@ the parent of the commit it was merged as into the destination branch.
 The SHA of the commit corresponding to the merged change on the destination
 branch.
 
-- [[revert-created-as]]Revert (Created|Submitted) As
+- [[revert-created-as]]Revert (Created|Submitted) As:
 +
 Points to the revert change, if one was created.
 
-- [[cherry-pick-of]]Cherry-pick of
+- [[cherry-pick-of]]Cherry-pick of:
 +
 If the change was created as cherry-pick of some other change to a different
 branch, points to the original change.
@@ -207,7 +207,7 @@ For more detail on Submit Requirements see
 link:config-submit-requirements.html[Submit Requirement Configuration] page.
 
 [[actions]]
-=== Actions:
+=== Actions
 Actions buttons are at the top right and in the overflow menu.
 Depending on the change state and the permissions of the user, different
 actions are available on the change:

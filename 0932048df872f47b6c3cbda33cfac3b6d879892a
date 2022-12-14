@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb75e220_97ab70c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:26:00Z",
+      "side": 1,
+      "message": "The fix looks good!",
+      "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b1c75fc_2c52448e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-14T10:26:00Z",
+      "side": 1,
+      "message": "If I see this correctly this test also passes without the fix.\n\nShould we have another watchNonVisibleOwner() test that doesn\u0027t trigger an email now (because user cannot see the owner), but triggered an email before (because admin aka the uploader can see the owner)?",
+      "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

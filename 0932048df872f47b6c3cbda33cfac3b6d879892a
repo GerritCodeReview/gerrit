@@ -33,6 +33,24 @@
       "message": "If I see this correctly this test also passes without the fix.\n\nShould we have another watchNonVisibleOwner() test that doesn\u0027t trigger an email now (because user cannot see the owner), but triggered an email before (because admin aka the uploader can see the owner)?",
       "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c724bfb3_eb2710e5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-14T20:51:58Z",
+      "side": 1,
+      "message": "Thanks!\nThat exposed another bug - `ByDefaultSearch` account searcher ignored visibility, which doesn\u0027t make sense for watchers.",
+      "parentUuid": "1b1c75fc_2c52448e",
+      "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -78,8 +78,6 @@ export declare interface PluginApi {
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi<T>;
-  // DEPRECATED: Use styleApi() instead.
-  registerStyleModule(endpoint: string, moduleName: string): void;
   reporting(): ReportingPluginApi;
   restApi(): RestPluginApi;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

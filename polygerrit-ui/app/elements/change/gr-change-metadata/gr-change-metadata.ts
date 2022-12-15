@@ -9,7 +9,6 @@ import '../../../styles/gr-change-metadata-shared-styles';
 import '../../../styles/gr-change-view-integration-shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../../plugins/gr-external-style/gr-external-style';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-editable-label/gr-editable-label';

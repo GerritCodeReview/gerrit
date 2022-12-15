@@ -163,12 +163,6 @@ opt_options)`
 
 See link:pg-plugin-endpoints.html[endpoints].
 
-=== registerStyleModule
-`plugin.registerStyleModule(endpointName, moduleName)`
-
-This API is deprecated and will be removed either in version 3.6 or 3.7,
-see link:#low-level-style[above] for an alternative.
-
 === on
 Register a JavaScript callback to be invoked when events occur within
 the web interface. Signature

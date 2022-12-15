@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96922442_f31f0dbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-12-15T23:50:04Z",
+      "side": 1,
+      "message": "We use https://github.com/quic/lockers for this as it has cluster support (with both bare metal and k8s). I think the repo on github is slightly out of date, so I\u0027ll see if I can push the recent updates tomorrow.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

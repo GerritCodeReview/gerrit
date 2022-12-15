@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee044f54_ceec928f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-15T12:47:45Z",
+      "side": 1,
+      "message": "Food for thought. Rather than rely on a css class, what about an attribute? I\u0027ve seen this to be more canonical.",
+      "revId": "76cc1e17732b9c6968d7edafed0e8904c78d8233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

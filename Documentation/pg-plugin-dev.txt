@@ -98,20 +98,29 @@ link:https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_[custom_properti
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/styles/themes/[app-theme.ts]
 for the list of available variables.
 
-Just add code like this to your JavaScript plugin:
+You can just create `<style>` elements yourself and add them to the
+`document.head`, but for your convenience the Plugin API provides a simple
+`styleApi().insertCSSRule()` method for doing just that. Typically you would
+define a CSS rule for `html`, which is always applied, or for a specific theme
+such as `html.lightTheme`. 
 
 ``` js
 Gerrit.install(plugin => {
-  const styleEl = document.createElement('style');
-  styleEl.innerHTML = `
-      html {
-        --header-background-color: #c3d9ff;
-      }
-      html.darkTheme {
-        --header-background-color: #c3d9ff90;
-      }
-  `;
-  document.head.appendChild(styleEl);
+  plugin.styleApi().insertCSSRule(`
+    html {
+      --header-text-color: black;
+    }
+  `);
+  plugin.styleApi().insertCSSRule(`
+    html.lightTheme {
+      --header-background-color: red;
+    }
+  `);
+  plugin.styleApi().insertCSSRule(`
+    html.darkTheme {
+      --header-background-color: blue;
+    }
+  `);
 });
 ```
 

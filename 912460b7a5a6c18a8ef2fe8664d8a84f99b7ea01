@@ -94,6 +94,30 @@
       },
       "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f76182c9_b8681d56",
+        "filename": "java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-12-15T08:02:49Z",
+      "side": 1,
+      "message": "Subclass work for me. Thanks.",
+      "parentUuid": "199ceea2_2e2a9402",
+      "range": {
+        "startLine": 247,
+        "startChar": 35,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "912460b7a5a6c18a8ef2fe8664d8a84f99b7ea01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

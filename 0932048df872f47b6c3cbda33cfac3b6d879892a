@@ -51,6 +51,24 @@
       "parentUuid": "1b1c75fc_2c52448e",
       "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4631b4da_92680c04",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-15T06:47:58Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "c724bfb3_eb2710e5",
+      "revId": "0932048df872f47b6c3cbda33cfac3b6d879892a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

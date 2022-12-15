@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-usage() { # error_message
+usage() { # exit code
   cat <<-EOF
 NAME
     git-gc-preserve - Run git gc and preserve old packs to avoid races for JGit
@@ -27,6 +27,14 @@ NAME
     Don't run multiple instances of this command concurrently on the same
     repository since it does not attempt to implement the file locking
     which git gc --auto does [3].
+
+    Failure Exit Codes
+        1: General failure
+        2: Couldn't determine repository path. If the current working directory is
+           outside of the working tree of the git repository use git option
+           --git-dir to pass the root path of the repository.
+           E.g.
+              $ git --git-dir ~/git/foo gc-preserve 
 
     [1] https://git.eclipse.org/r/c/jgit/jgit/+/87969
     [2] https://git.eclipse.org/r/c/jgit/jgit/+/122288
@@ -49,7 +57,7 @@ CONFIGURATION
       across missing objects which might be caused by a concurrent run of
       git gc.
 EOF
-  exit
+  exit "$1"
 }
 
 # prune preserved packs if gc.prunepreserved == true
@@ -74,7 +82,7 @@ preserve_packs() { # repo
     return 0
   fi
   local packdir=$1/objects/pack
-  pushd "$packdir" >/dev/null || exit
+  pushd "$packdir" >/dev/null || exit 1
   mkdir -p preserved
   printf "Preserving packs: "
   count=0
@@ -85,7 +93,7 @@ preserve_packs() { # repo
     fi
   done
   echo "$count, done."
-  popd >/dev/null || exit
+  popd >/dev/null || exit 1
 }
 
 # pack-0...2.pack to pack-0...2.old-pack
@@ -100,7 +108,7 @@ get_preserved_packfile_name() { # packfile > preserved_packfile
 
 while [ $# -gt 0 ] ; do
     case "$1" in
-        -u|-h)  usage ;;
+        -u|-h)  usage 0 ;;
     esac
     shift
 done
@@ -108,10 +116,9 @@ args=$(git rev-parse --sq-quote "$@")
 
 repopath=$(git rev-parse --git-dir)
 if [ -z "$repopath" ]; then
-  usage
-  exit $?
+  usage 2
 fi
 
 prune_preserved "$repopath"
 preserve_packs "$repopath"
-git gc ${args:+"$args"}
+git gc ${args:+"$args"} || { echo "git gc failed"; exit "$?"; }

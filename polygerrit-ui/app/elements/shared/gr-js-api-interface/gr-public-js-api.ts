@@ -51,7 +51,6 @@ import {StylePluginApi} from '../../../api/styles';
 enum EndpointType {
   DECORATE = 'decorate',
   REPLACE = 'replace',
-  STYLE = 'style',
 }
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
@@ -92,18 +91,6 @@ export class Plugin implements PluginApi {
 
   getPluginName() {
     return this._name;
-  }
-
-  registerStyleModule(endpoint: string, moduleName: string) {
-    console.warn(
-      `The deprecated plugin API 'registerStyleModule()' was called with parameters '${endpoint}' and '${moduleName}'.`
-    );
-    this.report.trackApi(this, 'plugin', 'registerStyleModule');
-    this.pluginEndpoints.registerModule(this, {
-      endpoint,
-      type: EndpointType.STYLE,
-      moduleName,
-    });
   }
 
   /**

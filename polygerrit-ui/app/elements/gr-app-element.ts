@@ -23,7 +23,6 @@ import './edit/gr-editor-view/gr-editor-view';
 import './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import './plugins/gr-endpoint-param/gr-endpoint-param';
 import './plugins/gr-endpoint-slot/gr-endpoint-slot';
-import './plugins/gr-external-style/gr-external-style';
 import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
@@ -151,8 +150,6 @@ export class GrAppElement extends LitElement {
   @state() private invalidateDiffViewCache = false;
 
   @state() private theme = AppTheme.AUTO;
-
-  @state() private themeEndpoint = 'app-theme-light';
 
   readonly getRouter = resolve(this, routerToken);
 
@@ -374,14 +371,6 @@ export class GrAppElement extends LitElement {
         .loginUrl=${this.loginUrl}
       ></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
-      <gr-external-style
-        id="externalStyleForAll"
-        name="app-theme"
-      ></gr-external-style>
-      <gr-external-style
-        id="externalStyleForTheme"
-        name=${this.themeEndpoint}
-      ></gr-external-style>
     `;
   }
 
@@ -622,11 +611,12 @@ export class GrAppElement extends LitElement {
     const showDarkTheme = isDarkTheme(this.theme);
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
+    // TODO: Remove this code for adding/removing dark theme style. We should
+    // be able to just always add them once we have changed its css selector
+    // from `html` to `html.darkTheme`.
     if (showDarkTheme) {
-      this.themeEndpoint = 'app-theme-dark';
       applyDarkTheme();
     } else {
-      this.themeEndpoint = 'app-theme-light';
       removeDarkTheme();
     }
   }

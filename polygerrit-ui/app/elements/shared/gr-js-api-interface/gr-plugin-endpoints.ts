@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {PluginApi} from '../../../api/plugin';
-import {isDefined} from '../../../types/types';
 import {HookApi, PluginElement} from '../../../api/hook';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,16 +13,29 @@ export interface ModuleInfo {
   moduleName: string;
   plugin: PluginApi;
   pluginUrl?: URL;
-  type?: string;
+  type?: EndpointType;
   domHook?: HookApi<PluginElement>;
   slot?: string;
+}
+
+/**
+ * Plugin-provided custom components can affect content in extension
+ * points using one of following methods:
+ * - DECORATE: custom component is set with `content` attribute and may
+ *   decorate (e.g. style) DOM element.
+ * - REPLACE: contents of extension point are replaced with the custom
+ *   component.
+ */
+export enum EndpointType {
+  DECORATE = 'decorate',
+  REPLACE = 'replace',
 }
 
 interface Options {
   endpoint: string;
   dynamicEndpoint?: string;
   slot?: string;
-  type?: string;
+  type?: EndpointType;
   moduleName?: string;
   domHook?: HookApi<PluginElement>;
 }
@@ -125,43 +137,7 @@ export class GrPluginEndpoints {
    * Get detailed information about modules registered with an extension
    * endpoint.
    */
-  getDetails(name: string, options?: Options): ModuleInfo[] {
-    const type = options && options.type;
-    const moduleName = options && options.moduleName;
-    if (!this._endpoints.has(name)) {
-      return [];
-    } else {
-      return this._endpoints
-        .get(name)!
-        .filter(
-          (item: ModuleInfo) =>
-            (!type || item.type === type) &&
-            (!moduleName || moduleName === item.moduleName)
-        );
-    }
-  }
-
-  /**
-   * Get detailed module names for instantiating at the endpoint.
-   */
-  getModules(name: string, options?: Options): string[] {
-    const modulesData = this.getDetails(name, options);
-    if (!modulesData.length) {
-      return [];
-    }
-    return modulesData.map(m => m.moduleName);
-  }
-
-  /**
-   * Get plugin URLs with element and module definitions.
-   */
-  getPlugins(name: string, options?: Options): URL[] {
-    const modulesData = this.getDetails(name, options);
-    if (!modulesData.length) {
-      return [];
-    }
-    return Array.from(new Set(modulesData.map(m => m.pluginUrl))).filter(
-      isDefined
-    );
+  getDetails(name: string): ModuleInfo[] {
+    return this._endpoints.get(name) ?? [];
   }
 }

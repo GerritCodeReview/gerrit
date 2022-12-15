@@ -5,7 +5,10 @@
  */
 import {html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {ModuleInfo} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {
+  EndpointType,
+  ModuleInfo,
+} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
@@ -195,10 +198,10 @@ export class GrEndpointDecorator extends LitElement {
     }
     let initPromise;
     switch (type) {
-      case 'decorate':
+      case EndpointType.DECORATE:
         initPromise = this.initDecoration(moduleName, plugin, slot);
         break;
-      case 'replace':
+      case EndpointType.REPLACE:
         initPromise = this.initReplacement(moduleName, plugin);
         break;
     }

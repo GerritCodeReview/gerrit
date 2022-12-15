@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-js-api-interface';
-import {GrPluginEndpoints} from './gr-plugin-endpoints';
+import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, HookCallback, PluginElement} from '../../../api/hook';
 import {assert} from '@open-wc/testing';
@@ -39,7 +39,7 @@ export class MockHook<T extends PluginElement> implements HookApi<T> {
 suite('gr-plugin-endpoints tests', () => {
   let instance: GrPluginEndpoints;
   let decoratePlugin: PluginApi;
-  let stylePlugin: PluginApi;
+  let replacePlugin: PluginApi;
   let domHook: HookApi<PluginElement>;
 
   setup(() => {
@@ -52,19 +52,19 @@ suite('gr-plugin-endpoints tests', () => {
     );
     instance.registerModule(decoratePlugin, {
       endpoint: 'my-endpoint',
-      type: 'decorate',
+      type: EndpointType.DECORATE,
       moduleName: 'decorate-module',
       domHook,
     });
     window.Gerrit.install(
-      plugin => (stylePlugin = plugin),
+      plugin => (replacePlugin = plugin),
       '0.1',
-      'http://test.com/plugins/testplugin/static/style.js'
+      'http://test.com/plugins/testplugin/static/replace.js'
     );
-    instance.registerModule(stylePlugin, {
+    instance.registerModule(replacePlugin, {
       endpoint: 'my-endpoint',
-      type: 'style',
-      moduleName: 'style-module',
+      type: EndpointType.REPLACE,
+      moduleName: 'replace-module',
       domHook,
     });
   });
@@ -75,66 +75,19 @@ suite('gr-plugin-endpoints tests', () => {
         moduleName: 'decorate-module',
         plugin: decoratePlugin,
         pluginUrl: decoratePlugin._url,
-        type: 'decorate',
+        type: EndpointType.DECORATE,
         domHook,
         slot: undefined,
       },
       {
-        moduleName: 'style-module',
-        plugin: stylePlugin,
-        pluginUrl: stylePlugin._url,
-        type: 'style',
+        moduleName: 'replace-module',
+        plugin: replacePlugin,
+        pluginUrl: replacePlugin._url,
+        type: EndpointType.REPLACE,
         domHook,
         slot: undefined,
       },
     ]);
-  });
-
-  test('getDetails by type', () => {
-    assert.deepEqual(
-      instance.getDetails('my-endpoint', {endpoint: 'a-place', type: 'style'}),
-      [
-        {
-          moduleName: 'style-module',
-          plugin: stylePlugin,
-          pluginUrl: stylePlugin._url,
-          type: 'style',
-          domHook,
-          slot: undefined,
-        },
-      ]
-    );
-  });
-
-  test('getDetails by module', () => {
-    assert.deepEqual(
-      instance.getDetails('my-endpoint', {
-        endpoint: 'my-endpoint',
-        moduleName: 'decorate-module',
-      }),
-      [
-        {
-          moduleName: 'decorate-module',
-          plugin: decoratePlugin,
-          pluginUrl: decoratePlugin._url,
-          type: 'decorate',
-          domHook,
-          slot: undefined,
-        },
-      ]
-    );
-  });
-
-  test('getModules', () => {
-    assert.deepEqual(instance.getModules('my-endpoint'), [
-      'decorate-module',
-      'style-module',
-    ]);
-  });
-
-  test('getPlugins URLs are unique', () => {
-    assert.equal(decoratePlugin._url, stylePlugin._url);
-    assert.deepEqual(instance.getPlugins('my-endpoint'), [decoratePlugin._url]);
   });
 
   test('onNewEndpoint', () => {
@@ -143,7 +96,7 @@ suite('gr-plugin-endpoints tests', () => {
     instance.onNewEndpoint('my-endpoint', newModuleStub);
     instance.registerModule(decoratePlugin, {
       endpoint: 'my-endpoint',
-      type: 'replace',
+      type: EndpointType.REPLACE,
       moduleName: 'replace-module',
       domHook,
     });
@@ -151,7 +104,7 @@ suite('gr-plugin-endpoints tests', () => {
       moduleName: 'replace-module',
       plugin: decoratePlugin,
       pluginUrl: decoratePlugin._url,
-      type: 'replace',
+      type: EndpointType.REPLACE,
       domHook,
       slot: undefined,
     });

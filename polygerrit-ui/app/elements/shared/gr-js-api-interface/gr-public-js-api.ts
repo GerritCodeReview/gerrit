@@ -13,7 +13,7 @@ import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {GrPluginEndpoints} from './gr-plugin-endpoints';
+import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
 import {getPluginNameFromUrl, send} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
 import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
@@ -37,19 +37,6 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
-
-/**
- * Plugin-provided custom components can affect content in extension
- * points using one of following methods:
- * - DECORATE: custom component is set with `content` attribute and may
- *   decorate (e.g. style) DOM element.
- * - REPLACE: contents of extension point are replaced with the custom
- *   component.
- */
-enum EndpointType {
-  DECORATE = 'decorate',
-  REPLACE = 'replace',
-}
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 

@@ -24,9 +24,9 @@ NAME
     This is similar to the implementation in JGit [1] which is used by
     JGit to avoid errors [2] in such situations.
 
-    Don't run multiple instances of this command concurrently on the same
-    repository since it does not attempt to implement the file locking
-    which git gc --auto does [3].
+    The command prevents concurrent runs of the command on the same repository
+    by acquiring an exclusive file lock on the file "\$repopath/gc-preserve.pid".
+    If it cannot acquire the lock it fails immediately with exit code 3.
 
     Failure Exit Codes
         1: General failure
@@ -35,10 +35,10 @@ NAME
            --git-dir to pass the root path of the repository.
            E.g.
               $ git --git-dir ~/git/foo gc-preserve 
+        3: Another process already runs $0 on the same repository
 
     [1] https://git.eclipse.org/r/c/jgit/jgit/+/87969
     [2] https://git.eclipse.org/r/c/jgit/jgit/+/122288
-    [3] https://github.com/git/git/commit/64a99eb4760de2ce2f0c04e146c0a55c34f50f20
 
 SYNOPSIS
     git gc-preserve
@@ -58,6 +58,28 @@ CONFIGURATION
       git gc.
 EOF
   exit "$1"
+}
+
+# acquire file lock, unlock when the script exits
+lock() { # repo
+  readonly LOCKFILE="$1/gc-preserve.pid"
+  test -f "$LOCKFILE" || touch "$LOCKFILE"
+  exec 9> "$LOCKFILE"
+  if flock -nx 9; then
+    trap unlock EXIT
+  else
+    echo "$0 is already running"
+    exit 3
+  fi
+}
+
+unlock() {
+  # only delete if the file descriptor 9 is open
+  if { : >&9 ; } &> /dev/null; then
+    rm -f "$LOCKFILE"
+  fi
+  # close the file handle to release file lock
+  exec 9>&-
 }
 
 # prune preserved packs if gc.prunepreserved == true
@@ -119,6 +141,7 @@ if [ -z "$repopath" ]; then
   usage 2
 fi
 
+lock "$repopath"
 prune_preserved "$repopath"
 preserve_packs "$repopath"
 git gc ${args:+"$args"} || { echo "git gc failed"; exit "$?"; }

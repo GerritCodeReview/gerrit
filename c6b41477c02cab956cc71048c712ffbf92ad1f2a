@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d19c609_70debbab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-15T16:36:43Z",
+      "side": 1,
+      "message": "Thomas I have changed this to the following, if it is an OAuth login the check if there is an external ID with that e-mail present. If so remove the e-mail from that other external ID and add it to the new one. If it does not then it will create a new external ID with that e-mail. Does that satisfy your security concerns. There is no need to check username at this point as the e-mail is the account we want to link to.",
+      "parentUuid": "d16b9b6a_5a749f17",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c8d49c3_8cda88b9",

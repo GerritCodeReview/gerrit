@@ -33,6 +33,24 @@
       "message": "You should probably create a new set, otherwise the child\u0027s binding of disableActions won\u0027t trigger an update.",
       "revId": "258db8952f79ae9a9b741db27e0883a531c348ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1928b339_b7a243cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1766,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-15T12:51:11Z",
+      "side": 1,
+      "message": "Never mind.",
+      "parentUuid": "b765bc31_253f9965",
+      "revId": "258db8952f79ae9a9b741db27e0883a531c348ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

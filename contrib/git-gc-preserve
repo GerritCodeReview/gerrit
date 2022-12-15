@@ -18,6 +18,13 @@ usage() { # exit code
 NAME
     git-gc-preserve - Run git gc and preserve old packs to avoid races for JGit
 
+SYNOPSIS
+    git gc-preserve
+
+DESCRIPTION
+    Runs git gc and can preserve old packs to avoid races with concurrently
+    executed commands in JGit.
+
     This command uses custom git config options to configure if preserved packs
     from the last run of git gc should be pruned and if packs should be preserved.
 
@@ -39,13 +46,6 @@ NAME
 
     [1] https://git.eclipse.org/r/c/jgit/jgit/+/87969
     [2] https://git.eclipse.org/r/c/jgit/jgit/+/122288
-
-SYNOPSIS
-    git gc-preserve
-
-DESCRIPTION
-    Runs git gc and can preserve old packs to avoid races with concurrently
-    executed commands in JGit.
 
 CONFIGURATION
     "gc.prunepreserved": if set to "true" preserved packs from the last gc run

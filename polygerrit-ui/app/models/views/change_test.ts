@@ -12,10 +12,11 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {createChangeUrl, ChangeViewState} from './change';
+import {createChangeUrl, ChangeViewState, ChangeChildView} from './change';
 
 const STATE: ChangeViewState = {
   view: GerritView.CHANGE,
+  childView: ChangeChildView.OVERVIEW,
   changeNum: 1234 as NumericChangeId,
   repo: 'test' as RepoName,
 };
@@ -70,6 +71,7 @@ suite('change view state tests', () => {
   test('createChangeUrl() with repo name encoding', () => {
     const state: ChangeViewState = {
       view: GerritView.CHANGE,
+      childView: ChangeChildView.OVERVIEW,
       changeNum: 1234 as NumericChangeId,
       repo: 'x+/y+/z+/w' as RepoName,
     };

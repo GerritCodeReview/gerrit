@@ -26,8 +26,15 @@ import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
+export enum ChangeChildView {
+  OVERVIEW = 'OVERVIEW',
+  DIFF = 'DIFF',
+  EDIT = 'EDIT',
+}
+
 export interface ChangeViewState extends ViewState {
   view: GerritView.CHANGE;
+  childView: ChangeChildView;
 
   changeNum: NumericChangeId;
   repo: RepoName;
@@ -61,6 +68,14 @@ export interface ChangeViewState extends ViewState {
   forceReload?: boolean;
   /** triggers opening the reply dialog */
   openReplyDialog?: boolean;
+
+  /** DIFF/EDIT child view only */
+  path?: string;
+  lineNum?: number;
+
+  /** DIFF child view only */
+  leftSide?: boolean;
+  commentLink?: boolean;
 }
 
 /**
@@ -70,7 +85,7 @@ export interface ChangeViewState extends ViewState {
  */
 export type CreateChangeUrlObject = Omit<
   ChangeViewState,
-  'view' | 'changeNum' | 'repo'
+  'view' | 'childView' | 'changeNum' | 'repo'
 > & {
   change: Pick<ChangeInfo, '_number' | 'project'>;
 };
@@ -82,7 +97,9 @@ export function isCreateChangeUrlObject(
 }
 
 export function objToState(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+  obj:
+    | (CreateChangeUrlObject & {childView: ChangeChildView})
+    | Omit<ChangeViewState, 'view'>
 ): ChangeViewState {
   if (isCreateChangeUrlObject(obj)) {
     return {
@@ -96,9 +113,12 @@ export function objToState(
 }
 
 export function createChangeUrl(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
 ) {
-  const state: ChangeViewState = objToState(obj);
+  const state: ChangeViewState = objToState({
+    ...obj,
+    childView: ChangeChildView.OVERVIEW,
+  });
   let range = getPatchRangeExpression(state);
   if (range.length) {
     range = '/' + range;
@@ -156,6 +176,8 @@ export const changeViewModelToken =
   define<ChangeViewModel>('change-view-model');
 
 export class ChangeViewModel extends Model<ChangeViewState | undefined> {
+  public readonly childView$ = select(this.state$, state => state?.childView);
+
   public readonly tab$ = select(this.state$, state => state?.tab);
 
   public readonly checksPatchset$ = select(

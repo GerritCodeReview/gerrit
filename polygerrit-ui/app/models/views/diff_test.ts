@@ -12,12 +12,14 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {createDiffUrl, DiffViewState} from './diff';
+import {ChangeChildView, ChangeViewState} from './change';
+import {createDiffUrl} from './diff';
 
 suite('diff view state tests', () => {
   test('createDiffUrl', () => {
-    const params: DiffViewState = {
-      view: GerritView.DIFF,
+    const params: ChangeViewState = {
+      view: GerritView.CHANGE,
+      childView: ChangeChildView.DIFF,
       changeNum: 42 as NumericChangeId,
       path: 'x+y/path.cpp' as RepoName,
       patchNum: 12 as RevisionPatchSetNum,
@@ -52,8 +54,9 @@ suite('diff view state tests', () => {
   });
 
   test('diff with repo name encoding', () => {
-    const params: DiffViewState = {
-      view: GerritView.DIFF,
+    const params: ChangeViewState = {
+      view: GerritView.CHANGE,
+      childView: ChangeChildView.DIFF,
       changeNum: 42 as NumericChangeId,
       path: 'x+y/path.cpp',
       patchNum: 12 as RevisionPatchSetNum,

@@ -85,10 +85,6 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
-import {
-  GerritView,
-  routerModelToken,
-} from '../../../services/router/router-model';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
@@ -107,7 +103,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -116,12 +112,13 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {createDiffUrl} from '../../../models/views/diff';
 import {
-  createDiffUrl,
-  diffViewModelToken,
-  DiffViewState,
-} from '../../../models/views/diff';
-import {createChangeUrl} from '../../../models/views/change';
+  ChangeChildView,
+  changeViewModelToken,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {createEditUrl} from '../../../models/views/edit';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
@@ -160,8 +157,8 @@ export class GrDiffView extends LitElement {
   @query('#diffHost')
   diffHost?: GrDiffHost;
 
-  @query('#reviewed')
-  reviewed?: HTMLInputElement;
+  @state()
+  reviewed = false;
 
   @query('#downloadModal')
   downloadModal?: HTMLDialogElement;
@@ -178,14 +175,14 @@ export class GrDiffView extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrOverlay;
 
-  private _viewState: DiffViewState | undefined;
+  private _viewState: ChangeViewState | undefined;
 
   @state()
-  get viewState(): DiffViewState | undefined {
+  get viewState(): ChangeViewState | undefined {
     return this._viewState;
   }
 
-  set viewState(viewState: DiffViewState | undefined) {
+  set viewState(viewState: ChangeViewState | undefined) {
     if (this._viewState === viewState) return;
     const oldViewState = this._viewState;
     this._viewState = viewState;
@@ -293,8 +290,6 @@ export class GrDiffView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly getRouterModel = resolve(this, routerModelToken);
-
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -305,7 +300,7 @@ export class GrDiffView extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly getViewModel = resolve(this, diffViewModelToken);
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
@@ -457,10 +452,12 @@ export class GrDiffView extends LitElement {
           this.getChangeModel().reviewedFiles$,
         ]),
       ([path, files]) => {
-        this.updateComplete.then(() => {
-          assertIsDefined(this.reviewed, 'reviewed');
-          this.reviewed.checked = !!path && !!files && files.includes(path);
-        });
+        console.log(
+          `asdf ${path} this.reviewed:${this.reviewed} -> ${
+            !!path && !!files && files.includes(path)
+          }`
+        );
+        this.reviewed = !!path && !!files && files.includes(path);
       }
     );
 
@@ -476,14 +473,14 @@ export class GrDiffView extends LitElement {
           switchMap(() =>
             combineLatest([
               this.getChangeModel().patchNum$,
-              this.getRouterModel().routerView$,
+              this.getViewModel().state$,
               this.getUserModel().diffPreferences$,
               this.getChangeModel().reviewedFiles$,
             ]).pipe(
               filter(
-                ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
+                ([patchNum, viewState, diffPrefs, reviewedFiles]) =>
                   !!patchNum &&
-                  routerView === GerritView.DIFF &&
+                  viewState?.childView === ChangeChildView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
               ),
@@ -734,7 +731,7 @@ export class GrDiffView extends LitElement {
   }
 
   private reInitCursor() {
-    assertIsDefined(this.diffHost, 'diffHost');
+    if (!this.diffHost) return;
     this.cursor?.replaceDiffs([this.diffHost]);
     this.cursor?.reInitCursor();
   }
@@ -767,6 +764,7 @@ export class GrDiffView extends LitElement {
   }
 
   override render() {
+    if (this.viewState?.childView !== ChangeChildView.DIFF) return nothing;
     const file = this.getFileRange();
     return html`
       ${this.renderStickyHeader()}
@@ -834,6 +832,7 @@ export class GrDiffView extends LitElement {
           ?hidden=${!this.loggedIn}
           title="Toggle reviewed status of file"
           aria-label="file reviewed"
+          .checked=${this.reviewed}
           @change=${this.handleReviewedChange}
         />
         <div class="jumpToFileContainer">
@@ -1080,7 +1079,9 @@ export class GrDiffView extends LitElement {
 
   private handleReviewedChange(e: Event) {
     const input = e.target as HTMLInputElement;
-    this.setReviewed(input.checked ?? false);
+    const reviewed = input.checked ?? false;
+    this.reviewed = reviewed;
+    this.setReviewed(reviewed);
   }
 
   // Private but used in tests.
@@ -1102,8 +1103,8 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleToggleFileReviewed() {
-    assertIsDefined(this.reviewed);
-    this.setReviewed(!this.reviewed.checked);
+    this.reviewed = !this.reviewed;
+    this.setReviewed(this.reviewed);
   }
 
   private handlePrevLine() {
@@ -1550,7 +1551,7 @@ export class GrDiffView extends LitElement {
   initPatchRange() {
     let leftSide = false;
     if (!this.change) return;
-    if (this.viewState?.view !== GerritView.DIFF) return;
+    if (this.viewState?.childView !== ChangeChildView.DIFF) return;
     if (this.viewState?.commentId) {
       const comment = this.changeComments?.findCommentById(
         this.viewState.commentId
@@ -1603,7 +1604,7 @@ export class GrDiffView extends LitElement {
     );
   }
 
-  private isSameDiffLoaded(value: DiffViewState) {
+  private isSameDiffLoaded(value: ChangeViewState) {
     return (
       this.patchRange?.basePatchNum === value.basePatchNum &&
       this.patchRange?.patchNum === value.patchNum &&
@@ -1628,6 +1629,7 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   viewStateChanged() {
     if (this.viewState === undefined) return;
+    if (this.viewState?.childView !== ChangeChildView.DIFF) return;
     const viewState = this.viewState;
 
     // The diff view is kept in the background once created. If the user
@@ -2159,7 +2161,8 @@ export class GrDiffView extends LitElement {
       return;
     }
     const lineNum =
-      this.viewState?.view === GerritView.DIFF && this.viewState?.commentLink
+      this.viewState?.childView === ChangeChildView.DIFF &&
+      this.viewState?.commentLink
         ? this.focusLineNum
         : undefined;
     this.getNavigation().setUrl(

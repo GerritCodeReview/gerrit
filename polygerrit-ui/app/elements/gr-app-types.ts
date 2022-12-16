@@ -13,8 +13,6 @@ import {PluginViewState} from '../models/views/plugin';
 import {SearchViewState} from '../models/views/search';
 import {DashboardViewState} from '../models/views/dashboard';
 import {ChangeViewState} from '../models/views/change';
-import {DiffViewState} from '../models/views/diff';
-import {EditViewState} from '../models/views/edit';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams;
@@ -41,8 +39,6 @@ export type AppElementParams =
   | SearchViewState
   | SettingsViewState
   | AgreementViewState
-  | DiffViewState
-  | EditViewState
   | AppElementJustRegisteredParams;
 
 export function isAppElementJustRegisteredParams(

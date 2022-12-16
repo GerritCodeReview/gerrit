@@ -28,8 +28,7 @@ import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
-import {EditViewState} from '../../../models/views/edit';
-import {ChangeViewState} from '../../../models/views/change';
+import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 
@@ -1134,6 +1133,7 @@ suite('gr-router tests', () => {
           const ctx = makeParams('', '');
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1154,6 +1154,7 @@ suite('gr-router tests', () => {
           ctx.querystring = queryMap.toString();
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1193,7 +1194,8 @@ suite('gr-router tests', () => {
         test('diff view', () => {
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertctxToParams(ctx, 'handleDiffRoute', {
-            view: GerritView.DIFF,
+            view: GerritView.CHANGE,
+            childView: ChangeChildView.DIFF,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1221,7 +1223,8 @@ suite('gr-router tests', () => {
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               commentLink: true,
-              view: GerritView.DIFF,
+              view: GerritView.CHANGE,
+              childView: ChangeChildView.DIFF,
             }
           );
         });
@@ -1242,6 +1245,7 @@ suite('gr-router tests', () => {
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               view: GerritView.CHANGE,
+              childView: ChangeChildView.OVERVIEW,
             }
           );
         });
@@ -1259,10 +1263,11 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
           lineNum: 0,
@@ -1285,10 +1290,11 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
           lineNum: 4,
@@ -1314,6 +1320,7 @@ suite('gr-router tests', () => {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
         };

@@ -1987,7 +1987,7 @@ suite('gr-change-view tests', () => {
 
     // When edit is set, but patchNum as well, then keep patchNum.
     element.patchRange.patchNum = 5 as RevisionPatchSetNum;
-    element.routerPatchNum = 5 as RevisionPatchSetNum;
+    element.viewModelPatchNum = 5 as RevisionPatchSetNum;
     element.processEdit(change);
     assert.equal(element.patchRange.patchNum, 5 as RevisionPatchSetNum);
   });

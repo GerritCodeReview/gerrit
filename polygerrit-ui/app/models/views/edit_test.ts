@@ -11,12 +11,14 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {createEditUrl, EditViewState} from './edit';
+import {ChangeChildView, ChangeViewState} from './change';
+import {createEditUrl} from './edit';
 
 suite('edit view state tests', () => {
   test('createEditUrl', () => {
-    const params: EditViewState = {
-      view: GerritView.EDIT,
+    const params: ChangeViewState = {
+      view: GerritView.CHANGE,
+      childView: ChangeChildView.EDIT,
       changeNum: 42 as NumericChangeId,
       repo: 'test-project' as RepoName,
       path: 'x+y/path.cpp' as RepoName,

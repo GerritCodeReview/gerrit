@@ -73,6 +73,7 @@ import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
+import {ChangeChildView, changeViewModelToken} from '../models/views/change';
 
 interface ErrorInfo {
   text: string;
@@ -117,6 +118,9 @@ export class GrAppElement extends LitElement {
   @state() private version?: string;
 
   @state() private view?: GerritView;
+
+  // TODO: Introduce a wrapper element for CHANGE, DIFF, EDIT view.
+  @state() private childView?: ChangeChildView;
 
   @state() private lastError?: ErrorInfo;
 
@@ -166,6 +170,8 @@ export class GrAppElement extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getRouterModel = resolve(this, routerModelToken);
+
+  private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
   constructor() {
     super();
@@ -224,6 +230,13 @@ export class GrAppElement extends LitElement {
       view => {
         this.view = view;
         if (view) this.errorView?.classList.remove('show');
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeViewModel().childView$,
+      childView => {
+        this.childView = childView;
       }
     );
 
@@ -454,7 +467,10 @@ export class GrAppElement extends LitElement {
       return nothing;
     }
     return cache(
-      this.view === GerritView.CHANGE ? this.changeViewTemplate() : nothing
+      this.view === GerritView.CHANGE &&
+        this.childView === ChangeChildView.OVERVIEW
+        ? this.changeViewTemplate()
+        : nothing
     );
   }
 
@@ -466,7 +482,8 @@ export class GrAppElement extends LitElement {
   }
 
   private renderEditorView() {
-    if (this.view !== GerritView.EDIT) return nothing;
+    if (this.view !== GerritView.CHANGE) return nothing;
+    if (this.childView !== ChangeChildView.EDIT) return nothing;
     return html`<gr-editor-view></gr-editor-view>`;
   }
 
@@ -476,7 +493,9 @@ export class GrAppElement extends LitElement {
       return nothing;
     }
     return cache(
-      this.view === GerritView.DIFF ? this.diffViewTemplate() : nothing
+      this.view === GerritView.CHANGE && this.childView === ChangeChildView.DIFF
+        ? this.diffViewTemplate()
+        : nothing
     );
   }
 

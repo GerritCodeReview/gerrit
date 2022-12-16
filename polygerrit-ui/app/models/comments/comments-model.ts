@@ -27,7 +27,6 @@ import {
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
-import {RouterModel} from '../../services/router/router-model';
 import {define} from '../dependency';
 import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
@@ -52,6 +51,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import {isDefined} from '../../types/types';
+import {ChangeViewModel} from '../views/change';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -384,7 +384,7 @@ export class CommentsModel extends Model<CommentState> {
   private discardedDrafts: DraftInfo[] = [];
 
   constructor(
-    private readonly routerModel: RouterModel,
+    private readonly changeViewModel: ChangeViewModel,
     private readonly changeModel: ChangeModel,
     private readonly accountsModel: AccountsModel,
     private readonly restApiService: RestApiService,
@@ -401,7 +401,7 @@ export class CommentsModel extends Model<CommentState> {
       this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))
     );
     this.subscriptions.push(
-      this.routerModel.routerChangeNum$.subscribe(changeNum => {
+      this.changeViewModel.changeNum$.subscribe(changeNum => {
         this.changeNum = changeNum;
         this.setState({...initialState});
         this.reloadAllComments();

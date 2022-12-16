@@ -184,6 +184,15 @@ export const changeViewModelToken =
   define<ChangeViewModel>('change-view-model');
 
 export class ChangeViewModel extends Model<ChangeViewState | undefined> {
+  public readonly changeNum$ = select(this.state$, state => state?.changeNum);
+
+  public readonly patchNum$ = select(this.state$, state => state?.patchNum);
+
+  public readonly basePatchNum$ = select(
+    this.state$,
+    state => state?.basePatchNum
+  );
+
   public readonly childView$ = select(this.state$, state => state?.childView);
 
   public readonly tab$ = select(this.state$, state => state?.tab);

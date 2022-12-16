@@ -22,7 +22,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -30,6 +32,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -46,8 +50,8 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -73,19 +77,24 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class RebaseChangeOp implements BatchUpdateOp {
   public interface Factory {
     RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
+
+    RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, Change.Id baseChangeId);
   }
 
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtilFactory mergeUtilFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeResource.Factory changeResourceFactory;
+  private final ChangeNotes.Factory notesFactory;
 
   private final ChangeNotes notes;
   private final PatchSet originalPatchSet;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ProjectCache projectCache;
+  private final Project.NameKey projectName;
 
   private ObjectId baseCommitId;
+  private Change.Id baseChangeId;
   private PersonIdent committerIdent;
   private boolean fireRevisionCreated = true;
   private boolean validate = true;
@@ -104,26 +113,78 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private PatchSetInserter patchSetInserter;
   private PatchSet rebasedPatchSet;
 
-  @Inject
+  @AssistedInject
   RebaseChangeOp(
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtilFactory mergeUtilFactory,
       RebaseUtil rebaseUtil,
       ChangeResource.Factory changeResourceFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
+      ChangeNotes.Factory notesFactory,
+      GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
       @Assisted ObjectId baseCommitId) {
+    this(
+        patchSetInserterFactory,
+        mergeUtilFactory,
+        rebaseUtil,
+        changeResourceFactory,
+        notesFactory,
+        identifiedUserFactory,
+        projectCache,
+        notes,
+        originalPatchSet);
+    this.baseCommitId = baseCommitId;
+    this.baseChangeId = null;
+  }
+
+  @AssistedInject
+  RebaseChangeOp(
+      PatchSetInserter.Factory patchSetInserterFactory,
+      MergeUtilFactory mergeUtilFactory,
+      RebaseUtil rebaseUtil,
+      ChangeResource.Factory changeResourceFactory,
+      ChangeNotes.Factory notesFactory,
+      GenericFactory identifiedUserFactory,
+      ProjectCache projectCache,
+      @Assisted ChangeNotes notes,
+      @Assisted PatchSet originalPatchSet,
+      @Assisted Change.Id baseChangeId) {
+    this(
+        patchSetInserterFactory,
+        mergeUtilFactory,
+        rebaseUtil,
+        changeResourceFactory,
+        notesFactory,
+        identifiedUserFactory,
+        projectCache,
+        notes,
+        originalPatchSet);
+    this.baseChangeId = baseChangeId;
+    this.baseCommitId = null;
+  }
+
+  private RebaseChangeOp(
+      PatchSetInserter.Factory patchSetInserterFactory,
+      MergeUtilFactory mergeUtilFactory,
+      RebaseUtil rebaseUtil,
+      ChangeResource.Factory changeResourceFactory,
+      ChangeNotes.Factory notesFactory,
+      GenericFactory identifiedUserFactory,
+      ProjectCache projectCache,
+      ChangeNotes notes,
+      PatchSet originalPatchSet) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
     this.changeResourceFactory = changeResourceFactory;
+    this.notesFactory = notesFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.projectCache = projectCache;
     this.notes = notes;
+    this.projectName = notes.getProjectName();
     this.originalPatchSet = originalPatchSet;
-    this.baseCommitId = baseCommitId;
   }
 
   public RebaseChangeOp setCommitterIdent(PersonIdent committerIdent) {
@@ -204,14 +265,23 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
-          NoSuchChangeException, PermissionBackendException {
+      throws InvalidChangeOperationException, RestApiException, IOException, NoSuchChangeException,
+          PermissionBackendException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevWalk rw = ctx.getRevWalk();
     RevCommit original = rw.parseCommit(originalPatchSet.commitId());
     rw.parseBody(original);
-    RevCommit baseCommit = rw.parseCommit(baseCommitId);
+    RevCommit baseCommit;
+    if (baseCommitId != null && baseChangeId == null) {
+      baseCommit = rw.parseCommit(baseCommitId);
+    } else if (baseChangeId != null) {
+      baseCommit =
+          PatchSetUtil.getCurrentRevCommitIncludingPending(ctx, notesFactory, baseChangeId);
+    } else {
+      throw new IllegalStateException(
+          "Exactly one of base commit and base change must be provided.");
+    }
     CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());
 
     String newCommitMessage;
@@ -224,12 +294,12 @@ public class RebaseChangeOp implements BatchUpdateOp {
       newCommitMessage = original.getFullMessage();
     }
 
-    rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
+    rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage, notes.getChangeId());
     Base base =
         rebaseUtil.parseBase(
             new RevisionResource(
                 changeResourceFactory.create(notes, changeOwner), originalPatchSet),
-            baseCommitId.name());
+            baseCommit.getName());
 
     rebasedPatchSetId =
         ChangeUtil.nextPatchSetIdFromChangeRefs(
@@ -320,8 +390,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   private MergeUtil newMergeUtil() {
-    ProjectState project =
-        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
+    ProjectState project = projectCache.get(projectName).orElseThrow(illegalState(projectName));
     return forceContentMerge
         ? mergeUtilFactory.create(project, true)
         : mergeUtilFactory.create(project);
@@ -338,7 +407,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
    * @throws IOException the merge failed for another reason.
    */
   private CodeReviewCommit rebaseCommit(
-      RepoContext ctx, RevCommit original, ObjectId base, String commitMessage)
+      RepoContext ctx,
+      RevCommit original,
+      ObjectId base,
+      String commitMessage,
+      Change.Id originalChangeId)
       throws ResourceConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
 
@@ -372,8 +445,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
       if (!allowConflicts || !(merger instanceof ResolveMerger)) {
         throw new MergeConflictException(
-            "The change could not be rebased due to a conflict during merge.\n\n"
-                + MergeUtil.createConflictMessage(conflicts));
+            String.format(
+                "Change %s could not be rebased due to a conflict during merge.\n\n%s",
+                originalChangeId.toString(), MergeUtil.createConflictMessage(conflicts)));
       }
 
       Map<String, MergeResult<? extends Sequence>> mergeResults =
@@ -413,7 +487,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
               cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
-    ctx.getInserter().flush();
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setFilesWithGitConflicts(filesWithGitConflicts);
     return commit;

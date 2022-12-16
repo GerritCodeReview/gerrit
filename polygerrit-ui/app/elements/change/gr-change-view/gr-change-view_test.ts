@@ -99,7 +99,7 @@ import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
-import {ChangeViewState} from '../../../models/views/change';
+import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -369,6 +369,7 @@ suite('gr-change-view tests', () => {
     );
     element.viewState = {
       view: GerritView.CHANGE,
+      childView: ChangeChildView.OVERVIEW,
       changeNum: TEST_NUMERIC_CHANGE_ID,
       repo: 'gerrit' as RepoName,
     };

@@ -50,12 +50,10 @@ import {
   agreementViewModelToken,
 } from '../models/views/agreement';
 import {ChangeViewModel, changeViewModelToken} from '../models/views/change';
-import {DiffViewModel, diffViewModelToken} from '../models/views/diff';
 import {
   DocumentationViewModel,
   documentationViewModelToken,
 } from '../models/views/documentation';
-import {EditViewModel, editViewModelToken} from '../models/views/edit';
 import {GroupViewModel, groupViewModelToken} from '../models/views/group';
 import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
@@ -112,9 +110,7 @@ export function createAppDependencies(
     [agreementViewModelToken, () => new AgreementViewModel()],
     [changeViewModelToken, () => new ChangeViewModel()],
     [dashboardViewModelToken, () => new DashboardViewModel()],
-    [diffViewModelToken, () => new DiffViewModel()],
     [documentationViewModelToken, () => new DocumentationViewModel()],
-    [editViewModelToken, () => new EditViewModel()],
     [groupViewModelToken, () => new GroupViewModel()],
     [pluginViewModelToken, () => new PluginViewModel()],
     [repoViewModelToken, () => new RepoViewModel()],
@@ -139,9 +135,7 @@ export function createAppDependencies(
           resolver(agreementViewModelToken),
           resolver(changeViewModelToken),
           resolver(dashboardViewModelToken),
-          resolver(diffViewModelToken),
           resolver(documentationViewModelToken),
-          resolver(editViewModelToken),
           resolver(groupViewModelToken),
           resolver(pluginViewModelToken),
           resolver(repoViewModelToken),

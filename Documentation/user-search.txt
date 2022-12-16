@@ -353,6 +353,12 @@ subject:'SUBJECT'::
 Changes that have a commit message where the first line (aka the subject)
 matches 'SUBJECT'. The matching is done by full text search over the subject.
 
+[[prefixsubject]]
+prefixsubject:'PREFIX'::
++
+Changes that have a commit message where the first line (aka the subject)
+has the prefix 'PREFIX'.
+
 [[comment]]
 comment:'TEXT'::
 +

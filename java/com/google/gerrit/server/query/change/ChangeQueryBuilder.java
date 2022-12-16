@@ -187,6 +187,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_MERGED_ON = "mergedon";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_SUBJECT = "subject";
+  public static final String FIELD_PREFIX_SUBJECT = "prefixsubject";
   public static final String FIELD_MESSAGE_EXACT = "messageexact";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -1154,6 +1155,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> subject(String value) throws QueryParseException {
     checkFieldAvailable(ChangeField.SUBJECT_SPEC, ChangeQueryBuilder.FIELD_SUBJECT);
     return ChangePredicates.subject(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> prefixsubject(String value) throws QueryParseException {
+    checkFieldAvailable(ChangeField.PREFIX_SUBJECT_SPEC, ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);
+    return ChangePredicates.prefixSubject(value);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {

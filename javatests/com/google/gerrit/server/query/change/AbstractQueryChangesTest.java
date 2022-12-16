@@ -1084,6 +1084,54 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubjectPrefix() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.PREFIX_SUBJECT_SPEC)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "[FOO123] First commit with test subject\n\n"
+                        + "Message body\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b920")
+                .create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "[BAR45] Second commit with test subject\n\n"
+                        + "Message body for another commit\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b921")
+                .create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 =
+        repo.parseBody(
+            repo.commit()
+                .message(
+                    "[FOO99] Third commit with test subject\n\n"
+                        + "Last message body\n\n"
+                        + "Change-Id: I986c6a013dd5b3a2e8a0271c04deac2c9752b921")
+                .create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+
+    assertQuery("prefixsubject:\"[FOO\"", change3, change1);
+    assertQuery("prefixsubject:\"[BAR\"", change2);
+    assertQuery("prefixsubject:\"[FOO1\"", change1);
+    assertQuery("prefixsubject:\"[FOO123]\"", change1);
+    assertQuery("prefixsubject:\"[\"", change3, change2, change1);
+    assertQuery("prefixsubject:FOO");
+    change1 =
+        newPatchSet(
+            repo,
+            change1,
+            user,
+            Optional.of("[BAR123] Rework of commit with test subject\n\n" + "Message body\n\n"));
+    assertQuery("prefixsubject:\"[FOO\"", change3);
+    assertQuery("prefixsubject:\"[BAR\"", change1, change2);
+  }
+
+  @Test
   public void fullTextWithNumbers() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("12345 67890").create());

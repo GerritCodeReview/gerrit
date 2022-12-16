@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f19280_3a9ec0b9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-12-16T13:48:57Z",
+      "side": 1,
+      "message": "This should be a new search on existing field, i.e.\n\npublic static final IndexedField\u003cChangeData, String\u003e.SearchSpec PREFIX_SUBJECT_SPEC \u003d\n      SUBJECT_FIELD.prefix(ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);",
+      "range": {
+        "startLine": 1104,
+        "startChar": 66,
+        "endLine": 1105,
+        "endChar": 75
+      },
+      "revId": "2248776699a39d23b5f11bf98e5ba9d14dbbb39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

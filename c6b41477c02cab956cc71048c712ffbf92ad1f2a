@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "954f964f_2a362b90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-16T16:05:32Z",
+      "side": 1,
+      "message": "Here is an example output from my live database which uses LDAP.\n```\n[externalId \"username:ronan\"]\n\taccountId \u003d 910\n\t\n[externalId \"gerrit:ronan\"]\n\taccountId \u003d 910\n\temail \u003d ronan@arista.com\n```\n\nCurrently to have OAUTH login we need to remove `email` from gerrit: and completely remove username:ronan\n\nwhen we try to login through OAuth we will get an external ID as follows\n```\n[externalId \"google-oauth:0000000\"]\n    accountId \u003d \u003cID\u003e\n    email \u003d ronan@arista.com\n```\n\nAs per your security concern, in this case we would try to find if an existing external ID matches the e-mail. If it does we will use that accountID and delete the e-mail from the referenced external ID, this will leave us with final external ID\u0027s as follows\n\n```\n[externalId \"username:ronan\"]\n\taccountId \u003d 910\n\t\n[externalId \"gerrit:ronan\"]\n\taccountId \u003d 910\n\n[externalId \"google-oauth:0000000\"]\n    accountId \u003d 910\n    email \u003d ronan@arista.com\n\n```\n\nWith this approach the user has a seamless transition from LDAP to OAUTH without losing any history as the accountID will be the same.",
+      "parentUuid": "0f4ccb7e_4964c376",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c8d49c3_8cda88b9",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8

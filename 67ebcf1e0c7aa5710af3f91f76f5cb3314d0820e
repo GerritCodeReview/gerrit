@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f025476_ba52b130",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-16T08:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7505e01c_fccf00e1",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ad0f4bc_804c7927",
@@ -60,6 +84,24 @@
       "writtenOn": "2022-12-16T07:40:07Z",
       "side": 1,
       "message": "This will not work for `kill -9`, the same should be the case if the machine crashes. Thus, we should take care of stale locks. This can be done in a followup change.",
+      "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d886f2c5_3ed82112",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-16T08:49:39Z",
+      "side": 1,
+      "message": "This will still unlock since `kill -9` on the process holding the lock closes the open file handle. It will not delete the lock file. But the next run of `git-gc-preserve` will do if it\u0027s not killed forcefully again.\n\nTried that and it works:\n\nacquire an exclusive lock in terminal 1:\n\n`flock -nx ~/tmp/test.lock sleep infinity`\n\ntry to get the same lock from another terminal:\n\n`flock test.lock echo \"doit\"`\n\nthis second process will hang since it can\u0027t acquire the lock held by the first process. `kill -9` on the first process closes the open file handle and the second process proceeds by printing `doit`.",
+      "parentUuid": "3ad0f4bc_804c7927",
       "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

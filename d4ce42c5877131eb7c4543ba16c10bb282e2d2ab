@@ -3,6 +3,210 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a6ae9e7_74bf6662",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "I guess once these properties move into the viewmodel, we don\u0027t need to pass in the router model anymore?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a98973_1b7e3f0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "QQ: Do we still need the setter approach or can `this.viewSTateChanged() `be called from `updated()`?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a68026ae_1412cdba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "autmatically -\u003e automatically",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "049370a8_63db595b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d7b8bae_3ac3e3be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Having to call a function everytime a variable changes suggests using a setter/getter pattern.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472e4534_16946d7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "superfluous check given the line below.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6b0260_9f39cd1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "I don\u0027t understand this logic. If the view is not the diff-view, why should handleiffBaseAgainstLeft call setUrl at all?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59092f6d_c4a415a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Why did this change?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335c71c1_7fe3434c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Does this need a setter/getter pattern? If so, add a TODO.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71247425_e22e5f39",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Same as below. This could benefit from a function: `isOverviewView`",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09bd57ea_176f0e84",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Same as below, this could benefit from a function `isEditView`",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3572f9c4_8fcbaabe",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "This needs a helper function so that if we change the viewstate more, we don\u0027t have to keep changing the code in these various locatins. `isDiffView`",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d4424df_53a032a7",
         "filename": "polygerrit-ui/app/models/views/change.ts",
         "patchSetId": 7
@@ -20,6 +224,149 @@
         "endLine": 74,
         "endChar": 34
       },
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f3095df_530b15c5",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "+1.\n\nI wonder if everything for a specific view should be in a submessage.",
+      "parentUuid": "9d4424df_53a032a7",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f679203e_dad83a5e",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Should this be \n\n```\nswitch ((obj as ChangeViewState).childView)) {\n  case ChangeChildView.DIFF:\n    return createDiffUrl(obj);\n  case ChangeChildView.EDIT:\n    return createEditUrl(obj as ChangeViewState);\n  case ChangeChildView.OVERVIEW:\n    return createOverviewUrl(obj as ChangeViewState);\n  default:\n    throw error.\n}\n```",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ead191_6fdf6191",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "It feels a bit unbalanced that we call to a separate function for diff and edit, but not for overview.\n\nIT would feel cleaner if you had a helper function that did what is done below, and then simply have an if condition here, then we could also more easily see what error-scenarios there are (e.g. childView is not set or is set wrong).",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c965df_36c47259",
+        "filename": "polygerrit-ui/app/models/views/change_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Use helper function to create this viewstate.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32502e77_499c6ebd",
+        "filename": "polygerrit-ui/app/models/views/change_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "Use helper function to create view state.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c4aa08_769eb426",
+        "filename": "polygerrit-ui/app/models/views/diff_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "USe helper function to create this state.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3656fdd5_aefd2843",
+        "filename": "polygerrit-ui/app/models/views/diff_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "USe helper function to create this state.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5297bfd4_664d91f3",
+        "filename": "polygerrit-ui/app/models/views/edit_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-16T13:28:56Z",
+      "side": 1,
+      "message": "USe helper function to create changeview state.",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

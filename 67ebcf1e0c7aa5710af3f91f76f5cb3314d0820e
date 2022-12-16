@@ -22,6 +22,23 @@
       },
       "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ad0f4bc_804c7927",
+        "filename": "contrib/git-gc-preserve",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-16T07:40:07Z",
+      "side": 1,
+      "message": "This will not work for `kill -9`, the same should be the case if the machine crashes. Thus, we should take care of stale locks. This can be done in a followup change.",
+      "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,17 +37,17 @@ public class IndexUpgradeValidatorTest {
     IndexUpgradeValidator.assertValid(
         schema(
             1,
-            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
-            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)));
+            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.CHANGE_ID_SPEC)));
     IndexUpgradeValidator.assertValid(
         schema(
             1,
-            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
             ImmutableList.<FieldDef<ChangeData, ?>>of(),
@@ -58,8 +58,8 @@ public class IndexUpgradeValidatorTest {
     IndexUpgradeValidator.assertValid(
         schema(
             1,
-            ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-            ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+            ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+            ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
             ImmutableList.<IndexedField<ChangeData, ?>>of(
@@ -81,8 +81,9 @@ public class IndexUpgradeValidatorTest {
                 IndexUpgradeValidator.assertValid(
                     schema(
                         1,
-                        ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-                        ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
+                        ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+                        ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+                            ChangeField.CHANGE_ID_SPEC)),
                     schema(
                         2,
                         ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.OWNER_FIELD),
@@ -105,9 +106,13 @@ public class IndexUpgradeValidatorTest {
                 IndexUpgradeValidator.assertValid(
                     schema(
                         1,
-                        ImmutableList.of(ChangeField.CHANGE_ID_FIELD),
-                        ImmutableList.of(ChangeField.CHANGE_ID_SPEC)),
-                    schema(2, ImmutableList.of(ID_MODIFIED), ImmutableList.of())));
+                        ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.CHANGE_ID_FIELD),
+                        ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+                            ChangeField.CHANGE_ID_SPEC)),
+                    schema(
+                        2,
+                        ImmutableList.<IndexedField<ChangeData, ?>>of(ID_MODIFIED),
+                        ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of())));
     assertThat(e).hasMessageThat().contains("Fields may not be modified");
     assertThat(e).hasMessageThat().contains(ChangeField.CHANGE_ID_FIELD.name());
   }

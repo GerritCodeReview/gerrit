@@ -359,13 +359,7 @@ export class GrRouter implements Finalizable, NavigationService {
     if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
       this.restApiService.setInProjectLookup(state.changeNum, state.repo);
 
-    this.routerModel.setState({
-      view: state.view,
-      changeNum: 'changeNum' in state ? state.changeNum : undefined,
-      patchNum: 'patchNum' in state ? state.patchNum ?? undefined : undefined,
-      basePatchNum:
-        'basePatchNum' in state ? state.basePatchNum ?? undefined : undefined,
-    });
+    this.routerModel.setState({view: state.view});
     this.appElement().params = state;
   }
 

@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f4ccb7e_4964c376",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-16T12:17:02Z",
+      "side": 1,
+      "message": "Ok. I understand your issue a little bit better now. And I certainly agree that we should enable this scenario.\n\nSince I am not familiar with the OAuth implementation, I have a small knowledge gap here. Maybe you can help me with that. According to your description, username and email are the same for each user in both identity providers. Thus, both systems should be able to directly map the users to Gerrit. Some time ago we migrated from LDAP to SAL and this just worked (except that we had to make usernames case insensitive). Users were just able to keep their accounts. Thus, I ask myself why this is not working for you? Could you provide me with examples of sets of external IDs, one of a LDAP account and one of an OAuth account?\nI would expect that the `username:` and `mailto:` external IDs are the same and that their are additional ones related to the IDP, e.g. `gerrit:` for LDAP. Am I correct?",
+      "parentUuid": "3d19c609_70debbab",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c8d49c3_8cda88b9",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8

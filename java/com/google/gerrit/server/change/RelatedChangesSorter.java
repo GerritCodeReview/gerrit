@@ -75,16 +75,7 @@ public class RelatedChangesSorter {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<ObjectId, PatchSetData> byId = collectById(in);
-    PatchSetData start = byId.get(startPs.commitId());
-    requireNonNull(
-        start,
-        () ->
-            String.format(
-                "commit %s of patch set %s not found in %s",
-                startPs.commitId().name(),
-                startPs.id(),
-                byId.entrySet().stream()
-                    .collect(toMap(e -> e.getKey().name(), e -> e.getValue().patchSet().id()))));
+    PatchSetData start = getCheckedPatchSetData(byId, startPs);
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
@@ -120,6 +111,34 @@ public class RelatedChangesSorter {
     return result;
   }
 
+  public List<PatchSetData> sortAncestors(List<ChangeData> in, PatchSet startPs)
+      throws IOException, PermissionBackendException {
+    checkArgument(!in.isEmpty(), "Input may not be empty");
+    // Map of all patch sets, keyed by commit SHA-1.
+    Map<ObjectId, PatchSetData> byId = collectById(in);
+    PatchSetData start = getCheckedPatchSetData(byId, startPs);
+
+    // Map of patch set -> immediate parent.
+    ListMultimap<PatchSetData, PatchSetData> parents =
+        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
+
+    for (ChangeData cd : in) {
+      for (PatchSet ps : cd.patchSets()) {
+        PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
+
+        for (RevCommit p : thisPsd.commit().getParents()) {
+          PatchSetData parentPsd = byId.get(p);
+          if (parentPsd != null) {
+            parents.put(thisPsd, parentPsd);
+          }
+        }
+      }
+    }
+
+    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
+    return List.copyOf(ancestors);
+  }
+
   private Map<ObjectId, PatchSetData> collectById(List<ChangeData> in) throws IOException {
     Project.NameKey project = in.get(0).change().getProject();
     Map<ObjectId, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
@@ -141,6 +160,19 @@ public class RelatedChangesSorter {
       }
     }
     return result;
+  }
+
+  private PatchSetData getCheckedPatchSetData(Map<ObjectId, PatchSetData> byId, PatchSet ps) {
+    PatchSetData psData = byId.get(ps.commitId());
+    return requireNonNull(
+        psData,
+        () ->
+            String.format(
+                "commit %s of patch set %s not found in %s",
+                ps.commitId().name(),
+                ps.id(),
+                byId.entrySet().stream()
+                    .collect(toMap(e -> e.getKey().name(), e -> e.getValue().patchSet().id()))));
   }
 
   private Collection<PatchSetData> walkAncestors(

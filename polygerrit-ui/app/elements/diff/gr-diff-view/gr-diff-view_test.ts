@@ -25,13 +25,8 @@ import {
 } from '../../../test/test-utils';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
-  GerritView,
-  routerModelToken,
-} from '../../../services/router/router-model';
-import {
   createRevisions,
   createComment as createCommentGeneric,
-  TEST_NUMERIC_CHANGE_ID,
   createDiff,
   createPatchRange,
   createServerInfo,
@@ -40,6 +35,7 @@ import {
   createRevision,
   createCommit,
   createFileInfo,
+  createDiffViewState,
 } from '../../../test/test-data-generators';
 import {
   BasePatchSetNum,
@@ -85,6 +81,7 @@ import {
   BrowserModel,
   browserModelToken,
 } from '../../../models/browser/browser-model';
+import {changeViewModelToken} from '../../../models/views/change';
 
 function createComment(
   id: string,
@@ -144,6 +141,8 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
       element = await fixture(html`<gr-diff-view></gr-diff-view>`);
+      const viewModel = testResolver(changeViewModelToken);
+      viewModel.setState(createDiffViewState());
       element.changeNum = 42 as NumericChangeId;
       element.path = 'some/path.txt';
       element.change = createParsedChange();
@@ -187,8 +186,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'fetchFiles');
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
         path: '/COMMIT_MSG',
@@ -239,8 +237,7 @@ suite('gr-diff-view tests', () => {
           discardedDrafts: [],
         });
         element.viewState = {
-          view: GerritView.DIFF,
-          changeNum: 42 as NumericChangeId,
+          ...createDiffViewState(),
           commentLink: true,
           commentId: 'c1' as UrlEncodedCommentId,
           path: 'abcd',
@@ -273,8 +270,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, 'fetchFiles');
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
         path: '/COMMIT_MSG',
@@ -315,8 +311,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         path: '/COMMIT_MSG',
         commentLink: true,
         commentId: 'c1' as UrlEncodedCommentId,
@@ -361,8 +356,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         path: '/COMMIT_MSG',
         commentLink: true,
         commentId: 'c3' as UrlEncodedCommentId,
@@ -442,8 +436,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'isFileUnchanged').returns(false);
       const toastStub = sinon.stub(element, 'displayDiffBaseAgainstLeftToast');
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         repo: 'p' as RepoName,
         commentId: 'c1' as UrlEncodedCommentId,
         commentLink: true,
@@ -756,12 +749,8 @@ suite('gr-diff-view tests', () => {
       );
       assert.isFalse(element.diffHost.diffElement.displayLine);
 
-      // Note that stubbing setReviewed means that the value of the
-      // `element.reviewed` checkbox is not flipped.
       const setReviewedStub = sinon.stub(element, 'setReviewed');
       const handleToggleSpy = sinon.spy(element, 'handleToggleFileReviewed');
-      assertIsDefined(element.reviewed);
-      element.reviewed.checked = false;
       assert.isFalse(handleToggleSpy.called);
       assert.isFalse(setReviewedStub.called);
 
@@ -879,8 +868,7 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1 as BasePatchSetNum,
       };
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
         path: 'foo',
@@ -901,9 +889,8 @@ suite('gr-diff-view tests', () => {
       };
       sinon.stub(element, 'viewStateChanged');
       element.viewState = {
+        ...createDiffViewState(),
         commentLink: true,
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
       };
       element.focusLineNum = 10;
       element.handleDiffBaseAgainstLeft();
@@ -1566,16 +1553,6 @@ suite('gr-diff-view tests', () => {
           loadingStatus: LoadingStatus.LOADED,
         });
 
-        testResolver(routerModelToken).setState({
-          changeNum: TEST_NUMERIC_CHANGE_ID,
-          view: GerritView.DIFF,
-          patchNum: 2 as RevisionPatchSetNum,
-        });
-        element.patchRange = {
-          patchNum: 2 as RevisionPatchSetNum,
-          basePatchNum: 1 as BasePatchSetNum,
-        };
-
         await waitUntil(() => setReviewedStatusStub.called);
 
         assert.isFalse(setReviewedFileStatusStub.called);
@@ -1608,22 +1585,15 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
 
-      testResolver(routerModelToken).setState({
-        changeNum: TEST_NUMERIC_CHANGE_ID,
-        view: GerritView.DIFF,
-        patchNum: 22 as RevisionPatchSetNum,
-      });
-      element.patchRange = {
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      };
-
       await waitUntil(() => setReviewedFileStatusStub.called);
 
       assert.isTrue(setReviewedFileStatusStub.called);
     });
 
     test('file review status', async () => {
+      const saveReviewedStub = sinon
+        .stub(changeModel, 'setReviewedFilesStatus')
+        .callsFake(() => Promise.resolve());
       changeModel.setState({
         change: createParsedChange(),
         diffPath: '/COMMIT_MSG',
@@ -1631,24 +1601,10 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
       element.loggedIn = true;
-      const saveReviewedStub = sinon
-        .stub(changeModel, 'setReviewedFilesStatus')
-        .callsFake(() => Promise.resolve());
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload');
 
       userModel.setDiffPreferences(createDefaultDiffPrefs());
-
-      testResolver(routerModelToken).setState({
-        changeNum: TEST_NUMERIC_CHANGE_ID,
-        view: GerritView.DIFF,
-        patchNum: 2 as RevisionPatchSetNum,
-      });
-
-      element.patchRange = {
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      };
 
       await waitUntil(() => saveReviewedStub.called);
 
@@ -1663,7 +1619,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(reviewedStatusCheckBox.checked);
       assert.deepEqual(saveReviewedStub.lastCall.args, [
         42,
-        2,
+        1,
         '/COMMIT_MSG',
         true,
       ]);
@@ -1672,7 +1628,7 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(reviewedStatusCheckBox.checked);
       assert.deepEqual(saveReviewedStub.lastCall.args, [
         42,
-        2,
+        1,
         '/COMMIT_MSG',
         false,
       ]);
@@ -1684,7 +1640,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(reviewedStatusCheckBox.checked);
       assert.deepEqual(saveReviewedStub.lastCall.args, [
         42,
-        2,
+        1,
         '/COMMIT_MSG',
         true,
       ]);
@@ -1692,8 +1648,7 @@ suite('gr-diff-view tests', () => {
       const callCount = saveReviewedStub.callCount;
 
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         repo: 'test' as RepoName,
       };
       await element.updateComplete;
@@ -1727,8 +1682,7 @@ suite('gr-diff-view tests', () => {
 
       element.loggedIn = true;
       element.viewState = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
+        ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
         path: '/COMMIT_MSG',
@@ -1815,8 +1769,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the patchNum and basePatchNum ', async () => {
         element.viewState = {
-          view: GerritView.DIFF,
-          changeNum: 42 as NumericChangeId,
+          ...createDiffViewState(),
           patchNum: 4 as RevisionPatchSetNum,
           basePatchNum: 2 as BasePatchSetNum,
           path: '/COMMIT_MSG',
@@ -1832,8 +1785,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the parent when there is no base patch num ', async () => {
         element.viewState = {
-          view: GerritView.DIFF,
-          changeNum: 42 as NumericChangeId,
+          ...createDiffViewState(),
           patchNum: 5 as RevisionPatchSetNum,
           path: '/COMMIT_MSG',
         };
@@ -1969,8 +1921,7 @@ suite('gr-diff-view tests', () => {
       setup(async () => {
         getDiffRestApiStub.returns(Promise.resolve(createDiff()));
         element.viewState = {
-          view: GerritView.DIFF,
-          changeNum: 42 as NumericChangeId,
+          ...createDiffViewState(),
           patchNum: 3 as RevisionPatchSetNum,
           path: 'abcd',
         };
@@ -2226,13 +2177,15 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element, 'handlePatchChange');
         element.patchRange = createPatchRange();
         await element.updateComplete;
-        assertIsDefined(element.reviewed);
-        // Reviewed checkbox should be shown.
-        assert.isTrue(isVisible(element.reviewed));
+
+        let checkbox = queryAndAssert(element, '#reviewed');
+        assert.isTrue(isVisible(checkbox));
+
         element.patchRange = {...element.patchRange, patchNum: EDIT};
         await element.updateComplete;
 
-        assert.isFalse(isVisible(element.reviewed));
+        checkbox = queryAndAssert(element, '#reviewed');
+        assert.isFalse(isVisible(checkbox));
       });
     });
 
@@ -2381,9 +2334,8 @@ suite('gr-diff-view tests', () => {
 
       // Load file1
       element.viewState = {
-        view: GerritView.DIFF,
+        ...createDiffViewState(),
         patchNum: 1 as RevisionPatchSetNum,
-        changeNum: 101 as NumericChangeId,
         repo: 'test-project' as RepoName,
         path: 'file1',
       };
@@ -2406,9 +2358,8 @@ suite('gr-diff-view tests', () => {
 
       // This is to mock the param change triggered by above navigate
       element.viewState = {
-        view: GerritView.DIFF,
+        ...createDiffViewState(),
         patchNum: 1 as RevisionPatchSetNum,
-        changeNum: 101 as NumericChangeId,
         repo: 'test-project' as RepoName,
         path: 'file2',
       };

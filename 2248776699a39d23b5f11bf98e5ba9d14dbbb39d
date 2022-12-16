@@ -22,6 +22,30 @@
       },
       "revId": "2248776699a39d23b5f11bf98e5ba9d14dbbb39d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "705efa1a_0ea121d4",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-16T14:20:55Z",
+      "side": 1,
+      "message": "Oh yes, makes sense. Thanks!\n\nDone.",
+      "parentUuid": "98f19280_3a9ec0b9",
+      "range": {
+        "startLine": 1104,
+        "startChar": 66,
+        "endLine": 1105,
+        "endChar": 75
+      },
+      "revId": "2248776699a39d23b5f11bf98e5ba9d14dbbb39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

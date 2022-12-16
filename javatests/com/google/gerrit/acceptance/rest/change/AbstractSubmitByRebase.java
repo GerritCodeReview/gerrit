@@ -234,11 +234,11 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
     submitWithConflict(
         change2.getChangeId(),
-        "Cannot rebase "
-            + change2.getCommit().name()
-            + ": The change could not be rebased due to a conflict during merge.\n\n"
-            + "merge conflict(s):\n"
-            + "a.txt");
+        String.format(
+            "Cannot rebase %s: Change %s could not be rebased due to a conflict during merge.\n\n"
+                + "merge conflict(s):\n"
+                + "a.txt",
+            change2.getCommit().name(), change2.getChange().getId()));
     RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head).isEqualTo(headAfterFirstSubmit);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
@@ -362,12 +362,11 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     submitWithConflict(
         change2.getChangeId(),
-        "Cannot rebase "
-            + change2.getCommit().getName()
-            + ": "
-            + "The change could not be rebased due to a conflict during merge.\n\n"
-            + "merge conflict(s):\n"
-            + "fileName 2");
+        String.format(
+            "Cannot rebase %s: Change %s could not be rebased due to a conflict during merge.\n\n"
+                + "merge conflict(s):\n"
+                + "fileName 2",
+            change2.getCommit().name(), change2.getChange().getId()));
     assertThat(projectOperations.project(project).getHead("master")).isEqualTo(headAfterChange1);
   }
 

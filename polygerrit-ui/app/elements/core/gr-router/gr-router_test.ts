@@ -28,8 +28,7 @@ import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
-import {EditViewState} from '../../../models/views/edit';
-import {ChangeViewState} from '../../../models/views/change';
+import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 
@@ -1134,6 +1133,7 @@ suite('gr-router tests', () => {
           const ctx = makeParams('', '');
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1154,6 +1154,7 @@ suite('gr-router tests', () => {
           ctx.querystring = queryMap.toString();
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1193,14 +1194,17 @@ suite('gr-router tests', () => {
         test('diff view', () => {
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertctxToParams(ctx, 'handleDiffRoute', {
-            view: GerritView.DIFF,
+            view: GerritView.CHANGE,
+            childView: ChangeChildView.DIFF,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
-            path: 'foo/bar/baz',
-            leftSide: true,
-            lineNum: 44,
+            diffView: {
+              path: 'foo/bar/baz',
+              lineNum: 44,
+              leftSide: true,
+            },
           });
           assert.isFalse(redirectStub.called);
         });
@@ -1220,8 +1224,9 @@ suite('gr-router tests', () => {
               repo: 'gerrit' as RepoName,
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
-              commentLink: true,
-              view: GerritView.DIFF,
+              view: GerritView.CHANGE,
+              childView: ChangeChildView.DIFF,
+              diffView: {commentLink: true},
             }
           );
         });
@@ -1242,6 +1247,7 @@ suite('gr-router tests', () => {
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               view: GerritView.CHANGE,
+              childView: ChangeChildView.OVERVIEW,
             }
           );
         });
@@ -1259,13 +1265,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
-          path: 'foo/bar/baz',
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: 0,
+          editView: {path: 'foo/bar/baz', lineNum: 0},
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1285,13 +1291,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
-          path: 'foo/bar/baz',
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: 4,
+          editView: {path: 'foo/bar/baz', lineNum: 4},
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1314,6 +1320,7 @@ suite('gr-router tests', () => {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
         };

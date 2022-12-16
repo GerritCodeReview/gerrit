@@ -4,24 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import {
-  NumericChangeId,
-  RepoName,
-  RevisionPatchSetNum,
-} from '../../api/rest-api';
-import {GerritView} from '../../services/router/router-model';
+import {RepoName, RevisionPatchSetNum} from '../../api/rest-api';
 import '../../test/common-test-setup';
-import {createEditUrl, EditViewState} from './edit';
+import {createEditViewState} from '../../test/test-data-generators';
+import {ChangeViewState} from './change';
+import {createEditUrl} from './edit';
 
 suite('edit view state tests', () => {
   test('createEditUrl', () => {
-    const params: EditViewState = {
-      view: GerritView.EDIT,
-      changeNum: 42 as NumericChangeId,
-      repo: 'test-project' as RepoName,
-      path: 'x+y/path.cpp' as RepoName,
+    const params: ChangeViewState = {
+      ...createEditViewState(),
       patchNum: 12 as RevisionPatchSetNum,
-      lineNum: 31,
+      editView: {path: 'x+y/path.cpp' as RepoName, lineNum: 31},
     };
     assert.equal(
       createEditUrl(params),

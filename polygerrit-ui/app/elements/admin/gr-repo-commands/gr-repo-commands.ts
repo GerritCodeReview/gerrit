@@ -321,8 +321,8 @@ export class GrRepoCommands extends LitElement {
           createEditUrl({
             changeNum: change._number,
             repo: change.project,
-            path: CONFIG_PATH,
             patchNum: INITIAL_PATCHSET,
+            editView: {path: CONFIG_PATH},
           })
         );
       })

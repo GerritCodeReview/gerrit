@@ -73,6 +73,7 @@ import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
+import {ChangeChildView, changeViewModelToken} from '../models/views/change';
 
 interface ErrorInfo {
   text: string;
@@ -117,6 +118,9 @@ export class GrAppElement extends LitElement {
   @state() private version?: string;
 
   @state() private view?: GerritView;
+
+  // TODO: Introduce a wrapper element for CHANGE, DIFF, EDIT view.
+  @state() private childView?: ChangeChildView;
 
   @state() private lastError?: ErrorInfo;
 
@@ -166,6 +170,8 @@ export class GrAppElement extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getRouterModel = resolve(this, routerModelToken);
+
+  private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
   constructor() {
     super();
@@ -224,6 +230,13 @@ export class GrAppElement extends LitElement {
       view => {
         this.view = view;
         if (view) this.errorView?.classList.remove('show');
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeViewModel().childView$,
+      childView => {
+        this.childView = childView;
       }
     );
 
@@ -453,9 +466,7 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateChangeViewCache = false));
       return nothing;
     }
-    return cache(
-      this.view === GerritView.CHANGE ? this.changeViewTemplate() : nothing
-    );
+    return cache(this.isChangeView() ? this.changeViewTemplate() : nothing);
   }
 
   // Template as not to create duplicates, for renderChangeView() only.
@@ -465,8 +476,27 @@ export class GrAppElement extends LitElement {
     `;
   }
 
+  private isChangeView() {
+    return (
+      this.view === GerritView.CHANGE &&
+      this.childView === ChangeChildView.OVERVIEW
+    );
+  }
+
+  private isDiffView() {
+    return (
+      this.view === GerritView.CHANGE && this.childView === ChangeChildView.DIFF
+    );
+  }
+
+  private isEditorView() {
+    return (
+      this.view === GerritView.CHANGE && this.childView === ChangeChildView.EDIT
+    );
+  }
+
   private renderEditorView() {
-    if (this.view !== GerritView.EDIT) return nothing;
+    if (!this.isEditorView()) return nothing;
     return html`<gr-editor-view></gr-editor-view>`;
   }
 
@@ -475,9 +505,7 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateDiffViewCache = false));
       return nothing;
     }
-    return cache(
-      this.view === GerritView.DIFF ? this.diffViewTemplate() : nothing
-    );
+    return cache(this.isDiffView() ? this.diffViewTemplate() : nothing);
   }
 
   private diffViewTemplate() {

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b84fad_bde92fab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "199afa26_f8ba8b86",
+      "range": {
+        "startLine": 27,
+        "startChar": 45,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5925bda5_a1aa4bd7",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-12-14T10:17:39Z",
       "side": 1,
       "message": "Should this rather tell which changes had a conflict? I would assume the frontend would like to tell the user exactly which of the changes contain conflicts.",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 59
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f557db6_f77a7219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "This info is available as part of the output ChangeInfos. Updated the commit message.",
+      "parentUuid": "5925bda5_a1aa4bd7",
       "range": {
         "startLine": 28,
         "startChar": 11,
@@ -121,6 +169,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5e2dd1c_57e2ccf2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fec7f519_5ed0241a",
+      "range": {
+        "startLine": 1718,
+        "startChar": 6,
+        "endLine": 1718,
+        "endChar": 12
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18e2a0a2_cee71a1a",
@@ -144,6 +216,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e69994a_488fe5cf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 8213,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18e2a0a2_cee71a1a",
+      "range": {
+        "startLine": 8209,
+        "startChar": 0,
+        "endLine": 8213,
+        "endChar": 28
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1740fb40_51447f9b",
@@ -157,6 +253,30 @@
       "writtenOn": "2022-12-14T10:17:39Z",
       "side": 1,
       "message": "Should this be an IllegalStateException?\n\nBadRequestException results in a 400 Bad Request response to the client, indicating that the client made an invalid request, but that\u0027s not the case here.",
+      "range": {
+        "startLine": 281,
+        "startChar": 16,
+        "endLine": 281,
+        "endChar": 35
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14afb32_a1964153",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1740fb40_51447f9b",
       "range": {
         "startLine": 281,
         "startChar": 16,
@@ -213,6 +333,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57b9bcbb_37bc09fc",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3ce32c9_74785916",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6ca54ab_6bdc4c93",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c35a91_60d84ff7",
+      "range": {
+        "startLine": 85,
+        "startChar": 3,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2408abef_e5ea576c",
@@ -226,6 +394,24 @@
       "writtenOn": "2022-12-14T10:17:39Z",
       "side": 1,
       "message": "[optional] Adding this class and removing the duplicate code in various classes could be a change on its own (e.g. a predecessor change).",
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d517bc86_95f1b0a6",
+        "filename": "java/com/google/gerrit/server/change/ValidationOptionsUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Ack. Will split out the small refactoring next time.",
+      "parentUuid": "2408abef_e5ea576c",
       "revId": "4a1481fa491b912856fa739972e011077eacd878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -247,6 +433,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ded141_42cab3b2",
+        "filename": "java/com/google/gerrit/server/change/ValidationOptionsUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdedd2b9_2741cb24",
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d585972_4cdf3b5b",
@@ -264,6 +468,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db1513ac_9d8ce972",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d585972_4cdf3b5b",
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21cc4ae2_951ffc23",
@@ -277,6 +499,24 @@
       "writtenOn": "2022-12-14T10:17:39Z",
       "side": 1,
       "message": "nit: missing license header",
+      "revId": "4a1481fa491b912856fa739972e011077eacd878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "126d5749_bd8ca0c3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21cc4ae2_951ffc23",
       "revId": "4a1481fa491b912856fa739972e011077eacd878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

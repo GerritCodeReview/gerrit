@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acbde5b1_64bb5af6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "I have found a bug and had to make a non-trivial change to RebaseChain in order to solve it. Please review this part.\n\nThe bug was that if the begging of the chain is up to date, calling rebase:chain from an outdated decedent led to an \"already up to date\" error.",
+      "revId": "ba60e23a333a2f10a71ec26a27178daed4bda5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

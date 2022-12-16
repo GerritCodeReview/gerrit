@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1cb81a1_086a39c7",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "bbd7021f_c2ddc8c1",
+      "revId": "ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20144a4c_e4f08ace",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-14T10:17:39Z",
       "side": 0,
       "message": "Why is the flushing removed here?",
+      "revId": "ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb8d00d_7929a989",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 0,
+      "message": "See https://gerrit.googlesource.com/gerrit/+/ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe/java/com/google/gerrit/server/update/RepoContext.java#25",
+      "parentUuid": "20144a4c_e4f08ace",
       "revId": "ae1a2251b2ef310cedaf7bacaadf96fff2d8a7fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

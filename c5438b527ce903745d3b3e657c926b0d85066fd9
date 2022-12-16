@@ -34,6 +34,24 @@
       "parentUuid": "ee37f5dc_10a7bcc4",
       "revId": "c5438b527ce903745d3b3e657c926b0d85066fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b3128c_cb45ee35",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-16T08:11:00Z",
+      "side": 1,
+      "message": "The provided case is covered by the commented-on block. `r2` and `r3` are tested for approval copies.",
+      "parentUuid": "f4485779_12f85c3e",
+      "revId": "c5438b527ce903745d3b3e657c926b0d85066fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

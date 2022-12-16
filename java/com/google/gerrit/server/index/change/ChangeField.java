@@ -1095,6 +1095,15 @@ public class ChangeField {
   public static final IndexedField<ChangeData, String>.SearchSpec SUBJECT_SPEC =
       SUBJECT_FIELD.fullText(ChangeQueryBuilder.FIELD_SUBJECT);
 
+  /** Commit message of the current patch set. */
+  public static final IndexedField<ChangeData, String> PREFIX_SUBJECT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Prefixsubject")
+          .required()
+          .build(changeGetter(Change::getSubject));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec PREFIX_SUBJECT_SPEC =
+      PREFIX_SUBJECT_FIELD.prefix(ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);
+
   /** Summary or inline comment. */
   public static final IndexedField<ChangeData, Iterable<String>> COMMENT_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Comment")

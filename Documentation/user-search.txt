@@ -347,6 +347,12 @@ is used for the evaluation of such patterns. Note, that searching with
 regular expressions is limited to the first 32766 bytes of the
 commit message due to limitations in Lucene.
 
+[[subject]]
+subject:'SUBJECT'::
++
+Changes that have a commit message where the first line (aka the subject)
+matches 'SUBJECT'. The matching is done by full text search over the subject.
+
 [[comment]]
 comment:'TEXT'::
 +

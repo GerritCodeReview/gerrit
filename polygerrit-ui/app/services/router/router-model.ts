@@ -18,9 +18,7 @@ export enum GerritView {
   AGREEMENTS = 'agreements',
   CHANGE = 'change',
   DASHBOARD = 'dashboard',
-  DIFF = 'diff',
   DOCUMENTATION_SEARCH = 'documentation-search',
-  EDIT = 'edit',
   GROUP = 'group',
   PLUGIN_SCREEN = 'plugin-screen',
   REPO = 'repo',
@@ -31,8 +29,11 @@ export enum GerritView {
 export interface RouterState {
   // Note that this router model view must be updated before view model state.
   view?: GerritView;
+  // TODO: Move into ChangeViewState.
   changeNum?: NumericChangeId;
+  // TODO: Move into ChangeViewState.
   patchNum?: RevisionPatchSetNum;
+  // TODO: Move into ChangeViewState.
   basePatchNum?: BasePatchSetNum;
 }
 
@@ -43,14 +44,17 @@ export class RouterModel extends Model<RouterState> {
     state => state.view
   );
 
+  // TODO: Move into ChangeViewState.
   readonly routerChangeNum$: Observable<NumericChangeId | undefined> = select(
     this.state$,
     state => state.changeNum
   );
 
+  // TODO: Move into ChangeViewState.
   readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined> =
     select(this.state$, state => state.patchNum);
 
+  // TODO: Move into ChangeViewState.
   readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined> =
     select(this.state$, state => state.basePatchNum);
 

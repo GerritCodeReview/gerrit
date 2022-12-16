@@ -134,10 +134,7 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {
-  GerritView,
-  routerModelToken,
-} from '../../../services/router/router-model';
+import {routerModelToken} from '../../../services/router/router-model';
 import {
   debounce,
   DelayedTask,
@@ -176,6 +173,7 @@ import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
+  ChangeChildView,
   changeViewModelToken,
   ChangeViewState,
   createChangeUrl,
@@ -700,9 +698,9 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getRouterModel().routerView$,
-      view => {
-        this.isViewCurrent = view === GerritView.CHANGE;
+      () => this.getViewModel().childView$,
+      childView => {
+        this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
       }
     );
     subscribe(
@@ -2448,6 +2446,7 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   handleDiffBaseAgainstLeft() {
+    if (this.viewState?.childView !== ChangeChildView.OVERVIEW) return;
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
 
@@ -3143,8 +3142,8 @@ export class GrChangeView extends LitElement {
           createEditUrl({
             changeNum: this.change._number,
             repo: this.change.project,
-            path,
             patchNum: this.patchRange.patchNum,
+            editView: {path},
           })
         );
         break;

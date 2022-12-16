@@ -25,18 +25,32 @@ import {AttemptChoice} from '../checks/checks-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
+import {createDiffUrl} from './diff';
+import {createEditUrl} from './edit';
+
+export enum ChangeChildView {
+  OVERVIEW = 'OVERVIEW',
+  DIFF = 'DIFF',
+  EDIT = 'EDIT',
+}
 
 export interface ChangeViewState extends ViewState {
   view: GerritView.CHANGE;
+  childView: ChangeChildView;
 
   changeNum: NumericChangeId;
   repo: RepoName;
-  edit?: boolean;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   commentId?: UrlEncodedCommentId;
+
+  // TODO: Move properties that only apply to OVERVIEW into a submessage.
+
+  edit?: boolean;
   /** This can be a string only for plugin provided tabs. */
   tab?: Tab | string;
+
+  // TODO: Move properties that only apply to CHECKS tab into a submessage.
 
   /** Checks related view state */
 
@@ -61,6 +75,20 @@ export interface ChangeViewState extends ViewState {
   forceReload?: boolean;
   /** triggers opening the reply dialog */
   openReplyDialog?: boolean;
+
+  /** These properties apply to the DIFF child view only. */
+  diffView?: {
+    path?: string;
+    lineNum?: number;
+    leftSide?: boolean;
+    commentLink?: boolean;
+  };
+
+  /** These properties apply to the EDIT child view only. */
+  editView?: {
+    path?: string;
+    lineNum?: number;
+  };
 }
 
 /**
@@ -70,7 +98,7 @@ export interface ChangeViewState extends ViewState {
  */
 export type CreateChangeUrlObject = Omit<
   ChangeViewState,
-  'view' | 'changeNum' | 'repo'
+  'view' | 'childView' | 'changeNum' | 'repo'
 > & {
   change: Pick<ChangeInfo, '_number' | 'project'>;
 };
@@ -82,7 +110,9 @@ export function isCreateChangeUrlObject(
 }
 
 export function objToState(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+  obj:
+    | (CreateChangeUrlObject & {childView: ChangeChildView})
+    | Omit<ChangeViewState, 'view'>
 ): ChangeViewState {
   if (isCreateChangeUrlObject(obj)) {
     return {
@@ -95,10 +125,24 @@ export function objToState(
   return {...obj, view: GerritView.CHANGE};
 }
 
+export function createChangeViewUrl(state: ChangeViewState): string {
+  switch (state.childView) {
+    case ChangeChildView.OVERVIEW:
+      return createChangeUrl(state);
+    case ChangeChildView.DIFF:
+      return createDiffUrl(state);
+    case ChangeChildView.EDIT:
+      return createEditUrl(state);
+  }
+}
+
 export function createChangeUrl(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
 ) {
-  const state: ChangeViewState = objToState(obj);
+  const state: ChangeViewState = objToState({
+    ...obj,
+    childView: ChangeChildView.OVERVIEW,
+  });
   let range = getPatchRangeExpression(state);
   if (range.length) {
     range = '/' + range;
@@ -156,6 +200,8 @@ export const changeViewModelToken =
   define<ChangeViewModel>('change-view-model');
 
 export class ChangeViewModel extends Model<ChangeViewState | undefined> {
+  public readonly childView$ = select(this.state$, state => state?.childView);
+
   public readonly tab$ = select(this.state$, state => state?.tab);
 
   public readonly checksPatchset$ = select(

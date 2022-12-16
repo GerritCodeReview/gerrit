@@ -890,6 +890,9 @@ Change owner, server administrators and project owners can always flip
 the Work In Progress bit of the change (even without having the
 `Toggle Work In Progress state` access right assigned).
 
+Must be assigned on the target branch ref (i.e. on 'refs/heads/*', not on
+'refs/for/*').
+
 [[category_delete_own_changes]]
 === Delete Own Changes
 

@@ -140,7 +140,6 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {routerModelToken} from '../../../services/router/router-model';
 import {
   debounce,
   DelayedTask,
@@ -543,8 +542,6 @@ export class GrChangeView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly getRouterModel = resolve(this, routerModelToken);
-
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
@@ -577,7 +574,7 @@ export class GrChangeView extends LitElement {
 
   /** Simply reflects the router-model value. */
   // visible for testing
-  routerPatchNum?: PatchSetNum;
+  viewModelPatchNum?: PatchSetNum;
 
   private readonly shortcutsController = new ShortcutController(this);
 
@@ -711,9 +708,9 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getRouterModel().routerPatchNum$,
+      () => this.getViewModel().patchNum$,
       patchNum => {
-        this.routerPatchNum = patchNum;
+        this.viewModelPatchNum = patchNum;
       }
     );
     subscribe(
@@ -2661,7 +2658,7 @@ export class GrChangeView extends LitElement {
     // is under change-model control. `patchRange.patchNum` should eventually
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
-    if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
+    if (!this.viewModelPatchNum && latestPsNum === editParentRev._number) {
       this.patchRange = {...this.patchRange, patchNum: EDIT};
       // The file list is not reactive (yet) with regards to patch range
       // changes, so we have to actively trigger it.

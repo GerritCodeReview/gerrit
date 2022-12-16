@@ -6,6 +6,7 @@
 import '../../test/common-test-setup';
 import {
   createAccountWithEmail,
+  createChangeViewState,
   createDraft,
 } from '../../test/test-data-generators';
 import {
@@ -19,16 +20,15 @@ import {Subscription} from 'rxjs';
 import {
   createComment,
   createParsedChange,
-  TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../../services/app-context';
-import {GerritView, routerModelToken} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {accountsModelToken} from '../accounts-model/accounts-model';
+import {changeViewModelToken} from '../views/change';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
@@ -70,7 +70,7 @@ suite('change service tests', () => {
 
   test('loads comments', async () => {
     const model = new CommentsModel(
-      testResolver(routerModelToken),
+      testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
@@ -98,10 +98,7 @@ suite('change service tests', () => {
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );
 
-    testResolver(routerModelToken).setState({
-      view: GerritView.CHANGE,
-      changeNum: TEST_NUMERIC_CHANGE_ID,
-    });
+    testResolver(changeViewModelToken).setState(createChangeViewState());
     testResolver(changeModelToken).updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
@@ -131,7 +128,7 @@ suite('change service tests', () => {
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));
     const model = new CommentsModel(
-      testResolver(routerModelToken),
+      testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
@@ -159,7 +156,7 @@ suite('change service tests', () => {
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));
     const model = new CommentsModel(
-      testResolver(routerModelToken),
+      testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,

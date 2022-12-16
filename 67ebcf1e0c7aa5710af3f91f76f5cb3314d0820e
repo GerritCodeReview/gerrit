@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c85200_17f754cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-12-16T19:08:16Z",
+      "side": 1,
+      "message": "Sure. I also saw you had a comment about handling stale lock cleanup in a follow up change and I wanted to point out that the quic/lockers do that already, including safely for k8s where you could have split brain scenarios.",
+      "parentUuid": "a874a71f_d081c986",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "67ebcf1e0c7aa5710af3f91f76f5cb3314d0820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7505e01c_fccf00e1",

@@ -87,6 +87,30 @@
       },
       "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c606fced_f628f394",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-16T17:00:40Z",
+      "side": 1,
+      "message": "Oh yes, point taken.",
+      "parentUuid": "8b1afd3a_8dd430e3",
+      "range": {
+        "startLine": 673,
+        "startChar": 24,
+        "endLine": 673,
+        "endChar": 25
+      },
+      "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

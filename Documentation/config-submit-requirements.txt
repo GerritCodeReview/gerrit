@@ -282,6 +282,22 @@ refs/meta/config branch.
   canOverrideInChildProjects = true
 ----
 
+Branch configuration supports regular expressions as well, e.g. to exempt 'refs/heads/release/*' pattern,
+when migrating from the label Submit-Rule:
+
+----
+[label "Verified"]
+	branch = refs/heads/release/*
+----
+
+The following SR can be configured:
+
+----
+[submit-requirement "Verified"]
+  submittableIf = label:Verified=MAX AND -label:Verified=MIN
+  applicableIf = branch:^refs/heads/release/.*
+----
+
 
 [[test-submit-requirements]]
 == Testing Submit Requirements

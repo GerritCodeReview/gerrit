@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02fc6129_08b0f2f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-16T13:17:33Z",
+      "side": 1,
+      "message": "Thanks Jacek, just a small nit and then feel free to merge it. Good job 👍",
+      "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed47af5_7f4dd7cf",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-16T13:17:33Z",
+      "side": 1,
+      "message": "If you make this a `\u003c\u003d` then you can just remove L672",
+      "range": {
+        "startLine": 673,
+        "startChar": 24,
+        "endLine": 673,
+        "endChar": 25
+      },
+      "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

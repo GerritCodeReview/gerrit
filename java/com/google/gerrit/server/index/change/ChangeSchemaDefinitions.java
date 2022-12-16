@@ -214,6 +214,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V78 = schema(V77);
 
   /** Remove draft and star fields. */
+  @Deprecated
   static final Schema<ChangeData> V79 =
       new Schema.Builder<ChangeData>()
           .add(V78)
@@ -222,11 +223,19 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Add subject field. */
+  @Deprecated
   static final Schema<ChangeData> V80 =
       new Schema.Builder<ChangeData>()
           .add(V79)
           .addIndexedFields(ChangeField.SUBJECT_FIELD)
           .addSearchSpecs(ChangeField.SUBJECT_SPEC)
+          .build();
+
+  /** Add prefixsubject field. */
+  static final Schema<ChangeData> V81 =
+      new Schema.Builder<ChangeData>()
+          .add(V80)
+          .addSearchSpecs(ChangeField.PREFIX_SUBJECT_SPEC)
           .build();
 
   /**

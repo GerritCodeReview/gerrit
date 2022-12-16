@@ -1086,7 +1086,7 @@ public class ChangeField {
   public static final IndexedField<ChangeData, String>.SearchSpec COMMIT_MESSAGE_EXACT =
       COMMIT_MESSAGE_EXACT_FIELD.exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT);
 
-  /** Commit message of the current patch set. */
+  /** Subject of the current patch set (aka first line of the commit message). */
   public static final IndexedField<ChangeData, String> SUBJECT_FIELD =
       IndexedField.<ChangeData>stringBuilder("Subject")
           .required()
@@ -1094,6 +1094,9 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, String>.SearchSpec SUBJECT_SPEC =
       SUBJECT_FIELD.fullText(ChangeQueryBuilder.FIELD_SUBJECT);
+
+  public static final IndexedField<ChangeData, String>.SearchSpec PREFIX_SUBJECT_SPEC =
+      SUBJECT_FIELD.prefix(ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);
 
   /** Summary or inline comment. */
   public static final IndexedField<ChangeData, Iterable<String>> COMMENT_FIELD =

@@ -715,9 +715,8 @@ class GrResultExpanded extends LitElement {
         url: createDiffUrl({
           changeNum: change._number,
           repo: change.project,
-          path,
           patchNum: patchset,
-          lineNum: line,
+          diffView: {path, lineNum: line},
         }),
         primary: true,
       };

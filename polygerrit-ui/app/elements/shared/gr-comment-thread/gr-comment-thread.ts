@@ -746,8 +746,8 @@ export class GrCommentThread extends LitElement {
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
-      path: this.thread.path,
       patchNum: this.thread.patchNum,
+      diffView: {path: this.thread.path},
     });
   }
 

@@ -162,8 +162,8 @@ export class GrCreateFileEditDialog extends LitElement {
     const url = createEditUrl({
       changeNum: change._number,
       repo: change.project,
-      path: this.path,
       patchNum: 1 as PatchSetNumber,
+      editView: {path: this.path},
     });
     this.getNavigation().setUrl(url);
   }

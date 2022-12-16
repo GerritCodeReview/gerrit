@@ -3,44 +3,30 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  EDIT,
-  NumericChangeId,
-  RepoName,
-  RevisionPatchSetNum,
-} from '../../api/rest-api';
-import {GerritView} from '../../services/router/router-model';
+import {EDIT} from '../../api/rest-api';
 import {
   encodeURL,
   getBaseUrl,
   getPatchRangeExpression,
 } from '../../utils/url-util';
-import {define} from '../dependency';
-import {Model} from '../model';
-import {ViewState} from './base';
+import {ChangeViewState} from './change';
 
-export interface EditViewState extends ViewState {
-  view: GerritView.EDIT;
-  changeNum: NumericChangeId;
-  repo: RepoName;
-  path: string;
-  patchNum: RevisionPatchSetNum;
-  lineNum?: number;
-}
-
-export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
+// TODO: Move to change.ts.
+export function createEditUrl(
+  state: Omit<ChangeViewState, 'view' | 'childView'>
+): string {
   if (state.patchNum === undefined) {
     state = {...state, patchNum: EDIT};
   }
   let range = getPatchRangeExpression(state);
   if (range.length) range = '/' + range;
 
-  let suffix = `${range}/${encodeURL(state.path || '', true)}`;
+  let suffix = `${range}/${encodeURL(state.editView?.path ?? '', true)}`;
   suffix += ',edit';
 
-  if (state.lineNum) {
+  if (state.editView?.lineNum) {
     suffix += '#';
-    suffix += state.lineNum;
+    suffix += state.editView.lineNum;
   }
 
   if (state.repo) {
@@ -48,13 +34,5 @@ export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
     return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
     return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;
-  }
-}
-
-export const editViewModelToken = define<EditViewModel>('edit-view-model');
-
-export class EditViewModel extends Model<EditViewState | undefined> {
-  constructor() {
-    super(undefined);
   }
 }

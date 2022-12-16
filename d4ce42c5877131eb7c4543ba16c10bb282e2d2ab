@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d4424df_53a032a7",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-16T13:11:50Z",
+      "side": 1,
+      "message": "also label existing fields that only apply to OVERVIEW",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

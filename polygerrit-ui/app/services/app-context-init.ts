@@ -148,7 +148,7 @@ export function createAppDependencies(
       changeModelToken,
       () =>
         new ChangeModel(
-          resolver(routerModelToken),
+          resolver(changeViewModelToken),
           appContext.restApiService,
           resolver(userModelToken)
         ),
@@ -157,7 +157,7 @@ export function createAppDependencies(
       commentsModelToken,
       () =>
         new CommentsModel(
-          resolver(routerModelToken),
+          resolver(changeViewModelToken),
           resolver(changeModelToken),
           resolver(accountsModelToken),
           appContext.restApiService,

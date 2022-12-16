@@ -63,6 +63,30 @@
       },
       "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1afd3a_8dd430e3",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-16T15:52:16Z",
+      "side": 1,
+      "message": "One cannot remove the full line #672 as `Path` object is obtained there to current. Having said that with `\u003c\u003d` we can get rid of the call to `getParent` from there. WDYT?",
+      "parentUuid": "c372c104_d3d463eb",
+      "range": {
+        "startLine": 673,
+        "startChar": 24,
+        "endLine": 673,
+        "endChar": 25
+      },
+      "revId": "454fffa4d7c976350d4c2ccabc89a15778bafb46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

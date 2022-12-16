@@ -429,8 +429,8 @@ export class GrEditControls extends LitElement {
     const url = createEditUrl({
       changeNum: this.change._number,
       repo: this.change.project,
-      path: this.path,
       patchNum: this.patchNum,
+      editView: {path: this.path},
     });
 
     this.getNavigation().setUrl(url);

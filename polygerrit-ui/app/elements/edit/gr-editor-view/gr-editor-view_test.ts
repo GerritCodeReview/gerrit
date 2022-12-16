@@ -72,7 +72,7 @@ suite('gr-editor-view tests', () => {
                 labeltext="File path"
                 placeholder="File path..."
                 tabindex="0"
-                title="${element.viewState?.path}"
+                title="${element.viewState?.editView?.path}"
               >
               </gr-editable-label>
             </span>
@@ -373,7 +373,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: EDIT,
-        path: 'test/path',
+        editView: {path: 'test/path'},
       };
 
       // Ensure no data is set with a bad response.
@@ -392,7 +392,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: EDIT,
-        path: 'test/path',
+        editView: {path: 'test/path'},
       };
 
       // Ensure no data is set with a bad response.
@@ -415,7 +415,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: EDIT,
-        path: 'test/path',
+        editView: {path: 'test/path'},
       };
 
       return element.getFileData().then(() => {
@@ -433,7 +433,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: EDIT,
-        path: 'test/path',
+        editView: {path: 'test/path'},
       };
 
       return element.getFileData().then(() => {
@@ -530,7 +530,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: 1 as RevisionPatchSetNum,
-        path: 'test',
+        editView: {path: 'test'},
       };
 
       const alertStub = sinon.stub();
@@ -562,7 +562,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: 1 as RevisionPatchSetNum,
-        path: 'test',
+        editView: {path: 'test'},
       };
 
       const alertStub = sinon.stub();
@@ -583,7 +583,7 @@ suite('gr-editor-view tests', () => {
         ...createEditViewState(),
         changeNum: 1 as NumericChangeId,
         patchNum: 1 as RevisionPatchSetNum,
-        path: 'test',
+        editView: {path: 'test'},
       };
       assert.equal(element.storageKey, 'c1_ps1_test');
     });

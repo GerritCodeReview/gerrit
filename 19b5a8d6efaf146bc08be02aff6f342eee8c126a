@@ -33,6 +33,23 @@
       "message": "352393: Bazel: Remove unused deps flagged by unused_deps utility | https://gerrit-review.googlesource.com/c/gerrit/+/352393",
       "revId": "19b5a8d6efaf146bc08be02aff6f342eee8c126a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5761caa5_ea25870e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154148
+      },
+      "writtenOn": "2022-12-17T08:51:31Z",
+      "side": 1,
+      "message": "bartascnk@gmail.com bartas@o2.pl https://gerrit-review.googlesource.com/c/gerrit/+/352393",
+      "revId": "19b5a8d6efaf146bc08be02aff6f342eee8c126a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

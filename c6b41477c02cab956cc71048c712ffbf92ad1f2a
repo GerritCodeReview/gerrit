@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48c11852_6393ffc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "code has been updated to reflect this with additional test case added. \n\n\u003e Note, however, that there might be issues for users that don\u0027t use Gerrit frequently and that change their email address between the migration from LDAP to OAuth and their first login.\n\nThere is nothing we can do to protect against this. The gerrit administrator can tweak the noteDB themselves to make it work, or accept getting a new account ID.",
+      "parentUuid": "8a49a965_ce80578d",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c8d49c3_8cda88b9",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -138,6 +156,30 @@
       "writtenOn": "2022-12-13T13:23:52Z",
       "side": 1,
       "message": "Can we get rid of the lambda expression by unpacking the Optional before getting the externalId to correctly handle the IOException?",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 15
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81be5ee9_d75addad",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "i\u0027m not sure I follow here, the IOException is thrown by externalIDs.get.",
+      "parentUuid": "8c8d49c3_8cda88b9",
       "range": {
         "startLine": 283,
         "startChar": 4,
@@ -165,6 +207,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b4ed95_40b90ddd",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165bc449_1ed1b523",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80b2ae40_c4ef72f7",
@@ -188,6 +248,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3eb59f_7eb49902",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b2ae40_c4ef72f7",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 297,
+        "endChar": 95
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db943700_26049337",
@@ -201,6 +285,30 @@
       "writtenOn": "2022-12-13T11:56:29Z",
       "side": 1,
       "message": "Not a warning, at the most info, probably fine.",
+      "range": {
+        "startLine": 300,
+        "startChar": 4,
+        "endLine": 300,
+        "endChar": 65
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f429bb8_f7684d08",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db943700_26049337",
       "range": {
         "startLine": 300,
         "startChar": 4,
@@ -305,6 +413,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd482407_331a95ff",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7d71c5_66318055",
+      "range": {
+        "startLine": 307,
+        "startChar": 10,
+        "endLine": 307,
+        "endChar": 31
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49c69242_f22bdf1b",
@@ -318,6 +450,30 @@
       "writtenOn": "2022-12-13T13:23:52Z",
       "side": 1,
       "message": "What if the Optional is empty?",
+      "range": {
+        "startLine": 373,
+        "startChar": 43,
+        "endLine": 373,
+        "endChar": 49
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b8680e_0cc63927",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2022-12-19T21:33:55Z",
+      "side": 1,
+      "message": "I have removed the optional to show this cannot happen",
+      "parentUuid": "49c69242_f22bdf1b",
       "range": {
         "startLine": 373,
         "startChar": 43,

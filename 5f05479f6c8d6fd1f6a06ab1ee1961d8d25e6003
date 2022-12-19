@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620dba8d_b2188708",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 8217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:11:16Z",
+      "side": 1,
+      "message": "Maybe clarify that this also includes changes of the chain that were already up-to-date and didn\u0027t need to be rebased?",
+      "range": {
+        "startLine": 8216,
+        "startChar": 29,
+        "endLine": 8217,
+        "endChar": 39
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a79af33_235198fd",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:11:16Z",
+      "side": 1,
+      "message": "I wonder if this should rather be an IllegalStateException.\n\nThrowing a ResourceConflictException results in returning \u0027409 Conflict\u0027 to the client. \u0027409 Conflict\u0027 means that \"the current state of the resource doesn’t allow the operation\" [1]. If a change doesn\u0027t have a current patch set, that\u0027s a data inconsistency that should never happen, and it\u0027s nothing the client could fix by doing another operation. Hence I think treating this as a server error (500 Internal Server Error) would be more appropriate than treating this as a client error (4xx). If we treat this as a client error, this will not count against our SLO and we have no alerting and no auto-tracing if this happens.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_409_conflict",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 45
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a18430a_5921530d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:11:16Z",
+      "side": 1,
+      "message": "Since this is a list, should we try to return the changes in a meaningful order (e.g. in the order in which they appear in the chain)?",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 24
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c73f36_2b157c80",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:11:16Z",
+      "side": 1,
+      "message": "nit: s/cuurentBase/currentBase",
+      "range": {
+        "startLine": 260,
+        "startChar": 19,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8234e53d_af6c894a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:11:16Z",
+      "side": 1,
+      "message": "nit: I think all the protected methods could be private (since this class is not expected to have sub-classes)",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 13
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

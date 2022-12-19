@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb2d5bc_557c5663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-19T08:56:52Z",
+      "side": 1,
+      "message": "option",
+      "range": {
+        "startLine": 28,
+        "startChar": 26,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "cfaad2830f1af3c400b3d35b07cac67b1fafed96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee10c693_69e596df",
+        "filename": "java/com/google/gerrit/sshd/SshSessionFactoryInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-19T08:56:52Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "cfaad2830f1af3c400b3d35b07cac67b1fafed96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

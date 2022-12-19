@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "561f462e_e3440624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-19T08:13:36Z",
+      "side": 1,
+      "message": "Please add a \u0027Release\u0027 footer. Since this is adding a new REST endpoint, this change should have a non-skip Release footer so that the release notes will mention this new feature.",
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620dba8d_b2188708",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 20

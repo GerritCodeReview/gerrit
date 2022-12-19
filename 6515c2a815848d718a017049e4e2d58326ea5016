@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d596d1bc_3fa6e921",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-19T14:35:52Z",
+      "side": 1,
+      "message": "nit: s/lead a/load to a",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "6515c2a815848d718a017049e4e2d58326ea5016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9d578d4b_c76a09cf",
@@ -14,6 +37,23 @@
       "writtenOn": "2022-12-19T09:47:33Z",
       "side": 1,
       "message": "Thanks Matthias for the early review. Does the change make sense to you?\nDid I see that right that JSCH isn\u0027t necessarily the default option in JGit?\n(that\u0027s what I saw last night on a E2E basis test with Gerrit)",
+      "revId": "6515c2a815848d718a017049e4e2d58326ea5016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb0bec0d_3f119369",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-12-19T14:35:52Z",
+      "side": 1,
+      "message": "Feel free to fix or ignore the nit ;)",
       "revId": "6515c2a815848d718a017049e4e2d58326ea5016",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

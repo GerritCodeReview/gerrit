@@ -16,6 +16,24 @@
       "message": "This is a pretty big red flag of the whole approach.",
       "revId": "b0a6aae830f38375b9f629bc04dd7994cd958ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19465bcb_f3c9a9ea",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T10:15:35Z",
+      "side": 1,
+      "message": "Which approach?\n\nIs this a comment about this change?\n\nNote that I am just adding a comment here. I do not change what we are doing with regards to the reset.\n\nI think the reason that we are not \"trusting\" our logic is that there is just too much going on in gr-change-view *and* change-model, and they are somewhat competing with each other. That is what we are trying to change. One of my fundamental motivations for the model effort is to rebuild this trust. And this change is one small step into that direction.",
+      "parentUuid": "a48b15c1_b9e9ea10",
+      "revId": "b0a6aae830f38375b9f629bc04dd7994cd958ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

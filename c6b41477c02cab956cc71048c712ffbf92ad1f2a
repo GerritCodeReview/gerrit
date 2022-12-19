@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a49a965_ce80578d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-19T08:54:39Z",
+      "side": 1,
+      "message": "Ok, got it.\nYes, checking whether some other externalId of the account with the same username has the same email-address that has been used in the AuthRequest would be a good way to do it, I think. Note, however, that there might be issues for users that don\u0027t use Gerrit frequently and that change their email address between the migration from LDAP to OAuth and their first login.\n\nBtw, you should not need to remove the email from the `gerrit:` ExternalId or you might even completely remove this ExternalID, since AFAIK it is only used for LDAP.",
+      "parentUuid": "954f964f_2a362b90",
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c8d49c3_8cda88b9",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -230,6 +248,30 @@
       "side": 1,
       "message": "yes, e-mail is a primary key so this cannot be done. The NoteDB info will have to be changed to make this work",
       "parentUuid": "6537868b_4196d046",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c24c65_eadd846d",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-12-19T08:54:39Z",
+      "side": 1,
+      "message": "Just checked, if the accountId is the same for all externalIds containing this email address, this will succeed. So this should work.",
+      "parentUuid": "a4264f2d_36680085",
       "range": {
         "startLine": 301,
         "startChar": 4,

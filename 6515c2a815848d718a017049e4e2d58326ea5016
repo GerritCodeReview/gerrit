@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d578d4b_c76a09cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-19T09:47:33Z",
+      "side": 1,
+      "message": "Thanks Matthias for the early review. Does the change make sense to you?\nDid I see that right that JSCH isn\u0027t necessarily the default option in JGit?\n(that\u0027s what I saw last night on a E2E basis test with Gerrit)",
+      "revId": "6515c2a815848d718a017049e4e2d58326ea5016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

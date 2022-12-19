@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b11918b_88845903",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Exactly. See child change 355074.",
+      "parentUuid": "1a6ae9e7_74bf6662",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a98973_1b7e3f0b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "QQ: Do we still need the setter approach or can `this.viewSTateChanged() `be called from `updated()`?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaed1afc_441d5798",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Calling `viewSTateChanged()` from `willUpdate()` or `updated()` is probably fine. But I would prefer to make such a change in a separate change.",
+      "parentUuid": "90a98973_1b7e3f0b",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35409ae5_4e3f6633",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a68026ae_1412cdba",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "049370a8_63db595b",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "Why this change?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5576962d_88fdba51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "In `render()` we allow the diff view to just be `nothing`, so we have to be prepared that the `diffHost` does not exist.",
+      "parentUuid": "049370a8_63db595b",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7148199_d2cdb6b8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "We do not call the function every time we are updating that state. We are updating the state every time we are calling the function.\n\nMoved the state update into the function.\n\nState is also (and primarily) update in response to model updates.",
+      "parentUuid": "9d7b8bae_3ac3e3be",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "472e4534_16946d7c",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "superfluous check given the line below.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ad174c_4b5b2a28",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472e4534_16946d7c",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfe76023_4421ab9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done. Also in change view.",
+      "parentUuid": "9a6b0260_9f39cd1c",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59092f6d_c4a415a1",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "Why did this change?",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e871e38d_aa3a4017",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "The diff view subscriber for setting the reviewed status does not get its info from the router model anymore. And the relevant patchNum is the one from the change model, so setting `element.patchRange \u003d {...` in this test is not a good idea. We prefer to rather case the test on the patchNum of the change model.",
+      "parentUuid": "59092f6d_c4a415a1",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce56a22_5b2eeb4c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "TODO added.",
+      "parentUuid": "335c71c1_7fe3434c",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71247425_e22e5f39",
@@ -167,6 +329,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "Same as below. This could benefit from a function: `isOverviewView`",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a914985_53ddfa85",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71247425_e22e5f39",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +368,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0c6461_ca041dc3",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09bd57ea_176f0e84",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3572f9c4_8fcbaabe",
@@ -201,6 +399,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "This needs a helper function so that if we change the viewstate more, we don\u0027t have to keep changing the code in these various locatins. `isDiffView`",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b619e7a_52e393ec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3572f9c4_8fcbaabe",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -252,6 +468,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f61bf503_4508ccb2",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f3095df_530b15c5",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f679203e_dad83a5e",
@@ -265,6 +505,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "Should this be \n\n```\nswitch ((obj as ChangeViewState).childView)) {\n  case ChangeChildView.DIFF:\n    return createDiffUrl(obj);\n  case ChangeChildView.EDIT:\n    return createEditUrl(obj as ChangeViewState);\n  case ChangeChildView.OVERVIEW:\n    return createOverviewUrl(obj as ChangeViewState);\n  default:\n    throw error.\n}\n```",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfa0fbd0_88dbe963",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f679203e_dad83a5e",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -286,6 +544,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e84b849f_42d4f100",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ead191_6fdf6191",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5c965df_36c47259",
@@ -299,6 +575,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "Use helper function to create this viewstate.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "435de2cd_61e574e0",
+        "filename": "polygerrit-ui/app/models/views/change_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5c965df_36c47259",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -320,6 +614,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a5aeaff_0150431e",
+        "filename": "polygerrit-ui/app/models/views/change_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32502e77_499c6ebd",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64c4aa08_769eb426",
@@ -333,6 +645,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "USe helper function to create this state.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610754be_628125e4",
+        "filename": "polygerrit-ui/app/models/views/diff_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64c4aa08_769eb426",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -354,6 +684,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efe826c4_0bd6b1c4",
+        "filename": "polygerrit-ui/app/models/views/diff_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3656fdd5_aefd2843",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5297bfd4_664d91f3",
@@ -367,6 +715,24 @@
       "writtenOn": "2022-12-16T13:28:56Z",
       "side": 1,
       "message": "USe helper function to create changeview state.",
+      "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39be35b0_422760f6",
+        "filename": "polygerrit-ui/app/models/views/edit_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-19T09:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5297bfd4_664d91f3",
       "revId": "d4ce42c5877131eb7c4543ba16c10bb282e2d2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

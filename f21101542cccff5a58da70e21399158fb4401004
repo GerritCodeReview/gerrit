@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1781ca_02e0b607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153500
+      },
+      "writtenOn": "2022-12-19T13:40:11Z",
+      "side": 1,
+      "message": "X is everywhere",
+      "revId": "f21101542cccff5a58da70e21399158fb4401004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

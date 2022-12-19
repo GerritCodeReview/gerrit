@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a48b15c1_b9e9ea10",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-19T09:55:13Z",
+      "side": 1,
+      "message": "This is a pretty big red flag of the whole approach.",
+      "revId": "b0a6aae830f38375b9f629bc04dd7994cd958ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

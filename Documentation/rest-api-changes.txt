@@ -103,15 +103,17 @@ Query for open changes of watched projects:
       "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
       "project": "demo",
       "branch": "master",
-      "attention_set": [
-        {
+      "attention_set": {
+        "1000096": {
           "account": {
-            "name": "John Doe"
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
           },
-         "last_update": "2012-07-17 07:19:27.766000000",
-         "reason": "reviewer or cc replied"
+          "last_update": "2012-07-17 07:19:27.766000000",
+          "reason": "reviewer or cc replied"
         }
-      ]
+      },
       "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
       "subject": "One change",
       "status": "NEW",
@@ -545,15 +547,17 @@ describes the change.
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
-    "attention_set": [
-      {
+    "attention_set": {
+      "1000096": {
         "account": {
-          "name": "John Doe"
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com"
         },
-       "last_update": "2013-02-21 11:16:36.775000000",
-       "reason": "reviewer or cc replied"
+        "last_update": "2013-02-21 11:16:36.775000000",
+        "reason": "reviewer or cc replied"
       }
-    ]
+    },
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
     "subject": "Implementing Feature X",
     "status": "NEW",
@@ -612,15 +616,17 @@ returned. Only fields that differ between the change's two states are returned.
   )]}'
   {
     "added": {
-      "attention_set": [
-        {
+      "attention_set": {
+        "1000096": {
           "account": {
-            "name": "John Doe"
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
           },
-         "last_update": "2013-02-21 11:16:36.775000000",
-         "reason": "reviewer or cc replied"
+          "last_update": "2013-02-21 11:16:36.775000000",
+          "reason": "reviewer or cc replied"
         }
-      ]
+      },
       "updated": "2013-02-21 11:16:36.775000000",
       "topic": "new-topic"
     },
@@ -651,15 +657,17 @@ returned. Only fields that differ between the change's two states are returned.
       "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
       "project": "myProject",
       "branch": "master",
-      "attention_set": [
-        {
+      "attention_set": {
+        "1000096": {
           "account": {
-            "name": "John Doe"
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
           },
-         "last_update": "2013-02-21 11:16:36.775000000",
-         "reason": "reviewer or cc replied"
+          "last_update": "2013-02-21 11:16:36.775000000",
+          "reason": "reviewer or cc replied"
         }
-      ],
+      },
       "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
       "subject": "Implementing Feature X",
       "status": "NEW",
@@ -719,18 +727,18 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
-    "attention_set": [
-      {
+    "attention_set": {
+      "1000096": {
         "account": {
           "_account_id": 1000096,
           "name": "John Doe",
           "email": "john.doe@example.com",
           "username": "jdoe"
         },
-       "last_update": "2013-02-21 11:16:36.775000000",
-       "reason": "reviewer or cc replied"
+        "last_update": "2013-02-21 11:16:36.775000000",
+        "reason": "reviewer or cc replied"
       }
-    ]
+    },
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
     "subject": "Implementing Feature X",
     "status": "NEW",

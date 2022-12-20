@@ -758,7 +758,7 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
-      () => this.getFilesModel().filesWithUnmodified$,
+      () => this.getFilesModel().filesIncludingUnmodified$,
       files => {
         this.files = [...files];
       }

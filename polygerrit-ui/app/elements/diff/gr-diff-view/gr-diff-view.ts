@@ -30,11 +30,9 @@ import {
   getParentIndex,
 } from '../../../utils/patch-set-util';
 import {
-  addUnmodifiedFiles,
   computeDisplayPath,
   computeTruncatedPath,
   isMagicPath,
-  specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
@@ -48,7 +46,6 @@ import {
   ChangeInfo,
   CommitId,
   EDIT,
-  FileInfo,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -118,6 +115,10 @@ import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrDiffPreferencesDialog} from '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import {
+  FileNameToNormalizedFileInfoMap,
+  filesModelToken,
+} from '../../../models/change/files-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -127,8 +128,9 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 // visible for testing
 export interface Files {
-  sortedFileList: string[];
-  changeFilesByPath: {[path: string]: FileInfo};
+  /** All file paths sorted by `specialFilePathCompare`. */
+  sortedPaths: string[];
+  changeFilesByPath: FileNameToNormalizedFileInfoMap;
 }
 
 interface CommentSkips {
@@ -208,10 +210,9 @@ export class GrDiffView extends LitElement {
   @state()
   diff?: DiffInfo;
 
-  // TODO: Move to using files-model.
   // Private but used in tests.
   @state()
-  files: Files = {sortedFileList: [], changeFilesByPath: {}};
+  files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
   // Private but used in tests
   // Use path getter/setter.
@@ -282,13 +283,13 @@ export class GrDiffView extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = getAppContext().restApiService;
-
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -315,6 +316,18 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getViewModel().state$,
       x => (this.viewState = x)
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().filesIncludingUnmodified$,
+      files => {
+        const filesByPath: FileNameToNormalizedFileInfoMap = {};
+        for (const f of files) filesByPath[f.__path] = f;
+        this.files = {
+          sortedPaths: files.map(f => f.__path),
+          changeFilesByPath: filesByPath,
+        };
+      }
     );
   }
 
@@ -699,17 +712,9 @@ export class GrDiffView extends LitElement {
     ) {
       this.commentSkips = this.computeCommentSkips(
         this.commentMap,
-        this.files?.sortedFileList,
+        this.files?.sortedPaths,
         this.path
       );
-    }
-
-    if (
-      changedProperties.has('changeNum') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange')
-    ) {
-      this.fetchFiles();
     }
   }
 
@@ -729,9 +734,7 @@ export class GrDiffView extends LitElement {
     ) {
       if (this.changeComments && this.path && this.patchRange) {
         assertIsDefined(this.diffHost, 'diffHost');
-        const file = this.files?.changeFilesByPath
-          ? this.files.changeFilesByPath[this.path]
-          : undefined;
+        const file = this.files?.changeFilesByPath?.[this.path];
         this.diffHost.updateComplete.then(() => {
           assertIsDefined(this.path);
           assertIsDefined(this.patchRange);
@@ -1030,34 +1033,10 @@ export class GrDiffView extends LitElement {
     if (!this.files || !this.path) return;
     const fileInfo = this.files.changeFilesByPath[this.path];
     const fileRange: FileRange = {path: this.path};
-    if (fileInfo && fileInfo.old_path) {
+    if (fileInfo?.old_path) {
       fileRange.basePath = fileInfo.old_path;
     }
     return fileRange;
-  }
-
-  // Private but used in tests.
-  fetchFiles() {
-    if (!this.changeNum || !this.patchRange || !this.changeComments) {
-      return Promise.resolve();
-    }
-
-    if (!this.patchRange.patchNum) {
-      return Promise.resolve();
-    }
-
-    return this.restApiService
-      .getChangeFiles(this.changeNum, this.patchRange)
-      .then(changeFiles => {
-        if (!changeFiles) return;
-        const commentedPaths = this.changeComments!.getPaths(this.patchRange);
-        const files = {...changeFiles};
-        addUnmodifiedFiles(files, commentedPaths);
-        this.files = {
-          sortedFileList: Object.keys(files).sort(specialFilePathCompare),
-          changeFilesByPath: files,
-        };
-      });
   }
 
   private handleReviewedChange(e: Event) {
@@ -1182,14 +1161,14 @@ export class GrDiffView extends LitElement {
 
   private handlePrevFile() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
-    this.navToFile(this.files.sortedFileList, -1);
+    if (!this.files?.sortedPaths) return;
+    this.navToFile(this.files.sortedPaths, -1);
   }
 
   private handleNextFile() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
-    this.navToFile(this.files.sortedFileList, 1);
+    if (!this.files?.sortedPaths) return;
+    this.navToFile(this.files.sortedPaths, 1);
   }
 
   private handleNextChunk() {
@@ -1233,11 +1212,11 @@ export class GrDiffView extends LitElement {
 
   private navigateToUnreviewedFile(direction: string) {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
+    if (!this.files?.sortedPaths) return;
     if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
-    const unreviewedFiles = this.files.sortedFileList.filter(
+    const unreviewedFiles = this.files.sortedPaths.filter(
       file => file === this.path || !this.reviewedFiles.has(file)
     );
 
@@ -1377,10 +1356,10 @@ export class GrDiffView extends LitElement {
   private computeNavLinkURL(direction?: -1 | 1) {
     if (!this.change) return;
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
+    if (!this.files?.sortedPaths) return;
     if (!direction) return;
 
-    const newPath = this.getNavLinkPath(this.files.sortedFileList, direction);
+    const newPath = this.getNavLinkPath(this.files.sortedPaths, direction);
     if (!newPath) {
       return;
     }
@@ -1570,7 +1549,6 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    this.files = {sortedFileList: [], changeFilesByPath: {}};
     if (this.isConnected) {
       this.getChangeModel().updatePath(undefined);
     }
@@ -1746,7 +1724,8 @@ export class GrDiffView extends LitElement {
     if (!this.changeComments) return [];
 
     const dropdownContent: DropdownItem[] = [];
-    for (const path of this.files.sortedFileList) {
+    for (const path of this.files.sortedPaths) {
+      const file = this.files.changeFilesByPath[path];
       dropdownContent.push({
         text: computeDisplayPath(path),
         mobileText: computeTruncatedPath(path),
@@ -1754,10 +1733,10 @@ export class GrDiffView extends LitElement {
         bottomText: this.changeComments.computeCommentsString(
           this.patchRange,
           path,
-          this.files.changeFilesByPath[path],
+          file,
           /* includeUnmodified= */ true
         ),
-        file: {...this.files.changeFilesByPath[path], __path: path},
+        file,
       });
     }
     return dropdownContent;
@@ -2133,13 +2112,13 @@ export class GrDiffView extends LitElement {
 
   private navigateToNextFileWithCommentThread() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
+    if (!this.files?.sortedPaths) return;
     if (!this.patchRange) return;
     if (!this.change) return;
     const hasComment = (path: string) =>
       this.changeComments?.getCommentsForPath(path, this.patchRange!)?.length ??
       0 > 0;
-    const filesWithComments = this.files.sortedFileList.filter(
+    const filesWithComments = this.files.sortedPaths.filter(
       file => file === this.path || hasComment(file)
     );
     this.navToFile(filesWithComments, 1, true);

@@ -4,8 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
+import {DiffInfo} from '../../../api/diff';
 import '../../../test/common-test-setup';
-import {createElementDiff, formatText, createTabWrapper} from './gr-diff-utils';
+import {createDiff} from '../../../test/test-data-generators';
+import {
+  createElementDiff,
+  formatText,
+  createTabWrapper,
+  isFileUnchanged,
+} from './gr-diff-utils';
 
 const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
 
@@ -155,5 +162,37 @@ suite('gr-diff-utils tests', () => {
     expectTextLength('abc\tde', 10, 12);
     expectTextLength('abc\tde\t', 10, 20);
     expectTextLength('\t\t\t\t\t', 20, 100);
+  });
+
+  test('isFileUnchanged', () => {
+    let diff: DiffInfo = {
+      ...createDiff(),
+      content: [
+        {a: ['abcd'], ab: ['ef']},
+        {b: ['ancd'], a: ['xx']},
+      ],
+    };
+    assert.equal(isFileUnchanged(diff), false);
+    diff = {
+      ...createDiff(),
+      content: [{ab: ['abcd']}, {ab: ['ancd']}],
+    };
+    assert.equal(isFileUnchanged(diff), true);
+    diff = {
+      ...createDiff(),
+      content: [
+        {a: ['abcd'], ab: ['ef'], common: true},
+        {b: ['ancd'], ab: ['xx']},
+      ],
+    };
+    assert.equal(isFileUnchanged(diff), false);
+    diff = {
+      ...createDiff(),
+      content: [
+        {a: ['abcd'], ab: ['ef'], common: true},
+        {b: ['ancd'], ab: ['xx'], common: true},
+      ],
+    };
+    assert.equal(isFileUnchanged(diff), true);
   });
 });

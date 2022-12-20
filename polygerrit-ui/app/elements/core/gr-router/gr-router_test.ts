@@ -31,6 +31,13 @@ import {GroupDetailView} from '../../../models/views/group';
 import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {
+  createComment,
+  createDiff,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
+import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
@@ -1209,25 +1216,74 @@ suite('gr-router tests', () => {
           assert.isFalse(redirectStub.called);
         });
 
-        test('comment route', () => {
-          const url = '/c/gerrit/+/264833/comment/00049681_f34fd6a9/';
+        test('comment route base..1', async () => {
+          const change: ParsedChangeInfo = createParsedChange();
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+          stubRestApi('getChangeDetail').resolves(change);
+          stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+
+          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
           const groups = url.match(_testOnly_RoutePattern.COMMENT);
-          assert.deepEqual(groups!.slice(1), [
-            'gerrit', // project
-            '264833', // changeNum
-            '00049681_f34fd6a9', // commentId
-          ]);
-          assertctxToParams(
-            {params: groups!.slice(1)} as any,
-            'handleCommentRoute',
-            {
-              repo: 'gerrit' as RepoName,
-              changeNum: 264833 as NumericChangeId,
-              commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
-              view: GerritView.CHANGE,
-              childView: ChangeChildView.DIFF,
-              diffView: {commentLink: true},
-            }
+          assert.deepEqual(groups!.slice(1), [repo, `${changeNum}`, id]);
+
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+          );
+        });
+
+        test('comment route 1..2', async () => {
+          const change: ParsedChangeInfo = {
+            ...createParsedChange(),
+            revisions: {
+              abc: createRevision(1),
+              def: createRevision(2),
+            },
+          };
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+
+          stubRestApi('getChangeDetail').resolves(change);
+          stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+          const diffStub = stubRestApi('getDiff');
+
+          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
+          const groups = url.match(_testOnly_RoutePattern.COMMENT);
+
+          // If getDiff() returns a diff with changes, then we will compare
+          // the patchset of the comment (1) against latest (2).
+          diffStub.onFirstCall().resolves(createDiff());
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}..2/filepath#b${line}`
+          );
+
+          // If getDiff() returns an unchanged diff, then we will compare
+          // the patchset of the comment (1) against base.
+          diffStub.onSecondCall().resolves({
+            ...createDiff(),
+            content: [],
+          });
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledTwice);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
           );
         });
 

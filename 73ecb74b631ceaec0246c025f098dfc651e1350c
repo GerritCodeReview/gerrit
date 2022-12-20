@@ -74,6 +74,30 @@
       },
       "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12e4571_e758d4e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1016080
+      },
+      "writtenOn": "2022-12-20T21:25:54Z",
+      "side": 1,
+      "message": "I (as a reporter of the regression) have no opinion.\nThe regression I reported has to do with a change in the behavior of the comment left in the comment box when clicking REPLY on the change, not if you add a patchset comment or reply to an existing patchset comment.\n\nI think, but might be wrong, that the changed behavior in the UI part is that even the text in the comment box that is shown when clicking on REPLY now is sent as a PATCHSET_LEVEL comment in advance. I have too little knowledge about internals of Gerrit and its UI to be sure.",
+      "parentUuid": "e3b4bd96_1e1ad458",
+      "range": {
+        "startLine": 197,
+        "startChar": 79,
+        "endLine": 197,
+        "endChar": 88
+      },
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

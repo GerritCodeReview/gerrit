@@ -8,9 +8,12 @@
     "@polymer/polymer": "^3.4.1",
     "@open-wc/testing": "^3.1.6",
     "@types/codemirror": "^5.60.5",
+    "@web/dev-server-esbuild": "^0.3.2",
+    "@web/test-runner": "^0.14.0",
     "codemirror": "^5.65.6",
     "lit": "^2.2.3",
-    "rxjs": "^6.6.7"
+    "rxjs": "^6.6.7",
+    "sinon": "^13.0.0"
   },
   "license": "Apache-2.0",
   "private": true

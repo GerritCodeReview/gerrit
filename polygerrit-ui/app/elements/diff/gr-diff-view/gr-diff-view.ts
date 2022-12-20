@@ -442,7 +442,6 @@ export class GrDiffView extends LitElement {
       () => this.getChangeModel().diffPath$,
       path => (this.path = path)
     );
-
     subscribe(
       this,
       () =>
@@ -485,11 +484,6 @@ export class GrDiffView extends LitElement {
       ([patchNum, _routerView, diffPrefs]) => {
         this.setReviewedStatus(patchNum!, diffPrefs);
       }
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().diffPath$,
-      path => (this.path = path)
     );
   }
 

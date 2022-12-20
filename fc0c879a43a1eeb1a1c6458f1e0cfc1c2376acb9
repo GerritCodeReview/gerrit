@@ -16,6 +16,24 @@
       "message": "Please add @SuppressWarnings(\"unused\")",
       "revId": "fc0c879a43a1eeb1a1c6458f1e0cfc1c2376acb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2c07c1_ead539a4",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93d49875_38a221a9",
+      "revId": "fc0c879a43a1eeb1a1c6458f1e0cfc1c2376acb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

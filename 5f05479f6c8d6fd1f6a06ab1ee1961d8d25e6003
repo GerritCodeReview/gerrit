@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02f15f17_b696b175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561f462e_e3440624",
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "620dba8d_b2188708",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-12-19T08:11:16Z",
       "side": 1,
       "message": "Maybe clarify that this also includes changes of the chain that were already up-to-date and didn\u0027t need to be rebased?",
+      "range": {
+        "startLine": 8216,
+        "startChar": 29,
+        "endLine": 8217,
+        "endChar": 39
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "378eeeb3_74965568",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 8217,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "620dba8d_b2188708",
       "range": {
         "startLine": 8216,
         "startChar": 29,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf06307_6b4f1558",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a79af33_235198fd",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 133,
+        "endChar": 45
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a18430a_5921530d",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-12-19T08:11:16Z",
       "side": 1,
       "message": "Since this is a list, should we try to return the changes in a meaningful order (e.g. in the order in which they appear in the chain)?",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 24
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06871f9c_a810f4c4",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done. Added to tests and documentation.",
+      "parentUuid": "6a18430a_5921530d",
       "range": {
         "startLine": 186,
         "startChar": 6,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aae7902_88e35d92",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44c73f36_2b157c80",
+      "range": {
+        "startLine": 260,
+        "startChar": 19,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8234e53d_af6c894a",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-12-19T08:11:16Z",
       "side": 1,
       "message": "nit: I think all the protected methods could be private (since this class is not expected to have sub-classes)",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 13
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4909a37b_713a365f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-20T14:10:56Z",
+      "side": 1,
+      "message": "This class has 3 subclasses - RebaseViaChangeApi, RebaseViaRevisionApi and RebaseChain. These classes share most of the tests, which was the point of extracting the rebase-related tests to another file.\nThis method specifically is directly used by RebaseChain.",
+      "parentUuid": "8234e53d_af6c894a",
       "range": {
         "startLine": 502,
         "startChar": 4,

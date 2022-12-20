@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb406877_d7a1d682",
+        "filename": "plugins/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-20T09:06:01Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 68
+      },
+      "revId": "2135f64e2c140602b93efb06eb570e4f43dee263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

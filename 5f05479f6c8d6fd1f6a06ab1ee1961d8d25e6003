@@ -269,6 +269,30 @@
       },
       "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "392a0f56_e942296c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-20T14:11:48Z",
+      "side": 1,
+      "message": "Ack. I missed this.",
+      "parentUuid": "4909a37b_713a365f",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 13
+      },
+      "revId": "5f05479f6c8d6fd1f6a06ab1ee1961d8d25e6003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

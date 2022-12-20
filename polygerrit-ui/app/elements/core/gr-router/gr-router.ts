@@ -10,7 +10,11 @@ import {
 } from '../../../utils/page-wrapper-utils';
 import {NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {convertToPatchSetNum} from '../../../utils/patch-set-util';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  convertToPatchSetNum,
+} from '../../../utils/patch-set-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -86,6 +90,13 @@ import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
 import {Subscription} from 'rxjs';
+import {
+  addPath,
+  findComment,
+  getPatchRangeForCommentUrl,
+  isInBaseOfPatchRange,
+} from '../../../utils/comment-util';
+import {createDiffUrl} from '../../../models/views/diff';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1466,22 +1477,35 @@ export class GrRouter implements Finalizable, NavigationService {
     this.changeViewModel.setState(state);
   }
 
-  handleCommentRoute(ctx: PageContext) {
+  async handleCommentRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const state: ChangeViewState = {
-      repo: ctx.params[0] as RepoName,
+    const repo = ctx.params[0] as RepoName;
+    const commentId = ctx.params[2] as UrlEncodedCommentId;
+
+    const change = await this.restApiService.getChangeDetail(changeNum);
+    const comments = await this.restApiService.getDiffComments(changeNum);
+
+    const comment = findComment(addPath(comments), commentId);
+    const patchsets = computeAllPatchSets(change);
+    const latestPatchNum = computeLatestPatchNum(patchsets);
+    if (!comment || !latestPatchNum) {
+      this.show404();
+      return;
+    }
+    const patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
+
+    const diffUrl = createDiffUrl({
       changeNum,
-      commentId: ctx.params[2] as UrlEncodedCommentId,
-      view: GerritView.CHANGE,
-      childView: ChangeChildView.DIFF,
-      diffView: {commentLink: true},
-    };
-    this.reporting.setRepoName(state.repo ?? '');
-    this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(state);
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.changeViewModel.setState(state);
+      repo,
+      patchNum: patchRange.patchNum,
+      basePatchNum: patchRange.basePatchNum,
+      diffView: {
+        path: comment.path,
+        lineNum: comment.line,
+        leftSide: isInBaseOfPatchRange(comment, patchRange),
+      },
+    });
+    this.redirect(diffUrl);
   }
 
   handleCommentsRoute(ctx: PageContext) {

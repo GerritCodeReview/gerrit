@@ -54,7 +54,6 @@ import {
   NumericChangeId,
   PARENT,
   PatchRange,
-  PatchSetNum,
   PatchSetNumber,
   PreferencesInfo,
   RepoName,
@@ -74,11 +73,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {
-  CommentMap,
-  getPatchRangeForCommentUrl,
-  isInBaseOfPatchRange,
-} from '../../../utils/comment-util';
+import {CommentMap} from '../../../utils/comment-util';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -1456,44 +1451,6 @@ export class GrDiffView extends LitElement {
     this.initCursor(leftSide);
   }
 
-  // Private but used in tests.
-  displayDiffBaseAgainstLeftToast() {
-    if (!this.patchRange) return;
-    fireAlert(
-      this,
-      `Patchset ${this.patchRange.basePatchNum} vs ` +
-        `${this.patchRange.patchNum} selected. Press v + \u2190 to view ` +
-        `Base vs ${this.patchRange.basePatchNum}`
-    );
-  }
-
-  private displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
-    if (!this.patchRange) return;
-    const leftPatchset =
-      this.patchRange.basePatchNum === PARENT
-        ? 'Base'
-        : `Patchset ${this.patchRange.basePatchNum}`;
-    fireAlert(
-      this,
-      `${leftPatchset} vs
-            ${this.patchRange.patchNum} selected\n. Press v + \u2191 to view
-            ${leftPatchset} vs Patchset ${latestPatchNum}`
-    );
-  }
-
-  private displayToasts() {
-    if (!this.patchRange) return;
-    if (this.patchRange.basePatchNum !== PARENT) {
-      this.displayDiffBaseAgainstLeftToast();
-      return;
-    }
-    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum !== latestPatchNum) {
-      this.displayDiffAgainstLatestToast(latestPatchNum);
-      return;
-    }
-  }
-
   private initCommitRange() {
     let commit: CommitId | undefined;
     let baseCommit: CommitId | undefined;
@@ -1540,56 +1497,23 @@ export class GrDiffView extends LitElement {
     let leftSide = false;
     if (!this.change) return;
     if (this.viewState?.childView !== ChangeChildView.DIFF) return;
-    if (this.viewState?.commentId) {
-      const comment = this.changeComments?.findCommentById(
-        this.viewState.commentId
-      );
-      if (!comment) {
-        fireAlert(this, 'comment not found');
-        this.getNavigation().setUrl(createChangeUrl({change: this.change}));
-        return;
-      }
-      this.getChangeModel().updatePath(comment.path);
-
-      const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-      if (!latestPatchNum) throw new Error('Missing allPatchSets');
-      this.patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
-      leftSide = isInBaseOfPatchRange(comment, this.patchRange);
-
-      this.focusLineNum = comment.line;
-    } else {
-      if (this.viewState.diffView?.path) {
-        this.getChangeModel().updatePath(this.viewState.diffView.path);
-      }
-      if (this.viewState.patchNum) {
-        this.patchRange = {
-          patchNum: this.viewState.patchNum,
-          basePatchNum: this.viewState.basePatchNum || PARENT,
-        };
-      }
-      if (this.viewState.diffView?.lineNum) {
-        this.focusLineNum = this.viewState.diffView.lineNum;
-        leftSide = !!this.viewState.diffView?.leftSide;
-      }
+    if (this.viewState.diffView?.path) {
+      this.getChangeModel().updatePath(this.viewState.diffView.path);
+    }
+    if (this.viewState.patchNum) {
+      this.patchRange = {
+        patchNum: this.viewState.patchNum,
+        basePatchNum: this.viewState.basePatchNum || PARENT,
+      };
+    }
+    if (this.viewState.diffView?.lineNum) {
+      this.focusLineNum = this.viewState.diffView.lineNum;
+      leftSide = !!this.viewState.diffView?.leftSide;
     }
     assertIsDefined(this.patchRange, 'patchRange');
     this.initLineOfInterestAndCursor(leftSide);
 
-    if (this.viewState?.commentId) {
-      // url is of type /comment/{commentId} which isn't meaningful
-      this.updateUrlToDiffUrl(this.focusLineNum, leftSide);
-    }
-
     this.commentMap = this.getPaths();
-  }
-
-  // Private but used in tests.
-  isFileUnchanged(diff?: DiffInfo) {
-    if (!diff || !diff.content) return false;
-    return !diff.content.some(
-      content =>
-        (content.a && !content.common) || (content.b && !content.common)
-    );
   }
 
   private isSameDiffLoaded(value: ChangeViewState) {
@@ -1661,8 +1585,7 @@ export class GrDiffView extends LitElement {
     // When navigating away from the page, there is a possibility that the
     // patch number is no longer a part of the URL (say when navigating to
     // the top-level change info view) and therefore undefined in `params`.
-    // If route is of type /comment/<commentId>/ then no patchNum is present
-    if (!viewState.patchNum && !viewState.diffView?.commentLink) {
+    if (!viewState.patchNum) {
       this.reporting.error(
         'GrDiffView',
         new Error(`Invalid diff view URL, no patchNum found: ${this.viewState}`)
@@ -1692,38 +1615,6 @@ export class GrDiffView extends LitElement {
         this.reporting.diffViewDisplayed();
       })
       .then(() => {
-        const fileUnchanged = this.isFileUnchanged(this.diff);
-        if (fileUnchanged && viewState.diffView?.commentLink) {
-          assertIsDefined(this.change, 'change');
-          assertIsDefined(this.path, 'path');
-          assertIsDefined(this.patchRange, 'patchRange');
-
-          if (this.patchRange.basePatchNum === PARENT) {
-            // file is unchanged between Base vs X
-            // hence should not show diff between Base vs Base
-            return;
-          }
-
-          fireAlert(
-            this,
-            `File is unchanged between Patchset
-                  ${this.patchRange.basePatchNum} and
-                  ${this.patchRange.patchNum}. Showing diff of Base vs
-                  ${this.patchRange.basePatchNum}`
-          );
-          this.getNavigation().setUrl(
-            createDiffUrl({
-              change: this.change,
-              patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
-              basePatchNum: PARENT,
-              diffView: {path: this.path, lineNum: this.focusLineNum},
-            })
-          );
-          return;
-        }
-        if (viewState.diffView?.commentLink) {
-          this.displayToasts();
-        }
         // If the blame was loaded for a previous file and user navigates to
         // another file, then we load the blame for this file too
         if (this.isBlameLoaded) this.loadBlame();
@@ -2140,15 +2031,12 @@ export class GrDiffView extends LitElement {
       fireAlert(this, 'Left is already base.');
       return;
     }
-    const lineNum = this.viewState?.diffView?.commentLink
-      ? this.focusLineNum
-      : undefined;
     this.getNavigation().setUrl(
       createDiffUrl({
         change: this.change,
         patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
         basePatchNum: PARENT,
-        diffView: {path: this.path, lineNum},
+        diffView: {path: this.path},
       })
     );
   }

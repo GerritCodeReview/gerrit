@@ -36,6 +36,9 @@ export function createDiffUrl(
     suffix += state.diffView.lineNum;
   }
 
+  // TODO: Move creating of comment URLs to a separate function. We are
+  // "abusing" the `commentId` property, which should only be used for pointing
+  // to comment in the COMMENTS tab of the OVERVIEW page.
   if (state.commentId) {
     suffix = `/comment/${state.commentId}` + suffix;
   }

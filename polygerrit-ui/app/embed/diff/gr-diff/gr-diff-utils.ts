@@ -48,6 +48,13 @@ export function countLines(diff?: DiffInfo, side?: Side) {
   }, 0);
 }
 
+export function isFileUnchanged(diff?: DiffInfo) {
+  if (!diff || !diff.content) return false;
+  return !diff.content.some(
+    content => (content.a && !content.common) || (content.b && !content.common)
+  );
+}
+
 export function getResponsiveMode(
   prefs: DiffPreferencesInfo,
   renderPrefs?: RenderPreferences

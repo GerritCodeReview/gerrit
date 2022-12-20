@@ -24,6 +24,7 @@ import {
   isDraftThread,
   isPatchsetLevel,
   addPath,
+  findComment,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {CommentSide} from '../../../constants/constants';
@@ -67,20 +68,10 @@ export class ChangeComments {
   findCommentById(
     commentId?: UrlEncodedCommentId
   ): CommentInfo | DraftInfo | undefined {
-    if (!commentId) return undefined;
-    const findComment = (comments: {
-      [path: string]: (CommentInfo | DraftInfo)[];
-    }) => {
-      let comment;
-      for (const path of Object.keys(comments)) {
-        comment = comment || comments[path].find(c => c.id === commentId);
-      }
-      return comment;
-    };
     return (
-      findComment(this._comments) ||
-      findComment(this._robotComments) ||
-      findComment(this._drafts)
+      findComment(this._comments, commentId) ??
+      findComment(this._robotComments, commentId) ??
+      findComment(this._drafts, commentId)
     );
   }
 

@@ -54,10 +54,10 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CursorMoveResult} from '../../../api/core';
-import {DiffInfo, Side} from '../../../api/diff';
+import {Side} from '../../../api/diff';
 import {Files, GrDiffView} from './gr-diff-view';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {SinonFakeTimers, SinonStub, SinonSpy} from 'sinon';
+import {SinonFakeTimers, SinonStub} from 'sinon';
 import {
   changeModelToken,
   ChangeModel,
@@ -198,66 +198,6 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    suite('comment route', () => {
-      let initLineOfInterestAndCursorStub: SinonStub;
-      let replaceStateStub: SinonStub;
-      let viewStateChangedSpy: SinonSpy;
-      setup(() => {
-        initLineOfInterestAndCursorStub = sinon.stub(
-          element,
-          'initLineOfInterestAndCursor'
-        );
-        replaceStateStub = sinon.stub(history, 'replaceState');
-        sinon.stub(element, 'fetchFiles');
-        stubReporting('diffViewDisplayed');
-        assertIsDefined(element.diffHost);
-        sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-        viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-        changeModel.setState({
-          change: {
-            ...createParsedChange(),
-            revisions: createRevisions(11),
-          },
-          loadingStatus: LoadingStatus.LOADED,
-        });
-      });
-
-      test('comment url resolves to comment.patch_set vs latest', () => {
-        commentsModel.setState({
-          comments: {
-            '/COMMIT_MSG': [
-              createComment('c1', 10, 2, '/COMMIT_MSG'),
-              createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-            ],
-          },
-          robotComments: {},
-          drafts: {},
-          portedComments: {},
-          portedDrafts: {},
-          discardedDrafts: [],
-        });
-        element.viewState = {
-          ...createDiffViewState(),
-          commentId: 'c1' as UrlEncodedCommentId,
-          patchNum: 1 as RevisionPatchSetNum,
-          diffView: {path: 'abcd', commentLink: true},
-        };
-        element.change = {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        };
-        return viewStateChangedSpy.returnValues[0].then(() => {
-          assert.isTrue(
-            initLineOfInterestAndCursorStub.calledWithExactly(true)
-          );
-          assert.equal(element.focusLineNum, 10);
-          assert.equal(element.patchRange?.patchNum, 11 as RevisionPatchSetNum);
-          assert.equal(element.patchRange?.basePatchNum, 2 as BasePatchSetNum);
-          assert.isTrue(replaceStateStub.called);
-        });
-      });
-    });
-
     test('viewState change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element.isBlameLoaded = true;
@@ -280,166 +220,6 @@ suite('gr-diff-view tests', () => {
         assert.isTrue(element.isBlameLoaded);
         assert.isTrue(loadBlameStub.calledOnce);
       });
-    });
-
-    test('unchanged diff X vs latest from comment links navigates to base vs X', async () => {
-      commentsModel.setState({
-        comments: {
-          '/COMMIT_MSG': [
-            createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-          ],
-        },
-        robotComments: {},
-        drafts: {},
-        portedComments: {},
-        portedDrafts: {},
-        discardedDrafts: [],
-      });
-      stubReporting('diffViewDisplayed');
-      sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'isFileUnchanged').returns(true);
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      changeModel.setState({
-        change: {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      element.viewState = {
-        ...createDiffViewState(),
-        commentId: 'c1' as UrlEncodedCommentId,
-        diffView: {path: '/COMMIT_MSG', commentLink: true},
-      };
-      element.change = {
-        ...createParsedChange(),
-        revisions: createRevisions(11),
-      };
-      await viewStateChangedSpy.returnValues[0];
-      assert.isTrue(setUrlStub.calledOnce);
-      assert.equal(
-        setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42/2//COMMIT_MSG#10'
-      );
-    });
-
-    test('unchanged diff Base vs latest from comment does not navigate', async () => {
-      commentsModel.setState({
-        comments: {
-          '/COMMIT_MSG': [
-            createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-          ],
-        },
-        robotComments: {},
-        drafts: {},
-        portedComments: {},
-        portedDrafts: {},
-        discardedDrafts: [],
-      });
-      stubReporting('diffViewDisplayed');
-      sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'isFileUnchanged').returns(true);
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      changeModel.setState({
-        change: {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      element.viewState = {
-        ...createDiffViewState(),
-        commentId: 'c3' as UrlEncodedCommentId,
-        diffView: {path: '/COMMIT_MSG', commentLink: true},
-      };
-      element.change = {
-        ...createParsedChange(),
-        revisions: createRevisions(11),
-      };
-      await viewStateChangedSpy.returnValues[0];
-      assert.isFalse(setUrlStub.calledOnce);
-    });
-
-    test('isFileUnchanged', () => {
-      let diff: DiffInfo = {
-        ...createDiff(),
-        content: [
-          {a: ['abcd'], ab: ['ef']},
-          {b: ['ancd'], a: ['xx']},
-        ],
-      };
-      assert.equal(element.isFileUnchanged(diff), false);
-      diff = {
-        ...createDiff(),
-        content: [{ab: ['abcd']}, {ab: ['ancd']}],
-      };
-      assert.equal(element.isFileUnchanged(diff), true);
-      diff = {
-        ...createDiff(),
-        content: [
-          {a: ['abcd'], ab: ['ef'], common: true},
-          {b: ['ancd'], ab: ['xx']},
-        ],
-      };
-      assert.equal(element.isFileUnchanged(diff), false);
-      diff = {
-        ...createDiff(),
-        content: [
-          {a: ['abcd'], ab: ['ef'], common: true},
-          {b: ['ancd'], ab: ['xx'], common: true},
-        ],
-      };
-      assert.equal(element.isFileUnchanged(diff), true);
-    });
-
-    test('diff toast to go to latest is shown and not base', async () => {
-      commentsModel.setState({
-        comments: {
-          '/COMMIT_MSG': [
-            createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-          ],
-        },
-        robotComments: {},
-        drafts: {},
-        portedComments: {},
-        portedDrafts: {},
-        discardedDrafts: [],
-      });
-
-      stubReporting('diffViewDisplayed');
-      sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      element.change = undefined;
-      changeModel.setState({
-        change: {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      element.patchRange = {
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      };
-      sinon.stub(element, 'isFileUnchanged').returns(false);
-      const toastStub = sinon.stub(element, 'displayDiffBaseAgainstLeftToast');
-      element.viewState = {
-        ...createDiffViewState(),
-        repo: 'p' as RepoName,
-        commentId: 'c1' as UrlEncodedCommentId,
-        diffView: {commentLink: true},
-      };
-      await viewStateChangedSpy.returnValues[0];
-      assert.isTrue(toastStub.called);
     });
 
     test('toggle left diff with a hotkey', () => {
@@ -873,28 +653,6 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
       element.handleDiffBaseAgainstLeft();
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1/foo');
-    });
-
-    test('handleDiffBaseAgainstLeft when initially navigating to a comment', () => {
-      element.change = {
-        ...createParsedChange(),
-        revisions: createRevisions(10),
-      };
-      element.patchRange = {
-        patchNum: 3 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      };
-      sinon.stub(element, 'viewStateChanged');
-      element.viewState = {
-        ...createDiffViewState(),
-        diffView: {commentLink: true},
-      };
-      element.focusLineNum = 10;
-      element.handleDiffBaseAgainstLeft();
-      assert.equal(
-        setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42/1/some/path.txt#10'
-      );
     });
 
     test('handleDiffRightAgainstLatest', async () => {

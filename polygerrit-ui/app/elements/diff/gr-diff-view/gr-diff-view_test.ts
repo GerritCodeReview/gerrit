@@ -42,7 +42,6 @@ import {
   CommentInfo,
   CommitId,
   EDIT,
-  FileInfo,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -82,6 +81,7 @@ import {
   browserModelToken,
 } from '../../../models/browser/browser-model';
 import {changeViewModelToken} from '../../../models/views/change';
+import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 
 function createComment(
   id: string,
@@ -112,9 +112,9 @@ suite('gr-diff-view tests', () => {
 
     function getFilesFromFileList(fileList: string[]): Files {
       const changeFilesByPath = fileList.reduce((files, path) => {
-        files[path] = createFileInfo();
+        files[path] = createFileInfo(path);
         return files;
-      }, {} as {[path: string]: FileInfo});
+      }, {} as FileNameToNormalizedFileInfoMap);
       return {
         sortedFileList: fileList,
         changeFilesByPath,
@@ -183,7 +183,6 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'initPatchRange');
-      sinon.stub(element, 'fetchFiles');
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.viewState = {
         ...createDiffViewState(),
@@ -198,66 +197,6 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    suite('comment route', () => {
-      let initLineOfInterestAndCursorStub: SinonStub;
-      let replaceStateStub: SinonStub;
-      let viewStateChangedSpy: SinonSpy;
-      setup(() => {
-        initLineOfInterestAndCursorStub = sinon.stub(
-          element,
-          'initLineOfInterestAndCursor'
-        );
-        replaceStateStub = sinon.stub(history, 'replaceState');
-        sinon.stub(element, 'fetchFiles');
-        stubReporting('diffViewDisplayed');
-        assertIsDefined(element.diffHost);
-        sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-        viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-        changeModel.setState({
-          change: {
-            ...createParsedChange(),
-            revisions: createRevisions(11),
-          },
-          loadingStatus: LoadingStatus.LOADED,
-        });
-      });
-
-      test('comment url resolves to comment.patch_set vs latest', () => {
-        commentsModel.setState({
-          comments: {
-            '/COMMIT_MSG': [
-              createComment('c1', 10, 2, '/COMMIT_MSG'),
-              createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-            ],
-          },
-          robotComments: {},
-          drafts: {},
-          portedComments: {},
-          portedDrafts: {},
-          discardedDrafts: [],
-        });
-        element.viewState = {
-          ...createDiffViewState(),
-          commentId: 'c1' as UrlEncodedCommentId,
-          patchNum: 1 as RevisionPatchSetNum,
-          diffView: {path: 'abcd', commentLink: true},
-        };
-        element.change = {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        };
-        return viewStateChangedSpy.returnValues[0].then(() => {
-          assert.isTrue(
-            initLineOfInterestAndCursorStub.calledWithExactly(true)
-          );
-          assert.equal(element.focusLineNum, 10);
-          assert.equal(element.patchRange?.patchNum, 11 as RevisionPatchSetNum);
-          assert.equal(element.patchRange?.basePatchNum, 2 as BasePatchSetNum);
-          assert.isTrue(replaceStateStub.called);
-        });
-      });
-    });
-
     test('viewState change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element.isBlameLoaded = true;
@@ -267,7 +206,6 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       sinon.stub(element, 'initPatchRange');
-      sinon.stub(element, 'fetchFiles');
       element.viewState = {
         ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
@@ -280,90 +218,6 @@ suite('gr-diff-view tests', () => {
         assert.isTrue(element.isBlameLoaded);
         assert.isTrue(loadBlameStub.calledOnce);
       });
-    });
-
-    test('unchanged diff X vs latest from comment links navigates to base vs X', async () => {
-      commentsModel.setState({
-        comments: {
-          '/COMMIT_MSG': [
-            createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-          ],
-        },
-        robotComments: {},
-        drafts: {},
-        portedComments: {},
-        portedDrafts: {},
-        discardedDrafts: [],
-      });
-      stubReporting('diffViewDisplayed');
-      sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'isFileUnchanged').returns(true);
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      changeModel.setState({
-        change: {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      element.viewState = {
-        ...createDiffViewState(),
-        commentId: 'c1' as UrlEncodedCommentId,
-        diffView: {path: '/COMMIT_MSG', commentLink: true},
-      };
-      element.change = {
-        ...createParsedChange(),
-        revisions: createRevisions(11),
-      };
-      await viewStateChangedSpy.returnValues[0];
-      assert.isTrue(setUrlStub.calledOnce);
-      assert.equal(
-        setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42/2//COMMIT_MSG#10'
-      );
-    });
-
-    test('unchanged diff Base vs latest from comment does not navigate', async () => {
-      commentsModel.setState({
-        comments: {
-          '/COMMIT_MSG': [
-            createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
-          ],
-        },
-        robotComments: {},
-        drafts: {},
-        portedComments: {},
-        portedDrafts: {},
-        discardedDrafts: [],
-      });
-      stubReporting('diffViewDisplayed');
-      sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'isFileUnchanged').returns(true);
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      changeModel.setState({
-        change: {
-          ...createParsedChange(),
-          revisions: createRevisions(11),
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      element.viewState = {
-        ...createDiffViewState(),
-        commentId: 'c3' as UrlEncodedCommentId,
-        diffView: {path: '/COMMIT_MSG', commentLink: true},
-      };
-      element.change = {
-        ...createParsedChange(),
-        revisions: createRevisions(11),
-      };
-      await viewStateChangedSpy.returnValues[0];
-      assert.isFalse(setUrlStub.calledOnce);
     });
 
     test('isFileUnchanged', () => {
@@ -1288,10 +1142,6 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('url parameters', () => {
-      setup(() => {
-        sinon.stub(element, 'fetchFiles');
-      });
-
       test('_formattedFiles', () => {
         element.changeNum = 42 as NumericChangeId;
         element.patchRange = {
@@ -1931,7 +1781,6 @@ suite('gr-diff-view tests', () => {
       });
 
       test('has paths', () => {
-        sinon.stub(element, 'fetchFiles');
         sinon.stub(element, 'getPaths').returns({
           'path/to/file/one.cpp': true,
           'path-to/file/two.py': true,
@@ -2485,51 +2334,6 @@ suite('gr-diff-view tests', () => {
         ),
         '/changes/test~12/revisions/1/patch?zip&path=index.php'
       );
-    });
-  });
-
-  suite('unmodified files with comments', () => {
-    let element: GrDiffView;
-
-    setup(async () => {
-      const changedFiles = {
-        'file1.txt': createFileInfo(),
-        'a/b/test.c': createFileInfo(),
-      };
-      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
-      stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
-      stubRestApi('getChangeFiles').returns(Promise.resolve(changedFiles));
-      stubRestApi('saveFileReviewed').returns(Promise.resolve(new Response()));
-      stubRestApi('getDiffComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-      stubRestApi('getReviewedFiles').returns(Promise.resolve([]));
-      element = await fixture(html`<gr-diff-view></gr-diff-view>`);
-      element.changeNum = 42 as NumericChangeId;
-    });
-
-    test('fetchFiles add files with comments without changes', () => {
-      element.patchRange = {
-        basePatchNum: 5 as BasePatchSetNum,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
-      element.changeComments = {
-        getPaths: sinon.stub().returns({
-          'file2.txt': {},
-          'file1.txt': {},
-        }),
-      } as unknown as ChangeComments;
-      element.changeNum = 23 as NumericChangeId;
-      return element.fetchFiles().then(() => {
-        assert.deepEqual(element.files, {
-          sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
-          changeFilesByPath: {
-            'file1.txt': createFileInfo(),
-            'file2.txt': {status: 'U'} as FileInfo,
-            'a/b/test.c': createFileInfo(),
-          },
-        });
-      });
     });
   });
 });

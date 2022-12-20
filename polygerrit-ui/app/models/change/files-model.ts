@@ -23,6 +23,9 @@ import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';
 
+export type FileNameToNormalizedFileInfoMap = {
+  [name: string]: NormalizedFileInfo;
+};
 export interface NormalizedFileInfo extends FileInfo {
   __path: string;
   // Compared to `FileInfo` these four props are required here.

@@ -31,11 +31,9 @@ import {
   getParentIndex,
 } from '../../../utils/patch-set-util';
 import {
-  addUnmodifiedFiles,
   computeDisplayPath,
   computeTruncatedPath,
   isMagicPath,
-  specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
@@ -50,7 +48,6 @@ import {
   ChangeInfo,
   CommitId,
   EDIT,
-  FileInfo,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -120,6 +117,10 @@ import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
+import {
+  FileNameToNormalizedFileInfoMap,
+  filesModelToken,
+} from '../../../models/change/files-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -130,7 +131,7 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 // visible for testing
 export interface Files {
   sortedFileList: string[];
-  changeFilesByPath: {[path: string]: FileInfo};
+  changeFilesByPath: FileNameToNormalizedFileInfoMap;
 }
 
 interface CommentSkips {
@@ -210,7 +211,6 @@ export class GrDiffView extends LitElement {
   @state()
   diff?: DiffInfo;
 
-  // TODO: Move to using files-model.
   // Private but used in tests.
   @state()
   files: Files = {sortedFileList: [], changeFilesByPath: {}};
@@ -284,13 +284,13 @@ export class GrDiffView extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly restApiService = getAppContext().restApiService;
-
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -317,6 +317,18 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getViewModel().state$,
       x => (this.viewState = x)
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().filesWithUnmodified$,
+      files => {
+        const filesByPath: FileNameToNormalizedFileInfoMap = {};
+        for (const f of files) filesByPath[f.__path] = f;
+        this.files = {
+          sortedFileList: files.map(f => f.__path),
+          changeFilesByPath: filesByPath,
+        };
+      }
     );
   }
 
@@ -705,14 +717,6 @@ export class GrDiffView extends LitElement {
         this.path
       );
     }
-
-    if (
-      changedProperties.has('changeNum') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange')
-    ) {
-      this.fetchFiles();
-    }
   }
 
   private reInitCursor() {
@@ -731,9 +735,7 @@ export class GrDiffView extends LitElement {
     ) {
       if (this.changeComments && this.path && this.patchRange) {
         assertIsDefined(this.diffHost, 'diffHost');
-        const file = this.files?.changeFilesByPath
-          ? this.files.changeFilesByPath[this.path]
-          : undefined;
+        const file = this.files?.changeFilesByPath?.[this.path];
         this.diffHost.updateComplete.then(() => {
           assertIsDefined(this.path);
           assertIsDefined(this.patchRange);
@@ -1032,34 +1034,10 @@ export class GrDiffView extends LitElement {
     if (!this.files || !this.path) return;
     const fileInfo = this.files.changeFilesByPath[this.path];
     const fileRange: FileRange = {path: this.path};
-    if (fileInfo && fileInfo.old_path) {
+    if (fileInfo?.old_path) {
       fileRange.basePath = fileInfo.old_path;
     }
     return fileRange;
-  }
-
-  // Private but used in tests.
-  fetchFiles() {
-    if (!this.changeNum || !this.patchRange || !this.changeComments) {
-      return Promise.resolve();
-    }
-
-    if (!this.patchRange.patchNum) {
-      return Promise.resolve();
-    }
-
-    return this.restApiService
-      .getChangeFiles(this.changeNum, this.patchRange)
-      .then(changeFiles => {
-        if (!changeFiles) return;
-        const commentedPaths = this.changeComments!.getPaths(this.patchRange);
-        const files = {...changeFiles};
-        addUnmodifiedFiles(files, commentedPaths);
-        this.files = {
-          sortedFileList: Object.keys(files).sort(specialFilePathCompare),
-          changeFilesByPath: files,
-        };
-      });
   }
 
   private handleReviewedChange(e: Event) {
@@ -1619,7 +1597,6 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    this.files = {sortedFileList: [], changeFilesByPath: {}};
     if (this.isConnected) {
       this.getChangeModel().updatePath(undefined);
     }
@@ -1829,6 +1806,7 @@ export class GrDiffView extends LitElement {
 
     const dropdownContent: DropdownItem[] = [];
     for (const path of this.files.sortedFileList) {
+      const file = this.files.changeFilesByPath[path];
       dropdownContent.push({
         text: computeDisplayPath(path),
         mobileText: computeTruncatedPath(path),
@@ -1836,10 +1814,10 @@ export class GrDiffView extends LitElement {
         bottomText: this.changeComments.computeCommentsString(
           this.patchRange,
           path,
-          this.files.changeFilesByPath[path],
+          file,
           /* includeUnmodified= */ true
         ),
-        file: {...this.files.changeFilesByPath[path], __path: path},
+        file,
       });
     }
     return dropdownContent;

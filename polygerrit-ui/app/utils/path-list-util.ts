@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {SpecialFilePath, FileInfoStatus} from '../constants/constants';
-import {FileInfo} from '../types/common';
+import {FileInfo, FileNameToFileInfoMap} from '../types/common';
 import {hasOwnProperty} from './common-util';
 
 export function specialFilePathCompare(a: string, b: string) {
@@ -55,7 +55,7 @@ export function shouldHideFile(file: string) {
 // In case there are files with comments on them but they are unchanged, then
 // we explicitly displays the file to render the comments with Unchanged status
 export function addUnmodifiedFiles(
-  files: {[filename: string]: FileInfo},
+  files: FileNameToFileInfoMap,
   commentedPaths: {[fileName: string]: boolean}
 ) {
   if (!commentedPaths) return;

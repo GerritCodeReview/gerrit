@@ -2096,13 +2096,6 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    if (this.viewState.changeNum && this.viewState.repo) {
-      this.restApiService.setInProjectLookup(
-        this.viewState.changeNum,
-        this.viewState.repo
-      );
-    }
-
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 

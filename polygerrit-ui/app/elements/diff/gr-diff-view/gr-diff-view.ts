@@ -1661,13 +1661,6 @@ export class GrDiffView extends LitElement {
     this.commitRange = undefined;
     this.focusLineNum = undefined;
 
-    if (viewState.changeNum && viewState.repo) {
-      this.restApiService.setInProjectLookup(
-        viewState.changeNum,
-        viewState.repo
-      );
-    }
-
     this.changeNum = viewState.changeNum;
     this.classList.remove('hideComments');
 

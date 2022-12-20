@@ -22,6 +22,30 @@
       },
       "revId": "2135f64e2c140602b93efb06eb570e4f43dee263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf9ed7b_ea80921e",
+        "filename": "plugins/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-12-20T09:31:34Z",
+      "side": 1,
+      "message": "I would like to keep this as an example.\n\nInstead of removing the line I have added a comment explaining why we keep it.",
+      "parentUuid": "fb406877_d7a1d682",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 68
+      },
+      "revId": "2135f64e2c140602b93efb06eb570e4f43dee263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

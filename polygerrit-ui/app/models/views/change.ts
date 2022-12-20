@@ -42,6 +42,7 @@ export interface ChangeViewState extends ViewState {
   repo: RepoName;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
+  /** Refers to comment on COMMENTS tab in OVERVIEW. */
   commentId?: UrlEncodedCommentId;
 
   // TODO: Move properties that only apply to OVERVIEW into a submessage.

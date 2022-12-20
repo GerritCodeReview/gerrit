@@ -74,11 +74,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {
-  CommentMap,
-  getPatchRangeForCommentUrl,
-  isInBaseOfPatchRange,
-} from '../../../utils/comment-util';
+import {CommentMap} from '../../../utils/comment-util';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -1540,45 +1536,21 @@ export class GrDiffView extends LitElement {
     let leftSide = false;
     if (!this.change) return;
     if (this.viewState?.childView !== ChangeChildView.DIFF) return;
-    if (this.viewState?.commentId) {
-      const comment = this.changeComments?.findCommentById(
-        this.viewState.commentId
-      );
-      if (!comment) {
-        fireAlert(this, 'comment not found');
-        this.getNavigation().setUrl(createChangeUrl({change: this.change}));
-        return;
-      }
-      this.getChangeModel().updatePath(comment.path);
-
-      const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-      if (!latestPatchNum) throw new Error('Missing allPatchSets');
-      this.patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
-      leftSide = isInBaseOfPatchRange(comment, this.patchRange);
-
-      this.focusLineNum = comment.line;
-    } else {
-      if (this.viewState.diffView?.path) {
-        this.getChangeModel().updatePath(this.viewState.diffView.path);
-      }
-      if (this.viewState.patchNum) {
-        this.patchRange = {
-          patchNum: this.viewState.patchNum,
-          basePatchNum: this.viewState.basePatchNum || PARENT,
-        };
-      }
-      if (this.viewState.diffView?.lineNum) {
-        this.focusLineNum = this.viewState.diffView.lineNum;
-        leftSide = !!this.viewState.diffView?.leftSide;
-      }
+    if (this.viewState.diffView?.path) {
+      this.getChangeModel().updatePath(this.viewState.diffView.path);
+    }
+    if (this.viewState.patchNum) {
+      this.patchRange = {
+        patchNum: this.viewState.patchNum,
+        basePatchNum: this.viewState.basePatchNum || PARENT,
+      };
+    }
+    if (this.viewState.diffView?.lineNum) {
+      this.focusLineNum = this.viewState.diffView.lineNum;
+      leftSide = !!this.viewState.diffView?.leftSide;
     }
     assertIsDefined(this.patchRange, 'patchRange');
     this.initLineOfInterestAndCursor(leftSide);
-
-    if (this.viewState?.commentId) {
-      // url is of type /comment/{commentId} which isn't meaningful
-      this.updateUrlToDiffUrl(this.focusLineNum, leftSide);
-    }
 
     this.commentMap = this.getPaths();
   }

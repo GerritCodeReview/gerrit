@@ -12,9 +12,9 @@ import {
   specialFilePathCompare,
   truncatePath,
 } from './path-list-util';
-import {FileInfo} from '../api/rest-api';
 import {hasOwnProperty} from './common-util';
 import {assert} from '@open-wc/testing';
+import {FileNameToFileInfoMap} from '../types/common';
 
 suite('path-list-utl tests', () => {
   test('special sort', () => {
@@ -117,7 +117,7 @@ suite('path-list-utl tests', () => {
       'file1.txt': true,
     };
 
-    const files: {[filename: string]: FileInfo} = {
+    const files: FileNameToFileInfoMap = {
       'file2.txt': {
         status: FileInfoStatus.REWRITTEN,
         size_delta: 10,

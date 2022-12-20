@@ -192,6 +192,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8502e19_63457702",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-12-20T08:53:53Z",
+      "side": 1,
+      "message": "I\u0027m guessing something like:\n\n```\nOptional\u003cExternalId\u003e usernameExtId \u003d Optional.empty();\nif (name.isPresent) {\n  try {\n    userNameExtId \u003d externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, n));\n  catch (IOException e) {\n     // proper logging of failure.\n  }\n}\n```",
+      "parentUuid": "81be5ee9_d75addad",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 15
+      },
+      "revId": "c6b41477c02cab956cc71048c712ffbf92ad1f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "165bc449_1ed1b523",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8

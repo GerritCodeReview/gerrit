@@ -6,7 +6,7 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
-load("@npm//@bazel/typescript:index.bzl", "ts_config")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -168,4 +168,32 @@ java_doc(
     ],
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
+)
+
+# This is a generic test target for TypeScript plugins.
+#
+# `nodejs_test` needs to run in the directory where the `package.json` and
+# `node_modules` are, so unfortunately we cannot move this target into the
+# BUILD files of individual plugins. On the other hand one common target
+# for all plugins also has the advantage of being re-usable.
+#
+# For making this work for a specific plugin you have make the source files
+# of the plugin available as a `filegroup` and add it to the `data` attribute.
+# And you have to specify the `PLUGIN_DIR` in the `env` attribute.
+nodejs_test(
+    name = "web-test-runner",
+    size = "large",
+    chdir = package_name(),
+    data = [
+        ":package.json",
+        ":web-test-runner.config.mjs",
+        # "//plugins/codemirror-editor/web:codemirror-test-sources",
+        "@plugins_npm//:node_modules",
+    ],
+    entry_point = "@plugins_npm//:node_modules/@web/test-runner/dist/bin.js",
+    env = {"PLUGIN_DIR": "codemirror-editor"},
+    tags = [
+        "local",
+        "manual",
+    ],
 )

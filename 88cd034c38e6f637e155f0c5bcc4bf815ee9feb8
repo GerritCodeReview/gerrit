@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81da9763_ffd64bb0",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-21T14:22:40Z",
+      "side": 1,
+      "message": "I realised that this is not working. AccountResolver is a singleton, which means its instance is shared between requests. Setting properties on the singleton instance sets them for everyone, not just for the current request.\n\nI think we should revert this change and then make a new attempt to fix this.",
+      "range": {
+        "startLine": 515,
+        "startChar": 1,
+        "endLine": 531,
+        "endChar": 3
+      },
+      "revId": "88cd034c38e6f637e155f0c5bcc4bf815ee9feb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

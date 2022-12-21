@@ -184,6 +184,10 @@ public class AccountResolver {
     public IdentifiedUser asUniqueUser() throws UnresolvableAccountException {
       ensureUnique();
       if (isSelf()) {
+        if (asUser != null) {
+          return asUser;
+        }
+
         // In the special case of "self", use the exact IdentifiedUser from the request context, to
         // preserve the peer address and any other per-request state.
         return self.get().asIdentifiedUser();
@@ -196,7 +200,7 @@ public class AccountResolver {
       ensureUnique();
       if (isSelf()) {
         // TODO(dborowitz): This preserves old behavior, but it seems wrong to discard the caller.
-        return self.get().asIdentifiedUser();
+        return asUser != null ? asUser : self.get().asIdentifiedUser();
       }
       return userFactory.runAs(
           null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
@@ -270,6 +274,10 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
+      if (asUser != null) {
+        return Stream.of(asUser.state());
+      }
+
       CurrentUser user = self.get();
       if (!user.isIdentifiedUser()) {
         return Stream.empty();

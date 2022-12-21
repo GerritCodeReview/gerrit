@@ -26,7 +26,6 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
@@ -403,7 +402,7 @@ public class AccountResolver {
   private class ByFullName implements Searcher<AccountState> {
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return allowSkippingVisibilityCheck;
+      return true; // Rely on enforceVisibility from the index.
     }
 
     @Override
@@ -427,7 +426,7 @@ public class AccountResolver {
   private class ByDefaultSearch extends StringSearcher {
     @Override
     public boolean callerMayAssumeCandidatesAreVisible() {
-      return allowSkippingVisibilityCheck;
+      return true; // Rely on enforceVisibility from the index.
     }
 
     @Override
@@ -487,8 +486,6 @@ public class AccountResolver {
   private final Realm realm;
   private final String anonymousCowardName;
   private final PermissionBackend permissionBackend;
-  private @Nullable IdentifiedUser asUser;
-  private boolean allowSkippingVisibilityCheck = true;
 
   @Inject
   AccountResolver(
@@ -510,24 +507,6 @@ public class AccountResolver {
     this.permissionBackend = permissionBackend;
     this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
-  }
-
-  /**
-   * Set an account to resolve the users by. If not set, {@link CurrentUser} is used.
-   *
-   * <p>This affects visibility checks.
-   *
-   * @param asUser the user to resolve the other users with.
-   * @return this
-   */
-  public AccountResolver resolveAsUser(IdentifiedUser asUser) {
-    this.asUser = asUser;
-    return this;
-  }
-
-  public AccountResolver forceVisibilityCheck(boolean forceVisibilityCheck) {
-    allowSkippingVisibilityCheck = !forceVisibilityCheck;
-    return this;
   }
 
   /**
@@ -649,9 +628,6 @@ public class AccountResolver {
   }
 
   private boolean canSee(AccountState accountState) {
-    if (asUser != null) {
-      return accountControlFactory.get(asUser).canSee(accountState);
-    }
     return accountControlFactory.get().canSee(accountState);
   }
 

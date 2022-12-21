@@ -1720,12 +1720,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try {
       if (args.getUser().isIdentifiedUser()) {
         return args.accountResolver
-            .resolveAsUser(args.getUser().asIdentifiedUser())
+            .resolveAsUser(args.getUser())
             .forceVisibilityCheck(forceVisibilityCheck)
             .resolve(who, activityFilter)
             .asNonEmptyIdSet();
       }
-      return args.accountResolver.resolve(who, activityFilter).asNonEmptyIdSet();
+      return args.accountResolver
+          .resolveAsUser(args.getUser())
+          .resolve(who, activityFilter)
+          .asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);

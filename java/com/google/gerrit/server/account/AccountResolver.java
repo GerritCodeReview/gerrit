@@ -184,6 +184,10 @@ public class AccountResolver {
     public IdentifiedUser asUniqueUser() throws UnresolvableAccountException {
       ensureUnique();
       if (isSelf()) {
+        if (asUser != null) {
+          return asUser.asIdentifiedUser();
+        }
+
         // In the special case of "self", use the exact IdentifiedUser from the request context, to
         // preserve the peer address and any other per-request state.
         return self.get().asIdentifiedUser();
@@ -196,7 +200,7 @@ public class AccountResolver {
       ensureUnique();
       if (isSelf()) {
         // TODO(dborowitz): This preserves old behavior, but it seems wrong to discard the caller.
-        return self.get().asIdentifiedUser();
+        return asUser != null ? asUser.asIdentifiedUser() : self.get().asIdentifiedUser();
       }
       return userFactory.runAs(
           null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
@@ -270,6 +274,13 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
+      if (asUser != null) {
+        if (!asUser.isIdentifiedUser()) {
+          return Stream.empty();
+        }
+        return Stream.of(asUser.asIdentifiedUser().state());
+      }
+
       CurrentUser user = self.get();
       if (!user.isIdentifiedUser()) {
         return Stream.empty();
@@ -487,7 +498,7 @@ public class AccountResolver {
   private final Realm realm;
   private final String anonymousCowardName;
   private final PermissionBackend permissionBackend;
-  private @Nullable IdentifiedUser asUser;
+  private @Nullable CurrentUser asUser;
   private boolean allowSkippingVisibilityCheck = true;
 
   @Inject
@@ -520,7 +531,7 @@ public class AccountResolver {
    * @param asUser the user to resolve the other users with.
    * @return this
    */
-  public AccountResolver resolveAsUser(IdentifiedUser asUser) {
+  public AccountResolver resolveAsUser(CurrentUser asUser) {
     this.asUser = asUser;
     return this;
   }

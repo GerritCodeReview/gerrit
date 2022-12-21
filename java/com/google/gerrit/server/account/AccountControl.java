@@ -82,12 +82,12 @@ public class AccountControl {
      * accounts.
      */
     @UsedAt(UsedAt.Project.PLUGIN_CODE_OWNERS)
-    public AccountControl get(IdentifiedUser identifiedUser) {
+    public AccountControl get(CurrentUser currentUser) {
       return new AccountControl(
           permissionBackend,
           projectCache,
           groupControlFactory,
-          identifiedUser,
+          currentUser,
           userFactory,
           accountVisibility);
     }

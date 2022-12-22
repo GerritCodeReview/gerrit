@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46248817_a91e8253",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-22T23:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82df9f41_0fc95e0b",
+      "range": {
+        "startLine": 156,
+        "startChar": 71,
+        "endLine": 156,
+        "endChar": 77
+      },
+      "revId": "12281a290b0f43a4a4d62f0d13879f4d2881e460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57fa338b_c05294ed",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-12-22T22:48:47Z",
       "side": 1,
       "message": "The computation of submit records is very expensive: can we just reuse the same approach of the `prepareETag` method?",
+      "range": {
+        "startLine": 86,
+        "startChar": 55,
+        "endLine": 86,
+        "endChar": 95
+      },
+      "revId": "12281a290b0f43a4a4d62f0d13879f4d2881e460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e202cd5d_f31b724e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-22T23:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57fa338b_c05294ed",
       "range": {
         "startLine": 86,
         "startChar": 55,

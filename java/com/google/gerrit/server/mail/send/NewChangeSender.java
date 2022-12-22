@@ -98,7 +98,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Nullable
-  public List<String> getReviewerNames() {
+  private List<String> getReviewerNames() {
     if (reviewers.isEmpty()) {
       return null;
     }
@@ -110,7 +110,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Nullable
-  public List<String> getRemovedReviewerNames() {
+  private List<String> getRemovedReviewerNames() {
     if (removedReviewers.isEmpty() && removedByEmailReviewers.isEmpty()) {
       return null;
     }

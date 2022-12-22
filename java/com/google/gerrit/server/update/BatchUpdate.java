@@ -374,8 +374,13 @@ public class BatchUpdate implements AutoCloseable {
 
   /** Per-change result status from {@link #executeChangeOps}. */
   private enum ChangeResult {
+    /** Change was not modified by any of the batch update ops. */
     SKIPPED,
+
+    /** Change was inserted or updated. */
     UPSERTED,
+
+    /** Change was deleted. */
     DELETED
   }
 

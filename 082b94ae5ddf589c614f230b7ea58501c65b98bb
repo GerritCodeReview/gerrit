@@ -16,6 +16,24 @@
       "message": "Has this been a bug since 3.0 or was it introduced earlier/later? I had trouble finding what change caused this.\n\nAssuming it\u0027s applicable, it would be good to move this change to stable-3.5.",
       "revId": "082b94ae5ddf589c614f230b7ea58501c65b98bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "931aef57_acf8fff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-22T07:48:12Z",
+      "side": 1,
+      "message": "This bug has been introduced in Feb 2019 (but back then we didn\u0027t identify the exact change that introduced this, but it could be the change that added AccountResolver).\n\nThis fix is based on [1]. While working on this fix I noticed that the fix in [1] is broken and we had to revert it [2]. Hence until we have a new solution for [1] I\u0027m abandoning this change.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/354699\n[2] https://gerrit-review.git.corp.google.com/c/gerrit/+/355414",
+      "parentUuid": "d74123cd_a9653862",
+      "revId": "082b94ae5ddf589c614f230b7ea58501c65b98bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

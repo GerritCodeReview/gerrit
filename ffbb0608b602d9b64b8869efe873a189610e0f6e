@@ -16,6 +16,23 @@
       "message": "@luca.milanesio@gmail.com Is there anything about this change?",
       "revId": "ffbb0608b602d9b64b8869efe873a189610e0f6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978be72e_b0cb986b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083641
+      },
+      "writtenOn": "2022-12-22T21:00:32Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com I think that this change not only improves performance, but also improves understanding of the code, makes it easier to read. When I read this code, I immediately noticed that this check is redundant, since it will always be true when the first two tests are true. However, I wondered if there was some trick to this and I checked for half an hour to see if there was some kind of trick in it and in the end I came to the conclusion that there was no trick here and it was just an unnecessary check. What do you think?",
+      "revId": "ffbb0608b602d9b64b8869efe873a189610e0f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

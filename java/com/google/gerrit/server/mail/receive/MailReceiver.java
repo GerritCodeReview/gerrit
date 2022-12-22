@@ -131,27 +131,19 @@ public abstract class MailReceiver implements LifecycleListener {
       if (async) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =
-            workQueue
-                .getDefaultQueue()
-                .submit(
-                    () -> {
-                      try {
-                        mailProcessor.process(m);
-                        requestDeletion(m.id());
-                      } catch (RestApiException | UpdateException e) {
-                        logger.atSevere().withCause(e).log(
-                            "Mail: Can't process message %s . Won't delete.", m.id());
-                      }
-                    });
+            workQueue.getDefaultQueue().submit(() -> processMessage(m));
       } else {
-        // Synchronous processing is used only in tests.
-        try {
-          mailProcessor.process(m);
-          requestDeletion(m.id());
-        } catch (RestApiException | UpdateException e) {
-          logger.atSevere().withCause(e).log("Mail: Can't process messages. Won't delete.");
-        }
+        processMessage(m);
       }
+    }
+  }
+
+  private void processMessage(MailMessage m) {
+    try {
+      mailProcessor.process(m);
+      requestDeletion(m.id());
+    } catch (RestApiException | UpdateException e) {
+      logger.atSevere().withCause(e).log("Mail: Can't process message %s . Won't delete.", m.id());
     }
   }
 }

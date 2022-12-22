@@ -569,6 +569,30 @@
       },
       "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "143cea9d_3aef7e97",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-22T21:44:32Z",
+      "side": 1,
+      "message": "Test has been simplified. It now:\n* create a change\n* get. the ETag\n* change the status\n* reindex the change\n* check the Etag has changed",
+      "parentUuid": "5006f4e7_d2f82e48",
+      "range": {
+        "startLine": 1746,
+        "startChar": 4,
+        "endLine": 1746,
+        "endChar": 71
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

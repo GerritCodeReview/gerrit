@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c13107b7_db7121db",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-22T23:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4677ceba_7ed01a84",
+      "revId": "a7af9f336605f31d490a8ee169d3304c70a2ebe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd8c954d_38383db6",
@@ -64,6 +82,24 @@
         "id": 1054778
       },
       "writtenOn": "2022-12-22T23:42:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd8c954d_38383db6",
+      "revId": "a7af9f336605f31d490a8ee169d3304c70a2ebe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ec5f41_d06ecbac",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-22T23:43:09Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "cd8c954d_38383db6",
@@ -105,6 +141,30 @@
         "id": 1054778
       },
       "writtenOn": "2022-12-22T23:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591e082f_f5325835",
+      "range": {
+        "startLine": 1727,
+        "startChar": 22,
+        "endLine": 1727,
+        "endChar": 24
+      },
+      "revId": "a7af9f336605f31d490a8ee169d3304c70a2ebe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe4cd3cd_0e137347",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1727,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-22T23:43:09Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "591e082f_f5325835",

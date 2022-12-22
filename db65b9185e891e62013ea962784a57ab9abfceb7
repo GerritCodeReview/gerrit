@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e9203e4_66f4d207",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "is this formatted correctly?",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4d22492_1479bdd3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "If we do not amend ETag calculation we do not need to change the interface for ETagView we can keep RestReadView",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55ed966a_dc11a979",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "why we need queryProvider?",
+      "range": {
+        "startLine": 34,
+        "startChar": 46,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce215a3_a0b27b50",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 47,
+        "startChar": 67,
+        "endLine": 47,
+        "endChar": 80
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22ccdc9_c7b2b84b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "we don\u0027t need that if we do not amend the ETag calculation",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6903c962_7e7ea660",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDetail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "not needed anymore",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ec7a20_ffaec512",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDetail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-22T22:01:13Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "db65b9185e891e62013ea962784a57ab9abfceb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

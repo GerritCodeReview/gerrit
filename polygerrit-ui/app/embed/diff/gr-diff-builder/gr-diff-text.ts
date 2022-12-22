@@ -5,6 +5,7 @@
  */
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import {diffClasses} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
@@ -114,7 +115,7 @@ export class GrDiffText extends LitElement {
     }
     const piece = html`<span
       class=${diffClasses('tab')}
-      style="tab-size: ${tabSize}; -moz-tab-size: ${tabSize};"
+      style=${styleMap({'tab-size': `${this.tabSize}`})}
       >${TAB}</span
     >`;
     this.pieces.push(piece);

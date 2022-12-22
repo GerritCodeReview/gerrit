@@ -22,6 +22,30 @@
       },
       "revId": "88cd034c38e6f637e155f0c5bcc4bf815ee9feb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8146c81e_02303a39",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-22T07:31:16Z",
+      "side": 1,
+      "message": "The revert has been submitted as https://gerrit-review.git.corp.google.com/c/gerrit/+/355414",
+      "parentUuid": "81da9763_ffd64bb0",
+      "range": {
+        "startLine": 515,
+        "startChar": 1,
+        "endLine": 531,
+        "endChar": 3
+      },
+      "revId": "88cd034c38e6f637e155f0c5bcc4bf815ee9feb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

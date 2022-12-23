@@ -85,7 +85,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-/** A service that can attach the comments from a {@link MailMessage} to a change. */
+/**
+ * Users can post comments on gerrit changes by replying directly to gerrit emails. This service
+ * parses the {@link MailMessage} sent by users and attaches the comments to a change.
+ *
+ * <p>This functionality can be configured or disabled by host. See {@link
+ * com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule}
+ */
 @Singleton
 public class MailProcessor {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

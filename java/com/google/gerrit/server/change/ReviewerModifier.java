@@ -277,8 +277,9 @@ public class ReviewerModifier {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      if (input instanceof InternalReviewerInput
-          && ((InternalReviewerInput) input).skipVisibilityCheck) {
+      if (ReviewerState.REMOVED.equals(input.state)
+          || (input instanceof InternalReviewerInput
+              && ((InternalReviewerInput) input).skipVisibilityCheck)) {
         reviewerUser =
             accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
       } else {

@@ -159,6 +159,7 @@ import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
@@ -227,6 +228,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
+  @Inject private AccountControl.Factory accountControlFactory;
 
   @Inject
   @Named("diff_intraline")
@@ -2118,6 +2120,78 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId).isEqualTo(admin.id().get());
 
     eventRecorder.assertReviewerDeletedEvents(changeId, user.email());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void removeNonVisibleReviewer() throws Exception {
+    // allow all users to remove reviewers
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    AccountInfo reviewerInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeId).get().reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewerInfo._accountId).isEqualTo(user.id().get());
+
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+
+    // user2 cannot see user
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+        .isFalse();
+
+    gApi.changes().id(changeId).reviewer(user.id().toString()).remove(new DeleteReviewerInput());
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void removeNonVisibleReviewerThroughPostReview() throws Exception {
+    // allow all users to remove reviewers
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    AccountInfo reviewerInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeId).get().reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewerInfo._accountId).isEqualTo(user.id().get());
+
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+
+    // user2 cannot see user
+    assertThat(
+            accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+        .isFalse();
+
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+    reviewerInput.state = ReviewerState.REMOVED;
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.reviewers = ImmutableList.of(reviewerInput);
+    ReviewResult reviewResult = gApi.changes().id(changeId).current().review(reviewInput);
+    assertThat(reviewResult.error).isNull();
+
+    // user is removed as a reviewer, user2 is added as a CC by doing the post review request that
+    // removed user as a reviewer
+    assertThat(gApi.changes().id(changeId).get().reviewers.get(ReviewerState.REVIEWER)).isNull();
+    reviewerInfo =
+        Iterables.getOnlyElement(gApi.changes().id(changeId).get().reviewers.get(ReviewerState.CC));
+    assertThat(reviewerInfo._accountId).isEqualTo(user2.id().get());
   }
 
   @Test

@@ -65,7 +65,6 @@ import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.logging.Metadata;
@@ -273,12 +272,9 @@ public class PostReviewOp implements BatchUpdateOp {
     if (mailMessage == null) {
       return;
     }
-    NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
-    if (notify.shouldNotify()) {
-      email
-          .create(ctx, ps, notes.getMetaId(), mailMessage, comments, in.message, labelDelta)
-          .sendAsync();
-    }
+    email
+        .create(ctx, ps, notes.getMetaId(), mailMessage, comments, in.message, labelDelta)
+        .sendAsync();
     String comment = mailMessage;
     if (publishPatchSetLevelComment) {
       // TODO(davido): Remove this workaround when patch set level comments are exposed in comment

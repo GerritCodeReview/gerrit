@@ -525,7 +525,7 @@ public class ChangeInserter implements InsertChangeOp {
   public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (sendMail && notify.shouldNotify()) {
+    if (sendMail) {
       Runnable sender =
           new Runnable() {
             @Override

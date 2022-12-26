@@ -16,6 +16,23 @@
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
       "revId": "d229dc3d234b3526eacd218fd777c1f76db156f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5809210_b0f53cb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155297
+      },
+      "writtenOn": "2022-12-26T21:36:03Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "d229dc3d234b3526eacd218fd777c1f76db156f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

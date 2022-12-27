@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf77db42_7034c5e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T14:00:26Z",
+      "side": 1,
+      "message": "Sorry for that. I mishmashed them while copying the commit message.",
+      "parentUuid": "a7f72243_e7f4b1ff",
+      "revId": "7da10abb0172c12a88b65260ac6d8c1f74694bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f25079eb_86bf44a3",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-12-27T08:05:17Z",
       "side": 1,
       "message": "provided?",
+      "range": {
+        "startLine": 590,
+        "startChar": 63,
+        "endLine": 590,
+        "endChar": 70
+      },
+      "revId": "7da10abb0172c12a88b65260ac6d8c1f74694bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80208fc8_092aa103",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T14:00:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25079eb_86bf44a3",
       "range": {
         "startLine": 590,
         "startChar": 63,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f95233_4ee1b8a7",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T14:00:26Z",
+      "side": 1,
+      "message": "Done. It\u0027s a bit ugly because the user cannot be passed to BySelf constructor. Tried to minimize the changes to the other searchers.",
+      "parentUuid": "ad557dd6_314f41ad",
+      "range": {
+        "startLine": 590,
+        "startChar": 6,
+        "endLine": 591,
+        "endChar": 82
+      },
+      "revId": "7da10abb0172c12a88b65260ac6d8c1f74694bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b46db95a_b28f95de",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-12-27T08:05:17Z",
       "side": 1,
       "message": "Should we add some JavaDoc here and maybe rename this method to make it clear that this is about checking the visibility of accounts? (since this class is about querying changes, reading this method name one could easily think that it was about checking the visibility of changes)",
+      "revId": "7da10abb0172c12a88b65260ac6d8c1f74694bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20356ef5_1dcf6589",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T14:00:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46db95a_b28f95de",
       "revId": "7da10abb0172c12a88b65260ac6d8c1f74694bc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

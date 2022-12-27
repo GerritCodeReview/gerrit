@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e09840a6_bcb5d65c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T14:00:26Z",
+      "side": 1,
+      "message": "Can b/124517315 be added here as well? If so, what\u0027s the syntax?\nThanks!",
+      "revId": "7117505b993a855d74fbc818c7ff0a299c7a1d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
@@ -127,7 +128,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       logger.atFine().log("No merge tip, no update to perform");
       return;
     }
-    logger.atFine().log("Moved tip from %s to %s", tipBefore, tipAfter);
+    logger.atFine().log(
+        "Moved tip from %s to %s (branch = %s)", tipBefore, tipAfter, getDest().branch());
 
     checkProjectConfig(ctx, tipAfter);
 
@@ -566,5 +568,15 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               args.destBranch, e.getMessage()),
           e);
     }
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("commit", getCommit().name())
+        .add("changeId", getId())
+        .add("dest", getDest().branch())
+        .add("project", getProject())
+        .toString();
   }
 }

@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.SubmissionId;
@@ -76,6 +77,8 @@ import org.eclipse.jgit.revwalk.RevFlag;
  * merged.
  */
 public abstract class SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static Module module() {
     return new FactoryModule() {
       @Override
@@ -275,6 +278,7 @@ public abstract class SubmitStrategy {
       Change.Id id = c.change().getId();
       bu.addOp(id, args.setPrivateOpFactory.create(false, null));
       ImplicitIntegrateOp implicitIntegrateOp = new ImplicitIntegrateOp(args, c);
+      logger.atFine().log("Add implicit integrate op: %s", implicitIntegrateOp);
       bu.addOp(id, implicitIntegrateOp);
       maybeAddTestHelperOp(bu, id);
       this.submitStrategyOps.add(implicitIntegrateOp);
@@ -282,6 +286,7 @@ public abstract class SubmitStrategy {
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
+      logger.atFine().log("Add explicit integrate op: %s", op);
       bu.addOp(op.getId(), args.setPrivateOpFactory.create(false, null));
       bu.addOp(op.getId(), op);
       maybeAddTestHelperOp(bu, op.getId());

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ffbef53_5b9328ca",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "I changed this field to also include the reviewer info, since a label-value combination might have several reviewers with only some of them removable (e.g. a label with no removal permissions with self vote + another vote).",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 69
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

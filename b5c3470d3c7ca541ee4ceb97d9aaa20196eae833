@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b12520_ee8b50ca",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c04024f6_f8ff75b9",
+      "range": {
+        "startLine": 806,
+        "startChar": 0,
+        "endLine": 806,
+        "endChar": 71
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7dd8bb0_f2f9116e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-22T08:42:13Z",
       "side": 1,
       "message": "nit: own",
+      "range": {
+        "startLine": 811,
+        "startChar": 54,
+        "endLine": 811,
+        "endChar": 56
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "594011ff_9f71d82f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7dd8bb0_f2f9116e",
       "range": {
         "startLine": 811,
         "startChar": 54,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8003b68_ab586651",
+        "filename": "java/com/google/gerrit/entities/Permission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1bd7212_2a30edd6",
+      "range": {
+        "startLine": 46,
+        "startChar": 48,
+        "endLine": 46,
+        "endChar": 61
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3b5680b_9e57b607",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b91773_229881f3",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3b5680b_9e57b607",
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20667c34_adccba45",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-12-22T08:42:13Z",
       "side": 1,
       "message": "Is this correct?\n\nout.removableVotes sounds like this is about votes (label + voting value), but then we are setting it to removableLabels, which is about labels, not votes.\n\nI think we need to return votes (label + voting value), since with the new permission is should e.g. be possible that a user can remove Code-Review+1 votes, but cannot remove Code-Review+2 votes.",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 691,
+        "endChar": 81
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e05af6d7_91e03c3b",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "I think the mishmash starts with LabelPermission.WithValue, which isn\u0027t called VotePermission. So somewhere they must collide.\n\nChanged to remavableLabels, to match the other vote-related fields. Though given the voter is part of the field, I\u0027m not sure that\u0027s actually better.",
+      "parentUuid": "20667c34_adccba45",
       "range": {
         "startLine": 691,
         "startChar": 8,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca1aa0c_a9a52e44",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a8f9987_07b89a28",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "628848d5_450d571a",
@@ -146,6 +284,30 @@
       "writtenOn": "2022-12-22T08:42:13Z",
       "side": 1,
       "message": "nit: 2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10b29ecd_b0987e56",
+        "filename": "java/com/google/gerrit/server/permissions/LabelRemovalPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-27T13:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "628848d5_450d571a",
       "range": {
         "startLine": 1,
         "startChar": 17,

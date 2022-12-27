@@ -26,6 +26,7 @@ import {
   ServerInfo,
   AccountInfo,
   Timestamp,
+  NumericChangeId,
 } from '../../../types/common';
 import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -130,8 +131,7 @@ export class GrChangeListItem extends LitElement {
       this,
       () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => {
-        if (!this.change) return;
-        this.checked = selectedChangeNums.includes(this.change._number);
+        this.updateCheckedState(selectedChangeNums);
       }
     );
   }
@@ -159,6 +159,20 @@ export class GrChangeListItem extends LitElement {
     if (this.selected && changedProperties.has('selected')) {
       this.focus();
     }
+
+    if (changedProperties.has('change')) {
+      this.updateCheckedState(
+        this.getBulkActionsModel().getState().selectedChangeNums
+      );
+    }
+  }
+
+  private updateCheckedState(selectedChangeNums: NumericChangeId[]) {
+    if (!this.change) {
+      this.checked = false;
+      return;
+    }
+    this.checked = selectedChangeNums.includes(this.change._number);
   }
 
   static override get styles() {

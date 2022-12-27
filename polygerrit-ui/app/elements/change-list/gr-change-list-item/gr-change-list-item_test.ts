@@ -153,10 +153,6 @@ suite('gr-change-list-item tests', () => {
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
       bulkActionsModel.addSelectedChangeNum(element.change._number);
-      await waitUntilObserved(
-        bulkActionsModel.selectedChangeNums$,
-        s => s.length === 1
-      );
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -166,10 +162,31 @@ suite('gr-change-list-item tests', () => {
       assert.isTrue(checkbox.checked);
 
       bulkActionsModel.removeSelectedChangeNum(element.change._number);
-      await waitUntilObserved(
-        bulkActionsModel.selectedChangeNums$,
-        s => s.length === 0
+      await element.updateComplete;
+
+      assert.isFalse(checkbox.checked);
+    });
+
+    test('checkbox state updates with change id update', async () => {
+      element.requestUpdate();
+      await element.updateComplete;
+
+      const changes = [
+        {...createChange(), _number: 1 as NumericChangeId},
+        {...createChange(), _number: 2 as NumericChangeId},
+      ];
+      element.change = changes[0];
+      bulkActionsModel.sync(changes);
+      bulkActionsModel.addSelectedChangeNum(element.change._number);
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '.selection > .selectionLabel > input'
       );
+      assert.isTrue(checkbox.checked);
+
+      element.change = changes[1];
       await element.updateComplete;
 
       assert.isFalse(checkbox.checked);
@@ -341,12 +358,14 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('renders', async () => {
+    const change = createChange();
+    bulkActionsModel.sync([change]);
+    bulkActionsModel.addSelectedChangeNum(change._number);
     element.showStar = true;
     element.showNumber = true;
     element.account = createAccountWithId(1);
     element.config = createServerInfo();
-    element.change = createChange();
-    element.checked = true;
+    element.change = change;
     await element.updateComplete;
     assert.isTrue(element.hasAttribute('checked'));
 

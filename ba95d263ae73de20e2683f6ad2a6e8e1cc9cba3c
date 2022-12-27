@@ -22,6 +22,30 @@
       },
       "revId": "ba95d263ae73de20e2683f6ad2a6e8e1cc9cba3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b05d3e33_ca6e8e62",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-27T11:20:16Z",
+      "side": 1,
+      "message": "Few things I missed:\n1. Constructor is adding a listener and not calling the update method\n2. Constructor is not called when a reload is triggered due to user bulk action so this flow is not supposed to work.",
+      "parentUuid": "5de868a0_04a0ec4a",
+      "range": {
+        "startLine": 134,
+        "startChar": 8,
+        "endLine": 134,
+        "endChar": 52
+      },
+      "revId": "ba95d263ae73de20e2683f6ad2a6e8e1cc9cba3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

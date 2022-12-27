@@ -22,6 +22,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -361,9 +362,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (notify.shouldNotify() && sendEmail) {
-      requireNonNull(mailMessage);
-
+    if (sendEmail) {
       emailNewPatchSetFactory
           .create(
               ctx,
@@ -372,8 +371,8 @@ public class PatchSetInserter implements BatchUpdateOp {
               approvalCopierResult.outdatedApprovals().stream()
                   .map(ApprovalCopier.Result.PatchSetApprovalData::patchSetApproval)
                   .collect(toImmutableSet()),
-              oldReviewers.byState(REVIEWER),
-              oldReviewers.byState(CC),
+              oldReviewers == null ? ImmutableSet.of() : oldReviewers.byState(REVIEWER),
+              oldReviewers == null ? ImmutableSet.of() : oldReviewers.byState(CC),
               changeKind,
               preUpdateMetaId)
           .sendAsync();

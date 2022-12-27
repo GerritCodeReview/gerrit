@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -52,7 +53,7 @@ public class EmailNewPatchSet {
     EmailNewPatchSet create(
         PostUpdateContext postUpdateContext,
         PatchSet patchSet,
-        String message,
+        @Nullable String message,
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
         @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
@@ -75,7 +76,7 @@ public class EmailNewPatchSet {
       MessageIdGenerator messageIdGenerator,
       @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
-      @Assisted String message,
+      @Nullable @Assisted String message,
       @Assisted ImmutableSet<PatchSetApproval> outdatedApprovals,
       @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
       @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,

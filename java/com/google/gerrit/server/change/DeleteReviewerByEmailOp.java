@@ -76,9 +76,6 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
     if (sendEmail) {
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());
-        if (!notify.shouldNotify()) {
-          return;
-        }
         DeleteReviewerSender emailSender =
             deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

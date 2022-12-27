@@ -185,18 +185,16 @@ public class DeleteVoteOp implements BatchUpdateOp {
     CurrentUser user = ctx.getUser();
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
-      if (notify.shouldNotify()) {
-        ReplyToChangeSender emailSender =
-            deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
-        if (user.isIdentifiedUser()) {
-          emailSender.setFrom(user.getAccountId());
-        }
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        emailSender.send();
+      ReplyToChangeSender emailSender =
+          deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
+      if (user.isIdentifiedUser()) {
+        emailSender.setFrom(user.getAccountId());
       }
+      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
+      emailSender.setNotify(notify);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+      emailSender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }

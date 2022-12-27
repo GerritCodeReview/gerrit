@@ -23,7 +23,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -112,19 +111,16 @@ public class PublishCommentsOp implements BatchUpdateOp {
     }
     ChangeNotes changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
     PatchSet ps = psUtil.get(changeNotes, psId);
-    NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
-    if (notify.shouldNotify()) {
-      email
-          .create(
-              ctx,
-              ps,
-              preUpdateMetaId,
-              mailMessage,
-              comments,
-              /* patchSetComment= */ null,
-              /* labels= */ ImmutableList.of())
-          .sendAsync();
-    }
+    email
+        .create(
+            ctx,
+            ps,
+            preUpdateMetaId,
+            mailMessage,
+            comments,
+            /* patchSetComment= */ null,
+            /* labels= */ ImmutableList.of())
+        .sendAsync();
     commentAdded.fire(
         ctx.getChangeData(changeNotes),
         ps,

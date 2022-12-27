@@ -1279,7 +1279,7 @@ export class GrChangeView extends LitElement {
         <a
           class="changeNumber"
           aria-label=${`Change ${this.change?._number}`}
-          href=${ifDefined(this.computeChangeUrl(true))}
+          href=${ifDefined(this.computeChangeUrl())}
           @click=${(e: MouseEvent) => e.stopPropagation()}
           >${this.change?._number}</a
         >
@@ -2364,11 +2364,10 @@ export class GrChangeView extends LitElement {
     return PARENT;
   }
 
-  private computeChangeUrl(forceReload?: boolean) {
+  private computeChangeUrl() {
     if (!this.change) return undefined;
     return createChangeUrl({
       change: this.change,
-      forceReload: !!forceReload,
     });
   }
 

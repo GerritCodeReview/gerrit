@@ -18,10 +18,6 @@ import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import '../gr-change-actions/gr-change-actions';
-import '../gr-change-summary/gr-change-summary';
-import '../gr-change-metadata/gr-change-metadata';
-import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';
 import '../gr-file-list-header/gr-file-list-header';
 import '../gr-file-list/gr-file-list';
@@ -351,6 +347,7 @@ export class GrChangeView extends LitElement {
     const oldChange = this._change;
     this._change = change;
     this.changeChanged(oldChange);
+    this.viewStateChanged();
     this.requestUpdate('change', oldChange);
   }
 
@@ -2153,7 +2150,7 @@ export class GrChangeView extends LitElement {
       this.reporting.reportInteraction('change-view-re-rendered');
       this.updateTitle(this.change);
       // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
+      // user wants to open  the reply dialog when in the diff page, the change
       // page should open the reply dialog
       this.performPostLoadTasks();
       return;

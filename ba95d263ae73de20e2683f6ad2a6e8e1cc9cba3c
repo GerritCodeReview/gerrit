@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de868a0_04a0ec4a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-27T10:58:54Z",
+      "side": 1,
+      "message": "after the user performs the action and the reload is triggered, this constructor should be called again and then the `updateCheckedState` method sees that `selectedChangeNums.includes(this.change._number);` is false and sets the checkbox to false?\n\nI think this is how it should work, so why is the code in `willUpdate` required?\nOr in other words why is the incorrect value calculated after a reload?",
+      "range": {
+        "startLine": 134,
+        "startChar": 8,
+        "endLine": 134,
+        "endChar": 52
+      },
+      "revId": "ba95d263ae73de20e2683f6ad2a6e8e1cc9cba3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

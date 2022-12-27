@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a5510e_4519c913",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-27T10:13:46Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com any chance you could verify this?\nOr point me to how to verify this outside the gerrit-ci?",
+      "revId": "3406ff75d627449b5289d79b03c38d62fb5f9e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

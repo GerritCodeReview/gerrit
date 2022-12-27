@@ -20,6 +20,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
@@ -81,11 +85,16 @@ class Helper {
   private final String connectTimeoutMillis;
   private final boolean useConnectionPooling;
   private final boolean groupsVisibleToAll;
+  private final Timer0 loginLatencyTimer;
+  private final Timer0 userSearchLatencyTimer;
+  private final Timer0 groupSearchLatencyTimer;
+  private final Timer0 groupExpansionLatencyTimer;
 
   @Inject
   Helper(
       @GerritServerConfig Config config,
-      @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups) {
+      @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups,
+      MetricMaker metricMaker) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -112,6 +121,33 @@ class Helper {
     }
     this.parentGroups = parentGroups;
     this.useConnectionPooling = LdapRealm.optional(config, "useConnectionPooling", false);
+
+    this.loginLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/login_latency",
+            new Description("Latency of logins").setCumulative().setUnit(Units.NANOSECONDS));
+    this.userSearchLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/user_search_latency",
+            new Description("Latency for searching the user account")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+    this.groupSearchLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/group_search_latency",
+            new Description("Latency for querying the groups membership of an account")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+    this.groupExpansionLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/group_expansion_latency",
+            new Description("Latency for expanding nested groups")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+  }
+
+  Timer0 getGroupSearchLatencyTimer() {
+    return groupSearchLatencyTimer;
   }
 
   private Properties createContextProperties() {
@@ -191,7 +227,9 @@ class Helper {
   private DirContext kerberosOpen(Properties env)
       throws IOException, LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
-    ctx.login();
+    try (Timer0.Context ignored = loginLatencyTimer.start()) {
+      ctx.login();
+    }
     Subject subject = ctx.getSubject();
     try {
       return Subject.doAs(
@@ -215,7 +253,7 @@ class Helper {
 
   DirContext authenticate(String dn, String password) throws AccountException {
     final Properties env = createContextProperties();
-    try {
+    try (Timer0.Context ignored = loginLatencyTimer.start()) {
       env.put(Context.REFERRAL, referral);
 
       if (!supportAnonymous) {
@@ -264,7 +302,7 @@ class Helper {
     }
 
     for (LdapQuery accountQuery : accountQueryList) {
-      List<LdapQuery.Result> res = accountQuery.query(ctx, params);
+      List<LdapQuery.Result> res = accountQuery.query(ctx, params, userSearchLatencyTimer);
       if (res.size() == 1) {
         return res.get(0);
       } else if (res.size() > 1) {
@@ -296,8 +334,10 @@ class Helper {
       params.put(LdapRealm.USERNAME, username);
 
       for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
-        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-          recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
+        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params, groupSearchLatencyTimer)) {
+          try (Timer0.Context ignored = groupExpansionLatencyTimer.start()) {
+            recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
+          }
         }
       }
     }

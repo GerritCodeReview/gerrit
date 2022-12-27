@@ -5,7 +5,11 @@
  */
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {NumericChangeId, BranchName} from '../../../types/common';
+import {
+  NumericChangeId,
+  BranchName,
+  ChangeActionDialog,
+} from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import {
@@ -29,7 +33,10 @@ export interface ConfirmRebaseEventDetail {
 }
 
 @customElement('gr-confirm-rebase-dialog')
-export class GrConfirmRebaseDialog extends LitElement {
+export class GrConfirmRebaseDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /**
    * Fired when the confirm button is pressed.
    *

@@ -13,6 +13,7 @@ import {customElement, property, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {ChangeActionDialog} from '../../../types/common';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,7 +22,10 @@ declare global {
 }
 
 @customElement('gr-confirm-abandon-dialog')
-export class GrConfirmAbandonDialog extends LitElement {
+export class GrConfirmAbandonDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /**
    * Fired when the confirm button is pressed.
    *

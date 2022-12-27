@@ -8,7 +8,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {ChangeInfo, CommitId} from '../../../types/common';
+import {ChangeActionDialog, ChangeInfo, CommitId} from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -46,7 +46,10 @@ declare global {
 }
 
 @customElement('gr-confirm-revert-dialog')
-export class GrConfirmRevertDialog extends LitElement {
+export class GrConfirmRevertDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /* The revert message updated by the user
       The default value is set by the dialog */
   @state()

@@ -8,7 +8,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
-import {ActionInfo, EDIT} from '../../../types/common';
+import {ActionInfo, ChangeActionDialog, EDIT} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
@@ -23,7 +23,10 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
 
 @customElement('gr-confirm-submit-dialog')
-export class GrConfirmSubmitDialog extends LitElement {
+export class GrConfirmSubmitDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   @query('#dialog')
   dialog?: GrDialog;
 

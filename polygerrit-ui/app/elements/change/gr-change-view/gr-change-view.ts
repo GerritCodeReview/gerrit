@@ -351,6 +351,7 @@ export class GrChangeView extends LitElement {
     const oldChange = this._change;
     this._change = change;
     this.changeChanged(oldChange);
+    this.viewStateChanged();
     this.requestUpdate('change', oldChange);
   }
 
@@ -2153,7 +2154,7 @@ export class GrChangeView extends LitElement {
       this.reporting.reportInteraction('change-view-re-rendered');
       this.updateTitle(this.change);
       // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
+      // user wants to open  the reply dialog when in the diff page, the change
       // page should open the reply dialog
       this.performPostLoadTasks();
       return;

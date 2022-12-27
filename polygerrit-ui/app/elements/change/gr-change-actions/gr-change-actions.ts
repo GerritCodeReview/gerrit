@@ -38,6 +38,7 @@ import {
   ActionInfo,
   ActionNameToActionInfoMap,
   BranchName,
+  ChangeActionDialog,
   ChangeInfo,
   ChangeViewChangeInfo,
   CherryPickInput,
@@ -315,11 +316,6 @@ interface ActionPriorityOverride {
   type: ActionType.CHANGE | ActionType.REVISION;
   key: string;
   priority: ActionPriority;
-}
-
-interface ChangeActionDialog extends HTMLElement {
-  resetFocus?(): void;
-  init?(): void;
 }
 
 @customElement('gr-change-actions')

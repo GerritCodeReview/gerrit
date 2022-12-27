@@ -1511,3 +1511,8 @@ export interface MergeableInfo {
   conflicts?: string[];
   mergeable_into?: string[];
 }
+
+export interface ChangeActionDialog extends HTMLElement {
+  resetFocus?(): void;
+  init?(): void;
+}

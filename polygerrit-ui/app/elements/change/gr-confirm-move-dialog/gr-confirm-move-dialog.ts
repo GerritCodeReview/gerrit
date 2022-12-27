@@ -6,7 +6,7 @@
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {BranchName, RepoName} from '../../../types/common';
+import {BranchName, ChangeActionDialog, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
@@ -19,7 +19,10 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 const SUGGESTIONS_LIMIT = 15;
 
 @customElement('gr-confirm-move-dialog')
-export class GrConfirmMoveDialog extends LitElement {
+export class GrConfirmMoveDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /**
    * Fired when the confirm button is pressed.
    *

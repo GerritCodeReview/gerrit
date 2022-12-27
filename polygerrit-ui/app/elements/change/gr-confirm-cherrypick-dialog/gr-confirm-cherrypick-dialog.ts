@@ -17,6 +17,7 @@ import {
   CommitId,
   ChangeInfoId,
   TopicName,
+  ChangeActionDialog,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -60,7 +61,10 @@ declare global {
 }
 
 @customElement('gr-confirm-cherrypick-dialog')
-export class GrConfirmCherrypickDialog extends LitElement {
+export class GrConfirmCherrypickDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /**
    * Fired when the confirm button is pressed.
    *

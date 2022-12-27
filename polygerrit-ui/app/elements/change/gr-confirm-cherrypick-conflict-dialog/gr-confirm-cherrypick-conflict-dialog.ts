@@ -6,10 +6,14 @@
 import {css, html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {ChangeActionDialog} from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-confirm-cherrypick-conflict-dialog')
-export class GrConfirmCherrypickConflictDialog extends LitElement {
+export class GrConfirmCherrypickConflictDialog
+  extends LitElement
+  implements ChangeActionDialog
+{
   /**
    * Fired when the confirm button is pressed.
    *

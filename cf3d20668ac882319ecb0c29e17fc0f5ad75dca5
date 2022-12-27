@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e768a6_9f9f55a6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-27T12:58:24Z",
+      "side": 1,
+      "message": "do you need to spread this?\n`const change: ParsedChangeInfo \u003d createParsedChange()`?",
+      "range": {
+        "startLine": 1220,
+        "startChar": 43,
+        "endLine": 1220,
+        "endChar": 69
+      },
+      "revId": "cf3d20668ac882319ecb0c29e17fc0f5ad75dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

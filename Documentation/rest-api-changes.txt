@@ -6745,7 +6745,7 @@ This can be:
 * a commit ID ("674ac754f91e64a0efb8087e59a176484bd534d1")
 * an abbreviated commit ID that uniquely identifies one revision of the
   change ("674ac754"), at least 4 digits are required
-* a legacy numeric patch number ("1" for first patch set of the change)
+* a numeric patch number ("1" for first patch set of the change)
 * "0" or the literal `edit` for a change edit
 
 [[json-entities]]

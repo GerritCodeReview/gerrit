@@ -1279,8 +1279,13 @@ export class GrChangeView extends LitElement {
         <a
           class="changeNumber"
           aria-label=${`Change ${this.change?._number}`}
-          href=${ifDefined(this.computeChangeUrl(true))}
-          @click=${(e: MouseEvent) => e.stopPropagation()}
+          @click=${(e: MouseEvent) => {
+            const url = this.computeChangeUrl(true);
+            if (url) {
+              this.getNavigation().setUrl(url);
+            }
+            e.stopPropagation();
+          }}
           >${this.change?._number}</a
         >
       </gr-button>

@@ -16,6 +16,24 @@
       "message": "Please add context to the commit message. To explain why this is needed.",
       "revId": "a509aa6b6246854c525fdd599ad903c8becd2a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa25ca2_6ff3f536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-27T14:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee250c4c_8be1683e",
+      "revId": "a509aa6b6246854c525fdd599ad903c8becd2a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

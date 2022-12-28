@@ -60,6 +60,11 @@ public class DisabledProjectIndex implements ProjectIndex {
   }
 
   @Override
+  public void deleteByValue(ProjectData value) {
+    throw new UnsupportedOperationException("ProjectIndex is disabled");
+  }
+
+  @Override
   public void delete(Project.NameKey key) {
     throw new UnsupportedOperationException("ProjectIndex is disabled");
   }

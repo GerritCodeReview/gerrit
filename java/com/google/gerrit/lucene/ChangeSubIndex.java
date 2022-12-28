@@ -85,7 +85,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         subIndex,
         writerConfig,
         searcherFactory,
-        autoFlush);
+        autoFlush,
+        ChangeIndex.ENTITY_TO_KEY);
   }
 
   @Override

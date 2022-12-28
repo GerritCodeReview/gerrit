@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.account.AccountPredicates;
+import java.util.function.Function;
 
 /**
  * Index for Gerrit accounts. This class is mainly used for typing the generic parent class that
@@ -32,4 +33,6 @@ public interface AccountIndex extends Index<Account.Id, AccountState> {
   default Predicate<AccountState> keyPredicate(Account.Id id) {
     return AccountPredicates.id(getSchema(), id);
   }
+
+  Function<AccountState, Account.Id> ENTITY_TO_KEY = (a) -> a.account().id();
 }

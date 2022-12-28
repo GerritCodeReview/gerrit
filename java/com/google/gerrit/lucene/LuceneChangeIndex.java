@@ -243,6 +243,11 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void deleteByValue(ChangeData value) {
+    delete(ChangeIndex.ENTITY_TO_KEY.apply(value));
+  }
+
+  @Override
   public void delete(Change.Id changeId) {
     Term idTerm = LuceneChangeIndex.idTerm(changeId);
     try {

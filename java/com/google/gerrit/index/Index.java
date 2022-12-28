@@ -60,6 +60,9 @@ public interface Index<K, V> {
    */
   void replace(V obj);
 
+  /** Delete a document from the index by value */
+  void deleteByValue(V value);
+
   /**
    * Delete a document from the index by key.
    *

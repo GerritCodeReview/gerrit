@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
+import java.util.function.Function;
 
 /**
  * Index for Gerrit projects (repositories). This class is mainly used for typing the generic parent
@@ -32,4 +33,6 @@ public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
   default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
     return new ProjectPredicate(ProjectField.NAME, nameKey.get());
   }
+
+  Function<ProjectData, Project.NameKey> ENTITY_TO_KEY = (p) -> p.getProject().getNameKey();
 }

@@ -2120,7 +2120,7 @@ export class GrChangeView extends LitElement {
 
     this.patchRange = {
       patchNum: this.viewState.patchNum,
-      basePatchNum: this.viewState.basePatchNum,
+      basePatchNum: this.getBasePatchNum(),
     };
     this.scrollCommentId = this.viewState.commentId;
 
@@ -2171,6 +2171,13 @@ export class GrChangeView extends LitElement {
       this.fileList?.collapseAllDiffs();
       this.fileList?.resetFileState();
     });
+
+    if (!this.patchRange.patchNum) {
+      this.patchRange = {
+        ...this.patchRange,
+        patchNum: computeLatestPatchNum(this.allPatchSets),
+      };
+    }
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
@@ -2319,16 +2326,6 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    // We get the parent first so we keep the original value for basePatchNum
-    // and not the updated value.
-    const parent = this.getBasePatchNum();
-
-    this.patchRange = {
-      ...this.patchRange,
-      basePatchNum: parent,
-      patchNum:
-        this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
-    };
     this.updateTitle(this.change);
   }
 

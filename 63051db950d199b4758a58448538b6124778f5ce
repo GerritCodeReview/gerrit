@@ -16,6 +16,24 @@
       "message": "That method has a bunch of TODOs in it that do not suggest it\u0027s working completely correctly.\n\nTo verify this change works, do you have a CL where I could see the difference?",
       "revId": "63051db950d199b4758a58448538b6124778f5ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f856c9_d7f38231",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-28T20:23:06Z",
+      "side": 1,
+      "message": "If the method is not working properly then I\u0027m not sure what testing the method on a CL is supposed to do.\n\nI see that you added the TODOs so are you asking to resolve the TODOs(out of the scope of this change I feel and I would need to take a look).\n\nOtherwise I\u0027m not sure exactly what the \"difference\" is that you are referring to.\nCan you elaborate?",
+      "parentUuid": "18f0a520_fb5887ff",
+      "revId": "63051db950d199b4758a58448538b6124778f5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

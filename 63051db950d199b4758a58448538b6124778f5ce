@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f0a520_fb5887ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-28T17:09:27Z",
+      "side": 1,
+      "message": "That method has a bunch of TODOs in it that do not suggest it\u0027s working completely correctly.\n\nTo verify this change works, do you have a CL where I could see the difference?",
+      "revId": "63051db950d199b4758a58448538b6124778f5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -55,6 +55,11 @@ public class DisabledAccountIndex implements AccountIndex {
   }
 
   @Override
+  public void deleteByValue(AccountState value) {
+    throw new UnsupportedOperationException("AccountIndex is disabled");
+  }
+
+  @Override
   public void delete(Account.Id key) {
     throw new UnsupportedOperationException("AccountIndex is disabled");
   }

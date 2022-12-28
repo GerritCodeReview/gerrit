@@ -98,7 +98,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
         null,
         new GerritIndexWriterConfig(cfg, GROUPS),
         new SearcherFactory(),
-        autoFlush);
+        autoFlush,
+        GroupIndex.ENTITY_TO_KEY);
     this.groupCache = groupCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, GROUPS);

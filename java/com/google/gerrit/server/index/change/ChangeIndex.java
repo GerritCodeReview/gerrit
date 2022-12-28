@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
+import java.util.function.Function;
 
 /**
  * Index for Gerrit changes. This class is mainly used for typing the generic parent class that
@@ -32,4 +33,6 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
   default Predicate<ChangeData> keyPredicate(Change.Id id) {
     return ChangePredicates.idStr(id);
   }
+
+  Function<ChangeData, Change.Id> ENTITY_TO_KEY = ChangeData::getId;
 }

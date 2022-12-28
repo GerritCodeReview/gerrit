@@ -2172,6 +2172,13 @@ export class GrChangeView extends LitElement {
       this.fileList?.resetFileState();
     });
 
+    if (!this.patchRange.patchNum) {
+      this.patchRange = {
+        ...this.patchRange,
+        patchNum: computeLatestPatchNum(this.allPatchSets),
+      };
+    }
+
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
     // 1. We want to avoid code such as `this.initialLoadComplete = false` that
@@ -2319,16 +2326,6 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    // We get the parent first so we keep the original value for basePatchNum
-    // and not the updated value.
-    const parent = this.getBasePatchNum();
-
-    this.patchRange = {
-      ...this.patchRange,
-      basePatchNum: parent,
-      patchNum:
-        this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
-    };
     this.updateTitle(this.change);
   }
 

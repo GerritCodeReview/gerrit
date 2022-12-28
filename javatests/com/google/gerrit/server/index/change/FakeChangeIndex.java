@@ -98,6 +98,11 @@ public class FakeChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void deleteByValue(ChangeData value) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public void delete(Change.Id id) {
     throw new UnsupportedOperationException();
   }

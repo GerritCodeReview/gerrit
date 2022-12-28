@@ -62,6 +62,11 @@ public class DisabledChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void deleteByValue(ChangeData value) {
+    throw new UnsupportedOperationException("ChangeIndex is disabled");
+  }
+
+  @Override
   public void delete(Change.Id key) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }

@@ -20,6 +20,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.query.group.GroupPredicates;
+import java.util.function.Function;
 
 /**
  * Index for internal Gerrit groups. This class is mainly used for typing the generic parent class
@@ -33,4 +34,6 @@ public interface GroupIndex extends Index<AccountGroup.UUID, InternalGroup> {
   default Predicate<InternalGroup> keyPredicate(AccountGroup.UUID uuid) {
     return GroupPredicates.uuid(uuid);
   }
+
+  Function<InternalGroup, AccountGroup.UUID> ENTITY_TO_KEY = (g) -> g.getGroupUUID();
 }

@@ -279,6 +279,11 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     public void insert(ChangeData obj) {}
+
+    @Override
+    public void deleteByValue(ChangeData value) {
+      delete(ChangeIndex.ENTITY_TO_KEY.apply(value));
+    }
   }
 
   /** Fake implementation of {@link AccountIndex} where all filtering happens in-memory. */
@@ -311,6 +316,11 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     public void insert(AccountState obj) {}
+
+    @Override
+    public void deleteByValue(AccountState value) {
+      delete(AccountIndex.ENTITY_TO_KEY.apply(value));
+    }
   }
 
   /** Fake implementation of {@link GroupIndex} where all filtering happens in-memory. */
@@ -344,6 +354,11 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     public void insert(InternalGroup obj) {}
+
+    @Override
+    public void deleteByValue(InternalGroup value) {
+      delete(GroupIndex.ENTITY_TO_KEY.apply(value));
+    }
   }
 
   /** Fake implementation of {@link ProjectIndex} where all filtering happens in-memory. */
@@ -376,5 +391,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     public void insert(ProjectData obj) {}
+
+    @Override
+    public void deleteByValue(ProjectData value) {
+      delete(ProjectIndex.ENTITY_TO_KEY.apply(value));
+    }
   }
 }

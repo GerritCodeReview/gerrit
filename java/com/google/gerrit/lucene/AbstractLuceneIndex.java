@@ -107,6 +107,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Set<NrtFuture> notDoneNrtFutures;
   private final AutoFlush autoFlush;
   private ScheduledExecutorService autoCommitExecutor;
+  private final Function<V, K> valueToKeyFunction;
 
   @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
@@ -118,7 +119,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       String subIndex,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      Function<V, K> valueToKeyFunction)
       throws IOException {
     this.schema = schema;
     this.sitePaths = sitePaths;
@@ -126,6 +128,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.name = name;
     this.skipFields = skipFields;
     this.autoFlush = autoFlush;
+    this.valueToKeyFunction = valueToKeyFunction;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -296,6 +299,11 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           return new NrtFuture(gen);
         },
         directExecutor());
+  }
+
+  @Override
+  public void deleteByValue(V value) {
+    delete(valueToKeyFunction.apply(value));
   }
 
   @Override

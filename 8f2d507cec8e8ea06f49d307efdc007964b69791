@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b01c7784_7164370e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-12-28T15:54:07Z",
+      "side": 1,
+      "message": "nit: add a comment why we are doing this?",
+      "revId": "8f2d507cec8e8ea06f49d307efdc007964b69791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

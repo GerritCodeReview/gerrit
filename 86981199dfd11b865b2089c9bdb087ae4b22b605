@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159b28da_950dbf08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-29T10:19:35Z",
+      "side": 1,
+      "message": "`MouseEvent` instead of event?\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts;l\u003d933?q\u003d%22click%3D$%7B(e:%20MouseEvent%22\u0026sq\u003d",
+      "range": {
+        "startLine": 647,
+        "startChar": 21,
+        "endLine": 647,
+        "endChar": 26
+      },
+      "revId": "86981199dfd11b865b2089c9bdb087ae4b22b605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

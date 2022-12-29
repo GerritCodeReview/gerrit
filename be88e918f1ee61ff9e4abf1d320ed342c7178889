@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08649acf_1facf1d8",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "I think this is wrong if resolveAsUser with a provided user was called.\n\nIIUC this method, returns the only result as an IdentifiedUser.\nIf \"self\" has been resolved the only result is either\n* the current user (aka self), when resolve was called or\n* the provided user, when resolveAsUser was called\n\nIn the first case we need to return the exact IdentifiedUser instance from the request context which is what this if case is about, but in the latter case we need to return the provided user (I think in this case it is not required to return the exact same instance, so just creating a new IdentifiedUser instance in the line 191 below might be fine).",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 7
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d7fd0f_c1674cfc",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f644bdf6_acde380c",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "I understand what this is used for, but I think I will struggle understanding this half a year from now.\n\nCould we add javadoc to explain this?\n\nMaybe we could also find a better name. What do you think about something like \"requiresContextUser\"?",
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "916bd2b6_956f3bd0",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "I think here too we would want to use the provided user, if resolveAsUser was called.",
+      "range": {
+        "startLine": 492,
+        "startChar": 35,
+        "endLine": 492,
+        "endChar": 45
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cc304d1_ed95697d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "If args.getUser() is not an IdentifiedUser, this fails with an exception.\n\nAlso see comment below.",
+      "range": {
+        "startLine": 1706,
+        "startChar": 25,
+        "endLine": 1706,
+        "endChar": 58
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f4a2ef_39bfba27",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "I think this is not fully correct.\n\nIf args.getUser() is not an IdentifiedUser (e.g. it\u0027s the anonymous user), we call accountResolver.resolve which then incorrectly uses the current user (e.g. it resolves \"self\" to the current user, rather then throwing an exception saying that resolving \"self\" requires an identified user).\n\nI think it might be better to change accountResolver.resolveAsUser to accept a CurrentUser, rather than requiring an IdentifiedUser.",
+      "range": {
+        "startLine": 1720,
+        "startChar": 6,
+        "endLine": 1726,
+        "endChar": 81
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Can b/124517315 be added here as well? If so, what\u0027s the syntax?\nThanks!",
       "revId": "7117505b993a855d74fbc818c7ff0a299c7a1d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ce6bd8_8882d514",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T10:15:01Z",
+      "side": 1,
+      "message": "I think it\u0027s okay to have multiple Bug footers:\n\n\u003e Bug: Google b/262363435\n\u003e Bug: Google b/124517315",
+      "parentUuid": "e09840a6_bcb5d65c",
+      "revId": "7117505b993a855d74fbc818c7ff0a299c7a1d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

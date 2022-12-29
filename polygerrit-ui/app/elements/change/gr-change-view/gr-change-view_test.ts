@@ -1478,24 +1478,6 @@ suite('gr-change-view tests', () => {
     assert.equal(element.fileList.selectedIndex, 0);
   });
 
-  test('forceReload updates the change', async () => {
-    assertIsDefined(element.fileList);
-    const getChangeStub = stubRestApi('getChangeDetail').returns(
-      Promise.resolve(createParsedChange())
-    );
-    const loadDataStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    element.viewState = {...createChangeViewState(), forceReload: true};
-    await element.updateComplete;
-    await waitUntil(() => getChangeStub.called);
-    assert.isTrue(loadDataStub.called);
-    assert.isTrue(collapseStub.called);
-    // patchNum is set by changeChanged, so this verifies that change was set.
-    assert.isOk(element.patchRange?.patchNum);
-  });
-
   test('do not handle new change numbers', async () => {
     const recreateSpy = sinon.spy();
     element.addEventListener('recreate-change-view', recreateSpy);

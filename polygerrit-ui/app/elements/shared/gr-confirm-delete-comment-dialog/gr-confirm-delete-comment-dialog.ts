@@ -75,6 +75,7 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
   override render() {
     return html` <gr-dialog
       confirm-label="Delete"
+      ?disabled=${this.message === ''}
       @confirm=${this.handleConfirmTap}
       @cancel=${this.handleCancelTap}
     >

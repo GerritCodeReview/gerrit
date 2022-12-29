@@ -130,6 +130,9 @@ export class GrComment extends LitElement {
   @query('#confirmDeleteModal')
   confirmDeleteModal?: HTMLDialogElement;
 
+  @query('#confirmDeleteCommentDialog')
+  confirmDeleteDialog?: GrConfirmDeleteCommentDialog;
+
   @property({type: Object})
   comment?: Comment;
 
@@ -940,7 +943,7 @@ export class GrComment extends LitElement {
     return html`
       <dialog id="confirmDeleteModal" tabindex="-1">
         <gr-confirm-delete-comment-dialog
-          id="confirmDeleteComment"
+          id="confirmDeleteCommentDialog"
           @confirm=${this.handleConfirmDeleteComment}
           @cancel=${this.closeDeleteCommentModal}
         >
@@ -1262,6 +1265,9 @@ export class GrComment extends LitElement {
 
   private openDeleteCommentModal() {
     this.confirmDeleteModal?.showModal();
+    whenVisible(this.confirmDeleteDialog!, () => {
+      this.confirmDeleteDialog!.resetFocus();
+    });
   }
 
   private closeDeleteCommentModal() {
@@ -1274,10 +1280,7 @@ export class GrComment extends LitElement {
    */
   // private, but visible for testing
   async handleConfirmDeleteComment() {
-    const dialog = this.confirmDeleteModal?.querySelector(
-      '#confirmDeleteComment'
-    ) as GrConfirmDeleteCommentDialog | null;
-    if (!dialog || !dialog.message) {
+    if (!this.confirmDeleteDialog || !this.confirmDeleteDialog.message) {
       throw new Error('missing confirm delete dialog');
     }
     assertIsDefined(this.changeNum, 'changeNum');
@@ -1286,7 +1289,7 @@ export class GrComment extends LitElement {
     await this.getCommentsModel().deleteComment(
       this.changeNum,
       this.comment,
-      dialog.message
+      this.confirmDeleteDialog.message
     );
     this.closeDeleteCommentModal();
   }

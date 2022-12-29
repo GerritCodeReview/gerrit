@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d060f4_66f56176",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "803dc85d_c71cc291",
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14b9f342_16af706b",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-12-29T11:19:08Z",
       "side": 1,
       "message": "Maybe mention that reviewers are returned as AccountInfo.",
+      "range": {
+        "startLine": 7076,
+        "startChar": 11,
+        "endLine": 7076,
+        "endChar": 20
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d773bd7a_d9dc042e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7076,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14b9f342_16af706b",
       "range": {
         "startLine": 7076,
         "startChar": 11,
@@ -128,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce0caf8e_48008810",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6704ec56_c835054c",
+      "range": {
+        "startLine": 189,
+        "startChar": 1,
+        "endLine": 192,
+        "endChar": 3
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fa52a5b_a1f34e59",
@@ -145,6 +211,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4824e161_c335f2a0",
+        "filename": "java/com/google/gerrit/server/project/DeleteVoteControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fa52a5b_a1f34e59",
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f7c12c2_a26cde5d",
@@ -158,6 +242,30 @@
       "writtenOn": "2022-12-29T11:19:08Z",
       "side": 1,
       "message": "Maybe better ...WithoutRemoveLabelPermission (since it actually does some permission checks).",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 57
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "852ed896_1d04de3a",
+        "filename": "java/com/google/gerrit/server/project/DeleteVoteControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f7c12c2_a26cde5d",
       "range": {
         "startLine": 65,
         "startChar": 35,
@@ -191,6 +299,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "796c4f72_951eb161",
+        "filename": "javatests/com/google/gerrit/entities/PermissionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0102d83f_693153af",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a048c394_0c1158e5",
@@ -204,6 +336,30 @@
       "writtenOn": "2022-12-29T11:19:08Z",
       "side": 1,
       "message": "nit: forRemoveLabel?",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "2e73bf8b94d6bc70081a46d1a5f969fbbfdfce30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e86e458_209037cd",
+        "filename": "javatests/com/google/gerrit/entities/PermissionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-12-29T19:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a048c394_0c1158e5",
       "range": {
         "startLine": 99,
         "startChar": 14,

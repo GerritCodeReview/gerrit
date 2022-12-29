@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de09ee1_2b6e9884",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-29T13:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc993144_4477ea3f",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "edf7262e212365229a0381303cadaf3ad5d98493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0e3eb48_4972aacf",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddaa80b_7a1b4e6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-29T13:16:10Z",
+      "side": 1,
+      "message": "That was the original Id of the dialog. Renamed the id attribute for clarity.",
+      "parentUuid": "d0e3eb48_4972aacf",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "edf7262e212365229a0381303cadaf3ad5d98493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70e31383_bded0460",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-29T13:04:32Z",
       "side": 1,
       "message": "why is this required?\nDoesn\u0027t seem to change the test outcome",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "edf7262e212365229a0381303cadaf3ad5d98493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cddae15c_8467795b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-12-29T13:16:10Z",
+      "side": 1,
+      "message": "It does, without it the dialog would have disabled attribute.\n\nIn fact the similar lines in the next test are the ones that don\u0027t do anything (because element is created with empty message). But I put them there for clarity, so that it\u0027s immediately visible that message is empty.",
+      "parentUuid": "70e31383_bded0460",
       "range": {
         "startLine": 22,
         "startChar": 4,

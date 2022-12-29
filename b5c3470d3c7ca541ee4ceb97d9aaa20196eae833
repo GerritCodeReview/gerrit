@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6087e07_82b624d0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T11:19:08Z",
+      "side": 1,
+      "message": "Hmm, this still doesn\u0027t mention that this permission is assigned on a range.",
+      "parentUuid": "68b12520_ee8b50ca",
+      "range": {
+        "startLine": 806,
+        "startChar": 0,
+        "endLine": 806,
+        "endChar": 71
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7dd8bb0_f2f9116e",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "I think the mishmash starts with LabelPermission.WithValue, which isn\u0027t called VotePermission. So somewhere they must collide.\n\nChanged to remavableLabels, to match the other vote-related fields. Though given the voter is part of the field, I\u0027m not sure that\u0027s actually better.",
       "parentUuid": "20667c34_adccba45",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 691,
+        "endChar": 81
+      },
+      "revId": "b5c3470d3c7ca541ee4ceb97d9aaa20196eae833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc34c943_c66d0088",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-29T11:19:08Z",
+      "side": 1,
+      "message": "Yes, I think you are right that the term label is actually ambiguous, as it used for label (name) and vote on a label.\n\n\u003e Changed to remavableLabels, to match the other vote-related fields.\n\nMakes sense. I think it\u0027s better.",
+      "parentUuid": "e05af6d7_91e03c3b",
       "range": {
         "startLine": 691,
         "startChar": 8,

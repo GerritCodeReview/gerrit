@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd038fa5_fc576f0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-29T21:18:30Z",
+      "side": 1,
+      "message": "Seems I forgot to send this.",
+      "revId": "63051db950d199b4758a58448538b6124778f5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18f0a520_fb5887ff",
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "If the method is not working properly then I\u0027m not sure what testing the method on a CL is supposed to do.\n\nI see that you added the TODOs so are you asking to resolve the TODOs(out of the scope of this change I feel and I would need to take a look).\n\nOtherwise I\u0027m not sure exactly what the \"difference\" is that you are referring to.\nCan you elaborate?",
       "parentUuid": "18f0a520_fb5887ff",
+      "revId": "63051db950d199b4758a58448538b6124778f5ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0beb5a51_44bdb3dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-12-29T21:18:30Z",
+      "side": 1,
+      "message": "We don\u0027t have to discuss at length here, but I was wondering if you had a change where this current change would have a visible impact on the UI. \n\nBasically, how do we know this is what we want, how is this tested?",
+      "parentUuid": "d4f856c9_d7f38231",
       "revId": "63051db950d199b4758a58448538b6124778f5ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -7,6 +7,7 @@ import '../../../test/common-test-setup';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrConfirmDeleteCommentDialog} from './gr-confirm-delete-comment-dialog';
 import './gr-confirm-delete-comment-dialog';
+import {GrDialog} from '../gr-dialog/gr-dialog';
 
 suite('gr-confirm-delete-comment-dialog tests', () => {
   let element: GrConfirmDeleteCommentDialog;
@@ -17,7 +18,10 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
     );
   });
 
-  test('render', () => {
+  test('render', async () => {
+    element.message = 'Just cause';
+    await element.updateComplete;
+
     // prettier and shadowDom string disagree about wrapping in <p> tag.
     assert.shadowDom.equal(
       element,
@@ -41,6 +45,15 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
         </div>
       </gr-dialog>
     `
+    );
+  });
+
+  test('dialog is disabled when message is empty', async () => {
+    element.message = '';
+    await element.updateComplete;
+
+    assert.isTrue(
+      (element.shadowRoot!.querySelector('gr-dialog') as GrDialog).disabled
     );
   });
 });

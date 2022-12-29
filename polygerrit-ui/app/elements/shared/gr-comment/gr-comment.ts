@@ -200,9 +200,6 @@ export class GrComment extends LitElement {
   unresolved = true;
 
   @property({type: Boolean})
-  showConfirmDeleteModal = false;
-
-  @property({type: Boolean})
   unableToSave = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
@@ -940,7 +937,6 @@ export class GrComment extends LitElement {
   }
 
   private renderConfirmDialog() {
-    if (!this.showConfirmDeleteModal) return;
     return html`
       <dialog id="confirmDeleteModal" tabindex="-1">
         <gr-confirm-delete-comment-dialog
@@ -1264,15 +1260,11 @@ export class GrComment extends LitElement {
     }
   }
 
-  private async openDeleteCommentModal() {
-    this.showConfirmDeleteModal = true;
-    await this.updateComplete;
-    await this.confirmDeleteModal?.showModal();
+  private openDeleteCommentModal() {
+    this.confirmDeleteModal?.showModal();
   }
 
   private closeDeleteCommentModal() {
-    this.showConfirmDeleteModal = false;
-    this.confirmDeleteModal?.remove();
     this.confirmDeleteModal?.close();
   }
 

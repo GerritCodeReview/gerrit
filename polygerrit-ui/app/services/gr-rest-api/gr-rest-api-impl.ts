@@ -2686,7 +2686,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         encodeURIComponent(repo) +
         '/commits/' +
         encodeURIComponent(commit),
-      anonymizedUrl: '/projects/*/comments/*',
+      anonymizedUrl: '/projects/*/commits/*',
     }) as Promise<CommitInfo | undefined>;
   }
 

@@ -1267,10 +1267,9 @@ export class GrChangeView extends LitElement {
           class="changeNumber"
           aria-label=${`Change ${this.change?._number}`}
           @click=${(e: MouseEvent) => {
-            const url = this.computeChangeUrl(true);
-            if (url) {
-              this.getNavigation().setUrl(url);
-            }
+            // fire reload event instead of directly setting the url since we
+            // change model is listening to this event
+            fireReload(this, true);
             e.stopPropagation();
           }}
           >${this.change?._number}</a
@@ -2113,17 +2112,6 @@ export class GrChangeView extends LitElement {
       this.fileList?.collapseAllDiffs();
       this.fileList?.resetFileState();
     });
-
-    // If the change was loaded before, then we are firing a 'reload' event
-    // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
-    //    is only relevant for the initial load of a change.
-    // 2. We have to somehow trigger the change-model reloading. Otherwise
-    //    this.change is not updated.
-    if (this.changeNum) {
-      fireReload(this);
-      return;
-    }
 
     this.initialLoadComplete = false;
     this.changeNum = this.viewState.changeNum;

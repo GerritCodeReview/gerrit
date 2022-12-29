@@ -128,7 +128,7 @@ suite('gr-comment tests', () => {
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
@@ -171,7 +171,7 @@ suite('gr-comment tests', () => {
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
@@ -247,7 +247,7 @@ suite('gr-comment tests', () => {
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
@@ -349,7 +349,7 @@ suite('gr-comment tests', () => {
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
@@ -438,7 +438,7 @@ suite('gr-comment tests', () => {
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
@@ -523,7 +523,7 @@ suite('gr-comment tests', () => {
     assertIsDefined(element.confirmDeleteModal, 'confirmDeleteModal');
     const dialog = queryAndAssert<GrConfirmDeleteCommentDialog>(
       element.confirmDeleteModal,
-      '#confirmDeleteComment'
+      '#confirmDeleteCommentDialog'
     );
     dialog.message = 'removal reason';
     await element.updateComplete;

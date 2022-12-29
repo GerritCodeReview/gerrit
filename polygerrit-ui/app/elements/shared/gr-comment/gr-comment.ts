@@ -644,7 +644,10 @@ export class GrComment extends LitElement {
         title="Delete Comment"
         link
         class="action delete"
-        @click=${this.openDeleteCommentModal}
+        @click=${(e: Event) => {
+          e.stopPropagation();
+          this.openDeleteCommentModal();
+        }}
       >
         <gr-icon id="icon" icon="delete" filled></gr-icon>
       </gr-button>

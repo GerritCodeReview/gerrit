@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc993144_4477ea3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-29T13:03:28Z",
+      "side": 1,
+      "message": "this feels like a statement describing the way it works currently.\n\n\"Dialog X requires Y\".\n\nCan you update to mention what exactly you changed?",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "edf7262e212365229a0381303cadaf3ad5d98493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e3eb48_4972aacf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-29T13:03:28Z",
+      "side": 1,
+      "message": "`comment` is creating variable `dialog`?",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "edf7262e212365229a0381303cadaf3ad5d98493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

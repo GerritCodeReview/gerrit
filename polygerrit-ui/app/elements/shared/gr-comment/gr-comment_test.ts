@@ -127,6 +127,10 @@ suite('gr-comment tests', () => {
               </div>
             </div>
           </gr-endpoint-decorator>
+          <dialog id="confirmDeleteModal" tabindex="-1">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            </gr-confirm-delete-comment-dialog>
+          </dialog>
         `
       );
     });
@@ -166,6 +170,10 @@ suite('gr-comment tests', () => {
               </div>
             </div>
           </gr-endpoint-decorator>
+          <dialog id="confirmDeleteModal" tabindex="-1">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            </gr-confirm-delete-comment-dialog>
+          </dialog>
         `
       );
     });
@@ -238,6 +246,10 @@ suite('gr-comment tests', () => {
               </div>
             </div>
           </gr-endpoint-decorator>
+          <dialog id="confirmDeleteModal" tabindex="-1">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            </gr-confirm-delete-comment-dialog>
+          </dialog>
         `
       );
     });
@@ -336,6 +348,10 @@ suite('gr-comment tests', () => {
               </div>
             </div>
           </gr-endpoint-decorator>
+          <dialog id="confirmDeleteModal" tabindex="-1">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            </gr-confirm-delete-comment-dialog>
+          </dialog>
         `
       );
     });
@@ -421,6 +437,10 @@ suite('gr-comment tests', () => {
               </div>
             </div>
           </gr-endpoint-decorator>
+          <dialog id="confirmDeleteModal" tabindex="-1">
+            <gr-confirm-delete-comment-dialog id="confirmDeleteComment">
+            </gr-confirm-delete-comment-dialog>
+          </dialog>
         `
       );
     });

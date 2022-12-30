@@ -704,6 +704,9 @@ export class GrChangeView extends LitElement {
       () => this.getRouterModel().routerView$,
       view => {
         this.isViewCurrent = view === GerritView.CHANGE;
+        if (this.isViewCurrent) {
+          this.reloadData();
+        }
       }
     );
     subscribe(
@@ -2081,10 +2084,7 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  // Private but used in tests.
-  viewStateChanged() {
-    // viewState is set by gr-router in handleChangeRoute method and is never
-    // set to undefined
+  private reloadData() {
     assertIsDefined(this.viewState, 'viewState');
 
     if (this.isChangeObsolete()) {
@@ -2093,6 +2093,44 @@ export class GrChangeView extends LitElement {
       fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
       return;
     }
+
+    // We need to collapse all diffs when viewState changes so that a non
+    // existing diff is not requested. See Issue 125270 for more details.
+    this.updateComplete.then(() => {
+      assertIsDefined(this.fileList);
+      this.fileList?.collapseAllDiffs();
+      this.fileList?.resetFileState();
+    });
+
+    // If the change was loaded before, then we are firing a 'reload' event
+    // instead of calling `loadData()` directly for two reasons:
+    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
+    //    is only relevant for the initial load of a change.
+    // 2. We have to somehow trigger the change-model reloading. Otherwise
+    //    this.change is not updated.
+    if (this.changeNum) {
+      fireReload(this);
+      return;
+    }
+
+    this.initialLoadComplete = false;
+    this.changeNum = this.viewState.changeNum;
+    this.loadData(true).then(() => {
+      this.performPostLoadTasks();
+    });
+
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this.initActiveTab();
+      });
+  }
+
+  // Private but used in tests.
+  viewStateChanged() {
+    // viewState is set by gr-router in handleChangeRoute method and is never
+    // set to undefined
+    assertIsDefined(this.viewState, 'viewState');
 
     if (this.viewState.changeNum && this.viewState.repo) {
       this.restApiService.setInProjectLookup(
@@ -2151,37 +2189,6 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
       return;
     }
-
-    // We need to collapse all diffs when viewState changes so that a non
-    // existing diff is not requested. See Issue 125270 for more details.
-    this.updateComplete.then(() => {
-      assertIsDefined(this.fileList);
-      this.fileList?.collapseAllDiffs();
-      this.fileList?.resetFileState();
-    });
-
-    // If the change was loaded before, then we are firing a 'reload' event
-    // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
-    //    is only relevant for the initial load of a change.
-    // 2. We have to somehow trigger the change-model reloading. Otherwise
-    //    this.change is not updated.
-    if (this.changeNum) {
-      fireReload(this);
-      return;
-    }
-
-    this.initialLoadComplete = false;
-    this.changeNum = this.viewState.changeNum;
-    this.loadData(true).then(() => {
-      this.performPostLoadTasks();
-    });
-
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.initActiveTab();
-      });
   }
 
   private initActiveTab() {

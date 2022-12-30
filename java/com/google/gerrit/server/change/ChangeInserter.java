@@ -534,7 +534,7 @@ public class ChangeInserter implements InsertChangeOp {
                 CreateChangeSender emailSender =
                     createChangeSenderFactory.create(change.getProject(), change.getId());
                 emailSender.setFrom(change.getOwner());
-                emailSender.setPatchSet(patchSet, patchSetInfo);
+                emailSender.setPatchSetId(patchSet.id());
                 emailSender.setNotify(notify);
                 emailSender.addReviewers(
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()

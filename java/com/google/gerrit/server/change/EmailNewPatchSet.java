@@ -108,7 +108,6 @@ public class EmailNewPatchSet {
         new AsyncSender(
             postUpdateContext.getIdentifiedUser(),
             replacePatchSetFactory,
-            patchSetInfoFactory,
             messageId,
             postUpdateContext.getNotify(changeId),
             postUpdateContext.getProject(),
@@ -154,7 +153,6 @@ public class EmailNewPatchSet {
   private static class AsyncSender implements Runnable, RequestContext {
     private final IdentifiedUser user;
     private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-    private final PatchSetInfoFactory patchSetInfoFactory;
     private final MessageId messageId;
     private final NotifyResolver.Result notify;
     private final Project.NameKey projectName;
@@ -173,7 +171,6 @@ public class EmailNewPatchSet {
     AsyncSender(
         IdentifiedUser user,
         ReplacePatchSetSender.Factory replacePatchSetFactory,
-        PatchSetInfoFactory patchSetInfoFactory,
         MessageId messageId,
         NotifyResolver.Result notify,
         Project.NameKey projectName,
@@ -189,7 +186,6 @@ public class EmailNewPatchSet {
         Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.user = user;
       this.replacePatchSetFactory = replacePatchSetFactory;
-      this.patchSetInfoFactory = patchSetInfoFactory;
       this.messageId = messageId;
       this.notify = notify;
       this.projectName = projectName;
@@ -216,7 +212,7 @@ public class EmailNewPatchSet {
                 preUpdateMetaId,
                 postUpdateSubmitRequirementResults);
         emailSender.setFrom(user.getAccountId());
-        emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
+        emailSender.setPatchSetId(patchSet.id());
         emailSender.setChangeMessage(message, timestamp);
         emailSender.setNotify(notify);
         emailSender.addReviewers(reviewers);

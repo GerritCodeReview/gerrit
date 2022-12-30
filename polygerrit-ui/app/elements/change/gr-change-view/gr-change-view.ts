@@ -2088,13 +2088,9 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   viewStateChanged() {
-    if (this.viewState === undefined) {
-      this.initialLoadComplete = false;
-      querySelectorAll(this, 'gr-overlay').forEach(overlay =>
-        (overlay as GrOverlay).close()
-      );
-      return;
-    }
+    // viewState is set by gr-router in handleChangeRoute method and is never
+    // set to undefined
+    assertIsDefined(this.viewState, 'viewState');
 
     if (this.isChangeObsolete()) {
       // Tell the app element that we are not going to handle the new change

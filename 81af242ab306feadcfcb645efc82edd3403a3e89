@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd3e0db_19281f8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-12-30T12:38:26Z",
+      "side": 1,
+      "message": "can you confirm that the overlays are still closed like your original Change 319401 intended?",
+      "revId": "81af242ab306feadcfcb645efc82edd3403a3e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

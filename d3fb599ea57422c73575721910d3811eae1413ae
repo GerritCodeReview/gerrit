@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0165b16f_c9aa55d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-30T07:16:34Z",
+      "side": 1,
+      "message": "Maybe add some of the motivation from the bug here.",
+      "revId": "d3fb599ea57422c73575721910d3811eae1413ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d98e529_45a73cf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-12-30T07:16:34Z",
+      "side": 1,
+      "message": "Since this is a new feature, I think we want to have a non-skip Release footer.",
+      "revId": "d3fb599ea57422c73575721910d3811eae1413ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -40,5 +40,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:entities_java_proto",
     ],
 )

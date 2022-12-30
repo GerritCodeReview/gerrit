@@ -16,6 +16,24 @@
       "message": "can you confirm that the overlays are still closed like your original Change 319401 intended?",
       "revId": "81af242ab306feadcfcb645efc82edd3403a3e89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc0db21_7583ae68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-12-30T12:39:12Z",
+      "side": 1,
+      "message": "No overlays exist after moving to dialog element, so this was extra dead code. 😞\n\nI will submit the overlay cleanup as well.",
+      "parentUuid": "5bd3e0db_19281f8e",
+      "revId": "81af242ab306feadcfcb645efc82edd3403a3e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

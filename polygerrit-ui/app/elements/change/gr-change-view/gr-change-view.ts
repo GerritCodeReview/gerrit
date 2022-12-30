@@ -704,6 +704,9 @@ export class GrChangeView extends LitElement {
       () => this.getRouterModel().routerView$,
       view => {
         this.isViewCurrent = view === GerritView.CHANGE;
+        if (this.isViewCurrent) {
+          this.reloadData();
+        }
       }
     );
     subscribe(
@@ -2081,74 +2084,13 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  // Private but used in tests.
-  viewStateChanged() {
-    // viewState is set by gr-router in handleChangeRoute method and is never
-    // set to undefined
+  private reloadData() {
     assertIsDefined(this.viewState, 'viewState');
 
     if (this.isChangeObsolete()) {
       // Tell the app element that we are not going to handle the new change
       // number and that they have to create a new change view.
       fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
-      return;
-    }
-
-    if (this.viewState.changeNum && this.viewState.repo) {
-      this.restApiService.setInProjectLookup(
-        this.viewState.changeNum,
-        this.viewState.repo
-      );
-    }
-
-    if (this.viewState.basePatchNum === undefined)
-      this.viewState.basePatchNum = PARENT;
-
-    const patchChanged = this.hasPatchRangeChanged(this.viewState);
-
-    this.patchRange = {
-      patchNum: this.viewState.patchNum,
-      basePatchNum: this.getBasePatchNum(),
-    };
-    this.scrollCommentId = this.viewState.commentId;
-
-    const patchKnown =
-      !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange!.patchNum
-      );
-    // _allPatchsets does not know value.patchNum so force a reload.
-    const forceReload = this.viewState.forceReload || !patchKnown;
-
-    // If changeNum is defined that means the change has already been
-    // rendered once before so a full reload is not required.
-    if (this.changeNum !== undefined && !forceReload) {
-      if (!this.patchRange.patchNum) {
-        this.patchRange = {
-          ...this.patchRange,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-      }
-      if (patchChanged) {
-        // We need to collapse all diffs when viewState changes so that a non
-        // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetFileState();
-        this.fileList?.collapseAllDiffs();
-        this.reloadPatchNumDependentResources().then(() => {
-          this.sendShowChangeEvent();
-        });
-      }
-
-      // If there is no change in patchset or changeNum, such as when user goes
-      // to the diff view and then comes back to change page then there is no
-      // need to reload anything and we render the change view component as is.
-      document.documentElement.scrollTop = this.scrollPosition ?? 0;
-      this.reporting.reportInteraction('change-view-re-rendered');
-      this.updateTitle(this.change);
-      // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
-      // page should open the reply dialog
-      this.performPostLoadTasks();
       return;
     }
 
@@ -2182,6 +2124,85 @@ export class GrChangeView extends LitElement {
       .then(() => {
         this.initActiveTab();
       });
+  }
+
+  // Private but used in tests.
+  viewStateChanged() {
+    // viewState is set by gr-router in handleChangeRoute method and is never
+    // set to undefined
+    assertIsDefined(this.viewState, 'viewState');
+
+    // When clicking on an item in the relation chain, the view remains the
+    // same but the change page still should be recreated
+    if (this.isChangeObsolete()) {
+      // Tell the app element that we are not going to handle the new change
+      // number and that they have to create a new change view.
+      fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
+      return;
+    }
+
+    if (this.viewState.changeNum && this.viewState.repo) {
+      this.restApiService.setInProjectLookup(
+        this.viewState.changeNum,
+        this.viewState.repo
+      );
+    }
+
+    if (this.viewState.basePatchNum === undefined)
+      this.viewState.basePatchNum = PARENT;
+
+    const patchChanged = this.hasPatchRangeChanged(this.viewState);
+
+    this.patchRange = {
+      patchNum: this.viewState.patchNum,
+      basePatchNum: this.getBasePatchNum(),
+    };
+    this.scrollCommentId = this.viewState.commentId;
+
+    const patchKnown =
+      !this.patchRange.patchNum ||
+      (this.allPatchSets ?? []).some(
+        ps => ps.num === this.patchRange!.patchNum
+      );
+    // _allPatchsets does not know value.patchNum so force a reload.
+    const forceReload = this.viewState.forceReload || !patchKnown;
+
+    if (forceReload) {
+      this.reloadData();
+      return;
+    }
+
+    // If changeNum is defined that means the change has already been
+    // rendered once before so a full reload is not required.
+    if (this.changeNum !== undefined) {
+      if (!this.patchRange.patchNum) {
+        this.patchRange = {
+          ...this.patchRange,
+          patchNum: computeLatestPatchNum(this.allPatchSets),
+        };
+      }
+      if (patchChanged) {
+        // We need to collapse all diffs when viewState changes so that a non
+        // existing diff is not requested. See Issue 125270 for more details.
+        this.fileList?.resetFileState();
+        this.fileList?.collapseAllDiffs();
+        this.reloadPatchNumDependentResources().then(() => {
+          this.sendShowChangeEvent();
+        });
+      }
+
+      // If there is no change in patchset or changeNum, such as when user goes
+      // to the diff view and then comes back to change page then there is no
+      // need to reload anything and we render the change view component as is.
+      document.documentElement.scrollTop = this.scrollPosition ?? 0;
+      this.reporting.reportInteraction('change-view-re-rendered');
+      this.updateTitle(this.change);
+      // We still need to check if post load tasks need to be done such as when
+      // user wants to open the reply dialog when in the diff page, the change
+      // page should open the reply dialog
+      this.performPostLoadTasks();
+      return;
+    }
   }
 
   private initActiveTab() {

@@ -709,6 +709,9 @@ export class GrChangeView extends LitElement {
       () => this.getRouterModel().routerView$,
       view => {
         this.isViewCurrent = view === GerritView.CHANGE;
+        if (this.isViewCurrent) {
+          this.viewUpdatedToCurrent();
+        }
       }
     );
     subscribe(
@@ -2086,11 +2089,7 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  // Private but used in tests.
-  viewStateChanged() {
-    // viewState is set by gr-router in handleChangeRoute method and is never
-    // set to undefined
-    assertIsDefined(this.viewState, 'viewState');
+  private reloadData() {
 
     if (this.isChangeObsolete()) {
       // Tell the app element that we are not going to handle the new change
@@ -2098,6 +2097,19 @@ export class GrChangeView extends LitElement {
       fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
       return;
     }
+
+    // Change model needs to be informed to request a new ChangeInfo which
+    // happens via reload$ which listens to this reload event 
+    fireReload(this);
+  }
+
+  // Private but used in tests.
+  viewStateChanged() {
+    // viewState is set by gr-router in handleChangeRoute method and is never
+    // set to undefined
+    assertIsDefined(this.viewState, 'viewState');
+
+    
 
     if (this.viewState.changeNum && this.viewState.repo) {
       this.restApiService.setInProjectLookup(

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.FROM_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.TIMESTAMP;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Strings;
@@ -21,6 +24,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -28,15 +33,15 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.proto.Entities.EmailTask;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplyToChangeSender;
-import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -58,7 +63,7 @@ public class Restore
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final BatchUpdate.Factory updateFactory;
-  private final RestoredSender.Factory restoredSenderFactory;
+  private final EmailTaskDispatcher emailTaskDispatcher;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
@@ -69,7 +74,7 @@ public class Restore
   @Inject
   Restore(
       BatchUpdate.Factory updateFactory,
-      RestoredSender.Factory restoredSenderFactory,
+      EmailTaskDispatcher emailTaskDispatcher,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
@@ -77,7 +82,7 @@ public class Restore
       ProjectCache projectCache,
       MessageIdGenerator messageIdGenerator) {
     this.updateFactory = updateFactory;
-    this.restoredSenderFactory = restoredSenderFactory;
+    this.emailTaskDispatcher = emailTaskDispatcher;
     this.json = json;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
@@ -147,13 +152,18 @@ public class Restore
     @Override
     public void postUpdate(PostUpdateContext ctx) {
       try {
-        ReplyToChangeSender emailSender =
-            restoredSenderFactory.create(ctx.getProject(), change.getId());
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        emailSender.send();
+        String messageId =
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()).id();
+        emailTaskDispatcher.dispatch(
+            EmailTask.newBuilder()
+                .setEventType(EmailTask.Type.RESTORE)
+                .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+                .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(change.getId()))
+                .addHeader(header(FROM_ID, ctx.getAccountId().toString()))
+                .setMessage(mailMessage)
+                .addHeader(header(TIMESTAMP, String.valueOf(ctx.getWhen().toEpochMilli())))
+                .addHeader(header(MESSAGE_ID, messageId))
+                .build());
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
@@ -186,5 +196,9 @@ public class Restore
     }
     boolean visible = rsrc.permissions().testOrFalse(ChangePermission.RESTORE);
     return description.setVisible(visible);
+  }
+
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
   }
 }

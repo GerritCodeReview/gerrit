@@ -160,3 +160,67 @@ message ObjectId {
   // Hex string representation of the ID.
   optional string name = 1;
 }
+
+message EmailTask {
+  // Type of the email task (e.g. ABANDON, MERGE, etc...)
+  required Type event_type = 1;
+
+  required Project_NameKey project = 2;
+  required Change_Id change_id = 3;
+  optional PatchSet_Id patchset_id = 4;
+
+  // Why is the meta_id needed?
+  optional ObjectId meta_id = 5;
+
+  optional NotifyInput notify_input = 6;
+
+  // Change message to be included in the email
+  optional string message = 7;
+
+  // Email headers, e.g. from, message_id, etc...
+  repeated Header header = 8;
+
+  optional Payload payload = 9;
+
+  enum Type {
+    ABANDON = 0;
+  }
+
+  message Payload {
+    optional string sticky_approval_diff = 1;
+  }
+
+  message Header {
+    required HeaderName name = 1;
+    required string value = 2;
+
+    enum HeaderName {
+      FROM_ID = 1;
+      MESSAGE_ID = 0;
+      TIMESTAMP = 2;
+    }
+  }
+
+  message NotifyInput {
+    optional NotifyHandling notify_handling = 1;
+    repeated NotifyEntry notify_entry = 2;
+
+    message NotifyEntry {
+      required Account_Id account = 1;
+      required RecipientType recipient_type = 2;
+    }
+
+    enum NotifyHandling {
+      NONE = 0;
+      OWNER = 1;
+      OWNER_REVIEWERS = 2;
+      ALL = 3;
+    }
+  }
+
+  enum RecipientType {
+    TO = 0;
+    CC = 1;
+    BCC = 2;
+  }
+}

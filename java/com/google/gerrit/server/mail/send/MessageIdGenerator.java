@@ -53,6 +53,10 @@ public class MessageIdGenerator {
   @AutoValue
   public abstract static class MessageId {
     public abstract String id();
+
+    public static MessageId create(String id) {
+      return new AutoValue_MessageIdGenerator_MessageId(id);
+    }
   }
 
   /**

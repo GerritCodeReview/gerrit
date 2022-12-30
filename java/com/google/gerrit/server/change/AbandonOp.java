@@ -14,35 +14,46 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.FROM_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.TIMESTAMP;
+
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
-import com.google.gerrit.server.mail.send.AbandonedSender;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 public class AbandonOp implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  // private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final AbandonedSender.Factory abandonedSenderFactory;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final ChangeAbandoned changeAbandoned;
   private final MessageIdGenerator messageIdGenerator;
+  private final EmailTaskDispatcher emailTaskDispatcher;
 
   private final String msgTxt;
   private final AccountState accountState;
@@ -58,18 +69,18 @@ public class AbandonOp implements BatchUpdateOp {
 
   @Inject
   AbandonOp(
-      AbandonedSender.Factory abandonedSenderFactory,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ChangeAbandoned changeAbandoned,
       MessageIdGenerator messageIdGenerator,
+      EmailTaskDispatcher emailDispatcher,
       @Assisted @Nullable AccountState accountState,
       @Assisted @Nullable String msgTxt) {
-    this.abandonedSenderFactory = abandonedSenderFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.changeAbandoned = changeAbandoned;
     this.messageIdGenerator = messageIdGenerator;
+    this.emailTaskDispatcher = emailDispatcher;
 
     this.accountState = accountState;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
@@ -108,22 +119,22 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(PostUpdateContext ctx) {
+  public void postUpdate(PostUpdateContext ctx) throws IOException {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    try {
-      ReplyToChangeSender emailSender =
-          abandonedSenderFactory.create(ctx.getProject(), change.getId());
-      if (accountState != null) {
-        emailSender.setFrom(accountState.account().id());
-      }
-      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
-          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-      emailSender.send();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+    String messageId = messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()).id();
+    EmailTask.Builder emailTaskBuilder =
+        EmailTask.newBuilder()
+            .setEventType(EmailTask.Type.ABANDON)
+            .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+            .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(change.getId()))
+            .setNotifyInput(getNotify(notify))
+            .setMessage(mailMessage)
+            .addHeader(header(TIMESTAMP, String.valueOf(ctx.getWhen().toEpochMilli())))
+            .addHeader(header(MESSAGE_ID, messageId));
+    if (accountState != null) {
+      emailTaskBuilder.addHeader(header(FROM_ID, accountState.account().id().toString()));
     }
+    emailTaskDispatcher.dispatch(emailTaskBuilder.build());
     changeAbandoned.fire(
         ctx.getChangeData(change),
         patchSet,
@@ -131,5 +142,26 @@ public class AbandonOp implements BatchUpdateOp {
         msgTxt,
         ctx.getWhen(),
         notify.handling());
+  }
+
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
+  }
+
+  private NotifyInput getNotify(NotifyResolver.Result notify) {
+    NotifyInput.Builder builder =
+        NotifyInput.newBuilder()
+            .setNotifyHandling(NotifyHandling.valueOf(notify.handling().name()));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream()
+          .forEach(
+              a ->
+                  builder.addNotifyEntry(
+                      NotifyEntry.newBuilder()
+                          .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                          .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                          .build()));
+    }
+    return builder.build();
   }
 }

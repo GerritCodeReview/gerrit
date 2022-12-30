@@ -1556,17 +1556,17 @@ suite('gr-change-view tests', () => {
     assert.isOk(element.patchRange?.patchNum);
   });
 
-  test('do not handle new change numbers', async () => {
+  test.only('do not handle new change numbers', async () => {
+    debugger;
     const recreateSpy = sinon.spy();
     element.addEventListener('recreate-change-view', recreateSpy);
 
     const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
+    element.getViewModel().setState(value);
     await element.updateComplete;
     assert.isFalse(recreateSpy.calledOnce);
 
-    value.changeNum = 555111333 as NumericChangeId;
-    element.viewState = {...value};
+    element.getViewModel().setState({...value, changeNum: 555111333 as NumericChangeId});
     await element.updateComplete;
     assert.isTrue(recreateSpy.calledOnce);
   });

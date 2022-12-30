@@ -548,7 +548,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getFilesModel = resolve(this, filesModelToken);
 
-  private readonly getViewModel = resolve(this, changeViewModelToken);
+  // private but used in tests
+  readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -748,6 +749,13 @@ export class GrChangeView extends LitElement {
         // The change view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => {
+        if (changeNum) this.changeNum = changeNum;
       }
     );
     subscribe(
@@ -2172,7 +2180,6 @@ export class GrChangeView extends LitElement {
     }
 
     this.initialLoadComplete = false;
-    this.changeNum = this.viewState.changeNum;
     this.loadData(true).then(() => {
       this.performPostLoadTasks();
     });

@@ -702,11 +702,11 @@ suite('gr-change-view tests', () => {
       assert.equal(element.activeTab, Tab.FILES);
       // view is required
       element.changeNum = undefined;
-      element.viewState = {
+      element.getViewModel().setState( {
         ...createChangeViewState(),
         ...element.viewState,
         tab: Tab.COMMENT_THREADS,
-      };
+      });
       await element.updateComplete;
       assert.equal(element.activeTab, Tab.COMMENT_THREADS);
     });
@@ -1526,9 +1526,9 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
+    element.getViewModel().setState(value);
     // change already loaded
-    assert.isOk(element.changeNum);
+    await waitUntil(() => !!element.changeNum);
     await element.updateComplete;
     assert.isFalse(reloadStub.calledOnce);
     element.initialLoadComplete = true;
@@ -2368,11 +2368,11 @@ suite('gr-change-view tests', () => {
       );
       // reset so reload is triggered
       element.changeNum = undefined;
-      element.viewState = {
+      element.getViewModel().setState({
         ...createChangeViewState(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
         repo: TEST_PROJECT_NAME,
-      };
+      });
       changeModel.setState({
         loadingStatus: LoadingStatus.LOADED,
         change: {

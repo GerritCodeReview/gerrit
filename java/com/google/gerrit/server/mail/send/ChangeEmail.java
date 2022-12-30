@@ -95,6 +95,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected final Change change;
   protected final ChangeData changeData;
   protected ListMultimap<Account.Id, String> stars;
+  protected PatchSet.Id patchSetId;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected String changeMessage;
@@ -126,13 +127,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  public void setPatchSet(PatchSet ps) {
-    patchSet = ps;
-  }
-
-  public void setPatchSet(PatchSet ps, PatchSetInfo psi) {
-    patchSet = ps;
-    patchSetInfo = psi;
+  public void setPatchSetId(PatchSet.Id psId) {
+    this.patchSetId = psId;
   }
 
   public void setChangeMessage(String cm, Instant t) {
@@ -176,7 +172,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet == null) {
       try {
-        patchSet = changeData.currentPatchSet();
+        patchSet =
+            patchSetId == null ? changeData.currentPatchSet() : changeData.patchSet(patchSetId);
       } catch (StorageException err) {
         patchSet = null;
       }

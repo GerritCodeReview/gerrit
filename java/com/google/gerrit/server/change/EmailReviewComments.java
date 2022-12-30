@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestContext;
@@ -83,7 +82,6 @@ public class EmailReviewComments {
   @Inject
   EmailReviewComments(
       @SendEmailExecutor ExecutorService executor,
-      PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
@@ -119,7 +117,6 @@ public class EmailReviewComments {
         new AsyncSender(
             requestContext,
             commentSenderFactory,
-            patchSetInfoFactory,
             postUpdateContext.getUser().asIdentifiedUser(),
             messageId,
             postUpdateContext.getNotify(changeId),
@@ -150,7 +147,6 @@ public class EmailReviewComments {
   private static class AsyncSender implements Runnable, RequestContext {
     private final ThreadLocalRequestContext requestContext;
     private final CommentSender.Factory commentSenderFactory;
-    private final PatchSetInfoFactory patchSetInfoFactory;
     private final IdentifiedUser user;
     private final MessageId messageId;
     private final NotifyResolver.Result notify;
@@ -169,7 +165,6 @@ public class EmailReviewComments {
     AsyncSender(
         ThreadLocalRequestContext requestContext,
         CommentSender.Factory commentSenderFactory,
-        PatchSetInfoFactory patchSetInfoFactory,
         IdentifiedUser user,
         MessageId messageId,
         NotifyResolver.Result notify,
@@ -185,7 +180,6 @@ public class EmailReviewComments {
         Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.requestContext = requestContext;
       this.commentSenderFactory = commentSenderFactory;
-      this.patchSetInfoFactory = patchSetInfoFactory;
       this.user = user;
       this.messageId = messageId;
       this.notify = notify;
@@ -209,7 +203,7 @@ public class EmailReviewComments {
             commentSenderFactory.create(
                 projectName, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
         emailSender.setFrom(user.getAccountId());
-        emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
+        emailSender.setPatchSetId(patchSet.id());
         emailSender.setChangeMessage(message, timestamp);
         emailSender.setComments(comments);
         emailSender.setPatchSetComment(patchSetComment);

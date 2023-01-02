@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85658728_301a0d51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-02T08:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0165b16f_c9aa55d7",
+      "revId": "d3fb599ea57422c73575721910d3811eae1413ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d98e529_45a73cf9",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-12-30T07:16:34Z",
       "side": 1,
       "message": "Since this is a new feature, I think we want to have a non-skip Release footer.",
+      "revId": "d3fb599ea57422c73575721910d3811eae1413ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfff6b0d_34305da7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-02T08:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d98e529_45a73cf9",
       "revId": "d3fb599ea57422c73575721910d3811eae1413ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

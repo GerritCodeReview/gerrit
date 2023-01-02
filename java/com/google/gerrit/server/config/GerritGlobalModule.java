@@ -312,6 +312,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(RevisionJson.Factory.class);
     factory(InboundEmailRejectionSender.Factory.class);
     factory(ExternalUser.Factory.class);
+    factory(InMemoryEmailTaskDispatcher.Consumer.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     AccountDefaultDisplayName accountDefaultDisplayName =

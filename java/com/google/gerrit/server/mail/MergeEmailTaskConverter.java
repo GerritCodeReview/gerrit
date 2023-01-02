@@ -5,32 +5,33 @@ import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
 import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
 import com.google.gerrit.proto.Entities.EmailTask;
 import com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName;
-import com.google.gerrit.server.mail.send.AbandonedSender;
+import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
-import com.google.gerrit.server.mail.send.ReplyToChangeSender;
-import java.time.Instant;
+import java.util.Optional;
 
-public class AbandonEmailTaskConverter extends EmailTaskConverter {
-  private final ReplyToChangeSender.Factory emailSenderFactory;
+public class MergeEmailTaskConverter extends EmailTaskConverter {
+  private final MergedSender.Factory emailSenderFactory;
 
-  public AbandonEmailTaskConverter(AbandonedSender.Factory emailSenderFactory) {
+  public MergeEmailTaskConverter(MergedSender.Factory emailSenderFactory) {
     this.emailSenderFactory = emailSenderFactory;
   }
 
   @Override
   public OutgoingEmail convert(EmailTask emailTask) {
-    ReplyToChangeSender emailSender =
+    String stickyApprovalDiff =
+        (emailTask.getPayload().isInitialized() && emailTask.getPayload().hasStickyApprovalDiff())
+            ? emailTask.getPayload().getStickyApprovalDiff()
+            : null;
+    MergedSender emailSender =
         emailSenderFactory.create(
             ProjectNameKeyProtoConverter.INSTANCE.fromProto(emailTask.getProject()),
-            ChangeIdProtoConverter.INSTANCE.fromProto(emailTask.getChangeId()));
+            ChangeIdProtoConverter.INSTANCE.fromProto(emailTask.getChangeId()),
+            Optional.ofNullable(stickyApprovalDiff));
     if (getHeader(emailTask, HeaderName.FROM_ID).isPresent()) {
       emailSender.setFrom(
           Account.id(Integer.parseInt(getHeader(emailTask, HeaderName.FROM_ID).get())));
     }
-    emailSender.setChangeMessage(
-        emailTask.getMessage(),
-        Instant.ofEpochMilli(Long.parseLong(getHeader(emailTask, HeaderName.TIMESTAMP).get())));
     emailSender.setNotify(getNotify(emailTask.getNotifyInput()));
     emailSender.setMessageId(MessageId.create(getHeader(emailTask, HeaderName.MESSAGE_ID).get()));
     return emailSender;

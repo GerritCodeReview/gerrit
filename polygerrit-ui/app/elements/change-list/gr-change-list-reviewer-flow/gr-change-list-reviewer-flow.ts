@@ -268,7 +268,7 @@ export class GrChangeListReviewerFlow extends LitElement {
       <dialog
         tabindex="-1"
         id=${id}
-        @iron-overlay-canceled=${() => this.cancelPendingGroup(reviewerState)}
+        @close=${() => this.cancelPendingGroup(reviewerState)}
       >
         <div class="confirmation-text">
           Group
@@ -466,11 +466,11 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private cancelPendingGroup(reviewerState: ReviewerState) {
-    const overlay =
+    const modal =
       reviewerState === ReviewerState.CC
         ? this.ccConfirmModal
         : this.reviewerConfirmModal;
-    overlay?.close();
+    modal?.close();
     this.groupPendingConfirmationByReviewerState.set(reviewerState, null);
     this.requestUpdate();
   }

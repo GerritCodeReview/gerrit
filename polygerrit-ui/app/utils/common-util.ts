@@ -125,6 +125,19 @@ export function toggleSet<T>(set: Set<T>, value: T): void {
   }
 }
 
+export function getActiveElement(root?: ShadowRoot | null): Element | null {
+  let node;
+  if (!root) {
+    node = document.activeElement;
+  } else {
+    node = root.activeElement;
+  }
+  if (node?.shadowRoot) {
+    return getActiveElement(node.shadowRoot);
+  }
+  return node;
+}
+
 export function toggle<T>(array: T[], item: T): T[] {
   if (array.includes(item)) {
     return array.filter(r => r !== item);

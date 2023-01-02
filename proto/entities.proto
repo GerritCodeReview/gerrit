@@ -190,6 +190,7 @@ message EmailTask {
     ABANDON = 0;
     RESTORE = 1;
     MERGED = 2;
+    REVERTED = 3;
   }
 
   message Payload {

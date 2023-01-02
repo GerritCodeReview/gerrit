@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.FROM_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -22,7 +24,11 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -30,6 +36,9 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
@@ -42,8 +51,8 @@ import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
@@ -91,12 +100,12 @@ public class CommitUtil {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeInserter.Factory changeInserterFactory;
   private final NotifyResolver notifyResolver;
-  private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeReverted changeReverted;
   private final BatchUpdate.Factory updateFactory;
   private final MessageIdGenerator messageIdGenerator;
+  private final EmailTaskDispatcher emailTaskDispatcher;
 
   @Inject
   CommitUtil(
@@ -106,24 +115,24 @@ public class CommitUtil {
       ApprovalsUtil approvalsUtil,
       ChangeInserter.Factory changeInserterFactory,
       NotifyResolver notifyResolver,
-      RevertedSender.Factory revertedSenderFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
       BatchUpdate.Factory updateFactory,
-      MessageIdGenerator messageIdGenerator) {
+      MessageIdGenerator messageIdGenerator,
+      EmailTaskDispatcher emailTaskDispatcher) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
     this.seq = seq;
     this.approvalsUtil = approvalsUtil;
     this.changeInserterFactory = changeInserterFactory;
     this.notifyResolver = notifyResolver;
-    this.revertedSenderFactory = revertedSenderFactory;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.changeReverted = changeReverted;
     this.updateFactory = updateFactory;
     this.messageIdGenerator = messageIdGenerator;
+    this.emailTaskDispatcher = emailTaskDispatcher;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -357,17 +366,24 @@ public class CommitUtil {
       Change.Id revertedChangeId,
       Change.Id revertingChangeId,
       String revertingChangeKey) {
-    bu.addOp(revertingChangeId, new ChangeRevertedNotifyOp(revertedChangeId, revertingChangeId));
+    bu.addOp(
+        revertingChangeId,
+        new ChangeRevertedNotifyOp(revertedChangeId, revertingChangeId, emailTaskDispatcher));
     bu.addOp(revertedChangeId, new PostRevertedMessageOp(revertingChangeKey));
   }
 
   private class ChangeRevertedNotifyOp implements BatchUpdateOp {
     private final Change.Id revertedChangeId;
     private final Change.Id revertingChangeId;
+    private final EmailTaskDispatcher emailTaskDispatcher;
 
-    ChangeRevertedNotifyOp(Change.Id revertedChangeId, Change.Id revertingChangeId) {
+    ChangeRevertedNotifyOp(
+        Change.Id revertedChangeId,
+        Change.Id revertingChangeId,
+        EmailTaskDispatcher emailTaskDispatcher) {
       this.revertedChangeId = revertedChangeId;
       this.revertingChangeId = revertingChangeId;
+      this.emailTaskDispatcher = emailTaskDispatcher;
     }
 
     @Override
@@ -377,19 +393,41 @@ public class CommitUtil {
       ChangeData revertingChange =
           ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertingChangeId));
       changeReverted.fire(revertedChange, revertingChange, ctx.getWhen());
-      try {
-        RevertedSender emailSender =
-            revertedSenderFactory.create(ctx.getProject(), revertedChange.getId());
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.setNotify(ctx.getNotify(revertedChangeId));
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(
-                ctx.getRepoView(), revertedChange.currentPatchSet().id()));
-        emailSender.send();
-      } catch (Exception err) {
-        logger.atSevere().withCause(err).log(
-            "Cannot send email for revert change %s", revertedChangeId);
+
+      String messageId =
+          messageIdGenerator
+              .fromChangeUpdate(ctx.getRepoView(), revertedChange.currentPatchSet().id())
+              .id();
+      EmailTask.Builder emailTaskBuilder =
+          EmailTask.newBuilder()
+              .setEventType(EmailTask.Type.REVERTED)
+              .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+              .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(revertedChange.getId()))
+              .setNotifyInput(getNotify(ctx.getNotify(revertedChangeId)))
+              .addHeader(header(MESSAGE_ID, messageId))
+              .addHeader(header(FROM_ID, ctx.getAccountId().toString()));
+      emailTaskDispatcher.dispatch(emailTaskBuilder.build());
+    }
+
+    private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+      return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
+    }
+
+    private NotifyInput getNotify(NotifyResolver.Result notify) {
+      NotifyInput.Builder builder =
+          NotifyInput.newBuilder()
+              .setNotifyHandling(NotifyInput.NotifyHandling.valueOf(notify.handling().name()));
+      for (RecipientType recipientType : notify.accounts().keySet()) {
+        notify.accounts().get(recipientType).stream()
+            .forEach(
+                a ->
+                    builder.addNotifyEntry(
+                        NotifyEntry.newBuilder()
+                            .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                            .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                            .build()));
       }
+      return builder.build();
     }
   }
 

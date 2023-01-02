@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ded6844_2837b8ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-02T10:14:29Z",
+      "side": 1,
+      "message": "what about [this one](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/scripts/js/bundled-polymer-bridges.js;l\u003d62;drc\u003d94fcbbc0a6ba92cd736fcc5307c045d6d3339eb3)?",
+      "revId": "0aca5865b34303191ef4b933b62ef8c9a21fb8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

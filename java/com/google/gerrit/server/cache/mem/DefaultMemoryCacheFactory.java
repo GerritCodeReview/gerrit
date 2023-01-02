@@ -26,6 +26,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalNotification;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Config;
 class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   private final Config cfg;
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
+  private boolean directExecutor;
 
   @Inject
   DefaultMemoryCacheFactory(
@@ -46,6 +48,7 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
       ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
     this.cfg = config;
     this.forwardingRemovalListenerFactory = forwardingRemovalListenerFactory;
+    this.directExecutor = config.getBoolean("cache", "directExecutor", false);
   }
 
   @Override
@@ -65,6 +68,10 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     builder.recordStats();
     builder.maximumWeight(cacheMaximumWeight(def));
     builder = builder.removalListener(newRemovalListener(def.name()));
+
+    if (directExecutor) {
+      builder.executor(MoreExecutors.directExecutor());
+    }
     builder.weigher(newWeigher(def.weigher()));
 
     Duration expireAfterWrite = def.expireAfterWrite();

@@ -147,6 +147,30 @@ export function removeThemeStyles() {
   document.head.querySelector('#dark-theme')?.remove();
 }
 
+function getActiveElement() {
+  return document.activeElement;
+}
+
+export function isFocusInsideElement(element: Element) {
+  // In Polymer 2 focused element either <paper-input> or nested
+  // native input <input> element depending on the current focus
+  // in browser window.
+  // For example, the focus is changed if the developer console
+  // get a focus.
+  let activeElement = getActiveElement();
+  while (activeElement) {
+    if (activeElement === element) {
+      return true;
+    }
+    if (activeElement.parentElement) {
+      activeElement = activeElement.parentElement;
+    } else {
+      activeElement = (activeElement.getRootNode() as ShadowRoot).host;
+    }
+  }
+  return false;
+}
+
 export async function waitQueryAndAssert<E extends Element = Element>(
   el: Element | null | undefined,
   selector: string

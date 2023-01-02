@@ -1943,6 +1943,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   confirmPendingReviewer() {
+    this.reviewerConfirmationModal?.close();
     if (this.ccPendingConfirmation) {
       this.ccsList?.confirmGroup(this.ccPendingConfirmation.group);
       this.focusOn(FocusTarget.CCS);
@@ -1960,6 +1961,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   cancelPendingReviewer() {
+    this.reviewerConfirmationModal?.close();
     this.ccPendingConfirmation = null;
     this.reviewerPendingConfirmation = null;
 

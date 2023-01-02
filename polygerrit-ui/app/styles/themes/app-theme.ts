@@ -480,10 +480,7 @@ const appThemeCss = safeStyleSheet`
     --border-radius: 4px;
     --line-length-indicator-color: #681da8;
 
-    /* paper and iron component overrides */
-    --iron-overlay-backdrop-background-color: black;
-    --iron-overlay-backdrop-opacity: 0.32;
-
+    /* paper component overrides */
     --paper-tooltip-delay-in: 200ms;
     --paper-tooltip-delay-out: 0;
     --paper-tooltip-duration-in: 0;
@@ -519,9 +516,6 @@ const appThemeCssPolymerLegacy = safeStyleSheet`
   html {
     --paper-tooltip: {
       font-size: var(--font-size-small);
-    };
-    --iron-overlay-backdrop: {
-      transition: none;
     };
   }
 `;

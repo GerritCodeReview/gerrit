@@ -281,9 +281,6 @@ const darkThemeCss = safeStyleSheet`
     /* misc */
     --line-length-indicator-color: #d7aefb;
 
-    /* paper and iron component overrides */
-    --iron-overlay-backdrop-background-color: white;
-
     /* rules applied to html */
     background-color: var(--view-background-color);
   }

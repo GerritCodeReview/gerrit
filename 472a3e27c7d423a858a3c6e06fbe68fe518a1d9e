@@ -94,6 +94,30 @@
       },
       "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b781c329_69f32c7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-02T13:18:23Z",
+      "side": 1,
+      "message": "thanks for looking. It seems like the only instance of the error in our code: https://cs.opensource.google/search?q\u003dquery%5Cw%2B%5C(%5B%5E,%5D%2B,%5Cs%27%5B%5E%23.g%5D%20f:_test.ts\u0026ss\u003dgerrit",
+      "parentUuid": "b60f61c6_4e41596a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

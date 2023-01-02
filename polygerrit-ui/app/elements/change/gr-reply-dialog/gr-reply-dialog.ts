@@ -71,6 +71,7 @@ import {
   assertIsDefined,
   containsAll,
   difference,
+  getActiveElement,
   queryAndAssert,
 } from '../../../utils/common-util';
 import {

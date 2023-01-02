@@ -58,4 +58,5 @@ public interface CacheDef<K, V> {
 
   @Nullable
   CacheLoader<K, V> loader();
+
 }

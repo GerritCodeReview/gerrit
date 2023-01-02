@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f384ab03_b401d7c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-02T22:19:46Z",
+      "side": 1,
+      "message": "can you describe the bug a bit and how this fix addresses that bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b281bda2_5aabf1db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-02T22:19:46Z",
+      "side": 1,
+      "message": "assert it like before?",
+      "range": {
+        "startLine": 1293,
+        "startChar": 21,
+        "endLine": 1293,
+        "endChar": 35
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d098492_ddb8aa35",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-02T22:19:46Z",
+      "side": 1,
+      "message": "this is nextComments just for that path right?\nmaybe a better name?\n\nmaybe for cloning an element inside the array something like\n\n```\n{\n\n...state,\ncomments: {\n   ...state.comments,\n   [comment.path]: [\n      ...nextState.comments[comment.path].slice(0, i),\n      {...commentsAtPath[i], ...comment},\n      ...nextState.comments[comment.path].slice(i + 1),\n   ]\n}\n```\n\nnot sure if you prefer that but I think this makes it clear what\u0027s changing?",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 24
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c5b48b_95b2d51e",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-02T22:19:46Z",
+      "side": 1,
+      "message": "s/through/throw",
+      "range": {
+        "startLine": 134,
+        "startChar": 53,
+        "endLine": 134,
+        "endChar": 60
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

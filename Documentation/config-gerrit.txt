@@ -706,6 +706,19 @@ By default, true.
 [[cache]]
 === Section cache
 
+[[cache.directExecutor]]cache.directExecutor::
++
+Whether to execute the cache listeners directly inside the execution
+thread of the operation that modified the cache.
++
+Needed when using plugins that are assume the same-thread execution
+as it happened Gerrit v3.1 or earlier versions.
++
+**NOTE**: Cache eviction may take longer when using direct execution
+context because the listeners are executed synchronously.
++
+By default, false.
+
 [[cache.directory]]cache.directory::
 +
 Path to a local directory where Gerrit can write cached entities for

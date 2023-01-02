@@ -11,6 +11,7 @@ import {
 import {
   AccountInfo,
   EmailAddress,
+  NumericChangeId,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../types/common';
@@ -29,6 +30,7 @@ import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {accountsModelToken} from '../accounts-model/accounts-model';
+import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
@@ -186,5 +188,37 @@ suite('change service tests', () => {
       discardedDrafts: [],
     });
     await waitUntil(() => mentionedUsers.length === 0);
+  });
+
+  test('delete comment change is emitted', async () => {
+    const comment = createComment();
+    stubRestApi('deleteComment').returns(
+      Promise.resolve({
+        ...comment,
+        message: 'Comment is deleted',
+      })
+    );
+    const model = new CommentsModel(
+      testResolver(routerModelToken),
+      testResolver(changeModelToken),
+      testResolver(accountsModelToken),
+      getAppContext().restApiService,
+      getAppContext().reportingService
+    );
+
+    let changeComments: ChangeComments | undefined = undefined;
+    model.changeComments$.subscribe(x => (changeComments = x));
+    model.setState({
+      comments: {[comment.path!]: [comment]},
+      discardedDrafts: [],
+    });
+
+    model.deleteComment(123 as NumericChangeId, comment, 'Comment is deleted');
+
+    await waitUntil(
+      () =>
+        changeComments?.getAllCommentsForPath(comment.path!)[0].message ===
+        'Comment is deleted'
+    );
   });
 });

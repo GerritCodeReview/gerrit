@@ -1279,10 +1279,6 @@ export class GrComment extends LitElement {
   /**
    * Deleting a *published* comment is an admin feature. It means more than just
    * discarding a draft.
-   *
-   * TODO: Also move this into the comments-service.
-   * TODO: Figure out a good reloading strategy when deleting was successful.
-   *       `this.comment = newComment` does not seem sufficient.
    */
   // private, but visible for testing
   handleConfirmDeleteComment() {
@@ -1292,22 +1288,11 @@ export class GrComment extends LitElement {
     if (!dialog || !dialog.message) {
       throw new Error('missing confirm delete dialog');
     }
-    assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.comment, 'comment');
-    assertIsDefined(this.comment.patch_set, 'comment.patch_set');
-    if (isDraftOrUnsaved(this.comment)) {
-      throw new Error('Admin deletion is only for published comments.');
-    }
-    this.restApiService
-      .deleteComment(
-        this.changeNum,
-        this.comment.patch_set,
-        this.comment.id,
-        dialog.message
-      )
-      .then(newComment => {
+
+    this.getCommentsModel()
+      .deleteComment(this.changeNum!, this.comment!, dialog.message)
+      .then(() => {
         this.closeDeleteCommentModal();
-        this.comment = newComment;
       });
   }
 }

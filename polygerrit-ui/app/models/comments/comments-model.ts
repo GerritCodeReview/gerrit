@@ -18,8 +18,10 @@ import {
 } from '../../types/common';
 import {
   addPath,
+  Comment,
   DraftInfo,
   isDraft,
+  isDraftOrUnsaved,
   isDraftThread,
   isUnsaved,
   reportingDetails,
@@ -109,6 +111,34 @@ export function setComments(
   if (deepEqual(comments, nextState.comments)) return state;
   nextState.comments = addPath(comments) || {};
   return nextState;
+}
+
+/** Updates a single comment in a state. */
+export function updateComment(
+  state: CommentState,
+  comment: CommentInfo
+): CommentState {
+  if (!comment.path || !state.comments) {
+    return state;
+  }
+  const commentsAtPath = state.comments[comment.path];
+  for (let i = 0; i < commentsAtPath.length; ++i) {
+    if (commentsAtPath[i].id === comment.id) {
+      const nextState = {...state};
+      nextState.comments = {...nextState.comments};
+      const nextComments = (nextState.comments[comment.path] = [
+        ...commentsAtPath,
+      ]);
+
+      // TODO: In "delete comment" the returned comment is missing some of the
+      // fields (for example patch_set), which would through errors when
+      // rendering. Remove merging with the old comment, once that is fixed in
+      // server code.
+      nextComments[i] = {...commentsAtPath[i], ...comment};
+      return nextState;
+    }
+  }
+  throw new Error("Comment to be updated doesn't exist");
 }
 
 // Private but used in tests.
@@ -619,6 +649,23 @@ export class CommentsModel extends Model<CommentState> {
       });
     }
     this.report(Interaction.COMMENT_DISCARDED, draft);
+  }
+
+  async deleteComment(
+    changeNum: NumericChangeId,
+    comment: Comment,
+    reason: string
+  ) {
+    assertIsDefined(comment.patch_set, 'comment.patch_set');
+    if (isDraftOrUnsaved(comment)) {
+      throw new Error('Admin deletion is only for published comments.');
+    }
+
+    return this.restApiService
+      .deleteComment(changeNum, comment.patch_set, comment.id, reason)
+      .then(newComment => {
+        this.modifyState(s => updateComment(s, newComment));
+      });
   }
 
   private report(interaction: Interaction, comment: CommentBasics) {

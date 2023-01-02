@@ -1288,16 +1288,6 @@ suite('gr-reply-dialog tests', () => {
     return document.activeElement;
   }
 
-  function overlayObserver(mode: string) {
-    return new Promise(resolve => {
-      function listener() {
-        element.removeEventListener('iron-overlay-' + mode, listener);
-        resolve(mode);
-      }
-      element.addEventListener('iron-overlay-' + mode, listener);
-    });
-  }
-
   function isFocusInsideElement(element: Element) {
     // In Polymer 2 focused element either <paper-input> or nested
     // native input <input> element depending on the current focus
@@ -1335,8 +1325,6 @@ suite('gr-reply-dialog tests', () => {
       isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
 
-    // Cause the confirmation dialog to display.
-    let observer = overlayObserver('opened');
     const group = {
       id: 'id' as GroupId,
       name: 'name' as GroupName,
@@ -1368,11 +1356,9 @@ suite('gr-reply-dialog tests', () => {
       );
     }
 
-    await observer;
     assert.isTrue(
       isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
-    observer = overlayObserver('closed');
     const expected = 'Group name has 10 members';
     assert.notEqual(
       queryAndAssert<HTMLElement>(
@@ -1381,9 +1367,7 @@ suite('gr-reply-dialog tests', () => {
       ).innerText.indexOf(expected),
       -1
     );
-    noButton.click(); // close the overlay
-
-    await observer;
+    noButton.click(); // close the dialog
     assert.isFalse(
       isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
@@ -1400,8 +1384,6 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element.ccsList?.additions().length, 0);
     assert.equal(element.reviewersList?.additions().length, 0);
 
-    // Reopen confirmation dialog.
-    observer = overlayObserver('opened');
     if (cc) {
       element.ccPendingConfirmation = {
         group,
@@ -1416,14 +1398,11 @@ suite('gr-reply-dialog tests', () => {
       };
     }
 
-    await observer;
     assert.isTrue(
       isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
-    observer = overlayObserver('closed');
-    yesButton.click(); // Confirm the group.
 
-    await observer;
+    yesButton.click(); // Confirm the group.
     assert.isFalse(
       isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
@@ -1456,6 +1435,14 @@ suite('gr-reply-dialog tests', () => {
       );
     }
   }
+
+  test('cc confirmation', async () => {
+    testConfirmationDialog(true);
+  });
+
+  test('reviewer confirmation', async () => {
+    testConfirmationDialog(false);
+  });
 
   suite('reviewer toast for WIP changes', () => {
     let fireStub: sinon.SinonStub;
@@ -1519,14 +1506,6 @@ suite('gr-reply-dialog tests', () => {
       const events = fireStub.args.map(arg => arg[0].type || '');
       assert.isTrue(events.includes('show-alert'));
     });
-  });
-
-  test('cc confirmation', async () => {
-    testConfirmationDialog(true);
-  });
-
-  test('reviewer confirmation', async () => {
-    testConfirmationDialog(false);
   });
 
   test('reviewersMutated when account-text-change is fired from ccs', () => {

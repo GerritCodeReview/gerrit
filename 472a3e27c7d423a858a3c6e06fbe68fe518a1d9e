@@ -46,6 +46,30 @@
       },
       "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c02504c_daa329af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-02T11:08:24Z",
+      "side": 1,
+      "message": "According to your description it shouldn\u0027t get past `await observer`. Could this be an indicator of a possible issue or badly functioning test?",
+      "parentUuid": "3082b63f_603ca304",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,30 @@
       },
       "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b60f61c6_4e41596a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-02T13:07:27Z",
+      "side": 1,
+      "message": "Yeah, it was indeed a badly functioning test. It was never getting past the await once the query was fixed.\nPTAL.",
+      "parentUuid": "8c02504c_daa329af",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "472a3e27c7d423a858a3c6e06fbe68fe518a1d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

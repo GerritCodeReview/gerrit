@@ -10,7 +10,6 @@ import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import java.time.Instant;
-import java.util.Optional;
 
 public class RestoreEmailTaskConverter extends EmailTaskConverter {
   private final ReplyToChangeSender.Factory emailSenderFactory;
@@ -32,14 +31,5 @@ public class RestoreEmailTaskConverter extends EmailTaskConverter {
         Instant.ofEpochMilli(Long.parseLong(getHeader(emailTask, HeaderName.TIMESTAMP).get())));
     emailSender.setMessageId(MessageId.create(getHeader(emailTask, HeaderName.MESSAGE_ID).get()));
     return emailSender;
-  }
-
-  Optional<String> getHeader(EmailTask task, HeaderName headerName) {
-    for (EmailTask.Header header : task.getHeaderList()) {
-      if (header.getName().equals(headerName)) {
-        return Optional.of(header.getValue());
-      }
-    }
-    return Optional.empty();
   }
 }

@@ -182,9 +182,14 @@ message EmailTask {
 
   optional Payload payload = 9;
 
+  optional Account_Id onBehalfOf = 10;
+
+  optional Account_Id caller = 11;
+
   enum Type {
     ABANDON = 0;
     RESTORE = 1;
+    MERGED = 2;
   }
 
   message Payload {

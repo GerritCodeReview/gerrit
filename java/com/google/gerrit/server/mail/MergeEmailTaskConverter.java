@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.converter.AccountIdProtoConverter;
 import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetIdProtoConverter;
 import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.proto.Entities.EmailTask;
@@ -27,7 +28,7 @@ public class MergeEmailTaskConverter extends EmailTaskConverter {
   @Override
   public OutgoingEmail convert(EmailTask emailTask) {
     String stickyApprovalDiff =
-        (emailTask.getPayload().isInitialized() && emailTask.getPayload().hasStickyApprovalDiff())
+        (emailTask.hasPayload() && emailTask.getPayload().hasStickyApprovalDiff())
             ? emailTask.getPayload().getStickyApprovalDiff()
             : null;
     MergedSender emailSender =
@@ -38,6 +39,10 @@ public class MergeEmailTaskConverter extends EmailTaskConverter {
     if (getHeader(emailTask, HeaderName.FROM_ID).isPresent()) {
       emailSender.setFrom(
           Account.id(Integer.parseInt(getHeader(emailTask, HeaderName.FROM_ID).get())));
+    }
+    if (emailTask.hasPatchsetId()) {
+      emailSender.setPatchSetId(
+          PatchSetIdProtoConverter.INSTANCE.fromProto(emailTask.getPatchsetId()));
     }
     emailSender.setNotify(getNotify(emailTask.getNotifyInput()));
     emailSender.setMessageId(MessageId.create(getHeader(emailTask, HeaderName.MESSAGE_ID).get()));

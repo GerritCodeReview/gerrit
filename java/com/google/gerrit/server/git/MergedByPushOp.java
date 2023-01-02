@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.FROM_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -22,11 +24,14 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
+import com.google.gerrit.proto.Entities.EmailTask;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
-import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -38,9 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -64,14 +66,12 @@ public class MergedByPushOp implements BatchUpdateOp {
         @Assisted("mergeResultRevId") String mergeResultRevId);
   }
 
-  private final RequestScopePropagator requestScopePropagator;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
-  private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
+  private final EmailTaskDispatcher emailTaskDispatcher;
 
   private final PatchSet.Id psId;
   private final SubmissionId submissionId;
@@ -88,24 +88,20 @@ public class MergedByPushOp implements BatchUpdateOp {
   MergedByPushOp(
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeMessagesUtil cmUtil,
-      MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
-      @Assisted RequestScopePropagator requestScopePropagator,
+      EmailTaskDispatcher emailTaskDispatcher,
       @Assisted PatchSet.Id psId,
       @Assisted SubmissionId submissionId,
       @Assisted("refName") String refName,
       @Assisted("mergeResultRevId") String mergeResultRevId) {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.cmUtil = cmUtil;
-    this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
-    this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
-    this.requestScopePropagator = requestScopePropagator;
+    this.emailTaskDispatcher = emailTaskDispatcher;
     this.submissionId = submissionId;
     this.psId = psId;
     this.refName = refName;
@@ -178,40 +174,26 @@ public class MergedByPushOp implements BatchUpdateOp {
     if (!correctBranch) {
       return;
     }
-    @SuppressWarnings("unused") // Runnable already handles errors
-    Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(
-            requestScopePropagator.wrap(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    try {
-                      // The stickyApprovalDiff is always empty here since this is not supported
-                      // for direct pushes.
-                      MergedSender emailSender =
-                          mergedSenderFactory.create(
-                              ctx.getProject(),
-                              psId.changeId(),
-                              /* stickyApprovalDiff= */ Optional.empty());
-                      emailSender.setFrom(ctx.getAccountId());
-                      emailSender.setPatchSetId(patchSet.id());
-                      emailSender.setMessageId(
-                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      emailSender.send();
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log(
-                          "Cannot send email for submitted patch set %s", psId);
-                    }
-                  }
-
-                  @Override
-                  public String toString() {
-                    return "send-email merged";
-                  }
-                }));
-
+    try {
+      String messageId = messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()).id();
+      EmailTask.Builder emailTaskBuilder =
+          EmailTask.newBuilder()
+              .setEventType(EmailTask.Type.MERGED)
+              .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+              .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(change.getId()))
+              .setPatchsetId(PatchSetIdProtoConverter.INSTANCE.toProto(patchSet.id()))
+              .addHeader(header(MESSAGE_ID, messageId))
+              .addHeader(header(FROM_ID, ctx.getAccountId().toString()));
+      emailTaskDispatcher.dispatch(emailTaskBuilder.build());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot send email for submitted patch set %s", psId);
+    }
     changeMerged.fire(
         ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
+  }
+
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

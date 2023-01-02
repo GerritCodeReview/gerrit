@@ -14,6 +14,7 @@ import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.RestoredSender;
+import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ public abstract class EmailTaskConverter {
         return new RestoreEmailTaskConverter(args.restoredSender);
       case MERGED:
         return new MergeEmailTaskConverter(args.mergedSender);
+      case REVERTED:
+        return new RevertedEmailTaskConverter(args.revertedSender);
       default:
         throw new RuntimeException("Unrecognized");
     }
@@ -61,15 +64,18 @@ public abstract class EmailTaskConverter {
     private final AbandonedSender.Factory abandonedSender;
     private final RestoredSender.Factory restoredSender;
     private final MergedSender.Factory mergedSender;
+    private final RevertedSender.Factory revertedSender;
 
     @Inject
     Args(
         AbandonedSender.Factory emailSenderFactory,
         RestoredSender.Factory restoredSender,
-        MergedSender.Factory mergedSender) {
+        MergedSender.Factory mergedSender,
+        RevertedSender.Factory revertedSender) {
       this.abandonedSender = emailSenderFactory;
       this.restoredSender = restoredSender;
       this.mergedSender = mergedSender;
+      this.revertedSender = revertedSender;
     }
   }
 }

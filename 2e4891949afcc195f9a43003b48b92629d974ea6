@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86d9126_cb3d494b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-02T21:17:08Z",
+      "side": 1,
+      "message": "s/an/a",
+      "range": {
+        "startLine": 16,
+        "startChar": 44,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "2e4891949afcc195f9a43003b48b92629d974ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3dc2cf2b_62a5b131",
@@ -14,6 +37,75 @@
       "writtenOn": "2023-01-02T20:07:30Z",
       "side": 1,
       "message": "Could we add some tests?",
+      "revId": "2e4891949afcc195f9a43003b48b92629d974ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0f1ae2_c2627136",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-02T21:17:08Z",
+      "side": 1,
+      "message": "nit: I would either loose this specification, or perhaps be specific about up to which versions same-thread execution was in place.",
+      "range": {
+        "startLine": 715,
+        "startChar": 34,
+        "endLine": 715,
+        "endChar": 67
+      },
+      "revId": "2e4891949afcc195f9a43003b48b92629d974ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5d9dbf8_ec765beb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-02T21:17:08Z",
+      "side": 1,
+      "message": "Each evicting thread would now last longer (having to send the notification too), this should probably mentioned when describing the effect of using this flag.\n\nWDYT?",
+      "range": {
+        "startLine": 714,
+        "startChar": 0,
+        "endLine": 715,
+        "endChar": 33
+      },
+      "revId": "2e4891949afcc195f9a43003b48b92629d974ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3c7fa4_f48d5fff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-02T21:17:08Z",
+      "side": 1,
+      "message": "nit: consider using the `by default, false` convention to be aligned with other configuration documentations.",
+      "range": {
+        "startLine": 717,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 17
+      },
       "revId": "2e4891949afcc195f9a43003b48b92629d974ea6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

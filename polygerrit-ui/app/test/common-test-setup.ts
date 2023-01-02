@@ -16,8 +16,6 @@ import {testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-re
 import {
   cleanupTestUtils,
   getCleanupsCount,
-  addIronOverlayBackdropStyleEl,
-  removeIronOverlayBackdropStyleEl,
   removeThemeStyles,
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
@@ -99,7 +97,6 @@ function resolveDependency(evt: DependencyRequestEvent<unknown>) {
 
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
-  addIronOverlayBackdropStyleEl();
 
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
@@ -173,7 +170,6 @@ teardown(() => {
   fixtureCleanup();
   cleanupTestUtils();
   checkGlobalSpace();
-  removeIronOverlayBackdropStyleEl();
   removeThemeStyles();
   cancelAllTasks();
   cleanUpStorage();

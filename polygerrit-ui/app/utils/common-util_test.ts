@@ -3,7 +3,8 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
+import {html} from 'lit';
 import '../test/common-test-setup';
 import {
   hasOwnProperty,
@@ -13,6 +14,19 @@ import {
   difference,
   toggle,
 } from './common-util';
+
+const divEl = document.createElement('div');
+divEl.innerHTML = '<input type="text"></input>Test Element';
+
+class TestElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot?.appendChild(divEl);
+  }
+}
+
+customElements.define('test-element', TestElement);
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
@@ -63,6 +77,12 @@ suite('common-util tests', () => {
     assert.isFalse(containsAll(new Set([1]), new Set([2])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([5])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 5])));
+  });
+
+  test.only('getActiveElement', async () => {
+    const el: TestElement = await fixture(html`<test-element></test-element>`);
+    document.body.appendChild(el);
+    debugger;
   });
 
   test('intersections', () => {

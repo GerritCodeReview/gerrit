@@ -67,6 +67,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {getActiveElement} from '../../../utils/common-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -1594,6 +1595,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.equal(chooseFocusTargetSpy.callCount, 1);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
+    assert.equal(getActiveElement(element)?.tagName, 'TEXTAREA');
     assert.equal(
       element?.shadowRoot?.activeElement?.id,
       'patchsetLevelComment'
@@ -1627,6 +1629,7 @@ suite('gr-reply-dialog tests', () => {
       () => element?.shadowRoot?.activeElement?.tagName === 'GR-ACCOUNT-LIST'
     );
     assert.equal(element?.shadowRoot?.activeElement?.id, 'reviewers');
+    assert.equal(getActiveElement(element)?.tagName, 'INPUT');
 
     element.focusOn(element.FocusTarget.CCS);
     assert.equal(chooseFocusTargetSpy.callCount, 2);

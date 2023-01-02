@@ -58,7 +58,3 @@ import 'polymer-bridges/polymer/lib/elements/array-selector_bridge.js';
 import 'polymer-bridges/polymer/lib/elements/custom-style_bridge.js';
 import 'polymer-bridges/polymer/lib/legacy/mutable-data-behavior_bridge.js';
 import 'polymer-bridges/polymer/polymer-legacy_bridge.js';
-
-// This is needed due to the Polymer.IronFocusablesHelper in gr-overlay.ts
-import 'polymer-bridges/iron-overlay-behavior/iron-focusables-helper_bridge.js';
-

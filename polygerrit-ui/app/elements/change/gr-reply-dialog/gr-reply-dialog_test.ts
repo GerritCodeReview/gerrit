@@ -1332,7 +1332,7 @@ suite('gr-reply-dialog tests', () => {
     element.reviewerPendingConfirmation = null;
     await element.updateComplete;
     assert.isFalse(
-      isVisible(queryAndAssert(element, 'reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
 
     // Cause the confirmation dialog to display.
@@ -1370,14 +1370,14 @@ suite('gr-reply-dialog tests', () => {
 
     await observer;
     assert.isTrue(
-      isVisible(queryAndAssert(element, 'reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
     observer = overlayObserver('closed');
     const expected = 'Group name has 10 members';
     assert.notEqual(
       queryAndAssert<HTMLElement>(
         element,
-        'reviewerConfirmationModal'
+        '#reviewerConfirmationModal'
       ).innerText.indexOf(expected),
       -1
     );
@@ -1385,7 +1385,7 @@ suite('gr-reply-dialog tests', () => {
 
     await observer;
     assert.isFalse(
-      isVisible(queryAndAssert(element, 'reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
 
     // We should be focused on account entry input.
@@ -1418,14 +1418,14 @@ suite('gr-reply-dialog tests', () => {
 
     await observer;
     assert.isTrue(
-      isVisible(queryAndAssert(element, 'reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
     observer = overlayObserver('closed');
     yesButton.click(); // Confirm the group.
 
     await observer;
     assert.isFalse(
-      isVisible(queryAndAssert(element, 'reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
     );
     const additions = cc
       ? element.ccsList?.additions()

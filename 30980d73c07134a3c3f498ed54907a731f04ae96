@@ -16,6 +16,24 @@
       "message": "what about [this one] already in use from dom-util that looks more sophisticated?\n\nAlso didn\u0027t you just add a getActiveElement function to test-utils too?",
       "revId": "30980d73c07134a3c3f498ed54907a731f04ae96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f67371de_a51cd06a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-02T15:12:20Z",
+      "side": 1,
+      "message": "oops, [this one](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/utils/dom-util.ts;l\u003d231;drc\u003d0aca5865b34303191ef4b933b62ef8c9a21fb8ab)",
+      "parentUuid": "7f68c9d4_f724daa8",
+      "revId": "30980d73c07134a3c3f498ed54907a731f04ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

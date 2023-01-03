@@ -15,10 +15,11 @@
 package com.google.gerrit.server.util;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.util.LabelVote.parse;
-import static com.google.gerrit.server.util.LabelVote.parseWithEquals;
+import static com.google.gerrit.entities.LabelVote.parse;
+import static com.google.gerrit.entities.LabelVote.parseWithEquals;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.entities.LabelVote;
 import org.junit.Test;
 
 public class LabelVoteTest {

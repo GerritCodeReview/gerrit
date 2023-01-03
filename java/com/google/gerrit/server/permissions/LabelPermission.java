@@ -20,7 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
-import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.entities.LabelVote;
 
 /** Permission representing a label. */
 public class LabelPermission implements ChangePermissionOrLabel {

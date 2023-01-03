@@ -250,6 +250,7 @@ message EmailTask {
     REMOVE_FROM_ATTENTION_SET = 5;
     NEW_PATCHSET = 6;
     COMMENTS = 7;
+    DELETE_VOTE = 8;
   }
 
   message Payload {

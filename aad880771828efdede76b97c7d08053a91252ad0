@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27404a14_64cb5361",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T10:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a447e5d_293501af",
+      "range": {
+        "startLine": 131,
+        "startChar": 26,
+        "endLine": 131,
+        "endChar": 59
+      },
+      "revId": "aad880771828efdede76b97c7d08053a91252ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5916e0d3_cb45b930",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-03T10:48:53Z",
       "side": 1,
       "message": "might as well use `await` if you are already marking fn as `async` and skip the indentation",
+      "range": {
+        "startLine": 666,
+        "startChar": 11,
+        "endLine": 670,
+        "endChar": 9
+      },
+      "revId": "aad880771828efdede76b97c7d08053a91252ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1686183d_0893f625",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T10:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5916e0d3_cb45b930",
       "range": {
         "startLine": 666,
         "startChar": 11,

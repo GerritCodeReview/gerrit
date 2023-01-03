@@ -18,7 +18,7 @@ import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUs
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.LabelType;
-import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.entities.LabelVote;
 
 /** Abstract permission representing a label. */
 public abstract class AbstractLabelPermission implements ChangePermissionOrLabel {

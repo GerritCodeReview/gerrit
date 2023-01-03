@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.util;
+package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.LabelType;
-import com.google.gerrit.entities.PatchSetApproval;
 
 /** A single vote on a label, consisting of a label name and a value. */
 @AutoValue

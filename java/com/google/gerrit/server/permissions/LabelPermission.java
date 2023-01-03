@@ -18,7 +18,7 @@ import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUs
 
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
-import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.entities.LabelVote;
 
 /** Permission representing a label. */
 public class LabelPermission extends AbstractLabelPermission {

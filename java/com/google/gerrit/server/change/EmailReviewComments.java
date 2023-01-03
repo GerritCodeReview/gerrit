@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailReviewComments {
@@ -205,7 +206,7 @@ public class EmailReviewComments {
         emailSender.setFrom(user.getAccountId());
         emailSender.setPatchSetId(patchSet.id());
         emailSender.setChangeMessage(message, timestamp);
-        emailSender.setComments(comments);
+        emailSender.setComments(comments.stream().map(c -> c.key.uuid).collect(Collectors.toSet()));
         emailSender.setPatchSetComment(patchSetComment);
         emailSender.setLabels(labels);
         emailSender.setNotify(notify);

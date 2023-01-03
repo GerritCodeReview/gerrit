@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -24,31 +23,37 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ObjectIdProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
+import com.google.gerrit.entities.converter.SubmitRequirementResultProtoConverter;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.proto.Entities.Change_Kind;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
+import com.google.gerrit.proto.Entities.EmailTask.Payload;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailNewPatchSet {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     EmailNewPatchSet create(
         PostUpdateContext postUpdateContext,
@@ -61,18 +66,26 @@ public class EmailNewPatchSet {
         ObjectId preUpdateMetaId);
   }
 
-  private final ExecutorService sendEmailExecutor;
-  private final ThreadLocalRequestContext threadLocalRequestContext;
-  private final AsyncSender asyncSender;
+  private final EmailTaskDispatcher emailTaskDispatcher;
 
-  private RequestScopePropagator requestScopePropagator;
+  private final Project.NameKey projectName;
+  private final Change.Id changeId;
+  private final PatchSet.Id patchSetId;
+  private final NotifyResolver.Result notify;
+  private final ChangeKind changeKind;
+  private final CurrentUser user;
+  private final String message;
+  private final Instant timestamp;
+  private final String messageId;
+  private final ImmutableSet<Account.Id> extraReviewers;
+  private final ImmutableSet<Account.Id> extraCC;
+  private final ImmutableSet<PatchSetApproval> outdatedApprovals;
+  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
+  private final ObjectId preUpdateMetaId;
 
   @Inject
   EmailNewPatchSet(
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
-      ThreadLocalRequestContext threadLocalRequestContext,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
-      PatchSetInfoFactory patchSetInfoFactory,
+      EmailTaskDispatcher emailTaskDispatcher,
       MessageIdGenerator messageIdGenerator,
       @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
@@ -82,8 +95,7 @@ public class EmailNewPatchSet {
       @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
       @Assisted ChangeKind changeKind,
       @Assisted ObjectId preUpdateMetaId) {
-    this.sendEmailExecutor = sendEmailExecutor;
-    this.threadLocalRequestContext = threadLocalRequestContext;
+    this.emailTaskDispatcher = emailTaskDispatcher;
 
     MessageId messageId;
     try {
@@ -104,135 +116,79 @@ public class EmailNewPatchSet {
         postUpdateContext
             .getChangeData(postUpdateContext.getProject(), changeId)
             .submitRequirementsIncludingLegacy();
-    this.asyncSender =
-        new AsyncSender(
-            postUpdateContext.getIdentifiedUser(),
-            replacePatchSetFactory,
-            messageId,
-            postUpdateContext.getNotify(changeId),
-            postUpdateContext.getProject(),
-            changeId,
-            patchSet,
-            message,
-            postUpdateContext.getWhen(),
-            outdatedApprovals,
-            reviewers,
-            extraCcs,
-            changeKind,
-            preUpdateMetaId,
-            postUpdateSubmitRequirementResults);
+
+    this.projectName = postUpdateContext.getProject();
+    this.changeId = changeId;
+    this.patchSetId = patchSet.id();
+    this.notify = postUpdateContext.getNotify(changeId);
+    this.user = postUpdateContext.getIdentifiedUser();
+    this.message = message;
+    this.timestamp = postUpdateContext.getWhen();
+    this.changeKind = changeKind;
+    this.messageId = messageId.id();
+    this.extraReviewers = reviewers;
+    this.extraCC = extraCcs;
+    this.outdatedApprovals = outdatedApprovals;
+    this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
+    this.preUpdateMetaId = preUpdateMetaId;
   }
 
-  public EmailNewPatchSet setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
-    this.requestScopePropagator = requestScopePropagator;
-    return this;
+  public void dispatch() {
+    EmailTask.Builder emailTaskBuilder =
+        EmailTask.newBuilder()
+            .setEventType(EmailTask.Type.NEW_PATCHSET)
+            .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(projectName))
+            .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(changeId))
+            .setPatchsetId(PatchSetIdProtoConverter.INSTANCE.toProto(patchSetId))
+            .setNotifyInput(getNotify(notify))
+            .setPreUpdateMetaId(ObjectIdProtoConverter.INSTANCE.toProto(preUpdateMetaId))
+            .addHeader(header(HeaderName.FROM_ID, user.getAccountId().toString()))
+            .addHeader(header(HeaderName.TIMESTAMP, String.valueOf(timestamp.toEpochMilli())))
+            .addHeader(header(HeaderName.MESSAGE_ID, messageId))
+            .addAllExtraReviewers(
+                extraReviewers.stream()
+                    .map(AccountIdProtoConverter.INSTANCE::toProto)
+                    .collect(Collectors.toList()))
+            .addAllExtraCc(
+                extraCC.stream()
+                    .map(AccountIdProtoConverter.INSTANCE::toProto)
+                    .collect(Collectors.toList()))
+            .setPayload(
+                Payload.newBuilder()
+                    .setChangeKind(Change_Kind.valueOf(changeKind.name()))
+                    .addAllOutdatedApprovals(
+                        outdatedApprovals.stream()
+                            .map(PatchSetApprovalProtoConverter.INSTANCE::toProto)
+                            .collect(Collectors.toList()))
+                    .addAllPostUpdateSubmitRequirementResults(
+                        postUpdateSubmitRequirementResults.values().stream()
+                            .map(SubmitRequirementResultProtoConverter.INSTANCE::toProto)
+                            .collect(Collectors.toList()))
+                    .build());
+    if (message != null) {
+      emailTaskBuilder.setMessage(message);
+    }
+    emailTaskDispatcher.dispatch(emailTaskBuilder.build());
   }
 
-  public void sendAsync() {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(
-            requestScopePropagator != null
-                ? requestScopePropagator.wrap(asyncSender)
-                : () -> {
-                  RequestContext old = threadLocalRequestContext.setContext(asyncSender);
-                  try {
-                    asyncSender.run();
-                  } finally {
-                    threadLocalRequestContext.setContext(old);
-                  }
-                });
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
   }
 
-  /**
-   * {@link Runnable} that sends the email asynchonously.
-   *
-   * <p>Only pass objects into this class that are thread-safe (e.g. immutable) so that they can be
-   * safely accessed from the background thread.
-   */
-  private static class AsyncSender implements Runnable, RequestContext {
-    private final IdentifiedUser user;
-    private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-    private final MessageId messageId;
-    private final NotifyResolver.Result notify;
-    private final Project.NameKey projectName;
-    private final Change.Id changeId;
-    private final PatchSet patchSet;
-    private final String message;
-    private final Instant timestamp;
-    private final ImmutableSet<PatchSetApproval> outdatedApprovals;
-    private final ImmutableSet<Account.Id> reviewers;
-    private final ImmutableSet<Account.Id> extraCcs;
-    private final ChangeKind changeKind;
-    private final ObjectId preUpdateMetaId;
-    private final Map<SubmitRequirement, SubmitRequirementResult>
-        postUpdateSubmitRequirementResults;
-
-    AsyncSender(
-        IdentifiedUser user,
-        ReplacePatchSetSender.Factory replacePatchSetFactory,
-        MessageId messageId,
-        NotifyResolver.Result notify,
-        Project.NameKey projectName,
-        Change.Id changeId,
-        PatchSet patchSet,
-        String message,
-        Instant timestamp,
-        ImmutableSet<PatchSetApproval> outdatedApprovals,
-        ImmutableSet<Account.Id> reviewers,
-        ImmutableSet<Account.Id> extraCcs,
-        ChangeKind changeKind,
-        ObjectId preUpdateMetaId,
-        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-      this.user = user;
-      this.replacePatchSetFactory = replacePatchSetFactory;
-      this.messageId = messageId;
-      this.notify = notify;
-      this.projectName = projectName;
-      this.changeId = changeId;
-      this.patchSet = patchSet;
-      this.message = message;
-      this.timestamp = timestamp;
-      this.outdatedApprovals = outdatedApprovals;
-      this.reviewers = reviewers;
-      this.extraCcs = extraCcs;
-      this.changeKind = changeKind;
-      this.preUpdateMetaId = preUpdateMetaId;
-      this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
+  private NotifyInput getNotify(NotifyResolver.Result notify) {
+    NotifyInput.Builder builder =
+        NotifyInput.newBuilder()
+            .setNotifyHandling(NotifyHandling.valueOf(notify.handling().name()));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream()
+          .forEach(
+              a ->
+                  builder.addNotifyEntry(
+                      NotifyEntry.newBuilder()
+                          .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                          .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                          .build()));
     }
-
-    @Override
-    public void run() {
-      try {
-        ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(
-                projectName,
-                changeId,
-                changeKind,
-                preUpdateMetaId,
-                postUpdateSubmitRequirementResults);
-        emailSender.setFrom(user.getAccountId());
-        emailSender.setPatchSetId(patchSet.id());
-        emailSender.setChangeMessage(message, timestamp);
-        emailSender.setNotify(notify);
-        emailSender.addReviewers(reviewers);
-        emailSender.addExtraCC(extraCcs);
-        emailSender.addOutdatedApproval(outdatedApprovals);
-        emailSender.setMessageId(messageId);
-        emailSender.send();
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log("Cannot send email for new patch set %s", patchSet.id());
-      }
-    }
-
-    @Override
-    public String toString() {
-      return "send-email newpatchset";
-    }
-
-    @Override
-    public CurrentUser getUser() {
-      return user.getRealUser();
-    }
+    return builder.build();
   }
 }

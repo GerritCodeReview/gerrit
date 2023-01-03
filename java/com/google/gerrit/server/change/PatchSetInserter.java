@@ -375,7 +375,7 @@ public class PatchSetInserter implements BatchUpdateOp {
               oldReviewers == null ? ImmutableSet.of() : oldReviewers.byState(CC),
               changeKind,
               preUpdateMetaId)
-          .sendAsync();
+          .dispatch();
     }
 
     if (fireRevisionCreated) {

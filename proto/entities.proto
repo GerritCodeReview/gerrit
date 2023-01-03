@@ -196,6 +196,14 @@ message Submit_Requirement_Expression_Result {
   }
 }
 
+enum Change_Kind {
+    REWORK = 0;
+    TRIVIAL_REBASE = 1;
+    MERGE_FIRST_PARENT_UPDATE = 2;
+    NO_CODE_CHANGE = 3;
+    NO_CHANGE = 4;
+}
+
 message EmailTask {
   // Type of the email task (e.g. ABANDON, MERGE, etc...)
   required Type event_type = 1;
@@ -221,6 +229,13 @@ message EmailTask {
 
   optional Account_Id caller = 11;
 
+  repeated Account_Id extra_reviewers = 12;
+
+  repeated Account_Id extra_cc = 13;
+
+  // can we get rid of this?
+  optional ObjectId pre_update_meta_id = 14;
+
   enum Type {
     ABANDON = 0;
     RESTORE = 1;
@@ -228,6 +243,7 @@ message EmailTask {
     REVERTED = 3;
     ADD_TO_ATTENTION_SET = 4;
     REMOVE_FROM_ATTENTION_SET = 5;
+    NEW_PATCHSET = 6;
   }
 
   message Payload {
@@ -236,6 +252,14 @@ message EmailTask {
     optional Account_Id attention_set_user = 2;
 
     optional string attention_set_reason = 3;
+
+    repeated PatchSetApproval outdated_approvals = 4;
+
+    optional ObjectId pre_updated_meta_id = 5;
+
+    optional Change_Kind change_kind = 6;
+
+    repeated Submit_Requirement_Result post_update_submit_requirement_results = 7;
   }
 
   message Header {

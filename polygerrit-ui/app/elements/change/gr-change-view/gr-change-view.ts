@@ -2322,14 +2322,14 @@ export class GrChangeView extends LitElement {
    * Gets base patch number, if it is a parent try and decide from
    * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
    * Private but used in tests.
+   * Relies on viewState to check if basePatchNum is not PARENT. The viewState
+   * is set by GrRouter in handleChangeRoute method.
+   * If user updates the basePatchNum via patchset picker then the url is
+   * updated and the viewState updates as well.
    */
   getBasePatchNum() {
-    if (
-      this.patchRange &&
-      this.patchRange.basePatchNum &&
-      this.patchRange.basePatchNum !== PARENT
-    ) {
-      return this.patchRange.basePatchNum;
+    if (this.viewState?.basePatchNum !== PARENT) {
+      return this.viewState?.basePatchNum;
     }
 
     const revisionInfo = this.getRevisionInfo();
@@ -2343,12 +2343,12 @@ export class GrChangeView extends LitElement {
       this.prefs &&
       this.prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    // TODO: I think checking `!patchRange.patchNum` here is a bug and means
+    // TODO: I think checking `!viewState.patchNum` here is a bug and means
     // that the feature is actually broken at the moment. Looking at the
-    // `changeChanged` method, `patchRange.patchNum` is set before
+    // `changeChanged` method, `viewState.patchNum` is set before
     // `getBasePatchNum` is called, so it is unlikely that this method will
     // ever return -1.
-    if (isMerge && preferFirst && !this.patchRange?.patchNum) {
+    if (isMerge && preferFirst && !this.viewState?.patchNum) {
       this.reporting.reportExecution(Execution.PREFER_MERGE_FIRST_PARENT);
       return -1 as BasePatchSetNum;
     }

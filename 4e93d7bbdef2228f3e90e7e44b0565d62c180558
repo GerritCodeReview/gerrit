@@ -16,6 +16,52 @@
       "message": "This is now ready for review.",
       "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe12025_60419bd8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-03T18:46:59Z",
+      "side": 1,
+      "message": "nit: `s/are assume/assume`",
+      "range": {
+        "startLine": 709,
+        "startChar": 31,
+        "endLine": 709,
+        "endChar": 41
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe4716ce_a38c694e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-03T18:46:59Z",
+      "side": 1,
+      "message": "nit: either `in Gerrit v3.1 or earlier versions` or IMHO better `prior Gerrit 3.2`",
+      "range": {
+        "startLine": 710,
+        "startChar": 15,
+        "endLine": 710,
+        "endChar": 46
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

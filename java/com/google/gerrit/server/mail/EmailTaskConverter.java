@@ -11,8 +11,10 @@ import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
 import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.mail.send.AbandonedSender;
+import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
+import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
@@ -32,6 +34,10 @@ public abstract class EmailTaskConverter {
         return new MergeEmailTaskConverter(args.mergedSender);
       case REVERTED:
         return new RevertedEmailTaskConverter(args.revertedSender);
+      case ADD_TO_ATTENTION_SET:
+      case REMOVE_FROM_ATTENTION_SET:
+        return new AttentionSetEmailTaskConverter(
+            eventType, args.addToAttentionSetSender, args.removeFromAttentionSetSender);
       default:
         throw new RuntimeException("Unrecognized");
     }
@@ -65,17 +71,23 @@ public abstract class EmailTaskConverter {
     private final RestoredSender.Factory restoredSender;
     private final MergedSender.Factory mergedSender;
     private final RevertedSender.Factory revertedSender;
+    private final AddToAttentionSetSender.Factory addToAttentionSetSender;
+    private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
 
     @Inject
     Args(
         AbandonedSender.Factory emailSenderFactory,
         RestoredSender.Factory restoredSender,
         MergedSender.Factory mergedSender,
-        RevertedSender.Factory revertedSender) {
+        RevertedSender.Factory revertedSender,
+        AddToAttentionSetSender.Factory addToAttentionSetSender,
+        RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender) {
       this.abandonedSender = emailSenderFactory;
       this.restoredSender = restoredSender;
       this.mergedSender = mergedSender;
       this.revertedSender = revertedSender;
+      this.addToAttentionSetSender = addToAttentionSetSender;
+      this.removeFromAttentionSetSender = removeFromAttentionSetSender;
     }
   }
 }

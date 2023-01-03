@@ -14,66 +14,69 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.common.flogger.FluentLogger;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
+
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
+import com.google.gerrit.proto.Entities.EmailTask.Payload;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
-import com.google.gerrit.server.mail.send.AttentionSetSender;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class AttentionSetEmail {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
-
-    /**
-     * factory for sending an email when adding users to the attention set or removing them from it.
-     *
-     * @param sender sender in charge of sending the email, can be {@link AddToAttentionSetSender}
-     *     or {@link RemoveFromAttentionSetSender}.
-     * @param ctx context for sending the email.
-     * @param change the change that the user was added/removed in.
-     * @param reason reason for adding/removing the user.
-     * @param attentionUserId the user added/removed.
-     */
     AttentionSetEmail create(
-        AttentionSetSender sender,
+        EmailTask.Type emailTaskType,
         Context ctx,
         Change change,
         String reason,
         Account.Id attentionUserId);
   }
 
-  private final ExecutorService sendEmailsExecutor;
-  private final AsyncSender asyncSender;
+  private final EmailTaskDispatcher emailTaskDispatcher;
+  private final EmailTask.Type emailTaskType;
+  private final AccountTemplateUtil accountTemplateUtil;
+  private final Context ctx;
+  private final Change change;
+  private final String messageId;
+
+  private final String attentionReason;
+  private final Account.Id attentionUserId;
 
   @Inject
   AttentionSetEmail(
-      @SendEmailExecutor ExecutorService executor,
-      ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
+      EmailTaskDispatcher emailTaskDispatcher,
       AccountTemplateUtil accountTemplateUtil,
-      @Assisted AttentionSetSender sender,
+      @Assisted EmailTask.Type emailTaskType,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
       @Assisted Account.Id attentionUserId) {
-    this.sendEmailsExecutor = executor;
+    checkArgument(
+        emailTaskType.equals(EmailTask.Type.ADD_TO_ATTENTION_SET)
+            || emailTaskType.equals(EmailTask.Type.REMOVE_FROM_ATTENTION_SET));
 
+    this.accountTemplateUtil = accountTemplateUtil;
+    this.emailTaskDispatcher = emailTaskDispatcher;
     MessageId messageId;
     try {
       messageId =
@@ -83,89 +86,56 @@ public class AttentionSetEmail {
       throw new UncheckedIOException(e);
     }
 
-    this.asyncSender =
-        new AsyncSender(
-            requestContext,
-            ctx.getIdentifiedUser(),
-            sender,
-            messageId,
-            ctx.getNotify(change.getId()),
-            attentionUserId,
-            accountTemplateUtil.replaceTemplates(reason),
-            change.getId());
+    this.emailTaskType = emailTaskType;
+    this.ctx = ctx;
+    this.change = change;
+    this.messageId = messageId.id();
+    this.attentionReason = reason;
+    this.attentionUserId = attentionUserId;
   }
 
-  public void sendAsync() {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
+  public void dispatch() {
+    EmailTask.Builder emailTaskBuilder =
+        EmailTask.newBuilder()
+            .setEventType(emailTaskType)
+            .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+            .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(change.getId()))
+            .setPayload(
+                Payload.newBuilder()
+                    .setAttentionSetReason(accountTemplateUtil.replaceTemplates(attentionReason))
+                    .setAttentionSetUser(AccountIdProtoConverter.INSTANCE.toProto(attentionUserId))
+                    .build())
+            .setNotifyInput(getNotify(ctx.getNotify(change.getId())))
+            .addHeader(header(MESSAGE_ID, messageId));
+    IdentifiedUser user = ctx.getIdentifiedUser();
+    Optional<Account.Id> accountId =
+        user.isIdentifiedUser()
+            ? Optional.of(user.asIdentifiedUser().getAccountId())
+            : Optional.empty();
+    if (accountId.isPresent()) {
+      emailTaskBuilder.addHeader(header(HeaderName.FROM_ID, accountId.get().toString()));
+    }
+    emailTaskDispatcher.dispatch(emailTaskBuilder.build());
   }
 
-  /**
-   * {@link Runnable} that sends the email asynchonously.
-   *
-   * <p>Only pass objects into this class that are thread-safe (e.g. immutable) so that they can be
-   * safely accessed from the background thread.
-   */
-  private static class AsyncSender implements Runnable, RequestContext {
-    private final ThreadLocalRequestContext requestContext;
-    private final IdentifiedUser user;
-    private final AttentionSetSender sender;
-    private final MessageIdGenerator.MessageId messageId;
-    private final NotifyResolver.Result notify;
-    private final Account.Id attentionUserId;
-    private final String reason;
-    private final Change.Id changeId;
-
-    AsyncSender(
-        ThreadLocalRequestContext requestContext,
-        IdentifiedUser user,
-        AttentionSetSender sender,
-        MessageIdGenerator.MessageId messageId,
-        NotifyResolver.Result notify,
-        Account.Id attentionUserId,
-        String reason,
-        Change.Id changeId) {
-      this.requestContext = requestContext;
-      this.user = user;
-      this.sender = sender;
-      this.messageId = messageId;
-      this.notify = notify;
-      this.attentionUserId = attentionUserId;
-      this.reason = reason;
-      this.changeId = changeId;
+  private NotifyInput getNotify(NotifyResolver.Result notify) {
+    NotifyInput.Builder builder =
+        NotifyInput.newBuilder()
+            .setNotifyHandling(NotifyHandling.valueOf(notify.handling().name()));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream()
+          .forEach(
+              a ->
+                  builder.addNotifyEntry(
+                      NotifyEntry.newBuilder()
+                          .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                          .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                          .build()));
     }
+    return builder.build();
+  }
 
-    @Override
-    public void run() {
-      RequestContext old = requestContext.setContext(this);
-      try {
-        Optional<Account.Id> accountId =
-            user.isIdentifiedUser()
-                ? Optional.of(user.asIdentifiedUser().getAccountId())
-                : Optional.empty();
-        if (accountId.isPresent()) {
-          sender.setFrom(accountId.get());
-        }
-        sender.setNotify(notify);
-        sender.setAttentionSetUser(attentionUserId);
-        sender.setReason(reason);
-        sender.setMessageId(messageId);
-        sender.send();
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log("Cannot email update for change %s", changeId);
-      } finally {
-        requestContext.setContext(old);
-      }
-    }
-
-    @Override
-    public String toString() {
-      return "send-email attention-set-update";
-    }
-
-    @Override
-    public CurrentUser getUser() {
-      return user;
-    }
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
   }
 }

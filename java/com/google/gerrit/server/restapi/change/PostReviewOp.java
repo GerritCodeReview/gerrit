@@ -274,7 +274,7 @@ public class PostReviewOp implements BatchUpdateOp {
     }
     email
         .create(ctx, ps, notes.getMetaId(), mailMessage, comments, in.message, labelDelta)
-        .sendAsync();
+        .dispatch();
     String comment = mailMessage;
     if (publishPatchSetLevelComment) {
       // TODO(davido): Remove this workaround when patch set level comments are exposed in comment

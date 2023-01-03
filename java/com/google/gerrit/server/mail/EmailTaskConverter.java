@@ -12,6 +12,7 @@ import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
+import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
@@ -41,6 +42,8 @@ public abstract class EmailTaskConverter {
             eventType, args.addToAttentionSetSender, args.removeFromAttentionSetSender);
       case NEW_PATCHSET:
         return new NewPatchsetEmailTaskConverter(args.replacePatchSetSender);
+      case COMMENTS:
+        return new CommentsEmailTaskConverter(args.commentSenderFactory);
       default:
         throw new RuntimeException("Unrecognized");
     }
@@ -77,6 +80,7 @@ public abstract class EmailTaskConverter {
     private final AddToAttentionSetSender.Factory addToAttentionSetSender;
     private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
     private final ReplacePatchSetSender.Factory replacePatchSetSender;
+    private final CommentSender.Factory commentSenderFactory;
 
     @Inject
     Args(
@@ -86,7 +90,8 @@ public abstract class EmailTaskConverter {
         RevertedSender.Factory revertedSender,
         AddToAttentionSetSender.Factory addToAttentionSetSender,
         RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender,
-        ReplacePatchSetSender.Factory replacePatchSetSender) {
+        ReplacePatchSetSender.Factory replacePatchSetSender,
+        CommentSender.Factory commentSenderFactory) {
       this.abandonedSender = emailSenderFactory;
       this.restoredSender = restoredSender;
       this.mergedSender = mergedSender;
@@ -94,6 +99,7 @@ public abstract class EmailTaskConverter {
       this.addToAttentionSetSender = addToAttentionSetSender;
       this.removeFromAttentionSetSender = removeFromAttentionSetSender;
       this.replacePatchSetSender = replacePatchSetSender;
+      this.commentSenderFactory = commentSenderFactory;
     }
   }
 }

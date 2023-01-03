@@ -137,6 +137,6 @@ public class WorkInProgressOp implements BatchUpdateOp {
             ImmutableList.of(),
             mailMessage,
             ImmutableList.of())
-        .sendAsync();
+        .dispatch();
   }
 }

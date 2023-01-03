@@ -379,7 +379,7 @@ public class MailProcessor {
               comments,
               patchSetComment,
               ImmutableList.of())
-          .sendAsync();
+          .dispatch();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil

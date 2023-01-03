@@ -249,6 +249,7 @@ message EmailTask {
     ADD_TO_ATTENTION_SET = 4;
     REMOVE_FROM_ATTENTION_SET = 5;
     NEW_PATCHSET = 6;
+    COMMENTS = 7;
   }
 
   message Payload {
@@ -265,6 +266,12 @@ message EmailTask {
     optional Change_Kind change_kind = 6;
 
     repeated Submit_Requirement_Result post_update_submit_requirement_results = 7;
+
+    repeated string comment_uuids = 8;
+
+    optional string patchset_comment = 9;
+
+    repeated Label_Vote label_votes = 10;
   }
 
   message Header {

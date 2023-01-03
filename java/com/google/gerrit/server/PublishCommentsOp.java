@@ -120,7 +120,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
             comments,
             /* patchSetComment= */ null,
             /* labels= */ ImmutableList.of())
-        .sendAsync();
+        .dispatch();
     commentAdded.fire(
         ctx.getChangeData(changeNotes),
         ps,

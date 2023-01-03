@@ -161,6 +161,41 @@ message ObjectId {
   optional string name = 1;
 }
 
+message Submit_Requirement {
+  required string name = 1;
+  optional string description = 2;
+  optional string applicability_expression = 3;
+  optional string submittability_expression = 4;
+  optional string override_expression = 5;
+  optional bool can_override_in_child_projects = 6;
+}
+
+message Submit_Requirement_Result {
+  optional Submit_Requirement submit_requirement = 1;
+  optional Submit_Requirement_Expression_Result applicability_expression_result = 2;
+  optional Submit_Requirement_Expression_Result submittability_expression_result = 3;
+  optional Submit_Requirement_Expression_Result override_expression_result = 4;
+  optional ObjectId patch_set_commit_id = 5;
+  optional bool legacy = 6;
+  optional bool forced = 7;
+  optional bool hidden = 8;
+}
+
+message Submit_Requirement_Expression_Result {
+  optional string expression = 1;
+  optional Status status = 2;
+  optional string error_message = 3;
+  repeated string passing_atoms = 4;
+  repeated string failing_atoms = 5;
+
+  enum Status {
+    PASS = 0;
+    FAIL = 1;
+    ERROR = 2;
+    NOT_EVALUATED = 3;
+  }
+}
+
 message EmailTask {
   // Type of the email task (e.g. ABANDON, MERGE, etc...)
   required Type event_type = 1;

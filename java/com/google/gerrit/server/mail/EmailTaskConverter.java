@@ -15,6 +15,7 @@ import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
+import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
@@ -38,6 +39,8 @@ public abstract class EmailTaskConverter {
       case REMOVE_FROM_ATTENTION_SET:
         return new AttentionSetEmailTaskConverter(
             eventType, args.addToAttentionSetSender, args.removeFromAttentionSetSender);
+      case NEW_PATCHSET:
+        return new NewPatchsetEmailTaskConverter(args.replacePatchSetSender);
       default:
         throw new RuntimeException("Unrecognized");
     }
@@ -73,6 +76,7 @@ public abstract class EmailTaskConverter {
     private final RevertedSender.Factory revertedSender;
     private final AddToAttentionSetSender.Factory addToAttentionSetSender;
     private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
+    private final ReplacePatchSetSender.Factory replacePatchSetSender;
 
     @Inject
     Args(
@@ -81,13 +85,15 @@ public abstract class EmailTaskConverter {
         MergedSender.Factory mergedSender,
         RevertedSender.Factory revertedSender,
         AddToAttentionSetSender.Factory addToAttentionSetSender,
-        RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender) {
+        RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender,
+        ReplacePatchSetSender.Factory replacePatchSetSender) {
       this.abandonedSender = emailSenderFactory;
       this.restoredSender = restoredSender;
       this.mergedSender = mergedSender;
       this.revertedSender = revertedSender;
       this.addToAttentionSetSender = addToAttentionSetSender;
       this.removeFromAttentionSetSender = removeFromAttentionSetSender;
+      this.replacePatchSetSender = replacePatchSetSender;
     }
   }
 }

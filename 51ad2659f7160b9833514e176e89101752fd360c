@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5348715a_bb5e1c7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T09:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f384ab03_b401d7c3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b281bda2_5aabf1db",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-02T22:19:46Z",
       "side": 1,
       "message": "assert it like before?",
+      "range": {
+        "startLine": 1293,
+        "startChar": 21,
+        "endLine": 1293,
+        "endChar": 35
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c256543a_e0b08570",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T09:23:47Z",
+      "side": 1,
+      "message": "I am already asserting using `!` for assert",
+      "parentUuid": "b281bda2_5aabf1db",
       "range": {
         "startLine": 1293,
         "startChar": 21,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce0ec66_8ec0b9bb",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T09:23:47Z",
+      "side": 1,
+      "message": "Done (sans slices)",
+      "parentUuid": "6d098492_ddb8aa35",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 24
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14c5b48b_95b2d51e",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-01-02T22:19:46Z",
       "side": 1,
       "message": "s/through/throw",
+      "range": {
+        "startLine": 134,
+        "startChar": 53,
+        "endLine": 134,
+        "endChar": 60
+      },
+      "revId": "51ad2659f7160b9833514e176e89101752fd360c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29da1ffb_6c7514f6",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-03T09:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c5b48b_95b2d51e",
       "range": {
         "startLine": 134,
         "startChar": 53,

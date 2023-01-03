@@ -524,8 +524,7 @@ public class ReplaceOp implements BatchUpdateOp {
                 .collect(toImmutableSet()),
             changeKind,
             notes.getMetaId())
-        .setRequestScopePropagator(requestScopePropagator)
-        .sendAsync();
+        .dispatch();
 
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(

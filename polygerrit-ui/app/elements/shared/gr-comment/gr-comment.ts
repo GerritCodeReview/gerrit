@@ -1279,13 +1279,9 @@ export class GrComment extends LitElement {
   /**
    * Deleting a *published* comment is an admin feature. It means more than just
    * discarding a draft.
-   *
-   * TODO: Also move this into the comments-service.
-   * TODO: Figure out a good reloading strategy when deleting was successful.
-   *       `this.comment = newComment` does not seem sufficient.
    */
   // private, but visible for testing
-  handleConfirmDeleteComment() {
+  async handleConfirmDeleteComment() {
     const dialog = this.confirmDeleteModal?.querySelector(
       '#confirmDeleteComment'
     ) as GrConfirmDeleteCommentDialog | null;
@@ -1294,21 +1290,13 @@ export class GrComment extends LitElement {
     }
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.comment, 'comment');
-    assertIsDefined(this.comment.patch_set, 'comment.patch_set');
-    if (isDraftOrUnsaved(this.comment)) {
-      throw new Error('Admin deletion is only for published comments.');
-    }
-    this.restApiService
-      .deleteComment(
-        this.changeNum,
-        this.comment.patch_set,
-        this.comment.id,
-        dialog.message
-      )
-      .then(newComment => {
-        this.closeDeleteCommentModal();
-        this.comment = newComment;
-      });
+
+    await this.getCommentsModel().deleteComment(
+      this.changeNum,
+      this.comment,
+      dialog.message
+    );
+    this.closeDeleteCommentModal();
   }
 }
 

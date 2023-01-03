@@ -12,7 +12,6 @@
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-iconset-svg": "^3.0.1",
     "@polymer/iron-input": "^3.0.1",
-    "@polymer/iron-overlay-behavior": "^3.0.3",
     "@polymer/iron-selector": "^3.0.1",
     "@polymer/marked-element": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",

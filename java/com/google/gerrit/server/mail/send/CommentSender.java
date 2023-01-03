@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -60,6 +61,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -120,6 +123,8 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
+  private final Project.NameKey projectName;
+  private final Change.Id changeId;
   private List<? extends Comment> inlineComments = Collections.emptyList();
   @Nullable private String patchSetComment;
   private ImmutableList<LabelVote> labels = ImmutableList.of();
@@ -154,10 +159,19 @@ public class CommentSender extends ReplyToChangeSender {
                 newChangeData(args, project, changeId, preUpdateMetaId)
                     .submitRequirementsIncludingLegacy());
     this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
+    this.projectName = project;
+    this.changeId = changeId;
   }
 
-  public void setComments(List<? extends Comment> comments) {
-    inlineComments = comments;
+  public void setComments(Set<String> commentUuids) {
+    ChangeData changeData = args.changeDataFactory.create(projectName, changeId);
+    inlineComments =
+        changeData.publishedComments().stream()
+            .filter(c -> commentUuids.contains(c.key.uuid))
+            .collect(Collectors.toList());
+    if (commentUuids.size() != inlineComments.size()) {
+      throw new StorageException("Mismatch in comments size");
+    }
   }
 
   public void setPatchSetComment(@Nullable String comment) {

@@ -154,6 +154,11 @@ message Branch_NameKey {
   optional string branch = 2;
 }
 
+message Label_Vote {
+  optional string label_name = 1;
+  optional int32 vote = 2;
+}
+
 // Serialized form of org.eclipse.jgit.lib.ObjectId.
 // Next ID: 2
 message ObjectId {

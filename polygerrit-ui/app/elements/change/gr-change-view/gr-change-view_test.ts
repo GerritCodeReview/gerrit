@@ -1711,7 +1711,10 @@ suite('gr-change-view tests', () => {
         '98da160735fb81604b4c40e93c368f380539dd0e': createRevision(),
       },
     };
-    element.patchRange = {
+    element.viewState = {
+      ...createChangeViewState(),
+      changeNum: TEST_NUMERIC_CHANGE_ID,
+      repo: TEST_PROJECT_NAME,
       basePatchNum: PARENT,
     };
     await element.updateComplete;
@@ -1746,8 +1749,13 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     assert.equal(element.getBasePatchNum(), -1 as BasePatchSetNum);
 
-    element.patchRange.basePatchNum = PARENT;
-    element.patchRange.patchNum = 1 as RevisionPatchSetNum;
+    element.viewState = {
+      ...createChangeViewState(),
+      changeNum: TEST_NUMERIC_CHANGE_ID,
+      repo: TEST_PROJECT_NAME,
+      basePatchNum: PARENT,
+      patchNum: 1 as RevisionPatchSetNum,
+    };
     await element.updateComplete;
     assert.equal(element.getBasePatchNum(), PARENT);
   });

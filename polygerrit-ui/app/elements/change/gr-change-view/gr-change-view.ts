@@ -2322,14 +2322,14 @@ export class GrChangeView extends LitElement {
    * Gets base patch number, if it is a parent try and decide from
    * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
    * Private but used in tests.
+   * Relies on viewState to check if basePatchNum is not PARENT. The viewState
+   * is set by GrRouter in handleChangeRoute method.
+   * If user updates the basePatchNum via patchset picker then the url is
+   * updated and the viewState updates as well.
    */
   getBasePatchNum() {
-    if (
-      this.patchRange &&
-      this.patchRange.basePatchNum &&
-      this.patchRange.basePatchNum !== PARENT
-    ) {
-      return this.patchRange.basePatchNum;
+    if (this.viewState?.basePatchNum !== PARENT) {
+      return this.viewState?.basePatchNum;
     }
 
     const revisionInfo = this.getRevisionInfo();
@@ -2346,7 +2346,7 @@ export class GrChangeView extends LitElement {
     // Verified via reportExecution that -1 is returned(1-5 times per day)
     // changeChanged does set this.patchRange?.patchNum so it's still unclear
     // how it is undefined.
-    if (isMerge && preferFirst && !this.patchRange?.patchNum) {
+    if (isMerge && preferFirst && !this.viewState?.patchNum) {
       return -1 as BasePatchSetNum;
     }
     return PARENT;

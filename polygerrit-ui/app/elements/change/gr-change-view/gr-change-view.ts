@@ -2106,7 +2106,7 @@ export class GrChangeView extends LitElement {
 
     this.patchRange = {
       patchNum: this.viewState.patchNum,
-      basePatchNum: this.getBasePatchNum(),
+      basePatchNum: this.viewState.basePatchNum,
     };
     this.scrollCommentId = this.viewState.commentId;
 

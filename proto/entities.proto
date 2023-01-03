@@ -191,10 +191,16 @@ message EmailTask {
     RESTORE = 1;
     MERGED = 2;
     REVERTED = 3;
+    ADD_TO_ATTENTION_SET = 4;
+    REMOVE_FROM_ATTENTION_SET = 5;
   }
 
   message Payload {
     optional string sticky_approval_diff = 1;
+
+    optional Account_Id attention_set_user = 2;
+
+    optional string attention_set_reason = 3;
   }
 
   message Header {

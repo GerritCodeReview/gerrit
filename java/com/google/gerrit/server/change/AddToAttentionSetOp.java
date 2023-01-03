@@ -20,7 +20,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
+import com.google.gerrit.proto.Entities.EmailTask;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -37,7 +37,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final AddToAttentionSetSender.Factory addToAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
   private final Account.Id attentionUserId;
@@ -56,13 +55,11 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   @Inject
   AddToAttentionSetOp(
       ChangeData.Factory changeDataFactory,
-      AddToAttentionSetSender.Factory addToAttentionSetSender,
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
-    this.addToAttentionSetSender = addToAttentionSetSender;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
 
     this.attentionUserId = requireNonNull(attentionUserId, "user");
@@ -98,12 +95,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       return;
     }
     attentionSetEmailFactory
-        .create(
-            addToAttentionSetSender.create(ctx.getProject(), change.getId()),
-            ctx,
-            change,
-            reason,
-            attentionUserId)
-        .sendAsync();
+        .create(EmailTask.Type.ADD_TO_ATTENTION_SET, ctx, change, reason, attentionUserId)
+        .dispatch();
   }
 }

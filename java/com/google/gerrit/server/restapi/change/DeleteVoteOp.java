@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.FROM_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.MESSAGE_ID;
+import static com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName.TIMESTAMP;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
@@ -25,9 +28,17 @@ import com.google.gerrit.entities.LabelVote;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -35,9 +46,9 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DeleteVoteControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -73,7 +84,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
   private final VoteDeleted voteDeleted;
-  private final DeleteVoteSender.Factory deleteVoteSenderFactory;
+  private final EmailTaskDispatcher emailTaskDispatcher;
 
   private final DeleteVoteControl deleteVoteControl;
   private final MessageIdGenerator messageIdGenerator;
@@ -97,6 +108,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       DeleteVoteControl deleteVoteControl,
+      EmailTaskDispatcher emailTaskDispatcher,
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey projectName,
       @Assisted AccountState reviewerToDeleteVoteFor,
@@ -108,9 +120,9 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
     this.voteDeleted = voteDeleted;
-    this.deleteVoteSenderFactory = deleteVoteSenderFactory;
     this.deleteVoteControl = deleteVoteControl;
     this.messageIdGenerator = messageIdGenerator;
+    this.emailTaskDispatcher = emailTaskDispatcher;
 
     this.projectName = projectName;
     this.reviewerToDeleteVoteFor = reviewerToDeleteVoteFor;
@@ -177,20 +189,24 @@ public class DeleteVoteOp implements BatchUpdateOp {
     if (mailMessage == null) {
       return;
     }
-
     CurrentUser user = ctx.getUser();
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
-      ReplyToChangeSender emailSender =
-          deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
+      String messageId =
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()).id();
+      EmailTask.Builder emailTaskBuilder =
+          EmailTask.newBuilder()
+              .setEventType(EmailTask.Type.DELETE_VOTE)
+              .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(ctx.getProject()))
+              .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(change.getId()))
+              .setNotifyInput(getNotify(notify))
+              .setMessage(mailMessage)
+              .addHeader(header(TIMESTAMP, String.valueOf(ctx.getWhen().toEpochMilli())))
+              .addHeader(header(MESSAGE_ID, messageId));
       if (user.isIdentifiedUser()) {
-        emailSender.setFrom(user.getAccountId());
+        emailTaskBuilder.addHeader(header(FROM_ID, user.getAccountId().toString()));
       }
-      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
-          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
+      emailTaskDispatcher.dispatch(emailTaskBuilder.build());
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
@@ -204,5 +220,26 @@ public class DeleteVoteOp implements BatchUpdateOp {
         mailMessage,
         user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null,
         ctx.getWhen());
+  }
+
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
+  }
+
+  private NotifyInput getNotify(NotifyResolver.Result notify) {
+    NotifyInput.Builder builder =
+        NotifyInput.newBuilder()
+            .setNotifyHandling(NotifyHandling.valueOf(notify.handling().name()));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream()
+          .forEach(
+              a ->
+                  builder.addNotifyEntry(
+                      NotifyEntry.newBuilder()
+                          .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                          .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                          .build()));
+    }
+    return builder.build();
   }
 }

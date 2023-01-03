@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a447e5d_293501af",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-03T10:48:53Z",
+      "side": 1,
+      "message": "it would be more clear to me if you created the updated array first and then did this clone while inserting the new array, otherwise `nextState` is a bit of a tricky object where it\u0027s partially deep cloned and partially shallow cloned, and then work is done that uses that fact. \n\n```\nconst newComments \u003d [...old];\nnewComments[i] \u003d {...}\nreturn {...state, ...}\n```\n\nIf you prefer only clone first and then update separately I don\u0027t mind but can you leave a comment? It\u0027s a good bit of mental parsing to figure out no changes are made here yet.\n\nwe were going to use `immer` library before which is popular and makes this kind of thing nice, but it had issues with the old server.go infra. We could revisit adding it back. You make your edits directly on a draft obj and it does the necessary cloning.\n\n```\nconst nextState \u003d produce(state, (draftState) \u003d\u003e\n    draftState.comments[comment.path][i] \u003d {..., ...comment});\n```",
+      "range": {
+        "startLine": 131,
+        "startChar": 26,
+        "endLine": 131,
+        "endChar": 59
+      },
+      "revId": "aad880771828efdede76b97c7d08053a91252ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5916e0d3_cb45b930",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-03T10:48:53Z",
+      "side": 1,
+      "message": "might as well use `await` if you are already marking fn as `async` and skip the indentation",
+      "range": {
+        "startLine": 666,
+        "startChar": 11,
+        "endLine": 670,
+        "endChar": 9
+      },
+      "revId": "aad880771828efdede76b97c7d08053a91252ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

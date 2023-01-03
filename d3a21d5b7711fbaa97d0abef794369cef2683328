@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bed30991_776e8be1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-03T10:48:53Z",
+      "side": 1,
+      "message": "optional: convert method to async/await, IDE can do it automatically",
+      "range": {
+        "startLine": 1294,
+        "startChar": 9,
+        "endLine": 1294,
+        "endChar": 25
+      },
+      "revId": "d3a21d5b7711fbaa97d0abef794369cef2683328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "688ca2e6_83ac741b",
         "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
         "patchSetId": 3

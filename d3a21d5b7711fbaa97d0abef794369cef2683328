@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688ca2e6_83ac741b",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-03T09:52:57Z",
+      "side": 1,
+      "message": "nit: mostly we use single quotes.",
+      "range": {
+        "startLine": 143,
+        "startChar": 12,
+        "endLine": 143,
+        "endChar": 26
+      },
+      "revId": "d3a21d5b7711fbaa97d0abef794369cef2683328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

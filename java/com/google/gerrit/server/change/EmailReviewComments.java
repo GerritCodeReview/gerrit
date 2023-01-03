@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -26,15 +25,26 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeIdProtoConverter;
+import com.google.gerrit.entities.converter.LabelVoteProtoConverter;
+import com.google.gerrit.entities.converter.ObjectIdProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetIdProtoConverter;
+import com.google.gerrit.entities.converter.ProjectNameKeyProtoConverter;
+import com.google.gerrit.entities.converter.SubmitRequirementResultProtoConverter;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.proto.Entities.EmailTask;
+import com.google.gerrit.proto.Entities.EmailTask.Header.HeaderName;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyEntry;
+import com.google.gerrit.proto.Entities.EmailTask.NotifyInput.NotifyHandling;
+import com.google.gerrit.proto.Entities.EmailTask.Payload;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.CommentSender;
+import com.google.gerrit.server.mail.EmailTaskDispatcher;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.update.PostUpdateContext;
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -43,13 +53,10 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailReviewComments {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     // TODO(dborowitz/wyatta): Rationalize these arguments so HTML and text templates are operating
     // on the same set of inputs.
@@ -77,15 +84,11 @@ public class EmailReviewComments {
         List<LabelVote> labels);
   }
 
-  private final ExecutorService sendEmailsExecutor;
-  private final AsyncSender asyncSender;
-
   @Inject
   EmailReviewComments(
       @SendEmailExecutor ExecutorService executor,
-      CommentSender.Factory commentSenderFactory,
-      ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
+      EmailTaskDispatcher emailTaskDispatcher,
       @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
       @Assisted ObjectId preUpdateMetaId,
@@ -93,7 +96,7 @@ public class EmailReviewComments {
       @Assisted List<? extends Comment> comments,
       @Nullable @Assisted("patchSetComment") String patchSetComment,
       @Assisted List<LabelVote> labels) {
-    this.sendEmailsExecutor = executor;
+    this.emailTaskDispatcher = emailTaskDispatcher;
 
     MessageId messageId;
     try {
@@ -114,119 +117,102 @@ public class EmailReviewComments {
         postUpdateContext
             .getChangeData(postUpdateContext.getProject(), changeId)
             .submitRequirementsIncludingLegacy();
-    this.asyncSender =
-        new AsyncSender(
-            requestContext,
-            commentSenderFactory,
-            postUpdateContext.getUser().asIdentifiedUser(),
-            messageId,
-            postUpdateContext.getNotify(changeId),
-            postUpdateContext.getProject(),
-            changeId,
-            patchSet,
-            preUpdateMetaId,
-            message,
-            postUpdateContext.getWhen(),
-            ImmutableList.copyOf(COMMENT_ORDER.sortedCopy(comments)),
-            patchSetComment,
-            ImmutableList.copyOf(labels),
-            postUpdateSubmitRequirementResults);
+    this.user = postUpdateContext.getUser().asIdentifiedUser();
+    this.messageId = messageId.id();
+    this.notify = postUpdateContext.getNotify(changeId);
+    this.project = postUpdateContext.getProject();
+    this.changeId = changeId;
+    this.patchSet = patchSet;
+    this.preUpdateMetaId = preUpdateMetaId;
+    this.message = message;
+    this.when = postUpdateContext.getWhen();
+    this.comments = ImmutableList.copyOf(COMMENT_ORDER.sortedCopy(comments));
+    this.patchSetComment = patchSetComment;
+    this.labels = ImmutableList.copyOf(labels);
+    this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
+
+  private final EmailTaskDispatcher emailTaskDispatcher;
+  private final CurrentUser user;
+  private final String messageId;
+  private final NotifyResolver.Result notify;
+  private final Project.NameKey project;
+  private final Change.Id changeId;
+  private final PatchSet patchSet;
+  private final ObjectId preUpdateMetaId;
+  private final String message;
+  private final Instant when;
+  private final List<? extends Comment> comments;
+  private final String patchSetComment;
+  private final List<LabelVote> labels;
+  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   public void sendAsync() {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
+    // @SuppressWarnings("unused")
+    // Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
+
+    // CommentSender emailSender =
+    //     commentSenderFactory.create(
+    //         projectName, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
+    // emailSender.setFrom(user.getAccountId());
+    // emailSender.setPatchSetId(patchSet.id());
+    // emailSender.setChangeMessage(message, timestamp);
+    // emailSender.setComments(comments.stream().map(c -> c.key.uuid).collect(Collectors.toSet()));
+    // emailSender.setPatchSetComment(patchSetComment);
+    // emailSender.setLabels(labels);
+    // emailSender.setNotify(notify);
+    // emailSender.setMessageId(messageId);
+    // emailSender.send();
+
+    EmailTask.Builder emailTaskBuilder =
+        EmailTask.newBuilder()
+            .setEventType(EmailTask.Type.COMMENTS)
+            .setProject(ProjectNameKeyProtoConverter.INSTANCE.toProto(project))
+            .setChangeId(ChangeIdProtoConverter.INSTANCE.toProto(changeId))
+            .setPatchsetId(PatchSetIdProtoConverter.INSTANCE.toProto(patchSet.id()))
+            .setNotifyInput(getNotify(notify))
+            .setPreUpdateMetaId(ObjectIdProtoConverter.INSTANCE.toProto(preUpdateMetaId))
+            .addHeader(header(HeaderName.FROM_ID, user.getAccountId().toString()))
+            .addHeader(header(HeaderName.TIMESTAMP, String.valueOf(when.toEpochMilli())))
+            .addHeader(header(HeaderName.MESSAGE_ID, messageId))
+            .setPayload(
+                Payload.newBuilder()
+                    .addAllPostUpdateSubmitRequirementResults(
+                        postUpdateSubmitRequirementResults.values().stream()
+                            .map(SubmitRequirementResultProtoConverter.INSTANCE::toProto)
+                            .collect(Collectors.toList()))
+                    .addAllCommentUuids(
+                        comments.stream().map(c -> c.key.uuid).collect(Collectors.toList()))
+                    .setPatchsetComment(patchSetComment)
+                    .addAllLabelVotes(
+                        labels.stream()
+                            .map(labelVote -> LabelVoteProtoConverter.INSTANCE.toProto(labelVote))
+                            .collect(Collectors.toList()))
+                    .build());
+    if (message != null) {
+      emailTaskBuilder.setMessage(message);
+    }
+    emailTaskDispatcher.dispatch(emailTaskBuilder.build());
   }
 
-  /**
-   * {@link Runnable} that sends the email asynchonously.
-   *
-   * <p>Only pass objects into this class that are thread-safe (e.g. immutable) so that they can be
-   * safely accessed from the background thread.
-   */
-  // TODO: The passed in Comment class is not thread-safe, replace it with an AutoValue type.
-  private static class AsyncSender implements Runnable, RequestContext {
-    private final ThreadLocalRequestContext requestContext;
-    private final CommentSender.Factory commentSenderFactory;
-    private final IdentifiedUser user;
-    private final MessageId messageId;
-    private final NotifyResolver.Result notify;
-    private final Project.NameKey projectName;
-    private final Change.Id changeId;
-    private final PatchSet patchSet;
-    private final ObjectId preUpdateMetaId;
-    private final String message;
-    private final Instant timestamp;
-    private final ImmutableList<? extends Comment> comments;
-    @Nullable private final String patchSetComment;
-    private final ImmutableList<LabelVote> labels;
-    private final Map<SubmitRequirement, SubmitRequirementResult>
-        postUpdateSubmitRequirementResults;
+  private EmailTask.Header header(EmailTask.Header.HeaderName headerName, String value) {
+    return EmailTask.Header.newBuilder().setName(headerName).setValue(value).build();
+  }
 
-    AsyncSender(
-        ThreadLocalRequestContext requestContext,
-        CommentSender.Factory commentSenderFactory,
-        IdentifiedUser user,
-        MessageId messageId,
-        NotifyResolver.Result notify,
-        Project.NameKey projectName,
-        Change.Id changeId,
-        PatchSet patchSet,
-        ObjectId preUpdateMetaId,
-        String message,
-        Instant timestamp,
-        ImmutableList<? extends Comment> comments,
-        @Nullable String patchSetComment,
-        ImmutableList<LabelVote> labels,
-        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-      this.requestContext = requestContext;
-      this.commentSenderFactory = commentSenderFactory;
-      this.user = user;
-      this.messageId = messageId;
-      this.notify = notify;
-      this.projectName = projectName;
-      this.changeId = changeId;
-      this.patchSet = patchSet;
-      this.preUpdateMetaId = preUpdateMetaId;
-      this.message = message;
-      this.timestamp = timestamp;
-      this.comments = comments;
-      this.patchSetComment = patchSetComment;
-      this.labels = labels;
-      this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
+  private NotifyInput getNotify(NotifyResolver.Result notify) {
+    NotifyInput.Builder builder =
+        NotifyInput.newBuilder()
+            .setNotifyHandling(NotifyHandling.valueOf(notify.handling().name()));
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream()
+          .forEach(
+              a ->
+                  builder.addNotifyEntry(
+                      NotifyEntry.newBuilder()
+                          .setAccount(AccountIdProtoConverter.INSTANCE.toProto(a))
+                          .setRecipientType(EmailTask.RecipientType.valueOf(recipientType.name()))
+                          .build()));
     }
-
-    @Override
-    public void run() {
-      RequestContext old = requestContext.setContext(this);
-      try {
-        CommentSender emailSender =
-            commentSenderFactory.create(
-                projectName, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
-        emailSender.setFrom(user.getAccountId());
-        emailSender.setPatchSetId(patchSet.id());
-        emailSender.setChangeMessage(message, timestamp);
-        emailSender.setComments(comments.stream().map(c -> c.key.uuid).collect(Collectors.toSet()));
-        emailSender.setPatchSetComment(patchSetComment);
-        emailSender.setLabels(labels);
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(messageId);
-        emailSender.send();
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
-      } finally {
-        requestContext.setContext(old);
-      }
-    }
-
-    @Override
-    public String toString() {
-      return "send-email comments";
-    }
-
-    @Override
-    public CurrentUser getUser() {
-      return user.getRealUser();
-    }
+    return builder.build();
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api;
 
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.api.accounts.AccountsModule;
@@ -21,16 +22,24 @@ import com.google.gerrit.server.api.changes.ChangesModule;
 import com.google.gerrit.server.api.config.ConfigModule;
 import com.google.gerrit.server.api.groups.GroupsModule;
 import com.google.gerrit.server.api.projects.ProjectsModule;
+import com.google.gerrit.server.query.project.ProjectQueryBuilder;
+import com.google.gerrit.server.query.project.ProjectQueryBuilderImpl;
 
 public class GerritApiModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(GerritApi.class).to(GerritApiImpl.class);
+    bindProjectQueryBuilder();
 
     install(new AccountsModule());
     install(new ChangesModule());
     install(new ConfigModule());
     install(new GroupsModule());
     install(new ProjectsModule());
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected void bindProjectQueryBuilder() {
+    bind(ProjectQueryBuilder.class).to(ProjectQueryBuilderImpl.class);
   }
 }

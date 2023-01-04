@@ -3292,6 +3292,15 @@ advantage of new search features without restarting the server.
 +
 Defaults to true.
 
+[[index.excludeProjectFromChangeReindex]]index.excludeProjectFromChangeReindex::
++
+A list of projects that will be excluded from reindexing. This can be used
+to exclude projects which are expensive to reindex to prioritize the other
+projects.
++
+Excluded projects can later be reindexed by for example using the
+link:cmd-index-changes-in-project.html[index changes in project command].
+
 [[index.paginationType]]index.paginationType::
 +
 The pagination type to use when index queries are repeated to

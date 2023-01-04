@@ -144,7 +144,7 @@ import {
   throttleWrap,
   until,
 } from '../../../utils/async-util';
-import {Interaction, Timing, Execution} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
@@ -2343,13 +2343,10 @@ export class GrChangeView extends LitElement {
       this.prefs &&
       this.prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    // TODO: I think checking `!patchRange.patchNum` here is a bug and means
-    // that the feature is actually broken at the moment. Looking at the
-    // `changeChanged` method, `patchRange.patchNum` is set before
-    // `getBasePatchNum` is called, so it is unlikely that this method will
-    // ever return -1.
+    // Verified via reportExecution that -1 is returned(1-5 times per day)
+    // changeChanged does set this.patchRange?.patchNum so it's still unclear
+    // how it is undefined.
     if (isMerge && preferFirst && !this.patchRange?.patchNum) {
-      this.reporting.reportExecution(Execution.PREFER_MERGE_FIRST_PARENT);
       return -1 as BasePatchSetNum;
     }
     return PARENT;

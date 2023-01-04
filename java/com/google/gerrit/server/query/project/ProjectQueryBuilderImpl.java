@@ -28,14 +28,13 @@ import com.google.inject.Inject;
 import java.util.List;
 
 /** Parses a query string meant to be applied to project objects. */
-public class ProjectQueryBuilder extends QueryBuilder<ProjectData, ProjectQueryBuilder> {
-  public static final String FIELD_LIMIT = "limit";
-
-  private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilder> mydef =
-      new QueryBuilder.Definition<>(ProjectQueryBuilder.class);
+public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQueryBuilderImpl>
+    implements ProjectQueryBuilder {
+  private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilderImpl> mydef =
+      new QueryBuilder.Definition<>(ProjectQueryBuilderImpl.class);
 
   @Inject
-  ProjectQueryBuilder() {
+  ProjectQueryBuilderImpl() {
     super(mydef, null);
   }
 

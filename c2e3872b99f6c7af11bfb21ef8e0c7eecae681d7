@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c42152a6_3d481887",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-04T15:47:53Z",
+      "side": 0,
+      "message": "Ran it in Change 355773.",
+      "parentUuid": "a3a82e41_72c5407e",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "c2e3872b99f6c7af11bfb21ef8e0c7eecae681d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31903d76_5d96f8f9",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1315ba86_cfa17987",
+        "filename": "polygerrit-ui/app/scripts/js/bundled-polymer-bridges.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-04T15:47:53Z",
+      "side": 0,
+      "message": "https://gerrit-review.git.corp.google.com/c/polymer-bridges/+/355902",
+      "parentUuid": "31903d76_5d96f8f9",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 80
+      },
+      "revId": "c2e3872b99f6c7af11bfb21ef8e0c7eecae681d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "250338c8_7d48742a",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-01-02T15:25:30Z",
       "side": 0,
       "message": "keep the paper part of this comment for the below lines.",
+      "range": {
+        "startLine": 483,
+        "startChar": 7,
+        "endLine": 483,
+        "endChar": 12
+      },
+      "revId": "c2e3872b99f6c7af11bfb21ef8e0c7eecae681d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38bb2729_0e71831c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-04T15:47:53Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "250338c8_7d48742a",
       "range": {
         "startLine": 483,
         "startChar": 7,

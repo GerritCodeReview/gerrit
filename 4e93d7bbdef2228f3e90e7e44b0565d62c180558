@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21cb231f_4bbb4c7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T00:18:22Z",
+      "side": 1,
+      "message": "Thanks @nasser.grainawi@linaro.org for the review and useful pointers, fully appreciated 👍",
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fe12025_60419bd8",
@@ -94,6 +111,30 @@
       "writtenOn": "2023-01-03T23:59:33Z",
       "side": 1,
       "message": "This affects more than just the listeners, it\u0027s all [async operations][1].\n\nIf we specifically want the removal listener to run synchronously, caffeine has [instructions for how to do that][2] and says to use `Caffeine.evictionListener()`\n\n[1]: https://www.javadoc.io/static/com.github.ben-manes.caffeine/caffeine/3.1.2/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/Caffeine.html#executor(java.util.concurrent.Executor)\n[2]: https://github.com/ben-manes/caffeine/wiki/Removal#removal-listeners",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 55
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88ec70be_ec468275",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T00:18:22Z",
+      "side": 1,
+      "message": "Good catch, let me look at that.",
+      "parentUuid": "05abb7d4_bd7d2e0b",
       "range": {
         "startLine": 122,
         "startChar": 6,

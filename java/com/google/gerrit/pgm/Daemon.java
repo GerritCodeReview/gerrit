@@ -64,6 +64,7 @@ import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccount
 import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
+import com.google.gerrit.server.api.projects.ProjectQueryBuilderModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -446,6 +447,7 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
+    modules.add(new ProjectQueryBuilderModule());
     modules.add(new PluginApiModule());
 
     modules.add(new SearchingChangeCacheImplModule(replica));

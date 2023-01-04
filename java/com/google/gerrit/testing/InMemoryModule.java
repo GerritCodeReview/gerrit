@@ -44,6 +44,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
+import com.google.gerrit.server.api.projects.ProjectQueryBuilderModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -191,6 +192,7 @@ public class InMemoryModule extends FactoryModule {
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));
     install(new GerritApiModule());
+    install(new ProjectQueryBuilderModule());
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());

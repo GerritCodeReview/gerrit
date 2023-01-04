@@ -30,6 +30,7 @@ java_library(
         "//lib:jgit",
         "//lib:jgit-archive",
         "//lib:jgit-ssh-apache",
+        "//lib:jgit-ssh-jsch",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

@@ -143,6 +143,30 @@
       },
       "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32bbc162_542d27e8",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-04T09:23:44Z",
+      "side": 1,
+      "message": "IIUIC the problem with _eviction listener_ is that it is called _only_ when the policy caused removal happens however AFAIU both plugins use this functionality in the context of manually called invalidation:\n* site A removes entry from cache and the removal gets notified to site B\n* site B listens on the event in question, configures thread local variables to ensure that it is not notified back and calls `invalidate*` on cache to get rid of the value in question...\n\nLuca, Tony WDYT?",
+      "parentUuid": "88ec70be_ec468275",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 55
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcd6d2ca_2b8e4b08",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "I have verified this on a live instance, the ext ID which is created is as follows\n```\n[externalId \"google-oauth:0000000\"]\n    accountId \u003d \u003cID\u003e\n    email \u003d ronan@arista.com\n```\n\nthe scheme being `google-oauth`, i\u0027m not sure exactly of the flow of how the `who` object is created but that is where the scheme is assigned. \n\nIf you are already using OAuth then none of this code is executed, this code is only fore creeating a new one, which happens when authenticate fails. see func `authenticate` at java/com/google/gerrit/server/account/AccountManager.java",
+      "parentUuid": "e55b6047_015d0dba",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 68
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8446b8d7_77104982",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 11
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-05T12:16:50Z",
       "side": 1,
       "message": "You do not only delete the email, but delete the whole external ID",
+      "range": {
+        "startLine": 311,
+        "startChar": 15,
+        "endLine": 311,
+        "endChar": 60
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25942d88_953c1256",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8446b8d7_77104982",
       "range": {
         "startLine": 311,
         "startChar": 15,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2c97825_7e7d2e19",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4261b79c_4572bca6",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58def435_80296987",
@@ -98,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4528f1e4_6d793726",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "if you try to create it then it will fail below as a duplicate one exists and that will provide the descriptive error. This tries to see if one exists, if it does it doesn\u0027t create it below, if it does exist it doesnt create it below, it it failed to get and it does exist it will fail below, if it failed to geet and tried again it will succeed below as it should.\n\nbelow being the try block below",
+      "parentUuid": "58def435_80296987",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc3e8e3e_af5010b3",
@@ -111,6 +195,30 @@
       "writtenOn": "2023-01-05T12:16:50Z",
       "side": 1,
       "message": "Use ExternalId.SCHEME_OAUTH here.",
+      "range": {
+        "startLine": 72,
+        "startChar": 42,
+        "endLine": 72,
+        "endChar": 56
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5498474c_d4037071",
+        "filename": "java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3e8e3e_af5010b3",
       "range": {
         "startLine": 72,
         "startChar": 42,
@@ -146,6 +254,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0cdf7937_6445470d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "With Google we can validate that the user actually owns the e-mail, with other OIDC mechanisms it might not be true. Also Google is the most common provider used. Other providers may have other issues that will need to be thought of and will make this commit unneccesarily more complex",
+      "parentUuid": "62ea2991_1c872262",
+      "range": {
+        "startLine": 154,
+        "startChar": 45,
+        "endLine": 154,
+        "endChar": 57
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1949744e_ccd11dd1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 11
@@ -157,6 +289,24 @@
       "writtenOn": "2023-01-05T12:16:50Z",
       "side": 1,
       "message": "nit: remove commented out code",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c5498f_c594f6ed",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1949744e_ccd11dd1",
       "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -174,6 +324,30 @@
       "writtenOn": "2023-01-05T12:16:50Z",
       "side": 1,
       "message": "Wouldn\u0027t this mean that the same username is then used by two accounts? AFAIK the username has to be unique.",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3794150_afc39815",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-05T15:02:48Z",
+      "side": 1,
+      "message": "no they will share the same username external ID but have different account ID\u0027s, so line 574 creates 2 new ones `gerrit:foo` and `username:foo`, then the new oauth id does not create a new username, reuses `username:foo` and create a new `google-oauth:foo` with a different account ID.\n\nthis is checked at `    ExternalId newUsernameExtId \u003d\n        !usernameExtId.isPresent() \u0026\u0026 !name.isEmpty() ? createUsername(accId, name.get()) : null;`",
+      "parentUuid": "83773d9e_fec42aab",
       "range": {
         "startLine": 585,
         "startChar": 4,

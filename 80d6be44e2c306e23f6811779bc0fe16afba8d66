@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8a667e_3609a371",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T21:27:08Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com is this a backport from master? Or should it be also merged upstream? (see the merge at I2039b5cc6cb)",
+      "revId": "80d6be44e2c306e23f6811779bc0fe16afba8d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -34,6 +34,24 @@
       "parentUuid": "16ea3c02_41d68b9b",
       "revId": "368151c2b0d8753e0dd6dc63ba6646a164222a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11735f0b_c08a0d60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T08:55:55Z",
+      "side": 1,
+      "message": "Ah no, it is still there in stable-3.5: fixing it now.",
+      "parentUuid": "5183237a_69fe3ea4",
+      "revId": "368151c2b0d8753e0dd6dc63ba6646a164222a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

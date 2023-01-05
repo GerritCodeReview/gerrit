@@ -7,19 +7,24 @@
 #
 # Adding the `--upload` argument will also publish the package.
 
+set -e
+
 bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then
     echo "Warning: bazelisk is not installed; falling back to bazel."
     bazel_bin=bazel
 fi
 api_path=polygerrit-ui/app/api
+plugins_path=plugins
 
 function cleanup() {
   echo "Cleaning up ..."
   rm -f ${api_path}/BUILD
+  rm -f ${api_path}/tsconfig-plugins-base.json
 }
 trap cleanup EXIT
 cp ${api_path}/BUILD_for_publishing_api_only ${api_path}/BUILD
+cp ${plugins_path}/tsconfig-plugins-base.json ${api_path}/tsconfig-plugins-base.json
 
 ${bazel_bin} build //${api_path}:js_plugin_api_npm_package
 

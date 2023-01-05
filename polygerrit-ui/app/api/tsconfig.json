@@ -1,9 +1,9 @@
 {
   "extends": "../../../plugins/tsconfig-plugins-base.json",
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "."
   },
   "include": [
-    "**/*",
-  ],
+    "**/*"
+  ]
 }

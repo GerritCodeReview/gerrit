@@ -36,9 +36,8 @@ Rebuilds the secondary index.
 	Reindex only index with given name. This option can be supplied
 	more than once to reindex multiple indices.
 
---disable-cache-stats::
-	Disables printing cache statistics at the end of program to reduce
-	noise. Defaulted when reindex is run from init on a new site.
+--show-cache-stats::
+	Show cache statistics at the end of program.
 
 == CONTEXT
 The secondary index must be enabled. See

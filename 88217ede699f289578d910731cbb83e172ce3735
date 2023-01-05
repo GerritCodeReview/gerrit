@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7c6ada_c7cce3d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T09:58:45Z",
+      "side": 0,
+      "message": "I am not sure about this conflict resolution: let me check where is that coming from.",
+      "range": {
+        "startLine": 2258,
+        "startChar": 0,
+        "endLine": 2264,
+        "endChar": 7
+      },
+      "revId": "88217ede699f289578d910731cbb83e172ce3735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90450042_be6f6c3d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T09:58:45Z",
+      "side": 0,
+      "message": "I am not sure about this conflict resolution: let me check where is that coming from.",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 10
+      },
+      "revId": "88217ede699f289578d910731cbb83e172ce3735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

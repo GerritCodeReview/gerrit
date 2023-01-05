@@ -16,6 +16,172 @@
       "message": "adding extra reviewers",
       "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55b6047_015d0dba",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "I don\u0027t see that ExternalIdKeys with the SCHEME_OAUTH are created anywhere (outside of tests), i.e. `AuthRequest.createForOAuthUser()` is not called at runtime. So this check would always be false apart from tests.\n\nIs it at all required to add a new external ID and how would that then affect instances that are already using OAuth?",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 68
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8446b8d7_77104982",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "You do not only delete the email, but delete the whole external ID",
+      "range": {
+        "startLine": 311,
+        "startChar": 15,
+        "endLine": 311,
+        "endChar": 60
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4261b79c_4572bca6",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "This should rather go to line 305.\nHowever, the external ID is not really created there in a way that it was added to the notedb. This only happens in line 347, so maybe better put it there.",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58def435_80296987",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it fail in this case?\nOtherwise, this might lead to issues, if it was actually there, but was not readable for another reason and you then try to create it.",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3e8e3e_af5010b3",
+        "filename": "java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "Use ExternalId.SCHEME_OAUTH here.",
+      "range": {
+        "startLine": 72,
+        "startChar": 42,
+        "endLine": 72,
+        "endChar": 56
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ea2991_1c872262",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "Why google-oauth? Wouldn\u0027t it work with other providers?",
+      "range": {
+        "startLine": 154,
+        "startChar": 45,
+        "endLine": 154,
+        "endChar": 57
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1949744e_ccd11dd1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "nit: remove commented out code",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83773d9e_fec42aab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-05T12:16:50Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this mean that the same username is then used by two accounts? AFAIK the username has to be unique.",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

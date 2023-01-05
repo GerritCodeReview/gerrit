@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a69f6a5_40c008d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T14:07:03Z",
+      "side": 1,
+      "message": "LGTM, just one nit.",
+      "revId": "67e076711956c0d0578a81e1fcae578d559df0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6daffa5c_c87c3e8b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T14:07:03Z",
+      "side": 1,
+      "message": "Should we also point to importedServerId documentation [1]? When there are imported projects then the change-number may not be unique.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.7.0/config-gerrit.html#gerrit.importedServerId",
+      "range": {
+        "startLine": 6272,
+        "startChar": 58,
+        "endLine": 6272,
+        "endChar": 59
+      },
+      "revId": "67e076711956c0d0578a81e1fcae578d559df0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

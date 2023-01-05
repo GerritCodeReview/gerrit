@@ -6262,7 +6262,13 @@ progress, the user will still be added.
 Identifier that uniquely identifies one change. It contains the URL-encoded
 project name as well as the change number: "'$$<project>~<numericId>$$'"
 
-Gerrit also supports the following identifiers:
+==== Alternative identifiers
+Gerrit also supports an array of other change identifiers.
+
+[NOTE]
+Using these identifiers comes with a performance penalty as they
+require additional lookups to be translated to the
+"'$$<project>~<numericId>$$'" identifier.
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted

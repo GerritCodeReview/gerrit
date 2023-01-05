@@ -90,6 +90,7 @@ declare global {
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
+    'location-change': LocationChangeEvent;
   }
 }
 

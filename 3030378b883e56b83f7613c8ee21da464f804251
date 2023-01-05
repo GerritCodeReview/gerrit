@@ -16,6 +16,24 @@
       "message": "Rather than compute it here and update the model, should the model be figuring this out instead?",
       "revId": "3030378b883e56b83f7613c8ee21da464f804251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7bf4e3b_c8c25ccd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-05T15:59:40Z",
+      "side": 1,
+      "message": "Currently viewModel is not maintaining change as part of it\u0027s state at all.\n\nSo to calculate this, the view model would either need to sub to the main change model or somehow be provided the change object(by GrChangeView).\n\nNot sure if the view model should depend on the main change model.",
+      "parentUuid": "7a1592c9_408a4a9d",
+      "revId": "3030378b883e56b83f7613c8ee21da464f804251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

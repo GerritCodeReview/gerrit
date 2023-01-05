@@ -99,6 +99,9 @@ objects these SQL statements must be executed manually.
 	The administrator must manually install the required library in the `lib/`
 	folder.
 
+--show-cache-stats::
+	Show cache statistics at the end of program.
+
 == CONTEXT
 This command can only be run on a server which has direct local access to the
 managed Git repositories.

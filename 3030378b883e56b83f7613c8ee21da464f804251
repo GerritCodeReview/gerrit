@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1592c9_408a4a9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-05T15:50:25Z",
+      "side": 1,
+      "message": "Rather than compute it here and update the model, should the model be figuring this out instead?",
+      "revId": "3030378b883e56b83f7613c8ee21da464f804251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

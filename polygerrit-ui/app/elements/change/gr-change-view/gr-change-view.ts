@@ -2315,6 +2315,7 @@ export class GrChangeView extends LitElement {
       patchNum:
         this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
     };
+    this.getViewModel().updateState({patchNum: this.patchRange.patchNum});
     this.updateTitle(this.change);
   }
 

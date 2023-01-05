@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9a9a14d_7196691d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-05T21:30:59Z",
+      "side": 0,
+      "message": "@thomas.draebing@sap.com this is part of your fix at I2039b5cc6cb, should this be preserved in the merge to stable-3.7?",
+      "parentUuid": "3c7c6ada_c7cce3d6",
+      "range": {
+        "startLine": 2258,
+        "startChar": 0,
+        "endLine": 2264,
+        "endChar": 7
+      },
+      "revId": "88217ede699f289578d910731cbb83e172ce3735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90450042_be6f6c3d",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1

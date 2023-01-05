@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ea3c02_41d68b9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-05T06:30:54Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com it fails with\n```\njava/com/google/gerrit/sshd/SshSessionFactoryInitializer.java:20: error: cannot find symbol\nimport org.eclipse.jgit.transport.JschConfigSessionFactory;\n                                 ^\n  symbol:   class JschConfigSessionFactory\n  location: package org.eclipse.jgit.transport\n```\nThe factory was moved to `org.eclipse.jgit.transport.ssh.jsch` package. I could upload new PS but then I will not be able to Approve it ;)",
+      "revId": "368151c2b0d8753e0dd6dc63ba6646a164222a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

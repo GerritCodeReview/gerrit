@@ -547,7 +547,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getFilesModel = resolve(this, filesModelToken);
 
-  private readonly getViewModel = resolve(this, changeViewModelToken);
+  // private but used in tests
+  readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -2315,6 +2316,7 @@ export class GrChangeView extends LitElement {
       patchNum:
         this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
     };
+    this.getViewModel().updateState({patchNum: this.patchRange.patchNum});
     this.updateTitle(this.change);
   }
 

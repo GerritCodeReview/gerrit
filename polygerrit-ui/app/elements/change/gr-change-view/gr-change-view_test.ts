@@ -367,11 +367,13 @@ suite('gr-change-view tests', () => {
     element = await fixture<GrChangeView>(
       html`<gr-change-view></gr-change-view>`
     );
-    element.viewState = {
+    const viewState = {
+      ...createChangeViewState(),
       view: GerritView.CHANGE,
       changeNum: TEST_NUMERIC_CHANGE_ID,
       repo: 'gerrit' as RepoName,
     };
+    element.getViewModel().setState(viewState);
     await element.updateComplete.then(() => {
       assertIsDefined(element.actions);
       sinon.stub(element.actions, 'reload').returns(Promise.resolve());

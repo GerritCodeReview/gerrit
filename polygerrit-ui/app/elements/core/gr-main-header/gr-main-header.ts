@@ -205,14 +205,17 @@ export class GrMainHeader extends LitElement {
         }
         .titleText::before {
           background-image: var(--header-icon);
-          background-size: var(--header-icon-size) var(--header-icon-size);
+          background-size: var(--header-icon-width, var(--header-icon-size))
+            var(--header-icon-height, var(--header-icon-size));
           background-repeat: no-repeat;
           content: '';
           display: inline-block;
-          height: var(--header-icon-size);
-          margin-right: calc(var(--header-icon-size) / 4);
+          height: var(--header-icon-height, var(--header-icon-size));
+          margin-right: calc(
+            var(--header-icon-height, var(--header-icon-size)) / 4
+          );
           vertical-align: text-bottom;
-          width: var(--header-icon-size);
+          width: var(--header-icon-width, var(--header-icon-size));
         }
         .titleText::after {
           content: var(--header-title-content);

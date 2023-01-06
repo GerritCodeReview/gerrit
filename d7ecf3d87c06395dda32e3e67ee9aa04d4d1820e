@@ -22,6 +22,30 @@
       },
       "revId": "d7ecf3d87c06395dda32e3e67ee9aa04d4d1820e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b66464a_1ec842eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-06T15:55:00Z",
+      "side": 0,
+      "message": "I have re-added this specific toast, because I think this can be valuable. The generic `displayToasts()` I would consider complexity without value to the user. WDYT?",
+      "parentUuid": "03508a78_77086c34",
+      "range": {
+        "startLine": 1709,
+        "startChar": 13,
+        "endLine": 1709,
+        "endChar": 47
+      },
+      "revId": "d7ecf3d87c06395dda32e3e67ee9aa04d4d1820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

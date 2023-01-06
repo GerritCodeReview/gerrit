@@ -140,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4cc7f3b_fd3a47ae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T23:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe4716ce_a38c694e",
+      "range": {
+        "startLine": 710,
+        "startChar": 15,
+        "endLine": 710,
+        "endChar": 46
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05abb7d4_bd7d2e0b",
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "\u003e If we specifically want the removal listener to run synchronously, caffeine has instructions for how to do that and says to use Caffeine.evictionListener()\n\nTrue, but only starting from Caffeine v2.9.x.\n\nAlso, the `Caffeine.evictionListener()` is different from the `Caffeine.removalListener()`:\n\nRemoval cause | Removal | Eviction | Description\n--------------+---------+----------+-------------\nEXPLICIT      | True    | False    | Entry evicted explicitly\nREPLACED      | True    | False    | Entry replaced with a new value\nCOLLECTED     | True    | True     | Entry garbage collected\nEXPIRED       | True    | True     | MaxAge expired\nSIZE          | True    | True     | Entry removed for saving space\n\nSee the [RemovalCause](https://github.com/ben-manes/caffeine/blob/master/caffeine/src/main/java/com/github/benmanes/caffeine/cache/RemovalCause.java) documentation.\n\nIf we were replacing the `removalListener` with `evictionListener` we would change the semantics and then potentially failing to invoke the listeners, introducing bugs.",
       "parentUuid": "32bbc162_542d27e8",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 55
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d767bd01_d318d122",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T23:37:42Z",
+      "side": 1,
+      "message": "A middle-ground and more consistent approach could be doing this:\n\n```\n[[cache.threads]]cache.threads::\n+\nNumber of threads to use when running asynchronous tasks.\nThe threads executor is delegated to when sending removal notifications to listeners,\nwhen asynchronous computations like refresh refreshAfterWrite are performed, or when\nperforming periodic maintenance.\n+\n**NOTE**: Setting it to 0 disables the dedicated thread pool and indexing will be done in the\nsame thread as the operation. This may result in evictions taking longer because the\nlisteners are executed in the caller\u0027s thread.\n+\nBy default, the JVM common ForkJoinPool is used.\n```\n\nBy having a generic definition of the executor\u0027s threads we would make this setting more aligned with the rest of Gerrit (see index.threads for instance).\n\nAlso, we would allow de-coupling the cache executor form the ForkJoinPool which could be busy in performing other asynchronous tasks not related to the cache.",
+      "parentUuid": "84365977_4db42f7c",
       "range": {
         "startLine": 122,
         "startChar": 6,

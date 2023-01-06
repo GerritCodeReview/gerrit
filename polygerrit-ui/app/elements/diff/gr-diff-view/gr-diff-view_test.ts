@@ -1700,17 +1700,15 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    suite('computeCommentSkips', () => {
+    suite('findFileWithComment', () => {
       test('empty file list', () => {
         element.commentMap = {
           'path/one.jpg': true,
           'path/three.wav': true,
         };
         element.path = 'path/two.m4v';
-        const result = element.computeCommentSkips();
-        assert.isOk(result);
-        assert.isNotOk(result!.previous);
-        assert.isNotOk(result!.next);
+        assert.isUndefined(element.findFileWithComment(-1));
+        assert.isUndefined(element.findFileWithComment(1));
       });
 
       test('finds skips', () => {
@@ -1723,31 +1721,23 @@ suite('gr-diff-view tests', () => {
         commentMap[fileList[1]] = false;
         commentMap[fileList[2]] = true;
 
-        let result = element.computeCommentSkips();
-        assert.isOk(result);
-        assert.equal(result!.previous, fileList[0]);
-        assert.equal(result!.next, fileList[2]);
+        assert.equal(element.findFileWithComment(-1), fileList[0]);
+        assert.equal(element.findFileWithComment(1), fileList[2]);
 
         commentMap[fileList[1]] = true;
 
-        result = element.computeCommentSkips();
-        assert.isOk(result);
-        assert.equal(result!.previous, fileList[0]);
-        assert.equal(result!.next, fileList[2]);
+        assert.equal(element.findFileWithComment(-1), fileList[0]);
+        assert.equal(element.findFileWithComment(1), fileList[2]);
 
         element.path = fileList[0];
 
-        result = element.computeCommentSkips();
-        assert.isOk(result);
-        assert.isNull(result!.previous);
-        assert.equal(result!.next, fileList[1]);
+        assert.isUndefined(element.findFileWithComment(-1));
+        assert.equal(element.findFileWithComment(1), fileList[1]);
 
         element.path = fileList[2];
 
-        result = element.computeCommentSkips();
-        assert.isOk(result);
-        assert.equal(result!.previous, fileList[1]);
-        assert.isNull(result!.next);
+        assert.equal(element.findFileWithComment(-1), fileList[1]);
+        assert.isUndefined(element.findFileWithComment(1));
       });
 
       suite('skip next/previous', () => {
@@ -1766,13 +1756,7 @@ suite('gr-diff-view tests', () => {
           };
         });
 
-        suite('moveToPreviousFileWithComment', () => {
-          test('no skips', () => {
-            element.moveToPreviousFileWithComment();
-            assert.isFalse(navToChangeStub.called);
-            assert.isFalse(setUrlStub.called);
-          });
-
+        suite('moveToFileWithComment previous', () => {
           test('no previous', async () => {
             const commentMap: CommentMap = {};
             commentMap[element.files.sortedFileList[0]!] = false;
@@ -1782,7 +1766,7 @@ suite('gr-diff-view tests', () => {
             element.path = element.files.sortedFileList[1];
             await element.updateComplete;
 
-            element.moveToPreviousFileWithComment();
+            element.moveToFileWithComment(-1);
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(setUrlStub.called);
           });
@@ -1796,19 +1780,13 @@ suite('gr-diff-view tests', () => {
             element.path = element.files.sortedFileList[1];
             await element.updateComplete;
 
-            element.moveToPreviousFileWithComment();
+            element.moveToFileWithComment(-1);
             assert.isFalse(navToChangeStub.called);
             assert.isTrue(setUrlStub.calledOnce);
           });
         });
 
-        suite('moveToNextFileWithComment', () => {
-          test('no skips', () => {
-            element.moveToNextFileWithComment();
-            assert.isFalse(navToChangeStub.called);
-            assert.isFalse(setUrlStub.called);
-          });
-
+        suite('moveToFileWithComment next', () => {
           test('no previous', async () => {
             const commentMap: CommentMap = {};
             commentMap[element.files.sortedFileList[0]!] = true;
@@ -1818,7 +1796,7 @@ suite('gr-diff-view tests', () => {
             element.path = element.files.sortedFileList[1];
             await element.updateComplete;
 
-            element.moveToNextFileWithComment();
+            element.moveToFileWithComment(1);
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(setUrlStub.called);
           });
@@ -1832,7 +1810,7 @@ suite('gr-diff-view tests', () => {
             element.path = element.files.sortedFileList[1];
             await element.updateComplete;
 
-            element.moveToNextFileWithComment();
+            element.moveToFileWithComment(1);
             assert.isFalse(navToChangeStub.called);
             assert.isTrue(setUrlStub.calledOnce);
           });

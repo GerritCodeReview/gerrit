@@ -12,6 +12,7 @@ import {
   PatchSetNum,
   PreferencesInfo,
   RevisionPatchSetNum,
+  PatchSetNumber,
 } from '../../types/common';
 import {DefaultBase} from '../../constants/constants';
 import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
@@ -37,7 +38,10 @@ import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
-import {ChangeViewModel} from '../views/change';
+import {ChangeViewModel, createChangeUrl} from '../views/change';
+import {createDiffUrl} from '../views/diff';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {createEditUrl} from '../views/edit';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -150,7 +154,11 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
-  private patchNum?: PatchSetNum;
+  private patchNum?: RevisionPatchSetNum;
+
+  private basePatchNum?: BasePatchSetNum;
+
+  private latestPatchNum?: PatchSetNumber;
 
   public readonly change$ = select(
     this.state$,
@@ -257,6 +265,7 @@ export class ChangeModel extends Model<ChangeState> {
   );
 
   constructor(
+    private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel
@@ -289,6 +298,12 @@ export class ChangeModel extends Model<ChangeState> {
         }),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
+      this.basePatchNum$.subscribe(
+        basePatchNum => (this.basePatchNum = basePatchNum)
+      ),
+      this.latestPatchNum$.subscribe(
+        latestPatchNum => (this.latestPatchNum = latestPatchNum)
+      ),
       combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
         .pipe(
           switchMap(([patchNum, changeNum, loggedIn]) => {
@@ -370,6 +385,65 @@ export class ChangeModel extends Model<ChangeState> {
    */
   getChange() {
     return this.getState().change;
+  }
+
+  diffUrl(
+    diffView: {path: string; lineNum?: number},
+    patchNum = this.patchNum,
+    basePatchNum = this.basePatchNum
+  ) {
+    if (!this.change) return;
+    if (!this.patchNum) return;
+    return createDiffUrl({
+      change: this.change,
+      patchNum,
+      basePatchNum,
+      diffView,
+    });
+  }
+
+  navigateToDiff(
+    diffView: {path: string; lineNum?: number},
+    patchNum = this.patchNum,
+    basePatchNum = this.basePatchNum
+  ) {
+    const url = this.diffUrl(diffView, patchNum, basePatchNum);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  changeUrl(openReplyDialog = false) {
+    if (!this.change) return;
+    const isLatest = this.latestPatchNum === this.patchNum;
+    return createChangeUrl({
+      change: this.change,
+      patchNum:
+        isLatest && this.basePatchNum === PARENT ? undefined : this.patchNum,
+      basePatchNum: this.basePatchNum,
+      openReplyDialog,
+    });
+  }
+
+  navigateToChange(openReplyDialog = false) {
+    const url = this.changeUrl(openReplyDialog);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  editUrl(editView: {path: string; lineNum?: number}) {
+    if (!this.change) return;
+    return createEditUrl({
+      changeNum: this.change._number,
+      repo: this.change.project,
+      patchNum: this.patchNum,
+      editView,
+    });
+  }
+
+  navigateToEdit(editView: {path: string; lineNum?: number}) {
+    const url = this.editUrl(editView);
+    if (!url) return;
+    this.navigation.setUrl(url);
   }
 
   /**

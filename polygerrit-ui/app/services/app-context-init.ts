@@ -148,6 +148,7 @@ export function createAppDependencies(
       changeModelToken,
       () =>
         new ChangeModel(
+          resolver(navigationToken),
           resolver(changeViewModelToken),
           appContext.restApiService,
           resolver(userModelToken)

@@ -133,10 +133,6 @@ export interface Files {
   changeFilesByPath: FileNameToNormalizedFileInfoMap;
 }
 
-interface CommentSkips {
-  previous: string | null;
-  next: string | null;
-}
 @customElement('gr-diff-view')
 export class GrDiffView extends LitElement {
   /**
@@ -338,10 +334,10 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.PREV_LINE, _ => this.handlePrevLine());
     listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea());
     listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
-      this.moveToNextFileWithComment()
+      this.moveToFileWithComment(1)
     );
     listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
-      this.moveToPreviousFileWithComment()
+      this.moveToFileWithComment(-1)
     );
     listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment());
     listen(Shortcut.SAVE_COMMENT, _ => {});
@@ -1096,15 +1092,12 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  moveToPreviousFileWithComment() {
-    const commentSkips = this.computeCommentSkips();
-    if (!commentSkips) return;
+  moveToFileWithComment(direction: -1 | 1) {
     if (!this.change) return;
     if (!this.patchRange?.patchNum) return;
 
-    // If there is no previous diff with comments, then return to the change
-    // view.
-    if (!commentSkips.previous) {
+    const file = this.findFileWithComment(direction);
+    if (!file) {
       this.navToChangeView();
       return;
     }
@@ -1114,30 +1107,7 @@ export class GrDiffView extends LitElement {
         change: this.change,
         patchNum: this.patchRange.patchNum,
         basePatchNum: this.patchRange.basePatchNum,
-        diffView: {path: commentSkips.previous},
-      })
-    );
-  }
-
-  // Private but used in tests.
-  moveToNextFileWithComment() {
-    const commentSkips = this.computeCommentSkips();
-    if (!commentSkips) return;
-    if (!this.change) return;
-    if (!this.patchRange?.patchNum) return;
-
-    // If there is no next diff with comments, then return to the change view.
-    if (!commentSkips.next) {
-      this.navToChangeView();
-      return;
-    }
-
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-        diffView: {path: commentSkips.next},
+        diffView: {path: file},
       })
     );
   }
@@ -1890,35 +1860,18 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  computeCommentSkips(): CommentSkips | undefined {
+  findFileWithComment(direction: -1 | 1): string | undefined {
     const fileList = this.files?.sortedFileList;
     if (!this.commentMap) return undefined;
-    if (!fileList) return undefined;
+    if (!fileList || fileList.length === 0) return undefined;
     if (!this.path) return undefined;
 
-    const skips: CommentSkips = {previous: null, next: null};
-    if (!fileList.length) {
-      return skips;
-    }
     const pathIndex = fileList.indexOf(this.path);
-
-    // Scan backward for the previous file.
-    for (let i = pathIndex - 1; i >= 0; i--) {
-      if (this.commentMap[fileList[i]]) {
-        skips.previous = fileList[i];
-        break;
-      }
+    const stopIndex = direction === 1 ? fileList.length : -1;
+    for (let i = pathIndex + direction; i !== stopIndex; i += direction) {
+      if (this.commentMap[fileList[i]]) return fileList[i];
     }
-
-    // Scan forward for the next file.
-    for (let i = pathIndex + 1; i < fileList.length; i++) {
-      if (this.commentMap[fileList[i]]) {
-        skips.next = fileList[i];
-        break;
-      }
-    }
-
-    return skips;
+    return undefined;
   }
 
   // Private but used in tests.

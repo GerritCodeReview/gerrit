@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b0f6a48_0c6cc7b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T23:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d347a2_07eea8b6",
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5af2fc87_96985870",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -65,6 +83,30 @@
       "writtenOn": "2023-01-03T18:46:59Z",
       "side": 1,
       "message": "nit: `s/are assume/assume`",
+      "range": {
+        "startLine": 709,
+        "startChar": 31,
+        "endLine": 709,
+        "endChar": 41
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4617cca6_b9b9e5a2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T23:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fe12025_60419bd8",
       "range": {
         "startLine": 709,
         "startChar": 31,
@@ -159,6 +201,30 @@
       "side": 1,
       "message": "IIUIC the problem with _eviction listener_ is that it is called _only_ when the policy caused removal happens however AFAIU both plugins use this functionality in the context of manually called invalidation:\n* site A removes entry from cache and the removal gets notified to site B\n* site B listens on the event in question, configures thread local variables to ensure that it is not notified back and calls `invalidate*` on cache to get rid of the value in question...\n\nLuca, Tony WDYT?",
       "parentUuid": "88ec70be_ec468275",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 55
+      },
+      "revId": "4e93d7bbdef2228f3e90e7e44b0565d62c180558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84365977_4db42f7c",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T23:25:21Z",
+      "side": 1,
+      "message": "\u003e If we specifically want the removal listener to run synchronously, caffeine has instructions for how to do that and says to use Caffeine.evictionListener()\n\nTrue, but only starting from Caffeine v2.9.x.\n\nAlso, the `Caffeine.evictionListener()` is different from the `Caffeine.removalListener()`:\n\nRemoval cause | Removal | Eviction | Description\n--------------+---------+----------+-------------\nEXPLICIT      | True    | False    | Entry evicted explicitly\nREPLACED      | True    | False    | Entry replaced with a new value\nCOLLECTED     | True    | True     | Entry garbage collected\nEXPIRED       | True    | True     | MaxAge expired\nSIZE          | True    | True     | Entry removed for saving space\n\nSee the [RemovalCause](https://github.com/ben-manes/caffeine/blob/master/caffeine/src/main/java/com/github/benmanes/caffeine/cache/RemovalCause.java) documentation.\n\nIf we were replacing the `removalListener` with `evictionListener` we would change the semantics and then potentially failing to invoke the listeners, introducing bugs.",
+      "parentUuid": "32bbc162_542d27e8",
       "range": {
         "startLine": 122,
         "startChar": 6,

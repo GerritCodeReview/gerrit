@@ -73,6 +73,7 @@ import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
+import {AdminChildView, createAdminUrl} from '../models/views/admin';
 
 interface ErrorInfo {
   text: string;
@@ -207,6 +208,16 @@ export class GrAppElement extends LitElement {
     this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
       this.getNavigation().setUrl(
         createSearchUrl({query: 'is:watched is:open'})
+      )
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_REPOS, () =>
+      this.getNavigation().setUrl(
+        createAdminUrl({adminView: AdminChildView.REPOS})
+      )
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_GROUPS, () =>
+      this.getNavigation().setUrl(
+        createAdminUrl({adminView: AdminChildView.GROUPS})
       )
     );
 

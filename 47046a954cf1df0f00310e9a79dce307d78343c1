@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8287d779_b4258d0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:18:18Z",
+      "side": 1,
+      "message": "Good stuff ! Thanks @prudhvi.alahari@linaro.org",
+      "revId": "47046a954cf1df0f00310e9a79dce307d78343c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

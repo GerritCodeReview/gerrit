@@ -35,6 +35,7 @@ import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {userModelToken} from '../user/user-model';
 import {changeViewModelToken} from '../views/change';
+import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
 
 suite('updateChangeWithEdit() tests', () => {
   test('undefined change', async () => {
@@ -84,6 +85,7 @@ suite('change model tests', () => {
 
   setup(() => {
     changeModel = new ChangeModel(
+      testResolver(navigationToken),
       testResolver(changeViewModelToken),
       getAppContext().restApiService,
       testResolver(userModelToken)

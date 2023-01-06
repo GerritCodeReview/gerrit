@@ -204,15 +204,18 @@ export class GrMainHeader extends LitElement {
           text-decoration: underline;
         }
         .titleText::before {
+          --icon-width: var(--header-icon-width, var(--header-icon-size, 0));
+          --icon-height: var(--header-icon-height, var(--header-icon-size, 0));
           background-image: var(--header-icon);
-          background-size: var(--header-icon-size) var(--header-icon-size);
+          background-size: var(--icon-width) var(--icon-height);
           background-repeat: no-repeat;
           content: '';
           display: inline-block;
-          height: var(--header-icon-size);
-          margin-right: calc(var(--header-icon-size) / 4);
+          height: var(--icon-height);
+          /* If size or height are set, then use 'spacing-m', 0px otherwise. */
+          margin-right: clamp(0px, var(--icon-height), var(--spacing-m));
           vertical-align: text-bottom;
-          width: var(--header-icon-size);
+          width: var(--icon-width);
         }
         .titleText::after {
           content: var(--header-title-content);

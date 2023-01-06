@@ -1702,12 +1702,12 @@ suite('gr-diff-view tests', () => {
 
     suite('computeCommentSkips', () => {
       test('empty file list', () => {
-        const commentMap = {
+        element.commentMap = {
           'path/one.jpg': true,
           'path/three.wav': true,
         };
-        const path = 'path/two.m4v';
-        const result = element.computeCommentSkips(commentMap, [], path);
+        element.path = 'path/two.m4v';
+        const result = element.computeCommentSkips();
         assert.isOk(result);
         assert.isNotOk(result!.previous);
         assert.isNotOk(result!.next);
@@ -1715,34 +1715,36 @@ suite('gr-diff-view tests', () => {
 
       test('finds skips', () => {
         const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
-        let path = fileList[1];
+        element.files = {sortedPaths: fileList, changeFilesByPath: {}};
+        element.path = fileList[1];
         const commentMap: CommentMap = {};
+        element.commentMap = commentMap;
         commentMap[fileList[0]] = true;
         commentMap[fileList[1]] = false;
         commentMap[fileList[2]] = true;
 
-        let result = element.computeCommentSkips(commentMap, fileList, path);
+        let result = element.computeCommentSkips();
         assert.isOk(result);
         assert.equal(result!.previous, fileList[0]);
         assert.equal(result!.next, fileList[2]);
 
         commentMap[fileList[1]] = true;
 
-        result = element.computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips();
         assert.isOk(result);
         assert.equal(result!.previous, fileList[0]);
         assert.equal(result!.next, fileList[2]);
 
-        path = fileList[0];
+        element.path = fileList[0];
 
-        result = element.computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips();
         assert.isOk(result);
         assert.isNull(result!.previous);
         assert.equal(result!.next, fileList[1]);
 
-        path = fileList[2];
+        element.path = fileList[2];
 
-        result = element.computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips();
         assert.isOk(result);
         assert.equal(result!.previous, fileList[1]);
         assert.isNull(result!.next);

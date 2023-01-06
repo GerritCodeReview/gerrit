@@ -1742,9 +1742,11 @@ suite('gr-diff-view tests', () => {
 
       suite('skip next/previous', () => {
         let navToChangeStub: SinonStub;
+        let navToDiffStub: SinonStub;
 
         setup(() => {
           navToChangeStub = sinon.stub(element, 'navToChangeView');
+          navToDiffStub = sinon.stub(changeModel, 'navigateToDiff');
           element.files = getFilesFromFileList([
             'path/one.jpg',
             'path/two.m4v',
@@ -1768,7 +1770,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToFileWithComment(-1);
             assert.isTrue(navToChangeStub.calledOnce);
-            assert.isFalse(setUrlStub.called);
+            assert.isFalse(navToDiffStub.called);
           });
 
           test('w/ previous', async () => {
@@ -1782,7 +1784,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToFileWithComment(-1);
             assert.isFalse(navToChangeStub.called);
-            assert.isTrue(setUrlStub.calledOnce);
+            assert.isTrue(navToDiffStub.calledOnce);
           });
         });
 
@@ -1798,7 +1800,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToFileWithComment(1);
             assert.isTrue(navToChangeStub.calledOnce);
-            assert.isFalse(setUrlStub.called);
+            assert.isFalse(navToDiffStub.called);
           });
 
           test('w/ previous', async () => {
@@ -1812,7 +1814,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToFileWithComment(1);
             assert.isFalse(navToChangeStub.called);
-            assert.isTrue(setUrlStub.calledOnce);
+            assert.isTrue(navToDiffStub.calledOnce);
           });
         });
       });

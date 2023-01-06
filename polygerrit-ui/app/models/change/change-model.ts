@@ -38,6 +38,8 @@ import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
 import {ChangeViewModel} from '../views/change';
+import {createDiffUrl} from '../views/diff';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -150,7 +152,9 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
-  private patchNum?: PatchSetNum;
+  private patchNum?: RevisionPatchSetNum;
+
+  private basePatchNum?: BasePatchSetNum;
 
   public readonly change$ = select(
     this.state$,
@@ -257,6 +261,7 @@ export class ChangeModel extends Model<ChangeState> {
   );
 
   constructor(
+    private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel
@@ -289,6 +294,9 @@ export class ChangeModel extends Model<ChangeState> {
         }),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
+      this.basePatchNum$.subscribe(
+        basePatchNum => (this.basePatchNum = basePatchNum)
+      ),
       combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
         .pipe(
           switchMap(([patchNum, changeNum, loggedIn]) => {
@@ -370,6 +378,19 @@ export class ChangeModel extends Model<ChangeState> {
    */
   getChange() {
     return this.getState().change;
+  }
+
+  navigateToDiff(path: string) {
+    if (!this.change) return;
+    if (!this.patchNum) return;
+    this.navigation.setUrl(
+      createDiffUrl({
+        change: this.change,
+        patchNum: this.patchNum,
+        basePatchNum: this.basePatchNum,
+        diffView: {path},
+      })
+    );
   }
 
   /**

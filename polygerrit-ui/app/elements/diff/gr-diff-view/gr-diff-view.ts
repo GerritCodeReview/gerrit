@@ -1092,23 +1092,12 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   moveToFileWithComment(direction: -1 | 1) {
-    if (!this.change) return;
-    if (!this.patchRange?.patchNum) return;
-
     const file = this.findFileWithComment(direction);
     if (!file) {
       this.navToChangeView();
-      return;
+    } else {
+      this.getChangeModel().navigateToDiff(file);
     }
-
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-        diffView: {path: file},
-      })
-    );
   }
 
   private handleNewComment() {

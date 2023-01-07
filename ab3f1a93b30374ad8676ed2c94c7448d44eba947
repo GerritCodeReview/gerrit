@@ -16,6 +16,23 @@
       "message": "Ben adding you as reviewer. Since afaict you originally implemented the lazy loading.",
       "revId": "ab3f1a93b30374ad8676ed2c94c7448d44eba947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69e750a9_e30eae9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155576
+      },
+      "writtenOn": "2023-01-07T03:43:06Z",
+      "side": 1,
+      "message": "4136552: Incrementing VERSION to 110.0.5481.23 | https://chromium-review.googlesource.com/c/chromium/src/+/4136552",
+      "revId": "ab3f1a93b30374ad8676ed2c94c7448d44eba947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

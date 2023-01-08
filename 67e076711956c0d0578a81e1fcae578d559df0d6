@@ -39,6 +39,29 @@
       },
       "revId": "67e076711956c0d0578a81e1fcae578d559df0d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baccdeb8_625230bf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-08T17:24:19Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 6272,
+        "startChar": 19,
+        "endLine": 6272,
+        "endChar": 21
+      },
+      "revId": "67e076711956c0d0578a81e1fcae578d559df0d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

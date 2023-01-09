@@ -34,6 +34,24 @@
       "parentUuid": "7a1592c9_408a4a9d",
       "revId": "3030378b883e56b83f7613c8ee21da464f804251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c9f866_4aa20ccb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T07:09:41Z",
+      "side": 1,
+      "message": "The way I was envisioning this to work, is that the change-model would update the change-view-model with the latest patchset number. That has the following benefits:\n\n1. The patchNum is model controlled, not view controlled.\n2. The view model does not have to know about the entire change.\n3. The view model knows everything it needs to be able to create and parse the URL. Knowing the latest patchset number is essential for that.\n\nMy approach to achieving this goal was to migrate the change-view, diff-view and edit-view such that they do not assign `this.patchRange` at all, but just subscribe to the models.\n\nI have a series of 9 changes outstanding that has a similar goal: https://gerrit-review.git.corp.google.com/c/gerrit/+/355982. Maybe we should coordinate our efforts? :-)\n\nBtw, I agree that:\n1. The change-view-model should not depend on the change-model.\n2. The change-view-model should not \"know\" the entire change.",
+      "parentUuid": "f7bf4e3b_c8c25ccd",
+      "revId": "3030378b883e56b83f7613c8ee21da464f804251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

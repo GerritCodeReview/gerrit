@@ -35,6 +35,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
+import com.google.common.collect.Table.Cell;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -335,6 +336,8 @@ public class ChangeData {
    * change and a given user.
    */
   private Table<Account.Id, PatchSet.Id, ObjectId> editsByUser;
+
+  private Table<Account.Id, PatchSet.Id, Ref> editRefsByUser;
 
   private Set<Account.Id> reviewedBy;
   /**
@@ -1098,7 +1101,19 @@ public class ChangeData {
   }
 
   public Table<Account.Id, PatchSet.Id, ObjectId> editRefs() {
-    if (editsByUser == null) {
+    if (editsByUser != null) {
+      return editsByUser;
+    } else {
+      editsByUser = HashBasedTable.create();
+      for (Cell<Account.Id, PatchSet.Id, Ref> edit : fullEditRefs().cellSet()) {
+        editsByUser.put(edit.getRowKey(), edit.getColumnKey(), edit.getValue().getObjectId());
+      }
+      return editsByUser;
+    }
+  }
+
+  public Table<Account.Id, PatchSet.Id, Ref> fullEditRefs() {
+    if (editRefsByUser == null) {
       if (!lazyload()) {
         return HashBasedTable.create();
       }
@@ -1106,7 +1121,7 @@ public class ChangeData {
       if (c == null) {
         return HashBasedTable.create();
       }
-      editsByUser = HashBasedTable.create();
+      editRefsByUser = HashBasedTable.create();
       Change.Id id = requireNonNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
         for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS)) {
@@ -1117,7 +1132,7 @@ public class ChangeData {
           if (id.equals(ps.changeId())) {
             Account.Id accountId = Account.Id.fromRef(ref.getName());
             if (accountId != null) {
-              editsByUser.put(accountId, ps, ref.getObjectId());
+              editRefsByUser.put(accountId, ps, ref);
             }
           }
         }
@@ -1125,7 +1140,7 @@ public class ChangeData {
         throw new StorageException(e);
       }
     }
-    return editsByUser;
+    return editRefsByUser;
   }
 
   public Set<Account.Id> draftsByUser() {
@@ -1273,13 +1288,13 @@ public class ChangeData {
       }
 
       ImmutableSetMultimap.Builder<NameKey, RefState> result = ImmutableSetMultimap.builder();
-      for (Table.Cell<Account.Id, PatchSet.Id, ObjectId> edit : editRefs().cellSet()) {
+      for (Table.Cell<Account.Id, PatchSet.Id, Ref> edit : fullEditRefs().cellSet()) {
         result.put(
             project,
             RefState.create(
                 RefNames.refsEdit(
                     edit.getRowKey(), edit.getColumnKey().changeId(), edit.getColumnKey()),
-                edit.getValue()));
+                edit.getValue().getObjectId()));
       }
 
       // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the

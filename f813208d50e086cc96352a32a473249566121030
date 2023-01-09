@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1989abd4_8754c570",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:09:22Z",
+      "side": 1,
+      "message": "Renamed from `filesWithUnmodified$` to `filesIncludingUnmodified$`. Added a comment to the declaration of `filesIncludingUnmodified$`.",
+      "parentUuid": "3e86b792_d2d95d0f",
+      "range": {
+        "startLine": 321,
+        "startChar": 33,
+        "endLine": 321,
+        "endChar": 52
+      },
+      "revId": "f813208d50e086cc96352a32a473249566121030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14b17228_42eb99db",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-09T09:47:27Z",
       "side": 1,
       "message": "this is storing only `path` and not the full `file` object?\nMaybe rename to make that clearer.\n`sortedFilePaths` although I don\u0027t see any sorting being applied here as well.\nSorting is actually done in the model, so I think a comment where this field is declared should be enough(or feel free to ignore if you think the word `sort` is fine and doesn\u0027t deserve a comment).",
+      "range": {
+        "startLine": 326,
+        "startChar": 10,
+        "endLine": 326,
+        "endChar": 24
+      },
+      "revId": "f813208d50e086cc96352a32a473249566121030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d286a2_fe4c488f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:09:22Z",
+      "side": 1,
+      "message": "Renamed to `sortedPaths`. Added comment to declaration of `sortedPaths`.",
+      "parentUuid": "14b17228_42eb99db",
       "range": {
         "startLine": 326,
         "startChar": 10,

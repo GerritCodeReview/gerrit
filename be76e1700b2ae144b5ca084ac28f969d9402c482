@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07f6b64_29830da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "maybe specify this is only for GrDiffView and not other components.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d3e7184_2a798c02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "I saw when using href the router-model was not involved in the change page(Change 355341).\nShould we do a similar change here? (Note I ended up firing a `reload` event eventually(Change 355715).",
+      "range": {
+        "startLine": 789,
+        "startChar": 18,
+        "endLine": 789,
+        "endChar": 63
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "843e3a3e_cbdf371c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "I would have expected some router model to handle the navigation instead of the change model.\nThat\u0027s how GrChangeView does it, accessing the navigation model via `getNavigation`.\n\nAre you planning to move ChangeView into this patterns as well, accessing the navigation via change model and not directly\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts?q\u003d%22this.getNavigation().setUrl%22",
+      "range": {
+        "startLine": 1095,
+        "startChar": 6,
+        "endLine": 1095,
+        "endChar": 47
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9816728_b2bff406",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1809,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "should this be `assertIsDefined` for consistency as well or this can be undefined?",
+      "range": {
+        "startLine": 1809,
+        "startChar": 4,
+        "endLine": 1809,
+        "endChar": 33
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "559f6415_64e02195",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "diffParams? Not sure why the word \"View\" is in here.",
+      "range": {
+        "startLine": 410,
+        "startChar": 29,
+        "endLine": 410,
+        "endChar": 37
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a9f5b0_b56e8652",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T11:01:49Z",
+      "side": 1,
+      "message": "okay here also the change model is setting the url so at some point that means GrChangeView will rely on the model to set the url instead of doing it directly as it\u0027s doing now?",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 412,
+        "endChar": 32
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

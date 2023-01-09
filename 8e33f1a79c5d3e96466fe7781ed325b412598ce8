@@ -22,6 +22,30 @@
       },
       "revId": "8e33f1a79c5d3e96466fe7781ed325b412598ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd2f4f4_ba0c4f8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-09T11:09:21Z",
+      "side": 1,
+      "message": "Put in Ben\u0027s nice explanation.",
+      "parentUuid": "aa9f3cfd_7eb8b677",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "8e33f1a79c5d3e96466fe7781ed325b412598ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -334,7 +334,7 @@ public class ChangeData {
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.
    */
-  private Table<Account.Id, PatchSet.Id, ObjectId> editsByUser;
+  private Table<Account.Id, PatchSet.Id, Ref> editRefsByUser;
 
   private Set<Account.Id> reviewedBy;
   /**
@@ -1097,8 +1097,8 @@ public class ChangeData {
     return editRefs().rowKeySet();
   }
 
-  public Table<Account.Id, PatchSet.Id, ObjectId> editRefs() {
-    if (editsByUser == null) {
+  public Table<Account.Id, PatchSet.Id, Ref> editRefs() {
+    if (editRefsByUser == null) {
       if (!lazyload()) {
         return HashBasedTable.create();
       }
@@ -1106,7 +1106,7 @@ public class ChangeData {
       if (c == null) {
         return HashBasedTable.create();
       }
-      editsByUser = HashBasedTable.create();
+      editRefsByUser = HashBasedTable.create();
       Change.Id id = requireNonNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
         for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS)) {
@@ -1117,7 +1117,7 @@ public class ChangeData {
           if (id.equals(ps.changeId())) {
             Account.Id accountId = Account.Id.fromRef(ref.getName());
             if (accountId != null) {
-              editsByUser.put(accountId, ps, ref.getObjectId());
+              editRefsByUser.put(accountId, ps, ref);
             }
           }
         }
@@ -1125,7 +1125,7 @@ public class ChangeData {
         throw new StorageException(e);
       }
     }
-    return editsByUser;
+    return editRefsByUser;
   }
 
   public Set<Account.Id> draftsByUser() {
@@ -1273,13 +1273,13 @@ public class ChangeData {
       }
 
       ImmutableSetMultimap.Builder<NameKey, RefState> result = ImmutableSetMultimap.builder();
-      for (Table.Cell<Account.Id, PatchSet.Id, ObjectId> edit : editRefs().cellSet()) {
+      for (Table.Cell<Account.Id, PatchSet.Id, Ref> edit : editRefs().cellSet()) {
         result.put(
             project,
             RefState.create(
                 RefNames.refsEdit(
                     edit.getRowKey(), edit.getColumnKey().changeId(), edit.getColumnKey()),
-                edit.getValue()));
+                edit.getValue().getObjectId()));
       }
 
       // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the
@@ -1307,21 +1307,6 @@ public class ChangeData {
         refStates.get(allUsersName).stream()
             .filter(r -> RefNames.isRefsDraftsComments(r.ref()))
             .forEach(r -> draftsByUser.put(Account.Id.fromRef(r.ref()), r.id()));
-      }
-    }
-    if (editsByUser == null) {
-      // Recover edit refs as well. Edits are represented as refs in the repository.
-      // ChangeData exposes #editsByUser which just provides a Set of Account.Ids of users who
-      // have edits on this change. Recovering this list from RefStates makes it available even
-      // on ChangeData instances retrieved from the index.
-      editsByUser = HashBasedTable.create();
-      if (refStates.containsKey(project())) {
-        refStates.get(project()).stream()
-            .filter(r -> RefNames.isRefsEdit(r.ref()))
-            .forEach(
-                r ->
-                    editsByUser.put(
-                        Account.Id.fromRef(r.ref()), PatchSet.Id.fromEditRef(r.ref()), r.id()));
       }
     }
   }

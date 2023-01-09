@@ -122,6 +122,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -135,6 +136,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
+import com.google.gerrit.testing.TestChanges;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -158,7 +160,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
@@ -3230,28 +3231,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reindexIfStale() throws Exception {
-    Account.Id user = createAccount("user");
     Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
-    String changeId = change.getKey().get();
-    ChangeNotes notes = notesFactory.create(change.getProject(), change.getId());
-    PatchSet ps = psUtil.get(notes, change.currentPatchSetId());
 
-    requestContext.setContext(newRequestContext(user));
-    gApi.changes().id(changeId).edit().create();
-    assertQuery("has:edit", change);
+    Account.Id anotherUser = createAccount("another-user");
+    requestContext.setContext(newRequestContext(anotherUser));
+    assertQuery("reviewer:self", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
 
-    // Delete edit ref behind index's back.
-    RefUpdate ru = repo.getRepository().updateRef(RefNames.refsEdit(user, change.getId(), ps.id()));
-    ru.setForceUpdate(true);
-    assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    // Remove reviewer behind index's back.
+    ChangeUpdate update = newUpdate(change);
+    update.removeReviewer(anotherUser);
+    update.commit();
 
     // Index is stale.
-    assertQuery("has:edit", change);
+    assertQuery("reviewer:self", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
-    assertQuery("has:edit");
+    assertQuery("reviewer:self");
   }
 
   @Test
@@ -4412,5 +4409,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  protected ChangeUpdate newUpdate(Change c) throws Exception {
+    ChangeUpdate update =
+        TestChanges.newUpdate(injector, c, Optional.empty(), /* shouldExist= */ true);
+    update.setPatchSetId(c.currentPatchSetId());
+    update.setAllowWriteToNewRef(true);
+    return update;
   }
 }

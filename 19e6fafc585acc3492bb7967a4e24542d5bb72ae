@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a67830_0e0a3a62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "ObjectId",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffbbeaff_f734c019",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "nit: refs",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315f5c65_d5d31677",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "nit: objects",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05eaad10_3cd470d2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "Can be fullEditRefs()",
+      "range": {
+        "startLine": 1100,
+        "startChar": 11,
+        "endLine": 1100,
+        "endChar": 19
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11805b9c_c3208cea",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "It seems this method is not used in upstream (except in line 1100 above). Can we just drop it? Or rather change it to return Table\u003cAccount.Id, PatchSet.Id, Ref\u003e?",
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccbd819c_95f278bf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T11:29:50Z",
+      "side": 1,
+      "message": "nit: remove the unnecessary else here\n\nWe agreed some time ago to avoid unneeded else clauses [1] and this causes a warning in Eclipse (\"Statement unnecessarily nested within else clause.\").\n\n[1] https://gerrit-review.git.corp.google.com/q/message:unnecessary+message:else",
+      "range": {
+        "startLine": 1106,
+        "startChar": 5,
+        "endLine": 1106,
+        "endChar": 12
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

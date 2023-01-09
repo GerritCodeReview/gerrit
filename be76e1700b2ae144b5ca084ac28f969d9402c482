@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a72c6f0_2bd1c835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f07f6b64_29830da5",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d3e7184_2a798c02",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-09T11:01:49Z",
       "side": 1,
       "message": "I saw when using href the router-model was not involved in the change page(Change 355341).\nShould we do a similar change here? (Note I ended up firing a `reload` event eventually(Change 355715).",
+      "range": {
+        "startLine": 789,
+        "startChar": 18,
+        "endLine": 789,
+        "endChar": 63
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c00144_95579af8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "If router-model does not pick up the `href` from `\u003ca\u003e` links, then that is a bug, and we should fix it. Using click handlers for `\u003ca\u003e` is bad design, because it prevents features like Ctrl-Click for opening in other tabs or right clicking for \"copy link\", etc. So we should aim to revert change 355341, once we have found out why `href` was not working.\n\nNote that the links in the file list are also normal hrefs, and they work just fine.",
+      "parentUuid": "3d3e7184_2a798c02",
       "range": {
         "startLine": 789,
         "startChar": 18,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "352285f1_c15854dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "Yes, the idea is to do the same changes for ChangeView.\n\nChangeModel also uses `getNavigation` similar to how ChangeView does that at the moment.\n\nThe benefit is that the model already knows about the current change and the patch range, so the change view and the diff view don\u0027t need to know about them, or assemble all the required parameters.\n\nUltimately, the goal should be to wrap ChangeView, DiffView and EditView in one ChangeViewWrapper(?) and then code like this does not have to be duplicated in ChangeView and DiffView:\n```\n    listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ \u003d\u003e\n      this.handleDiffBaseAgainstLatest()\n    );\n```",
+      "parentUuid": "843e3a3e_cbdf371c",
+      "range": {
+        "startLine": 1095,
+        "startChar": 6,
+        "endLine": 1095,
+        "endChar": 47
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9816728_b2bff406",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-01-09T11:01:49Z",
       "side": 1,
       "message": "should this be `assertIsDefined` for consistency as well or this can be undefined?",
+      "range": {
+        "startLine": 1809,
+        "startChar": 4,
+        "endLine": 1809,
+        "endChar": 33
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab4b498_b7a50373",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1809,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9816728_b2bff406",
       "range": {
         "startLine": 1809,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b56dc357_abcd72c9",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "This is the name of the property in `ChangeViewState`. OVERVIEW, DIFF and EDIT are considered \"child views\" of the overall change page.",
+      "parentUuid": "559f6415_64e02195",
+      "range": {
+        "startLine": 410,
+        "startChar": 29,
+        "endLine": 410,
+        "endChar": 37
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3a9f5b0_b56e8652",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-01-09T11:01:49Z",
       "side": 1,
       "message": "okay here also the change model is setting the url so at some point that means GrChangeView will rely on the model to set the url instead of doing it directly as it\u0027s doing now?",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 412,
+        "endChar": 32
+      },
+      "revId": "be76e1700b2ae144b5ca084ac28f969d9402c482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5199b69_1f71f878",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T18:21:17Z",
+      "side": 1,
+      "message": "Yes, we should also change the ChangeView to use the model for navigating.",
+      "parentUuid": "d3a9f5b0_b56e8652",
       "range": {
         "startLine": 412,
         "startChar": 4,

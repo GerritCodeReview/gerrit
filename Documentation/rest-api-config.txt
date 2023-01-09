@@ -1869,7 +1869,7 @@ Only set for disk caches.
 
 [[index-changes-input]]
 === IndexChangesInput
-The `IndexChangesInput` contains a list of numerical changes IDs to index.
+The `IndexChangesInput` contains a list of change-numbers of changes to index.
 
 [options="header",cols="1,^2,4"]
 |================================

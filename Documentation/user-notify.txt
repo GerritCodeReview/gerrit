@@ -190,7 +190,7 @@ The change ID footer states the ID of the change, such as
 
 [[Gerrit-Change-Number]]Gerrit-Change-Number::
 
-The change number footer states the numeric ID of the change, for
+The change number footer states the change number of the change, for
 example `92191`.
 
 [[Gerrit-PatchSet]]Gerrit-PatchSet::

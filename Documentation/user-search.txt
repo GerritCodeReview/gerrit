@@ -28,13 +28,13 @@ text and let Gerrit figure out the meaning:
 [options="header"]
 |=============================================================
 |Description                      | Examples
-|Legacy numerical id              | 15183
+|Change Id                        | 15183
 |Full or abbreviated Change-Id    | Ic0ff33
 |Full or abbreviated commit SHA-1 | d81b32ef
 |Email address                    | user@example.com
 |=============================================================
 
-For change searches (i.e. those using a numerical id, Change-Id, or commit
+For change searches (i.e. those using a change number, Change-Id, or commit
 SHA-1), if the search results in a single change that change will be
 presented instead of a list.
 
@@ -107,15 +107,13 @@ with `after:'TIME'`.
 [[change]]
 change:'ID'::
 +
-Either a legacy numerical 'ID' such as 15183, or a newer style
-Change-Id that was scraped out of the commit message.
+Either a change number such as 15183, or a Change-Id from the Change-Id footer.
 
 [[conflicts]]
 conflicts:'ID'::
 +
 Changes that conflict with change 'ID'. Change 'ID' can be specified
-as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
-that was scraped out of the commit message.
+as a change number such as 15183, or a Change-Id from the Change-Id footer.
 
 [[destination]]
 destination:'[name=]NAME[,user=USER]'::
@@ -173,7 +171,7 @@ will find changes where the caller has been CC'ed.
 [[revertof]]
 revertof:'ID'::
 +
-Changes that revert the change specified by the numeric 'ID'.
+Changes that revert the change specified by the change number.
 
 [[submissionid]]
 submissionid:'ID'::
@@ -206,8 +204,8 @@ Changes occurring in projects starting with 'PREFIX'.
 [[parentof]]
 parentof:'ID'::
 Changes which are parent to the change specified by 'ID'. Change 'ID' can be
-specified as a legacy numerical 'ID' such as 15183, or a Change-Id that can be
-picked from the commit message. This operator will return immediate parents
+specified as a change number such as 15183, or a Change-Id from the 'Change-Id'
+footer of the commit message. This operator will return immediate parents
 and will not return grand parents or higher level ancestors of the given change.
 
 [[parentproject]]

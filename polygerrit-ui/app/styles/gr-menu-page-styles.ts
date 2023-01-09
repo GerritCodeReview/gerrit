@@ -32,7 +32,7 @@ export const menuPageStyles = css`
     color: var(--deemphasized-text-color);
     padding: var(--spacing-l);
   }
-  @media only screen and (max-width: 67em) {
+  @media only screen and (max-width: 70em) {
     .main {
       margin: var(--spacing-xxl) 0 var(--spacing-xxl) 15em;
     }

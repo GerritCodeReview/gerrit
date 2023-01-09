@@ -242,6 +242,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49e83b75_371462b5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T13:35:30Z",
+      "side": 1,
+      "message": "\u003e but then noticed we restore edits from refStates, when returned from index,\n\u003e and we can only restore ObjectId, not Ref.\n\nAh, I wasn\u0027t aware of this.\n\nI agree it\u0027s better to remove this. Otherwise it would be inconsistent/unexpected that editsByUser would be populated from the index but editRefsByUser not.",
+      "parentUuid": "8836d5b2_de4f64a4",
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccbd819c_95f278bf",

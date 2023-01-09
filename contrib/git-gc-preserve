@@ -67,6 +67,7 @@ lock() { # repo
   test -f "$LOCKFILE" || touch "$LOCKFILE"
   exec 9> "$LOCKFILE"
   if flock -nx 9; then
+    echo -n "$$ $USERNAME@$HOSTNAME" >&9
     trap unlock EXIT
   else
     echo "$0 is already running"

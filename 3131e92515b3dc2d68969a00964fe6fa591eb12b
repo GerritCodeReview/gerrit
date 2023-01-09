@@ -22,6 +22,30 @@
       },
       "revId": "3131e92515b3dc2d68969a00964fe6fa591eb12b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40982f7c_97badb2f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T09:44:06Z",
+      "side": 1,
+      "message": "No, `height` was intentional. If you have a 100x20 icon, then you want 5px margin, not 25px, which would be clearly too much.\n\nThat said, there is probably a better formula for this, but I think normally all icon will be 15-25px height, so this is mostly a static value. Alternatively, I would suggest that we could do \"if size or height \u003e0, then 4px, otherwise 0px\". WDYT?",
+      "parentUuid": "56b1749a_b0d4a6be",
+      "range": {
+        "startLine": 215,
+        "startChar": 30,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "3131e92515b3dc2d68969a00964fe6fa591eb12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

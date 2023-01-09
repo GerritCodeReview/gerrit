@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f971a2_db57c372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffbbeaff_f734c019",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "957b011f_63b15b3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9a67830_0e0a3a62",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "315f5c65_d5d31677",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-01-09T11:29:50Z",
       "side": 1,
       "message": "nit: objects",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb4f461e_83606866",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315f5c65_d5d31677",
       "range": {
         "startLine": 12,
         "startChar": 35,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdcfe41d_310c415e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05eaad10_3cd470d2",
+      "range": {
+        "startLine": 1100,
+        "startChar": 11,
+        "endLine": 1100,
+        "endChar": 19
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11805b9c_c3208cea",
@@ -110,6 +206,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ce5c0c5_f5ce4446",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Seems you are right. I initially planned to just replace ObjectId with Ref, but then noticed we restore edits from refStates, when returned from index, and we can only restore ObjectId, not Ref.\n\nLooking more closely, I think we don\u0027t want to return edits from index at all (i.e. we do not show all edits for a specific change anywhere on the dashboard).\n\nThe only failing test was for FakeIndex, which confirms the edits, restored from index are unused.",
+      "parentUuid": "11805b9c_c3208cea",
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8836d5b2_de4f64a4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Comment removed by: Marija Savtchouk; Reason: Done",
+      "parentUuid": "11805b9c_c3208cea",
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccbd819c_95f278bf",
@@ -123,6 +255,30 @@
       "writtenOn": "2023-01-09T11:29:50Z",
       "side": 1,
       "message": "nit: remove the unnecessary else here\n\nWe agreed some time ago to avoid unneeded else clauses [1] and this causes a warning in Eclipse (\"Statement unnecessarily nested within else clause.\").\n\n[1] https://gerrit-review.git.corp.google.com/q/message:unnecessary+message:else",
+      "range": {
+        "startLine": 1106,
+        "startChar": 5,
+        "endLine": 1106,
+        "endChar": 12
+      },
+      "revId": "19e6fafc585acc3492bb7967a4e24542d5bb72ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b298ce3d_c5202f3b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-09T13:02:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ccbd819c_95f278bf",
       "range": {
         "startLine": 1106,
         "startChar": 5,

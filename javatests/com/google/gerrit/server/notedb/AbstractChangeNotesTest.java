@@ -76,6 +76,7 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -276,7 +277,7 @@ public abstract class AbstractChangeNotesTest {
 
   protected ChangeUpdate newUpdate(
       Injector injector, Change c, CurrentUser user, boolean shouldExist) throws Exception {
-    ChangeUpdate update = TestChanges.newUpdate(injector, c, user, shouldExist);
+    ChangeUpdate update = TestChanges.newUpdate(injector, c, Optional.of(user), shouldExist);
     update.setPatchSetId(c.currentPatchSetId());
     update.setAllowWriteToNewRef(true);
     return update;

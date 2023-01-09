@@ -32,6 +32,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,15 +78,20 @@ public class TestChanges {
   }
 
   public static ChangeUpdate newUpdate(
-      Injector injector, Change c, CurrentUser user, boolean shouldExist) throws Exception {
+      Injector injector, Change c, Optional<CurrentUser> user, boolean shouldExist)
+      throws Exception {
     injector =
         injector.createChildInjector(
             new FactoryModule() {
               @Override
               public void configure() {
-                bind(CurrentUser.class).toInstance(user);
+                if (user.isPresent()) {
+                  // user may be already bound in injector
+                  bind(CurrentUser.class).toInstance(user.get());
+                }
               }
             });
+    CurrentUser currentUser = injector.getProvider(CurrentUser.class).get();
     ChangeUpdate update =
         injector
             .getInstance(ChangeUpdate.Factory.class)
@@ -93,7 +99,7 @@ public class TestChanges {
                 new ChangeNotes(
                         injector.getInstance(AbstractChangeNotes.Args.class), c, shouldExist, null)
                     .load(),
-                user,
+                currentUser,
                 TimeUtil.now(),
                 Ordering.natural());
 
@@ -109,7 +115,9 @@ public class TestChanges {
     try (Repository repo = repoManager.openRepository(c.getProject());
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
       PersonIdent ident =
-          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), ZoneId.systemDefault());
+          currentUser
+              .asIdentifiedUser()
+              .newCommitterIdent(update.getWhen(), ZoneId.systemDefault());
       TestRepository<Repository>.CommitBuilder cb =
           tr.commit()
               .author(ident)

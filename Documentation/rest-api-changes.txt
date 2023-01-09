@@ -6269,7 +6269,7 @@ Gerrit also supports the following identifiers:
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
-* a numeric change ID ("4247")
+* a numeric change ID if it uniquely identifies one change ("4247")
 
 [[change-message-id]]
 === \{change-message-id\}

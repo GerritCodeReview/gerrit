@@ -26,12 +26,7 @@ import {
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
-import {
-  CommitRange,
-  CoverageRange,
-  DiffLayer,
-  PatchSetFile,
-} from '../../../types/types';
+import {CoverageRange, DiffLayer, PatchSetFile} from '../../../types/types';
 import {
   Base64ImageFile,
   BlameInfo,
@@ -191,9 +186,6 @@ export class GrDiffHost extends LitElement {
     this._isImageDiff = isImageDiff;
     fire(this, 'is-image-diff-changed', {value: isImageDiff});
   }
-
-  @property({type: Object})
-  commitRange?: CommitRange;
 
   @state()
   private _editWeblinks?: GeneratedWebLink[];

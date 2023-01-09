@@ -10,7 +10,6 @@ import {
   AccountInfo,
   BasePatchSetNum,
   ChangeViewChangeInfo,
-  CommitId,
   CommitInfo,
   EditPatchSet,
   PatchSetNum,
@@ -26,11 +25,6 @@ export function isDefined<T>(x: T): x is NonNullable<T> {
 
 export interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
   requestAvailability(): void;
-}
-
-export interface CommitRange {
-  baseCommit: CommitId;
-  commit: CommitId;
 }
 
 export type {CoverageRange} from '../api/diff';

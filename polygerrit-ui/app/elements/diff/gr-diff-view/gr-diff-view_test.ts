@@ -32,14 +32,12 @@ import {
   createConfig,
   createParsedChange,
   createRevision,
-  createCommit,
   createFileInfo,
   createDiffViewState,
 } from '../../../test/test-data-generators';
 import {
   BasePatchSetNum,
   CommentInfo,
-  CommitId,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -62,7 +60,6 @@ import {
   LoadingStatus,
 } from '../../../models/change/change-model';
 import {CommentMap} from '../../../utils/comment-util';
-import {ParsedChangeInfo} from '../../../types/types';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -1434,71 +1431,6 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
       const diffModeSelector = queryAndAssert(element, '.diffModeSelector');
       assert.isTrue(diffModeSelector.classList.contains('hide'));
-    });
-
-    suite('commitRange', () => {
-      const change: ParsedChangeInfo = {
-        ...createParsedChange(),
-        _number: 42 as NumericChangeId,
-        revisions: {
-          'commit-sha-1': {
-            ...createRevision(1),
-            commit: {
-              ...createCommit(),
-              parents: [{subject: 's1', commit: 'sha-1-parent' as CommitId}],
-            },
-          },
-          'commit-sha-2': createRevision(2),
-          'commit-sha-3': createRevision(3),
-          'commit-sha-4': createRevision(4),
-          'commit-sha-5': {
-            ...createRevision(5),
-            commit: {
-              ...createCommit(),
-              parents: [{subject: 's5', commit: 'sha-5-parent' as CommitId}],
-            },
-          },
-        },
-      };
-      setup(async () => {
-        assertIsDefined(element.diffHost);
-        sinon.stub(element.diffHost, 'reload');
-        sinon.stub(element, 'initCursor');
-        element.change = change;
-        await element.updateComplete;
-        await element.diffHost.updateComplete;
-      });
-
-      test('uses the patchNum and basePatchNum ', async () => {
-        element.viewState = {
-          ...createDiffViewState(),
-          patchNum: 4 as RevisionPatchSetNum,
-          basePatchNum: 2 as BasePatchSetNum,
-          diffView: {path: '/COMMIT_MSG'},
-        };
-        element.change = change;
-        await element.updateComplete;
-        await waitEventLoop();
-        assert.deepEqual(element.commitRange, {
-          baseCommit: 'commit-sha-2' as CommitId,
-          commit: 'commit-sha-4' as CommitId,
-        });
-      });
-
-      test('uses the parent when there is no base patch num ', async () => {
-        element.viewState = {
-          ...createDiffViewState(),
-          patchNum: 5 as RevisionPatchSetNum,
-          diffView: {path: '/COMMIT_MSG'},
-        };
-        element.change = change;
-        await element.updateComplete;
-        await waitEventLoop();
-        assert.deepEqual(element.commitRange, {
-          commit: 'commit-sha-5' as CommitId,
-          baseCommit: 'sha-5-parent' as CommitId,
-        });
-      });
     });
 
     test('initCursor', () => {

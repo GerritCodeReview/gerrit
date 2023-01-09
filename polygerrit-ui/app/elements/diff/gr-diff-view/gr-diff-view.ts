@@ -41,7 +41,6 @@ import {
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   BasePatchSetNum,
-  CommitId,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -53,7 +52,7 @@ import {
   ServerInfo,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {CommitRange, FileRange, ParsedChangeInfo} from '../../../types/types';
+import {FileRange, ParsedChangeInfo} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
@@ -174,10 +173,6 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   @state()
   patchRange?: PatchRange;
-
-  // Private but used in tests.
-  @state()
-  commitRange?: CommitRange;
 
   // Private but used in tests.
   @state()
@@ -480,7 +475,9 @@ export class GrDiffView extends LitElement {
           )
         ),
       ([patchNum, _routerView, diffPrefs]) => {
-        this.setReviewedStatus(patchNum!, diffPrefs);
+        // `patchNum` must be defined, because of the `!!patchNum` filter above.
+        assertIsDefined(patchNum, 'patchNum');
+        this.setReviewedStatus(patchNum, diffPrefs);
       }
     );
   }
@@ -740,7 +737,6 @@ export class GrDiffView extends LitElement {
         ?hidden=${this.loading}
         .changeNum=${this.changeNum}
         .change=${this.change}
-        .commitRange=${this.commitRange}
         .patchRange=${this.patchRange}
         .file=${file}
         .path=${this.path}
@@ -1336,28 +1332,6 @@ export class GrDiffView extends LitElement {
     this.initCursor(leftSide);
   }
 
-  private initCommitRange() {
-    let commit: CommitId | undefined;
-    let baseCommit: CommitId | undefined;
-    if (!this.change) return;
-    if (!this.patchRange || !this.patchRange.patchNum) return;
-    const revisions = this.change.revisions ?? {};
-    for (const [commitSha, revision] of Object.entries(revisions)) {
-      const patchNum = revision._number;
-      if (patchNum === this.patchRange.patchNum) {
-        commit = commitSha as CommitId;
-        const commitObj = revision.commit;
-        const parents = commitObj?.parents || [];
-        if (this.patchRange.basePatchNum === PARENT && parents.length) {
-          baseCommit = parents[parents.length - 1].commit;
-        }
-      } else if (patchNum === this.patchRange.basePatchNum) {
-        baseCommit = commitSha as CommitId;
-      }
-    }
-    this.commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
-  }
-
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
     if (!this.change) return;
     if (!this.patchRange) return;
@@ -1460,7 +1434,6 @@ export class GrDiffView extends LitElement {
       this.getChangeModel().updatePath(undefined);
     }
     this.patchRange = undefined;
-    this.commitRange = undefined;
     this.focusLineNum = undefined;
 
     this.changeNum = viewState.changeNum;
@@ -1492,7 +1465,6 @@ export class GrDiffView extends LitElement {
       .then(() => {
         this.loading = false;
         this.initPatchRange();
-        this.initCommitRange();
         return this.updateComplete.then(() => this.diffHost!.reload(true));
       })
       .then(() => {

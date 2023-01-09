@@ -1014,7 +1014,7 @@ a file comment ("Rename this file to File.java") as well as a reply to an
 inline comment ("Yeah, I see why, let me try again.").
 
 [[security-fixes]]
--- Security Fixes
+== Security Fixes
 
 If a security vulnerability is discovered you normally want to have an
 embargo about it until fixed releases have been made available. This

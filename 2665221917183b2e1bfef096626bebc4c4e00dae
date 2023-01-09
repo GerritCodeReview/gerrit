@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af698f5c_00914988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-09T09:42:46Z",
+      "side": 1,
+      "message": "This is adding a new way of enabling us (Google) to replace an upstream class/implementation with an internal class/implementation.\n\nFor consistency reasons I\u0027d rather prefer to follow the approach that is currently used for all other such cases:\n\n1. Remove the bindings, that we need to replace internally, from the upstream module classes that we use internally (e.g. from GerritGlobalModule).\n\n2. Define a new module that registers these bindings.\n\n3. Register/Add this module in WebAppInitializer and Daemon, which are the classes that build up the Guice stack for upstream, but which are not used internally.\n\n4. Internally register/add another (internal) module in our internal equivalent of WebAppInitializer / Daemon that binds different (internal) classes.\n\nExample changes where this has been done are [1,2].\n\nI\u0027m not saying your approach is wrong or less good, it\u0027s just not consistent with what we have. At some point we may want to check if there better way for us to extend/modify upstream and then we could improve this for all our extensions.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/178472\n[2] https://gerrit-review.git.corp.google.com/c/gerrit/+/294504",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "2665221917183b2e1bfef096626bebc4c4e00dae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

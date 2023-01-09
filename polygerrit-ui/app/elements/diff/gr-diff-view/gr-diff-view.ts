@@ -255,9 +255,14 @@ export class GrDiffView extends LitElement {
   @state()
   private allPatchSets?: PatchSet[] = [];
 
+  /** Directly reflects the view model property `diffView.lineNum`. */
   // Private but used in tests.
   @state()
   focusLineNum?: number;
+
+  /** Directly reflects the view model property `diffView.leftSide`. */
+  @state()
+  leftSide = false;
 
   // visible for testing
   reviewedFiles = new Set<string>();
@@ -433,14 +438,24 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().diffPath$,
+      () => this.getViewModel().diffPath$,
       path => (this.path = path)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().diffLine$,
+      line => (this.focusLineNum = line)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().diffLeftSide$,
+      leftSide => (this.leftSide = leftSide)
     );
     subscribe(
       this,
       () =>
         combineLatest([
-          this.getChangeModel().diffPath$,
+          this.getViewModel().diffPath$,
           this.getChangeModel().reviewedFiles$,
         ]),
       ([path, files]) => {
@@ -455,7 +470,7 @@ export class GrDiffView extends LitElement {
     subscribe(
       this,
       () =>
-        this.getChangeModel().diffPath$.pipe(
+        this.getViewModel().diffPath$.pipe(
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest([
@@ -476,7 +491,9 @@ export class GrDiffView extends LitElement {
           )
         ),
       ([patchNum, _routerView, diffPrefs]) => {
-        this.setReviewedStatus(patchNum!, diffPrefs);
+        // `patchNum` must be defined, because of the `!!patchNum` filter above.
+        assertIsDefined(patchNum, 'patchNum');
+        this.setReviewedStatus(patchNum, diffPrefs);
       }
     );
   }
@@ -702,6 +719,12 @@ export class GrDiffView extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
     if (
+      changedProperties.has('focusLineNum') ||
+      changedProperties.has('leftSide')
+    ) {
+      this.initLineOfInterestAndCursor();
+    }
+    if (
       changedProperties.has('changeComments') ||
       changedProperties.has('path') ||
       changedProperties.has('patchRange') ||
@@ -726,6 +749,9 @@ export class GrDiffView extends LitElement {
 
   override render() {
     if (this.viewState?.childView !== ChangeChildView.DIFF) return nothing;
+    if (!this.patchRange) return nothing;
+    if (!this.changeNum) return nothing;
+    if (!this.path) return nothing;
     const file = this.getFileRange();
     return html`
       ${this.renderStickyHeader()}
@@ -1326,10 +1352,10 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  initLineOfInterestAndCursor(leftSide: boolean) {
-    assertIsDefined(this.diffHost, 'diffHost');
-    this.diffHost.lineOfInterest = this.getLineOfInterest(leftSide);
-    this.initCursor(leftSide);
+  initLineOfInterestAndCursor() {
+    if (!this.diffHost) return;
+    this.diffHost.lineOfInterest = this.getLineOfInterest();
+    this.initCursor();
   }
 
   // Private but used in tests.
@@ -1376,25 +1402,14 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   initPatchRange() {
-    let leftSide = false;
     if (!this.change) return;
     if (this.viewState?.childView !== ChangeChildView.DIFF) return;
-    if (this.viewState.diffView?.path) {
-      this.getChangeModel().updatePath(this.viewState.diffView.path);
-    }
     if (this.viewState.patchNum) {
       this.patchRange = {
         patchNum: this.viewState.patchNum,
         basePatchNum: this.viewState.basePatchNum || PARENT,
       };
     }
-    if (this.viewState.diffView?.lineNum) {
-      this.focusLineNum = this.viewState.diffView.lineNum;
-      leftSide = !!this.viewState.diffView?.leftSide;
-    }
-    assertIsDefined(this.patchRange, 'patchRange');
-    this.initLineOfInterestAndCursor(leftSide);
-
     this.commentMap = this.getPaths();
   }
 
@@ -1453,11 +1468,7 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    if (this.isConnected) {
-      this.getChangeModel().updatePath(undefined);
-    }
     this.patchRange = undefined;
-    this.focusLineNum = undefined;
 
     this.changeNum = viewState.changeNum;
     this.classList.remove('hideComments');
@@ -1509,30 +1520,22 @@ export class GrDiffView extends LitElement {
    * If the params specify a diff address then configure the diff cursor.
    * Private but used in tests.
    */
-  initCursor(leftSide: boolean) {
-    if (this.focusLineNum === undefined) {
-      return;
-    }
+  initCursor() {
+    if (!this.focusLineNum) return;
     if (!this.cursor) return;
-    if (leftSide) {
-      this.cursor.side = Side.LEFT;
-    } else {
-      this.cursor.side = Side.RIGHT;
-    }
+    this.cursor.side = this.leftSide ? Side.LEFT : Side.RIGHT;
     this.cursor.initialLineNumber = this.focusLineNum;
   }
 
   // Private but used in tests.
-  getLineOfInterest(leftSide: boolean): DisplayLine | undefined {
+  getLineOfInterest(): DisplayLine | undefined {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
-    if (!this.focusLineNum) {
-      return undefined;
-    }
+    if (!this.focusLineNum) return undefined;
 
     return {
       lineNum: this.focusLineNum,
-      side: leftSide ? Side.LEFT : Side.RIGHT,
+      side: this.leftSide ? Side.LEFT : Side.RIGHT,
     };
   }
 

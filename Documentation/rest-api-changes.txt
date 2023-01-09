@@ -6260,7 +6260,7 @@ progress, the user will still be added.
 [[change-id]]
 === \{change-id\}
 Identifier that uniquely identifies one change. It contains the URL-encoded
-project name as well as the change number: "'$$<project>~<numericId>$$'"
+project name as well as the change number: "'$$<project>~<changeNumber>$$'"
 
 ==== Alternative identifiers
 Gerrit also supports an array of other change identifiers.
@@ -6268,14 +6268,14 @@ Gerrit also supports an array of other change identifiers.
 [NOTE]
 Using these identifiers comes with a performance penalty as they
 require additional lookups to be translated to the
-"'$$<project>~<numericId>$$'" identifier.
+"'$$<project>~<changeNumber>$$'" identifier.
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
-* a numeric change ID if it uniquely identifies one change ("4247")
+* a change number if it uniquely identifies one change ("4247")
 
 [[change-message-id]]
 === \{change-message-id\}

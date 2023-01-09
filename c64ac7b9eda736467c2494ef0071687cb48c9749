@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c1878b_94dfe692",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-09T10:13:42Z",
+      "side": 1,
+      "message": "maybe write a little bit of motivation as to why because I can easily imagine someone commenting in the future why are computing this on the fly and not computing in willUpdate.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "c64ac7b9eda736467c2494ef0071687cb48c9749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

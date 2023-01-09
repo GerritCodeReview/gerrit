@@ -60,12 +60,6 @@ export interface ChangeState {
   loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
   /**
-   * The name of the file user is viewing in the diff view mode. File path is
-   * specified in the url or derived from the commentId.
-   * Does not apply to change-view or edit-view.
-   */
-  diffPath?: string;
-  /**
    * The list of reviewed files, kept in the model because we want changes made
    * in one view to reflect on other views without re-rendering the other views.
    * Undefined means it's still loading and empty set means no files reviewed.
@@ -168,11 +162,6 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly changeLoadingStatus$ = select(
     this.state$,
     changeState => changeState.loadingStatus
-  );
-
-  public readonly diffPath$ = select(
-    this.state$,
-    changeState => changeState?.diffPath
   );
 
   public readonly reviewedFiles$ = select(
@@ -316,11 +305,6 @@ export class ChangeModel extends Model<ChangeState> {
         )
         .subscribe(),
     ];
-  }
-
-  // Temporary workaround until path is derived in the model itself.
-  updatePath(diffPath?: string) {
-    this.updateState({diffPath});
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {

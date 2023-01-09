@@ -34,6 +34,7 @@ import {
   createRevision,
   createFileInfo,
   createDiffViewState,
+  TEST_NUMERIC_CHANGE_ID,
 } from '../../../test/test-data-generators';
 import {
   BasePatchSetNum,
@@ -76,7 +77,10 @@ import {
   BrowserModel,
   browserModelToken,
 } from '../../../models/browser/browser-model';
-import {changeViewModelToken} from '../../../models/views/change';
+import {
+  ChangeViewModel,
+  changeViewModelToken,
+} from '../../../models/views/change';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 
 function createComment(
@@ -104,6 +108,7 @@ suite('gr-diff-view tests', () => {
     let navToDiffStub: SinonStub;
     let navToEditStub: SinonStub;
     let changeModel: ChangeModel;
+    let viewModel: ChangeViewModel;
     let commentsModel: CommentsModel;
     let browserModel: BrowserModel;
     let userModel: UserModel;
@@ -138,9 +143,9 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
       element = await fixture(html`<gr-diff-view></gr-diff-view>`);
-      const viewModel = testResolver(changeViewModelToken);
+      viewModel = testResolver(changeViewModelToken);
       viewModel.setState(createDiffViewState());
-      element.changeNum = 42 as NumericChangeId;
+      await waitUntil(() => element.changeNum === TEST_NUMERIC_CHANGE_ID);
       element.path = 'some/path.txt';
       element.change = createParsedChange();
       element.diff = {...createDiff(), content: []};
@@ -1062,7 +1067,6 @@ suite('gr-diff-view tests', () => {
       });
 
       test('prev/up/next links', async () => {
-        const viewModel = testResolver(changeViewModelToken);
         viewModel.setState({
           ...createDiffViewState(),
         });
@@ -1131,7 +1135,6 @@ suite('gr-diff-view tests', () => {
       });
 
       test('prev/up/next links with patch range', async () => {
-        const viewModel = testResolver(changeViewModelToken);
         viewModel.setState({
           ...createDiffViewState(),
           basePatchNum: 5 as BasePatchSetNum,
@@ -1154,6 +1157,7 @@ suite('gr-diff-view tests', () => {
           'wheatley.md',
         ]);
         await waitUntil(() => element.path === 'glados.txt');
+        await waitUntil(() => element.patchRange?.patchNum === 10);
 
         const linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
@@ -1245,9 +1249,9 @@ suite('gr-diff-view tests', () => {
           manual_review: true,
         };
         userModel.setDiffPreferences(diffPreferences);
+        viewModel.updateState({diffView: {path: 'wheatley.md'}});
         changeModel.setState({
           change: createParsedChange(),
-          diffPath: '/COMMIT_MSG',
           reviewedFiles: [],
           loadingStatus: LoadingStatus.LOADED,
         });
@@ -1277,9 +1281,9 @@ suite('gr-diff-view tests', () => {
         manual_review: false,
       };
       userModel.setDiffPreferences(diffPreferences);
+      viewModel.updateState({diffView: {path: 'wheatley.md'}});
       changeModel.setState({
         change: createParsedChange(),
-        diffPath: '/COMMIT_MSG',
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
       });
@@ -1293,17 +1297,22 @@ suite('gr-diff-view tests', () => {
       const saveReviewedStub = sinon
         .stub(changeModel, 'setReviewedFilesStatus')
         .callsFake(() => Promise.resolve());
+      userModel.setDiffPreferences(createDefaultDiffPrefs());
+      viewModel.updateState({
+        patchNum: 1 as RevisionPatchSetNum,
+        basePatchNum: PARENT,
+        diffView: {path: '/COMMIT_MSG'},
+      });
       changeModel.setState({
         change: createParsedChange(),
-        diffPath: '/COMMIT_MSG',
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
       });
       element.loggedIn = true;
+      await waitUntil(() => element.patchRange?.patchNum === 1);
+      await element.updateComplete;
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload');
-
-      userModel.setDiffPreferences(createDefaultDiffPrefs());
 
       await waitUntil(() => saveReviewedStub.called);
 
@@ -1312,7 +1321,7 @@ suite('gr-diff-view tests', () => {
 
       const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
         element,
-        'input[type="checkbox"]'
+        'input#reviewed'
       );
 
       assert.isTrue(reviewedStatusCheckBox.checked);
@@ -1379,13 +1388,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.diffHost, 'reload');
       const initLineStub = sinon.stub(element, 'initLineOfInterestAndCursor');
 
-      element.loggedIn = true;
-      element.viewState = {
-        ...createDiffViewState(),
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-        diffView: {path: '/COMMIT_MSG'},
-      };
+      element.focusLineNum = 123;
 
       await element.updateComplete;
       await waitEventLoop();
@@ -1438,43 +1441,51 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when viewState specify no cursor address:
-      element.initCursor(false);
+      element.leftSide = false;
+      element.initCursor();
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when viewState specify side but no number:
-      element.initCursor(true);
+      element.leftSide = true;
+      element.initCursor();
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Revision hash: specifies lineNum but not side.
 
       element.focusLineNum = 234;
-      element.initCursor(false);
+      element.leftSide = false;
+      element.initCursor();
       assert.equal(element.cursor.initialLineNumber, 234);
       assert.equal(element.cursor.side, Side.RIGHT);
 
       // Base hash: specifies lineNum and side.
       element.focusLineNum = 345;
-      element.initCursor(true);
+      element.leftSide = true;
+      element.initCursor();
       assert.equal(element.cursor.initialLineNumber, 345);
       assert.equal(element.cursor.side, Side.LEFT);
 
       // Specifies right side:
       element.focusLineNum = 123;
-      element.initCursor(false);
+      element.leftSide = false;
+      element.initCursor();
       assert.equal(element.cursor.initialLineNumber, 123);
       assert.equal(element.cursor.side, Side.RIGHT);
     });
 
     test('getLineOfInterest', () => {
-      assert.isUndefined(element.getLineOfInterest(false));
+      element.leftSide = false;
+      assert.isUndefined(element.getLineOfInterest());
 
       element.focusLineNum = 12;
-      let result = element.getLineOfInterest(false);
+      element.leftSide = false;
+      let result = element.getLineOfInterest();
       assert.isOk(result);
       assert.equal(result!.lineNum, 12);
       assert.equal(result!.side, Side.RIGHT);
 
-      result = element.getLineOfInterest(true);
+      element.leftSide = true;
+      result = element.getLineOfInterest();
       assert.isOk(result);
       assert.equal(result!.lineNum, 12);
       assert.equal(result!.side, Side.LEFT);
@@ -1559,6 +1570,7 @@ suite('gr-diff-view tests', () => {
           patchNum: 3 as RevisionPatchSetNum,
           diffView: {path: 'abcd'},
         };
+        await waitUntil(() => element.patchRange?.patchNum === 3);
         await element.updateComplete;
       });
       test('empty', () => {

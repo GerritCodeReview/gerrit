@@ -209,6 +209,21 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.basePatchNum
   );
 
+  public readonly diffPath$ = select(
+    this.state$,
+    state => state?.diffView?.path
+  );
+
+  public readonly diffLine$ = select(
+    this.state$,
+    state => state?.diffView?.lineNum
+  );
+
+  public readonly diffLeftSide$ = select(
+    this.state$,
+    state => state?.diffView?.leftSide ?? false
+  );
+
   public readonly childView$ = select(this.state$, state => state?.childView);
 
   public readonly tab$ = select(this.state$, state => state?.tab);

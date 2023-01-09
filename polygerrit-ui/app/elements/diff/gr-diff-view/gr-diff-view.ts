@@ -177,10 +177,6 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   @state()
-  commitRange?: CommitRange;
-
-  // Private but used in tests.
-  @state()
   change?: ParsedChangeInfo;
 
   @state()
@@ -740,7 +736,7 @@ export class GrDiffView extends LitElement {
         ?hidden=${this.loading}
         .changeNum=${this.changeNum}
         .change=${this.change}
-        .commitRange=${this.commitRange}
+        .commitRange=${this.getCommitRange()}
         .patchRange=${this.patchRange}
         .file=${file}
         .path=${this.path}
@@ -1336,11 +1332,12 @@ export class GrDiffView extends LitElement {
     this.initCursor(leftSide);
   }
 
-  private initCommitRange() {
+  // Private but used in tests.
+  getCommitRange(): CommitRange | undefined {
     let commit: CommitId | undefined;
     let baseCommit: CommitId | undefined;
-    if (!this.change) return;
-    if (!this.patchRange || !this.patchRange.patchNum) return;
+    if (!this.change) return undefined;
+    if (!this.patchRange?.patchNum) return undefined;
     const revisions = this.change.revisions ?? {};
     for (const [commitSha, revision] of Object.entries(revisions)) {
       const patchNum = revision._number;
@@ -1355,7 +1352,7 @@ export class GrDiffView extends LitElement {
         baseCommit = commitSha as CommitId;
       }
     }
-    this.commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
+    return commit && baseCommit ? {commit, baseCommit} : undefined;
   }
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
@@ -1460,7 +1457,6 @@ export class GrDiffView extends LitElement {
       this.getChangeModel().updatePath(undefined);
     }
     this.patchRange = undefined;
-    this.commitRange = undefined;
     this.focusLineNum = undefined;
 
     this.changeNum = viewState.changeNum;
@@ -1492,7 +1488,6 @@ export class GrDiffView extends LitElement {
       .then(() => {
         this.loading = false;
         this.initPatchRange();
-        this.initCommitRange();
         return this.updateComplete.then(() => this.diffHost!.reload(true));
       })
       .then(() => {

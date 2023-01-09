@@ -1479,7 +1479,7 @@ suite('gr-diff-view tests', () => {
         element.change = change;
         await element.updateComplete;
         await waitEventLoop();
-        assert.deepEqual(element.commitRange, {
+        assert.deepEqual(element.getCommitRange(), {
           baseCommit: 'commit-sha-2' as CommitId,
           commit: 'commit-sha-4' as CommitId,
         });
@@ -1494,7 +1494,7 @@ suite('gr-diff-view tests', () => {
         element.change = change;
         await element.updateComplete;
         await waitEventLoop();
-        assert.deepEqual(element.commitRange, {
+        assert.deepEqual(element.getCommitRange(), {
           commit: 'commit-sha-5' as CommitId,
           baseCommit: 'sha-5-parent' as CommitId,
         });

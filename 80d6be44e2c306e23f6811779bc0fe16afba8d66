@@ -16,6 +16,24 @@
       "message": "@thomas.draebing@sap.com is this a backport from master? Or should it be also merged upstream? (see the merge at I2039b5cc6cb)",
       "revId": "80d6be44e2c306e23f6811779bc0fe16afba8d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c512502b_2d5a2372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-09T08:25:23Z",
+      "side": 1,
+      "message": "This is no backport. However, the issue is not reproducible on master. My guess is that the migration to Lit fixed this as a sideeffect, i.e. the `_patchRange` field is properly set and preserved.\nSo this should reverted, when merged up.",
+      "parentUuid": "da8a667e_3609a371",
+      "revId": "80d6be44e2c306e23f6811779bc0fe16afba8d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

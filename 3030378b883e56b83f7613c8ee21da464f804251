@@ -70,6 +70,24 @@
       "parentUuid": "e3c9f866_4aa20ccb",
       "revId": "3030378b883e56b83f7613c8ee21da464f804251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff776b7c_d8d30918",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-09T09:26:48Z",
+      "side": 1,
+      "message": "SG, removing myself from the attention set.",
+      "parentUuid": "35f5271d_04dd0566",
+      "revId": "3030378b883e56b83f7613c8ee21da464f804251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "8896320f2bf386229d6a22eabb361d20730ad103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f1d1b1_c536d3ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T13:09:29Z",
+      "side": 1,
+      "message": "I guess if it doesn\u0027t work correctly, we end up re-requesting but that doesn\u0027t seem too big a deal.\nMost of it should function correctly I think.",
+      "parentUuid": "8614e73f_b765daf6",
+      "range": {
+        "startLine": 1470,
+        "startChar": 45,
+        "endLine": 1470,
+        "endChar": 61
+      },
+      "revId": "8896320f2bf386229d6a22eabb361d20730ad103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

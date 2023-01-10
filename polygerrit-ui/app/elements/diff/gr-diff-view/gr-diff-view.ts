@@ -438,6 +438,22 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().changeNum$,
+      changeNum => {
+        if (!changeNum || this.changeNum === changeNum) return;
+
+        // We are only setting the changeNum of the diff view once!
+        // Everything in the diff view is tied to the change. It seems better to
+        // force the re-creation of the diff view when the change number changes.
+        if (!this.changeNum) {
+          this.changeNum = changeNum;
+        } else {
+          fireEvent(this, EventType.RECREATE_DIFF_VIEW);
+        }
+      }
+    );
+    subscribe(
+      this,
       () => this.getViewModel().diffPath$,
       path => (this.path = path)
     );
@@ -1406,16 +1422,7 @@ export class GrDiffView extends LitElement {
     // Hence, reset the scroll position here.
     document.documentElement.scrollTop = 0;
 
-    // Everything in the diff view is tied to the change. It seems better to
-    // force the re-creation of the diff view when the change number changes.
-    const changeChanged = this.changeNum !== viewState.changeNum;
-    if (this.changeNum !== undefined && changeChanged) {
-      fireEvent(this, EventType.RECREATE_DIFF_VIEW);
-      return;
-    } else if (
-      this.changeNum !== undefined &&
-      this.isSameDiffLoaded(viewState)
-    ) {
+    if (this.changeNum !== undefined && this.isSameDiffLoaded(viewState)) {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
       this.reporting.reportInteraction('diff-view-re-rendered');
@@ -1427,7 +1434,6 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    this.changeNum = viewState.changeNum;
     this.classList.remove('hideComments');
 
     // When navigating away from the page, there is a possibility that the

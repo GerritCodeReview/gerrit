@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e6b537_ff54d25f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-10T11:23:30Z",
+      "side": 1,
+      "message": "LGTM, but seems you forgot to run the code formatter.",
+      "revId": "4b7b66edb413050fc5e8dba2215e836322f6971f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

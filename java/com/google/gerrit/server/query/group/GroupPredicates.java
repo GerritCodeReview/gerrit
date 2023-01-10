@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -25,8 +26,13 @@ import java.util.Locale;
 
 /** Utility class to create predicates for group index queries. */
 public class GroupPredicates {
-  public static Predicate<InternalGroup> id(AccountGroup.Id groupId) {
-    return new GroupPredicate(GroupField.ID_FIELD_SPEC, groupId.toString());
+  public static Predicate<InternalGroup> id(Schema<InternalGroup> schema, AccountGroup.Id groupId) {
+    return new GroupPredicate(
+        schema.hasField(GroupField.ID_FIELD_SPEC)
+            ? GroupField.ID_FIELD_SPEC
+            : GroupField.ID_STR_FIELD_SPEC,
+        GroupQueryBuilder.FIELD_ID,
+        groupId.toString());
   }
 
   public static Predicate<InternalGroup> uuid(AccountGroup.UUID uuid) {

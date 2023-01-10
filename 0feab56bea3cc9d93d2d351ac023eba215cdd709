@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f8b035_a1290d80",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T10:59:01Z",
+      "side": 1,
+      "message": "Why is this not private?",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb735fe8_bb3fadab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T10:59:01Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of async function?\n\nmapRoute seems to take a function and then calls it without waiting for teh return value.\n\nSo this could be:\n\n```\n    this.mapRoute(\n      RoutePattern.COMMENT,\n      \u0027handleCommentRoute\u0027,\n       ctx \u003d\u003e await this.handleCommentRoute()\n```",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ee8c6a3_9274dbeb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T10:59:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be true?",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc5e6af3_44ff57fc",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T10:59:01Z",
+      "side": 1,
+      "message": "Make this argument strict, there\u0027s no reason to call this if it\u0027s not set.",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

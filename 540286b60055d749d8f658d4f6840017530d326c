@@ -16,6 +16,24 @@
       "message": "Note that this means that any time anything changes, getCommitRange is recomputed and the gr-diff-host will have to trigger any logic related to commit-range changes.",
       "revId": "540286b60055d749d8f658d4f6840017530d326c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5979d990_43c2e944",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:27:12Z",
+      "side": 1,
+      "message": "Actually, `gr-diff-host` does not need the `commitRange` at all anymore since change 346078. :-)",
+      "parentUuid": "67d3ff76_20eee6d3",
+      "revId": "540286b60055d749d8f658d4f6840017530d326c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

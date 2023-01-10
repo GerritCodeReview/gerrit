@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18345b11_5f9e5385",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T11:21:56Z",
+      "side": 1,
+      "message": "Who still calls this method? Should this be inlined?\n\nAdditionally, it probably deserves a clearer name if we should keep it.\n\nIt\u0027s getting hard to follow with `this.clear()` `this.cancel()`...",
+      "revId": "09a01365fef5865c3b44b60eb7b4ccb30537ae90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

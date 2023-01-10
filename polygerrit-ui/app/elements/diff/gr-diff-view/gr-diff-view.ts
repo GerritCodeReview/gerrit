@@ -242,10 +242,6 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   @state()
-  commentMap?: CommentMap;
-
-  // Private but used in tests.
-  @state()
   isBlameLoaded?: boolean;
 
   @state()
@@ -1385,7 +1381,6 @@ export class GrDiffView extends LitElement {
         basePatchNum: this.viewState.basePatchNum || PARENT,
       };
     }
-    this.commentMap = this.getPaths();
   }
 
   private isSameDiffLoaded(value: ChangeViewState) {
@@ -1681,22 +1676,17 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  getPaths(): CommentMap {
-    if (!this.changeComments) return {};
-    return this.changeComments.getPaths(this.patchRange);
-  }
-
-  // Private but used in tests.
   findFileWithComment(direction: -1 | 1): string | undefined {
     const fileList = this.files?.sortedPaths;
-    if (!this.commentMap) return undefined;
+    const commentMap: CommentMap =
+      this.changeComments?.getPaths(this.patchRange) ?? {};
     if (!fileList || fileList.length === 0) return undefined;
     if (!this.path) return undefined;
 
     const pathIndex = fileList.indexOf(this.path);
     const stopIndex = direction === 1 ? fileList.length : -1;
     for (let i = pathIndex + direction; i !== stopIndex; i += direction) {
-      if (this.commentMap[fileList[i]]) return fileList[i];
+      if (commentMap[fileList[i]]) return fileList[i];
     }
     return undefined;
   }

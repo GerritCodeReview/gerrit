@@ -60,7 +60,6 @@ import {
   ChangeModel,
   LoadingStatus,
 } from '../../../models/change/change-model';
-import {CommentMap} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -1562,47 +1561,12 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    suite('initPatchRange', () => {
-      setup(async () => {
-        getDiffRestApiStub.returns(Promise.resolve(createDiff()));
-        element.viewState = {
-          ...createDiffViewState(),
-          patchNum: 3 as RevisionPatchSetNum,
-          diffView: {path: 'abcd'},
-        };
-        await waitUntil(() => element.patchRange?.patchNum === 3);
-        await element.updateComplete;
-      });
-      test('empty', () => {
-        sinon.stub(element, 'getPaths').returns({});
-        element.initPatchRange();
-        assert.equal(Object.keys(element.commentMap ?? {}).length, 0);
-      });
-
-      test('has paths', () => {
-        sinon.stub(element, 'getPaths').returns({
-          'path/to/file/one.cpp': true,
-          'path-to/file/two.py': true,
-        });
-        element.changeNum = 42 as NumericChangeId;
-        element.patchRange = {
-          basePatchNum: 3 as BasePatchSetNum,
-          patchNum: 5 as RevisionPatchSetNum,
-        };
-        element.initPatchRange();
-        assert.deepEqual(Object.keys(element.commentMap ?? {}), [
-          'path/to/file/one.cpp',
-          'path-to/file/two.py',
-        ]);
-      });
-    });
-
     suite('findFileWithComment', () => {
       test('empty file list', () => {
-        element.commentMap = {
-          'path/one.jpg': true,
-          'path/three.wav': true,
-        };
+        element.changeComments = new ChangeComments({
+          'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+          'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+        });
         element.path = 'path/two.m4v';
         assert.isUndefined(element.findFileWithComment(-1));
         assert.isUndefined(element.findFileWithComment(1));
@@ -1612,16 +1576,19 @@ suite('gr-diff-view tests', () => {
         const fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
         element.files = {sortedPaths: fileList, changeFilesByPath: {}};
         element.path = fileList[1];
-        const commentMap: CommentMap = {};
-        element.commentMap = commentMap;
-        commentMap[fileList[0]] = true;
-        commentMap[fileList[1]] = false;
-        commentMap[fileList[2]] = true;
+        element.changeComments = new ChangeComments({
+          'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+          'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+        });
 
         assert.equal(element.findFileWithComment(-1), fileList[0]);
         assert.equal(element.findFileWithComment(1), fileList[2]);
 
-        commentMap[fileList[1]] = true;
+        element.changeComments = new ChangeComments({
+          'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+          'path/two.m4v': [createComment('c1', 1, 1, 'path/two.m4v')],
+          'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+        });
 
         assert.equal(element.findFileWithComment(-1), fileList[0]);
         assert.equal(element.findFileWithComment(1), fileList[2]);
@@ -1652,11 +1619,9 @@ suite('gr-diff-view tests', () => {
 
         suite('moveToFileWithComment previous', () => {
           test('no previous', async () => {
-            const commentMap: CommentMap = {};
-            commentMap[element.files.sortedPaths[0]!] = false;
-            commentMap[element.files.sortedPaths[1]!] = false;
-            commentMap[element.files.sortedPaths[2]!] = true;
-            element.commentMap = commentMap;
+            element.changeComments = new ChangeComments({
+              'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+            });
             element.path = element.files.sortedPaths[1];
             await element.updateComplete;
 
@@ -1666,11 +1631,10 @@ suite('gr-diff-view tests', () => {
           });
 
           test('w/ previous', async () => {
-            const commentMap: CommentMap = {};
-            commentMap[element.files.sortedPaths[0]!] = true;
-            commentMap[element.files.sortedPaths[1]!] = false;
-            commentMap[element.files.sortedPaths[2]!] = true;
-            element.commentMap = commentMap;
+            element.changeComments = new ChangeComments({
+              'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+              'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+            });
             element.path = element.files.sortedPaths[1];
             await element.updateComplete;
 
@@ -1682,11 +1646,9 @@ suite('gr-diff-view tests', () => {
 
         suite('moveToFileWithComment next', () => {
           test('no previous', async () => {
-            const commentMap: CommentMap = {};
-            commentMap[element.files.sortedPaths[0]!] = true;
-            commentMap[element.files.sortedPaths[1]!] = false;
-            commentMap[element.files.sortedPaths[2]!] = false;
-            element.commentMap = commentMap;
+            element.changeComments = new ChangeComments({
+              'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+            });
             element.path = element.files.sortedPaths[1];
             await element.updateComplete;
 
@@ -1696,11 +1658,10 @@ suite('gr-diff-view tests', () => {
           });
 
           test('w/ previous', async () => {
-            const commentMap: CommentMap = {};
-            commentMap[element.files.sortedPaths[0]!] = true;
-            commentMap[element.files.sortedPaths[1]!] = false;
-            commentMap[element.files.sortedPaths[2]!] = true;
-            element.commentMap = commentMap;
+            element.changeComments = new ChangeComments({
+              'path/one.jpg': [createComment('c1', 1, 1, 'path/one.jpg')],
+              'path/three.wav': [createComment('c1', 1, 1, 'path/three.wav')],
+            });
             element.path = element.files.sortedPaths[1];
             await element.updateComplete;
 

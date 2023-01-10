@@ -16,6 +16,24 @@
       "message": "Who still calls this method? Should this be inlined?\n\nAdditionally, it probably deserves a clearer name if we should keep it.\n\nIt\u0027s getting hard to follow with `this.clear()` `this.cancel()`...",
       "revId": "09a01365fef5865c3b44b60eb7b4ccb30537ae90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c393804_6e6a8c5b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:26:25Z",
+      "side": 1,
+      "message": "The file list still calls this method. Otherwise I would be happy to inline.\n\nAdded a TODO. You are right. These methods deserve a clean-up. I think once gr-diff is LitElement based would be a good time.",
+      "parentUuid": "18345b11_5f9e5385",
+      "revId": "09a01365fef5865c3b44b60eb7b4ccb30537ae90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

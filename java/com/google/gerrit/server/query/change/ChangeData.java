@@ -966,7 +966,7 @@ public class ChangeData {
    * submit requirements are evaluated online.
    *
    * <p>For changes loaded from the index, the value will be set from index field {@link
-   * com.google.gerrit.server.index.change.ChangeField#STORED_SUBMIT_REQUIREMENTS}.
+   * com.google.gerrit.server.index.change.ChangeField#STORED_SUBMIT_REQUIREMENTS_FIELD}.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
     if (submitRequirements == null) {

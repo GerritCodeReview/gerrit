@@ -91,8 +91,7 @@ public class GetRelatedChangesUtil {
   }
 
   private List<ChangeData> getUnsortedRelated(
-      ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange)
-      throws IOException, PermissionBackendException {
+      ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange) {
     Set<String> groups = getAllGroups(changeData.patchSets());
     logger.atFine().log("groups = %s", groups);
     if (groups.isEmpty()) {

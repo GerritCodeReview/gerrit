@@ -844,9 +844,11 @@ public class RebaseIT {
     public void setUp() throws Exception {
       init(
           id -> {
+            @SuppressWarnings("unused")
             Object unused = gApi.changes().id(id).rebaseChain();
           },
           (id, in) -> {
+            @SuppressWarnings("unused")
             Object unused = gApi.changes().id(id).rebaseChain(in);
           });
     }

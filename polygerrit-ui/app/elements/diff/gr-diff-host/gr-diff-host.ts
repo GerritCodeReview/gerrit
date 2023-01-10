@@ -608,6 +608,8 @@ export class GrDiffHost extends LitElement {
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
     this.clear();
+    this.cancel();
+    this.clearDiffContent();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;

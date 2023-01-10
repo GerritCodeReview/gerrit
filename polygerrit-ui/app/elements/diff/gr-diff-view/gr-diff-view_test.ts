@@ -17,7 +17,6 @@ import {
   query,
   queryAll,
   queryAndAssert,
-  stubReporting,
   stubRestApi,
   waitEventLoop,
   waitUntil,
@@ -182,46 +181,6 @@ suite('gr-diff-view tests', () => {
     teardown(() => {
       clock && clock.restore();
       sinon.restore();
-    });
-
-    test('viewState change triggers diffViewDisplayed()', () => {
-      const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      element.viewState = {
-        ...createDiffViewState(),
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-        diffView: {path: '/COMMIT_MSG'},
-      };
-      element.path = '/COMMIT_MSG';
-      element.patchRange = createPatchRange();
-      return viewStateChangedSpy.returnValues[0]?.then(() => {
-        assert.isTrue(diffViewDisplayedStub.calledOnce);
-      });
-    });
-
-    test('viewState change causes blame to load if it was set to true', () => {
-      // Blame loads for subsequent files if it was loaded for one file
-      element.isBlameLoaded = true;
-      stubReporting('diffViewDisplayed');
-      const loadBlameStub = sinon.stub(element, 'loadBlame');
-      assertIsDefined(element.diffHost);
-      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      element.viewState = {
-        ...createDiffViewState(),
-        patchNum: 2 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-        diffView: {path: '/COMMIT_MSG'},
-      };
-      element.path = '/COMMIT_MSG';
-      element.patchRange = createPatchRange();
-      return viewStateChangedSpy.returnValues[0]!.then(() => {
-        assert.isTrue(element.isBlameLoaded);
-        assert.isTrue(loadBlameStub.calledOnce);
-      });
     });
 
     test('toggle left diff with a hotkey', () => {
@@ -396,9 +355,8 @@ suite('gr-diff-view tests', () => {
               </a>
             </div>
           </div>
-          <div class="loading">Loading...</div>
           <h2 class="assistive-tech-only">Diff view</h2>
-          <gr-diff-host hidden="" id="diffHost"> </gr-diff-host>
+          <gr-diff-host id="diffHost"> </gr-diff-host>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>
@@ -444,20 +402,18 @@ suite('gr-diff-view tests', () => {
       assert.deepEqual(navToDiffStub.lastCall.args, [
         {path: 'wheatley.md', lineNum: undefined},
       ]);
+
       element.path = 'wheatley.md';
       await element.updateComplete;
-
-      assert.isTrue(element.loading);
 
       pressKey(element, '[');
       assert.equal(navToDiffStub.callCount, 2);
       assert.deepEqual(navToDiffStub.lastCall.args, [
         {path: 'glados.txt', lineNum: undefined},
       ]);
+
       element.path = 'glados.txt';
       await element.updateComplete;
-
-      assert.isTrue(element.loading);
 
       pressKey(element, '[');
       assert.equal(navToDiffStub.callCount, 3);
@@ -468,12 +424,9 @@ suite('gr-diff-view tests', () => {
       element.path = 'chell.go';
       await element.updateComplete;
 
-      assert.isTrue(element.loading);
-
       pressKey(element, '[');
       assert.equal(navToChangeStub.callCount, 2);
       await element.updateComplete;
-      assert.isTrue(element.loading);
 
       assertIsDefined(element.diffPreferencesDialog);
       const showPrefsStub = sinon
@@ -629,12 +582,12 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      element.viewState = {
+      viewModel.setState({
         ...createDiffViewState(),
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
         diffView: {path: 'foo'},
-      };
+      });
       await element.updateComplete;
       element.handleDiffBaseAgainstLeft();
       const expected = [{path: 'foo'}, 1, PARENT];
@@ -753,7 +706,6 @@ suite('gr-diff-view tests', () => {
       assert.equal(navToChangeStub.callCount, 1);
 
       pressKey(element, ']');
-      assert.isTrue(element.loading);
       assert.equal(navToDiffStub.callCount, 1);
       assert.deepEqual(navToDiffStub.lastCall.args, [
         {path: 'wheatley.md', lineNum: undefined},
@@ -761,7 +713,6 @@ suite('gr-diff-view tests', () => {
       element.path = 'wheatley.md';
 
       pressKey(element, '[');
-      assert.isTrue(element.loading);
       assert.equal(navToDiffStub.callCount, 2);
       assert.deepEqual(navToDiffStub.lastCall.args, [
         {path: 'glados.txt', lineNum: undefined},
@@ -769,7 +720,6 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
 
       pressKey(element, '[');
-      assert.isTrue(element.loading);
       assert.equal(navToDiffStub.callCount, 3);
       assert.deepEqual(navToDiffStub.lastCall.args, [
         {path: 'chell.go', lineNum: undefined},
@@ -777,7 +727,6 @@ suite('gr-diff-view tests', () => {
       element.path = 'chell.go';
 
       pressKey(element, '[');
-      assert.isTrue(element.loading);
       assert.equal(navToChangeStub.callCount, 2);
 
       assertIsDefined(element.downloadModal);
@@ -1354,10 +1303,10 @@ suite('gr-diff-view tests', () => {
 
       const callCount = saveReviewedStub.callCount;
 
-      element.viewState = {
+      viewModel.setState({
         ...createDiffViewState(),
         repo: 'test' as RepoName,
-      };
+      });
       await element.updateComplete;
 
       // saveReviewedState observer observes viewState, but should not fire when
@@ -1962,12 +1911,12 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'initLineOfInterestAndCursor');
 
       // Load file1
-      element.viewState = {
+      viewModel.setState({
         ...createDiffViewState(),
         patchNum: 1 as RevisionPatchSetNum,
         repo: 'test-project' as RepoName,
         diffView: {path: 'file1'},
-      };
+      });
       element.patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
         basePatchNum: PARENT,
@@ -1986,12 +1935,12 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(navToDiffStub.calledOnce);
 
       // This is to mock the param change triggered by above navigate
-      element.viewState = {
+      viewModel.setState({
         ...createDiffViewState(),
         patchNum: 1 as RevisionPatchSetNum,
         repo: 'test-project' as RepoName,
         diffView: {path: 'file2'},
-      };
+      });
       element.patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
         basePatchNum: PARENT,

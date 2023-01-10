@@ -73,7 +73,6 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {
   CommentMap,
   getPatchRangeForCommentUrl,
@@ -884,19 +883,10 @@ export class GrDiffView extends LitElement {
   }
 
   private renderPatchRangeLeft() {
-    const revisionInfo = this.change
-      ? new RevisionInfoObj(this.change)
-      : undefined;
     return html` <div class="patchRangeLeft">
       <gr-patch-range-select
         id="rangeSelect"
-        .changeNum=${this.changeNum}
-        .patchNum=${this.patchRange?.patchNum}
-        .basePatchNum=${this.patchRange?.basePatchNum}
         .filesWeblinks=${this.filesWeblinks}
-        .availablePatches=${this.allPatchSets}
-        .revisions=${this.change?.revisions}
-        .revisionInfo=${revisionInfo}
         @patch-range-change=${this.handlePatchChange}
       >
       </gr-patch-range-select>

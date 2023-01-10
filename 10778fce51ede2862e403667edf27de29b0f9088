@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1895765d_c124c6b3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T13:08:10Z",
+      "side": 1,
+      "message": "One possible idea is use `untilLoaded` in the `viewStateChanged` method to ensure the model sets the properties?",
+      "parentUuid": "7e4a3aa7_d01aa538",
+      "range": {
+        "startLine": 1429,
+        "startChar": 5,
+        "endLine": 1429,
+        "endChar": 59
+      },
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "562f7c2d_54d9e01f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 1

@@ -16,6 +16,23 @@
       "message": "315442: Quick hashtaging | https://gerrit-review.googlesource.com/c/gerrit/+/315442",
       "revId": "5a50b265e3113f7129bb33226df39ab00fcda92b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b8e5e0_bc49005f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T11:37:09Z",
+      "side": 1,
+      "message": "Could you migrate this to Lit?",
+      "revId": "5a50b265e3113f7129bb33226df39ab00fcda92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d386097_6718e825",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T15:28:41Z",
+      "side": 1,
+      "message": "nit: isChildViewActive",
+      "range": {
+        "startLine": 207,
+        "startChar": 19,
+        "endLine": 207,
+        "endChar": 36
+      },
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c1b807d_e035b5ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T15:28:41Z",
+      "side": 1,
+      "message": "each handler needs to remember to add this check? \nWhy is this needed now and wasn\u0027t needed before?",
+      "range": {
+        "startLine": 1645,
+        "startChar": 4,
+        "endLine": 1645,
+        "endChar": 40
+      },
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55057e14_b68847f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T15:28:41Z",
+      "side": 1,
+      "message": "maybe add a test for the new behaviour?\n\n- updating patchNum triggers a reload.\n- changing view to active does not trigger a reload.",
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -593,5 +593,27 @@ suite('gr-formatted-text tests', () => {
         `
       );
     });
+
+    test('renders nested block quotes', async () => {
+      element.content = '> > > block quote';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html" class="markdown-html">
+              <blockquote>
+                <blockquote>
+                  <blockquote>
+                    <p>block quote</p>
+                  </blockquote>
+                </blockquote>
+              </blockquote>
+            </div>
+          </marked-element>
+        `
+      );
+    });
   });
 });

@@ -198,7 +198,16 @@ export class GrFormattedText extends LitElement {
     text = htmlEscape(text).toString();
     // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
     // in HTML fragments, but it is insufficient on it's own.
-    text = text.replace(/(^|\n)&gt;/g, '$1>');
+    for (;;) {
+      const newText = text.replace(
+        /(^|\n)((?:\s{0,3}&gt;)*\s{0,3})&gt;/g,
+        '$1$2>'
+      );
+      if (newText === text) {
+        break;
+      }
+      text = newText;
+    }
 
     return text;
   }

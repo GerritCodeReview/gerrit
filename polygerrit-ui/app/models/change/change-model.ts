@@ -180,8 +180,17 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly latestPatchNum$ = select(this.change$, change =>
-    computeLatestPatchNum(computeAllPatchSets(change))
+  public readonly revisions$ = select(
+    this.change$,
+    change => change?.revisions
+  );
+
+  public readonly patchsets$ = select(this.change$, change =>
+    computeAllPatchSets(change)
+  );
+
+  public readonly latestPatchNum$ = select(this.patchsets$, patchsets =>
+    computeLatestPatchNum(patchsets)
   );
 
   public readonly latestPatchNumWithEdit$ = select(this.change$, change =>

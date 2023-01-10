@@ -20,8 +20,6 @@ import {
   PatchSetNum,
   CommitInfo,
   ServerInfo,
-  RevisionInfo,
-  NumericChangeId,
   BasePatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -72,9 +70,6 @@ export class GrFileListHeader extends LitElement {
   change: ChangeInfo | undefined;
 
   @property({type: String})
-  changeNum?: NumericChangeId;
-
-  @property({type: String})
   changeUrl?: string;
 
   @property({type: Object})
@@ -92,6 +87,7 @@ export class GrFileListHeader extends LitElement {
   @property({type: String})
   filesExpanded?: FilesExpandedState;
 
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
   @property({type: Object})
   revisionInfo?: RevisionInfo;
 
@@ -99,6 +95,8 @@ export class GrFileListHeader extends LitElement {
 
   @state() basePatchNum?: BasePatchSetNum;
 
+=======
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
   @state()
   diffPrefs?: DiffPreferencesInfo;
 
@@ -289,12 +287,6 @@ export class GrFileListHeader extends LitElement {
           <div class="patchInfoContent">
             <gr-patch-range-select
               id="rangeSelect"
-              .changeNum=${this.changeNum}
-              .patchNum=${this.patchNum}
-              .basePatchNum=${this.basePatchNum}
-              .availablePatches=${this.allPatchSets}
-              .revisions=${this.change.revisions}
-              .revisionInfo=${this.revisionInfo}
               @patch-range-change=${this.handlePatchChange}
             >
             </gr-patch-range-select>

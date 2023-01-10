@@ -21,6 +21,7 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
   BasePatchSetNum,
   EDIT,
+  NumericChangeId,
   PARENT,
   PatchSetNum,
   RevisionInfo,
@@ -36,7 +37,7 @@ import {
 import {EditRevisionInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -44,6 +45,8 @@ import {resolve} from '../../../models/dependency';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
+import {changeModelToken} from '../../../models/change/change-model';
+import {changeViewModelToken} from '../../../models/views/change';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -83,33 +86,27 @@ export class GrPatchRangeSelect extends LitElement {
   @query('#patchNumDropdown')
   patchNumDropdown?: GrDropdownList;
 
-  @property({type: Array})
-  availablePatches?: PatchSet[];
+  @state()
+  availablePatches: PatchSet[] = [];
 
-  @property({type: String})
-  changeNum?: string;
+  @state()
+  changeNum?: NumericChangeId;
 
   @property({type: Object})
   filesWeblinks?: FilesWebLinks;
 
-  @property({type: String})
+  @state()
   patchNum?: RevisionPatchSetNum;
 
-  @property({type: String})
+  @state()
   basePatchNum?: BasePatchSetNum;
 
-  /** Not used directly. Translated into `sortedRevisions` in willUpdate(). */
-  @property({type: Object})
-  revisions: (RevisionInfo | EditRevisionInfo)[] = [];
-
-  @property({type: Object})
+  @state()
   revisionInfo?: RevisionInfoClass;
 
-  /** Private internal state, derived from `revisions` in willUpdate(). */
   @state()
-  private sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
+  sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
-  /** Private internal state, visible for testing. */
   @state()
   changeComments?: ChangeComments;
 
@@ -118,8 +115,42 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getViewModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.revisionInfo = x ? new RevisionInfoClass(x) : undefined)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().basePatchNum$,
+      x => (this.basePatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchsets$,
+      x => (this.availablePatches = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revisions$,
+      x => (this.sortedRevisions = sortRevisions(Object.values(x || {})))
+    );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
@@ -164,6 +195,9 @@ export class GrPatchRangeSelect extends LitElement {
   }
 
   override render() {
+    if (!this.changeNum || !this.patchNum || !this.basePatchNum) {
+      return nothing;
+    }
     return html`
       <h3 class="assistive-tech-only">Patchset Range Selection</h3>
       <span class="patchRange" aria-label="patch range starts with">
@@ -203,16 +237,9 @@ export class GrPatchRangeSelect extends LitElement {
     > `;
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('revisions')) {
-      this.sortedRevisions = sortRevisions(Object.values(this.revisions || {}));
-    }
-  }
-
   // Private method, but visible for testing.
   computeBaseDropdownContent(): DropdownItem[] {
     if (
-      this.availablePatches === undefined ||
       this.patchNum === undefined ||
       this.changeComments === undefined ||
       this.revisionInfo === undefined

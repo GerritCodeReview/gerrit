@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68108e7d_f2e0d79b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:47:10Z",
+      "side": 1,
+      "message": "TODO done.",
+      "parentUuid": "2e6b8825_3725c244",
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3799f2b2_a25db9f7",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-10T12:50:31Z",
       "side": 1,
       "message": "a little strange we are checking for `this.patchNum` when we are using `this.patchRange`.\nMaybe check for `this.patchRange` instead? The getter ensures `this.patchNum` is set.",
+      "range": {
+        "startLine": 760,
+        "startChar": 51,
+        "endLine": 760,
+        "endChar": 59
+      },
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b19ac25e_7a686618",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3799f2b2_a25db9f7",
       "range": {
         "startLine": 760,
         "startChar": 51,
@@ -88,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3847eb8e_6afbb7af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:47:10Z",
+      "side": 1,
+      "message": "Yeah, this is done by change 356080.",
+      "parentUuid": "1895765d_c124c6b3",
+      "range": {
+        "startLine": 1429,
+        "startChar": 5,
+        "endLine": 1429,
+        "endChar": 59
+      },
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "562f7c2d_54d9e01f",
@@ -101,6 +167,24 @@
       "writtenOn": "2023-01-10T11:16:52Z",
       "side": 1,
       "message": "This TODO seems pretty concerning.",
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f638822a_42350280",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:47:10Z",
+      "side": 1,
+      "message": "It is addressed by change 356080. I am planning to submit the entire chain as a topic.",
+      "parentUuid": "562f7c2d_54d9e01f",
       "revId": "10778fce51ede2862e403667edf27de29b0f9088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

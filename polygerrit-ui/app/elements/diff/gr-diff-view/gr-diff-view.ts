@@ -23,7 +23,6 @@ import '../../change/gr-download-dialog/gr-download-dialog';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
-  PatchSet,
   isMergeParent,
   getParentIndex,
 } from '../../../utils/patch-set-util';
@@ -267,9 +266,6 @@ export class GrDiffView extends LitElement {
 
   @state()
   private isBlameLoading = false;
-
-  @state()
-  private allPatchSets?: PatchSet[] = [];
 
   /** Directly reflects the view model property `diffView.lineNum`. */
   // Private but used in tests.
@@ -729,13 +725,6 @@ export class GrDiffView extends LitElement {
     super.disconnectedCallback();
   }
 
-  protected override willUpdate(changedProperties: PropertyValues) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('change')) {
-      this.allPatchSets = computeAllPatchSets(this.change);
-    }
-  }
-
   private reInitCursor() {
     if (!this.diffHost) return;
     this.cursor?.replaceDiffs([this.diffHost]);
@@ -908,7 +897,7 @@ export class GrDiffView extends LitElement {
         .patchNum=${this.patchNum}
         .basePatchNum=${this.basePatchNum}
         .filesWeblinks=${this.filesWeblinks}
-        .availablePatches=${this.allPatchSets}
+        .availablePatches=${computeAllPatchSets(this.change)}
         .revisions=${this.change?.revisions}
         .revisionInfo=${revisionInfo}
         @patch-range-change=${this.handlePatchChange}

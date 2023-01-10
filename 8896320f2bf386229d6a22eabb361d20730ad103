@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8614e73f_b765daf6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T12:52:23Z",
+      "side": 1,
+      "message": "this method in the previous change had a TODO saying it might not be functioning correctly so can we rely on this method in this change?",
+      "range": {
+        "startLine": 1470,
+        "startChar": 45,
+        "endLine": 1470,
+        "endChar": 61
+      },
+      "revId": "8896320f2bf386229d6a22eabb361d20730ad103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

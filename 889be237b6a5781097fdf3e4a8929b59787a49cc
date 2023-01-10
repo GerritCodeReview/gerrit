@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we show nothing if we\u0027re not the active view?",
       "revId": "889be237b6a5781097fdf3e4a8929b59787a49cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d60e662_1d0ca418",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T15:20:35Z",
+      "side": 1,
+      "message": "Done. That makes more sense, but it does not really matter at the moment, because the gr-app-element takes care of showing or not showing the child view.",
+      "parentUuid": "99a47867_5cf23427",
+      "revId": "889be237b6a5781097fdf3e4a8929b59787a49cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

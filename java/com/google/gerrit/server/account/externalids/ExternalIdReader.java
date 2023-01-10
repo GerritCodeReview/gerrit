@@ -109,14 +109,9 @@ public class ExternalIdReader {
     }
   }
 
-  ObjectId readRevision() throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return readRevision(repo);
-    }
-  }
-
   /** Reads and returns all external IDs. */
-  ImmutableSet<ExternalId> all() throws IOException, ConfigInvalidException {
+  @VisibleForTesting
+  public ImmutableSet<ExternalId> all() throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
     try (Timer0.Context ctx = readAllLatency.start();
@@ -128,6 +123,12 @@ public class ExternalIdReader {
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .all();
+    }
+  }
+
+  ObjectId readRevision() throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return readRevision(repo);
     }
   }
 

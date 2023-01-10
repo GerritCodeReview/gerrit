@@ -70,6 +70,30 @@
       },
       "revId": "b9ee8f4087ef422640cec886cbc3d06ef8f4b0e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc532d23_c32dc5e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-10T17:27:37Z",
+      "side": 1,
+      "message": "\u003e Absolutely, the only possible downside would be that on itself (at by for me) \u0027change\u0027 often is interpreted as the verb and not the noun.\n\nRight. I try to use \u0027modify\u0027 as the verb whenever it could be ambiguous, but I have to remember to do that.",
+      "parentUuid": "6ce7c14b_33381765",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "b9ee8f4087ef422640cec886cbc3d06ef8f4b0e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -202,7 +202,6 @@ public class AccountsUpdate {
   private ExternalIdNotes externalIdNotes;
 
   @AssistedInject
-  @SuppressWarnings("BindingAnnotationWithoutInject")
   AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
@@ -228,7 +227,6 @@ public class AccountsUpdate {
   }
 
   @AssistedInject
-  @SuppressWarnings("BindingAnnotationWithoutInject")
   AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,

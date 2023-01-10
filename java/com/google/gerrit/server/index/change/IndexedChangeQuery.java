@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_SPEC;
+import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -68,10 +69,13 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       int pageSizeMultiplier,
       int limit,
       Set<String> fields) {
-    // Always include project since it is needed to load the change from NoteDb.
-    if (!fields.contains(CHANGE_SPEC.getName()) && !fields.contains(PROJECT_SPEC.getName())) {
+    // Always include project and change id since both are needed to load the change from NoteDb.
+    if (!fields.contains(CHANGE_SPEC.getName())
+        && !(fields.contains(PROJECT_SPEC.getName())
+            && fields.contains(NUMERIC_ID_STR_SPEC.getName()))) {
       fields = new HashSet<>(fields);
       fields.add(PROJECT_SPEC.getName());
+      fields.add(NUMERIC_ID_STR_SPEC.getName());
     }
     return QueryOptions.create(config, start, pageSize, pageSizeMultiplier, limit, fields);
   }

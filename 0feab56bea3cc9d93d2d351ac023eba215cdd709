@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "809b4da3_ba62e608",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f8b035_a1290d80",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb735fe8_bb3fadab",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-10T10:59:01Z",
       "side": 1,
       "message": "What\u0027s the benefit of async function?\n\nmapRoute seems to take a function and then calls it without waiting for teh return value.\n\nSo this could be:\n\n```\n    this.mapRoute(\n      RoutePattern.COMMENT,\n      \u0027handleCommentRoute\u0027,\n       ctx \u003d\u003e await this.handleCommentRoute()\n```",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2247ee5d_4f224990",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb735fe8_bb3fadab",
       "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0b4e49b_c0c8ac90",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:27:32Z",
+      "side": 1,
+      "message": "Changed the `diff` parameter to be mandatory.",
+      "parentUuid": "4ee8c6a3_9274dbeb",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc5e6af3_44ff57fc",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-01-10T10:59:01Z",
       "side": 1,
       "message": "Make this argument strict, there\u0027s no reason to call this if it\u0027s not set.",
+      "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af86030_a58f965c",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc5e6af3_44ff57fc",
       "revId": "0feab56bea3cc9d93d2d351ac023eba215cdd709",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

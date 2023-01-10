@@ -44,7 +44,6 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
   PatchSetNumber,
   PathToCommentsInfoMap,
@@ -189,7 +188,6 @@ suite('gr-diff-view tests', () => {
       const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'initPatchRange');
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.viewState = {
         ...createDiffViewState(),
@@ -212,7 +210,6 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      sinon.stub(element, 'initPatchRange');
       element.viewState = {
         ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
@@ -1368,7 +1365,7 @@ suite('gr-diff-view tests', () => {
       assert.equal(saveReviewedStub.callCount, callCount);
     });
 
-    test('file review status with edit loaded', async () => {
+    test('do not set file review status for EDIT patchset', async () => {
       const saveReviewedStub = sinon.stub(
         changeModel,
         'setReviewedFilesStatus'
@@ -1380,8 +1377,8 @@ suite('gr-diff-view tests', () => {
       };
       await waitEventLoop();
 
-      assert.isTrue(element.computeEditMode());
       element.setReviewed(true);
+
       assert.isFalse(saveReviewedStub.called);
     });
 
@@ -1472,12 +1469,12 @@ suite('gr-diff-view tests', () => {
       });
 
       test('uses the patchNum and basePatchNum ', async () => {
-        element.viewState = {
+        viewModel.setState({
           ...createDiffViewState(),
           patchNum: 4 as RevisionPatchSetNum,
           basePatchNum: 2 as BasePatchSetNum,
           diffView: {path: '/COMMIT_MSG'},
-        };
+        });
         element.change = change;
         await element.updateComplete;
         await waitEventLoop();
@@ -1488,11 +1485,11 @@ suite('gr-diff-view tests', () => {
       });
 
       test('uses the parent when there is no base patch num ', async () => {
-        element.viewState = {
+        viewModel.setState({
           ...createDiffViewState(),
           patchNum: 5 as RevisionPatchSetNum,
           diffView: {path: '/COMMIT_MSG'},
-        };
+        });
         element.change = change;
         await element.updateComplete;
         await waitEventLoop();
@@ -1739,25 +1736,6 @@ suite('gr-diff-view tests', () => {
           });
         });
       });
-    });
-
-    test('_computeEditMode', () => {
-      const callCompute = (range: PatchRange) => {
-        element.patchRange = range;
-        return element.computeEditMode();
-      };
-      assert.isFalse(
-        callCompute({
-          basePatchNum: PARENT,
-          patchNum: 1 as RevisionPatchSetNum,
-        })
-      );
-      assert.isTrue(
-        callCompute({
-          basePatchNum: 1 as BasePatchSetNum,
-          patchNum: EDIT,
-        })
-      );
     });
 
     test('computeFileNum', () => {

@@ -23,6 +23,7 @@ import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -30,6 +31,9 @@ import {
   isMergeParent,
   getParentIndex,
 } from '../../../utils/patch-set-util';
+=======
+import {isMergeParent, getParentIndex} from '../../../utils/patch-set-util';
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
 import {
   addUnmodifiedFiles,
   computeDisplayPath,
@@ -73,12 +77,16 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {
   CommentMap,
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
+=======
+import {CommentMap} from '../../../utils/comment-util';
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -274,9 +282,13 @@ export class GrDiffView extends LitElement {
   @state()
   private isBlameLoading = false;
 
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
   @state()
   private allPatchSets?: PatchSet[] = [];
 
+=======
+  /** Directly reflects the view model property `diffView.lineNum`. */
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
   // Private but used in tests.
   @state()
   focusLineNum?: number;
@@ -707,6 +719,7 @@ export class GrDiffView extends LitElement {
     super.disconnectedCallback();
   }
 
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
   protected override willUpdate(changedProperties: PropertyValues) {
     super.willUpdate(changedProperties);
     if (changedProperties.has('change')) {
@@ -733,6 +746,8 @@ export class GrDiffView extends LitElement {
     }
   }
 
+=======
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
   private reInitCursor() {
     assertIsDefined(this.diffHost, 'diffHost');
     this.cursor?.replaceDiffs([this.diffHost]);
@@ -884,19 +899,16 @@ export class GrDiffView extends LitElement {
   }
 
   private renderPatchRangeLeft() {
-    const revisionInfo = this.change
-      ? new RevisionInfoObj(this.change)
-      : undefined;
     return html` <div class="patchRangeLeft">
       <gr-patch-range-select
         id="rangeSelect"
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
         .changeNum=${this.changeNum}
         .patchNum=${this.patchRange?.patchNum}
         .basePatchNum=${this.patchRange?.basePatchNum}
+=======
+>>>>>>> CHANGE (20c385 Change `gr-patch-range-select` to use models instead of prop)
         .filesWeblinks=${this.filesWeblinks}
-        .availablePatches=${this.allPatchSets}
-        .revisions=${this.change?.revisions}
-        .revisionInfo=${revisionInfo}
         @patch-range-change=${this.handlePatchChange}
       >
       </gr-patch-range-select>

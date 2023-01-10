@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3799f2b2_a25db9f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T12:50:31Z",
+      "side": 1,
+      "message": "a little strange we are checking for `this.patchNum` when we are using `this.patchRange`.\nMaybe check for `this.patchRange` instead? The getter ensures `this.patchNum` is set.",
+      "range": {
+        "startLine": 760,
+        "startChar": 51,
+        "endLine": 760,
+        "endChar": 59
+      },
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e4a3aa7_d01aa538",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-10T12:50:31Z",
+      "side": 1,
+      "message": "can you elaborate on this further?\n\n`isSameDiffLoaded` is called from `viewStateChanged` which is called when the router model sets the viewState.\n\n\u003e know in which order the view model subscriptions fire\nDo you mean if the view model subscriptions are fired before this method is called?\n\nOtherwise `value.patchNum` could be say 8 from the url but the view model hasn\u0027t fired yet, hence `this.patchNum` is undefined.\n\nI ran into a similar issue when I was thinking of moving patchRange to model in GrChangeView and didn\u0027t come up with a simple answer.\n\nChange 356080 ends up removing this method completely so maybe this issue is no longer relevant.\n\nIn case it is, I would be interested in hearing how this will be tackled(doesn\u0027t have to be tackled in this change).",
+      "range": {
+        "startLine": 1429,
+        "startChar": 5,
+        "endLine": 1429,
+        "endChar": 59
+      },
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "562f7c2d_54d9e01f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 1

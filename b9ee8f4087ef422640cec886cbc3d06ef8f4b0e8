@@ -22,6 +22,30 @@
       },
       "revId": "b9ee8f4087ef422640cec886cbc3d06ef8f4b0e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3223e03f_b6959779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-10T09:02:41Z",
+      "side": 1,
+      "message": "Absolutely, the only possible downside would be that on itself (at by for me) \u0027change\u0027 often is interpreted as the verb and not the noun.",
+      "parentUuid": "639088d9_9e0cef4f",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "b9ee8f4087ef422640cec886cbc3d06ef8f4b0e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

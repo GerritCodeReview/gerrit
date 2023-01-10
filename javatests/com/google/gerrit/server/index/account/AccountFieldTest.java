@@ -40,8 +40,7 @@ public class AccountFieldTest {
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
     Iterable<byte[]> refStates =
-        (Iterable<byte[]>)
-            AccountField.REF_STATE_SPEC.get(AccountState.forAccount(account.build()));
+        AccountField.REF_STATE_SPEC.get(AccountState.forAccount(account.build()));
     List<String> values = toStrings(refStates);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.id()) + ":" + metaId;

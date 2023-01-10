@@ -988,7 +988,7 @@ public class ChangeField {
 
   /** Serialized change object, used for pre-populating results. */
   private static final TypeToken<Entities.Change> CHANGE_TYPE_TOKEN =
-      new TypeToken<Entities.Change>() {
+      new TypeToken<>() {
         private static final long serialVersionUID = 1L;
       };
 
@@ -1007,7 +1007,7 @@ public class ChangeField {
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   private static final TypeToken<Iterable<Entities.PatchSetApproval>> APPROVAL_TYPE_TOKEN =
-      new TypeToken<Iterable<Entities.PatchSetApproval>>() {
+      new TypeToken<>() {
         private static final long serialVersionUID = 1L;
       };
 
@@ -1300,7 +1300,7 @@ public class ChangeField {
 
   /** Serialized patch set object, used for pre-populating results. */
   private static final TypeToken<Iterable<Entities.PatchSet>> PATCH_SET_TYPE_TOKEN =
-      new TypeToken<Iterable<Entities.PatchSet>>() {
+      new TypeToken<>() {
         private static final long serialVersionUID = 1L;
       };
 
@@ -1621,7 +1621,7 @@ public class ChangeField {
   /** Serialized submit requirements, used for pre-populating results. */
   private static final TypeToken<Iterable<Cache.SubmitRequirementResultProto>>
       STORED_SUBMIT_REQUIREMENTS_TYPE_TOKEN =
-          new TypeToken<Iterable<Cache.SubmitRequirementResultProto>>() {
+          new TypeToken<>() {
             private static final long serialVersionUID = 1L;
           };
 

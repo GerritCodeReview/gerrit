@@ -27,14 +27,13 @@ import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.testing.InMemoryModule;
-import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 /**
@@ -58,14 +57,14 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void stopQueryIfNoMoreResults() throws Exception {
     // create 2 visible changes
-    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
+    TestRepository<Repository> testRepo = createProject("repo");
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
 
     // create 2 invisible changes
-    TestRepository<Repo> hiddenProject = createProject("hiddenProject");
-    insert(hiddenProject, newChange(hiddenProject));
-    insert(hiddenProject, newChange(hiddenProject));
+    TestRepository<Repository> hiddenProject = createProject("hiddenProject");
+    insert("hiddenProject", newChange(hiddenProject));
+    insert("hiddenProject", newChange(hiddenProject));
     projectOperations
         .project(Project.nameKey("hiddenProject"))
         .forUpdate()
@@ -83,12 +82,12 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @Test
   @UseClockStep
   public void noLimitQueryPaginates() throws Exception {
-    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
+    TestRepository<Repository> testRepo = createProject("repo");
     // create 4 changes
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
 
     // Set queryLimit to 2
     projectOperations
@@ -111,11 +110,11 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void internalQueriesPaginate() throws Exception {
     // create 4 changes
-    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
+    TestRepository<Repository> testRepo = createProject("repo");
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
+    insert("repo", newChange(testRepo));
 
     // Set queryLimit to 2
     projectOperations

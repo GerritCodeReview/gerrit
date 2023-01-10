@@ -48,6 +48,7 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.added().messages).isNull();
     assertThat(diff.added().reviewers).isNull();
     assertThat(diff.added().hashtags).isNull();
+    assertThat(diff.added().removableLabels).isNull();
     assertThat(diff.removed()._number).isNull();
     assertThat(diff.removed().branch).isNull();
     assertThat(diff.removed().project).isNull();
@@ -56,6 +57,7 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.removed().messages).isNull();
     assertThat(diff.removed().reviewers).isNull();
     assertThat(diff.removed().hashtags).isNull();
+    assertThat(diff.removed().removableLabels).isNull();
   }
 
   @Test
@@ -313,6 +315,236 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.added().revisions).isNull();
     assertThat(diff.removed().revisions).isNull();
   }
+
+  @Test
+  public void getDiff_removableLabelsEmpty_returnsNullRemovableLabels() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    oldChangeInfo.removableLabels = ImmutableMap.of();
+    newChangeInfo.removableLabels = ImmutableMap.of();
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).isNull();
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsNullAndEmpty_returnsEmptyRemovableLabels() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    newChangeInfo.removableLabels = ImmutableMap.of();
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).isEmpty();
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsEmptyAndNull_returnsEmptyRemovableLabels() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    oldChangeInfo.removableLabels = ImmutableMap.of();
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).isNull();
+    assertThat(diff.removed().removableLabels).isEmpty();
+  }
+
+
+  @Test
+  public void getDiff_removableLabelsLabelAdded() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "Cow";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "Pig";
+    AccountInfo acc3 = new AccountInfo();
+    acc3.name = "Cat";
+    AccountInfo acc4 = new AccountInfo();
+    acc4.name = "Dog";
+
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)), "Verified", ImmutableMap.of("-1", ImmutableList.of(acc4)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Verified", ImmutableMap.of("-1", ImmutableList.of(acc4))));
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsLabelRemoved() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "Cow";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "Pig";
+    AccountInfo acc3 = new AccountInfo();
+    acc3.name = "Cat";
+    AccountInfo acc4 = new AccountInfo();
+    acc4.name = "Dog";
+
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)), "Verified", ImmutableMap.of("-1", ImmutableList.of(acc4)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).isNull();
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Verified", ImmutableMap.of("-1", ImmutableList.of(acc4))));
+  }
+
+  @Test
+  public void getDiff_removableLabelsVoteAdded() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+    AccountInfo acc3 = new AccountInfo();
+    acc3.name = "acc3";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("-1", ImmutableList.of(acc2, acc3))));
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsVoteRemoved() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+    AccountInfo acc3 = new AccountInfo();
+    acc3.name = "acc3";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1), "-1", ImmutableList.of(acc2, acc3)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).isNull();
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("-1", ImmutableList.of(acc2, acc3))));
+  }
+
+  @Test
+  public void getDiff_removableLabelsAccountAdded() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1, acc2)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc2))));
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsAccountRemoved() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1, acc2)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc2))));
+    assertThat(diff.removed().removableLabels).isNull();
+  }
+
+  @Test
+  public void getDiff_removableLabelsAccountChanged() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc2)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc2))));
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1))));
+  }
+
+  @Test
+  public void getDiff_removableLabelsScoreChanged() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("-1", ImmutableList.of(acc1)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("-1", ImmutableList.of(acc1))));
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1))));
+  }
+
+  @Test
+  public void getDiff_removableLabelsLabelChanged() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Verified", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Verified", ImmutableMap.of("+1", ImmutableList.of(acc1))));
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1))));
+  }
+
+  @Test
+  public void getDiff_removableLabelsLabelScoreAndAccountChanged() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+    AccountInfo acc1 = new AccountInfo();
+    acc1.name = "acc1";
+    AccountInfo acc2 = new AccountInfo();
+    acc2.name = "acc2";
+
+    oldChangeInfo.removableLabels = ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1)));
+    newChangeInfo.removableLabels = ImmutableMap.of("Verified", ImmutableMap.of("-1", ImmutableList.of(acc2)));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Verified", ImmutableMap.of("-1", ImmutableList.of(acc2))));
+    assertThat(diff.removed().removableLabels).containsExactlyEntriesIn(ImmutableMap.of("Code-Review", ImmutableMap.of("+1", ImmutableList.of(acc1))));
+  }
+
+
 
   @Test
   public void getDiff_assertCanConstructAllChangeInfoReferences() throws Exception {

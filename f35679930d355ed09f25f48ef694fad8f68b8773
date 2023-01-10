@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09f9e15_52b1f24e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T11:18:56Z",
+      "side": 1,
+      "message": "Same comment as other change. This means any rerender will compute a new object triggering an availablePatches change on gr-patch-range-select.\n\nOne option is to just pass in the change and compute this inside of gr-patch-range-select. It\u0027s already getting a lot of change details passed in.",
+      "revId": "f35679930d355ed09f25f48ef694fad8f68b8773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

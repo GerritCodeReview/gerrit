@@ -22,6 +22,30 @@
       },
       "revId": "540286b60055d749d8f658d4f6840017530d326c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7520415e_42b2f14d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-10T14:39:53Z",
+      "side": 0,
+      "message": "This was from a time where the change view model did not have a `diffView.path` property. Now we can use that.",
+      "parentUuid": "b6070936_07b7dbe7",
+      "range": {
+        "startLine": 1457,
+        "startChar": 6,
+        "endLine": 1457,
+        "endChar": 38
+      },
+      "revId": "540286b60055d749d8f658d4f6840017530d326c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

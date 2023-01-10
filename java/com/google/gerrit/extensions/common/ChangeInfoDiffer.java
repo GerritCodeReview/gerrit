@@ -150,16 +150,15 @@ public final class ChangeInfoDiffer {
   /** Returns {@code null} if nothing has been added to {@code oldCollection} */
   @Nullable
   private static ImmutableList<?> getAddedForCollection(
-      Collection<?> oldCollection, Collection<?> newCollection) {
-    ImmutableList<?> notInOldCollection = getAdditions(oldCollection, newCollection);
+      @Nullable Collection<?> oldCollection, Collection<?> newCollection) {
+    ImmutableList<?> notInOldCollection = getAdditionsForCollection(oldCollection, newCollection);
     return notInOldCollection.isEmpty() ? null : notInOldCollection;
   }
 
   @Nullable
-  private static ImmutableList<Object> getAdditions(
-      Collection<?> oldCollection, Collection<?> newCollection) {
-    if (oldCollection == null)
-      return newCollection != null ? ImmutableList.copyOf(newCollection) : null;
+  private static ImmutableList<Object> getAdditionsForCollection(
+      @Nullable Collection<?> oldCollection, Collection<?> newCollection) {
+    if (oldCollection == null) return ImmutableList.copyOf(newCollection);
 
     Map<Object, List<Object>> duplicatesMap = newCollection.stream().collect(groupingBy(v -> v));
     oldCollection.forEach(
@@ -173,7 +172,18 @@ public final class ChangeInfoDiffer {
 
   /** Returns {@code null} if nothing has been added to {@code oldMap} */
   @Nullable
-  private static ImmutableMap<Object, Object> getAddedForMap(Map<?, ?> oldMap, Map<?, ?> newMap) {
+  private static ImmutableMap<Object, Object> getAddedForMap(
+      @Nullable Map<?, ?> oldMap, Map<?, ?> newMap) {
+    ImmutableMap<Object, Object> notInOldMap = getAdditionsForMap(oldMap, newMap);
+    return notInOldMap.isEmpty() ? null : notInOldMap;
+  }
+
+  @Nullable
+  private static ImmutableMap<Object, Object> getAdditionsForMap(
+      @Nullable Map<?, ?> oldMap, Map<?, ?> newMap) {
+    if (oldMap == null) {
+      return ImmutableMap.copyOf(newMap);
+    }
     ImmutableMap.Builder<Object, Object> additionsBuilder = ImmutableMap.builder();
     for (Map.Entry<?, ?> entry : newMap.entrySet()) {
       Object added = getAdded(oldMap.get(entry.getKey()), entry.getValue());
@@ -181,8 +191,7 @@ public final class ChangeInfoDiffer {
         additionsBuilder.put(entry.getKey(), added);
       }
     }
-    ImmutableMap<Object, Object> additions = additionsBuilder.build();
-    return additions.isEmpty() ? null : additions;
+    return additionsBuilder.build();
   }
 
   private static Object get(Field field, Object obj) {

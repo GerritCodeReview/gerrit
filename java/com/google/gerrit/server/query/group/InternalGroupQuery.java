@@ -50,7 +50,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
   }
 
   public Optional<InternalGroup> byId(AccountGroup.Id groupId) {
-    return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
+    return getOnlyGroup(GroupPredicates.id(schema(), groupId), "group id '" + groupId + "'");
   }
 
   public List<InternalGroup> byMember(Account.Id memberId) {

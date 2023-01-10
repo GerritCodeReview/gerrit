@@ -70,7 +70,16 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated static final Schema<InternalGroup> V8 = schema(V7);
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<InternalGroup> V9 = schema(V8);
+  @Deprecated static final Schema<InternalGroup> V9 = schema(V8);
+
+  static final Schema<InternalGroup> V10 =
+      new Schema.Builder<InternalGroup>()
+          .add(V9)
+          .remove(GroupField.ID_FIELD_SPEC)
+          .remove(GroupField.ID_FIELD)
+          .addIndexedFields(GroupField.ID_STR_FIELD)
+          .addSearchSpecs(GroupField.ID_STR_FIELD_SPEC)
+          .build();
 
   /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();

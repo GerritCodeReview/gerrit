@@ -62,7 +62,7 @@ import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
-import {isFalse, throttleWrap, until} from '../../../utils/async-util';
+import {throttleWrap} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
 import {
@@ -70,14 +70,12 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
-import {BehaviorSubject} from 'rxjs';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -90,7 +88,6 @@ import {createDiffUrl} from '../../../models/views/diff';
 import {
   ChangeChildView,
   changeViewModelToken,
-  ChangeViewState,
 } from '../../../models/views/change';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
@@ -149,21 +146,6 @@ export class GrDiffView extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 
-  private _viewState: ChangeViewState | undefined;
-
-  @state()
-  get viewState(): ChangeViewState | undefined {
-    return this._viewState;
-  }
-
-  set viewState(viewState: ChangeViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
-  }
-
   // Private but used in tests.
   @state()
   get patchRange(): PatchRange | undefined {
@@ -221,13 +203,12 @@ export class GrDiffView extends LitElement {
     this.requestUpdate('path', oldPath);
   }
 
-  // Private but used in tests.
-  @state()
-  loggedIn = false;
+  /** Allows us to react when the user switches to the DIFF view. */
+  @state() private isActiveChildView = false;
 
   // Private but used in tests.
   @state()
-  loading = true;
+  loggedIn = false;
 
   @property({type: Object})
   prefs?: DiffPreferencesInfo;
@@ -288,19 +269,12 @@ export class GrDiffView extends LitElement {
   @state()
   cursor?: GrDiffCursor;
 
-  private connected$ = new BehaviorSubject(false);
-
   private readonly shortcutsController = new ShortcutController(this);
 
   constructor() {
     super();
     this.setupKeyboardShortcuts();
     this.setupSubscriptions();
-    subscribe(
-      this,
-      () => this.getViewModel().state$,
-      x => (this.viewState = x)
-    );
     subscribe(
       this,
       () => this.getFilesModel().filesIncludingUnmodified$,
@@ -454,6 +428,11 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().childView$,
+      childView => (this.isActiveChildView = childView === ChangeChildView.DIFF)
+    );
+    subscribe(
+      this,
       () => this.getViewModel().diffPath$,
       path => (this.path = path)
     );
@@ -501,14 +480,14 @@ export class GrDiffView extends LitElement {
           switchMap(() =>
             combineLatest([
               this.getChangeModel().patchNum$,
-              this.getViewModel().state$,
+              this.getViewModel().childView$,
               this.getUserModel().diffPreferences$,
               this.getChangeModel().reviewedFiles$,
             ]).pipe(
               filter(
-                ([patchNum, viewState, diffPrefs, reviewedFiles]) =>
+                ([patchNum, childView, diffPrefs, reviewedFiles]) =>
                   !!patchNum &&
-                  viewState?.childView === ChangeChildView.DIFF &&
+                  childView === ChangeChildView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
               ),
@@ -714,7 +693,6 @@ export class GrDiffView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.connected$.next(true);
     this.throttledToggleFileReviewed = throttleWrap(_ =>
       this.handleToggleFileReviewed()
     );
@@ -725,7 +703,6 @@ export class GrDiffView extends LitElement {
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    this.connected$.next(false);
     super.disconnectedCallback();
   }
 
@@ -738,19 +715,33 @@ export class GrDiffView extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
     if (
+      changedProperties.has('change') ||
+      changedProperties.has('path') ||
+      changedProperties.has('patchNum') ||
+      changedProperties.has('basePatchNum')
+    ) {
+      this.reloadDiff();
+    } else if (
+      changedProperties.has('isActiveChildView') &&
+      this.isActiveChildView
+    ) {
+      this.initializePositions();
+    }
+    if (
       changedProperties.has('focusLineNum') ||
       changedProperties.has('leftSide')
     ) {
       this.initLineOfInterestAndCursor();
     }
     if (
+      changedProperties.has('change') ||
       changedProperties.has('changeComments') ||
       changedProperties.has('path') ||
       changedProperties.has('patchNum') ||
       changedProperties.has('basePatchNum') ||
       changedProperties.has('files')
     ) {
-      if (this.changeComments && this.path && this.patchRange) {
+      if (this.change && this.changeComments && this.path && this.patchRange) {
         assertIsDefined(this.diffHost, 'diffHost');
         const file = this.files?.changeFilesByPath?.[this.path];
         this.diffHost.updateComplete.then(() => {
@@ -768,18 +759,21 @@ export class GrDiffView extends LitElement {
   }
 
   override render() {
-    if (this.viewState?.childView !== ChangeChildView.DIFF) return nothing;
-    if (!this.patchNum) return nothing;
-    if (!this.changeNum) return nothing;
-    if (!this.path) return nothing;
+    if (
+      !this.isActiveChildView ||
+      !this.patchNum ||
+      !this.changeNum ||
+      !this.change ||
+      !this.path
+    ) {
+      return html`<div class="loading">Loading...</div>`;
+    }
     const file = this.getFileRange();
     return html`
       ${this.renderStickyHeader()}
-      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
       <h2 class="assistive-tech-only">Diff view</h2>
       <gr-diff-host
         id="diffHost"
-        ?hidden=${this.loading}
         .changeNum=${this.changeNum}
         .change=${this.change}
         .patchRange=${this.patchRange}
@@ -1386,96 +1380,27 @@ export class GrDiffView extends LitElement {
     history.replaceState(null, '', url);
   }
 
-  // TODO: This is probably not working anymore as expected, because we don't
-  // know in which order the view model subscriptions fire.
-  private isSameDiffLoaded(value: ChangeViewState) {
-    return (
-      this.basePatchNum === value.basePatchNum &&
-      this.patchNum === value.patchNum &&
-      this.path === value.diffView?.path
-    );
+  async reloadDiff() {
+    if (!this.diffHost) return;
+    await this.diffHost.reload(true);
+    this.reporting.diffViewDisplayed();
+    if (this.isBlameLoaded) this.loadBlame();
   }
 
-  private async untilModelLoaded() {
-    // NOTE: Wait until this page is connected before determining whether the
-    // model is loaded.  This can happen when params are changed when setting up
-    // this view. It's unclear whether this issue is related to Polymer
-    // specifically.
-    if (!this.isConnected) {
-      await until(this.connected$, connected => connected);
-    }
-    await until(
-      this.getChangeModel().changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
-  }
-
-  // Private but used in tests.
-  viewStateChanged() {
-    if (this.viewState?.childView !== ChangeChildView.DIFF) return;
-    const viewState = this.viewState;
-
+  /**
+   * (Re-initialize) the diff view without actually reloading the diff. The
+   * typical user journey is that the user comes back from the change page.
+   */
+  initializePositions() {
     // The diff view is kept in the background once created. If the user
     // scrolls in the change page, the scrolling is reflected in the diff view
     // as well, which means the diff is scrolled to a random position based
     // on how much the change view was scrolled.
     // Hence, reset the scroll position here.
     document.documentElement.scrollTop = 0;
-
-    if (this.changeNum !== undefined && this.isSameDiffLoaded(viewState)) {
-      // changeNum has not changed, so check if there are changes in patchRange
-      // path. If no changes then we can simply render the view as is.
-      this.reporting.reportInteraction('diff-view-re-rendered');
-      // Make sure to re-initialize the cursor because this is typically
-      // done on the 'render' event which doesn't fire in this path as
-      // rerendering is avoided.
-      this.reInitCursor();
-      this.diffHost?.initLayers();
-      return;
-    }
-
+    this.reInitCursor();
+    this.diffHost?.initLayers();
     this.classList.remove('hideComments');
-
-    // When navigating away from the page, there is a possibility that the
-    // patch number is no longer a part of the URL (say when navigating to
-    // the top-level change info view) and therefore undefined in `params`.
-    if (!viewState.patchNum) {
-      this.reporting.error(
-        'GrDiffView',
-        new Error(`Invalid diff view URL, no patchNum found: ${this.viewState}`)
-      );
-      return;
-    }
-
-    const promises: Promise<unknown>[] = [];
-    if (!this.change) {
-      promises.push(this.untilModelLoaded());
-    }
-    promises.push(this.waitUntilCommentsLoaded());
-
-    if (this.diffHost) {
-      this.diffHost.cancel();
-      this.diffHost.clearDiffContent();
-    }
-    this.loading = true;
-    return Promise.all(promises)
-      .then(() => {
-        this.loading = false;
-        return this.updateComplete.then(() => this.diffHost!.reload(true));
-      })
-      .then(() => {
-        this.reporting.diffViewDisplayed();
-      })
-      .then(() => {
-        // If the blame was loaded for a previous file and user navigates to
-        // another file, then we load the blame for this file too
-        if (this.isBlameLoaded) this.loadBlame();
-      });
-  }
-
-  private async waitUntilCommentsLoaded() {
-    await until(this.connected$, c => c);
-    await until(this.getCommentsModel().commentsLoading$, isFalse);
   }
 
   /**
@@ -1722,6 +1647,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffAgainstBase() {
+    if (!this.isActiveChildView) return;
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.patchNum, 'patchNum');
 
@@ -1738,7 +1664,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffBaseAgainstLeft() {
-    if (this.viewState?.childView !== ChangeChildView.DIFF) return;
+    if (!this.isActiveChildView) return;
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.patchNum, 'patchNum');
 
@@ -1755,6 +1681,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffAgainstLatest() {
+    if (!this.isActiveChildView) return;
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.patchNum, 'patchNum');
 
@@ -1772,6 +1699,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffRightAgainstLatest() {
+    if (!this.isActiveChildView) return;
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.patchNum, 'patchNum');
 
@@ -1789,6 +1717,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffBaseAgainstLatest() {
+    if (!this.isActiveChildView) return;
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.patchNum, 'patchNum');
 

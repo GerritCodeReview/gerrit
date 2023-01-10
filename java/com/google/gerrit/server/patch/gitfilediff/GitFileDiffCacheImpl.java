@@ -28,6 +28,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -66,6 +67,7 @@ import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -76,6 +78,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 /** Implementation of the {@link GitFileDiffCache} */
 @Singleton
 public class GitFileDiffCacheImpl implements GitFileDiffCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String GIT_DIFF = "git_file_diff";
 
   public static Module module() {
@@ -340,8 +343,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         throws IOException {
       if (!key.useTimeout()) {
         try (CloseablePool<DiffFormatter>.Handle formatter = diffPool.get()) {
-          FileHeader fileHeader = formatter.get().toFileHeader(diffEntry);
-          return GitFileDiff.create(diffEntry, fileHeader);
+          return GitFileDiff.create(diffEntry, getFileHeader(formatter, diffEntry));
         }
       }
       // This submits the DiffFormatter to a different thread. The CloseablePool and our usage of it
@@ -353,7 +355,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
           diffExecutor.submit(
               () -> {
                 try (CloseablePool<DiffFormatter>.Handle formatter = diffPool.get()) {
-                  return GitFileDiff.create(diffEntry, formatter.get().toFileHeader(diffEntry));
+                  return GitFileDiff.create(diffEntry, getFileHeader(formatter, diffEntry));
                 }
               });
       try {
@@ -384,6 +386,46 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       return diffEntry.getChangeType().equals(ChangeType.DELETE)
           ? diffEntry.getOldPath()
           : diffEntry.getNewPath();
+    }
+
+    private FileHeader getFileHeader(
+        CloseablePool<DiffFormatter>.Handle formatter, DiffEntry diffEntry) throws IOException {
+      logger.atFine().log("getting file header for %s", formatDiffEntryForLogging(diffEntry));
+      try {
+        return formatter.get().toFileHeader(diffEntry);
+      } catch (MissingObjectException e) {
+        throw new IOException(
+            String.format("Failed to get file header for %s", formatDiffEntryForLogging(diffEntry)),
+            e);
+      }
+    }
+
+    private String formatDiffEntryForLogging(DiffEntry diffEntry) {
+      StringBuilder buf = new StringBuilder();
+      buf.append("DiffEntry[");
+      buf.append(diffEntry.getChangeType());
+      buf.append(" ");
+      switch (diffEntry.getChangeType()) {
+        case ADD:
+          buf.append(String.format("%s (%s)", diffEntry.getNewPath(), diffEntry.getNewId().name()));
+          break;
+        case COPY:
+        case RENAME:
+          buf.append(
+              String.format(
+                  "%s (%s) -> %s (%s)",
+                  diffEntry.getOldPath(),
+                  diffEntry.getOldId().name(),
+                  diffEntry.getNewPath(),
+                  diffEntry.getNewId().name()));
+          break;
+        case DELETE:
+        case MODIFY:
+          buf.append(String.format("%s (%s)", diffEntry.getOldPath(), diffEntry.getOldId().name()));
+          break;
+      }
+      buf.append("]");
+      return buf.toString();
     }
   }
 

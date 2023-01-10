@@ -15,6 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.gerrit.server.index.group.GroupField.ID_FIELD_SPEC;
 import static com.google.gerrit.server.index.group.GroupField.UUID_FIELD_SPEC;
 
 import com.google.common.collect.ImmutableSet;
@@ -148,7 +149,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
     return new LuceneQuerySource(
-        opts.filterFields(IndexUtils::groupFields),
+        opts.filterFields(o -> IndexUtils.accountFields(o, getSchema().hasField(ID_FIELD_SPEC))),
         queryBuilder.toQuery(p),
         new Sort(new SortField(UUID_SORT_FIELD, SortField.Type.STRING, false)));
   }

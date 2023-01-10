@@ -21,12 +21,7 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import {getAppContext} from '../../../services/app-context';
-import {
-  computeAllPatchSets,
-  PatchSet,
-  isMergeParent,
-  getParentIndex,
-} from '../../../utils/patch-set-util';
+import {isMergeParent, getParentIndex} from '../../../utils/patch-set-util';
 import {
   computeDisplayPath,
   computeTruncatedPath,
@@ -57,7 +52,6 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {CommentMap} from '../../../utils/comment-util';
 import {
   EventType,
@@ -260,9 +254,6 @@ export class GrDiffView extends LitElement {
 
   @state()
   private isBlameLoading = false;
-
-  @state()
-  private allPatchSets?: PatchSet[] = [];
 
   /** Directly reflects the view model property `diffView.lineNum`. */
   // Private but used in tests.
@@ -722,13 +713,6 @@ export class GrDiffView extends LitElement {
     super.disconnectedCallback();
   }
 
-  protected override willUpdate(changedProperties: PropertyValues) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('change')) {
-      this.allPatchSets = computeAllPatchSets(this.change);
-    }
-  }
-
   private reInitCursor() {
     if (!this.diffHost) return;
     this.cursor?.replaceDiffs([this.diffHost]);
@@ -890,19 +874,10 @@ export class GrDiffView extends LitElement {
   }
 
   private renderPatchRangeLeft() {
-    const revisionInfo = this.change
-      ? new RevisionInfoObj(this.change)
-      : undefined;
     return html` <div class="patchRangeLeft">
       <gr-patch-range-select
         id="rangeSelect"
-        .changeNum=${this.changeNum}
-        .patchNum=${this.patchNum}
-        .basePatchNum=${this.basePatchNum}
         .filesWeblinks=${this.filesWeblinks}
-        .availablePatches=${this.allPatchSets}
-        .revisions=${this.change?.revisions}
-        .revisionInfo=${revisionInfo}
         @patch-range-change=${this.handlePatchChange}
       >
       </gr-patch-range-select>

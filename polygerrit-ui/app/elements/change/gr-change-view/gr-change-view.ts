@@ -1526,7 +1526,6 @@ export class GrChangeView extends LitElement {
           .allPatchSets=${this.allPatchSets}
           .change=${this.change}
           .changeNum=${this.changeNum}
-          .revisionInfo=${this.getRevisionInfo()}
           .commitInfo=${this.commitInfo}
           .changeUrl=${this.computeChangeUrl()}
           .editMode=${this.getEditMode()}

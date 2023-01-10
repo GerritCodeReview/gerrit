@@ -18,7 +18,6 @@ import {GrFileListHeader} from './gr-file-list-header';
 import {
   BasePatchSetNum,
   ChangeId,
-  NumericChangeId,
   PARENT,
   PatchSetNum,
   PatchSetNumber,
@@ -174,7 +173,6 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('show/hide diffs disabled for large amounts of files', async () => {
-    element.changeNum = 42 as NumericChangeId;
     element.basePatchNum = PARENT;
     element.patchNum = '2' as PatchSetNum;
     element.shownFileCount = 1;

@@ -16,6 +16,24 @@
       "message": "```suggestion\n    if (oldCollection \u003d\u003d null) {\n      return ImmutableList.copyOf(newCollection);\n    }\n```",
       "revId": "ef42f1340900f7dcbed18cb9f761eda01f7dc98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b37c1d99_a048858b",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfoDiffer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-01-10T11:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "581223f2_32db06b1",
+      "revId": "ef42f1340900f7dcbed18cb9f761eda01f7dc98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

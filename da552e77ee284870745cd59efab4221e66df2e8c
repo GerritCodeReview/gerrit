@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "867d452f_bea4094e",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Nice catch!\nDone.",
+      "parentUuid": "e62ce4ef_24961b9f",
+      "range": {
+        "startLine": 751,
+        "startChar": 18,
+        "endLine": 751,
+        "endChar": 24
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e66d3e86_4f7753b6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-10T14:42:12Z",
       "side": 1,
       "message": "How is this change related? Is it needed?\n\nIs it because internally our accounts do not have usernames?\nIf yes, should the other checks (line 1282, 1294 - 1297) also use emails?\n\nMore cases below.",
+      "range": {
+        "startLine": 1283,
+        "startChar": 4,
+        "endLine": 1290,
+        "endChar": 27
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "477af6c7_be637514",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Yes, thank you for pointing at this.\nUsername authentication is not supported internally, so we can not use the username assertions in tests. I updated the remaining cases.",
+      "parentUuid": "e66d3e86_4f7753b6",
       "range": {
         "startLine": 1283,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b19e82_46aa907d",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f2081a3_b187ee88",
+      "range": {
+        "startLine": 1357,
+        "startChar": 4,
+        "endLine": 1358,
+        "endChar": 54
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be060b8a_8bf46eee",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-01-10T14:42:12Z",
       "side": 1,
       "message": "[optional] here and below, rather use project.get()",
+      "range": {
+        "startLine": 1385,
+        "startChar": 34,
+        "endLine": 1385,
+        "endChar": 40
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "856add0d_1d1a9e3d",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be060b8a_8bf46eee",
       "range": {
         "startLine": 1385,
         "startChar": 34,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad41a4d_93427829",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2839,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "This is needed.\nSince we are not planning to ever enable this feature, we do not have mergeable in our schema. So we need to disable the test if the field is not present in schema.",
+      "parentUuid": "6ca56d60_3afc94ef",
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9c96f33_4a23f9c4",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-01-10T14:42:12Z",
       "side": 1,
       "message": "Repository needs to be closed after use.",
+      "range": {
+        "startLine": 3239,
+        "startChar": 18,
+        "endLine": 3239,
+        "endChar": 44
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7f373fc_b01e5203",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3239,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9c96f33_4a23f9c4",
       "range": {
         "startLine": 3239,
         "startChar": 18,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b46eba_2fe3ade9",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3572,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2b5737_ef86f991",
+      "range": {
+        "startLine": 3572,
+        "startChar": 8,
+        "endLine": 3572,
+        "endChar": 25
+      },
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5349e1a2_f38fcc3a",
@@ -169,6 +331,24 @@
       "writtenOn": "2023-01-10T14:42:12Z",
       "side": 1,
       "message": "Hm, I don\u0027t think it\u0027s correct to ignore the return value. TestRepository is an AutoCloseable, so callers should take care to close it.\n\nI see that already before your change callers didn\u0027t care about closing the repo, but I wonder if this is more of a problem now that we use GitRepositoryManager instead of InMemoryRepositoryManager.\n\n[optional] Maybe it would make sense to rename this method to something like \"createProjectAndOpenRepo\" to make this clearer to callers? Then we could have a \"createProject\" method that only creates the project for which the return value can be ignored (or that doesn\u0027t have a return value). I\u0027m not suggesting to do this in this change, but maybe this could be a predecessor change.",
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c663e3e_95ae819e",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4212,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-10T16:35:09Z",
+      "side": 1,
+      "message": "You are right. Since splitting this into a separate change would be more work, I \nupdated this change as per your suggestion.",
+      "parentUuid": "5349e1a2_f38fcc3a",
       "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

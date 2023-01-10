@@ -599,7 +599,11 @@ export class GrDiffHost extends LitElement {
     this.hasReloadBeenCalledOnce = true;
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
+    // TODO: Find better names for these 3 clear/cancel methods. Ideally the
+    // <gr-diff-host> should not re-used at all for another diff rendering pass.
     this.clear();
+    this.cancel();
+    this.clearDiffContent();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;

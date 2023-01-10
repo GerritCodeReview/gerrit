@@ -694,7 +694,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("mergeable".equalsIgnoreCase(value)) {
       if (!args.indexMergeable) {
-        throw new QueryParseException("'is:mergeable' operator is not supported by server");
+        throw new QueryParseException(
+            "'is:mergeable' operator is not supported on this gerrit host");
       }
       return new BooleanPredicate(ChangeField.MERGEABLE_SPEC);
     }
@@ -775,7 +776,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
     if (!args.conflictsPredicateEnabled) {
-      throw new QueryParseException("'conflicts:' operator is not supported by server");
+      throw new QueryParseException("'conflicts:' operator is not supported on this gerrit host");
     }
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
@@ -1142,7 +1143,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (text.startsWith("^")) {
       if (!args.index.getSchema().hasField(ChangeField.COMMIT_MESSAGE_EXACT)) {
         throw new QueryParseException(
-            "'message' operator with regular expression is not supported by change index version");
+            "'message' operator with regular expression is not supported on this gerrit host");
       }
       return new RegexMessagePredicate(text);
     }
@@ -1648,7 +1649,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throws QueryParseException {
     if (!args.index.getSchema().hasField(field)) {
       throw new QueryParseException(
-          String.format("'%s' operator is not supported by change index version", operator));
+          String.format("'%s' operator is not supported on this gerrit host", operator));
     }
   }
 

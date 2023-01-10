@@ -4035,7 +4035,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown.getCause()).isInstanceOf(QueryParseException.class);
     assertThat(thrown)
         .hasMessageThat()
-        .contains("'is:mergeable' operator is not supported by server");
+        .contains("'is:mergeable' operator is not supported on this gerrit host");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

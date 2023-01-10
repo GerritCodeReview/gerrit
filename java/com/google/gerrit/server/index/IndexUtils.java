@@ -92,11 +92,17 @@ public final class IndexUtils {
    * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
    * is temporary and should be removed after the migration is done.
    */
-  public static Set<String> groupFields(QueryOptions opts) {
-    Set<String> fs = opts.fields();
-    return fs.contains(GroupField.UUID_FIELD_SPEC.getName())
-        ? fs
-        : Sets.union(fs, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName()));
+  public static Set<String> groupFields(QueryOptions opts, boolean useLegacyNumericFields) {
+    Set<String> fields = opts.fields();
+    fields =
+            fields.contains(GroupField.UUID_FIELD_SPEC.getName())
+                    ? fields
+                    : Sets.union(fields, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName()));
+    String idFieldName =
+            useLegacyNumericFields
+                    ? GroupField.ID_FIELD_SPEC.getName()
+                    : GroupField.ID_STR_FIELD_SPEC.getName();
+    return fields.contains(idFieldName) ? fields : Sets.union(fields, ImmutableSet.of(idFieldName));
   }
 
   /** Returns a index-friendly representation of a {@link CurrentUser} to be used in queries. */

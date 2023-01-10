@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e6b8825_3725c244",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T11:16:52Z",
+      "side": 1,
+      "message": "Rename this method to something that\u0027s testOnly.\n\nAlternatively do the TODO.\n\nThis is risky because you can get into inconsistent state between the model and the view if you accidentally use this method.",
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "562f7c2d_54d9e01f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-10T11:16:52Z",
+      "side": 1,
+      "message": "This TODO seems pretty concerning.",
+      "revId": "10778fce51ede2862e403667edf27de29b0f9088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

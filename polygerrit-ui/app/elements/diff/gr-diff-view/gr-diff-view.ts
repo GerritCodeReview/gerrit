@@ -172,7 +172,21 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   @state()
-  patchRange?: PatchRange;
+  get patchRange(): PatchRange | undefined {
+    if (!this.patchNum) return undefined;
+    return {
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
+    };
+  }
+
+  // Private but used in tests.
+  @state()
+  patchNum?: RevisionPatchSetNum;
+
+  // Private but used in tests.
+  @state()
+  basePatchNum: BasePatchSetNum = PARENT;
 
   // Private but used in tests.
   @state()
@@ -445,6 +459,16 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getViewModel().diffLeftSide$,
       leftSide => (this.leftSide = leftSide)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().basePatchNum$,
+      basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT)
     );
     subscribe(
       this,
@@ -722,7 +746,8 @@ export class GrDiffView extends LitElement {
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('path') ||
-      changedProperties.has('patchRange') ||
+      changedProperties.has('patchNum') ||
+      changedProperties.has('basePatchNum') ||
       changedProperties.has('files')
     ) {
       if (this.changeComments && this.path && this.patchRange) {
@@ -744,7 +769,7 @@ export class GrDiffView extends LitElement {
 
   override render() {
     if (this.viewState?.childView !== ChangeChildView.DIFF) return nothing;
-    if (!this.patchRange) return nothing;
+    if (!this.patchNum) return nothing;
     if (!this.changeNum) return nothing;
     if (!this.path) return nothing;
     const file = this.getFileRange();
@@ -777,7 +802,7 @@ export class GrDiffView extends LitElement {
 
   private renderStickyHeader() {
     return html` <div
-      class="stickyHeader ${this.computeEditMode() ? 'editMode' : ''}"
+      class="stickyHeader ${this.patchNum === EDIT ? 'editMode' : ''}"
     >
       <h1 class="assistive-tech-only">
         Diff of ${this.path ? computeTruncatedPath(this.path) : ''}
@@ -872,8 +897,8 @@ export class GrDiffView extends LitElement {
       <gr-patch-range-select
         id="rangeSelect"
         .changeNum=${this.changeNum}
-        .patchNum=${this.patchRange?.patchNum}
-        .basePatchNum=${this.patchRange?.basePatchNum}
+        .patchNum=${this.patchNum}
+        .basePatchNum=${this.basePatchNum}
         .filesWeblinks=${this.filesWeblinks}
         .availablePatches=${this.allPatchSets}
         .revisions=${this.change?.revisions}
@@ -1004,7 +1029,7 @@ export class GrDiffView extends LitElement {
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
-          .patchNum=${this.patchRange?.patchNum}
+          .patchNum=${this.patchNum}
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
@@ -1043,9 +1068,9 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   setReviewed(
     reviewed: boolean,
-    patchNum: RevisionPatchSetNum | undefined = this.patchRange?.patchNum
+    patchNum: RevisionPatchSetNum | undefined = this.patchNum
   ) {
-    if (this.computeEditMode()) return;
+    if (this.patchNum === EDIT) return;
     if (!patchNum || !this.path || !this.changeNum) return;
     // if file is already reviewed then do not make a saveReview request
     if (this.reviewedFiles.has(this.path) && reviewed) return;
@@ -1300,7 +1325,6 @@ export class GrDiffView extends LitElement {
 
   private goToEditFile() {
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
 
     // TODO(taoalpha): add a shortcut for editing
     const cursorAddress = this.cursor?.getAddress();
@@ -1354,14 +1378,14 @@ export class GrDiffView extends LitElement {
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
     if (!this.change) return;
-    if (!this.patchRange) return;
+    if (!this.patchNum) return;
     if (!this.changeNum) return;
     if (!this.path) return;
     const url = createDiffUrl({
       changeNum: this.changeNum,
       repo: this.change.project,
-      patchNum: this.patchRange.patchNum,
-      basePatchNum: this.patchRange.basePatchNum,
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
       diffView: {
         path: this.path,
         lineNum,
@@ -1371,22 +1395,12 @@ export class GrDiffView extends LitElement {
     history.replaceState(null, '', url);
   }
 
-  // Private but used in tests.
-  initPatchRange() {
-    if (!this.change) return;
-    if (this.viewState?.childView !== ChangeChildView.DIFF) return;
-    if (this.viewState.patchNum) {
-      this.patchRange = {
-        patchNum: this.viewState.patchNum,
-        basePatchNum: this.viewState.basePatchNum || PARENT,
-      };
-    }
-  }
-
+  // TODO: This is probably not working anymore as expected, because we don't
+  // know in which order the view model subscriptions fire.
   private isSameDiffLoaded(value: ChangeViewState) {
     return (
-      this.patchRange?.basePatchNum === value.basePatchNum &&
-      this.patchRange?.patchNum === value.patchNum &&
+      this.basePatchNum === value.basePatchNum &&
+      this.patchNum === value.patchNum &&
       this.path === value.diffView?.path
     );
   }
@@ -1438,8 +1452,6 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    this.patchRange = undefined;
-
     this.changeNum = viewState.changeNum;
     this.classList.remove('hideComments');
 
@@ -1468,7 +1480,6 @@ export class GrDiffView extends LitElement {
     return Promise.all(promises)
       .then(() => {
         this.loading = false;
-        this.initPatchRange();
         return this.updateComplete.then(() => this.diffHost!.reload(true));
       })
       .then(() => {
@@ -1550,13 +1561,10 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   handlePatchChange(e: CustomEvent) {
     if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.patchNum) return;
 
     const {basePatchNum, patchNum} = e.detail;
-    if (
-      basePatchNum === this.patchRange.basePatchNum &&
-      patchNum === this.patchRange.patchNum
-    ) {
+    if (basePatchNum === this.basePatchNum && patchNum === this.patchNum) {
       return;
     }
     this.getChangeModel().navigateToDiff(
@@ -1587,7 +1595,7 @@ export class GrDiffView extends LitElement {
   computeDownloadDropdownLinks() {
     if (!this.change?.project) return [];
     if (!this.changeNum) return [];
-    if (!this.patchRange?.patchNum) return [];
+    if (!this.patchRange) return [];
     if (!this.path) return [];
 
     const links = [
@@ -1635,6 +1643,7 @@ export class GrDiffView extends LitElement {
     return links;
   }
 
+  // TODO: Move to view-model or router.
   // Private but used in tests.
   computeDownloadFileLink(
     repo: RepoName,
@@ -1663,6 +1672,7 @@ export class GrDiffView extends LitElement {
     return url;
   }
 
+  // TODO: Move to view-model or router.
   // Private but used in tests.
   computeDownloadPatchLink(
     repo: RepoName,
@@ -1689,11 +1699,6 @@ export class GrDiffView extends LitElement {
       if (commentMap[fileList[i]]) return fileList[i];
     }
     return undefined;
-  }
-
-  // Private but used in tests.
-  computeEditMode() {
-    return this.patchRange?.patchNum === EDIT;
   }
 
   // Private but used in tests.
@@ -1737,15 +1742,15 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   handleDiffAgainstBase() {
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.basePatchNum === PARENT) {
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
     this.getChangeModel().navigateToDiff(
       {path: this.path},
-      this.patchRange.patchNum,
+      this.patchNum,
       PARENT
     );
   }
@@ -1754,15 +1759,15 @@ export class GrDiffView extends LitElement {
   handleDiffBaseAgainstLeft() {
     if (this.viewState?.childView !== ChangeChildView.DIFF) return;
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.basePatchNum === PARENT) {
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
     this.getChangeModel().navigateToDiff(
       {path: this.path},
-      this.patchRange.basePatchNum as RevisionPatchSetNum,
+      this.basePatchNum as RevisionPatchSetNum,
       PARENT
     );
   }
@@ -1770,9 +1775,9 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   handleDiffAgainstLatest() {
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.patchNum === this.latestPatchNum) {
+    if (this.patchNum === this.latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
@@ -1780,16 +1785,16 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.latestPatchNum,
-      this.patchRange.basePatchNum
+      this.basePatchNum
     );
   }
 
   // Private but used in tests.
   handleDiffRightAgainstLatest() {
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.patchNum === this.latestPatchNum) {
+    if (this.patchNum === this.latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
@@ -1797,19 +1802,16 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.latestPatchNum,
-      this.patchRange.patchNum as BasePatchSetNum
+      this.patchNum as BasePatchSetNum
     );
   }
 
   // Private but used in tests.
   handleDiffBaseAgainstLatest() {
     assertIsDefined(this.path, 'path');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (
-      this.patchRange.patchNum === this.latestPatchNum &&
-      this.patchRange.basePatchNum === PARENT
-    ) {
+    if (this.patchNum === this.latestPatchNum && this.basePatchNum === PARENT) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
@@ -1849,11 +1851,11 @@ export class GrDiffView extends LitElement {
   private navigateToNextFileWithCommentThread() {
     if (!this.path) return;
     if (!this.files?.sortedPaths) return;
-    if (!this.patchRange) return;
+    const range = this.patchRange;
+    if (!range) return;
     if (!this.change) return;
     const hasComment = (path: string) =>
-      this.changeComments?.getCommentsForPath(path, this.patchRange!)?.length ??
-      0 > 0;
+      this.changeComments?.getCommentsForPath(path, range)?.length ?? 0 > 0;
     const filesWithComments = this.files.sortedPaths.filter(
       file => file === this.path || hasComment(file)
     );

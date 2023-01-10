@@ -27,7 +27,6 @@ import {
   createRevisions,
   createComment as createCommentGeneric,
   createDiff,
-  createPatchRange,
   createServerInfo,
   createConfig,
   createParsedChange,
@@ -42,7 +41,6 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
   PatchSetNumber,
   PathToCommentsInfoMap,
@@ -151,7 +149,8 @@ suite('gr-diff-view tests', () => {
       getDiffRestApiStub = stubRestApi('getDiff');
       // Delayed in case a test updates element.diff.
       getDiffRestApiStub.callsFake(() => Promise.resolve(element.diff));
-      element.patchRange = createPatchRange();
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.changeComments = new ChangeComments({
         '/COMMIT_MSG': [
           createComment('c1', 10, 2, '/COMMIT_MSG'),
@@ -186,7 +185,6 @@ suite('gr-diff-view tests', () => {
       const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, 'initPatchRange');
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.viewState = {
         ...createDiffViewState(),
@@ -195,7 +193,8 @@ suite('gr-diff-view tests', () => {
         diffView: {path: '/COMMIT_MSG'},
       };
       element.path = '/COMMIT_MSG';
-      element.patchRange = createPatchRange();
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       return viewStateChangedSpy.returnValues[0]?.then(() => {
         assert.isTrue(diffViewDisplayedStub.calledOnce);
       });
@@ -209,7 +208,6 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
-      sinon.stub(element, 'initPatchRange');
       element.viewState = {
         ...createDiffViewState(),
         patchNum: 2 as RevisionPatchSetNum,
@@ -217,7 +215,8 @@ suite('gr-diff-view tests', () => {
         diffView: {path: '/COMMIT_MSG'},
       };
       element.path = '/COMMIT_MSG';
-      element.patchRange = createPatchRange();
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       return viewStateChangedSpy.returnValues[0]!.then(() => {
         assert.isTrue(element.isBlameLoaded);
         assert.isTrue(loadBlameStub.calledOnce);
@@ -233,10 +232,8 @@ suite('gr-diff-view tests', () => {
 
     test('renders', async () => {
       browserModel.setScreenWidth(0);
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       const change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -414,10 +411,8 @@ suite('gr-diff-view tests', () => {
       clock = sinon.useFakeTimers();
       element.changeNum = 42 as NumericChangeId;
       browserModel.setScreenWidth(0);
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -554,10 +549,8 @@ suite('gr-diff-view tests', () => {
         'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
       };
       element.changeComments = new ChangeComments(comment);
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -599,10 +592,8 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff against base', async () => {
-      element.patchRange = {
-        basePatchNum: 5 as BasePatchSetNum,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = 5 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffAgainstBase();
       const expected = [{path: 'some/path.txt'}, 10, PARENT];
@@ -612,10 +603,8 @@ suite('gr-diff-view tests', () => {
     test('diff against latest', async () => {
       element.path = 'foo';
       element.latestPatchNum = 12 as PatchSetNumber;
-      element.patchRange = {
-        basePatchNum: 5 as BasePatchSetNum,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = 5 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffAgainstLatest();
       const expected = [{path: 'foo'}, 12, 5];
@@ -625,10 +614,8 @@ suite('gr-diff-view tests', () => {
     test('handleDiffBaseAgainstLeft', async () => {
       element.path = 'foo';
       element.latestPatchNum = 10 as PatchSetNumber;
-      element.patchRange = {
-        patchNum: 3 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      };
+      element.patchNum = 3 as RevisionPatchSetNum;
+      element.basePatchNum = 1 as BasePatchSetNum;
       element.viewState = {
         ...createDiffViewState(),
         patchNum: 3 as RevisionPatchSetNum,
@@ -644,10 +631,8 @@ suite('gr-diff-view tests', () => {
     test('handleDiffRightAgainstLatest', async () => {
       element.path = 'foo';
       element.latestPatchNum = 10 as PatchSetNumber;
-      element.patchRange = {
-        basePatchNum: 1 as BasePatchSetNum,
-        patchNum: 3 as RevisionPatchSetNum,
-      };
+      element.patchNum = 3 as RevisionPatchSetNum;
+      element.basePatchNum = 1 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffRightAgainstLatest();
       const expected = [{path: 'foo'}, 10, 3];
@@ -656,10 +641,8 @@ suite('gr-diff-view tests', () => {
 
     test('handleDiffBaseAgainstLatest', async () => {
       element.latestPatchNum = 10 as PatchSetNumber;
-      element.patchRange = {
-        basePatchNum: 1 as BasePatchSetNum,
-        patchNum: 3 as RevisionPatchSetNum,
-      };
+      element.patchNum = 3 as RevisionPatchSetNum;
+      element.basePatchNum = 1 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffBaseAgainstLatest();
       const expected = [{path: 'some/path.txt'}, 10, PARENT];
@@ -678,10 +661,8 @@ suite('gr-diff-view tests', () => {
 
     test('A navigates to change with logged in', async () => {
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: 5 as BasePatchSetNum,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = 5 as BasePatchSetNum;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -706,10 +687,8 @@ suite('gr-diff-view tests', () => {
 
     test('A navigates to change with old patch number with logged in', async () => {
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -730,10 +709,8 @@ suite('gr-diff-view tests', () => {
 
     test('keyboard shortcuts with patch range', () => {
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: 5 as BasePatchSetNum,
-        patchNum: 10 as RevisionPatchSetNum,
-      };
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = 5 as BasePatchSetNum;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -788,10 +765,8 @@ suite('gr-diff-view tests', () => {
 
     test('keyboard shortcuts with old patch number', async () => {
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -837,10 +812,8 @@ suite('gr-diff-view tests', () => {
     test('edit should redirect to edit page', async () => {
       element.loggedIn = true;
       element.path = 't.txt';
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -858,10 +831,8 @@ suite('gr-diff-view tests', () => {
       const lineNumber = 42;
       element.loggedIn = true;
       element.path = 't.txt';
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       assertIsDefined(element.cursor);
       sinon
         .stub(element.cursor, 'getAddress')
@@ -888,10 +859,8 @@ suite('gr-diff-view tests', () => {
     }): Promise<boolean> {
       element.loggedIn = loggedIn;
       element.path = 't.txt';
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -990,10 +959,8 @@ suite('gr-diff-view tests', () => {
     suite('url parameters', () => {
       test('_formattedFiles', () => {
         element.changeNum = 42 as NumericChangeId;
-        element.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: 10 as RevisionPatchSetNum,
-        };
+        element.patchNum = 10 as RevisionPatchSetNum;
+        element.basePatchNum = PARENT;
         element.change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
@@ -1209,10 +1176,8 @@ suite('gr-diff-view tests', () => {
 
     test('handlePatchChange calls setUrl correctly', async () => {
       element.path = 'path/to/file.txt';
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 3 as RevisionPatchSetNum,
-      };
+      element.patchNum = 3 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       await element.updateComplete;
 
       const detail = {
@@ -1365,20 +1330,18 @@ suite('gr-diff-view tests', () => {
       assert.equal(saveReviewedStub.callCount, callCount);
     });
 
-    test('file review status with edit loaded', async () => {
+    test('do not set file review status for EDIT patchset', async () => {
       const saveReviewedStub = sinon.stub(
         changeModel,
         'setReviewedFilesStatus'
       );
 
-      element.patchRange = {
-        basePatchNum: 1 as BasePatchSetNum,
-        patchNum: EDIT,
-      };
+      element.patchNum = EDIT;
+      element.basePatchNum = 1 as BasePatchSetNum;
       await waitEventLoop();
 
-      assert.isTrue(element.computeEditMode());
       element.setReviewed(true);
+
       assert.isFalse(saveReviewedStub.called);
     });
 
@@ -1503,10 +1466,8 @@ suite('gr-diff-view tests', () => {
         _number: 321 as NumericChangeId,
         project: 'foo/bar' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: 3 as BasePatchSetNum,
-        patchNum: 5 as RevisionPatchSetNum,
-      };
+      element.patchNum = 5 as RevisionPatchSetNum;
+      element.basePatchNum = 3 as BasePatchSetNum;
       const e = {detail: {number: 123, side: Side.RIGHT}} as CustomEvent;
 
       element.onLineSelected(e);
@@ -1527,10 +1488,8 @@ suite('gr-diff-view tests', () => {
         _number: 321 as NumericChangeId,
         project: 'foo/bar' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: 3 as BasePatchSetNum,
-        patchNum: 5 as RevisionPatchSetNum,
-      };
+      element.patchNum = 5 as RevisionPatchSetNum;
+      element.basePatchNum = 3 as BasePatchSetNum;
       const e = {detail: {number: 123, side: Side.LEFT}} as CustomEvent;
 
       element.onLineSelected(e);
@@ -1611,10 +1570,8 @@ suite('gr-diff-view tests', () => {
             'path/two.m4v',
             'path/three.wav',
           ]);
-          element.patchRange = {
-            patchNum: 2 as RevisionPatchSetNum,
-            basePatchNum: 1 as BasePatchSetNum,
-          };
+          element.patchNum = 2 as RevisionPatchSetNum;
+          element.basePatchNum = 1 as BasePatchSetNum;
         });
 
         suite('moveToFileWithComment previous', () => {
@@ -1671,25 +1628,6 @@ suite('gr-diff-view tests', () => {
           });
         });
       });
-    });
-
-    test('_computeEditMode', () => {
-      const callCompute = (range: PatchRange) => {
-        element.patchRange = range;
-        return element.computeEditMode();
-      };
-      assert.isFalse(
-        callCompute({
-          basePatchNum: PARENT,
-          patchNum: 1 as RevisionPatchSetNum,
-        })
-      );
-      assert.isTrue(
-        callCompute({
-          basePatchNum: 1 as BasePatchSetNum,
-          patchNum: EDIT,
-        })
-      );
     });
 
     test('computeFileNum', () => {
@@ -1758,13 +1696,14 @@ suite('gr-diff-view tests', () => {
 
       test('reviewed checkbox', async () => {
         sinon.stub(element, 'handlePatchChange');
-        element.patchRange = createPatchRange();
+        element.patchNum = 1 as RevisionPatchSetNum;
+        element.basePatchNum = PARENT;
         await element.updateComplete;
 
         let checkbox = queryAndAssert(element, '#reviewed');
         assert.isTrue(isVisible(checkbox));
 
-        element.patchRange = {...element.patchRange, patchNum: EDIT};
+        element.patchNum = EDIT;
         await element.updateComplete;
 
         checkbox = queryAndAssert(element, '#reviewed');
@@ -1922,10 +1861,8 @@ suite('gr-diff-view tests', () => {
         repo: 'test-project' as RepoName,
         diffView: {path: 'file1'},
       };
-      element.patchRange = {
-        patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: PARENT,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.change = {
         ...createParsedChange(),
         revisions: createRevisions(1),
@@ -1946,10 +1883,8 @@ suite('gr-diff-view tests', () => {
         repo: 'test-project' as RepoName,
         diffView: {path: 'file2'},
       };
-      element.patchRange = {
-        patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: PARENT,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
 
       // No extra call
       assert.isTrue(navToDiffStub.calledOnce);
@@ -1974,10 +1909,8 @@ suite('gr-diff-view tests', () => {
       element.change = createParsedChange();
       element.change.project = 'test' as RepoName;
       element.changeNum = 12 as NumericChangeId;
-      element.patchRange = {
-        patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: PARENT,
-      };
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
       element.path = 'index.php';
       element.diff = createDiff();
       assert.deepEqual(element.computeDownloadDropdownLinks(), downloadLinks);
@@ -2006,10 +1939,8 @@ suite('gr-diff-view tests', () => {
       element.change = createParsedChange();
       element.change.project = 'test' as RepoName;
       element.changeNum = 12 as NumericChangeId;
-      element.patchRange = {
-        patchNum: 3 as RevisionPatchSetNum,
-        basePatchNum: 2 as BasePatchSetNum,
-      };
+      element.patchNum = 3 as RevisionPatchSetNum;
+      element.basePatchNum = 2 as BasePatchSetNum;
       element.path = 'index.php';
       element.diff = diff;
       assert.deepEqual(element.computeDownloadDropdownLinks(), downloadLinks);

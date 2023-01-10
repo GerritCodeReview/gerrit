@@ -33,12 +33,22 @@ import org.eclipse.jgit.lib.ObjectId;
  * being singletons so that the default (i.e. reference) comparison works.
  */
 public class GroupField {
-  /** Legacy group ID. */
+  /** Deprecated - legacy group ID as number. */
   public static final IndexedField<InternalGroup, Integer> ID_FIELD =
       IndexedField.<InternalGroup>integerBuilder("Id").required().build(g -> g.getId().get());
 
   public static final IndexedField<InternalGroup, Integer>.SearchSpec ID_FIELD_SPEC =
       ID_FIELD.integer("id");
+
+  /** Legacy group ID. */
+  public static final IndexedField<InternalGroup, String> ID_STR_FIELD =
+      IndexedField.<InternalGroup>stringBuilder("IdStr")
+          .stored()
+          .required()
+          .build((g -> Integer.toString(g.getId().get())));
+
+  public static final IndexedField<InternalGroup, String>.SearchSpec ID_STR_FIELD_SPEC =
+      ID_STR_FIELD.exact("id_str");
 
   /** Group UUID. */
   public static final IndexedField<InternalGroup, String> UUID_FIELD =

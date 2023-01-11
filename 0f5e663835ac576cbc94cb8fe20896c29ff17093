@@ -16,6 +16,23 @@
       "message": "Hello Edwin and Patrick! Can you review this one or route it to an appropriate person?",
       "revId": "0f5e663835ac576cbc94cb8fe20896c29ff17093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6f7c44_bddb11ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-11T08:28:38Z",
+      "side": 1,
+      "message": "Please add a release \"Release-Notes\" footer",
+      "revId": "0f5e663835ac576cbc94cb8fe20896c29ff17093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

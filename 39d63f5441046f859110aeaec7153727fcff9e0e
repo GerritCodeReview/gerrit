@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1a839d_a5751a6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-11T08:24:11Z",
+      "side": 1,
+      "message": "gr-diff-view is the child view of ChangeView, so I think `isActiveChildView` captures it better than `isChildViewActive`, which sounds like the diff view has a child view that is active or not.",
+      "parentUuid": "4d386097_6718e825",
+      "range": {
+        "startLine": 207,
+        "startChar": 19,
+        "endLine": 207,
+        "endChar": 36
+      },
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c1b807d_e035b5ce",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8e4586_f07426e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-11T08:24:11Z",
+      "side": 1,
+      "message": "I vaguely remember that we had conflicts between shortcuts of the change view and shortcuts of the diff view, and I saw this kind of guard statement for one handler, so I thought let\u0027s be on the safe side and do it everywhere. Maybe it is not needed. I am not sure.\n\nIdeally we would create a wrapper around change view, diff view and edit view, and install the shortcuts there. This is not really something diff view specific, and currently we have duplication of code between change view and diff view. But not this change.",
+      "parentUuid": "4c1b807d_e035b5ce",
+      "range": {
+        "startLine": 1645,
+        "startChar": 4,
+        "endLine": 1645,
+        "endChar": 40
+      },
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55057e14_b68847f2",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-01-10T15:28:41Z",
       "side": 1,
       "message": "maybe add a test for the new behaviour?\n\n- updating patchNum triggers a reload.\n- changing view to active does not trigger a reload.",
+      "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0749a85b_fa06081d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-11T08:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55057e14_b68847f2",
       "revId": "39d63f5441046f859110aeaec7153727fcff9e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

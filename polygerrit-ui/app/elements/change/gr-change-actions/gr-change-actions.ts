@@ -1577,8 +1577,9 @@ export class GrChangeActions
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,
     };
+    const rebaseChain = !!e.detail.rebaseChain;
     this.fireAction(
-      '/rebase',
+      rebaseChain ? '/rebase:chain' : '/rebase',
       assertUIActionInfo(this.revisionActions.rebase),
       true,
       payload,

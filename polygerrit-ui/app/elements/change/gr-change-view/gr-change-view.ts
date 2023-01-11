@@ -2080,13 +2080,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   viewStateChanged() {
     if (!this.viewState) return;
-
-    if (this.isChangeObsolete()) {
-      // Tell the app element that we are not going to handle the new change
-      // number and that they have to create a new change view.
-      fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
-      return;
-    }
+    if (this.isChangeObsolete()) return;
 
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;

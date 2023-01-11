@@ -32,7 +32,7 @@ import {getBaseUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
-import {AccountDetailInfo} from '../types/common';
+import {AccountDetailInfo, NumericChangeId} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -62,6 +62,7 @@ import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
+import {keyed} from 'lit/directives/keyed.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
@@ -123,6 +124,9 @@ export class GrAppElement extends LitElement {
   // TODO: Introduce a wrapper element for CHANGE, DIFF, EDIT view.
   @state() private childView?: ChangeChildView;
 
+  // Used as a key for caching the CHANGE, DIFF, EDIT view.
+  @state() private changeNum?: NumericChangeId;
+
   @state() private lastError?: ErrorInfo;
 
   // private but used in test
@@ -147,12 +151,6 @@ export class GrAppElement extends LitElement {
   // This removes main page from a11y tree, when a dialog on gr-app-element
   // (e.g. shortcut dialog) is open
   @state() private mainAriaHidden = false;
-
-  // Triggers dom-if unsetting/setting restamp behaviour in lit
-  @state() private invalidateChangeViewCache = false;
-
-  // Triggers dom-if unsetting/setting restamp behaviour in lit
-  @state() private invalidateDiffViewCache = false;
 
   @state() private theme = AppTheme.AUTO;
 
@@ -188,12 +186,6 @@ export class GrAppElement extends LitElement {
     });
     document.addEventListener(EventType.LOCATION_CHANGE, () =>
       this.handleLocationChange()
-    );
-    this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
-      this.handleRecreateView()
-    );
-    this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
-      this.handleRecreateView()
     );
     document.addEventListener(EventType.GR_RPC_LOG, e => this.handleRpcLog(e));
     this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
@@ -246,8 +238,13 @@ export class GrAppElement extends LitElement {
     subscribe(
       this,
       () => this.getChangeViewModel().childView$,
-      childView => {
-        this.childView = childView;
+      childView => (this.childView = childView)
+    );
+    subscribe(
+      this,
+      () => this.getChangeViewModel().changeNum$,
+      changeNum => {
+        this.changeNum = changeNum;
       }
     );
 
@@ -375,8 +372,19 @@ export class GrAppElement extends LitElement {
       ${this.renderHeader()}
       <main ?aria-hidden=${this.mainAriaHidden}>
         ${this.renderMobileSearch()} ${this.renderChangeListView()}
-        ${this.renderDashboardView()} ${this.renderChangeView()}
-        ${this.renderEditorView()} ${this.renderDiffView()}
+        ${this.renderDashboardView()}
+        ${
+          // `keyed(this.changeNum, ...)` makes sure that these views are not
+          // re-used across changes, which is a precaution, because we have run
+          // into issue with that. That could be re-considered at some point.
+          keyed(
+            this.changeNum,
+            html`
+              ${this.renderChangeView()} ${this.renderEditorView()}
+              ${this.renderDiffView()}
+            `
+          )
+        }
         ${this.renderSettingsView()} ${this.renderAdminView()}
         ${this.renderPluginScreen()} ${this.renderCLAView()}
         ${this.renderDocumentationSearch()}
@@ -473,18 +481,15 @@ export class GrAppElement extends LitElement {
   }
 
   private renderChangeView() {
-    if (this.invalidateChangeViewCache) {
-      this.updateComplete.then(() => (this.invalidateChangeViewCache = false));
-      return nothing;
-    }
-    return cache(this.isChangeView() ? this.changeViewTemplate() : nothing);
-  }
-
-  // Template as not to create duplicates, for renderChangeView() only.
-  private changeViewTemplate() {
-    return html`
-      <gr-change-view .backPage=${this.lastSearchPage}></gr-change-view>
-    `;
+    // The `cache()` is required for re-using the change view when switching
+    // back and forth between change, diff and editor views.
+    return cache(
+      this.isChangeView()
+        ? html`<gr-change-view
+            .backPage=${this.lastSearchPage}
+          ></gr-change-view>`
+        : nothing
+    );
   }
 
   private isChangeView() {
@@ -494,9 +499,11 @@ export class GrAppElement extends LitElement {
     );
   }
 
-  private isDiffView() {
-    return (
-      this.view === GerritView.CHANGE && this.childView === ChangeChildView.DIFF
+  private renderEditorView() {
+    // The `cache()` is required for re-using the editor view when switching
+    // back and forth between change, diff and editor views.
+    return cache(
+      this.isEditorView() ? html`<gr-editor-view></gr-editor-view>` : nothing
     );
   }
 
@@ -506,21 +513,18 @@ export class GrAppElement extends LitElement {
     );
   }
 
-  private renderEditorView() {
-    if (!this.isEditorView()) return nothing;
-    return html`<gr-editor-view></gr-editor-view>`;
-  }
-
   private renderDiffView() {
-    if (this.invalidateDiffViewCache) {
-      this.updateComplete.then(() => (this.invalidateDiffViewCache = false));
-      return nothing;
-    }
-    return cache(this.isDiffView() ? this.diffViewTemplate() : nothing);
+    // The `cache()` is required for re-using the diff view when switching
+    // back and forth between change, diff and editor views.
+    return cache(
+      this.isDiffView() ? html`<gr-diff-view></gr-diff-view>` : nothing
+    );
   }
 
-  private diffViewTemplate() {
-    return html`<gr-diff-view></gr-diff-view>`;
+  private isDiffView() {
+    return (
+      this.view === GerritView.CHANGE && this.childView === ChangeChildView.DIFF
+    );
   }
 
   private renderSettingsView() {
@@ -617,15 +621,6 @@ export class GrAppElement extends LitElement {
     if (this.errorManager)
       this.errorManager.knownAccountId =
         (this.account && this.account._account_id) || null;
-  }
-
-  /**
-   * Throws away the view and re-creates it. The view itself fires an event, if
-   * it wants to be re-created.
-   */
-  private handleRecreateView() {
-    this.invalidateChangeViewCache = true;
-    this.invalidateDiffViewCache = true;
   }
 
   private async viewChanged() {

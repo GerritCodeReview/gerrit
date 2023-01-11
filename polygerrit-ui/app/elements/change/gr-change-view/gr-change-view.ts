@@ -2079,12 +2079,9 @@ export class GrChangeView extends LitElement {
     // set to undefined
     assertIsDefined(this.viewState, 'viewState');
 
-    if (this.isChangeObsolete()) {
-      // Tell the app element that we are not going to handle the new change
-      // number and that they have to create a new change view.
-      fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
-      return;
-    }
+    // The parent element will make sure that a new change view is created
+    // when the change number changes (using the `keyed` directive).
+    if (this.isChangeObsolete()) return;
 
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;

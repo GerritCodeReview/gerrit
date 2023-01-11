@@ -53,11 +53,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {CommentMap} from '../../../utils/comment-util';
-import {
-  EventType,
-  OpenFixPreviewEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
+import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
@@ -417,14 +413,12 @@ export class GrDiffView extends LitElement {
       changeNum => {
         if (!changeNum || this.changeNum === changeNum) return;
 
-        // We are only setting the changeNum of the diff view once!
+        // We are only setting the changeNum of the diff view once.
         // Everything in the diff view is tied to the change. It seems better to
         // force the re-creation of the diff view when the change number changes.
-        if (!this.changeNum) {
-          this.changeNum = changeNum;
-        } else {
-          fireEvent(this, EventType.RECREATE_DIFF_VIEW);
-        }
+        // The parent element will make sure that a new change view is created
+        // when the change number changes (using the `keyed` directive).
+        if (!this.changeNum) this.changeNum = changeNum;
       }
     );
     subscribe(

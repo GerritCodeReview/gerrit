@@ -28,8 +28,6 @@ export enum EventType {
   OPEN_FIX_PREVIEW = 'open-fix-preview',
   CLOSE_FIX_PREVIEW = 'close-fix-preview',
   PAGE_ERROR = 'page-error',
-  RECREATE_CHANGE_VIEW = 'recreate-change-view',
-  RECREATE_DIFF_VIEW = 'recreate-diff-view',
   RELOAD = 'reload',
   REPLY = 'reply',
   SERVER_ERROR = 'server-error',

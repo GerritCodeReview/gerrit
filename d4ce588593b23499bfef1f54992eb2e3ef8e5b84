@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b687d9a3_e2187e1d",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-11T15:51:15Z",
+      "side": 1,
+      "message": "```suggestion\nThis endpoint is situated at the top of the Profile section of the settings\n```",
+      "range": {
+        "startLine": 136,
+        "startChar": 17,
+        "endLine": 136,
+        "endChar": 26
+      },
+      "revId": "d4ce588593b23499bfef1f54992eb2e3ef8e5b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3ed6c5a_36f9506f",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.ts",
         "patchSetId": 12

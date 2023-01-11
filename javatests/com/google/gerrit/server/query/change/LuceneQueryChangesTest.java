@@ -24,11 +24,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.testing.InMemoryModule;
-import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -45,11 +43,11 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void fullTextWithSpecialChars() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
+    repo = createAndOpenProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
-    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change1 = insert("repo", newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("one.two.three").create());
-    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    Change change2 = insert("repo", newChangeForCommit(repo, commit2));
 
     assertQuery("message:foo_ba");
     assertQuery("message:bar", change1);
@@ -63,8 +61,8 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   @Test
   @Override
   public void byOwnerInvalidQuery() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
+    repo = createAndOpenProject("repo");
+    Change change1 = insert("repo", newChange(repo), userId);
     String nameEmail = user.asIdentifiedUser().getNameEmail();
 
     BadRequestException thrown =
@@ -76,17 +74,17 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void openAndClosedChanges() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
+    repo = createAndOpenProject("repo");
 
     // create 3 closed changes
-    Change change1 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change3 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change1 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change2 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change3 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
 
     // create 3 new changes
-    Change change4 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
-    Change change5 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
-    Change change6 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+    Change change4 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
+    Change change5 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
+    Change change6 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
 
     // Set queryLimit to 1
     projectOperations

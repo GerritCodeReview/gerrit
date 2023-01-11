@@ -242,6 +242,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7bab3e6_15f69b89",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2839,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-11T09:08:11Z",
+      "side": 1,
+      "message": "... and custom schema.\n\nUpdated the description.",
+      "parentUuid": "66add225_067cbed5",
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9c96f33_4a23f9c4",

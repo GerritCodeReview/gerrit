@@ -115,7 +115,6 @@ public class GroupsUpdate {
   private final RetryHelper retryHelper;
 
   @AssistedInject
-  @SuppressWarnings("BindingAnnotationWithoutInject")
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -150,7 +149,6 @@ public class GroupsUpdate {
   }
 
   @AssistedInject
-  @SuppressWarnings("BindingAnnotationWithoutInject")
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -185,7 +183,6 @@ public class GroupsUpdate {
         Optional.of(currentUser));
   }
 
-  @SuppressWarnings("BindingAnnotationWithoutInject")
   private GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,

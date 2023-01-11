@@ -16,6 +16,24 @@
       "message": "Why is this necessary? AFAICt, you\u0027re including the \u003cp\u003e in the test-html",
       "revId": "d4ce588593b23499bfef1f54992eb2e3ef8e5b84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7e53266_54a2b87b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-11T15:22:04Z",
+      "side": 1,
+      "message": "the indentation is a bit different between here and the render() method, so the prettier text wrapping disagrees and fails the test. It\u0027s true the \u003cp\u003e content could be removed",
+      "parentUuid": "d3ed6c5a_36f9506f",
+      "revId": "d4ce588593b23499bfef1f54992eb2e3ef8e5b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

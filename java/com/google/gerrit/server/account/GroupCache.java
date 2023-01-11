@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.exceptions.StorageException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
@@ -60,6 +64,22 @@ public interface GroupCache {
    *     be missing from the result.
    */
   Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids);
+
+  /**
+   * Returns an {@code InternalGroup} instance for the given {@code AccountGroup.UUID} at the given
+   * {@code metaId} of {@link com.google.gerrit.entities.RefNames#refsGroups} ref.
+   *
+   * <p>The caller is responsible to ensure the presence of {@code metaId} and the corresponding
+   * meta ref.
+   *
+   * @param groupUuid the UUID of the internal group
+   * @param metaId the sha1 of commit in {@link com.google.gerrit.entities.RefNames#refsGroups} ref.
+   * @return the internal group at specific sha1 {@code metaId}
+   * @throws StorageException if no internal group with this UUID exists on this server at the
+   *     specific sha1, or if an error occurred during lookup.
+   */
+  @UsedAt(Project.GOOGLE)
+  InternalGroup getFromMetaId(AccountGroup.UUID groupUuid, ObjectId metaId) throws StorageException;
 
   /**
    * Removes the association of the given ID with a group.

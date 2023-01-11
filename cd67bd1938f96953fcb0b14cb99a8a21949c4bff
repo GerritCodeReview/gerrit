@@ -22,6 +22,30 @@
       },
       "revId": "cd67bd1938f96953fcb0b14cb99a8a21949c4bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23a1ddde_41cab11d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T15:13:59Z",
+      "side": 1,
+      "message": "Thanks, this sounds like a good idea. Let me know how this goes :)",
+      "parentUuid": "4f99ad26_369781b2",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 58
+      },
+      "revId": "cd67bd1938f96953fcb0b14cb99a8a21949c4bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

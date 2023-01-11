@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b616bf_cc20fa30",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "nit: in",
+      "range": {
+        "startLine": 214,
+        "startChar": 41,
+        "endLine": 214,
+        "endChar": 43
+      },
+      "revId": "894c8e271f4d4f0143a1a8405609570929aa2748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "785cdaa9_5a97a3ac",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "It seems the test is not using the repo instance anymore. Can this just be createProject(\"repo\")?",
+      "revId": "894c8e271f4d4f0143a1a8405609570929aa2748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb54a12e_407d8bdf",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "It seems the test is not using the repo instance anymore. Can this just be createProject(\"repo\")?",
+      "revId": "894c8e271f4d4f0143a1a8405609570929aa2748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f84c17_f5461d14",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "Can this just be:\n\n   try (Repository repository \u003d repoManager.openRepository(Project.nameKey(repo))) {\n   \n?\n\nIt seems creating the TestRepository wrapper is not not needed here.",
+      "range": {
+        "startLine": 3249,
+        "startChar": 4,
+        "endLine": 3250,
+        "endChar": 82
+      },
+      "revId": "894c8e271f4d4f0143a1a8405609570929aa2748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

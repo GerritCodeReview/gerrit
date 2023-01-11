@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "265c571a_03f0de6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "Thanks for fixing the issue with closing the repsotories!",
+      "revId": "3be6f5d78366c4c1cfcd8362d76b14d4b7bf8291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -226,6 +226,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66add225_067cbed5",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2839,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-11T08:27:35Z",
+      "side": 1,
+      "message": "I understand that it\u0027s needed :) \n\nIt just seems unrelated to \"Adjust AbstractQueryChangesTest so that they could be used with the custom injector\" what this change is about. So I wonder if this should be a separate change, or at least be mentioned in the commit message?",
+      "parentUuid": "bad41a4d_93427829",
+      "revId": "da552e77ee284870745cd59efab4221e66df2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9c96f33_4a23f9c4",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3

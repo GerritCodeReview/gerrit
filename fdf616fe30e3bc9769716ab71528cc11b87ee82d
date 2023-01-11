@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c9800e_b2252e60",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-11T14:08:20Z",
+      "side": 1,
+      "message": "nit: this should be outside of the try?",
+      "range": {
+        "startLine": 196,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 23
+      },
+      "revId": "fdf616fe30e3bc9769716ab71528cc11b87ee82d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

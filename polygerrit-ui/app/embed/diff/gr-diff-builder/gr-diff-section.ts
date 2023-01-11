@@ -16,7 +16,11 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {countLines, diffClasses} from '../gr-diff/gr-diff-utils';
+import {
+  countLines,
+  diffClasses,
+  getResponsiveMode,
+} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
@@ -71,6 +75,7 @@ export class GrDiffSection extends LitElement {
     if (this.group.ignoredWhitespaceOnly) extras.push('ignoredWhitespaceOnly');
 
     const pairs = this.getLinePairs();
+    const responsiveMode = getResponsiveMode(this.diffPrefs, this.renderPrefs);
     const body = html`
       <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
@@ -86,6 +91,7 @@ export class GrDiffSection extends LitElement {
               .lineLength=${this.diffPrefs?.line_length ?? 80}
               .tabSize=${this.diffPrefs?.tab_size ?? 2}
               .unifiedDiff=${this.isUnifiedDiff()}
+              .responsiveMode=${responsiveMode}
             >
             </gr-diff-row>
           `;

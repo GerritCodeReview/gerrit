@@ -6266,9 +6266,12 @@ project name as well as the change number: "'$$<project>~<changeNumber>$$'"
 Gerrit also supports an array of other change identifiers.
 
 [NOTE]
-Using these identifiers comes with a performance penalty as they
-require additional lookups to be translated to the
-"'$$<project>~<changeNumber>$$'" identifier.
+Even though these identifiers will work in the majority of cases it is highly
+recommended to use "'$$<project>~<changeNumber>$$'" whenever possible.
+Since these identifiers require additional lookups from index and caches, to
+be translated to the "'$$<project>~<changeNumber>$$'" identifier, they
+may result in both false-positives and false-negatives.
+Furthermore the additional lookup mean that they come with a performance penalty.
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted

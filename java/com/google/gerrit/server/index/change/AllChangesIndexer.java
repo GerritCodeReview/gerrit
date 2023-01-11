@@ -230,19 +230,32 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     @Override
     public Void call() throws Exception {
-      OnlineReindexMode.begin();
-      // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
-      // not important for indexing, since sites should have a fully populated DiffSummary cache.
-      // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
-      // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
-      // we don't have concrete proof that improving packfile locality would help.
-      notesFactory
-          .scan(
-              projectSlice.scanResult(),
-              projectSlice.name(),
-              id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
-          .forEach(r -> index(r));
-      OnlineReindexMode.end();
+      String oldThreadName = Thread.currentThread().getName();
+      try {
+        Thread.currentThread()
+            .setName(
+                oldThreadName
+                    + "["
+                    + projectSlice.name().toString()
+                    + "-"
+                    + projectSlice.slice()
+                    + "]");
+        OnlineReindexMode.begin();
+        // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
+        // not important for indexing, since sites should have a fully populated DiffSummary cache.
+        // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
+        // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
+        // we don't have concrete proof that improving packfile locality would help.
+        notesFactory
+            .scan(
+                projectSlice.scanResult(),
+                projectSlice.name(),
+                id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
+            .forEach(r -> index(r));
+        OnlineReindexMode.end();
+      } finally {
+        Thread.currentThread().setName(oldThreadName);
+      }
       return null;
     }
 

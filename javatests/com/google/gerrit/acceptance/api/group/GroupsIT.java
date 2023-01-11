@@ -601,6 +601,20 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getGroupFromMetaId() throws Exception {
+    AccountGroup.UUID uuid = groupOperations.newGroup().create();
+    InternalGroup preUpdateState = groupCache.get(uuid).get();
+    gApi.groups().id(uuid.toString()).description("New description");
+
+    InternalGroup postUpdateState = groupCache.get(uuid).get();
+    assertThat(postUpdateState).isNotEqualTo(preUpdateState);
+    assertThat(groupCache.getFromMetaId(uuid, preUpdateState.getRefState()))
+        .isEqualTo(preUpdateState);
+    assertThat(groupCache.getFromMetaId(uuid, postUpdateState.getRefState()))
+        .isEqualTo(postUpdateState);
+  }
+
+  @Test
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void getSystemGroupByConfiguredName() throws Exception {
     GroupReference anonymousUsersGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);

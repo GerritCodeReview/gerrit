@@ -27,6 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache;
@@ -122,15 +123,19 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId;
   private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<InternalGroup>> byUUID;
+  private final LoadingCache<Cache.GroupKeyProto, InternalGroup> persistedByUuidCache;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
-      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID) {
+      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
+      @Named(BYUUID_NAME_PERSISTED)
+          LoadingCache<Cache.GroupKeyProto, InternalGroup> persistedByUuidCache) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
+    this.persistedByUuidCache = persistedByUuidCache;
   }
 
   @Override
@@ -181,6 +186,21 @@ public class GroupCacheImpl implements GroupCache {
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot look up groups %s by uuids", groupUuids);
       return ImmutableMap.of();
+    }
+  }
+
+  @Override
+  public InternalGroup getFromMetaId(AccountGroup.UUID groupUuid, ObjectId metaId)
+      throws StorageException {
+    Cache.GroupKeyProto key =
+        Cache.GroupKeyProto.newBuilder()
+            .setUuid(groupUuid.get())
+            .setRevision(ObjectIdConverter.create().toByteString(metaId))
+            .build();
+    try {
+      return persistedByUuidCache.get(key);
+    } catch (ExecutionException e) {
+      throw new StorageException(e);
     }
   }
 

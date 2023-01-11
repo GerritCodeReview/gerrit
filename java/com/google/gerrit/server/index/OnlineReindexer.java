@@ -106,9 +106,6 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
         "Starting online reindex of %s from schema version %s to %s",
         name, version(indexes.getSearchIndex()), version(index));
 
-    if (oldVersion != newVersion) {
-      index.deleteAll();
-    }
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
       logger.atSevere().log(

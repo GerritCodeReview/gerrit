@@ -49,14 +49,14 @@ export function countLines(diff?: DiffInfo, side?: Side) {
 }
 
 export function getResponsiveMode(
-  prefs: DiffPreferencesInfo,
+  prefs?: DiffPreferencesInfo,
   renderPrefs?: RenderPreferences
 ): DiffResponsiveMode {
   if (renderPrefs?.responsive_mode) {
     return renderPrefs.responsive_mode;
   }
   // Backwards compatibility to the line_wrapping param.
-  if (prefs.line_wrapping) {
+  if (prefs?.line_wrapping) {
     return 'FULL_RESPONSIVE';
   }
   return 'NONE';

@@ -22,6 +22,30 @@
       },
       "revId": "2665221917183b2e1bfef096626bebc4c4e00dae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7be4f7c2_7ecf5ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-01-11T13:58:07Z",
+      "side": 1,
+      "message": "+1 for consistency. Thanks for the suggestion.",
+      "parentUuid": "af698f5c_00914988",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "2665221917183b2e1bfef096626bebc4c4e00dae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

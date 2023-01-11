@@ -191,15 +191,20 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
+  /**
+   * Reindexes all changes in a given project, even if they already exist in the index. Changes will
+   * not be sliced to allow multithreaded reindexing.
+   */
   @Nullable
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return reindexProjectSlice(
+      return new ProjectSliceIndexer(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
-          failed);
+          failed,
+          true);
     } catch (IOException e) {
       logger.atSevere().log("%s", e.getMessage());
       return null;
@@ -208,7 +213,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public Callable<Void> reindexProjectSlice(
       ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed);
+    return new ProjectSliceIndexer(indexer, projectSlice, done, failed, false);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -216,16 +221,19 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final ProjectSlice projectSlice;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
+    private final boolean forceReindex;
 
     private ProjectSliceIndexer(
         ChangeIndexer indexer,
         ProjectSlice projectSlice,
         ProgressMonitor done,
-        ProgressMonitor failed) {
+        ProgressMonitor failed,
+        boolean forceReindex) {
       this.indexer = indexer;
       this.projectSlice = projectSlice;
       this.done = done;
       this.failed = failed;
+      this.forceReindex = forceReindex;
     }
 
     @Override
@@ -265,10 +273,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(r.notes()));
+        if (forceReindex || !indexer.isChangeAlreadyIndexed(r.id())) {
+          indexer.index(changeDataFactory.create(r.notes()));
+          verboseWriter.format(
+              "Reindexed change %d (project: %s)\n",
+              r.id().get(), r.notes().getProjectName().get());
+
+        } else {
+          verboseWriter.format(
+              "Skipped change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
+        }
         done.update(1);
-        verboseWriter.format(
-            "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();

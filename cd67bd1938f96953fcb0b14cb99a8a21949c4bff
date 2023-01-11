@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f99ad26_369781b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-11T15:11:34Z",
+      "side": 1,
+      "message": "I am not sure.\n\nIt\u0027s all \"best effort\" with an emphasis on *best*. In this change, we\u0027re decreasing what *best* means. I think this cache is basically never loaded then because it\u0027s not called from other places.\n\nI wonder if we could do something else instead: Since we separated the in-mem from the persisted cache, we could call:\n\ninMemoryProjectCache.asMap().values().stream()\n\nThis requires some Google internal plumbing though. Let me see if I can make that work easily.",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 58
+      },
+      "revId": "cd67bd1938f96953fcb0b14cb99a8a21949c4bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

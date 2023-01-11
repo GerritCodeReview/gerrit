@@ -553,7 +553,7 @@ suite('gr-textarea tests', () => {
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
   });
 
-  test('emoji dropdown is closed when iron-overlay-closed is fired', async () => {
+  test('emoji dropdown is closed when dropdown-closed is fired', async () => {
     const resetSpy = sinon.spy(element, 'closeDropdown');
     element.emojiSuggestions!.dispatchEvent(
       new CustomEvent('dropdown-closed', {

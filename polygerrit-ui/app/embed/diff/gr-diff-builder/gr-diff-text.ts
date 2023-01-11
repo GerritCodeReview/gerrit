@@ -115,7 +115,7 @@ export class GrDiffText extends LitElement {
     }
     const piece = html`<span
       class=${diffClasses('tab')}
-      style=${styleMap({'tab-size': `${this.tabSize}`})}
+      style=${styleMap({'tab-size': `${tabSize}`})}
       >${TAB}</span
     >`;
     this.pieces.push(piece);

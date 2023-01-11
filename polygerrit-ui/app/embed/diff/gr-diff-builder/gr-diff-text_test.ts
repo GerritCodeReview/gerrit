@@ -75,18 +75,25 @@ suite('gr-diff-text test', () => {
 
     test('tab wrapper style', async () => {
       element.lineLimit = 100;
-      element.text = '\t';
-      await element.updateComplete;
-      for (const size of [1, 3, 8, 55]) {
-        element.tabSize = size;
-        await element.updateComplete;
-        await check(
-          '\t',
-          /* HTML */ `
-            <span class="gr-diff tab" style="tab-size: ${size};"> </span>
-          `
-        );
-      }
+      element.tabSize = 4;
+      await check(
+        '\t',
+        /* HTML */ '<span class="gr-diff tab" style="tab-size:4;"></span>'
+      );
+      await check(
+        'abc\t',
+        /* HTML */ 'abc<span class="gr-diff tab" style="tab-size:1;"></span>'
+      );
+
+      element.tabSize = 8;
+      await check(
+        '\t',
+        /* HTML */ '<span class="gr-diff tab" style="tab-size:8;"></span>'
+      );
+      await check(
+        'abc\t',
+        /* HTML */ 'abc<span class="gr-diff tab" style="tab-size:5;"></span>'
+      );
     });
 
     test('tab wrapper insertion', async () => {

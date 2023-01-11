@@ -8253,6 +8253,7 @@ entities. Includes both rebased changes, and previously up-to-date ancestors. Th
 ancestry, where the oldest ancestor is the first.
 |`contains_git_conflicts`  ||Whether any of the rebased changes has conflicts
 due to rebasing.
+|===========================
 
 [[related-change-and-commit-info]]
 === RelatedChangeAndCommitInfo

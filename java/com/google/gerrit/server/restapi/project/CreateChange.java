@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -59,7 +60,8 @@ public class CreateChange implements RestModifyView<ProjectResource, ChangeInput
       throw new AuthException("Authentication required");
     }
 
-    if (!Strings.isNullOrEmpty(input.project) && !rsrc.getName().equals(input.project)) {
+    if (!Strings.isNullOrEmpty(input.project)
+        && !rsrc.getName().equals(ProjectUtil.sanitizeProjectName(input.project))) {
       throw new BadRequestException("project must match URL");
     }
 

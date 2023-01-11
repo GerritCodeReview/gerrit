@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e713724_7355d167",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-11T08:47:19Z",
+      "side": 1,
+      "message": "I have not used the GWSQ, because the fix is so small. I have chosen Dhruv, because he is onduty.",
+      "revId": "e15af734080912306dd690418483cf25ccd344f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

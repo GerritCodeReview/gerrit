@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd8c67b_897a76f4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-11T15:15:30Z",
+      "side": 1,
+      "message": "the indentation is a bit different between here and the render() method, so the prettier text wrapping disagrees and fails the test.",
+      "range": {
+        "startLine": 148,
+        "startChar": 7,
+        "endLine": 148,
+        "endChar": 21
+      },
+      "revId": "35006dd082121edecb1763e4023994524dfe2f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -300,17 +300,21 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
-      return Streams.concat(
-              Arrays.stream(config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
-                  .map(AccountGroup::uuid),
-              all().stream()
-                  .map(n -> inMemoryProjectCache.getIfPresent(n))
-                  .filter(Objects::nonNull)
-                  .flatMap(p -> p.getAllGroupUUIDs().stream())
-                  // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
-                  // against them just in case there is a bug or corner case.
-                  .filter(id -> id != null && id.get() != null))
-          .collect(toSet());
+      Set<AccountGroup.UUID> relevantGroupUuids =
+          Streams.concat(
+                  Arrays.stream(
+                          config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
+                      .map(AccountGroup::uuid),
+                  all().stream()
+                      .map(n -> inMemoryProjectCache.getIfPresent(n))
+                      .filter(Objects::nonNull)
+                      .flatMap(p -> p.getAllGroupUUIDs().stream())
+                      // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
+                      // against them just in case there is a bug or corner case.
+                      .filter(id -> id != null && id.get() != null))
+              .collect(toSet());
+      logger.atFine().log("relevant group UUIDs: %s", relevantGroupUuids);
+      return relevantGroupUuids;
     }
   }
 

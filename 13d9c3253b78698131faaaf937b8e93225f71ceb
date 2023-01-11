@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a438518_f52cbd87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-11T23:29:49Z",
+      "side": 1,
+      "message": "Good stuff @sven.selberg@axis.com, feel free to merge once the nits are addressed.",
+      "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01c4f9c_5518041a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6270,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-11T23:29:49Z",
+      "side": 1,
+      "message": "whenever",
+      "range": {
+        "startLine": 6270,
+        "startChar": 52,
+        "endLine": 6270,
+        "endChar": 56
+      },
+      "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db0867e2_a8457c11",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-11T23:29:49Z",
+      "side": 1,
+      "message": "I would also add _or return more or less changes than expected_",
+      "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

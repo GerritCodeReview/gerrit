@@ -22,4 +22,5 @@ export enum KnownExperimentId {
   SUGGEST_EDIT = 'UiFeature__suggest_edit',
   MENTION_USERS = 'UiFeature__mention_users',
   RENDER_MARKDOWN = 'UiFeature__render_markdown',
+  REBASE_CHAIN = 'UiFeature__rebase_chain',
 }

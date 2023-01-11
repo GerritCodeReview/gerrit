@@ -5,6 +5,7 @@
  */
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
 import {
   NumericChangeId,
   BranchName,
@@ -21,6 +22,8 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {KnownExperimentId} from '../../../services/flags/flags';
+
 
 export interface RebaseChange {
   name: string;
@@ -30,6 +33,7 @@ export interface RebaseChange {
 export interface ConfirmRebaseEventDetail {
   base: string | null;
   allowConflicts: boolean;
+  rebaseChain: boolean;
 }
 
 @customElement('gr-confirm-rebase-dialog')
@@ -85,10 +89,15 @@ export class GrConfirmRebaseDialog
   @query('#rebaseAllowConflicts')
   private rebaseAllowConflicts!: HTMLInputElement;
 
+  @query('#rebaseChain')
+  private rebaseChain?: HTMLInputElement;
+
   @query('#parentInput')
   parentInput!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -221,6 +230,14 @@ export class GrConfirmRebaseDialog
               >Allow rebase with conflicts</label
             >
           </div>
+          ${when(
+            this.flagsService.isEnabled(KnownExperimentId.REBASE_CHAIN),
+            () =>
+              html`<div>
+                <input id="rebaseChain" type="checkbox" />
+                <label for="rebaseChain">Rebase all ancestors</label>
+              </div>`
+          )}
         </div>
       </gr-dialog>
     `;
@@ -326,6 +343,7 @@ export class GrConfirmRebaseDialog
     const detail: ConfirmRebaseEventDetail = {
       base: this.getSelectedBase(),
       allowConflicts: this.rebaseAllowConflicts.checked,
+      rebaseChain: !!this.rebaseChain?.checked,
     };
     this.dispatchEvent(new CustomEvent('confirm', {detail}));
     this.text = '';

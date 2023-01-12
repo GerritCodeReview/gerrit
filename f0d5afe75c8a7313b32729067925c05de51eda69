@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4512c5d1_06ba9acf",
+        "filename": "java/com/google/gerrit/index/query/AndPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T21:23:55Z",
+      "side": 0,
+      "message": "I agree: if `cmp \u003d 0` then implies that a and b are either both or none of them instance of DataSource.",
+      "range": {
+        "startLine": 137,
+        "startChar": 43,
+        "endLine": 137,
+        "endChar": 70
+      },
+      "revId": "f0d5afe75c8a7313b32729067925c05de51eda69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

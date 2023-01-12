@@ -401,9 +401,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     String query = "uuid:" + uuid;
     assertQuery(query, group);
 
-    for (GroupIndex index : groupIndexes.getWriteIndexes()) {
-      index.delete(uuid);
-    }
+    deleteGroup(uuid);
+
     assertQuery(query);
   }
 
@@ -439,6 +438,12 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   protected GroupInfo createGroup(String name, AccountInfo... members) throws Exception {
     return createGroupWithDescription(name, null, members);
+  }
+
+  protected void deleteGroup(AccountGroup.UUID uuid) throws Exception {
+    for (GroupIndex index : groupIndexes.getWriteIndexes()) {
+      index.delete(uuid);
+    }
   }
 
   protected GroupInfo createGroupWithDescription(

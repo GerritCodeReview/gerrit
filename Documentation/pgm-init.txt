@@ -104,7 +104,9 @@ objects these SQL statements must be executed manually.
 	Show cache statistics at the end of program.
 
 --reindex-threads::
-	Number of threads to use for reindex after init. Defaults to 1.
+	Number of threads to use for reindex after init. Defaults to 1. Can be
+	set to -1 to skip reindex after init. Skipping reindex will also not
+	automatically start the daemon.
 
 == CONTEXT
 This command can only be run on a server which has direct local access to the

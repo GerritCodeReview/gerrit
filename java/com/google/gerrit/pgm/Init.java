@@ -163,7 +163,7 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+    if (reindexThreads != -1 && !ReplicaUtil.isReplica(run.flags.cfg)) {
       List<String> indicesToReindex = new ArrayList<>();
       for (SchemaDefinitions<?> schemaDef : schemaDefs) {
         if (!indexStatus.exists(schemaDef.getName())) {
@@ -226,7 +226,7 @@ public class Init extends BaseInit {
   }
 
   void start(SiteRun run) throws Exception {
-    if (run.flags.autoStart) {
+    if (reindexThreads != -1 && run.flags.autoStart) {
       if (HostPlatform.isWin32()) {
         System.err.println("Automatic startup not supported on Win32.");
       } else {

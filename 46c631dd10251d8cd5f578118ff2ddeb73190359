@@ -22,6 +22,30 @@
       },
       "revId": "46c631dd10251d8cd5f578118ff2ddeb73190359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f1c6fb_8aa56153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-12T18:55:43Z",
+      "side": 1,
+      "message": "I think we thought this was minor enough on its own and it would be covered in the notes at https://gerrit-review.googlesource.com/c/gerrit/+/356215/2//COMMIT_MSG#13",
+      "parentUuid": "6b583b16_f74a70b3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "46c631dd10251d8cd5f578118ff2ddeb73190359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

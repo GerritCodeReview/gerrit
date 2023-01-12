@@ -22,6 +22,30 @@
       },
       "revId": "735e9efe2a2e619fff57f0a24c2f9576c0662741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffdcc643_6c8e52c6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-12T14:14:37Z",
+      "side": 1,
+      "message": "Yes. Updated the commit message.",
+      "parentUuid": "fb203549_d1f278fd",
+      "range": {
+        "startLine": 122,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 15
+      },
+      "revId": "735e9efe2a2e619fff57f0a24c2f9576c0662741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

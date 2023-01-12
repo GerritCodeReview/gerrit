@@ -54,7 +54,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Project projectIndexOperations;
 
   private static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
+      ImmutableSet.of(ProjectField.NAME_SPEC.getName(), ProjectField.REF_STATE.getName());
 
   @Test
   public void indexProject_indexesRefStateOfProjectAndParents() throws Exception {

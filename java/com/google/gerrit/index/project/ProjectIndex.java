@@ -31,7 +31,7 @@ public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
 
   @Override
   default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
-    return new ProjectPredicate(ProjectField.NAME, nameKey.get());
+    return new ProjectPredicate(ProjectField.NAME_SPEC, nameKey.get());
   }
 
   Function<ProjectData, Project.NameKey> ENTITY_TO_KEY = (p) -> p.getProject().getNameKey();

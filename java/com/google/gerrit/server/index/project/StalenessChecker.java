@@ -40,7 +40,7 @@ import java.util.Optional;
  */
 public class StalenessChecker {
   private static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
+      ImmutableSet.of(ProjectField.NAME_SPEC.getName(), ProjectField.REF_STATE.getName());
 
   private final ProjectCache projectCache;
   private final ProjectIndexCollection indexes;

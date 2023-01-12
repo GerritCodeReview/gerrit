@@ -15,7 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
-import static com.google.gerrit.index.project.ProjectField.NAME;
+import static com.google.gerrit.index.project.ProjectField.NAME_SPEC;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -58,14 +58,14 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
     implements ProjectIndex {
   private static final String PROJECTS = "projects";
 
-  private static final String NAME_SORT_FIELD = sortFieldName(NAME);
+  private static final String NAME_SORT_FIELD = sortFieldName(NAME_SPEC);
 
   private static Term idTerm(ProjectData projectState) {
     return idTerm(projectState.getProject().getNameKey());
   }
 
   private static Term idTerm(Project.NameKey nameKey) {
-    return QueryBuilder.stringTerm(NAME.getName(), nameKey.get());
+    return QueryBuilder.stringTerm(NAME_SPEC.getName(), nameKey.get());
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
@@ -110,7 +110,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   void add(Document doc, Values<ProjectData> values) {
     // Add separate DocValues field for the field that is needed for sorting.
     SchemaField<ProjectData, ?> f = values.getField();
-    if (f == NAME) {
+    if (f == NAME_SPEC) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(NAME_SORT_FIELD, new BytesRef(value)));
     }
@@ -156,7 +156,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   @Nullable
   @Override
   protected ProjectData fromDocument(Document doc) {
-    Project.NameKey nameKey = Project.nameKey(doc.getField(NAME.getName()).stringValue());
+    Project.NameKey nameKey = Project.nameKey(doc.getField(NAME_SPEC.getName()).stringValue());
     return projectCache.get().get(nameKey).map(ProjectState::toProjectData).orElse(null);
   }
 }

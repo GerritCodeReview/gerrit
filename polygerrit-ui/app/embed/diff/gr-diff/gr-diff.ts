@@ -755,9 +755,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
           rule wins in case of same specificity.
         */
         .trailing-whitespace,
-        .content .trailing-whitespace,
+        .content .contentText .trailing-whitespace,
         .trailing-whitespace .intraline,
-        .content .trailing-whitespace .intraline {
+        .content .contentText .trailing-whitespace .intraline {
           border-radius: var(--border-radius, 4px);
           background-color: var(--diff-trailing-whitespace-indicator);
         }

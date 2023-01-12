@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c03aa7_266a1991",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T18:50:41Z",
+      "side": 1,
+      "message": "It would make sense to do the same on pgm-SwitchSecureStore.txt:L10",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "d15428e545e3d7ba819ee837648d3a35d54e08ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

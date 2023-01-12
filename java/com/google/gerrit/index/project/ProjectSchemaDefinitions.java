@@ -16,6 +16,7 @@ package com.google.gerrit.index.project;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
@@ -31,14 +32,25 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   static final Schema<ProjectData> V1 =
       schema(
           /* version= */ 1,
-          ProjectField.NAME,
-          ProjectField.DESCRIPTION,
-          ProjectField.PARENT_NAME,
-          ProjectField.NAME_PART,
-          ProjectField.ANCESTOR_NAME);
+          ImmutableList.of(
+              ProjectField.NAME_FIELD,
+              ProjectField.DESCRIPTION_FIELD,
+              ProjectField.PARENT_NAME_FIELD,
+              ProjectField.NAME_PART_FIELD,
+              ProjectField.ANCESTOR_NAME_FIELD),
+          ImmutableList.of(
+              ProjectField.NAME_SPEC,
+              ProjectField.DESCRIPTION_SPEC,
+              ProjectField.PARENT_NAME_SPEC,
+              ProjectField.NAME_PART_SPEC,
+              ProjectField.ANCESTOR_NAME_SPEC));
 
   @Deprecated
-  static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
+  static final Schema<ProjectData> V2 =
+      schema(
+          V1,
+          ImmutableList.of(ProjectField.STATE_FIELD, ProjectField.REF_STATE_FIELD),
+          ImmutableList.of(ProjectField.STATE_SPEC));
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<ProjectData> V3 = schema(V2);

@@ -116,9 +116,9 @@ public final class IndexUtils {
    */
   public static Set<String> projectFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
-    return fs.contains(ProjectField.NAME.getName())
+    return fs.contains(ProjectField.NAME_SPEC.getName())
         ? fs
-        : Sets.union(fs, ImmutableSet.of(ProjectField.NAME.getName()));
+        : Sets.union(fs, ImmutableSet.of(ProjectField.NAME_SPEC.getName()));
   }
 
   private IndexUtils() {

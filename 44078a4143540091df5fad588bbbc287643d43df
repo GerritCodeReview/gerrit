@@ -69,6 +69,23 @@
       "parentUuid": "0f5d67d8_dee16d58",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2849da70_352ffeae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T22:06:08Z",
+      "side": 1,
+      "message": "@hiesel@google.com any plans to remove this in v3.8?",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

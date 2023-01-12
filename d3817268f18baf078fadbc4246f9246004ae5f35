@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc54b108_4fd5b83d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-12T15:41:12Z",
+      "side": 1,
+      "message": "You migrated all Fields in this change.\n\nCould you, please, split out staleness check field (ProjectField.REF_STATE_SPEC), into a separate change and submit it later, once we confirm the were no issues with other field?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "d3817268f18baf078fadbc4246f9246004ae5f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cc1da5_56327008",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-12T15:41:12Z",
+      "side": 1,
+      "message": "Also include REF_STATE_SPEC",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 52
+      },
+      "revId": "d3817268f18baf078fadbc4246f9246004ae5f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

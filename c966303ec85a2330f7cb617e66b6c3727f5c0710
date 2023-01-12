@@ -69,6 +69,24 @@
       "parentUuid": "86b20243_5a2eb148",
       "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "680b79cd_b7ced3e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-12T18:48:44Z",
+      "side": 1,
+      "message": "Yes, sent a cherry-pick and cced you. Not sure about when the next release will happen though.",
+      "parentUuid": "738ef6e9_feaba721",
+      "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

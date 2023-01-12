@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb00949a_255b01fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T16:44:18Z",
+      "side": 1,
+      "message": "nit: missing release notes (:skip)",
+      "revId": "6b2afd0e7acbb93994b4ed75e2543cb5ffdedd05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

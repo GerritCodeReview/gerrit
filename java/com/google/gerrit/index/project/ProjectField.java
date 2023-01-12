@@ -15,14 +15,10 @@
 package com.google.gerrit.index.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.fullText;
-import static com.google.gerrit.index.FieldDef.prefix;
-import static com.google.gerrit.index.FieldDef.storedOnly;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
 
@@ -38,23 +34,53 @@ public class ProjectField {
         .toByteArray(project.getNameKey());
   }
 
-  public static final FieldDef<ProjectData, String> NAME =
-      exact("name").stored().build(p -> p.getProject().getName());
+  public static final IndexedField<ProjectData, String> NAME_FIELD =
+      IndexedField.<ProjectData>stringBuilder("RepoName")
+          .required()
+          .size(200)
+          .stored()
+          .build(p -> p.getProject().getName());
 
-  public static final FieldDef<ProjectData, String> DESCRIPTION =
-      fullText("description").stored().build(p -> p.getProject().getDescription());
+  public static final IndexedField<ProjectData, String>.SearchSpec NAME_SPEC =
+      NAME_FIELD.exact("name");
 
-  public static final FieldDef<ProjectData, String> PARENT_NAME =
-      exact("parent_name").build(p -> p.getProject().getParentName());
+  public static final IndexedField<ProjectData, String> DESCRIPTION_FIELD =
+      IndexedField.<ProjectData>stringBuilder("Description")
+          .stored()
+          .build(p -> p.getProject().getDescription());
 
-  public static final FieldDef<ProjectData, Iterable<String>> NAME_PART =
-      prefix("name_part").buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()));
+  public static final IndexedField<ProjectData, String>.SearchSpec DESCRIPTION_SPEC =
+      DESCRIPTION_FIELD.fullText("description");
 
-  public static final FieldDef<ProjectData, String> STATE =
-      exact("state").stored().build(p -> p.getProject().getState().name());
+  public static final IndexedField<ProjectData, String> PARENT_NAME_FIELD =
+      IndexedField.<ProjectData>stringBuilder("ParentName")
+          .build(p -> p.getProject().getParentName());
 
-  public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
-      exact("ancestor_name").buildRepeatable(ProjectData::getParentNames);
+  public static final IndexedField<ProjectData, String>.SearchSpec PARENT_NAME_SPEC =
+      PARENT_NAME_FIELD.exact("parent_name");
+
+  public static final IndexedField<ProjectData, Iterable<String>> NAME_PART_FIELD =
+      IndexedField.<ProjectData>iterableStringBuilder("NamePart")
+          .size(200)
+          .build(p -> SchemaUtil.getNameParts(p.getProject().getName()));
+
+  public static final IndexedField<ProjectData, Iterable<String>>.SearchSpec NAME_PART_SPEC =
+      NAME_PART_FIELD.prefix("name_part");
+
+  public static final IndexedField<ProjectData, String> STATE_FIELD =
+      IndexedField.<ProjectData>stringBuilder("State")
+          .stored()
+          .build(p -> p.getProject().getState().name());
+
+  public static final IndexedField<ProjectData, String>.SearchSpec STATE_SPEC =
+      STATE_FIELD.exact("state");
+
+  public static final IndexedField<ProjectData, Iterable<String>> ANCESTOR_NAME_FIELD =
+      IndexedField.<ProjectData>iterableStringBuilder("AncestorName")
+          .build(ProjectData::getParentNames);
+
+  public static final IndexedField<ProjectData, Iterable<String>>.SearchSpec ANCESTOR_NAME_SPEC =
+      ANCESTOR_NAME_FIELD.exact("ancestor_name");
 
   /**
    * All values of all refs that were used in the course of indexing this document. This covers
@@ -62,12 +88,16 @@ public class ProjectField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ProjectData, Iterable<byte[]>> REF_STATE =
-      storedOnly("ref_state")
-          .buildRepeatable(
+  public static final IndexedField<ProjectData, Iterable<byte[]>> REF_STATE_FIELD =
+      IndexedField.<ProjectData>iterableByteArrayBuilder("RefState")
+          .stored()
+          .build(
               projectData ->
                   projectData.tree().stream()
                       .filter(p -> p.getProject().getConfigRefState() != null)
                       .map(p -> toRefState(p.getProject()))
                       .collect(toImmutableList()));
+
+  public static final IndexedField<ProjectData, Iterable<byte[]>>.SearchSpec REF_STATE_SPEC =
+      REF_STATE_FIELD.storedOnly("ref_state");
 }

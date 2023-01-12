@@ -40,7 +40,7 @@ import java.util.Optional;
  */
 public class StalenessChecker {
   private static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
+      ImmutableSet.of(ProjectField.NAME_SPEC.getName(), ProjectField.REF_STATE_SPEC.getName());
 
   private final ProjectCache projectCache;
   private final ProjectIndexCollection indexes;
@@ -74,7 +74,7 @@ public class StalenessChecker {
     }
 
     SetMultimap<Project.NameKey, RefState> indexedRefStates =
-        RefState.parseStates(result.get().getValue(ProjectField.REF_STATE));
+        RefState.parseStates(result.get().getValue(ProjectField.REF_STATE_SPEC));
 
     SetMultimap<Project.NameKey, RefState> currentRefStates =
         MultimapBuilder.hashKeys().hashSetValues().build();

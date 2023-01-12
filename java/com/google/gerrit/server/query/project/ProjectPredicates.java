@@ -25,23 +25,23 @@ import java.util.Locale;
 /** Utility class to create predicates for project index queries. */
 public class ProjectPredicates {
   public static Predicate<ProjectData> name(Project.NameKey nameKey) {
-    return new ProjectPredicate(ProjectField.NAME, nameKey.get());
+    return new ProjectPredicate(ProjectField.NAME_SPEC, nameKey.get());
   }
 
   public static Predicate<ProjectData> parent(Project.NameKey parentNameKey) {
-    return new ProjectPredicate(ProjectField.PARENT_NAME, parentNameKey.get());
+    return new ProjectPredicate(ProjectField.PARENT_NAME_SPEC, parentNameKey.get());
   }
 
   public static Predicate<ProjectData> inname(String name) {
-    return new ProjectPredicate(ProjectField.NAME_PART, name.toLowerCase(Locale.US));
+    return new ProjectPredicate(ProjectField.NAME_PART_SPEC, name.toLowerCase(Locale.US));
   }
 
   public static Predicate<ProjectData> description(String description) {
-    return new ProjectPredicate(ProjectField.DESCRIPTION, description);
+    return new ProjectPredicate(ProjectField.DESCRIPTION_SPEC, description);
   }
 
   public static Predicate<ProjectData> state(ProjectState state) {
-    return new ProjectPredicate(ProjectField.STATE, state.name());
+    return new ProjectPredicate(ProjectField.STATE_SPEC, state.name());
   }
 
   private ProjectPredicates() {}

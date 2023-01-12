@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
@@ -21,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
@@ -43,7 +45,44 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = new ChangeInput();
     input.branch = "foo";
     input.subject = "subject";
-    RestResponse cr = adminRestSession.post("/projects/" + project.get() + "/create.change", input);
-    cr.assertCreated();
+    RestResponse response =
+        adminRestSession.post("/projects/" + project.get() + "/create.change", input);
+    response.assertCreated();
+  }
+
+  @Test
+  public void nonMatchingProjectIsRejected() throws Exception {
+    ChangeInput input = new ChangeInput();
+    input.project = "non-matching-project";
+    input.branch = "master";
+    input.subject = "subject";
+    RestResponse response =
+        adminRestSession.post("/projects/" + project.get() + "/create.change", input);
+    response.assertBadRequest();
+    assertThat(response.getEntityContent()).isEqualTo("project must match URL");
+  }
+
+  @Test
+  public void matchingProjectIsAccepted() throws Exception {
+    ChangeInput input = new ChangeInput();
+    input.project = project.get();
+    input.branch = "master";
+    input.subject = "subject";
+    RestResponse response =
+        adminRestSession.post("/projects/" + project.get() + "/create.change", input);
+    response.assertCreated();
+  }
+
+  @Test
+  public void matchingProjectWithTrailingSlashIsAccepted() throws Exception {
+    ChangeInput input = new ChangeInput();
+    input.project = project.get() + "/";
+    input.branch = "master";
+    input.subject = "subject";
+    RestResponse response =
+        adminRestSession.post(
+            "/projects/" + IdString.fromDecoded(project.get() + "/").encoded() + "/create.change",
+            input);
+    response.assertCreated();
   }
 }

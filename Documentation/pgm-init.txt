@@ -20,6 +20,7 @@ _java_ -jar gerrit.war _init_
   [--dev]
   [--skip-all-downloads]
   [--skip-download=<LIBRARY_NAME>]
+  [--reindex-threads=<N>]
 --
 
 == DESCRIPTION
@@ -101,6 +102,9 @@ objects these SQL statements must be executed manually.
 
 --show-cache-stats::
 	Show cache statistics at the end of program.
+
+--reindex-threads::
+	Number of threads to use for reindex after init. Defaults to 1.
 
 == CONTEXT
 This command can only be run on a server which has direct local access to the

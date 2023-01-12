@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01e6d5c_738e362d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154258
+      },
+      "writtenOn": "2023-01-12T08:25:10Z",
+      "side": 1,
+      "message": "This is my first gerrit patch so let me know if I need to do anything else, thanks.",
+      "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

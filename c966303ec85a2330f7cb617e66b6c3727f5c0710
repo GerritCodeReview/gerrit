@@ -51,6 +51,24 @@
       "parentUuid": "f01e6d5c_738e362d",
       "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "738ef6e9_feaba721",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154258
+      },
+      "writtenOn": "2023-01-12T12:51:11Z",
+      "side": 1,
+      "message": "Great, thanks! Would this be possible to backport to 3.5.X?",
+      "parentUuid": "86b20243_5a2eb148",
+      "revId": "c966303ec85a2330f7cb617e66b6c3727f5c0710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

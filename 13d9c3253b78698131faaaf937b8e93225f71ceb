@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ac5a89_63e679f0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6270,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-12T08:03:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c01c4f9c_5518041a",
+      "range": {
+        "startLine": 6270,
+        "startChar": 52,
+        "endLine": 6270,
+        "endChar": 56
+      },
+      "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db0867e2_a8457c11",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-01-11T23:29:49Z",
       "side": 1,
       "message": "I would also add _or return more or less changes than expected_",
+      "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00132c91_9c30b9a0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-12T08:03:33Z",
+      "side": 1,
+      "message": "Does the rest API return more than one change when a change-identifier is used? In the only cases I could find were the changes API returns more than one change (apart from query) is when enumerating changes that has a relationship to the identified change (f.i. `/submitted_together`).\nIn all other instances I\u0027d expect it to return exactly 1 change or an error (not found | doesn\u0027t identify one single change) as is stated in this documentation.",
+      "parentUuid": "db0867e2_a8457c11",
       "revId": "13d9c3253b78698131faaaf937b8e93225f71ceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

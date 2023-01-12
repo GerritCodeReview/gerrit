@@ -20,21 +20,12 @@ import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
+import {isMergeParent, getParentIndex} from '../../../utils/patch-set-util';
 import {
-  computeAllPatchSets,
-  computeLatestPatchNum,
-  PatchSet,
-  isMergeParent,
-  getParentIndex,
-} from '../../../utils/patch-set-util';
-import {
-  addUnmodifiedFiles,
   computeDisplayPath,
   computeTruncatedPath,
   isMagicPath,
-  specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
@@ -45,52 +36,33 @@ import {
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   BasePatchSetNum,
-  ChangeInfo,
-  CommitId,
   EDIT,
-  FileInfo,
   NumericChangeId,
   PARENT,
   PatchRange,
-  PatchSetNum,
   PatchSetNumber,
   PreferencesInfo,
   RepoName,
-  RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {
-  CommitRange,
-  EditRevisionInfo,
-  FileRange,
-  ParsedChangeInfo,
-} from '../../../types/types';
+import {FileRange, ParsedChangeInfo} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {
-  CommentMap,
-  getPatchRangeForCommentUrl,
-  isInBaseOfPatchRange,
-} from '../../../utils/comment-util';
+import {CommentMap} from '../../../utils/comment-util';
 import {
   EventType,
   OpenFixPreviewEvent,
   ValueChangedEvent,
 } from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
-import {
-  GerritView,
-  routerModelToken,
-} from '../../../services/router/router-model';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
-import {isFalse, throttleWrap, until} from '../../../utils/async-util';
+import {throttleWrap} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
 import {
@@ -98,14 +70,12 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
-import {BehaviorSubject} from 'rxjs';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -114,18 +84,20 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {createDiffUrl} from '../../../models/views/diff';
 import {
-  createDiffUrl,
-  diffViewModelToken,
-  DiffViewState,
-} from '../../../models/views/diff';
-import {createChangeUrl} from '../../../models/views/change';
-import {createEditUrl} from '../../../models/views/edit';
+  ChangeChildView,
+  changeViewModelToken,
+} from '../../../models/views/change';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrDiffPreferencesDialog} from '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import {
+  FileNameToNormalizedFileInfoMap,
+  filesModelToken,
+} from '../../../models/change/files-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -135,14 +107,11 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 // visible for testing
 export interface Files {
-  sortedFileList: string[];
-  changeFilesByPath: {[path: string]: FileInfo};
+  /** All file paths sorted by `specialFilePathCompare`. */
+  sortedPaths: string[];
+  changeFilesByPath: FileNameToNormalizedFileInfoMap;
 }
 
-interface CommentSkips {
-  previous: string | null;
-  next: string | null;
-}
 @customElement('gr-diff-view')
 export class GrDiffView extends LitElement {
   /**
@@ -159,8 +128,8 @@ export class GrDiffView extends LitElement {
   @query('#diffHost')
   diffHost?: GrDiffHost;
 
-  @query('#reviewed')
-  reviewed?: HTMLInputElement;
+  @state()
+  reviewed = false;
 
   @query('#downloadModal')
   downloadModal?: HTMLDialogElement;
@@ -177,32 +146,30 @@ export class GrDiffView extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 
-  private _viewState: DiffViewState | undefined;
-
+  // Private but used in tests.
   @state()
-  get viewState(): DiffViewState | undefined {
-    return this._viewState;
-  }
-
-  set viewState(viewState: DiffViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
+  get patchRange(): PatchRange | undefined {
+    if (!this.patchNum) return undefined;
+    return {
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
+    };
   }
 
   // Private but used in tests.
   @state()
-  patchRange?: PatchRange;
+  patchNum?: RevisionPatchSetNum;
 
   // Private but used in tests.
   @state()
-  commitRange?: CommitRange;
+  basePatchNum: BasePatchSetNum = PARENT;
 
   // Private but used in tests.
   @state()
   change?: ParsedChangeInfo;
+
+  @state()
+  latestPatchNum?: PatchSetNumber;
 
   // Private but used in tests.
   @state()
@@ -216,10 +183,9 @@ export class GrDiffView extends LitElement {
   @state()
   diff?: DiffInfo;
 
-  // TODO: Move to using files-model.
   // Private but used in tests.
   @state()
-  files: Files = {sortedFileList: [], changeFilesByPath: {}};
+  files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
   // Private but used in tests
   // Use path getter/setter.
@@ -237,13 +203,13 @@ export class GrDiffView extends LitElement {
     this.requestUpdate('path', oldPath);
   }
 
+  /** Allows us to react when the user switches to the DIFF view. */
   // Private but used in tests.
-  @state()
-  loggedIn = false;
+  @state() isActiveChildView = false;
 
   // Private but used in tests.
   @state()
-  loading = true;
+  loggedIn = false;
 
   @property({type: Object})
   prefs?: DiffPreferencesInfo;
@@ -266,33 +232,24 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   @state()
-  commentMap?: CommentMap;
-
-  @state()
-  private commentSkips?: CommentSkips;
-
-  // Private but used in tests.
-  @state()
   isBlameLoaded?: boolean;
 
   @state()
   private isBlameLoading = false;
 
-  @state()
-  private allPatchSets?: PatchSet[] = [];
-
+  /** Directly reflects the view model property `diffView.lineNum`. */
   // Private but used in tests.
   @state()
   focusLineNum?: number;
+
+  /** Directly reflects the view model property `diffView.leftSide`. */
+  @state()
+  leftSide = false;
 
   // visible for testing
   reviewedFiles = new Set<string>();
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly restApiService = getAppContext().restApiService;
-
-  private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -300,22 +257,20 @@ export class GrDiffView extends LitElement {
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
+  private readonly getFilesModel = resolve(this, filesModelToken);
+
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly getViewModel = resolve(this, diffViewModelToken);
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   @state()
   cursor?: GrDiffCursor;
 
-  private connected$ = new BehaviorSubject(false);
-
   private readonly shortcutsController = new ShortcutController(this);
-
-  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -323,8 +278,15 @@ export class GrDiffView extends LitElement {
     this.setupSubscriptions();
     subscribe(
       this,
-      () => this.getViewModel().state$,
-      x => (this.viewState = x)
+      () => this.getFilesModel().filesIncludingUnmodified$,
+      files => {
+        const filesByPath: FileNameToNormalizedFileInfoMap = {};
+        for (const f of files) filesByPath[f.__path] = f;
+        this.files = {
+          sortedPaths: files.map(f => f.__path),
+          changeFilesByPath: filesByPath,
+        };
+      }
     );
   }
 
@@ -338,10 +300,10 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.PREV_LINE, _ => this.handlePrevLine());
     listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea());
     listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
-      this.moveToNextFileWithComment()
+      this.moveToFileWithComment(1)
     );
     listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
-      this.moveToPreviousFileWithComment()
+      this.moveToFileWithComment(-1)
     );
     listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment());
     listen(Shortcut.SAVE_COMMENT, _ => {});
@@ -354,7 +316,9 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.OPEN_REPLY_DIALOG, _ => this.handleOpenReplyDialog());
     listen(Shortcut.TOGGLE_LEFT_PANE, _ => this.handleToggleLeftPane());
     listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ => this.handleOpenDownloadDialog());
-    listen(Shortcut.UP_TO_CHANGE, _ => this.handleUpToChange());
+    listen(Shortcut.UP_TO_CHANGE, _ =>
+      this.getChangeModel().navigateToChange()
+    );
     listen(Shortcut.OPEN_DIFF_PREFS, _ => this.handleCommaKey());
     listen(Shortcut.TOGGLE_DIFF_MODE, _ => this.handleToggleDiffMode());
     listen(Shortcut.TOGGLE_FILE_REVIEWED, e => {
@@ -437,6 +401,11 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().latestPatchNum$,
+      latestPatchNum => (this.latestPatchNum = latestPatchNum)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().reviewedFiles$,
       reviewedFiles => {
         this.reviewedFiles = new Set(reviewedFiles) ?? new Set();
@@ -444,45 +413,82 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().diffPath$,
+      () => this.getViewModel().changeNum$,
+      changeNum => {
+        if (!changeNum || this.changeNum === changeNum) return;
+
+        // We are only setting the changeNum of the diff view once!
+        // Everything in the diff view is tied to the change. It seems better to
+        // force the re-creation of the diff view when the change number changes.
+        if (!this.changeNum) {
+          this.changeNum = changeNum;
+        } else {
+          fireEvent(this, EventType.RECREATE_DIFF_VIEW);
+        }
+      }
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().childView$,
+      childView => (this.isActiveChildView = childView === ChangeChildView.DIFF)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().diffPath$,
       path => (this.path = path)
     );
-
+    subscribe(
+      this,
+      () => this.getViewModel().diffLine$,
+      line => (this.focusLineNum = line)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().diffLeftSide$,
+      leftSide => (this.leftSide = leftSide)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().basePatchNum$,
+      basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT)
+    );
     subscribe(
       this,
       () =>
         combineLatest([
-          this.getChangeModel().diffPath$,
+          this.getViewModel().diffPath$,
           this.getChangeModel().reviewedFiles$,
         ]),
       ([path, files]) => {
-        this.updateComplete.then(() => {
-          assertIsDefined(this.reviewed, 'reviewed');
-          this.reviewed.checked = !!path && !!files && files.includes(path);
-        });
+        this.reviewed = !!path && !!files && files.includes(path);
       }
     );
 
-    // When user initially loads the diff view, we want to autmatically mark
+    // When user initially loads the diff view, we want to automatically mark
     // the file as reviewed if they have it enabled. We can't observe these
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
     subscribe(
       this,
       () =>
-        this.getChangeModel().diffPath$.pipe(
+        this.getViewModel().diffPath$.pipe(
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest([
               this.getChangeModel().patchNum$,
-              this.getRouterModel().routerView$,
+              this.getViewModel().childView$,
               this.getUserModel().diffPreferences$,
               this.getChangeModel().reviewedFiles$,
             ]).pipe(
               filter(
-                ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
+                ([patchNum, childView, diffPrefs, reviewedFiles]) =>
                   !!patchNum &&
-                  routerView === GerritView.DIFF &&
+                  childView === ChangeChildView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
               ),
@@ -491,13 +497,10 @@ export class GrDiffView extends LitElement {
           )
         ),
       ([patchNum, _routerView, diffPrefs]) => {
-        this.setReviewedStatus(patchNum!, diffPrefs);
+        // `patchNum` must be defined, because of the `!!patchNum` filter above.
+        assertIsDefined(patchNum, 'patchNum');
+        this.setReviewedStatus(patchNum, diffPrefs);
       }
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().diffPath$,
-      path => (this.path = path)
     );
   }
 
@@ -691,7 +694,6 @@ export class GrDiffView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.connected$.next(true);
     this.throttledToggleFileReviewed = throttleWrap(_ =>
       this.handleToggleFileReviewed()
     );
@@ -702,38 +704,11 @@ export class GrDiffView extends LitElement {
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    this.connected$.next(false);
     super.disconnectedCallback();
   }
 
-  protected override willUpdate(changedProperties: PropertyValues) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('change')) {
-      this.allPatchSets = computeAllPatchSets(this.change);
-    }
-    if (
-      changedProperties.has('commentMap') ||
-      changedProperties.has('files') ||
-      changedProperties.has('path')
-    ) {
-      this.commentSkips = this.computeCommentSkips(
-        this.commentMap,
-        this.files?.sortedFileList,
-        this.path
-      );
-    }
-
-    if (
-      changedProperties.has('changeNum') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange')
-    ) {
-      this.fetchFiles();
-    }
-  }
-
   private reInitCursor() {
-    assertIsDefined(this.diffHost, 'diffHost');
+    if (!this.diffHost) return;
     this.cursor?.replaceDiffs([this.diffHost]);
     this.cursor?.reInitCursor();
   }
@@ -741,16 +716,35 @@ export class GrDiffView extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
     if (
+      changedProperties.has('change') ||
+      changedProperties.has('path') ||
+      changedProperties.has('patchNum') ||
+      changedProperties.has('basePatchNum')
+    ) {
+      this.reloadDiff();
+    } else if (
+      changedProperties.has('isActiveChildView') &&
+      this.isActiveChildView
+    ) {
+      this.initializePositions();
+    }
+    if (
+      changedProperties.has('focusLineNum') ||
+      changedProperties.has('leftSide')
+    ) {
+      this.initLineOfInterestAndCursor();
+    }
+    if (
+      changedProperties.has('change') ||
       changedProperties.has('changeComments') ||
       changedProperties.has('path') ||
-      changedProperties.has('patchRange') ||
+      changedProperties.has('patchNum') ||
+      changedProperties.has('basePatchNum') ||
       changedProperties.has('files')
     ) {
-      if (this.changeComments && this.path && this.patchRange) {
+      if (this.change && this.changeComments && this.path && this.patchRange) {
         assertIsDefined(this.diffHost, 'diffHost');
-        const file = this.files?.changeFilesByPath
-          ? this.files.changeFilesByPath[this.path]
-          : undefined;
+        const file = this.files?.changeFilesByPath?.[this.path];
         this.diffHost.updateComplete.then(() => {
           assertIsDefined(this.path);
           assertIsDefined(this.patchRange);
@@ -766,17 +760,18 @@ export class GrDiffView extends LitElement {
   }
 
   override render() {
+    if (!this.isActiveChildView) return nothing;
+    if (!this.patchNum || !this.changeNum || !this.change || !this.path) {
+      return html`<div class="loading">Loading...</div>`;
+    }
     const file = this.getFileRange();
     return html`
       ${this.renderStickyHeader()}
-      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
       <h2 class="assistive-tech-only">Diff view</h2>
       <gr-diff-host
         id="diffHost"
-        ?hidden=${this.loading}
         .changeNum=${this.changeNum}
         .change=${this.change}
-        .commitRange=${this.commitRange}
         .patchRange=${this.patchRange}
         .file=${file}
         .path=${this.path}
@@ -797,7 +792,7 @@ export class GrDiffView extends LitElement {
 
   private renderStickyHeader() {
     return html` <div
-      class="stickyHeader ${this.computeEditMode() ? 'editMode' : ''}"
+      class="stickyHeader ${this.patchNum === EDIT ? 'editMode' : ''}"
     >
       <h1 class="assistive-tech-only">
         Diff of ${this.path ? computeTruncatedPath(this.path) : ''}
@@ -823,7 +818,8 @@ export class GrDiffView extends LitElement {
     const fileNum = this.computeFileNum(formattedFiles);
     const fileNumClass = this.computeFileNumClass(fileNum, formattedFiles);
     return html` <div>
-        <a href=${this.getChangePath()}>${this.changeNum}</a
+        <a href=${ifDefined(this.getChangeModel().changeUrl())}
+          >${this.changeNum}</a
         ><span class="changeNumberColon">:</span>
         <span class="headerSubject">${this.change?.subject}</span>
         <input
@@ -833,6 +829,7 @@ export class GrDiffView extends LitElement {
           ?hidden=${!this.loggedIn}
           title="Toggle reviewed status of file"
           aria-label="file reviewed"
+          .checked=${this.reviewed}
           @change=${this.handleReviewedChange}
         />
         <div class="jumpToFileContainer">
@@ -866,7 +863,7 @@ export class GrDiffView extends LitElement {
             Shortcut.UP_TO_CHANGE,
             ShortcutSection.NAVIGATION
           )}
-          href=${this.getChangePath()}
+          href=${ifDefined(this.getChangeModel().changeUrl())}
           >Up</a
         >
         <span class="separator"></span>
@@ -883,19 +880,10 @@ export class GrDiffView extends LitElement {
   }
 
   private renderPatchRangeLeft() {
-    const revisionInfo = this.change
-      ? new RevisionInfoObj(this.change)
-      : undefined;
     return html` <div class="patchRangeLeft">
       <gr-patch-range-select
         id="rangeSelect"
-        .changeNum=${this.changeNum}
-        .patchNum=${this.patchRange?.patchNum}
-        .basePatchNum=${this.patchRange?.basePatchNum}
         .filesWeblinks=${this.filesWeblinks}
-        .availablePatches=${this.allPatchSets}
-        .revisions=${this.change?.revisions}
-        .revisionInfo=${revisionInfo}
         @patch-range-change=${this.handlePatchChange}
       >
       </gr-patch-range-select>
@@ -1022,7 +1010,7 @@ export class GrDiffView extends LitElement {
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
-          .patchNum=${this.patchRange?.patchNum}
+          .patchNum=${this.patchNum}
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
@@ -1047,34 +1035,10 @@ export class GrDiffView extends LitElement {
     if (!this.files || !this.path) return;
     const fileInfo = this.files.changeFilesByPath[this.path];
     const fileRange: FileRange = {path: this.path};
-    if (fileInfo && fileInfo.old_path) {
+    if (fileInfo?.old_path) {
       fileRange.basePath = fileInfo.old_path;
     }
     return fileRange;
-  }
-
-  // Private but used in tests.
-  fetchFiles() {
-    if (!this.changeNum || !this.patchRange || !this.changeComments) {
-      return Promise.resolve();
-    }
-
-    if (!this.patchRange.patchNum) {
-      return Promise.resolve();
-    }
-
-    return this.restApiService
-      .getChangeFiles(this.changeNum, this.patchRange)
-      .then(changeFiles => {
-        if (!changeFiles) return;
-        const commentedPaths = this.changeComments!.getPaths(this.patchRange);
-        const files = {...changeFiles};
-        addUnmodifiedFiles(files, commentedPaths);
-        this.files = {
-          sortedFileList: Object.keys(files).sort(specialFilePathCompare),
-          changeFilesByPath: files,
-        };
-      });
   }
 
   private handleReviewedChange(e: Event) {
@@ -1085,12 +1049,14 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   setReviewed(
     reviewed: boolean,
-    patchNum: RevisionPatchSetNum | undefined = this.patchRange?.patchNum
+    patchNum: RevisionPatchSetNum | undefined = this.patchNum
   ) {
-    if (this.computeEditMode()) return;
+    if (this.patchNum === EDIT) return;
     if (!patchNum || !this.path || !this.changeNum) return;
     // if file is already reviewed then do not make a saveReview request
     if (this.reviewedFiles.has(this.path) && reviewed) return;
+    // optimistic update
+    this.reviewed = reviewed;
     this.getChangeModel().setReviewedFilesStatus(
       this.changeNum,
       patchNum,
@@ -1101,8 +1067,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleToggleFileReviewed() {
-    assertIsDefined(this.reviewed);
-    this.setReviewed(!this.reviewed.checked);
+    this.setReviewed(!this.reviewed);
   }
 
   private handlePrevLine() {
@@ -1147,48 +1112,13 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  moveToPreviousFileWithComment() {
-    if (!this.commentSkips) return;
-    if (!this.change) return;
-    if (!this.patchRange?.patchNum) return;
-
-    // If there is no previous diff with comments, then return to the change
-    // view.
-    if (!this.commentSkips.previous) {
-      this.navToChangeView();
-      return;
+  moveToFileWithComment(direction: -1 | 1) {
+    const path = this.findFileWithComment(direction);
+    if (!path) {
+      this.getChangeModel().navigateToChange();
+    } else {
+      this.getChangeModel().navigateToDiff({path});
     }
-
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.commentSkips.previous,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-      })
-    );
-  }
-
-  // Private but used in tests.
-  moveToNextFileWithComment() {
-    if (!this.commentSkips) return;
-    if (!this.change) return;
-    if (!this.patchRange?.patchNum) return;
-
-    // If there is no next diff with comments, then return to the change view.
-    if (!this.commentSkips.next) {
-      this.navToChangeView();
-      return;
-    }
-
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.commentSkips.next,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-      })
-    );
   }
 
   private handleNewComment() {
@@ -1198,14 +1128,14 @@ export class GrDiffView extends LitElement {
 
   private handlePrevFile() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
-    this.navToFile(this.files.sortedFileList, -1);
+    if (!this.files?.sortedPaths) return;
+    this.navToFile(this.files.sortedPaths, -1);
   }
 
   private handleNextFile() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
-    this.navToFile(this.files.sortedFileList, 1);
+    if (!this.files?.sortedPaths) return;
+    this.navToFile(this.files.sortedPaths, 1);
   }
 
   private handleNextChunk() {
@@ -1249,11 +1179,11 @@ export class GrDiffView extends LitElement {
 
   private navigateToUnreviewedFile(direction: string) {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
+    if (!this.files?.sortedPaths) return;
     if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
-    const unreviewedFiles = this.files.sortedFileList.filter(
+    const unreviewedFiles = this.files.sortedPaths.filter(
       file => file === this.path || !this.reviewedFiles.has(file)
     );
 
@@ -1277,7 +1207,7 @@ export class GrDiffView extends LitElement {
       fireEvent(this, 'show-auth-required');
       return;
     }
-    this.navToChangeView(true);
+    this.getChangeModel().navigateToChange(true);
   }
 
   private handleToggleLeftPane() {
@@ -1313,10 +1243,6 @@ export class GrDiffView extends LitElement {
     this.downloadModal.close();
   }
 
-  private handleUpToChange() {
-    this.navToChangeView();
-  }
-
   private handleCommaKey() {
     if (!this.loggedIn) return;
     assertIsDefined(this.diffPreferencesDialog, 'diffPreferencesDialog');
@@ -1336,19 +1262,6 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  navToChangeView(openReplyDialog = false) {
-    if (!this.changeNum || !this.patchRange?.patchNum) {
-      return;
-    }
-    this.navigateToChange(
-      this.change,
-      this.patchRange,
-      this.change && this.change.revisions,
-      openReplyDialog
-    );
-  }
-
-  // Private but used in tests.
   navToFile(
     fileList: string[],
     direction: -1 | 1,
@@ -1356,15 +1269,10 @@ export class GrDiffView extends LitElement {
   ) {
     const newPath = this.getNavLinkPath(fileList, direction);
     if (!newPath) return;
-    if (!this.change) return;
     if (!this.patchRange) return;
 
     if (newPath.up) {
-      this.navigateToChange(
-        this.change,
-        this.patchRange,
-        this.change && this.change.revisions
-      );
+      this.getChangeModel().navigateToChange();
       return;
     }
 
@@ -1375,15 +1283,7 @@ export class GrDiffView extends LitElement {
         newPath.path,
         this.patchRange
       )?.[0].line;
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: newPath.path,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-        lineNum,
-      })
-    );
+    this.getChangeModel().navigateToDiff({path: newPath.path, lineNum});
   }
 
   /**
@@ -1394,35 +1294,25 @@ export class GrDiffView extends LitElement {
   private computeNavLinkURL(direction?: -1 | 1) {
     if (!this.change) return;
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
+    if (!this.files?.sortedPaths) return;
     if (!direction) return;
 
-    const newPath = this.getNavLinkPath(this.files.sortedFileList, direction);
-    if (!newPath) {
-      return;
-    }
-
-    if (newPath.up) {
-      return this.getChangePath();
-    }
-    return this.getDiffUrl(this.change, this.patchRange, newPath.path);
+    const newPath = this.getNavLinkPath(this.files.sortedPaths, direction);
+    if (!newPath) return;
+    if (newPath.up) return this.getChangeModel().changeUrl();
+    if (!newPath.path) return;
+    return this.getChangeModel().diffUrl({path: newPath.path});
   }
 
   private goToEditFile() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    assertIsDefined(this.path, 'path');
 
     // TODO(taoalpha): add a shortcut for editing
     const cursorAddress = this.cursor?.getAddress();
-    const editUrl = createEditUrl({
-      changeNum: this.change._number,
-      repo: this.change.project,
+    this.getChangeModel().navigateToEdit({
       path: this.path,
-      patchNum: this.patchRange.patchNum,
       lineNum: cursorAddress?.number,
     });
-    this.getNavigation().setUrl(editUrl);
   }
 
   /**
@@ -1444,7 +1334,6 @@ export class GrDiffView extends LitElement {
     if (!this.path || !fileList || fileList.length === 0) {
       return null;
     }
-
     let idx = fileList.indexOf(this.path);
     if (idx === -1) {
       const file = direction > 0 ? fileList[0] : fileList[fileList.length - 1];
@@ -1462,325 +1351,74 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  initLineOfInterestAndCursor(leftSide: boolean) {
-    assertIsDefined(this.diffHost, 'diffHost');
-    this.diffHost.lineOfInterest = this.getLineOfInterest(leftSide);
-    this.initCursor(leftSide);
-  }
-
-  // Private but used in tests.
-  displayDiffBaseAgainstLeftToast() {
-    if (!this.patchRange) return;
-    fireAlert(
-      this,
-      `Patchset ${this.patchRange.basePatchNum} vs ` +
-        `${this.patchRange.patchNum} selected. Press v + \u2190 to view ` +
-        `Base vs ${this.patchRange.basePatchNum}`
-    );
-  }
-
-  private displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
-    if (!this.patchRange) return;
-    const leftPatchset =
-      this.patchRange.basePatchNum === PARENT
-        ? 'Base'
-        : `Patchset ${this.patchRange.basePatchNum}`;
-    fireAlert(
-      this,
-      `${leftPatchset} vs
-            ${this.patchRange.patchNum} selected\n. Press v + \u2191 to view
-            ${leftPatchset} vs Patchset ${latestPatchNum}`
-    );
-  }
-
-  private displayToasts() {
-    if (!this.patchRange) return;
-    if (this.patchRange.basePatchNum !== PARENT) {
-      this.displayDiffBaseAgainstLeftToast();
-      return;
-    }
-    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum !== latestPatchNum) {
-      this.displayDiffAgainstLatestToast(latestPatchNum);
-      return;
-    }
-  }
-
-  private initCommitRange() {
-    let commit: CommitId | undefined;
-    let baseCommit: CommitId | undefined;
-    if (!this.change) return;
-    if (!this.patchRange || !this.patchRange.patchNum) return;
-    const revisions = this.change.revisions ?? {};
-    for (const [commitSha, revision] of Object.entries(revisions)) {
-      const patchNum = revision._number;
-      if (patchNum === this.patchRange.patchNum) {
-        commit = commitSha as CommitId;
-        const commitObj = revision.commit;
-        const parents = commitObj?.parents || [];
-        if (this.patchRange.basePatchNum === PARENT && parents.length) {
-          baseCommit = parents[parents.length - 1].commit;
-        }
-      } else if (patchNum === this.patchRange.basePatchNum) {
-        baseCommit = commitSha as CommitId;
-      }
-    }
-    this.commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
+  initLineOfInterestAndCursor() {
+    if (!this.diffHost) return;
+    this.diffHost.lineOfInterest = this.getLineOfInterest();
+    this.initCursor();
   }
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
     if (!this.change) return;
-    if (!this.patchRange) return;
+    if (!this.patchNum) return;
     if (!this.changeNum) return;
     if (!this.path) return;
     const url = createDiffUrl({
       changeNum: this.changeNum,
       repo: this.change.project,
-      path: this.path,
-      patchNum: this.patchRange.patchNum,
-      basePatchNum: this.patchRange.basePatchNum,
-      lineNum,
-      leftSide,
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
+      diffView: {
+        path: this.path,
+        lineNum,
+        leftSide,
+      },
     });
     history.replaceState(null, '', url);
   }
 
-  // Private but used in tests.
-  initPatchRange() {
-    let leftSide = false;
-    if (!this.change) return;
-    if (this.viewState?.view !== GerritView.DIFF) return;
-    if (this.viewState?.commentId) {
-      const comment = this.changeComments?.findCommentById(
-        this.viewState.commentId
-      );
-      if (!comment) {
-        fireAlert(this, 'comment not found');
-        this.getNavigation().setUrl(createChangeUrl({change: this.change}));
-        return;
-      }
-      this.getChangeModel().updatePath(comment.path);
-
-      const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-      if (!latestPatchNum) throw new Error('Missing allPatchSets');
-      this.patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
-      leftSide = isInBaseOfPatchRange(comment, this.patchRange);
-
-      this.focusLineNum = comment.line;
-    } else {
-      if (this.viewState.path) {
-        this.getChangeModel().updatePath(this.viewState.path);
-      }
-      if (this.viewState.patchNum) {
-        this.patchRange = {
-          patchNum: this.viewState.patchNum,
-          basePatchNum: this.viewState.basePatchNum || PARENT,
-        };
-      }
-      if (this.viewState.lineNum) {
-        this.focusLineNum = this.viewState.lineNum;
-        leftSide = !!this.viewState.leftSide;
-      }
-    }
-    assertIsDefined(this.patchRange, 'patchRange');
-    this.initLineOfInterestAndCursor(leftSide);
-
-    if (this.viewState?.commentId) {
-      // url is of type /comment/{commentId} which isn't meaningful
-      this.updateUrlToDiffUrl(this.focusLineNum, leftSide);
-    }
-
-    this.commentMap = this.getPaths();
+  async reloadDiff() {
+    if (!this.diffHost) return;
+    await this.diffHost.reload(true);
+    this.reporting.diffViewDisplayed();
+    if (this.isBlameLoaded) this.loadBlame();
   }
 
-  // Private but used in tests.
-  isFileUnchanged(diff?: DiffInfo) {
-    if (!diff || !diff.content) return false;
-    return !diff.content.some(
-      content =>
-        (content.a && !content.common) || (content.b && !content.common)
-    );
-  }
-
-  private isSameDiffLoaded(value: DiffViewState) {
-    return (
-      this.patchRange?.basePatchNum === value.basePatchNum &&
-      this.patchRange?.patchNum === value.patchNum &&
-      this.path === value.path
-    );
-  }
-
-  private async untilModelLoaded() {
-    // NOTE: Wait until this page is connected before determining whether the
-    // model is loaded.  This can happen when params are changed when setting up
-    // this view. It's unclear whether this issue is related to Polymer
-    // specifically.
-    if (!this.isConnected) {
-      await until(this.connected$, connected => connected);
-    }
-    await until(
-      this.getChangeModel().changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
-  }
-
-  // Private but used in tests.
-  viewStateChanged() {
-    if (this.viewState === undefined) return;
-    const viewState = this.viewState;
-
+  /**
+   * (Re-initialize) the diff view without actually reloading the diff. The
+   * typical user journey is that the user comes back from the change page.
+   */
+  initializePositions() {
     // The diff view is kept in the background once created. If the user
     // scrolls in the change page, the scrolling is reflected in the diff view
     // as well, which means the diff is scrolled to a random position based
     // on how much the change view was scrolled.
     // Hence, reset the scroll position here.
     document.documentElement.scrollTop = 0;
-
-    // Everything in the diff view is tied to the change. It seems better to
-    // force the re-creation of the diff view when the change number changes.
-    const changeChanged = this.changeNum !== viewState.changeNum;
-    if (this.changeNum !== undefined && changeChanged) {
-      fireEvent(this, EventType.RECREATE_DIFF_VIEW);
-      return;
-    } else if (
-      this.changeNum !== undefined &&
-      this.isSameDiffLoaded(viewState)
-    ) {
-      // changeNum has not changed, so check if there are changes in patchRange
-      // path. If no changes then we can simply render the view as is.
-      this.reporting.reportInteraction('diff-view-re-rendered');
-      // Make sure to re-initialize the cursor because this is typically
-      // done on the 'render' event which doesn't fire in this path as
-      // rerendering is avoided.
-      this.reInitCursor();
-      this.diffHost?.initLayers();
-      return;
-    }
-
-    this.files = {sortedFileList: [], changeFilesByPath: {}};
-    if (this.isConnected) {
-      this.getChangeModel().updatePath(undefined);
-    }
-    this.patchRange = undefined;
-    this.commitRange = undefined;
-    this.focusLineNum = undefined;
-
-    if (viewState.changeNum && viewState.repo) {
-      this.restApiService.setInProjectLookup(
-        viewState.changeNum,
-        viewState.repo
-      );
-    }
-
-    this.changeNum = viewState.changeNum;
+    this.reInitCursor();
+    this.diffHost?.initLayers();
     this.classList.remove('hideComments');
-
-    // When navigating away from the page, there is a possibility that the
-    // patch number is no longer a part of the URL (say when navigating to
-    // the top-level change info view) and therefore undefined in `params`.
-    // If route is of type /comment/<commentId>/ then no patchNum is present
-    if (!viewState.patchNum && !viewState.commentLink) {
-      this.reporting.error(
-        'GrDiffView',
-        new Error(`Invalid diff view URL, no patchNum found: ${this.viewState}`)
-      );
-      return;
-    }
-
-    const promises: Promise<unknown>[] = [];
-    if (!this.change) {
-      promises.push(this.untilModelLoaded());
-    }
-    promises.push(this.waitUntilCommentsLoaded());
-
-    if (this.diffHost) {
-      this.diffHost.cancel();
-      this.diffHost.clearDiffContent();
-    }
-    this.loading = true;
-    return Promise.all(promises)
-      .then(() => {
-        this.loading = false;
-        this.initPatchRange();
-        this.initCommitRange();
-        return this.updateComplete.then(() => this.diffHost!.reload(true));
-      })
-      .then(() => {
-        this.reporting.diffViewDisplayed();
-      })
-      .then(() => {
-        const fileUnchanged = this.isFileUnchanged(this.diff);
-        if (fileUnchanged && viewState.commentLink) {
-          assertIsDefined(this.change, 'change');
-          assertIsDefined(this.path, 'path');
-          assertIsDefined(this.patchRange, 'patchRange');
-
-          if (this.patchRange.basePatchNum === PARENT) {
-            // file is unchanged between Base vs X
-            // hence should not show diff between Base vs Base
-            return;
-          }
-
-          fireAlert(
-            this,
-            `File is unchanged between Patchset
-                  ${this.patchRange.basePatchNum} and
-                  ${this.patchRange.patchNum}. Showing diff of Base vs
-                  ${this.patchRange.basePatchNum}`
-          );
-          this.getNavigation().setUrl(
-            createDiffUrl({
-              change: this.change,
-              path: this.path,
-              patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
-              basePatchNum: PARENT,
-              lineNum: this.focusLineNum,
-            })
-          );
-          return;
-        }
-        if (viewState.commentLink) {
-          this.displayToasts();
-        }
-        // If the blame was loaded for a previous file and user navigates to
-        // another file, then we load the blame for this file too
-        if (this.isBlameLoaded) this.loadBlame();
-      });
-  }
-
-  private async waitUntilCommentsLoaded() {
-    await until(this.connected$, c => c);
-    await until(this.getCommentsModel().commentsLoading$, isFalse);
   }
 
   /**
    * If the params specify a diff address then configure the diff cursor.
    * Private but used in tests.
    */
-  initCursor(leftSide: boolean) {
-    if (this.focusLineNum === undefined) {
-      return;
-    }
+  initCursor() {
+    if (!this.focusLineNum) return;
     if (!this.cursor) return;
-    if (leftSide) {
-      this.cursor.side = Side.LEFT;
-    } else {
-      this.cursor.side = Side.RIGHT;
-    }
+    this.cursor.side = this.leftSide ? Side.LEFT : Side.RIGHT;
     this.cursor.initialLineNumber = this.focusLineNum;
   }
 
   // Private but used in tests.
-  getLineOfInterest(leftSide: boolean): DisplayLine | undefined {
+  getLineOfInterest(): DisplayLine | undefined {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
-    if (!this.focusLineNum) {
-      return undefined;
-    }
+    if (!this.focusLineNum) return undefined;
 
     return {
       lineNum: this.focusLineNum,
-      side: leftSide ? Side.LEFT : Side.RIGHT,
+      side: this.leftSide ? Side.LEFT : Side.RIGHT,
     };
   }
 
@@ -1790,83 +1428,6 @@ export class GrDiffView extends LitElement {
     }
   }
 
-  private getDiffUrl(
-    change?: ChangeInfo | ParsedChangeInfo,
-    patchRange?: PatchRange,
-    path?: string
-  ) {
-    if (!change || !patchRange || !path) return '';
-    return createDiffUrl({
-      changeNum: change._number,
-      repo: change.project,
-      path,
-      patchNum: patchRange.patchNum,
-      basePatchNum: patchRange.basePatchNum,
-    });
-  }
-
-  /**
-   * When the latest patch of the change is selected (and there is no base
-   * patch) then the patch range need not appear in the URL. Return a patch
-   * range object with undefined values when a range is not needed.
-   */
-  private getChangeUrlRange(
-    patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
-  ) {
-    let patchNum = undefined;
-    let basePatchNum = undefined;
-    let latestPatchNum = -1;
-    for (const rev of Object.values(revisions || {})) {
-      if (typeof rev._number === 'number') {
-        latestPatchNum = Math.max(latestPatchNum, rev._number);
-      }
-    }
-    if (!patchRange) return {patchNum, basePatchNum};
-    if (
-      patchRange.basePatchNum !== PARENT ||
-      patchRange.patchNum !== latestPatchNum
-    ) {
-      patchNum = patchRange.patchNum;
-      basePatchNum = patchRange.basePatchNum;
-    }
-    return {patchNum, basePatchNum};
-  }
-
-  private getChangePath() {
-    if (!this.change) return '';
-    if (!this.patchRange) return '';
-
-    const range = this.getChangeUrlRange(
-      this.patchRange,
-      this.change.revisions
-    );
-    return createChangeUrl({
-      change: this.change,
-      patchNum: range.patchNum,
-      basePatchNum: range.basePatchNum,
-    });
-  }
-
-  // Private but used in tests.
-  navigateToChange(
-    change?: ChangeInfo | ParsedChangeInfo,
-    patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
-    openReplyDialog?: boolean
-  ) {
-    if (!change) return;
-    const range = this.getChangeUrlRange(patchRange, revisions);
-    this.getNavigation().setUrl(
-      createChangeUrl({
-        change,
-        patchNum: range.patchNum,
-        basePatchNum: range.basePatchNum,
-        openReplyDialog: !!openReplyDialog,
-      })
-    );
-  }
-
   // Private but used in tests
   formatFilesForDropdown(): DropdownItem[] {
     if (!this.files) return [];
@@ -1874,7 +1435,8 @@ export class GrDiffView extends LitElement {
     if (!this.changeComments) return [];
 
     const dropdownContent: DropdownItem[] = [];
-    for (const path of this.files.sortedFileList) {
+    for (const path of this.files.sortedPaths) {
+      const file = this.files.changeFilesByPath[path];
       dropdownContent.push({
         text: computeDisplayPath(path),
         mobileText: computeTruncatedPath(path),
@@ -1882,10 +1444,10 @@ export class GrDiffView extends LitElement {
         bottomText: this.changeComments.computeCommentsString(
           this.patchRange,
           path,
-          this.files.changeFilesByPath[path],
+          file,
           /* includeUnmodified= */ true
         ),
-        file: {...this.files.changeFilesByPath[path], __path: path},
+        file,
       });
     }
     return dropdownContent;
@@ -1893,45 +1455,24 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleFileChange(e: CustomEvent) {
-    if (!this.change) return;
-    if (!this.patchRange) return;
-
-    // This is when it gets set initially.
     const path = e.detail.value;
-    if (path === this.path) {
-      return;
-    }
-
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-      })
-    );
+    if (path === this.path) return;
+    this.getChangeModel().navigateToDiff(path);
   }
 
   // Private but used in tests.
   handlePatchChange(e: CustomEvent) {
-    if (!this.change) return;
     if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.patchNum) return;
 
     const {basePatchNum, patchNum} = e.detail;
-    if (
-      basePatchNum === this.patchRange.basePatchNum &&
-      patchNum === this.patchRange.patchNum
-    ) {
+    if (basePatchNum === this.basePatchNum && patchNum === this.patchNum) {
       return;
     }
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum,
-        basePatchNum,
-      })
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      patchNum,
+      basePatchNum
     );
   }
 
@@ -1956,7 +1497,7 @@ export class GrDiffView extends LitElement {
   computeDownloadDropdownLinks() {
     if (!this.change?.project) return [];
     if (!this.changeNum) return [];
-    if (!this.patchRange?.patchNum) return [];
+    if (!this.patchRange) return [];
     if (!this.path) return [];
 
     const links = [
@@ -2004,6 +1545,7 @@ export class GrDiffView extends LitElement {
     return links;
   }
 
+  // TODO: Move to view-model or router.
   // Private but used in tests.
   computeDownloadFileLink(
     repo: RepoName,
@@ -2032,6 +1574,7 @@ export class GrDiffView extends LitElement {
     return url;
   }
 
+  // TODO: Move to view-model or router.
   // Private but used in tests.
   computeDownloadPatchLink(
     repo: RepoName,
@@ -2045,49 +1588,19 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  getPaths(): CommentMap {
-    if (!this.changeComments) return {};
-    return this.changeComments.getPaths(this.patchRange);
-  }
+  findFileWithComment(direction: -1 | 1): string | undefined {
+    const fileList = this.files?.sortedPaths;
+    const commentMap: CommentMap =
+      this.changeComments?.getPaths(this.patchRange) ?? {};
+    if (!fileList || fileList.length === 0) return undefined;
+    if (!this.path) return undefined;
 
-  // Private but used in tests.
-  computeCommentSkips(
-    commentMap?: CommentMap,
-    fileList?: string[],
-    path?: string
-  ): CommentSkips | undefined {
-    if (!commentMap) return undefined;
-    if (!fileList) return undefined;
-    if (!path) return undefined;
-
-    const skips: CommentSkips = {previous: null, next: null};
-    if (!fileList.length) {
-      return skips;
+    const pathIndex = fileList.indexOf(this.path);
+    const stopIndex = direction === 1 ? fileList.length : -1;
+    for (let i = pathIndex + direction; i !== stopIndex; i += direction) {
+      if (commentMap[fileList[i]]) return fileList[i];
     }
-    const pathIndex = fileList.indexOf(path);
-
-    // Scan backward for the previous file.
-    for (let i = pathIndex - 1; i >= 0; i--) {
-      if (commentMap[fileList[i]]) {
-        skips.previous = fileList[i];
-        break;
-      }
-    }
-
-    // Scan forward for the next file.
-    for (let i = pathIndex + 1; i < fileList.length; i++) {
-      if (commentMap[fileList[i]]) {
-        skips.next = fileList[i];
-        break;
-      }
-    }
-
-    return skips;
-  }
-
-  // Private but used in tests.
-  computeEditMode() {
-    return this.patchRange?.patchNum === EDIT;
+    return undefined;
   }
 
   // Private but used in tests.
@@ -2130,111 +1643,89 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   handleDiffAgainstBase() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.isActiveChildView) return;
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.basePatchNum === PARENT) {
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum: this.patchRange.patchNum,
-      })
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      this.patchNum,
+      PARENT
     );
   }
 
   // Private but used in tests.
   handleDiffBaseAgainstLeft() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.isActiveChildView) return;
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.basePatchNum === PARENT) {
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
-    const lineNum =
-      this.viewState?.view === GerritView.DIFF && this.viewState?.commentLink
-        ? this.focusLineNum
-        : undefined;
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
-        basePatchNum: PARENT,
-        lineNum,
-      })
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      this.basePatchNum as RevisionPatchSetNum,
+      PARENT
     );
   }
 
   // Private but used in tests.
   handleDiffAgainstLatest() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.isActiveChildView) return;
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum === latestPatchNum) {
+    if (this.patchNum === this.latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
 
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum: latestPatchNum,
-        basePatchNum: this.patchRange.basePatchNum,
-      })
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      this.latestPatchNum,
+      this.basePatchNum
     );
   }
 
   // Private but used in tests.
   handleDiffRightAgainstLatest() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.isActiveChildView) return;
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum === latestPatchNum) {
+    if (this.patchNum === this.latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum: latestPatchNum,
-        basePatchNum: this.patchRange.patchNum as BasePatchSetNum,
-      })
+
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      this.latestPatchNum,
+      this.patchNum as BasePatchSetNum
     );
   }
 
   // Private but used in tests.
   handleDiffBaseAgainstLatest() {
-    if (!this.change) return;
-    if (!this.path) return;
-    if (!this.patchRange) return;
+    if (!this.isActiveChildView) return;
+    assertIsDefined(this.path, 'path');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (
-      this.patchRange.patchNum === latestPatchNum &&
-      this.patchRange.basePatchNum === PARENT
-    ) {
+    if (this.patchNum === this.latestPatchNum && this.basePatchNum === PARENT) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
-    this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        path: this.path,
-        patchNum: latestPatchNum,
-      })
+
+    this.getChangeModel().navigateToDiff(
+      {path: this.path},
+      this.latestPatchNum,
+      PARENT
     );
   }
 
@@ -2265,13 +1756,13 @@ export class GrDiffView extends LitElement {
 
   private navigateToNextFileWithCommentThread() {
     if (!this.path) return;
-    if (!this.files?.sortedFileList) return;
-    if (!this.patchRange) return;
+    if (!this.files?.sortedPaths) return;
+    const range = this.patchRange;
+    if (!range) return;
     if (!this.change) return;
     const hasComment = (path: string) =>
-      this.changeComments?.getCommentsForPath(path, this.patchRange!)?.length ??
-      0 > 0;
-    const filesWithComments = this.files.sortedFileList.filter(
+      this.changeComments?.getCommentsForPath(path, range)?.length ?? 0 > 0;
+    const filesWithComments = this.files.sortedPaths.filter(
       file => file === this.path || hasComment(file)
     );
     this.navToFile(filesWithComments, 1, true);

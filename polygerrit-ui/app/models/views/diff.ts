@@ -4,85 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  NumericChangeId,
-  RepoName,
-  RevisionPatchSetNum,
-  BasePatchSetNum,
-  ChangeInfo,
-} from '../../api/rest-api';
-import {GerritView} from '../../services/router/router-model';
-import {UrlEncodedCommentId} from '../../types/common';
-import {
   encodeURL,
   getBaseUrl,
   getPatchRangeExpression,
 } from '../../utils/url-util';
-import {define} from '../dependency';
-import {Model} from '../model';
-import {ViewState} from './base';
+import {
+  ChangeChildView,
+  ChangeViewState,
+  CreateChangeUrlObject,
+  objToState,
+} from './change';
 
-export interface DiffViewState extends ViewState {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  repo?: RepoName;
-  commentId?: UrlEncodedCommentId;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number;
-  leftSide?: boolean;
-  commentLink?: boolean;
-}
-
-/**
- * This is a convenience type such that you can pass a `ChangeInfo` object
- * as the `change` property instead of having to set both the `changeNum` and
- * `project` properties explicitly.
- */
-export type CreateChangeUrlObject = Omit<
-  DiffViewState,
-  'view' | 'changeNum' | 'project'
-> & {
-  change: Pick<ChangeInfo, '_number' | 'project'>;
-};
-
-export function isCreateChangeUrlObject(
-  state: CreateChangeUrlObject | Omit<DiffViewState, 'view'>
-): state is CreateChangeUrlObject {
-  return !!(state as CreateChangeUrlObject).change;
-}
-
-export function objToState(
-  obj: CreateChangeUrlObject | Omit<DiffViewState, 'view'>
-): DiffViewState {
-  if (isCreateChangeUrlObject(obj)) {
-    return {
-      ...obj,
-      view: GerritView.DIFF,
-      changeNum: obj.change._number,
-      repo: obj.change.project,
-    };
-  }
-  return {...obj, view: GerritView.DIFF};
-}
-
+// TODO: Move to change.ts.
 export function createDiffUrl(
-  obj: CreateChangeUrlObject | Omit<DiffViewState, 'view'>
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
 ) {
-  const state: DiffViewState = objToState(obj);
+  const state: ChangeViewState = objToState({
+    ...obj,
+    childView: ChangeChildView.DIFF,
+  });
   let range = getPatchRangeExpression(state);
   if (range.length) range = '/' + range;
 
-  let suffix = `${range}/${encodeURL(state.path || '', true)}`;
+  let suffix = `${range}/${encodeURL(state.diffView?.path ?? '', true)}`;
 
-  if (state.lineNum) {
+  if (state.diffView?.lineNum) {
     suffix += '#';
-    if (state.leftSide) {
+    if (state.diffView?.leftSide) {
       suffix += 'b';
     }
-    suffix += state.lineNum;
+    suffix += state.diffView.lineNum;
   }
 
+  // TODO: Move creating of comment URLs to a separate function. We are
+  // "abusing" the `commentId` property, which should only be used for pointing
+  // to comment in the COMMENTS tab of the OVERVIEW page.
   if (state.commentId) {
     suffix = `/comment/${state.commentId}` + suffix;
   }
@@ -92,13 +48,5 @@ export function createDiffUrl(
     return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
     return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;
-  }
-}
-
-export const diffViewModelToken = define<DiffViewModel>('diff-view-model');
-
-export class DiffViewModel extends Model<DiffViewState | undefined> {
-  constructor() {
-    super(undefined);
   }
 }

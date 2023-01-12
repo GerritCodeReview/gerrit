@@ -7,7 +7,6 @@ import {
   PatchRange,
   PatchSetNum,
   RobotCommentInfo,
-  UrlEncodedCommentId,
   PathToCommentsInfoMap,
   FileInfo,
   PARENT,
@@ -62,26 +61,6 @@ export class ChangeComments {
 
   get drafts() {
     return this._drafts;
-  }
-
-  findCommentById(
-    commentId?: UrlEncodedCommentId
-  ): CommentInfo | DraftInfo | undefined {
-    if (!commentId) return undefined;
-    const findComment = (comments: {
-      [path: string]: (CommentInfo | DraftInfo)[];
-    }) => {
-      let comment;
-      for (const path of Object.keys(comments)) {
-        comment = comment || comments[path].find(c => c.id === commentId);
-      }
-      return comment;
-    };
-    return (
-      findComment(this._comments) ||
-      findComment(this._robotComments) ||
-      findComment(this._drafts)
-    );
   }
 
   /**

@@ -23,6 +23,9 @@ import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';
 
+export type FileNameToNormalizedFileInfoMap = {
+  [name: string]: NormalizedFileInfo;
+};
 export interface NormalizedFileInfo extends FileInfo {
   __path: string;
   // Compared to `FileInfo` these four props are required here.
@@ -115,7 +118,12 @@ export const filesModelToken = define<FilesModel>('files-model');
 export class FilesModel extends Model<FilesState> {
   public readonly files$ = select(this.state$, state => state.files);
 
-  public readonly filesWithUnmodified$ = select(
+  /**
+   * `files$` only includes the files that were modified. Here we also include
+   * all unmodified files that have comments with
+   * `status: FileInfoStatus.UNMODIFIED`.
+   */
+  public readonly filesIncludingUnmodified$ = select(
     combineLatest([this.files$, this.commentsModel.commentedPaths$]),
     ([files, commentedPaths]) => addUnmodified(files, commentedPaths)
   );

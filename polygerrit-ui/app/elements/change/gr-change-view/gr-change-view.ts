@@ -135,10 +135,6 @@ import {
   fireTitleChange,
 } from '../../../utils/event-util';
 import {
-  GerritView,
-  routerModelToken,
-} from '../../../services/router/router-model';
-import {
   debounce,
   DelayedTask,
   throttleWrap,
@@ -176,6 +172,7 @@ import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
+  ChangeChildView,
   changeViewModelToken,
   ChangeViewState,
   createChangeUrl,
@@ -539,8 +536,6 @@ export class GrChangeView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly getRouterModel = resolve(this, routerModelToken);
-
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
@@ -573,7 +568,7 @@ export class GrChangeView extends LitElement {
 
   /** Simply reflects the router-model value. */
   // visible for testing
-  routerPatchNum?: PatchSetNum;
+  viewModelPatchNum?: PatchSetNum;
 
   private readonly shortcutsController = new ShortcutController(this);
 
@@ -700,16 +695,16 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getRouterModel().routerView$,
-      view => {
-        this.isViewCurrent = view === GerritView.CHANGE;
+      () => this.getViewModel().childView$,
+      childView => {
+        this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
       }
     );
     subscribe(
       this,
-      () => this.getRouterModel().routerPatchNum$,
+      () => this.getViewModel().patchNum$,
       patchNum => {
-        this.routerPatchNum = patchNum;
+        this.viewModelPatchNum = patchNum;
       }
     );
     subscribe(
@@ -1531,7 +1526,6 @@ export class GrChangeView extends LitElement {
           .allPatchSets=${this.allPatchSets}
           .change=${this.change}
           .changeNum=${this.changeNum}
-          .revisionInfo=${this.getRevisionInfo()}
           .commitInfo=${this.commitInfo}
           .changeUrl=${this.computeChangeUrl()}
           .editMode=${this.getEditMode()}
@@ -2092,13 +2086,6 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    if (this.viewState.changeNum && this.viewState.repo) {
-      this.restApiService.setInProjectLookup(
-        this.viewState.changeNum,
-        this.viewState.repo
-      );
-    }
-
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 
@@ -2448,6 +2435,7 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   handleDiffBaseAgainstLeft() {
+    if (this.viewState?.childView !== ChangeChildView.OVERVIEW) return;
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
 
@@ -2650,7 +2638,7 @@ export class GrChangeView extends LitElement {
     // is under change-model control. `patchRange.patchNum` should eventually
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
-    if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
+    if (!this.viewModelPatchNum && latestPsNum === editParentRev._number) {
       this.patchRange = {...this.patchRange, patchNum: EDIT};
       // The file list is not reactive (yet) with regards to patch range
       // changes, so we have to actively trigger it.
@@ -3143,8 +3131,8 @@ export class GrChangeView extends LitElement {
           createEditUrl({
             changeNum: this.change._number,
             repo: this.change.project,
-            path,
             patchNum: this.patchRange.patchNum,
+            editView: {path},
           })
         );
         break;

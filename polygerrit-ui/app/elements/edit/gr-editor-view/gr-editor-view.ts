@@ -31,8 +31,12 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {editViewModelToken, EditViewState} from '../../../models/views/edit';
-import {createChangeUrl} from '../../../models/views/change';
+import {
+  ChangeChildView,
+  changeViewModelToken,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 
@@ -60,7 +64,7 @@ export class GrEditorView extends LitElement {
    */
 
   @property({type: Object})
-  viewState?: EditViewState;
+  viewState?: ChangeViewState;
 
   // private but used in test
   @state() change?: ParsedChangeInfo;
@@ -95,7 +99,7 @@ export class GrEditorView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly getEditViewModel = resolve(this, editViewModelToken);
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -116,8 +120,10 @@ export class GrEditorView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getEditViewModel().state$,
+      () => this.getViewModel().state$,
       state => {
+        // TODO: Add a setter for `viewState` instead of relying on the
+        // `viewStateChanged()` call here.
         this.viewState = state;
         this.viewStateChanged();
       }
@@ -206,7 +212,7 @@ export class GrEditorView extends LitElement {
   }
 
   override render() {
-    if (!this.viewState) return;
+    if (this.viewState?.childView !== ChangeChildView.EDIT) return nothing;
     return html` ${this.renderHeader()} ${this.renderEndpoint()} `;
   }
 
@@ -220,7 +226,7 @@ export class GrEditorView extends LitElement {
             <span class="separator"></span>
             <gr-editable-label
               labelText="File path"
-              .value=${this.viewState?.path}
+              .value=${this.viewState?.editView?.path}
               placeholder="File path..."
               @changed=${this.handlePathChanged}
             ></gr-editable-label>
@@ -277,7 +283,7 @@ export class GrEditorView extends LitElement {
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="lineNum"
-            .value=${this.viewState?.lineNum}
+            .value=${this.viewState?.editView?.lineNum}
           ></gr-endpoint-param>
           <gr-default-editor
             id="file"
@@ -298,19 +304,21 @@ export class GrEditorView extends LitElement {
   }
 
   get storageKey() {
-    return `c${this.viewState?.changeNum}_ps${this.viewState?.patchNum}_${this.viewState?.path}`;
+    return `c${this.viewState?.changeNum}_ps${this.viewState?.patchNum}_${this.viewState?.editView?.path}`;
   }
 
   // private but used in test
   viewStateChanged() {
-    if (!this.viewState) return;
+    if (this.viewState?.childView !== ChangeChildView.EDIT) return;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM
     // has been queued, the event can bubble up to the handler in gr-app.
     setTimeout(() => {
       if (!this.viewState) return;
-      const title = `Editing ${computeTruncatedPath(this.viewState.path)}`;
+      const title = `Editing ${computeTruncatedPath(
+        this.viewState.editView?.path
+      )}`;
       fireTitleChange(this, title);
     });
 
@@ -347,7 +355,7 @@ export class GrEditorView extends LitElement {
   // private but used in test
   async handlePathChanged(e: CustomEvent<string>): Promise<void> {
     const changeNum = this.viewState?.changeNum;
-    const currentPath = this.viewState?.path;
+    const currentPath = this.viewState?.editView?.path;
     assertIsDefined(changeNum, 'change number');
     assertIsDefined(currentPath, 'path');
 
@@ -376,7 +384,7 @@ export class GrEditorView extends LitElement {
   getFileData() {
     const changeNum = this.viewState?.changeNum;
     const patchNum = this.viewState?.patchNum;
-    const path = this.viewState?.path;
+    const path = this.viewState?.editView?.path;
     assertIsDefined(changeNum, 'change number');
     assertIsDefined(patchNum, 'patchset number');
     assertIsDefined(path, 'path');
@@ -416,7 +424,7 @@ export class GrEditorView extends LitElement {
   // private but used in test
   saveEdit() {
     const changeNum = this.viewState?.changeNum;
-    const path = this.viewState?.path;
+    const path = this.viewState?.editView?.path;
     assertIsDefined(changeNum, 'change number');
     assertIsDefined(path, 'path');
 

@@ -28,10 +28,16 @@ import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
-import {EditViewState} from '../../../models/views/edit';
-import {ChangeViewState} from '../../../models/views/change';
+import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {
+  createComment,
+  createDiff,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
+import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
@@ -1134,6 +1140,7 @@ suite('gr-router tests', () => {
           const ctx = makeParams('', '');
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1154,6 +1161,7 @@ suite('gr-router tests', () => {
           ctx.querystring = queryMap.toString();
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
@@ -1193,36 +1201,89 @@ suite('gr-router tests', () => {
         test('diff view', () => {
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertctxToParams(ctx, 'handleDiffRoute', {
-            view: GerritView.DIFF,
+            view: GerritView.CHANGE,
+            childView: ChangeChildView.DIFF,
             repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
-            path: 'foo/bar/baz',
-            leftSide: true,
-            lineNum: 44,
+            diffView: {
+              path: 'foo/bar/baz',
+              lineNum: 44,
+              leftSide: true,
+            },
           });
           assert.isFalse(redirectStub.called);
         });
 
-        test('comment route', () => {
-          const url = '/c/gerrit/+/264833/comment/00049681_f34fd6a9/';
+        test('comment route base..1', async () => {
+          const change: ParsedChangeInfo = createParsedChange();
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+          stubRestApi('getChangeDetail').resolves(change);
+          stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+
+          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
           const groups = url.match(_testOnly_RoutePattern.COMMENT);
-          assert.deepEqual(groups!.slice(1), [
-            'gerrit', // project
-            '264833', // changeNum
-            '00049681_f34fd6a9', // commentId
-          ]);
-          assertctxToParams(
-            {params: groups!.slice(1)} as any,
-            'handleCommentRoute',
-            {
-              repo: 'gerrit' as RepoName,
-              changeNum: 264833 as NumericChangeId,
-              commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
-              commentLink: true,
-              view: GerritView.DIFF,
-            }
+          assert.deepEqual(groups!.slice(1), [repo, `${changeNum}`, id]);
+
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+          );
+        });
+
+        test('comment route 1..2', async () => {
+          const change: ParsedChangeInfo = {
+            ...createParsedChange(),
+            revisions: {
+              abc: createRevision(1),
+              def: createRevision(2),
+            },
+          };
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+
+          stubRestApi('getChangeDetail').resolves(change);
+          stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+          const diffStub = stubRestApi('getDiff');
+
+          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
+          const groups = url.match(_testOnly_RoutePattern.COMMENT);
+
+          // If getDiff() returns a diff with changes, then we will compare
+          // the patchset of the comment (1) against latest (2).
+          diffStub.onFirstCall().resolves(createDiff());
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}..2/filepath#b${line}`
+          );
+
+          // If getDiff() returns an unchanged diff, then we will compare
+          // the patchset of the comment (1) against base.
+          diffStub.onSecondCall().resolves({
+            ...createDiff(),
+            content: [],
+          });
+          await router.handleCommentRoute({params: groups!.slice(1)} as any);
+          assert.isTrue(redirectStub.calledTwice);
+          assert.equal(
+            redirectStub.lastCall.args[0],
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
           );
         });
 
@@ -1242,6 +1303,7 @@ suite('gr-router tests', () => {
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               view: GerritView.CHANGE,
+              childView: ChangeChildView.OVERVIEW,
             }
           );
         });
@@ -1259,13 +1321,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
-          path: 'foo/bar/baz',
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: 0,
+          editView: {path: 'foo/bar/baz', lineNum: 0},
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1285,13 +1347,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: EditViewState = {
+        const appParams: ChangeViewState = {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritView.EDIT,
-          path: 'foo/bar/baz',
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: 4,
+          editView: {path: 'foo/bar/baz', lineNum: 4},
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1314,6 +1376,7 @@ suite('gr-router tests', () => {
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
         };

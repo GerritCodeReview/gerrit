@@ -758,7 +758,7 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
-      () => this.getFilesModel().filesWithUnmodified$,
+      () => this.getFilesModel().filesIncludingUnmodified$,
       files => {
         this.files = [...files];
       }
@@ -2121,9 +2121,9 @@ export class GrFileList extends LitElement {
     this.getNavigation().setUrl(
       createDiffUrl({
         change: this.change,
-        path: diff.path,
         patchNum: this.patchRange.patchNum,
         basePatchNum: this.patchRange.basePatchNum,
+        diffView: {path: diff.path},
       })
     );
   }
@@ -2142,9 +2142,9 @@ export class GrFileList extends LitElement {
     this.getNavigation().setUrl(
       createDiffUrl({
         change: this.change,
-        path: this.files[this.fileCursor.index].__path,
         patchNum: this.patchRange.patchNum,
         basePatchNum: this.patchRange.basePatchNum,
+        diffView: {path: this.files[this.fileCursor.index].__path},
       })
     );
   }
@@ -2176,16 +2176,16 @@ export class GrFileList extends LitElement {
       return createEditUrl({
         changeNum: this.change._number,
         repo: this.change.project,
-        path,
         patchNum: this.patchRange.patchNum,
+        editView: {path},
       });
     }
     return createDiffUrl({
       changeNum: this.change._number,
       repo: this.change.project,
-      path,
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,
+      diffView: {path},
     });
   }
 

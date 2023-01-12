@@ -105,7 +105,6 @@ import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {
   DetailedLabelInfo,
-  FileInfo,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
@@ -115,8 +114,8 @@ import {CheckResult, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 import {SearchViewState} from '../models/views/search';
-import {ChangeViewState} from '../models/views/change';
-import {EditViewState} from '../models/views/edit';
+import {ChangeChildView, ChangeViewState} from '../models/views/change';
+import {NormalizedFileInfo} from '../models/change/files-model';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -400,10 +399,15 @@ export function createChangeMessages(count: number): ChangeMessageInfo[] {
   return messages;
 }
 
-export function createFileInfo(): FileInfo {
+export function createFileInfo(
+  path = 'test-path/test-file.txt'
+): NormalizedFileInfo {
   return {
     size: 314,
     size_delta: 7,
+    lines_deleted: 0,
+    lines_inserted: 0,
+    __path: path,
   };
 }
 
@@ -701,6 +705,7 @@ export function createApproval(account?: AccountInfo): ApprovalInfo {
 export function createChangeViewState(): ChangeViewState {
   return {
     view: GerritView.CHANGE,
+    childView: ChangeChildView.OVERVIEW,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     repo: TEST_PROJECT_NAME,
   };
@@ -716,12 +721,22 @@ export function createAppElementSearchViewParams(): SearchViewState {
   };
 }
 
-export function createEditViewState(): EditViewState {
+export function createEditViewState(): ChangeViewState {
   return {
-    view: GerritView.EDIT,
+    view: GerritView.CHANGE,
+    childView: ChangeChildView.EDIT,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     patchNum: EDIT,
-    path: 'foo/bar.baz',
+    repo: TEST_PROJECT_NAME,
+    editView: {path: 'foo/bar.baz'},
+  };
+}
+
+export function createDiffViewState(): ChangeViewState {
+  return {
+    view: GerritView.CHANGE,
+    childView: ChangeChildView.DIFF,
+    changeNum: TEST_NUMERIC_CHANGE_ID,
     repo: TEST_PROJECT_NAME,
   };
 }

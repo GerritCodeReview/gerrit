@@ -12,6 +12,7 @@ import {
   PatchSetNum,
   PreferencesInfo,
   RevisionPatchSetNum,
+  PatchSetNumber,
 } from '../../types/common';
 import {DefaultBase} from '../../constants/constants';
 import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
@@ -22,7 +23,6 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import {RouterModel} from '../../services/router/router-model';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -38,6 +38,10 @@ import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
+import {ChangeViewModel, createChangeUrl} from '../views/change';
+import {createDiffUrl} from '../views/diff';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {createEditUrl} from '../views/edit';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -56,12 +60,6 @@ export interface ChangeState {
   loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
   /**
-   * The name of the file user is viewing in the diff view mode. File path is
-   * specified in the url or derived from the commentId.
-   * Does not apply to change-view or edit-view.
-   */
-  diffPath?: string;
-  /**
    * The list of reviewed files, kept in the model because we want changes made
    * in one view to reflect on other views without re-rendering the other views.
    * Undefined means it's still loading and empty set means no files reviewed.
@@ -76,7 +74,7 @@ export interface ChangeState {
 export function updateChangeWithEdit(
   change?: ParsedChangeInfo,
   edit?: EditInfo,
-  routerPatchNum?: PatchSetNum
+  viewModelPatchNum?: PatchSetNum
 ): ParsedChangeInfo | undefined {
   if (!change || !edit) return change;
   assertIsDefined(edit.commit.commit, 'edit.commit.commit');
@@ -95,7 +93,7 @@ export function updateChangeWithEdit(
   // which is still done in change-view. `_patchRange.patchNum` should
   // eventually also be model managed, so we can reconcile these two code
   // snippets into one location.
-  if (routerPatchNum === undefined) {
+  if (viewModelPatchNum === undefined) {
     change.current_revision = edit.commit.commit;
   }
   return change;
@@ -103,20 +101,20 @@ export function updateChangeWithEdit(
 
 /**
  * Derives the base patchset number from all the data that can potentially
- * influence it. Mostly just returns `routerBasePatchNum` or PARENT, but has
+ * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
  * some special logic when looking at merge commits.
  *
- * NOTE: At the moment this returns just `routerBasePatchNum ?? PARENT`, see
+ * NOTE: At the moment this returns just `viewModelBasePatchNum ?? PARENT`, see
  * TODO below.
  */
 function computeBase(
-  routerBasePatchNum: BasePatchSetNum | undefined,
+  viewModelBasePatchNum: BasePatchSetNum | undefined,
   patchNum: RevisionPatchSetNum | undefined,
   change: ParsedChangeInfo | undefined,
   preferences: PreferencesInfo
 ): BasePatchSetNum {
-  if (routerBasePatchNum && routerBasePatchNum !== PARENT) {
-    return routerBasePatchNum;
+  if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
+    return viewModelBasePatchNum;
   }
   if (!change || !patchNum) return PARENT;
 
@@ -129,7 +127,7 @@ function computeBase(
   // but we are not sure whether this was ever 100% working correctly. A
   // major challenge is being able to select PARENT explicitly even if your
   // preference for the default choice is FIRST_PARENT. <gr-file-list-header>
-  // just uses `navigation.setUrl()` and the router does not have any
+  // just uses `navigation.setUrl()` and the view model does not have any
   // way of forcing the basePatchSetNum to stick to PARENT without being
   // altered back to FIRST_PARENT here.
   // See also corresponding TODO in gr-settings-view.
@@ -150,7 +148,11 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
-  private patchNum?: PatchSetNum;
+  private patchNum?: RevisionPatchSetNum;
+
+  private basePatchNum?: BasePatchSetNum;
+
+  private latestPatchNum?: PatchSetNumber;
 
   public readonly change$ = select(
     this.state$,
@@ -160,11 +162,6 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly changeLoadingStatus$ = select(
     this.state$,
     changeState => changeState.loadingStatus
-  );
-
-  public readonly diffPath$ = select(
-    this.state$,
-    changeState => changeState?.diffPath
   );
 
   public readonly reviewedFiles$ = select(
@@ -178,8 +175,17 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly latestPatchNum$ = select(this.change$, change =>
-    computeLatestPatchNum(computeAllPatchSets(change))
+  public readonly revisions$ = select(
+    this.change$,
+    change => change?.revisions
+  );
+
+  public readonly patchsets$ = select(this.change$, change =>
+    computeAllPatchSets(change)
+  );
+
+  public readonly latestPatchNum$ = select(this.patchsets$, patchsets =>
+    computeLatestPatchNum(patchsets)
   );
 
   /**
@@ -192,57 +198,57 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly patchNum$: Observable<RevisionPatchSetNum | undefined> =
     select(
       combineLatest([
-        this.routerModel.state$,
+        this.viewModel.state$,
         this.state$,
         this.latestPatchNum$,
       ]).pipe(
         /**
-         * If you depend on both, router and change state, then you want to
-         * filter out inconsistent state, e.g. router changeNum already updated,
-         * change not yet reset to undefined.
+         * If you depend on both, view model and change state, then you want to
+         * filter out inconsistent state, e.g. view model changeNum already
+         * updated, change not yet reset to undefined.
          */
-        filter(([routerState, changeState, _latestPatchN]) => {
+        filter(([viewModelState, changeState, _latestPatchN]) => {
           const changeNum = changeState.change?._number;
-          const routerChangeNum = routerState.changeNum;
-          return changeNum === undefined || changeNum === routerChangeNum;
+          const viewModelChangeNum = viewModelState?.changeNum;
+          return changeNum === undefined || changeNum === viewModelChangeNum;
         })
       ),
-      ([routerState, _changeState, latestPatchN]) =>
-        routerState?.patchNum || latestPatchN
+      ([viewModelState, _changeState, latestPatchN]) =>
+        viewModelState?.patchNum || latestPatchN
     );
 
   /**
    * Emits the base patchset number. This is identical to the
-   * `routerBasePatchNum$`, but has some special logic for merges.
+   * `viewModel.basePatchNum$`, but has some special logic for merges.
    *
    * Note that this selector can emit without the change being available!
    */
   public readonly basePatchNum$: Observable<BasePatchSetNum> =
     /**
-     * If you depend on both, router and change state, then you want to filter
-     * out inconsistent state, e.g. router changeNum already updated, change not
-     * yet reset to undefined.
+     * If you depend on both, view model and change state, then you want to
+     * filter out inconsistent state, e.g. view model changeNum already
+     * updated, change not yet reset to undefined.
      */
     select(
       combineLatest([
-        this.routerModel.state$,
+        this.viewModel.state$,
         this.state$,
         this.userModel.state$,
       ]).pipe(
-        filter(([routerState, changeState, _]) => {
+        filter(([viewModelState, changeState, _]) => {
           const changeNum = changeState.change?._number;
-          const routerChangeNum = routerState.changeNum;
-          return changeNum === undefined || changeNum === routerChangeNum;
+          const viewModelChangeNum = viewModelState?.changeNum;
+          return changeNum === undefined || changeNum === viewModelChangeNum;
         }),
         withLatestFrom(
-          this.routerModel.routerBasePatchNum$,
+          this.viewModel.basePatchNum$,
           this.patchNum$,
           this.change$,
           this.userModel.preferences$
         )
       ),
-      ([_, routerBasePatchNum, patchNum, change, preferences]) =>
-        computeBase(routerBasePatchNum, patchNum, change, preferences)
+      ([_, viewModelBasePatchNum, patchNum, change, preferences]) =>
+        computeBase(viewModelBasePatchNum, patchNum, change, preferences)
     );
 
   public readonly isOwner$: Observable<boolean> = select(
@@ -257,13 +263,14 @@ export class ChangeModel extends Model<ChangeState> {
   );
 
   constructor(
-    private readonly routerModel: RouterModel,
+    private readonly navigation: NavigationService,
+    private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.routerModel.routerChangeNum$, this.reload$])
+      combineLatest([this.viewModel.changeNum$, this.reload$])
         .pipe(
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {
@@ -272,7 +279,7 @@ export class ChangeModel extends Model<ChangeState> {
             const edit = from(this.restApiService.getChangeEdit(changeNum));
             return forkJoin([change, edit]);
           }),
-          withLatestFrom(this.routerModel.routerPatchNum$),
+          withLatestFrom(this.viewModel.patchNum$),
           map(([[change, edit], patchNum]) =>
             updateChangeWithEdit(change, edit, patchNum)
           )
@@ -289,6 +296,12 @@ export class ChangeModel extends Model<ChangeState> {
         }),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
+      this.basePatchNum$.subscribe(
+        basePatchNum => (this.basePatchNum = basePatchNum)
+      ),
+      this.latestPatchNum$.subscribe(
+        latestPatchNum => (this.latestPatchNum = latestPatchNum)
+      ),
       combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
         .pipe(
           switchMap(([patchNum, changeNum, loggedIn]) => {
@@ -301,11 +314,6 @@ export class ChangeModel extends Model<ChangeState> {
         )
         .subscribe(),
     ];
-  }
-
-  // Temporary workaround until path is derived in the model itself.
-  updatePath(diffPath?: string) {
-    this.updateState({diffPath});
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {
@@ -370,6 +378,65 @@ export class ChangeModel extends Model<ChangeState> {
    */
   getChange() {
     return this.getState().change;
+  }
+
+  diffUrl(
+    diffView: {path: string; lineNum?: number},
+    patchNum = this.patchNum,
+    basePatchNum = this.basePatchNum
+  ) {
+    if (!this.change) return;
+    if (!this.patchNum) return;
+    return createDiffUrl({
+      change: this.change,
+      patchNum,
+      basePatchNum,
+      diffView,
+    });
+  }
+
+  navigateToDiff(
+    diffView: {path: string; lineNum?: number},
+    patchNum = this.patchNum,
+    basePatchNum = this.basePatchNum
+  ) {
+    const url = this.diffUrl(diffView, patchNum, basePatchNum);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  changeUrl(openReplyDialog = false) {
+    if (!this.change) return;
+    const isLatest = this.latestPatchNum === this.patchNum;
+    return createChangeUrl({
+      change: this.change,
+      patchNum:
+        isLatest && this.basePatchNum === PARENT ? undefined : this.patchNum,
+      basePatchNum: this.basePatchNum,
+      openReplyDialog,
+    });
+  }
+
+  navigateToChange(openReplyDialog = false) {
+    const url = this.changeUrl(openReplyDialog);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  editUrl(editView: {path: string; lineNum?: number}) {
+    if (!this.change) return;
+    return createEditUrl({
+      changeNum: this.change._number,
+      repo: this.change.project,
+      patchNum: this.patchNum,
+      editView,
+    });
+  }
+
+  navigateToEdit(editView: {path: string; lineNum?: number}) {
+    const url = this.editUrl(editView);
+    if (!url) return;
+    this.navigation.setUrl(url);
   }
 
   /**

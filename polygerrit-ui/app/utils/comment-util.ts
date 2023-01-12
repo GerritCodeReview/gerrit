@@ -598,3 +598,17 @@ export function getMentionedThreads(
       .includes(account.email)
   );
 }
+
+export function findComment(
+  comments: {
+    [path: string]: (CommentInfo | DraftInfo)[];
+  },
+  commentId: UrlEncodedCommentId
+) {
+  if (!commentId) return undefined;
+  let comment;
+  for (const path of Object.keys(comments)) {
+    comment = comment || comments[path].find(c => c.id === commentId);
+  }
+  return comment;
+}

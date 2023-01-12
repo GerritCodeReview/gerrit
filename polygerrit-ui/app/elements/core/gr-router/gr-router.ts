@@ -10,7 +10,11 @@ import {
 } from '../../../utils/page-wrapper-utils';
 import {NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {convertToPatchSetNum} from '../../../utils/patch-set-util';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  convertToPatchSetNum,
+} from '../../../utils/patch-set-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -27,7 +31,7 @@ import {
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, RouterModel} from '../../../services/router/router-model';
-import {firePageError} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
   getBaseUrl,
@@ -61,13 +65,12 @@ import {
   GroupViewModel,
   GroupViewState,
 } from '../../../models/views/group';
-import {DiffViewModel, DiffViewState} from '../../../models/views/diff';
 import {
+  ChangeChildView,
   ChangeViewModel,
   ChangeViewState,
-  createChangeUrl,
+  createChangeViewUrl,
 } from '../../../models/views/change';
-import {EditViewModel, EditViewState} from '../../../models/views/edit';
 import {
   DashboardViewModel,
   DashboardViewState,
@@ -88,6 +91,14 @@ import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
 import {Subscription} from 'rxjs';
+import {
+  addPath,
+  findComment,
+  getPatchRangeForCommentUrl,
+  isInBaseOfPatchRange,
+} from '../../../utils/comment-util';
+import {createDiffUrl} from '../../../models/views/diff';
+import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const RoutePattern = {
   ROOT: '/',
@@ -303,9 +314,7 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly agreementViewModel: AgreementViewModel,
     private readonly changeViewModel: ChangeViewModel,
     private readonly dashboardViewModel: DashboardViewModel,
-    private readonly diffViewModel: DiffViewModel,
     private readonly documentationViewModel: DocumentationViewModel,
-    private readonly editViewModel: EditViewModel,
     private readonly groupViewModel: GroupViewModel,
     private readonly pluginViewModel: PluginViewModel,
     private readonly repoViewModel: RepoViewModel,
@@ -322,7 +331,7 @@ export class GrRouter implements Finalizable, NavigationService {
         // So this check is slightly fragile, but should work.
         if (this.view !== GerritView.CHANGE) return;
         const browserUrl = new URL(window.location.toString());
-        const stateUrl = new URL(createChangeUrl(state), browserUrl);
+        const stateUrl = new URL(createChangeViewUrl(state), browserUrl);
 
         // Keeping the hash and certain parameters are stop-gap solution. We
         // should find better ways of maintaining an overall consistent URL
@@ -363,13 +372,14 @@ export class GrRouter implements Finalizable, NavigationService {
     if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
       this.restApiService.setInProjectLookup(state.changeNum, state.repo);
 
-    this.routerModel.setState({
-      view: state.view,
-      changeNum: 'changeNum' in state ? state.changeNum : undefined,
-      patchNum: 'patchNum' in state ? state.patchNum ?? undefined : undefined,
-      basePatchNum:
-        'basePatchNum' in state ? state.basePatchNum ?? undefined : undefined,
-    });
+    this.routerModel.setState({view: state.view});
+    // We are trying to reset the change (view) model when navigating to other
+    // views, because we don't trust our reset logic at the moment. The models
+    // singletons and might unintentionally keep state from one change to
+    // another. TODO: Let's find some way to avoid that.
+    if (state.view !== GerritView.CHANGE) {
+      this.changeViewModel.setState(undefined);
+    }
     this.appElement().params = state;
   }
 
@@ -1441,6 +1451,7 @@ export class GrRouter implements Finalizable, NavigationService {
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
+      childView: ChangeChildView.OVERVIEW,
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
@@ -1471,21 +1482,57 @@ export class GrRouter implements Finalizable, NavigationService {
     this.changeViewModel.setState(state);
   }
 
-  handleCommentRoute(ctx: PageContext) {
+  async handleCommentRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const state: DiffViewState = {
-      repo: ctx.params[0] as RepoName,
+    const repo = ctx.params[0] as RepoName;
+    const commentId = ctx.params[2] as UrlEncodedCommentId;
+
+    const comments = await this.restApiService.getDiffComments(changeNum);
+    const change = await this.restApiService.getChangeDetail(changeNum);
+
+    const comment = findComment(addPath(comments), commentId);
+    const path = comment?.path;
+    const patchsets = computeAllPatchSets(change);
+    const latestPatchNum = computeLatestPatchNum(patchsets);
+    if (!comment || !path || !latestPatchNum) {
+      this.show404();
+      return;
+    }
+    let {basePatchNum, patchNum} = getPatchRangeForCommentUrl(
+      comment,
+      latestPatchNum
+    );
+
+    if (basePatchNum !== PARENT) {
+      const diff = await this.restApiService.getDiff(
+        changeNum,
+        basePatchNum,
+        patchNum,
+        path
+      );
+      if (diff && isFileUnchanged(diff)) {
+        fireAlert(
+          document,
+          `File is unchanged between Patchset ${basePatchNum} and ${patchNum}.
+           Showing diff of Base vs ${basePatchNum}.`
+        );
+        patchNum = basePatchNum as RevisionPatchSetNum;
+        basePatchNum = PARENT;
+      }
+    }
+
+    const diffUrl = createDiffUrl({
       changeNum,
-      commentId: ctx.params[2] as UrlEncodedCommentId,
-      view: GerritView.DIFF,
-      commentLink: true,
-    };
-    this.reporting.setRepoName(state.repo ?? '');
-    this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(state);
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.diffViewModel.setState(state);
+      repo,
+      patchNum,
+      basePatchNum,
+      diffView: {
+        path,
+        lineNum: comment.line,
+        leftSide: isInBaseOfPatchRange(comment, {basePatchNum, patchNum}),
+      },
+    });
+    this.redirect(diffUrl);
   }
 
   handleCommentsRoute(ctx: PageContext) {
@@ -1495,6 +1542,7 @@ export class GrRouter implements Finalizable, NavigationService {
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.CHANGE,
+      childView: ChangeChildView.OVERVIEW,
     };
     assertIsDefined(state.repo);
     this.reporting.setRepoName(state.repo);
@@ -1508,25 +1556,26 @@ export class GrRouter implements Finalizable, NavigationService {
   handleDiffRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
-    const state: DiffViewState = {
+    const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
-      path: ctx.params[8],
-      view: GerritView.DIFF,
+      view: GerritView.CHANGE,
+      childView: ChangeChildView.DIFF,
+      diffView: {path: ctx.params[8]},
     };
     const address = this.parseLineAddress(ctx.hash);
     if (address) {
-      state.leftSide = address.leftSide;
-      state.lineNum = address.lineNum;
+      state.diffView!.leftSide = address.leftSide;
+      state.diffView!.lineNum = address.lineNum;
     }
     this.reporting.setRepoName(state.repo ?? '');
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
     this.setState(state);
-    this.diffViewModel.setState(state);
+    this.changeViewModel.setState(state);
   }
 
   handleChangeLegacyRoute(ctx: PageContext) {
@@ -1554,19 +1603,19 @@ export class GrRouter implements Finalizable, NavigationService {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const state: EditViewState = {
+    const state: ChangeViewState = {
       repo: project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
       patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
-      path: ctx.params[3],
-      lineNum: Number(ctx.hash),
-      view: GerritView.EDIT,
+      view: GerritView.CHANGE,
+      childView: ChangeChildView.EDIT,
+      editView: {path: ctx.params[3], lineNum: Number(ctx.hash)},
     };
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
     this.setState(state);
-    this.editViewModel.setState(state);
+    this.changeViewModel.setState(state);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1581,6 +1630,7 @@ export class GrRouter implements Finalizable, NavigationService {
       changeNum,
       patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
+      childView: ChangeChildView.OVERVIEW,
       edit: true,
     };
     const tab = queryMap.get('tab');

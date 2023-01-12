@@ -9,7 +9,7 @@ import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {stubReporting, stubRestApi} from '../../../test/test-utils';
+import {stubReporting} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
   EDIT,
@@ -25,8 +25,11 @@ import {
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
+  createChangeViewState,
   createEditRevision,
+  createParsedChange,
   createRevision,
+  createRevisions,
 } from '../../../test/test-data-generators';
 import {PatchSet} from '../../../utils/patch-set-util';
 import {
@@ -36,6 +39,9 @@ import {
 import {queryAndAssert} from '../../../test/test-utils';
 import {fire} from '../../../utils/event-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {changeViewModelToken} from '../../../models/views/change';
+import {changeModelToken} from '../../../models/change/change-model';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -53,16 +59,23 @@ suite('gr-patch-range-select tests', () => {
   }
 
   setup(async () => {
-    stubRestApi('getDiffComments').returns(Promise.resolve({}));
-    stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
-    stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-
     // Element must be wrapped in an element with direct access to the
     // comment API.
     element = await fixture(
       html`<gr-patch-range-select></gr-patch-range-select>`
     );
 
+    const viewModel = testResolver(changeViewModelToken);
+    viewModel.setState({
+      ...createChangeViewState(),
+      patchNum: 1 as RevisionPatchSetNum,
+      basePatchNum: PARENT,
+    });
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      revisions: createRevisions(5),
+    });
     // Stub methods on the changeComments object after changeComments has
     // been initialized.
     element.changeComments = new ChangeComments();
@@ -86,7 +99,7 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('enabled/disabled options', async () => {
-    element.revisions = [
+    element.sortedRevisions = [
       createRevision(3),
       createEditRevision(2),
       createRevision(2),
@@ -119,13 +132,13 @@ suite('gr-patch-range-select tests', () => {
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    element.revisions = [
-      createRevision(2),
-      createRevision(3),
-      createRevision(1),
+    element.sortedRevisions = [
       createRevision(4),
+      createRevision(3),
+      createRevision(2),
+      createRevision(1),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     const expectedResult: DropdownItem[] = [
       {
         disabled: true,
@@ -175,13 +188,13 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('computeBaseDropdownContent called when patchNum updates', async () => {
-    element.revisions = [
-      createRevision(2),
-      createRevision(3),
-      createRevision(1),
+    element.sortedRevisions = [
       createRevision(4),
+      createRevision(3),
+      createRevision(2),
+      createRevision(1),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     element.availablePatches = [
       {num: 1, sha: '1'} as PatchSet,
       {num: 2, sha: '2'} as PatchSet,
@@ -201,13 +214,13 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('computeBaseDropdownContent called when changeComments update', async () => {
-    element.revisions = [
-      createRevision(2),
-      createRevision(3),
-      createRevision(1),
+    element.sortedRevisions = [
       createRevision(4),
+      createRevision(3),
+      createRevision(2),
+      createRevision(1),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     element.availablePatches = [
       {num: 3, sha: '2'} as PatchSet,
       {num: 2, sha: '3'} as PatchSet,
@@ -226,13 +239,13 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('computePatchDropdownContent called when basePatchNum updates', async () => {
-    element.revisions = [
+    element.sortedRevisions = [
       createRevision(2),
       createRevision(3),
       createRevision(1),
       createRevision(4),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     element.availablePatches = [
       {num: 1, sha: '1'} as PatchSet,
       {num: 2, sha: '2'} as PatchSet,
@@ -258,7 +271,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 1, sha: '4'} as PatchSet,
     ];
     element.basePatchNum = 1 as BasePatchSetNum;
-    element.revisions = [
+    element.sortedRevisions = [
       createRevision(3),
       createEditRevision(2),
       createRevision(2, 'description'),
@@ -402,13 +415,13 @@ suite('gr-patch-range-select tests', () => {
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    element.revisions = [
+    element.sortedRevisions = [
       createRevision(2),
       createRevision(3),
       createRevision(1),
       createRevision(4),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     await element.updateComplete;
 
     element.addEventListener('patch-range-change', handler);
@@ -444,13 +457,13 @@ suite('gr-patch-range-select tests', () => {
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    element.revisions = [
+    element.sortedRevisions = [
       createRevision(2),
       createRevision(3),
       createRevision(1),
       createRevision(4),
     ];
-    element.revisionInfo = getInfo(element.revisions);
+    element.revisionInfo = getInfo(element.sortedRevisions);
     element.patchNum = 1 as PatchSetNumber;
     element.basePatchNum = PARENT;
     await element.updateComplete;

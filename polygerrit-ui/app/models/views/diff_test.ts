@@ -6,24 +6,25 @@
 import {assert} from '@open-wc/testing';
 import {
   BasePatchSetNum,
-  NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
-import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {createDiffUrl, DiffViewState} from './diff';
+import {createDiffViewState} from '../../test/test-data-generators';
+import {ChangeViewState} from './change';
+import {createDiffUrl} from './diff';
 
 suite('diff view state tests', () => {
   test('createDiffUrl', () => {
-    const params: DiffViewState = {
-      view: GerritView.DIFF,
-      changeNum: 42 as NumericChangeId,
-      path: 'x+y/path.cpp' as RepoName,
+    const params: ChangeViewState = {
+      ...createDiffViewState(),
       patchNum: 12 as RevisionPatchSetNum,
-      repo: '' as RepoName,
+      diffView: {path: 'x+y/path.cpp'},
     };
-    assert.equal(createDiffUrl(params), '/c/42/12/x%252By/path.cpp');
+    assert.equal(
+      createDiffUrl(params),
+      '/c/test-project/+/42/12/x%252By/path.cpp'
+    );
 
     window.CANONICAL_PATH = '/base';
     assert.equal(createDiffUrl(params).substring(0, 5), '/base');
@@ -35,7 +36,9 @@ suite('diff view state tests', () => {
     params.basePatchNum = 6 as BasePatchSetNum;
     assert.equal(createDiffUrl(params), '/c/test/+/42/6..12/x%252By/path.cpp');
 
-    params.path = 'foo bar/my+file.txt%';
+    params.diffView = {
+      path: 'foo bar/my+file.txt%',
+    };
     params.patchNum = 2 as RevisionPatchSetNum;
     delete params.basePatchNum;
     assert.equal(
@@ -43,21 +46,26 @@ suite('diff view state tests', () => {
       '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525'
     );
 
-    params.path = 'file.cpp';
-    params.lineNum = 123;
+    params.diffView = {
+      path: 'file.cpp',
+      lineNum: 123,
+    };
     assert.equal(createDiffUrl(params), '/c/test/+/42/2/file.cpp#123');
 
-    params.leftSide = true;
+    params.diffView = {
+      path: 'file.cpp',
+      lineNum: 123,
+      leftSide: true,
+    };
     assert.equal(createDiffUrl(params), '/c/test/+/42/2/file.cpp#b123');
   });
 
   test('diff with repo name encoding', () => {
-    const params: DiffViewState = {
-      view: GerritView.DIFF,
-      changeNum: 42 as NumericChangeId,
-      path: 'x+y/path.cpp',
+    const params: ChangeViewState = {
+      ...createDiffViewState(),
       patchNum: 12 as RevisionPatchSetNum,
       repo: 'x+/y' as RepoName,
+      diffView: {path: 'x+y/path.cpp'},
     };
     assert.equal(createDiffUrl(params), '/c/x%252B/y/+/42/12/x%252By/path.cpp');
   });

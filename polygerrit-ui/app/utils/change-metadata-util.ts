@@ -31,10 +31,10 @@ export const DisplayRules = {
     Metadata.REPO_BRANCH,
     Metadata.SUBMITTED,
     Metadata.TOPIC,
+    Metadata.HASHTAGS,
   ],
   SHOW_IF_SET: [
     Metadata.CC,
-    Metadata.HASHTAGS,
     Metadata.UPLOADER,
     Metadata.AUTHOR,
     Metadata.COMMITTER,

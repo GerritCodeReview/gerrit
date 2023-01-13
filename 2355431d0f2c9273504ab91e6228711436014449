@@ -16,6 +16,24 @@
       "message": "Maybe add the same hint here too?",
       "revId": "2355431d0f2c9273504ab91e6228711436014449",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7cdb78a_02102a56",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7220,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-13T11:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe84a31a_8605a5fa",
+      "revId": "2355431d0f2c9273504ab91e6228711436014449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

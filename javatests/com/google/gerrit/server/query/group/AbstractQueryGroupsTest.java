@@ -440,10 +440,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return createGroupWithDescription(name, null, members);
   }
 
-  protected void deleteGroup(AccountGroup.UUID uuid) throws Exception {
-    for (GroupIndex index : groupIndexes.getWriteIndexes()) {
-      index.delete(uuid);
-    }
+  protected GroupInfo createGroup(GroupInput in) throws Exception {
+    return gApi.groups().create(in).get();
   }
 
   protected GroupInfo createGroupWithDescription(
@@ -453,21 +451,27 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     in.description = description;
     in.members =
         Arrays.asList(members).stream().map(a -> String.valueOf(a._accountId)).collect(toList());
-    return gApi.groups().create(in).get();
+    return createGroup(in);
   }
 
   protected GroupInfo createGroupWithOwner(String name, GroupInfo ownerGroup) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = ownerGroup.id;
-    return gApi.groups().create(in).get();
+    return createGroup(in);
   }
 
   protected GroupInfo createGroupThatIsVisibleToAll(String name) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.visibleToAll = true;
-    return gApi.groups().create(in).get();
+    return createGroup(in);
+  }
+
+  protected void deleteGroup(AccountGroup.UUID uuid) throws Exception {
+    for (GroupIndex index : groupIndexes.getWriteIndexes()) {
+      index.delete(uuid);
+    }
   }
 
   protected GroupInfo getGroup(AccountGroup.UUID uuid) throws Exception {

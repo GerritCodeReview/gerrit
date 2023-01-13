@@ -97,7 +97,8 @@ import org.eclipse.jgit.lib.Config;
 
 public class PostReviewOp implements BatchUpdateOp {
   interface Factory {
-    PostReviewOp create(ProjectState projectState, PatchSet.Id psId, ReviewInput in);
+    PostReviewOp create(
+        ProjectState projectState, PatchSet.Id psId, ReviewInput in, Account.Id reviewerId);
   }
 
   /**
@@ -192,6 +193,7 @@ public class PostReviewOp implements BatchUpdateOp {
   private final ProjectState projectState;
   private final PatchSet.Id psId;
   private final ReviewInput in;
+  private final Account.Id reviewerId;
   private final boolean publishPatchSetLevelComment;
 
   private IdentifiedUser user;
@@ -220,7 +222,8 @@ public class PostReviewOp implements BatchUpdateOp {
       PluginSetContext<OnPostReview> onPostReviews,
       @Assisted ProjectState projectState,
       @Assisted PatchSet.Id psId,
-      @Assisted ReviewInput in) {
+      @Assisted ReviewInput in,
+      @Assisted Account.Id reviewerId) {
     this.approvalCopier = approvalCopier;
     this.approvalsUtil = approvalsUtil;
     this.publishCommentUtil = publishCommentUtil;
@@ -237,6 +240,7 @@ public class PostReviewOp implements BatchUpdateOp {
     this.projectState = projectState;
     this.psId = psId;
     this.in = in;
+    this.reviewerId = reviewerId;
   }
 
   @Override
@@ -645,10 +649,11 @@ public class PostReviewOp implements BatchUpdateOp {
           del.add(c);
           update.putApproval(normName, (short) 0);
         }
-        // Only allow voting again if the vote is copied over from a past patch-set, or the
-        // values are different.
+        // Only allow voting again the values are different, if the real account differs or if the
+        // vote is copied over from a past patch-set.
       } else if (c != null
           && (c.value() != ent.getValue()
+              || !c.realAccountId().equals(reviewerId)
               || (inLabels.containsKey(c.label()) && isApprovalCopiedOver(c, ctx.getNotes())))) {
         PatchSetApproval.Builder b =
             c.toBuilder()

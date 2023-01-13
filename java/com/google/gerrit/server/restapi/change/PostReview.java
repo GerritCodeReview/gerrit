@@ -379,7 +379,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Add the review ops.
       logger.atFine().log("posting review");
       PostReviewOp postReviewOp =
-          postReviewOpFactory.create(projectState, revision.getPatchSet().id(), input);
+          postReviewOpFactory.create(
+              projectState, revision.getPatchSet().id(), input, revision.getAccountId());
       bu.addOp(revision.getChange().getId(), postReviewOp);
 
       // Adjust the attention set based on the input

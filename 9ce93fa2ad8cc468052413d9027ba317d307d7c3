@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd6d4b7_bd19987e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-13T08:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce5c5cc_60ed0be0",
+      "revId": "9ce93fa2ad8cc468052413d9027ba317d307d7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19615559_b94c8c9a",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74566cd_6b80ff00",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-13T08:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19615559_b94c8c9a",
+      "revId": "9ce93fa2ad8cc468052413d9027ba317d307d7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a4824b2_b7fefc19",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-01-13T08:41:54Z",
       "side": 1,
       "message": "Rather than pass in the suffix, given that it\u0027s just put at the endm what about.\n\n```\nreturn `${createChangeUrlCommon(state)}${suffix}`;\n```\n\nOr you could take it a step further an do this::\n\n```\n  if (state.patchNum \u003d\u003d\u003d undefined) {\n    state \u003d {...state, patchNum: EDIT};\n  }\n  \n  let url \u003d createChangeUrlCommon(state);\n\n  url \u003d `${url}/${encodeURL(state.editView?.path ?? \u0027\u0027, true)},edit`;\n  if (state.editView?.lineNum) {\n    url \u003d `${url}#${state.editView.lineNum}`;\n  }\n\n  return url;\n```\n\nFeel free to disagree on the scond bit, I think the first bit is valuable because it reduces the API surface of createChangeURlCOmmon.",
+      "revId": "9ce93fa2ad8cc468052413d9027ba317d307d7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c11f5d0_9082fde4",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-13T08:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4824b2_b7fefc19",
       "revId": "9ce93fa2ad8cc468052413d9027ba317d307d7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

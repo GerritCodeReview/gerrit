@@ -538,6 +538,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.updatePositionTo(position);
         if (this._isInsideViewport()) return;
       }
+      this.updatePositionTo(this.position);
       console.warn('Could not find a visible position for the hovercard.');
     }
 

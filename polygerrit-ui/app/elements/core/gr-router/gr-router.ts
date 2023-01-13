@@ -70,6 +70,7 @@ import {
   ChangeViewModel,
   ChangeViewState,
   createChangeViewUrl,
+  createDiffUrl,
 } from '../../../models/views/change';
 import {
   DashboardViewModel,
@@ -97,7 +98,6 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {createDiffUrl} from '../../../models/views/diff';
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const RoutePattern = {

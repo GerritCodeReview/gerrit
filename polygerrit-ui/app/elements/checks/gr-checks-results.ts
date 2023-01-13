@@ -75,8 +75,7 @@ import {when} from 'lit/directives/when.js';
 import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
-import {createDiffUrl} from '../../models/views/diff';
-import {changeViewModelToken} from '../../models/views/change';
+import {createDiffUrl, changeViewModelToken} from '../../models/views/change';
 
 /**
  * Firing this event sets the regular expression of the results filter.

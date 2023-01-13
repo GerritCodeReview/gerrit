@@ -22,6 +22,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b029958d_f8954ae2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-13T10:26:35Z",
+      "side": 1,
+      "message": "Yes, we have experienced issues where a service that listens to events from Rabbit MQ is attempting to lookup a newly created change from project~branch~change-id but the round-trip was so short that the changes weren\u0027t always indexed when the service called the REST API which resulted in intermittent 404 responses even though the change actually existed (false negative).\nSince the extra lookup is based on caches and index it is vulnerable to staleness in those.\nIn most installation the probability of human users being noticeably affected is very low, but for services that process 100s of changes per minute it is enough to cause hick-ups and in turn support-issues when services misfire.",
+      "parentUuid": "bf53babb_477bef4c",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

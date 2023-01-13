@@ -2284,7 +2284,7 @@ export class GrChangeView extends LitElement {
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change) return;
-    const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
+    const title = `${change.subject} (${change._number})`;
     fireTitleChange(this, title);
   }
 

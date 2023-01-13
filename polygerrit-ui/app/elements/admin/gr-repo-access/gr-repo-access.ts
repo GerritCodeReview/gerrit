@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-access-section/gr-access-section';
-import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
+import {singleDecodeURL} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
 import {
@@ -44,6 +44,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {createRepoUrl, RepoDetailView} from '../../../models/views/repo';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -726,10 +727,10 @@ export class GrRepoAccess extends LitElement {
 
   computeParentHref() {
     if (!this.inheritsFrom?.name) return '';
-    return `${getBaseUrl()}/admin/repos/${encodeURL(
-      this.inheritsFrom.name,
-      true
-    )},access`;
+    return createRepoUrl({
+      repo: this.inheritsFrom.name,
+      detail: RepoDetailView.ACCESS,
+    });
   }
 
   private handleEditInheritFromTextChanged(e: ValueChangedEvent) {

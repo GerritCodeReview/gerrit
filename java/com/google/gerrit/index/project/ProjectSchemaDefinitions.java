@@ -49,9 +49,8 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   static final Schema<ProjectData> V2 =
       schema(
           V1,
-          ImmutableList.of(ProjectField.REF_STATE),
-          ImmutableList.of(ProjectField.STATE_FIELD),
-          ImmutableList.of(ProjectField.STATE_SPEC));
+          ImmutableList.of(ProjectField.STATE_FIELD, ProjectField.REF_STATE_FIELD),
+          ImmutableList.of(ProjectField.STATE_SPEC, ProjectField.REF_STATE_SPEC));
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<ProjectData> V3 = schema(V2);

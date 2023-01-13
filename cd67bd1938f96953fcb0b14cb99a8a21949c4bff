@@ -70,6 +70,30 @@
       },
       "revId": "cd67bd1938f96953fcb0b14cb99a8a21949c4bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2690e552_3d23dfb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-13T11:09:00Z",
+      "side": 1,
+      "message": "Thanks, adapted this change now.",
+      "parentUuid": "c9d5d1dc_0885a99f",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 58
+      },
+      "revId": "cd67bd1938f96953fcb0b14cb99a8a21949c4bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

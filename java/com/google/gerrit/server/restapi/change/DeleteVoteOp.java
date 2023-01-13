@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -37,9 +38,11 @@ import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.permissions.LabelRemovalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DeleteVoteControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -76,6 +79,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
   private final DeleteVoteControl deleteVoteControl;
+  private final RemoveReviewerControl removeReviewerControl;
   private final MessageIdGenerator messageIdGenerator;
 
   private final String label;
@@ -100,6 +104,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey projectName,
       @Assisted AccountState reviewerToDeleteVoteFor,
+      RemoveReviewerControl removeReviewerControl,
       @Assisted String label,
       @Assisted DeleteVoteInput input,
       @Assisted boolean enforcePermissions) {
@@ -114,6 +119,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
 
     this.projectName = projectName;
     this.reviewerToDeleteVoteFor = reviewerToDeleteVoteFor;
+    this.removeReviewerControl = removeReviewerControl;
     this.label = label;
     this.input = input;
     this.enforcePermissions = enforcePermissions;
@@ -143,8 +149,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
         newApprovals.put(a.label(), a.value());
         continue;
       } else if (enforcePermissions) {
-        deleteVoteControl.checkDeleteVotePermissions(
-            ctx.getUser(), ctx.getNotes(), a, labelTypes.byLabel(a.labelId()).get());
+        checkPermissions(ctx, labelTypes.byLabel(a.labelId()).get(), a);
       }
       // Set the approval to 0 if vote is being removed.
       newApprovals.put(a.label(), (short) 0);
@@ -204,5 +209,22 @@ public class DeleteVoteOp implements BatchUpdateOp {
         mailMessage,
         user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null,
         ctx.getWhen());
+  }
+
+  private void checkPermissions(ChangeContext ctx, LabelType labelType, PatchSetApproval approval)
+      throws PermissionBackendException, AuthException {
+    boolean permitted =
+        removeReviewerControl.testRemoveReviewer(ctx.getNotes(), ctx.getUser(), approval)
+            || deleteVoteControl.testDeleteVotePermissions(
+                ctx.getUser(), ctx.getNotes(), approval, labelType);
+    if (!permitted) {
+      throw new AuthException(
+          "Delete vote not permitted.",
+          new AuthException(
+              "Both "
+                  + new LabelRemovalPermission.WithValue(labelType, approval.value())
+                      .describeForException()
+                  + " and remove-reviewer are not permitted"));
+    }
   }
 }

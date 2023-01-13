@@ -219,6 +219,7 @@ export class GrMainHeader extends LitElement {
         }
         .titleText::after {
           content: var(--header-title-content);
+          white-space: nowrap;
         }
         ul {
           list-style: none;

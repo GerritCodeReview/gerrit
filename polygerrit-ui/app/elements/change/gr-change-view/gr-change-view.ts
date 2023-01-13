@@ -178,7 +178,7 @@ import {
   createChangeUrl,
 } from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
-import {createEditUrl} from '../../../models/views/edit';
+import {createEditUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';

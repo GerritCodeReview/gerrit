@@ -39,9 +39,9 @@ import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
 import {ChangeViewModel, createChangeUrl} from '../views/change';
-import {createDiffUrl} from '../views/diff';
+import {createDiffUrl} from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
-import {createEditUrl} from '../views/edit';
+import {createEditUrl} from '../views/change';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',

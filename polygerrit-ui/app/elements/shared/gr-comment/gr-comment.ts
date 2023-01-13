@@ -60,7 +60,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
-import {createDiffUrl} from '../../../models/views/diff';
+import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 

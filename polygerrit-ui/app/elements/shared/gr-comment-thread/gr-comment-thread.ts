@@ -72,7 +72,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
 import {HtmlPatched} from '../../../utils/lit-util';
-import {createDiffUrl} from '../../../models/views/diff';
+import {createDiffUrl} from '../../../models/views/change';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';

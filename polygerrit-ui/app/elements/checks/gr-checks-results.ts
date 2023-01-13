@@ -75,7 +75,7 @@ import {when} from 'lit/directives/when.js';
 import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
-import {createDiffUrl} from '../../models/views/diff';
+import {createDiffUrl} from '../../models/views/change';
 import {changeViewModelToken} from '../../models/views/change';
 
 /**

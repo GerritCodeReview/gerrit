@@ -10,6 +10,7 @@ import {
   BasePatchSetNum,
   ChangeInfo,
   PatchSetNumber,
+  EDIT,
 } from '../../api/rest-api';
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
@@ -25,8 +26,6 @@ import {AttemptChoice} from '../checks/checks-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
-import {createDiffUrl} from './diff';
-import {createEditUrl} from './edit';
 
 export enum ChangeChildView {
   OVERVIEW = 'OVERVIEW',
@@ -143,11 +142,8 @@ export function createChangeUrl(
     ...obj,
     childView: ChangeChildView.OVERVIEW,
   });
-  let range = getPatchRangeExpression(state);
-  if (range.length) {
-    range = '/' + range;
-  }
-  let suffix = `${range}`;
+
+  let suffix = '';
   const queries = [];
   if (state.checksPatchset && state.checksPatchset > 0) {
     queries.push(`checksPatchset=${state.checksPatchset}`);
@@ -180,7 +176,7 @@ export function createChangeUrl(
     suffix += ',edit';
   }
   if (state.commentId) {
-    suffix = suffix + `/comments/${state.commentId}`;
+    suffix += `/comments/${state.commentId}`;
   }
   if (queries.length > 0) {
     suffix += '?' + queries.join('&');
@@ -188,12 +184,68 @@ export function createChangeUrl(
   if (state.messageHash) {
     suffix += state.messageHash;
   }
-  if (state.repo) {
-    const encodedProject = encodeURL(state.repo, true);
-    return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
-  } else {
-    return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;
+
+  return createChangeUrlCommon(state, suffix);
+}
+
+export function createDiffUrl(
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
+) {
+  const state: ChangeViewState = objToState({
+    ...obj,
+    childView: ChangeChildView.DIFF,
+  });
+
+  let suffix = `/${encodeURL(state.diffView?.path ?? '', true)}`;
+
+  if (state.diffView?.lineNum) {
+    suffix += '#';
+    if (state.diffView?.leftSide) {
+      suffix += 'b';
+    }
+    suffix += state.diffView.lineNum;
   }
+
+  // TODO: Move creating of comment URLs to a separate function. We are
+  // "abusing" the `commentId` property, which should only be used for pointing
+  // to comment in the COMMENTS tab of the OVERVIEW page.
+  if (state.commentId) {
+    suffix = `/comment/${state.commentId}` + suffix;
+  }
+
+  return createChangeUrlCommon(state, suffix);
+}
+
+export function createEditUrl(
+  state: Omit<ChangeViewState, 'view' | 'childView'>
+): string {
+  if (state.patchNum === undefined) {
+    state = {...state, patchNum: EDIT};
+  }
+
+  let suffix = `/${encodeURL(state.editView?.path ?? '', true)},edit`;
+  if (state.editView?.lineNum) {
+    suffix += `#${state.editView.lineNum}`;
+  }
+
+  return createChangeUrlCommon(state, suffix);
+}
+
+/**
+ * The shared part of creating a change URL between OVERVIEW, DIFF and EDIT
+ * child views.
+ */
+function createChangeUrlCommon(
+  state: Omit<ChangeViewState, 'view' | 'childView'>,
+  suffix: string
+) {
+  let range = getPatchRangeExpression(state);
+  if (range.length) range = '/' + range;
+
+  let repo = '';
+  if (state.repo) repo = `${encodeURL(state.repo, true)}/+/`;
+
+  return `${getBaseUrl()}/c/${repo}${state.changeNum}${range}${suffix}`;
 }
 
 export const changeViewModelToken =

@@ -181,16 +181,103 @@ public class RetryHelper {
     }
   }
 
+  public static class Advanced extends RetryHelper {
+    private final BatchUpdate.Factory updateFactory;
+    private final Provider<InternalAccountQuery> internalAccountQuery;
+    private final Provider<InternalChangeQuery> internalChangeQuery;
+    private final Provider<InternalGroupQuery> internalGroupQuery;
+
+    @Inject
+    public Advanced(
+        @GerritServerConfig Config cfg,
+        Metrics metrics,
+        PluginSetContext<ExceptionHook> exceptionHooks,
+        PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
+        BatchUpdate.Factory updateFactory,
+        Provider<InternalAccountQuery> internalAccountQuery,
+        Provider<InternalChangeQuery> internalChangeQuery,
+        Provider<InternalGroupQuery> internalGroupQuery) {
+      super(cfg, metrics, exceptionHooks, retryListeners, null);
+      this.updateFactory = updateFactory;
+      this.internalAccountQuery = internalAccountQuery;
+      this.internalChangeQuery = internalChangeQuery;
+      this.internalGroupQuery = internalGroupQuery;
+    }
+
+    /**
+     * Creates an action for updating a change that is executed with retrying when called.
+     *
+     * <p>The change action gets a {@link BatchUpdate.Factory} provided that can be used to update
+     * the change.
+     *
+     * @param actionName the name of the action, used as metric bucket
+     * @param changeAction the action that should be executed
+     * @return the retryable action, callers need to call {@link RetryableChangeAction#call()} to
+     *     execute the action
+     */
+    public <T> RetryableChangeAction<T> changeUpdate(
+        String actionName, ChangeAction<T> changeAction) {
+      return new RetryableChangeAction<>(this, updateFactory, actionName, changeAction);
+    }
+
+    /**
+     * Creates an action for querying the account index that is executed with retrying when called.
+     *
+     * <p>The index query action gets a {@link InternalAccountQuery} provided that can be used to
+     * query the account index.
+     *
+     * @param actionName the name of the action, used as metric bucket
+     * @param indexQueryAction the action that should be executed
+     * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()}
+     *     to execute the action
+     */
+    public <T> RetryableIndexQueryAction<InternalAccountQuery, T> accountIndexQuery(
+        String actionName, IndexQueryAction<T, InternalAccountQuery> indexQueryAction) {
+      return new RetryableIndexQueryAction<>(
+          this, internalAccountQuery, actionName, indexQueryAction);
+    }
+
+    /**
+     * Creates an action for querying the change index that is executed with retrying when called.
+     *
+     * <p>The index query action gets a {@link InternalChangeQuery} provided that can be used to
+     * query the change index.
+     *
+     * @param actionName the name of the action, used as metric bucket
+     * @param indexQueryAction the action that should be executed
+     * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()}
+     *     to execute the action
+     */
+    public <T> RetryableIndexQueryAction<InternalChangeQuery, T> changeIndexQuery(
+        String actionName, IndexQueryAction<T, InternalChangeQuery> indexQueryAction) {
+      return new RetryableIndexQueryAction<>(
+          this, internalChangeQuery, actionName, indexQueryAction);
+    }
+
+    /**
+     * Creates an action for querying the group index that is executed with retrying when called.
+     *
+     * <p>The index query action gets a {@link InternalGroupQuery} provided that can be used to
+     * query the account index.
+     *
+     * @param actionName the name of the action, used as metric bucket
+     * @param indexQueryAction the action that should be executed
+     * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()}
+     *     to execute the action
+     */
+    public <T> RetryableIndexQueryAction<InternalGroupQuery, T> groupIndexQuery(
+        String actionName, IndexQueryAction<T, InternalGroupQuery> indexQueryAction) {
+      return new RetryableIndexQueryAction<>(
+          this, internalGroupQuery, actionName, indexQueryAction);
+    }
+  }
+
   public static Options.Builder options() {
     return new AutoValue_RetryHelper_Options.Builder();
   }
 
   private final Config cfg;
   private final Metrics metrics;
-  private final BatchUpdate.Factory updateFactory;
-  private final Provider<InternalAccountQuery> internalAccountQuery;
-  private final Provider<InternalChangeQuery> internalChangeQuery;
-  private final Provider<InternalGroupQuery> internalGroupQuery;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners;
   private final Duration defaultTimeout;
@@ -204,40 +291,19 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       PluginSetContext<ExceptionHook> exceptionHooks,
-      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
-      BatchUpdate.Factory updateFactory,
-      Provider<InternalAccountQuery> internalAccountQuery,
-      Provider<InternalChangeQuery> internalChangeQuery,
-      Provider<InternalGroupQuery> internalGroupQuery) {
-    this(
-        cfg,
-        metrics,
-        updateFactory,
-        internalAccountQuery,
-        internalChangeQuery,
-        internalGroupQuery,
-        exceptionHooks,
-        retryListeners,
-        null);
+      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners) {
+    this(cfg, metrics, exceptionHooks, retryListeners, null);
   }
 
   @VisibleForTesting
   public RetryHelper(
       @GerritServerConfig Config cfg,
       Metrics metrics,
-      BatchUpdate.Factory updateFactory,
-      Provider<InternalAccountQuery> internalAccountQuery,
-      Provider<InternalChangeQuery> internalChangeQuery,
-      Provider<InternalGroupQuery> internalGroupQuery,
       PluginSetContext<ExceptionHook> exceptionHooks,
       PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.cfg = cfg;
     this.metrics = metrics;
-    this.updateFactory = updateFactory;
-    this.internalAccountQuery = internalAccountQuery;
-    this.internalChangeQuery = internalChangeQuery;
-    this.internalGroupQuery = internalGroupQuery;
     this.exceptionHooks = exceptionHooks;
     this.retryListeners = retryListeners;
     this.defaultTimeout =
@@ -324,22 +390,6 @@ public class RetryHelper {
   }
 
   /**
-   * Creates an action for updating a change that is executed with retrying when called.
-   *
-   * <p>The change action gets a {@link BatchUpdate.Factory} provided that can be used to update the
-   * change.
-   *
-   * @param actionName the name of the action, used as metric bucket
-   * @param changeAction the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableChangeAction#call()} to
-   *     execute the action
-   */
-  public <T> RetryableChangeAction<T> changeUpdate(
-      String actionName, ChangeAction<T> changeAction) {
-    return new RetryableChangeAction<>(this, updateFactory, actionName, changeAction);
-  }
-
-  /**
    * Creates an action for updating a group that is executed with retrying when called.
    *
    * @param actionName the name of the action, used as metric bucket
@@ -362,55 +412,6 @@ public class RetryHelper {
    */
   public <T> RetryableAction<T> pluginUpdate(String actionName, Action<T> action) {
     return new RetryableAction<>(this, ActionType.PLUGIN_UPDATE, actionName, action);
-  }
-
-  /**
-   * Creates an action for querying the account index that is executed with retrying when called.
-   *
-   * <p>The index query action gets a {@link InternalAccountQuery} provided that can be used to
-   * query the account index.
-   *
-   * @param actionName the name of the action, used as metric bucket
-   * @param indexQueryAction the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
-   *     execute the action
-   */
-  public <T> RetryableIndexQueryAction<InternalAccountQuery, T> accountIndexQuery(
-      String actionName, IndexQueryAction<T, InternalAccountQuery> indexQueryAction) {
-    return new RetryableIndexQueryAction<>(
-        this, internalAccountQuery, actionName, indexQueryAction);
-  }
-
-  /**
-   * Creates an action for querying the change index that is executed with retrying when called.
-   *
-   * <p>The index query action gets a {@link InternalChangeQuery} provided that can be used to query
-   * the change index.
-   *
-   * @param actionName the name of the action, used as metric bucket
-   * @param indexQueryAction the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
-   *     execute the action
-   */
-  public <T> RetryableIndexQueryAction<InternalChangeQuery, T> changeIndexQuery(
-      String actionName, IndexQueryAction<T, InternalChangeQuery> indexQueryAction) {
-    return new RetryableIndexQueryAction<>(this, internalChangeQuery, actionName, indexQueryAction);
-  }
-
-  /**
-   * Creates an action for querying the group index that is executed with retrying when called.
-   *
-   * <p>The index query action gets a {@link InternalGroupQuery} provided that can be used to query
-   * the account index.
-   *
-   * @param actionName the name of the action, used as metric bucket
-   * @param indexQueryAction the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
-   *     execute the action
-   */
-  public <T> RetryableIndexQueryAction<InternalGroupQuery, T> groupIndexQuery(
-      String actionName, IndexQueryAction<T, InternalGroupQuery> indexQueryAction) {
-    return new RetryableIndexQueryAction<>(this, internalGroupQuery, actionName, indexQueryAction);
   }
 
   /**

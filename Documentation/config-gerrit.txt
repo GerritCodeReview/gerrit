@@ -3776,6 +3776,14 @@ immediately available after the write request.
 +
 Defaults to `false`.
 
+[[index.enableSharing]]index.enableSharing::
++
+Do not keep the index open between updates. This has the advantage of making
+the index shareable by multiple Gerrit instances,  and disadvantage of a
+likely performance penalty.
++
+Defaults to `false`.
+
 [[label]]
 === Section label
 
@@ -5269,7 +5277,7 @@ not specified.
 +
 Total timeout for retrying operations of type `<operationType>` when one
 attempt fails. `<operationType>` can be `ACCOUNT_UPDATE`, `CHANGE_UPDATE`,
-`GROUP_UPDATE` and `INDEX_QUERY`.
+`GROUP_UPDATE`, `INDEX_UPDATE`, and `INDEX_QUERY`.
 +
 Defaults to link:#retry.timeout[`retry.timeout`]; unit suffixes are supported,
 and assumes milliseconds if not specified.

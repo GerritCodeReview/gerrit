@@ -111,7 +111,7 @@ public class MailProcessor {
 
   private final Emails emails;
   private final EmailFactories emailFactories;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
   private final OneOffRequestContext oneOffRequestContext;
@@ -130,7 +130,7 @@ public class MailProcessor {
   public MailProcessor(
       Emails emails,
       EmailFactories emailFactories,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
       OneOffRequestContext oneOffRequestContext,

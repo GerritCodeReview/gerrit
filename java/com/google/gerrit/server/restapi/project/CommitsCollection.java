@@ -58,7 +58,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final ChangeIndexCollection indexes;
   private final Reachable reachable;
 
@@ -66,7 +66,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   public CommitsCollection(
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       ChangeIndexCollection indexes,
       Reachable reachable) {
     this.views = views;

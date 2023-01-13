@@ -296,7 +296,7 @@ public class MergeOp implements AutoCloseable {
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
   private final MergeMetrics mergeMetrics;
@@ -339,7 +339,7 @@ public class MergeOp implements AutoCloseable {
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       ChangeData.Factory changeDataFactory,
       StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
       MergeMetrics mergeMetrics,

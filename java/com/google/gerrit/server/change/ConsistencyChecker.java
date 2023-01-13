@@ -116,7 +116,7 @@ public class ConsistencyChecker {
   private final PatchSetUtil psUtil;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final ChangeUtil changeUtil;
 
   private BatchUpdate.Factory updateFactory;
@@ -144,7 +144,7 @@ public class ConsistencyChecker {
       PatchSetInserter.Factory patchSetInserterFactory,
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       ChangeUtil changeUtil) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;

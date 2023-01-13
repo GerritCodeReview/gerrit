@@ -144,7 +144,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final PostReviewOp.Factory postReviewOpFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final AccountCache accountCache;
@@ -167,7 +167,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Inject
   PostReview(
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       PostReviewOp.Factory postReviewOpFactory,
       ChangeResource.Factory changeResourceFactory,
       AccountCache accountCache,

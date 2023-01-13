@@ -69,7 +69,7 @@ public class ProjectsConsistencyChecker {
   @VisibleForTesting public static final int AUTO_CLOSE_MAX_COMMITS_LIMIT = 10000;
 
   private final GitRepositoryManager repoManager;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final ChangeJson.Factory changeJsonFactory;
   private final IndexConfig indexConfig;
   private final ChangeUtil changeUtil;
@@ -77,7 +77,7 @@ public class ProjectsConsistencyChecker {
   @Inject
   ProjectsConsistencyChecker(
       GitRepositoryManager repoManager,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       ChangeJson.Factory changeJsonFactory,
       IndexConfig indexConfig,
       ChangeUtil changeUtil) {

@@ -428,7 +428,7 @@ class ReceiveCommits {
   private final ReplaceOp.Factory replaceOpFactory;
   private final PluginSetContext<RequestListener> requestListeners;
   private final PublishCommentsOp.Factory publishCommentsOp;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
@@ -528,7 +528,7 @@ class ReceiveCommits {
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
       PluginSetContext<RequestListener> requestListeners,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,

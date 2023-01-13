@@ -201,10 +201,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   static class GroupsWithMemberLoader
       extends CacheLoader<Account.Id, ImmutableSet<AccountGroup.UUID>> {
-    private final RetryHelper retryHelper;
+    private final RetryHelper.Advanced retryHelper;
 
     @Inject
-    GroupsWithMemberLoader(RetryHelper retryHelper) {
+    GroupsWithMemberLoader(RetryHelper.Advanced retryHelper) {
       this.retryHelper = retryHelper;
     }
 
@@ -230,10 +230,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     // Be conservative with batching: We don't want to exhaust the number of
     // results per page and maximum terms per query. Both are usually 1000+.
     private static final int MAX_BATCH_SIZE = 100;
-    private final RetryHelper retryHelper;
+    private final RetryHelper.Advanced retryHelper;
 
     @Inject
-    ParentGroupsLoader(RetryHelper retryHelper) {
+    ParentGroupsLoader(RetryHelper.Advanced retryHelper) {
       this.retryHelper = retryHelper;
     }
 

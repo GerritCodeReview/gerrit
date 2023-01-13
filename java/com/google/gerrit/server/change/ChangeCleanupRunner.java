@@ -74,7 +74,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   private final OneOffRequestContext oneOffRequestContext;
   private final AbandonUtil abandonUtil;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
   private final LockManager lockManager;
   private final long abandonAfterMillis;
   private final boolean abandonIfMergeable;
@@ -84,7 +84,7 @@ public class ChangeCleanupRunner implements Runnable {
   ChangeCleanupRunner(
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       LockManager lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
@@ -102,7 +102,7 @@ public class ChangeCleanupRunner implements Runnable {
   ChangeCleanupRunner(
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
-      RetryHelper retryHelper,
+      RetryHelper.Advanced retryHelper,
       LockManager lockManager,
       ChangeCleanupConfig cfg) {
     this.oneOffRequestContext = oneOffRequestContext;

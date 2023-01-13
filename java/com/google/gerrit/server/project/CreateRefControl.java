@@ -50,14 +50,14 @@ public class CreateRefControl {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
 
   @Inject
   CreateRefControl(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Reachable reachable,
-      RetryHelper retryHelper) {
+      RetryHelper.Advanced retryHelper) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;

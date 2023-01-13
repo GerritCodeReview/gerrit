@@ -36,6 +36,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.RetryHelper;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
@@ -54,7 +55,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      RetryHelper retryHelper)
       throws IOException {
     this(
         schema,
@@ -64,7 +66,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         skipFields,
         writerConfig,
         searcherFactory,
-        autoFlush);
+        autoFlush,
+        retryHelper);
   }
 
   ChangeSubIndex(
@@ -75,7 +78,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      RetryHelper retryHelper)
       throws IOException {
     super(
         schema,
@@ -87,7 +91,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         writerConfig,
         searcherFactory,
         autoFlush,
-        ChangeIndex.ENTITY_TO_KEY);
+        ChangeIndex.ENTITY_TO_KEY,
+        retryHelper);
   }
 
   @Override

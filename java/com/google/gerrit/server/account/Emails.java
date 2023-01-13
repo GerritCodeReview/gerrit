@@ -37,10 +37,10 @@ import org.eclipse.jgit.lib.PersonIdent;
 @Singleton
 public class Emails {
   private final ExternalIds externalIds;
-  private final RetryHelper retryHelper;
+  private final RetryHelper.Advanced retryHelper;
 
   @Inject
-  public Emails(ExternalIds externalIds, RetryHelper retryHelper) {
+  public Emails(ExternalIds externalIds, RetryHelper.Advanced retryHelper) {
     this.externalIds = externalIds;
     this.retryHelper = retryHelper;
   }

@@ -580,6 +580,15 @@ public class ChangeData {
     return notes;
   }
 
+  public Optional<ChangeNotes> getOptionalNotes() {
+    try {
+      return Optional.of(notes());
+    } catch (StorageException e) {
+      logger.atWarning().withCause(e).log("Error loading change %s", getId());
+    }
+    return Optional.empty();
+  }
+
   @Nullable
   public PatchSet currentPatchSet() {
     if (currentPatchSet == null) {

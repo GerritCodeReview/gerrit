@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b7b27a_3569a47a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-13T15:23:57Z",
+      "side": 1,
+      "message": "If it works, why change it? :-)\n\nIt is correct that we have a listener somewhere that listens on the view state and fires the reload event in response to `forceReload` being set. That listener should just not be set up in change-view, but rather in change-model. But once that is moved we should be changing this back from a click listener to just being an href link.",
+      "revId": "6c8a060a069ba31ad4ae6e82b412e4bad6db23ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

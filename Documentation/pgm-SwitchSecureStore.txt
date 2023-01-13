@@ -7,7 +7,7 @@ SwitchSecureStore - Changes the currently used SecureStore implementation
 [verse]
 --
 _java_ -jar gerrit.war _SwitchSecureStore_
-  [--new-secure-store-lib]
+  [--new-secure-store-lib=<PATH_TO_JAR>]
 --
 
 == DESCRIPTION

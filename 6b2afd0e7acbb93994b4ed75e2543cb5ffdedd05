@@ -16,6 +16,24 @@
       "message": "nit: missing release notes (:skip)",
       "revId": "6b2afd0e7acbb93994b4ed75e2543cb5ffdedd05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef052a1_6636be27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-13T10:36:42Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "bb00949a_255b01fb",
+      "revId": "6b2afd0e7acbb93994b4ed75e2543cb5ffdedd05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

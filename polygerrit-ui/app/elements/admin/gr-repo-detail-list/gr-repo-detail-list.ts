@@ -11,6 +11,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
+import {encodeURL} from '../../../utils/url-util';
 import {GrCreatePointerDialog} from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import {
   BranchInfo,
@@ -28,16 +29,12 @@ import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {
-  createRepoUrl,
-  RepoDetailView,
-  RepoViewState,
-} from '../../../models/views/repo';
+import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
@@ -142,7 +139,6 @@ export class GrRepoDetailList extends LitElement {
   }
 
   override render() {
-    if (!this.repo || !this.detailType) return nothing;
     return html`
       <gr-list-view
         .createNew=${this.loggedIn}
@@ -151,7 +147,7 @@ export class GrRepoDetailList extends LitElement {
         .items=${this.items}
         .loading=${this.loading}
         .offset=${this.offset}
-        .path=${createRepoUrl({repo: this.repo, detail: this.detailType})}
+        .path=${this.getPath(this.repo, this.detailType)}
         @create-clicked=${() => {
           this.handleCreateClicked();
         }}
@@ -443,6 +439,10 @@ export class GrRepoDetailList extends LitElement {
         });
     }
     return Promise.reject(new Error('unknown detail type'));
+  }
+
+  private getPath(repo?: RepoName, detailType?: RepoDetailView) {
+    return `/admin/repos/${encodeURL(repo ?? '', false)},${detailType}`;
   }
 
   private computeWeblink(repo: ProjectInfo | BranchInfo | TagInfo) {

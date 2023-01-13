@@ -2434,18 +2434,6 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('create new', () => {
-      setup(async () => {
-        stubRestApi('getRepoBranches').resolves(createBranchesList(3));
-
-        element.params = {
-          view: GerritView.REPO,
-          repo: 'test' as RepoName,
-          detail: RepoDetailView.BRANCHES,
-        };
-        await element.paramsChanged();
-        await element.updateComplete;
-      });
-
       test('handleCreateClicked called when create-click fired', () => {
         const handleCreateClickedStub = sinon.stub(
           element,

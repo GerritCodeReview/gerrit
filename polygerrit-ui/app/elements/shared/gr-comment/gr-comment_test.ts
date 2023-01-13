@@ -854,12 +854,12 @@ suite('gr-comment tests', () => {
           .initiallyCollapsed=${false}
         ></gr-comment>`
       );
+      element.editing = true;
     });
     test('renders suggest fix button', () => {
       assert.dom.equal(
         queryAndAssert(element, 'gr-button.suggestEdit'),
         /* HTML */ `<gr-button
-          aria-disabled="false"
           class="action suggestEdit"
           link=""
           role="button"

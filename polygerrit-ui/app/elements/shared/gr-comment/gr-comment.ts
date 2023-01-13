@@ -547,8 +547,9 @@ export class GrComment extends LitElement {
           ${this.renderDraftLabel()}
         </div>
         <div class="headerMiddle">${this.renderCollapsedContent()}</div>
-        ${this.renderRunDetails()} ${this.renderDeleteButton()}
-        ${this.renderPatchset()} ${this.renderDate()} ${this.renderToggle()}
+        ${this.renderSuggestEditButton()} ${this.renderRunDetails()}
+        ${this.renderDeleteButton()} ${this.renderPatchset()}
+        ${this.renderDate()} ${this.renderToggle()}
       </div>
     `;
   }
@@ -777,10 +778,9 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
-        ${this.renderDiscardButton()} ${this.renderSuggestEditButton()}
-        ${this.renderPreviewSuggestEditButton()} ${this.renderEditButton()}
-        ${this.renderCancelButton()} ${this.renderSaveButton()}
-        ${this.renderCopyLinkIcon()}
+        ${this.renderDiscardButton()} ${this.renderPreviewSuggestEditButton()}
+        ${this.renderEditButton()} ${this.renderCancelButton()}
+        ${this.renderSaveButton()} ${this.renderCopyLinkIcon()}
       </div>
     `;
   }
@@ -809,6 +809,7 @@ export class GrComment extends LitElement {
       return nothing;
     }
     if (
+      !this.editing ||
       this.permanentEditingMode ||
       this.comment?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
     ) {
@@ -1139,7 +1140,8 @@ export class GrComment extends LitElement {
     fire(this, 'open-fix-preview', await this.createFixPreview());
   }
 
-  async createSuggestEdit() {
+  async createSuggestEdit(e: MouseEvent) {
+    e.stopPropagation();
     const line = await this.getCommentedCode();
     this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
   }

@@ -36,9 +36,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
-
 @customElement('gr-repo-detail-list')
 export class GrRepoDetailList extends LitElement {
   @query('#modal') private readonly modal?: HTMLDialogElement;
@@ -442,6 +440,9 @@ export class GrRepoDetailList extends LitElement {
   }
 
   private getPath(repo?: RepoName, detailType?: RepoDetailView) {
+    // TODO: Replace this with `createRepoUrl()`, but be aware that `encodeURL()`
+    // gets `false` as a second parameter here. The router pattern in gr-router
+    // does not handle the filter URLs, if the repo is not encoded!
     return `/admin/repos/${encodeURL(repo ?? '', false)},${detailType}`;
   }
 

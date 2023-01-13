@@ -7,7 +7,6 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {
   BranchName,
@@ -24,6 +23,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {createRepoUrl} from '../../../models/views/repo';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -183,10 +183,6 @@ export class GrCreateRepoDialog extends LitElement {
     `;
   }
 
-  _computeRepoUrl(repoName: string) {
-    return getBaseUrl() + '/admin/repos/' + encodeURL(repoName, true);
-  }
-
   override focus() {
     this.input?.focus();
   }
@@ -199,7 +195,8 @@ export class GrCreateRepoDialog extends LitElement {
     );
     if (repoRegistered.status === 201) {
       this.repoCreated = true;
-      page.show(this._computeRepoUrl(this.repoConfig.name));
+      // TODO: Use navigation service instead of `page.show()` directly.
+      page.show(createRepoUrl({repo: this.repoConfig.name}));
     }
     return repoRegistered;
   }

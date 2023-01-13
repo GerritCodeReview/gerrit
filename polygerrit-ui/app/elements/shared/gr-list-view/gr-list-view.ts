@@ -177,9 +177,15 @@ export class GrListView extends LitElement {
       () => {
         if (!this.isConnected || !this.path) return;
         if (filter) {
+          // TODO: Use navigation service instead of `page.show()` directly.
+          console.log(
+            `asdf1 ${this.path}/q/filter:${encodeURL(filter, false)}`
+          );
+          console.log(`asdf2 ${window.location.href}`);
           page.show(`${this.path}/q/filter:${encodeURL(filter, false)}`);
           return;
         }
+        // TODO: Use navigation service instead of `page.show()` directly.
         page.show(this.path);
       },
       REQUEST_DEBOUNCE_INTERVAL_MS

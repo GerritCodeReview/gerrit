@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritView} from '../../services/router/router-model';
+import {getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
@@ -19,6 +20,17 @@ export interface AdminViewState extends ViewState {
   openCreateModal?: boolean;
   filter?: string | null;
   offset?: number | string;
+}
+
+export function createAdminUrl(state: Omit<AdminViewState, 'view'>) {
+  switch (state.adminView) {
+    case AdminChildView.REPOS:
+      return `${getBaseUrl()}/admin/repos`;
+    case AdminChildView.GROUPS:
+      return `${getBaseUrl()}/admin/groups`;
+    case AdminChildView.PLUGINS:
+      return `${getBaseUrl()}/admin/plugins`;
+  }
 }
 
 export const adminViewModelToken = define<AdminViewModel>('admin-view-model');

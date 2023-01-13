@@ -14,7 +14,7 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
-import {createEditUrl} from '../../../models/views/edit';
+import {createEditUrl} from '../../../models/views/change';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {when} from 'lit/directives/when.js';

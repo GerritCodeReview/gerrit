@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d77961ea_f0ffe060",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-01-13T10:56:40Z",
+      "side": 1,
+      "message": "Build failed due to problems with FE code. I will submit my code only after it is fixed.",
+      "revId": "9b8d43a74e7e21dc3ff8567cc74e1b4f18f0dc71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

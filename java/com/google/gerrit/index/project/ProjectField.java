@@ -15,11 +15,9 @@
 package com.google.gerrit.index.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.index.FieldDef.storedOnly;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
@@ -90,12 +88,16 @@ public class ProjectField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ProjectData, Iterable<byte[]>> REF_STATE =
-      storedOnly("ref_state")
-          .buildRepeatable(
+  public static final IndexedField<ProjectData, Iterable<byte[]>> REF_STATE_FIELD =
+      IndexedField.<ProjectData>iterableByteArrayBuilder("RefState")
+          .stored()
+          .build(
               projectData ->
                   projectData.tree().stream()
                       .filter(p -> p.getProject().getConfigRefState() != null)
                       .map(p -> toRefState(p.getProject()))
                       .collect(toImmutableList()));
+
+  public static final IndexedField<ProjectData, Iterable<byte[]>>.SearchSpec REF_STATE_SPEC =
+      REF_STATE_FIELD.storedOnly("ref_state");
 }

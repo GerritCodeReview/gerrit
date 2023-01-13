@@ -6,9 +6,8 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
-import {GroupName} from '../../../types/common';
+import {GroupId, GroupName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -16,6 +15,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
+import {createGroupUrl} from '../../../models/views/group';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -75,10 +75,6 @@ export class GrCreateGroupDialog extends LitElement {
     fireEvent(this, 'has-new-group-name');
   }
 
-  private computeGroupUrl(groupId: string) {
-    return getBaseUrl() + '/admin/groups/' + encodeURL(groupId, true);
-  }
-
   override focus() {
     this.input.focus();
   }
@@ -89,7 +85,9 @@ export class GrCreateGroupDialog extends LitElement {
       if (groupRegistered.status !== 201) return;
       return this.restApiService.getGroupConfig(name).then(group => {
         if (!group) return;
-        page.show(this.computeGroupUrl(String(group.group_id!)));
+        const groupId = String(group.group_id!) as GroupId;
+        // TODO: Use navigation service instead of `page.show()` directly.
+        page.show(createGroupUrl({groupId}));
       });
     });
   }

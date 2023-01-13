@@ -35,6 +35,8 @@ export enum Shortcut {
   GO_TO_MERGED_CHANGES = 'GO_TO_MERGED_CHANGES',
   GO_TO_ABANDONED_CHANGES = 'GO_TO_ABANDONED_CHANGES',
   GO_TO_WATCHED_CHANGES = 'GO_TO_WATCHED_CHANGES',
+  GO_TO_REPOS = 'GO_TO_REPOS',
+  GO_TO_GROUPS = 'GO_TO_GROUPS',
 
   CURSOR_NEXT_CHANGE = 'CURSOR_NEXT_CHANGE',
   CURSOR_PREV_CHANGE = 'CURSOR_PREV_CHANGE',
@@ -166,6 +168,16 @@ export function createShortcutConfig() {
     'Go to Watched Changes',
     {key: 'w', combo: ComboKey.G}
   );
+  describe(
+    Shortcut.GO_TO_REPOS,
+    ShortcutSection.EVERYWHERE,
+    'Go to Repositories',
+    {key: 'r', combo: ComboKey.G}
+  );
+  describe(Shortcut.GO_TO_GROUPS, ShortcutSection.EVERYWHERE, 'Go to Groups', {
+    key: 'g',
+    combo: ComboKey.G,
+  });
   describe(
     Shortcut.TOGGLE_CHECKBOX,
     ShortcutSection.ACTIONS,

@@ -531,6 +531,15 @@ public class ChangeJson {
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
+    Optional<ChangeNotes> optNotes = cd.getOptionalNotes();
+    if (optNotes.isEmpty()) {
+      ChangeInfo info = new ChangeInfo();
+      info._number = cd.getId().get();
+      ProblemInfo p = new ProblemInfo();
+      p.message = "Error loading change";
+      info.problems = Lists.newArrayList(p);
+      return info;
+    }
     ChangeNotes notes;
     try {
       notes = cd.notes();

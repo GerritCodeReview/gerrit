@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -153,6 +154,10 @@ public class LabelsJson {
     if (cd.change().isMerged()) {
       return new HashMap<>();
     }
+    Optional<ChangeNotes> notes = cd.getOptionalNotes();
+    if (notes.isEmpty()) {
+      return new HashMap<>();
+    }
 
     Map<String, Map<String, List<AccountInfo>>> res = new HashMap<>();
     LabelTypes labelTypes = cd.getLabelTypes();
@@ -162,7 +167,7 @@ public class LabelsJson {
         continue;
       }
       if (!deleteVoteControl.testDeleteVotePermissions(
-          user, cd.notes(), approval, labelType.get())) {
+          user, notes.get(), approval, labelType.get())) {
         continue;
       }
       if (!res.containsKey(approval.label())) {

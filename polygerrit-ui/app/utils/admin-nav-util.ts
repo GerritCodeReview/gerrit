@@ -12,7 +12,7 @@ import {
 import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
-import {AdminChildView, createAdminUrl} from '../models/views/admin';
+import {AdminChildView} from '../models/views/admin';
 import {createGroupUrl, GroupDetailView} from '../models/views/group';
 import {createRepoUrl, RepoDetailView} from '../models/views/repo';
 
@@ -20,7 +20,7 @@ const ADMIN_LINKS: NavLink[] = [
   {
     name: 'Repositories',
     noBaseUrl: true,
-    url: createAdminUrl({adminView: AdminChildView.REPOS}),
+    url: '/admin/repos',
     view: 'gr-repo-list' as GerritView,
     viewableToAll: true,
   },
@@ -28,7 +28,7 @@ const ADMIN_LINKS: NavLink[] = [
     name: 'Groups',
     section: 'Groups',
     noBaseUrl: true,
-    url: createAdminUrl({adminView: AdminChildView.GROUPS}),
+    url: '/admin/groups',
     view: 'gr-admin-group-list' as GerritView,
   },
   {
@@ -36,7 +36,7 @@ const ADMIN_LINKS: NavLink[] = [
     capability: 'viewPlugins',
     section: 'Plugins',
     noBaseUrl: true,
-    url: createAdminUrl({adminView: AdminChildView.PLUGINS}),
+    url: '/admin/plugins',
     view: 'gr-plugin-list' as GerritView,
   },
 ];

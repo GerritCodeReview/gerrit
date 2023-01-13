@@ -6,23 +6,23 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
+import {
+  RepoName,
+  ProjectInfoWithName,
+  WebLinkInfo,
+} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {
-  AdminChildView,
-  AdminViewState,
-  createAdminUrl,
-} from '../../../models/views/admin';
+import {AdminViewState} from '../../../models/views/admin';
 import {createSearchUrl} from '../../../models/views/search';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {createRepoUrl} from '../../../models/views/repo';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -32,6 +32,8 @@ declare global {
 
 @customElement('gr-repo-list')
 export class GrRepoList extends LitElement {
+  readonly path = '/admin/repos';
+
   @query('#createModal') private createModal?: HTMLDialogElement;
 
   @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
@@ -101,7 +103,7 @@ export class GrRepoList extends LitElement {
         .items=${this.repos}
         .loading=${this.loading}
         .offset=${this.offset}
-        .path=${createAdminUrl({adminView: AdminChildView.REPOS})}
+        .path=${this.path}
         @create-clicked=${() => this.handleCreateClicked()}
       >
         <table id="list" class="genericList">
@@ -155,11 +157,11 @@ export class GrRepoList extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href=${createRepoUrl({repo: item.name})}>${item.name}</a>
+          <a href=${this.computeRepoUrl(item.name)}>${item.name}</a>
         </td>
         <td class="repositoryBrowser">${this.renderWebLinks(item)}</td>
         <td class="changesLink">
-          <a href=${createSearchUrl({repo: item.name})}>view all</a>
+          <a href=${this.computeChangesLink(item.name)}>view all</a>
         </td>
         <td class="readOnly">
           ${item.state === RepoState.READ_ONLY ? 'Y' : ''}
@@ -206,6 +208,14 @@ export class GrRepoList extends LitElement {
     if (params?.openCreateModal) {
       this.createModal?.showModal();
     }
+  }
+
+  private computeRepoUrl(name: string) {
+    return `${getBaseUrl()}${this.path}/${encodeURL(name, true)}`;
+  }
+
+  private computeChangesLink(name: string) {
+    return createSearchUrl({repo: name as RepoName});
   }
 
   private async getCreateRepoCapability() {

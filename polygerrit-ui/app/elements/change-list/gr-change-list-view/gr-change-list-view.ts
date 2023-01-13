@@ -282,14 +282,12 @@ export class GrChangeListView extends LitElement {
   // private but used in test
   handleNextPage() {
     if (!this.nextArrow || !this.changesPerPage) return;
-    // TODO: Use navigation service instead of `page.show()` directly.
     page.show(this.computeNavLink(1));
   }
 
   // private but used in test
   handlePreviousPage() {
     if (!this.prevArrow || !this.changesPerPage) return;
-    // TODO: Use navigation service instead of `page.show()` directly.
     page.show(this.computeNavLink(-1));
   }
 

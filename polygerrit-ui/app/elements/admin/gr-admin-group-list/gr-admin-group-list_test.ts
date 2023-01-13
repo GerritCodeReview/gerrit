@@ -120,17 +120,17 @@ suite('gr-admin-group-list tests', () => {
       assert.equal(element.groups.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
 
-    test('maybeOpenCreateModal', async () => {
+    test('maybeOpenCreateModal', () => {
       const modalOpen = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createModal'),
         'showModal'
       );
-      await element.maybeOpenCreateModal();
+      element.maybeOpenCreateModal();
       assert.isFalse(modalOpen.called);
-      await element.maybeOpenCreateModal(undefined);
+      element.maybeOpenCreateModal(undefined);
       assert.isFalse(modalOpen.called);
       value.openCreateModal = true;
-      await element.maybeOpenCreateModal(value);
+      element.maybeOpenCreateModal(value);
       assert.isTrue(modalOpen.called);
     });
   });

@@ -16,11 +16,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
-import {
-  AdminChildView,
-  AdminViewState,
-  createAdminUrl,
-} from '../../../models/views/admin';
+import {AdminViewState} from '../../../models/views/admin';
 import {createGroupUrl} from '../../../models/views/group';
 import {whenVisible} from '../../../utils/dom-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -33,6 +29,8 @@ declare global {
 
 @customElement('gr-admin-group-list')
 export class GrAdminGroupList extends LitElement {
+  readonly path = '/admin/groups';
+
   @query('#createModal') private createModal?: HTMLDialogElement;
 
   @query('#createNewModal') private createNewModal?: GrCreateGroupDialog;
@@ -89,7 +87,7 @@ export class GrAdminGroupList extends LitElement {
         .itemsPerPage=${this.groupsPerPage}
         .loading=${this.loading}
         .offset=${this.offset}
-        .path=${createAdminUrl({adminView: AdminChildView.GROUPS})}
+        .path=${this.path}
         @create-clicked=${() => this.handleCreateClicked()}
       >
         <table id="list" class="genericList">
@@ -169,14 +167,18 @@ export class GrAdminGroupList extends LitElement {
    *
    * private but used in test
    */
-  async maybeOpenCreateModal(params?: AdminViewState) {
+  maybeOpenCreateModal(params?: AdminViewState) {
     if (params?.openCreateModal) {
-      await this.updateComplete;
-      if (!this.createModal?.open) this.createModal?.showModal();
+      assertIsDefined(this.createModal, 'createModal');
+      this.createModal.showModal();
     }
   }
 
-  // private but used in test
+  /**
+   * Generates groups link (/admin/groups/<uuid>)
+   *
+   * private but used in test
+   */
   computeGroupUrl(encodedId: string) {
     const groupId = decodeURIComponent(encodedId) as GroupId;
     return createGroupUrl({groupId});

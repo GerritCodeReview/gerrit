@@ -166,6 +166,202 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void overrideImpersonatedVoteWithOtherImpersonatedVote_sameValue() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount realUser2 = admin2;
+    TestAccount impersonatedUser = user;
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+
+    // realUser votes Code-Review+1 on behalf of impersonatedUser
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    revision.review(in);
+
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser.id());
+
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+
+    // realUser2 votes Code-Review+1 on behalf of impersonatedUser, this should override the
+    // impersonated Code-Review+1 of realUser with an impersonated Code-Review+1 of realUser2
+    requestScopeOperations.setApiUser(realUser2.id());
+    in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Another message on behalf of";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser2.id());
+
+    cd = r.getChange();
+    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser2.id());
+  }
+
+  @Test
+  public void overrideImpersonatedVoteWithOtherImpersonatedVote_differentValue() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount realUser2 = admin2;
+    TestAccount impersonatedUser = user;
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+
+    // realUser votes Code-Review+1 on behalf of impersonatedUser
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    revision.review(in);
+
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser.id());
+
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+
+    // realUser2 votes Code-Review-1 on behalf of impersonatedUser, this should override the
+    // impersonated Code-Review+1 of realUser with an impersonated Code-Review-1 of realUser2
+    requestScopeOperations.setApiUser(realUser2.id());
+    in = ReviewInput.dislike();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Another message on behalf of";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(-1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser2.id());
+
+    cd = r.getChange();
+    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser2.id());
+  }
+
+  @Test
+  public void overrideImpersonatedVoteWithNonImpersonatedVote_sameValue() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+
+    // realUser votes Code-Review+1 on behalf of impersonatedUser
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    revision.review(in);
+
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser.id());
+
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+
+    // impersonatedUser votes Code-Review+1 themselves, this should override the impersonated
+    // Code-Review+1 with a non-impersonated Code-Review+1
+    requestScopeOperations.setApiUser(impersonatedUser.id());
+    in = ReviewInput.recommend();
+    in.message = "Message";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(impersonatedUser.id());
+
+    cd = r.getChange();
+    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(impersonatedUser.id());
+  }
+
+  @Test
+  public void overrideImpersonatedVoteWithNonImpersonatedVote_differentValue() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+
+    // realUser votes Code-Review+1 on behalf of impersonatedUser
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    revision.review(in);
+
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(realUser.id());
+
+    ChangeData cd = r.getChange();
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+
+    // impersonatedUser votes Code-Review-1 themselves, this should override the impersonated
+    // Code-Review+1 with a non-impersonated Code-Review-1
+    requestScopeOperations.setApiUser(impersonatedUser.id());
+    in = ReviewInput.dislike();
+    in.message = "Message";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+    assertThat(psa.value()).isEqualTo(-1);
+    assertThat(psa.realAccountId()).isEqualTo(impersonatedUser.id());
+
+    cd = r.getChange();
+    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+    assertThat(m.getMessage()).endsWith(in.message);
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+    assertThat(m.getRealAuthor()).isEqualTo(impersonatedUser.id());
+  }
+
+  @Test
   public void voteOnBehalfOfRequiresLabel() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();

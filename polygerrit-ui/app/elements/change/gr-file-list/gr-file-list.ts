@@ -78,9 +78,11 @@ import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HtmlPatched} from '../../../utils/lit-util';
-import {createDiffUrl} from '../../../models/views/diff';
-import {createEditUrl} from '../../../models/views/edit';
-import {createChangeUrl} from '../../../models/views/change';
+import {
+  createDiffUrl,
+  createEditUrl,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';

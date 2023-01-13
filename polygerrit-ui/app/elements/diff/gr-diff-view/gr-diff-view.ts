@@ -84,8 +84,8 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
-import {createDiffUrl} from '../../../models/views/diff';
 import {
+  createDiffUrl,
   ChangeChildView,
   changeViewModelToken,
 } from '../../../models/views/change';

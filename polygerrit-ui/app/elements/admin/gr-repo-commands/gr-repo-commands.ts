@@ -31,7 +31,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
-import {createEditUrl} from '../../../models/views/edit';
+import {createEditUrl} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrCreateFileEditDialog} from '../gr-create-change-dialog/gr-create-file-edit-dialog';

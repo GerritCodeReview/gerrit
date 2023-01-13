@@ -16,6 +16,24 @@
       "message": "Build failed due to problems with FE code. I will submit my code only after it is fixed.",
       "revId": "922789cb4353fa1988a686d0758530f93774187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85e430e_7178e6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-01-13T14:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad839c5d_b4fad47b",
+      "revId": "922789cb4353fa1988a686d0758530f93774187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -453,20 +453,24 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     in.description = description;
     in.members =
         Arrays.asList(members).stream().map(a -> String.valueOf(a._accountId)).collect(toList());
-    return gApi.groups().create(in).get();
+    return createGroup(in);
   }
 
   protected GroupInfo createGroupWithOwner(String name, GroupInfo ownerGroup) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = ownerGroup.id;
-    return gApi.groups().create(in).get();
+    return createGroup(in);
   }
 
   protected GroupInfo createGroupThatIsVisibleToAll(String name) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
     in.visibleToAll = true;
+    return createGroup(in);
+  }
+
+  protected GroupInfo createGroup(GroupInput in) throws Exception {
     return gApi.groups().create(in).get();
   }
 

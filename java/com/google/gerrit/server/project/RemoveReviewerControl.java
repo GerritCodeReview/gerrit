@@ -66,11 +66,31 @@ public class RemoveReviewerControl {
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException {
+    // Cannot reuse testRemoveReviewer(ChangeNotes, ...) since notes might fail to load, e.g., for
+    // the `query` flow.
     if (canRemoveReviewerWithoutPermissionCheck(
         permissionBackend, cd.change(), currentUser, reviewer, value)) {
       return true;
     }
     return permissionBackend.user(currentUser).change(cd).test(ChangePermission.REMOVE_REVIEWER);
+  }
+
+  /** Returns true if the user is allowed to remove this reviewer. */
+  public boolean testRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
+      throws PermissionBackendException {
+    return testRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
+  }
+
+  /** Returns true if the user is allowed to remove this reviewer. */
+  public boolean testRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      throws PermissionBackendException {
+    if (canRemoveReviewerWithoutPermissionCheck(
+        permissionBackend, notes.getChange(), currentUser, reviewer, value)) {
+      return true;
+    }
+    return permissionBackend.user(currentUser).change(notes).test(ChangePermission.REMOVE_REVIEWER);
   }
 
   private void checkRemoveReviewer(

@@ -27,6 +27,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.metrics.proc.ThreadMXBeanFactory;
+import com.google.gerrit.metrics.proc.ThreadMXBeanInterface;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.StalenessCheckResult;
@@ -63,6 +65,7 @@ import org.eclipse.jgit.lib.Config;
  */
 public class ChangeIndexer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final ThreadMXBeanInterface threadMxBean = ThreadMXBeanFactory.create();
 
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
@@ -218,28 +221,35 @@ public class ChangeIndexer {
   }
 
   private void indexImpl(ChangeData cd) {
+    long memoryAtStart = threadMxBean.getCurrentThreadAllocatedBytes();
     logger.atFine().log("Reindex change %d in index.", cd.getId().get());
-    for (Index<?, ChangeData> i : getWriteIndexes()) {
-      try (TraceTimer traceTimer =
-          TraceContext.newTimer(
-              "Reindexing change in index",
-              Metadata.builder()
-                  .changeId(cd.getId().get())
-                  .patchSetId(cd.currentPatchSet().number())
-                  .indexVersion(i.getSchema().getVersion())
-                  .build())) {
-        if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
-          i.insert(cd);
-        } else {
-          i.replace(cd);
+    try {
+      for (Index<?, ChangeData> i : getWriteIndexes()) {
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Reindexing change in index",
+                Metadata.builder()
+                    .changeId(cd.getId().get())
+                    .patchSetId(cd.currentPatchSet().number())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
+          if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+            i.insert(cd);
+          } else {
+            i.replace(cd);
+          }
+        } catch (RuntimeException e) {
+          throw new StorageException(
+              String.format(
+                  "Failed to reindex change %d in index version %d (current patch set = %d)",
+                  cd.getId().get(), i.getSchema().getVersion(), cd.currentPatchSet().number()),
+              e);
         }
-      } catch (RuntimeException e) {
-        throw new StorageException(
-            String.format(
-                "Failed to reindex change %d in index version %d (current patch set = %d)",
-                cd.getId().get(), i.getSchema().getVersion(), cd.currentPatchSet().number()),
-            e);
       }
+    } finally {
+      long memAllocated = threadMxBean.getCurrentThreadAllocatedBytes() - memoryAtStart;
+      logger.atFine().log(
+          "Reindexing of change %d allocated %d bytes of memory.", cd.getId().get(), memAllocated);
     }
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }

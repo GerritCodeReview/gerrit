@@ -31,43 +31,37 @@ class GerritIndexWriterConfig {
   private static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("_", " ", ".", " ");
 
-  private final IndexWriterConfig luceneConfig;
-  private long commitWithinMs;
   private final CustomMappingAnalyzer analyzer;
+  private final boolean isShareableIndexEnabled;
+  private final int maxMergeCount;
+  private final int maxThreadCount;
+  private final boolean enableAutoIOThrottle;
+  private final double ramBufferSizeMB;
+  private final int maxBufferedDocs;
+  private long commitWithinMs;
 
   GerritIndexWriterConfig(Config cfg, String name) {
     analyzer =
         new CustomMappingAnalyzer(
             new StandardAnalyzer(CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
-    luceneConfig =
-        new IndexWriterConfig(analyzer)
-            .setOpenMode(OpenMode.CREATE_OR_APPEND)
-            .setCommitOnClose(true);
 
-    int maxMergeCount = cfg.getInt("index", name, "maxMergeCount", -1);
-    int maxThreadCount = cfg.getInt("index", name, "maxThreadCount", -1);
-    boolean enableAutoIOThrottle = cfg.getBoolean("index", name, "enableAutoIOThrottle", true);
-    if (maxMergeCount != -1 || maxThreadCount != -1 || !enableAutoIOThrottle) {
-      ConcurrentMergeScheduler mergeScheduler = new ConcurrentMergeScheduler();
-      if (maxMergeCount != -1 || maxThreadCount != -1) {
-        mergeScheduler.setMaxMergesAndThreads(maxMergeCount, maxThreadCount);
-      }
-      if (!enableAutoIOThrottle) {
-        mergeScheduler.disableAutoIOThrottle();
-      }
-      luceneConfig.setMergeScheduler(mergeScheduler);
-    }
+    isShareableIndexEnabled = cfg.getBoolean("index", name, "enableSharing", false);
+    maxMergeCount = cfg.getInt("index", name, "maxMergeCount", -1);
+    maxThreadCount = cfg.getInt("index", name, "maxThreadCount", -1);
+    enableAutoIOThrottle = cfg.getBoolean("index", name, "enableAutoIOThrottle", true);
+    maxBufferedDocs =
+        cfg.getInt("index", name, "maxBufferedDocs", IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS);
 
-    double m = 1 << 20;
-    luceneConfig.setRAMBufferSizeMB(
+    double mb = 1 << 20;
+    mb =
         cfg.getLong(
                 "index",
                 name,
                 "ramBufferSize",
-                (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * m))
-            / m);
-    luceneConfig.setMaxBufferedDocs(
-        cfg.getInt("index", name, "maxBufferedDocs", IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
+                (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * mb))
+            / mb;
+    ramBufferSizeMB = mb;
+
     try {
       commitWithinMs =
           ConfigUtil.getTimeUnit(
@@ -82,7 +76,29 @@ class GerritIndexWriterConfig {
   }
 
   IndexWriterConfig getLuceneConfig() {
+    IndexWriterConfig luceneConfig =
+        new IndexWriterConfig(analyzer)
+            .setOpenMode(OpenMode.CREATE_OR_APPEND)
+            .setCommitOnClose(true);
+
+    if (maxMergeCount != -1 || maxThreadCount != -1 || !enableAutoIOThrottle) {
+      ConcurrentMergeScheduler mergeScheduler = new ConcurrentMergeScheduler();
+      if (maxMergeCount != -1 || maxThreadCount != -1) {
+        mergeScheduler.setMaxMergesAndThreads(maxMergeCount, maxThreadCount);
+      }
+      if (!enableAutoIOThrottle) {
+        mergeScheduler.disableAutoIOThrottle();
+      }
+      luceneConfig.setMergeScheduler(mergeScheduler);
+    }
+
+    luceneConfig.setRAMBufferSizeMB(ramBufferSizeMB);
+    luceneConfig.setMaxBufferedDocs(maxBufferedDocs);
     return luceneConfig;
+  }
+
+  boolean isShareableIndexEnabled() {
+    return isShareableIndexEnabled;
   }
 
   long getCommitWithinMs() {

@@ -57,6 +57,7 @@ public class RetryableAction<T> {
     CHANGE_UPDATE,
     GIT_UPDATE,
     GROUP_UPDATE,
+    INDEX_UPDATE,
     INDEX_QUERY,
     PLUGIN_UPDATE,
     REST_READ_REQUEST,

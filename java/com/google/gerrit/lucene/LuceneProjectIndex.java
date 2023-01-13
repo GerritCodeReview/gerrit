@@ -36,6 +36,7 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -87,7 +88,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       @Assisted Schema<ProjectData> schema,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      RetryHelper retryHelper)
       throws IOException {
     super(
         schema,
@@ -99,7 +101,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         new GerritIndexWriterConfig(cfg, PROJECTS),
         new SearcherFactory(),
         autoFlush,
-        ProjectIndex.ENTITY_TO_KEY);
+        ProjectIndex.ENTITY_TO_KEY,
+        retryHelper);
     this.projectCache = projectCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS);

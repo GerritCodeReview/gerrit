@@ -61,6 +61,7 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.protobuf.MessageLite;
@@ -136,7 +137,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
       @Assisted Schema<ChangeData> schema,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      RetryHelper retryHelper)
       throws IOException {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
@@ -162,7 +164,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              retryHelper);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -172,7 +175,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              retryHelper);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
@@ -183,7 +187,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              retryHelper);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -192,7 +197,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              retryHelper);
     }
   }
 

@@ -46,6 +46,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36b78503_c276a7b0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-13T15:52:33Z",
+      "side": 1,
+      "message": "\u003e Yes, we have experienced issues where a service that listens to events from Rabbit MQ is attempting to lookup a newly created change from project~branch~change-id but the round-trip was so short that the changes weren\u0027t always indexed when the service called the REST API which resulted in intermittent 404 responses even though the change actually existed (false negative).\n\u003e Since the extra lookup is based on caches and index it is vulnerable to staleness in those.\n\u003e In most installation the probability of human users being noticeably affected is very low, but for services that process 100s of changes per minute it is enough to cause hick-ups and in turn support-issues when services misfire.\n\nRight, I think that\u0027s a Lucene indexing race because of how the [searcherManager is configured](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/lucene/AbstractLuceneIndex.java#193). It allows for a .5s staleness in results 😞\n\nHowever, if you\u0027re using the index-elasticsearch module, you don\u0027t have that problem ever because having the \u0027refresh\u003dtrue\u0027 parameter on index writes guarantees that subsequent reads see the write.\n\nBetter than adding this warning would be to treat the 0.5s staleness for Lucene as a bug that we should try to fix. We should at least include a link to that bug here for better context. Does that make sense to you?\n\nAlso, that covers the false-negative case, but I still don\u0027t see how you can get a false-positive. Do you have an example in mind for that?",
+      "parentUuid": "b029958d_f8954ae2",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

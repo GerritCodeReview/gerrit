@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3a070c10_f36cf057",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a05703e_f8e029eb",
+      "range": {
+        "startLine": 21,
+        "startChar": 54,
+        "endLine": 21,
+        "endChar": 56
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d6923ff0_909982c6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30495725_a7b3c75a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7091d11_044558d5",
+      "range": {
+        "startLine": 706,
+        "startChar": 38,
+        "endLine": 706,
+        "endChar": 57
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a78f8217_3305235d",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c549c7f_70d28abf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a78f8217_3305235d",
+      "range": {
+        "startLine": 708,
+        "startChar": 36,
+        "endLine": 708,
+        "endChar": 62
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aa57e2a_6d1da537",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-01-15T09:18:44Z",
       "side": 1,
       "message": "nit: it would kick also in for `-2` (not very likely ;)), how about `\u003e 0`?",
+      "range": {
+        "startLine": 64,
+        "startChar": 31,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0649db35_7740b596",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa57e2a_6d1da537",
       "range": {
         "startLine": 64,
         "startChar": 31,
@@ -151,6 +247,54 @@
         "startChar": 15,
         "endLine": 98,
         "endChar": 47
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c0f7863_7e89888a",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35c717e_defffcc5",
+      "range": {
+        "startLine": 98,
+        "startChar": 15,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbcf3995_a3cd96cc",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-15T12:32:14Z",
+      "side": 1,
+      "message": "The class and internal methods, yes, but not the overridden ones.",
+      "parentUuid": "b9181afa_ede6a708",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 9
       },
       "revId": "2f84e645cdf5fe2fed7b988a782329e2c7638570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

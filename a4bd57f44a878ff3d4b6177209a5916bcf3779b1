@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efdc8cb0_eccb5f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T07:34:59Z",
+      "side": 1,
+      "message": "Please explain under which conditions change notes are not available (is it when changes are returned as result for a query, ie. when they were loaded from the index?) and why it\u0027s OK that the removableLabels field is not populated in this case.\n\nAlso please document this for the removableLabels field, so that callers can know when this field is set.\n\nAlso I think we want to cover this by a test.",
+      "revId": "a4bd57f44a878ff3d4b6177209a5916bcf3779b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5621c27c_74830f3b",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T07:34:59Z",
+      "side": 1,
+      "message": "IIUC this is fixing an issue with using the CHECK list changes option?\n\nMaybe this should be a separate change that also comes with a test?",
+      "range": {
+        "startLine": 534,
+        "startChar": 3,
+        "endLine": 542,
+        "endChar": 5
+      },
+      "revId": "a4bd57f44a878ff3d4b6177209a5916bcf3779b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0a9a98_ee75a548",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T07:34:59Z",
+      "side": 1,
+      "message": "Could we avoid using change notes here and just use Change or ChangeData instead?\n\nE.g. ChangesJson is also doing a permission check without loading change notes:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ChangeJson.java#845\n\nThe change should be always available since it\u0027s stored as a proto in the index.",
+      "range": {
+        "startLine": 170,
+        "startChar": 16,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "a4bd57f44a878ff3d4b6177209a5916bcf3779b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,8 +38,8 @@ import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.DeleteVoteControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -75,7 +75,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
-  private final DeleteVoteControl deleteVoteControl;
+  private final RemoveReviewerControl removeReviewerControl;
   private final MessageIdGenerator messageIdGenerator;
 
   private final String label;
@@ -96,7 +96,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
-      DeleteVoteControl deleteVoteControl,
+      RemoveReviewerControl removeReviewerControl,
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey projectName,
       @Assisted AccountState reviewerToDeleteVoteFor,
@@ -109,7 +109,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.cmUtil = cmUtil;
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
-    this.deleteVoteControl = deleteVoteControl;
+    this.removeReviewerControl = removeReviewerControl;
     this.messageIdGenerator = messageIdGenerator;
 
     this.projectName = projectName;
@@ -143,8 +143,12 @@ public class DeleteVoteOp implements BatchUpdateOp {
         newApprovals.put(a.label(), a.value());
         continue;
       } else if (enforcePermissions) {
-        deleteVoteControl.checkDeleteVotePermissions(
-            ctx.getUser(), ctx.getNotes(), a, labelTypes.byLabel(a.labelId()).get());
+        // For regular users, check if they are allowed to remove the vote.
+        try {
+          removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
+        } catch (AuthException e) {
+          throw new AuthException("delete vote not permitted", e);
+        }
       }
       // Set the approval to 0 if vote is being removed.
       newApprovals.put(a.label(), (short) 0);

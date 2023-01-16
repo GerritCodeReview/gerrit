@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03411aa_8da32015",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36048bf5_f92217e2",
+      "revId": "3a7c73378c820732d7b22cbc7f1113d4727d36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8efa7f10_b2975fe1",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-16T09:28:58Z",
       "side": 1,
       "message": "nit: clearing the sender is not needed, or do we want to assert that this sends no email?",
+      "revId": "3a7c73378c820732d7b22cbc7f1113d4727d36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc61083_4bceabfc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/DeleteVoteIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8efa7f10_b2975fe1",
       "revId": "3a7c73378c820732d7b22cbc7f1113d4727d36e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

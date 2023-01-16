@@ -60,6 +60,7 @@ import {
   RepoViewState,
 } from '../../../models/views/repo';
 import {
+  createGroupUrl,
   GroupDetailView,
   GroupViewModel,
   GroupViewState,
@@ -1077,7 +1078,8 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleGroupInfoRoute(ctx: PageContext) {
-    this.redirect('/admin/groups/' + encodeURIComponent(ctx.params[0]));
+    const groupId = ctx.params[0] as GroupId;
+    this.redirect(createGroupUrl({groupId}));
   }
 
   handleGroupSelfRedirectRoute(_: PageContext) {
@@ -1161,6 +1163,8 @@ export class GrRouter implements Finalizable, NavigationService {
       }
     }
 
+    // TODO: Change the route pattern to match `repo` and `detailView`
+    // separately, and then use `createRepoUrl()` here.
     this.redirect(`/admin/repos/${params}`);
   }
 

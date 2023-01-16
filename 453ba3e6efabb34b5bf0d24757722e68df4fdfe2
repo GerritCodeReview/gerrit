@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c189f881_18235d36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T11:59:29Z",
+      "side": 1,
+      "message": "Simplified to just use a MaxInFlightScheduler that allows only 1 in flight request",
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6357160_fdc38634",
@@ -72,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a61ddc_b760d2fb",
+        "filename": "polygerrit-ui/app/services/scheduler/queueing-scheduler.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T11:59:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8bb4731b_951cbf5f",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca0e700_806bbea7",
@@ -85,6 +126,30 @@
       "writtenOn": "2023-01-16T10:19:25Z",
       "side": 1,
       "message": "if there is a 2s request with several 1ms requests after, won\u0027t all the fast requests get pushed into `base` while they wait for the slow request? From there they won\u0027t really be throttled once 2s request finishes and that seems like a bug",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 80
+      },
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd4891f_511ceff5",
+        "filename": "polygerrit-ui/app/services/scheduler/queueing-scheduler.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T11:59:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4ca0e700_806bbea7",
       "range": {
         "startLine": 45,
         "startChar": 0,

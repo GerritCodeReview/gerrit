@@ -162,6 +162,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35b2ad90_53d95a9b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-16T08:41:04Z",
+      "side": 1,
+      "message": "I would suggest to do this directly. Use the same topic and the Depends-On: footer to make them verify together.",
+      "parentUuid": "053a8124_31ceaccd",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 68
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7663647_4a6c59e7",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-16T08:41:04Z",
+      "side": 1,
+      "message": "You could use getOrElse() here",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8446b8d7_77104982",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 11
@@ -527,6 +568,30 @@
       "side": 1,
       "message": "no they will share the same username external ID but have different account ID\u0027s, so line 574 creates 2 new ones `gerrit:foo` and `username:foo`, then the new oauth id does not create a new username, reuses `username:foo` and create a new `google-oauth:foo` with a different account ID.\n\nthis is checked at `    ExternalId newUsernameExtId \u003d\n        !usernameExtId.isPresent() \u0026\u0026 !name.isEmpty() ? createUsername(accId, name.get()) : null;`",
       "parentUuid": "83773d9e_fec42aab",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcc2531_b583a423",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-16T08:41:04Z",
+      "side": 1,
+      "message": "But looking at the runtime code, the account IDs should be the same:\n\n```java\n...\n      if (existingLDAPExtID.isPresent()) {\n        // AccountID of GERRIT-ExternalID created for LDAP account\n        extAccId \u003d Optional.ofNullable(existingLDAPExtID.get().accountId());\n      }\n...\n    // If it was an LDAP account reuse the account ID, otherwise generate a new one\n    Account.Id accId \u003d\n        extAccId.isPresent() ? extAccId.get() : Account.id(sequences.nextAccountId());\n...\n        accountState \u003d\n            accountsUpdateProvider\n                .get()\n                .update(\n                    \"create new external ID for use\",\n                    // Use the same AccountID as for the LDAP account to generate the Oauth account\n                    accId,\n                    u -\u003e {\n                      u.setFullName(who.getDisplayName())\n                          .setPreferredEmail(newExtId.email())\n                          .addExternalId(newExtId);\n                    })\n                .get();\n```\n\nThis would also be what I would expect. There should not be two account (ID)s  that have the same username. Thus, I don\u0027t understand this assertion here.",
+      "parentUuid": "f3794150_afc39815",
       "range": {
         "startLine": 585,
         "startChar": 4,

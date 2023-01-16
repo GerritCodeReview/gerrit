@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20833fc6_8db9c6a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-16T09:41:40Z",
+      "side": 1,
+      "message": "This needs to roll back another change done to ChangeDiffer to make the build work again",
+      "revId": "da8cd93601620af5fad2bfdd2f246c535d923a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

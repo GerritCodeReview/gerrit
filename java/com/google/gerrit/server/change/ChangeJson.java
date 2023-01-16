@@ -146,7 +146,7 @@ public class ChangeJson {
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
-  static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
+  public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
           ALL_COMMITS,
           ALL_REVISIONS,
@@ -688,6 +688,7 @@ public class ChangeJson {
             !cd.change().isAbandoned()
                 ? labelsJson.permittedLabels(user.getAccountId(), cd)
                 : ImmutableMap.of();
+        out.removableLabels = labelsJson.removableLabels(accountLoader, user, cd);
       }
     }
 

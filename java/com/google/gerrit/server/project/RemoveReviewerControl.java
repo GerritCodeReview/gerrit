@@ -32,10 +32,12 @@ import com.google.inject.Singleton;
 @Singleton
 public class RemoveReviewerControl {
   private final PermissionBackend permissionBackend;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  RemoveReviewerControl(PermissionBackend permissionBackend) {
+  RemoveReviewerControl(PermissionBackend permissionBackend, ChangeData.Factory changeDataFactory) {
     this.permissionBackend = permissionBackend;
+    this.changeDataFactory = changeDataFactory;
   }
 
   /**
@@ -60,6 +62,20 @@ public class RemoveReviewerControl {
   public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
       throws PermissionBackendException, AuthException {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
+  }
+
+  /** Returns true if the user is allowed to remove this reviewer. */
+  public boolean testRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
+      throws PermissionBackendException {
+    return testRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
+  }
+
+  /** Returns true if the user is allowed to remove this reviewer. */
+  public boolean testRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      throws PermissionBackendException {
+    return testRemoveReviewer(changeDataFactory.create(notes), currentUser, reviewer, value);
   }
 
   /** Returns true if the user is allowed to remove this reviewer. */

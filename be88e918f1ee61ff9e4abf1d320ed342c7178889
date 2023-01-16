@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58dfa218_264d9837",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08649acf_1facf1d8",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 7
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34d7fd0f_c1674cfc",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-12-29T10:15:01Z",
       "side": 1,
       "message": "same as above",
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a48bb4d_ef27d206",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d7fd0f_c1674cfc",
       "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd61a868_ad5aebf5",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f644bdf6_acde380c",
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "916bd2b6_956f3bd0",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-12-29T10:15:01Z",
       "side": 1,
       "message": "I think here too we would want to use the provided user, if resolveAsUser was called.",
+      "range": {
+        "startLine": 492,
+        "startChar": 35,
+        "endLine": 492,
+        "endChar": 45
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1920b650_f002344d",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "916bd2b6_956f3bd0",
       "range": {
         "startLine": 492,
         "startChar": 35,
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e0d6b5_9df9fa36",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cc304d1_ed95697d",
+      "range": {
+        "startLine": 1706,
+        "startChar": 25,
+        "endLine": 1706,
+        "endChar": 58
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0f4a2ef_39bfba27",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-12-29T10:15:01Z",
       "side": 1,
       "message": "I think this is not fully correct.\n\nIf args.getUser() is not an IdentifiedUser (e.g. it\u0027s the anonymous user), we call accountResolver.resolve which then incorrectly uses the current user (e.g. it resolves \"self\" to the current user, rather then throwing an exception saying that resolving \"self\" requires an identified user).\n\nI think it might be better to change accountResolver.resolveAsUser to accept a CurrentUser, rather than requiring an IdentifiedUser.",
+      "range": {
+        "startLine": 1720,
+        "startChar": 6,
+        "endLine": 1726,
+        "endChar": 81
+      },
+      "revId": "be88e918f1ee61ff9e4abf1d320ed342c7178889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8cd173_fd9a2846",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:23:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f4a2ef_39bfba27",
       "range": {
         "startLine": 1720,
         "startChar": 6,

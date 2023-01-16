@@ -1141,10 +1141,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     if (text.startsWith("^")) {
+<<<<<<< PATCH SET (eca1e7 Revert "Fix error when using the message operator with regex)
+      checkFieldAvailable(ChangeField.COMMIT_MESSAGE_EXACT, "messageexact");
+=======
       if (!args.index.getSchema().hasField(ChangeField.COMMIT_MESSAGE_EXACT)) {
         throw new QueryParseException(
             "'message' operator with regular expression is not supported on this gerrit host");
       }
+>>>>>>> BASE      (5e7de8 Merge "AndPredicate#compare: Remove unnecessary calculation")
       return new RegexMessagePredicate(text);
     }
     return ChangePredicates.message(text);

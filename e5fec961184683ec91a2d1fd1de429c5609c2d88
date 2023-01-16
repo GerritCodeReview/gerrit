@@ -16,6 +16,24 @@
       "message": "Should we also have a test that does a change query and triggers the issue that is being fixed?",
       "revId": "e5fec961184683ec91a2d1fd1de429c5609c2d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bbf5cb6_aeb50139",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4396,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-16T08:50:35Z",
+      "side": 1,
+      "message": "That is what this code is doing (requesting detailed labels up in l.4388).\n\nI thought about a test specifically dedicated to the issue, but it\u0027s one of many code paths that can fail here (i.e. one specific instance of a problem), so would seem like noise to me going forward.\n\nLMK if you think differently :-)",
+      "parentUuid": "c622cd75_391626fe",
+      "revId": "e5fec961184683ec91a2d1fd1de429c5609c2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

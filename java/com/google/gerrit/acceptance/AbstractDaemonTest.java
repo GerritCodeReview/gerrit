@@ -1393,17 +1393,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void assertOnlyRemovableLabel(
-      ChangeInfo info, String labelId, String labelValue, TestAccount reviewer) {
-    assertThat(info.removableLabels).hasSize(1);
-    assertThat(info.removableLabels).containsKey(labelId);
-    assertThat(info.removableLabels.get(labelId)).hasSize(1);
-    assertThat(info.removableLabels.get(labelId)).containsKey(labelValue);
-    assertThat(info.removableLabels.get(labelId).get(labelValue)).hasSize(1);
-    assertThat(info.removableLabels.get(labelId).get(labelValue).get(0).email)
-        .isEqualTo(reviewer.email());
-  }
-
   protected void assertPermissions(
       Project.NameKey project,
       GroupReference groupReference,

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
+import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -240,10 +240,10 @@ class ChangeControl {
     private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
       if (perm instanceof ChangePermission) {
         return can((ChangePermission) perm);
-      } else if (perm instanceof AbstractLabelPermission) {
-        return can((AbstractLabelPermission) perm);
-      } else if (perm instanceof AbstractLabelPermission.WithValue) {
-        return can((AbstractLabelPermission.WithValue) perm);
+      } else if (perm instanceof LabelPermission) {
+        return can((LabelPermission) perm);
+      } else if (perm instanceof LabelPermission.WithValue) {
+        return can((LabelPermission.WithValue) perm);
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
@@ -288,11 +288,11 @@ class ChangeControl {
       throw new PermissionBackendException(perm + " unsupported");
     }
 
-    private boolean can(AbstractLabelPermission perm) {
+    private boolean can(LabelPermission perm) {
       return !label(labelPermissionName(perm)).isEmpty();
     }
 
-    private boolean can(AbstractLabelPermission.WithValue perm) {
+    private boolean can(LabelPermission.WithValue perm) {
       PermissionRange r = label(labelPermissionName(perm));
       if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
         return false;

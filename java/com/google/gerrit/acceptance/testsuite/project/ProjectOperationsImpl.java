@@ -197,13 +197,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
         PermissionRule.Builder rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setRange(p.min(), p.max());
-        String permissionName;
-        if (p.isAddPermission()) {
-          permissionName =
-              p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
-        } else {
-          permissionName = Permission.forRemoveLabel(p.name());
-        }
+        String permissionName =
+            p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
         projectConfig.upsertAccessSection(
             p.ref(), as -> as.upsertPermission(permissionName).add(rule));
       }

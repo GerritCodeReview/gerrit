@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "114875be_296b95ca",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Annotate this with @Nullable? At least l. 140 above provides null...\n\nBut maybe it would be better if the tests would be required to provide a seachedAsUser so that this can never be null (maybe checked with requireNonNull)? It seems all callers from prod code do provide a user?\n\nMaybe l. 140 could also provide self.get() instead of null, then the tests don\u0027t need to be touched.",
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30205a75_8eaff68c",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Do we need a null check here and below (depends on how the comment above is resolved)?",
+      "range": {
+        "startLine": 196,
+        "startChar": 11,
+        "endLine": 196,
+        "endChar": 25
+      },
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7486591_1b45b025",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Maybe make this a javadoc on the method?\n\nWithout javadoc this method also causes some code warnings for the unused \u0027input\u0027 parameter and the exceptions that are never thrown. AFAIK these warnings go away if you have javadoc documenting them.",
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf92b237_96bc9dc3",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Depends on the comment resolution below, but if this stays nullable, please add the @Nullable annotation.",
+      "range": {
+        "startLine": 255,
+        "startChar": 49,
+        "endLine": 255,
+        "endChar": 67
+      },
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6111065c_0204c28f",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Maybe add a similar javadoc here that explains that searches that require a context user should implement this.\n\nAlso here, without javadoc there is a code warning about the unused asUser parameter.",
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60225fac_13b8b87b",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "nit: searchers?",
+      "range": {
+        "startLine": 663,
+        "startChar": 54,
+        "endLine": 663,
+        "endChar": 62
+      },
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70f245c4_f193262b",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "Would it maybe simplify things if this was not nullable, but callers that are currently call this with null, would just provide self.get()?",
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "277a6100_cf939450",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T15:10:28Z",
+      "side": 1,
+      "message": "here and below: self can never be null, can it?",
+      "range": {
+        "startLine": 848,
+        "startChar": 31,
+        "endLine": 848,
+        "endChar": 46
+      },
+      "revId": "674e4a8c958b3f45c9528d3bddf236711868439b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

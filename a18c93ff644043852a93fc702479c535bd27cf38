@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8113e4_c887edf4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-16T12:07:23Z",
+      "side": 1,
+      "message": "I am sorry to keep doing this, but now this name is wrong again.",
+      "range": {
+        "startLine": 274,
+        "startChar": 9,
+        "endLine": 274,
+        "endChar": 32
+      },
+      "revId": "a18c93ff644043852a93fc702479c535bd27cf38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

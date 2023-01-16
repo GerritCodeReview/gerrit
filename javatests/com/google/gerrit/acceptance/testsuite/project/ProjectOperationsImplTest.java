@@ -18,14 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabelRemoval;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabelRemoval;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelRemovalPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
@@ -446,73 +443,6 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
-  public void addAllowLabelRemovalPermission() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .add(allowLabelRemoval("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
-        .update();
-
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access", "submit");
-    assertThat(config).subsections("access").containsExactly("refs/foo");
-    assertThat(config)
-        .subsectionValues("access", "refs/foo")
-        .containsExactly("removeLabel-Code-Review", "-1..+2 group global:Registered-Users");
-  }
-
-  @Test
-  public void addBlockLabelRemovalPermission() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .add(blockLabelRemoval("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
-        .update();
-
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access", "submit");
-    assertThat(config).subsections("access").containsExactly("refs/foo");
-    assertThat(config)
-        .subsectionValues("access", "refs/foo")
-        .containsExactly("removeLabel-Code-Review", "block -1..+2 group global:Registered-Users");
-  }
-
-  @Test
-  public void addAllowExclusiveLabelRemovalPermission() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .add(allowLabelRemoval("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
-        .setExclusiveGroup(labelRemovalPermissionKey("Code-Review").ref("refs/foo"), true)
-        .update();
-
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access", "submit");
-    assertThat(config).subsections("access").containsExactly("refs/foo");
-    assertThat(config)
-        .subsectionValues("access", "refs/foo")
-        .containsExactly(
-            "removeLabel-Code-Review", "-1..+2 group global:Registered-Users",
-            "exclusiveGroupPermissions", "removeLabel-Code-Review");
-
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .setExclusiveGroup(labelRemovalPermissionKey("Code-Review").ref("refs/foo"), false)
-        .update();
-
-    config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("access", "submit");
-    assertThat(config).subsections("access").containsExactly("refs/foo");
-    assertThat(config)
-        .subsectionValues("access", "refs/foo")
-        .containsExactly("removeLabel-Code-Review", "-1..+2 group global:Registered-Users");
-  }
-
-  @Test
   public void addAllowCapability() throws Exception {
     Config config = projectOperations.project(allProjects).getConfig();
     assertThat(config)
@@ -607,31 +537,6 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
         .containsExactly("label-Code-Review", "-2..+1 group global:Project-Owners");
-  }
-
-  @Test
-  public void removeLabelRemovalPermission() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .add(allowLabelRemoval("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
-        .add(allowLabelRemoval("Code-Review").ref("refs/foo").group(PROJECT_OWNERS).range(-2, 1))
-        .update();
-    assertThat(projectOperations.project(key).getConfig())
-        .subsectionValues("access", "refs/foo")
-        .containsExactly(
-            "removeLabel-Code-Review", "-1..+2 group global:Registered-Users",
-            "removeLabel-Code-Review", "-2..+1 group global:Project-Owners");
-
-    projectOperations
-        .project(key)
-        .forUpdate()
-        .remove(labelRemovalPermissionKey("Code-Review").ref("refs/foo").group(REGISTERED_USERS))
-        .update();
-    assertThat(projectOperations.project(key).getConfig())
-        .subsectionValues("access", "refs/foo")
-        .containsExactly("removeLabel-Code-Review", "-2..+1 group global:Project-Owners");
   }
 
   @Test

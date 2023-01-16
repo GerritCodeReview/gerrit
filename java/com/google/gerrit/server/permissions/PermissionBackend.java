@@ -474,18 +474,6 @@ public abstract class PermissionBackend {
     }
 
     /**
-     * Test which values of a label the user may be able to remove.
-     *
-     * @param label definition of the label to test values of.
-     * @return set containing values the user may be able to use; may be empty if none.
-     * @throws PermissionBackendException if failure consulting backend configuration.
-     */
-    public Set<LabelRemovalPermission.WithValue> testRemoval(LabelType label)
-        throws PermissionBackendException {
-      return test(removalValuesOf(requireNonNull(label, "LabelType")));
-    }
-
-    /**
      * Test which values of a group of labels the user may be able to set.
      *
      * @param types definition of the labels to test values of.
@@ -498,28 +486,9 @@ public abstract class PermissionBackend {
       return test(types.stream().flatMap(t -> valuesOf(t).stream()).collect(toSet()));
     }
 
-    /**
-     * Test which values of a group of labels the user may be able to remove.
-     *
-     * @param types definition of the labels to test values of.
-     * @return set containing values the user may be able to use; may be empty if none.
-     * @throws PermissionBackendException if failure consulting backend configuration.
-     */
-    public Set<LabelRemovalPermission.WithValue> testLabelRemovals(Collection<LabelType> types)
-        throws PermissionBackendException {
-      requireNonNull(types, "LabelType");
-      return test(types.stream().flatMap(t -> removalValuesOf(t).stream()).collect(toSet()));
-    }
-
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
       return label.getValues().stream()
           .map(v -> new LabelPermission.WithValue(label, v))
-          .collect(toSet());
-    }
-
-    private static Set<LabelRemovalPermission.WithValue> removalValuesOf(LabelType label) {
-      return label.getValues().stream()
-          .map(v -> new LabelRemovalPermission.WithValue(label, v))
           .collect(toSet());
     }
   }

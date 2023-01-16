@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9685c9_1bc6b0e2",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-16T10:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98ed9aed_ad4c8120",
+      "range": {
+        "startLine": 322,
+        "startChar": 6,
+        "endLine": 322,
+        "endChar": 35
+      },
+      "revId": "75baa6c50bc7714f1c635a971d2d2122f7b18e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0c48be0_3cb0426c",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-16T08:41:04Z",
       "side": 1,
       "message": "Could be done outside of the conditional to avoid duplication (see line 375)",
+      "range": {
+        "startLine": 359,
+        "startChar": 8,
+        "endLine": 359,
+        "endChar": 69
+      },
+      "revId": "75baa6c50bc7714f1c635a971d2d2122f7b18e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3b33ebc_d145cbcf",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-16T10:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c48be0_3cb0426c",
       "range": {
         "startLine": 359,
         "startChar": 8,

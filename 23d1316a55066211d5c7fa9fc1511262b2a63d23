@@ -184,6 +184,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a4e15d_2b6ce620",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-16T10:45:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35b2ad90_53d95a9b",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 68
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7663647_4a6c59e7",
@@ -197,6 +221,24 @@
       "writtenOn": "2023-01-16T08:41:04Z",
       "side": 1,
       "message": "You could use getOrElse() here",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b3747b_adbfd820",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-16T10:45:46Z",
+      "side": 1,
+      "message": "changed to use `orElseGet`",
+      "parentUuid": "c7663647_4a6c59e7",
       "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -592,6 +634,30 @@
       "side": 1,
       "message": "But looking at the runtime code, the account IDs should be the same:\n\n```java\n...\n      if (existingLDAPExtID.isPresent()) {\n        // AccountID of GERRIT-ExternalID created for LDAP account\n        extAccId \u003d Optional.ofNullable(existingLDAPExtID.get().accountId());\n      }\n...\n    // If it was an LDAP account reuse the account ID, otherwise generate a new one\n    Account.Id accId \u003d\n        extAccId.isPresent() ? extAccId.get() : Account.id(sequences.nextAccountId());\n...\n        accountState \u003d\n            accountsUpdateProvider\n                .get()\n                .update(\n                    \"create new external ID for use\",\n                    // Use the same AccountID as for the LDAP account to generate the Oauth account\n                    accId,\n                    u -\u003e {\n                      u.setFullName(who.getDisplayName())\n                          .setPreferredEmail(newExtId.email())\n                          .addExternalId(newExtId);\n                    })\n                .get();\n```\n\nThis would also be what I would expect. There should not be two account (ID)s  that have the same username. Thus, I don\u0027t understand this assertion here.",
       "parentUuid": "f3794150_afc39815",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81280232_bed8ba9a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-16T10:45:46Z",
+      "side": 1,
+      "message": "this test case is testing that accounts are *not* linked, so we wouldnt not expect the same Account ID\u0027s. I have enhanced the test case to make this more clear.\n\n\nTo be clear what is the expected behaviour here, if thomas.draebing@sap.com logs in through OAuth he gets assigned a thomas.drabing username external ID. Then if thomas.draebing@gerrit.com tries to log in what is the expectation? Does the gerrit domain login fail?",
+      "parentUuid": "4fcc2531_b583a423",
       "range": {
         "startLine": 585,
         "startChar": 4,

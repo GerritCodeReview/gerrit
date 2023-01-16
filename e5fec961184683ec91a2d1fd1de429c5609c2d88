@@ -52,6 +52,24 @@
       "parentUuid": "5bbf5cb6_aeb50139",
       "revId": "e5fec961184683ec91a2d1fd1de429c5609c2d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b0b919_34487fc4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4396,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-16T09:13:30Z",
+      "side": 1,
+      "message": "You are right :-)\n\nI added this to the wrong place! Added it to the query test as well now. Leaving here because I think reasonable defaults don\u0027t hurt here either.",
+      "parentUuid": "b7aea8f1_d50ad5b2",
+      "revId": "e5fec961184683ec91a2d1fd1de429c5609c2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

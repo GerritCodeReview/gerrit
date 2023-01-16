@@ -213,6 +213,24 @@
       "parentUuid": "04e4c381_38a4bac5",
       "revId": "60528f33c9d841f7617221edd462d29e53c617ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "259f7e53_7f047ffe",
+        "filename": "THIS_IS_A_TEST_CHANGE",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-16T14:24:09Z",
+      "side": 1,
+      "message": "Resolved draft",
+      "parentUuid": "a6f27918_f5ff34ec",
+      "revId": "60528f33c9d841f7617221edd462d29e53c617ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

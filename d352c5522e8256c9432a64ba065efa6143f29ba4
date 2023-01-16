@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c90fb0_5fe1840d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T14:14:59Z",
+      "side": 1,
+      "message": "It also needs to reland [1].\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356334",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b4729539_150d7a5e",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-01-16T13:42:20Z",
       "side": 1,
       "message": "Patchset 1 is the original revert, so it should be identical to the original change.",
+      "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eb86d10_9836806f",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T14:14:59Z",
+      "side": 1,
+      "message": "nit: move this up, so that the order here is the same as for the parameters above",
       "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

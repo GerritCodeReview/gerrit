@@ -162,12 +162,34 @@ public abstract class TestProjectUpdate {
 
   /** Starts a builder for allowing a label permission. */
   public static TestLabelPermission.Builder allowLabel(String name) {
-    return TestLabelPermission.builder().name(name).action(PermissionRule.Action.ALLOW);
+    return TestLabelPermission.builder()
+        .name(name)
+        .isAddPermission(true)
+        .action(PermissionRule.Action.ALLOW);
   }
 
   /** Starts a builder for denying a label permission. */
   public static TestLabelPermission.Builder blockLabel(String name) {
-    return TestLabelPermission.builder().name(name).action(PermissionRule.Action.BLOCK);
+    return TestLabelPermission.builder()
+        .name(name)
+        .isAddPermission(true)
+        .action(PermissionRule.Action.BLOCK);
+  }
+
+  /** Starts a builder for allowing a remove-label permission. */
+  public static TestLabelPermission.Builder allowLabelRemoval(String name) {
+    return TestLabelPermission.builder()
+        .name(name)
+        .isAddPermission(false)
+        .action(PermissionRule.Action.ALLOW);
+  }
+
+  /** Starts a builder for denying a remove-label permission. */
+  public static TestLabelPermission.Builder blockLabelRemoval(String name) {
+    return TestLabelPermission.builder()
+        .name(name)
+        .isAddPermission(false)
+        .action(PermissionRule.Action.BLOCK);
   }
 
   /** Records a label permission to be updated. */
@@ -191,6 +213,8 @@ public abstract class TestProjectUpdate {
 
     abstract boolean impersonation();
 
+    abstract boolean isAddPermission();
+
     /** Builder for {@link TestLabelPermission}. */
     @AutoValue.Builder
     public abstract static class Builder {
@@ -207,6 +231,8 @@ public abstract class TestProjectUpdate {
       abstract Builder min(int min);
 
       abstract Builder max(int max);
+
+      abstract Builder isAddPermission(boolean isAddPermission);
 
       /** Sets the minimum and maximum values for the permission. */
       public Builder range(int min, int max) {
@@ -241,6 +267,12 @@ public abstract class TestProjectUpdate {
   public static TestPermissionKey.Builder labelPermissionKey(String name) {
     checkLabelName(name);
     return TestPermissionKey.builder().name(Permission.forLabel(name));
+  }
+
+  /** Starts a builder for describing a label removal permission key for deletion. */
+  public static TestPermissionKey.Builder labelRemovalPermissionKey(String name) {
+    checkLabelName(name);
+    return TestPermissionKey.builder().name(Permission.forRemoveLabel(name));
   }
 
   /** Starts a builder for describing a capability key for deletion. */

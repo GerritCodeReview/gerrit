@@ -105,6 +105,7 @@ public class ChangeInfo {
   public Map<String, ActionInfo> actions;
   public Map<String, LabelInfo> labels;
   public Map<String, Collection<String>> permittedLabels;
+  public Map<String, Map<String, List<AccountInfo>>> removableLabels;
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Map<ReviewerState, Collection<AccountInfo>> pendingReviewers;

@@ -16,5 +16,5 @@ package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
 
-/** A {@link ChangePermission} or a {@link LabelPermission}. */
+/** A {@link ChangePermission} or a {@link AbstractLabelPermission}. */
 public interface ChangePermissionOrLabel extends GerritPermission {}

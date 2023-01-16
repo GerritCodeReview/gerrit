@@ -70,6 +70,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34ef256d_5802dfed",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-16T08:05:20Z",
+      "side": 1,
+      "message": "Not quite certain what has triggered this debate regarding recommending the users of the API to use the **actual** unique identifier (i.e. project~change-number due to the way the change-ref is formatted) when possible to ensure a correct response.\n\n\u003e Better than adding this warning would be to treat the 0.5s staleness for Lucene as a bug that we should try to fix. We should at least include a link to that bug here for better context. Does that make sense to you?\n\nNo, that doesn\u0027t make sense to me. We should inform Gerrit users about this type of behavior to spare them from running into these types of corner-cases or at least give them a chance to figure out what happened without having a deep understanding of the source-code and dig through that for a couple of days to find the answer (as I had to do).\nIf we should consider this a bug than at least it\u0027s a known bug and should be documented which would mean adding a sentence to this statement saying that we mean to fix this situation.\nBut even if we get the read latency down to 0.1 second it still is more stable to use project~change-number since it is the **actual** identifier.\n\n\u003e Also, that covers the false-negative case, but I still don\u0027t see how you can get a false-positive. Do you have an example in mind for that?\n\nDeleting a change.",
+      "parentUuid": "36b78503_c276a7b0",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

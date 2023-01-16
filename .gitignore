@@ -31,6 +31,8 @@ js-to-ts.sh
 /infer-out
 /local.properties
 /node_modules/
+/polygerrit-ui/node_modules/
+/polygerrit-ui/app/node_modules/
 /package-lock.json
 /plugins/*
 /polygerrit-ui/coverage/

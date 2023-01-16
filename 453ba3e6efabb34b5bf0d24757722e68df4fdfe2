@@ -46,6 +46,53 @@
       },
       "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bb4731b_951cbf5f",
+        "filename": "polygerrit-ui/app/services/scheduler/queueing-scheduler.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-16T10:19:25Z",
+      "side": 1,
+      "message": "maybe we can find a better name for this class then? Especially if you already do not like the word `queueing` 😂. Alternatively throttleMs could be configuration to maxinflightscheduler, especially if this scheduler is not composing properly with other schedulers (see other comment).",
+      "parentUuid": "ab621dcb_4c1ec1a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca0e700_806bbea7",
+        "filename": "polygerrit-ui/app/services/scheduler/queueing-scheduler.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-16T10:19:25Z",
+      "side": 1,
+      "message": "if there is a 2s request with several 1ms requests after, won\u0027t all the fast requests get pushed into `base` while they wait for the slow request? From there they won\u0027t really be throttled once 2s request finishes and that seems like a bug",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 80
+      },
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

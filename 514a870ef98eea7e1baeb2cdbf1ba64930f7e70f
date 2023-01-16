@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "443d88c3_a459cab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T09:49:26Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "514a870ef98eea7e1baeb2cdbf1ba64930f7e70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90f283d7_6791e8ae",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "432113d6_64eaa848",
+        "filename": "polygerrit-ui/app/services/scheduler/throttling-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T09:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90f283d7_6791e8ae",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 32
+      },
+      "revId": "514a870ef98eea7e1baeb2cdbf1ba64930f7e70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41eb5dd0_5f5efba8",
@@ -37,6 +78,30 @@
       "writtenOn": "2023-01-16T09:42:55Z",
       "side": 1,
       "message": "What\u0027s the purpose of of `busy`? If the purpose that we don\u0027t want two `next` run at the same time, than I think it makes sense to set it right after `if (this.busy) return;` line.\n\nCould you add comment explaining the logic.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "514a870ef98eea7e1baeb2cdbf1ba64930f7e70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f34dcc3a_beabec14",
+        "filename": "polygerrit-ui/app/services/scheduler/throttling-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-16T09:49:26Z",
+      "side": 1,
+      "message": "We should only be setting busy to true if we know we started a task, otherwise you risk never ending up calling a task and finally marking busy as false.",
+      "parentUuid": "41eb5dd0_5f5efba8",
       "range": {
         "startLine": 43,
         "startChar": 4,

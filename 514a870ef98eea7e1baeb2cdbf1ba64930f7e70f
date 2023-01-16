@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f283d7_6791e8ae",
+        "filename": "polygerrit-ui/app/services/scheduler/throttling-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-16T09:42:55Z",
+      "side": 1,
+      "message": "I would suggest renaming to QueueingScheduler or something similar. When I see \"throttling\" I am not sure whether the over the limit request are dropped or queued (and I would assume dropped)\n\nAdditionally, please add class level doc comment",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 32
+      },
+      "revId": "514a870ef98eea7e1baeb2cdbf1ba64930f7e70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41eb5dd0_5f5efba8",
+        "filename": "polygerrit-ui/app/services/scheduler/throttling-scheduler.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-16T09:42:55Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of of `busy`? If the purpose that we don\u0027t want two `next` run at the same time, than I think it makes sense to set it right after `if (this.busy) return;` line.\n\nCould you add comment explaining the logic.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "514a870ef98eea7e1baeb2cdbf1ba64930f7e70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

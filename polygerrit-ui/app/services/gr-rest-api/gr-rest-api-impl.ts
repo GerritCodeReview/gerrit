@@ -143,9 +143,10 @@ import {firePageError, fireServerError} from '../../utils/event-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {addDraftProp, DraftInfo} from '../../utils/comment-util';
-import {BaseScheduler} from '../scheduler/scheduler';
+import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
+import {ThrottlingScheduler} from '../scheduler/throttling-scheduler';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -270,6 +271,14 @@ function createReadScheduler() {
 function createWriteScheduler() {
   return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5);
 }
+
+function createThrottlingScheduler() {
+  return new ThrottlingScheduler<Response>(
+    new BaseScheduler<Response>(),
+    500
+  );
+}
+
 export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _cache = siteBasedCache; // Shared across instances.
 
@@ -286,6 +295,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // Private, but used in tests.
   readonly _restApiHelper: GrRestApiHelper;
 
+  // Used to throttle requests for certain RPCs
+  readonly _throttler: Scheduler<Response>;
+
   constructor(private readonly authService: AuthService) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
@@ -294,6 +306,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       createReadScheduler(),
       createWriteScheduler()
     );
+    this._throttler = createThrottlingScheduler();
   }
 
   finalize() {}
@@ -2232,11 +2245,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this.getFromProjectLookup(changeNum).then(project => {
       const encodedRepoName = project ? encodeURIComponent(project) + '~' : '';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
-      return this._restApiHelper.send({
-        method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
-        url,
-        anonymizedUrl: '/accounts/self/starred.changes/*',
-      });
+      return this._throttler.schedule(() =>
+        this._restApiHelper.send({
+          method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
+          url,
+          anonymizedUrl: '/accounts/self/starred.changes/*',
+        })
+      );
     });
   }
 

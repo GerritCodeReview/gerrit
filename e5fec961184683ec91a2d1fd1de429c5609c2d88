@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bf5f1e1_8d9c4229",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:20:47Z",
+      "side": 1,
+      "message": "Please add:\nBug: Google b/265447204\nBug: Google b/245706858",
+      "revId": "e5fec961184683ec91a2d1fd1de429c5609c2d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c622cd75_391626fe",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

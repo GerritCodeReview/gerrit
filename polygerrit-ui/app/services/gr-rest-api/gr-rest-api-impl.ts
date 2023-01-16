@@ -143,7 +143,7 @@ import {firePageError, fireServerError} from '../../utils/event-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {addDraftProp, DraftInfo} from '../../utils/comment-util';
-import {BaseScheduler} from '../scheduler/scheduler';
+import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 
@@ -270,6 +270,11 @@ function createReadScheduler() {
 function createWriteScheduler() {
   return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5);
 }
+
+function createQueueingScheduler() {
+  return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 1);
+}
+
 export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _cache = siteBasedCache; // Shared across instances.
 
@@ -286,6 +291,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // Private, but used in tests.
   readonly _restApiHelper: GrRestApiHelper;
 
+  // Used to queue and rate-limit requests for certain RPCs
+  readonly _queue: Scheduler<Response>;
+
   constructor(private readonly authService: AuthService) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
@@ -294,6 +302,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       createReadScheduler(),
       createWriteScheduler()
     );
+    this._queue = createQueueingScheduler();
   }
 
   finalize() {}
@@ -2232,11 +2241,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this.getFromProjectLookup(changeNum).then(project => {
       const encodedRepoName = project ? encodeURIComponent(project) + '~' : '';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
-      return this._restApiHelper.send({
-        method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
-        url,
-        anonymizedUrl: '/accounts/self/starred.changes/*',
-      });
+      return this._queue.schedule(() =>
+        this._restApiHelper.send({
+          method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
+          url,
+          anonymizedUrl: '/accounts/self/starred.changes/*',
+        })
+      );
     });
   }
 

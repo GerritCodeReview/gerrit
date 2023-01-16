@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a76b37b0_8733110b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-16T09:43:40Z",
+      "side": 1,
+      "message": "The addition of the new permission is not the issue. The problem is that the behaviour of the existing Remove Reviewer permission has been changed accidentally so that users with this permission can no longer remove votes.\n\nMaybe make this a bit clearer?",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "da8cd93601620af5fad2bfdd2f246c535d923a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20833fc6_8db9c6a9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

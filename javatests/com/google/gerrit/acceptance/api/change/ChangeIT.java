@@ -162,6 +162,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
@@ -3097,7 +3098,11 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
 
-    createChange();
+    PushOneCommit.Result change = createChange();
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
 
     requestScopeOperations.setApiUser(user.id());
     try (AutoCloseable ignored = disableNoteDb()) {
@@ -3106,6 +3111,34 @@ public class ChangeIT extends AbstractDaemonTest {
                   .query()
                   .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
                   .withOptions(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                  .get())
+          .hasSize(2);
+    }
+  }
+
+  @Test
+  public void nonLazyloadQueryOptionsDoNotTouchDatabase() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+    PushOneCommit.Result change = createChange();
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
+
+    requestScopeOperations.setApiUser(user.id());
+    try (AutoCloseable ignored = disableNoteDb()) {
+      assertThat(
+              gApi.changes()
+                  .query()
+                  .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
+                  .withOptions(EnumSet.complementOf(EnumSet.copyOf(ChangeJson.REQUIRE_LAZY_LOAD)))
                   .get())
           .hasSize(2);
     }
@@ -4393,8 +4426,12 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
-    int number = gApi.changes().id(change.getChangeId()).get()._number;
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
 
+    int number = gApi.changes().id(change.getChangeId()).get()._number;
     try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
       assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());

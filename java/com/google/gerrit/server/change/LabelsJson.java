@@ -161,8 +161,7 @@ public class LabelsJson {
       if (!labelType.isPresent()) {
         continue;
       }
-      if (!deleteVoteControl.testDeleteVotePermissions(
-          user, cd.notes(), approval, labelType.get())) {
+      if (!deleteVoteControl.testDeleteVotePermissions(user, cd, approval, labelType.get())) {
         continue;
       }
       if (!res.containsKey(approval.label())) {

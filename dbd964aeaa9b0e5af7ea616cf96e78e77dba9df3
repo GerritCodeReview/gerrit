@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure we need a migration plan. It was unintended to change the behaviour of the Remove Reviewer permission, and I think we just want to restore its behaviour?",
       "revId": "dbd964aeaa9b0e5af7ea616cf96e78e77dba9df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6ace7a3_502b175c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-16T09:19:18Z",
+      "side": 1,
+      "message": "https://gerrit-review.git.corp.google.com/c/gerrit/+/356263 handles this option and increases the test coverage.",
+      "parentUuid": "4ee0915d_ecafe94f",
+      "revId": "dbd964aeaa9b0e5af7ea616cf96e78e77dba9df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

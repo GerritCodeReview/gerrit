@@ -159,7 +159,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
       return AccountPredicates.preferredEmail(email);
     }
 
-    throw new QueryParseException("'email' operator is not supported on this gerrit host");
+    throw new QueryParseException("'email' operator is not supported by account index version");
   }
 
   @Operator

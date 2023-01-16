@@ -1140,10 +1140,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     if (text.startsWith("^")) {
-      if (!args.index.getSchema().hasField(ChangeField.COMMIT_MESSAGE_EXACT)) {
-        throw new QueryParseException(
-            "'message' operator with regular expression is not supported by change index version");
-      }
+      checkFieldAvailable(ChangeField.COMMIT_MESSAGE_EXACT, "messageexact");
       return new RegexMessagePredicate(text);
     }
     return ChangePredicates.message(text);

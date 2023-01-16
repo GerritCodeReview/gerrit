@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6357160_fdc38634",
+        "filename": "polygerrit-ui/app/services/scheduler/queueing-scheduler.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-16T10:01:26Z",
+      "side": 1,
+      "message": "doesn\u0027t maxinflightscheduler already queue?",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "453ba3e6efabb34b5bf0d24757722e68df4fdfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

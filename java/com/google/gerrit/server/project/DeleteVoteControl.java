@@ -26,21 +26,25 @@ import com.google.gerrit.server.permissions.LabelRemovalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Set;
 
 public class DeleteVoteControl {
   private final PermissionBackend permissionBackend;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  public DeleteVoteControl(PermissionBackend permissionBackend) {
+  public DeleteVoteControl(
+      PermissionBackend permissionBackend, ChangeData.Factory changeDataFactory) {
     this.permissionBackend = permissionBackend;
+    this.changeDataFactory = changeDataFactory;
   }
 
   public void checkDeleteVotePermissions(
       CurrentUser user, ChangeNotes notes, PatchSetApproval approval, LabelType labelType)
       throws AuthException, PermissionBackendException {
-    if (testDeleteVotePermissions(user, notes, approval, labelType)) {
+    if (testDeleteVotePermissions(user, changeDataFactory.create(notes), approval, labelType)) {
       return;
     }
     throw new AuthException(
@@ -49,15 +53,15 @@ public class DeleteVoteControl {
   }
 
   public boolean testDeleteVotePermissions(
-      CurrentUser user, ChangeNotes notes, PatchSetApproval approval, LabelType labelType)
+      CurrentUser user, ChangeData cd, PatchSetApproval approval, LabelType labelType)
       throws PermissionBackendException {
     if (canRemoveReviewerWithoutRemoveLabelPermission(
-        notes.getChange(), user, approval.accountId(), approval.value())) {
+        cd.change(), user, approval.accountId(), approval.value())) {
       return true;
     }
     // Test if the user is allowed to remove vote of the given label type and value.
     Set<LabelRemovalPermission.WithValue> allowed =
-        permissionBackend.user(user).change(notes).testRemoval(labelType);
+        permissionBackend.user(user).change(cd).testRemoval(labelType);
     return allowed.contains(new LabelRemovalPermission.WithValue(labelType, approval.value()));
   }
 

@@ -14,24 +14,14 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
-import static java.util.Objects.requireNonNull;
+import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.SELF;
 
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label. */
-public class LabelPermission implements ChangePermissionOrLabel {
-  public enum ForUser {
-    SELF,
-    ON_BEHALF_OF;
-  }
-
-  private final ForUser forUser;
-  private final String name;
-
+public class LabelPermission extends AbstractLabelPermission {
   /**
    * Construct a reference to a label permission.
    *
@@ -67,55 +57,16 @@ public class LabelPermission implements ChangePermissionOrLabel {
    * @param name name of the label, e.g. {@code "Code-Review"} or {@code "Verified"}.
    */
   public LabelPermission(ForUser forUser, String name) {
-    this.forUser = requireNonNull(forUser, "ForUser");
-    this.name = LabelType.checkName(name);
-  }
-
-  /** Returns {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
-  public ForUser forUser() {
-    return forUser;
-  }
-
-  /** Returns name of the label, e.g. {@code "Code-Review"}. */
-  public String label() {
-    return name;
+    super(forUser, name);
   }
 
   @Override
-  public String describeForException() {
-    if (forUser == ON_BEHALF_OF) {
-      return "label on behalf of " + name;
-    }
-    return "label " + name;
-  }
-
-  @Override
-  public int hashCode() {
-    return name.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other instanceof LabelPermission) {
-      LabelPermission b = (LabelPermission) other;
-      return forUser == b.forUser && name.equals(b.name);
-    }
-    return false;
-  }
-
-  @Override
-  public String toString() {
-    if (forUser == ON_BEHALF_OF) {
-      return "LabelAs[" + name + ']';
-    }
-    return "Label[" + name + ']';
+  public String permissionPrefix() {
+    return "label";
   }
 
   /** A {@link LabelPermission} at a specific value. */
-  public static class WithValue implements ChangePermissionOrLabel {
-    private final ForUser forUser;
-    private final LabelVote label;
-
+  public static class WithValue extends AbstractLabelPermission.WithValue {
     /**
      * Construct a reference to a label at a specific value.
      *
@@ -195,53 +146,12 @@ public class LabelPermission implements ChangePermissionOrLabel {
      * @param label label name and vote.
      */
     public WithValue(ForUser forUser, LabelVote label) {
-      this.forUser = requireNonNull(forUser, "ForUser");
-      this.label = requireNonNull(label, "LabelVote");
-    }
-
-    /** Returns {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
-    public ForUser forUser() {
-      return forUser;
-    }
-
-    /** Returns name of the label, e.g. {@code "Code-Review"}. */
-    public String label() {
-      return label.label();
-    }
-
-    /** Returns specific value of the label, e.g. 1 or 2. */
-    public short value() {
-      return label.value();
+      super(forUser, label);
     }
 
     @Override
-    public String describeForException() {
-      if (forUser == ON_BEHALF_OF) {
-        return "label on behalf of " + label.formatWithEquals();
-      }
-      return "label " + label.formatWithEquals();
-    }
-
-    @Override
-    public int hashCode() {
-      return label.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other instanceof WithValue) {
-        WithValue b = (WithValue) other;
-        return forUser == b.forUser && label.equals(b.label);
-      }
-      return false;
-    }
-
-    @Override
-    public String toString() {
-      if (forUser == ON_BEHALF_OF) {
-        return "LabelAs[" + label.format() + ']';
-      }
-      return "Label[" + label.format() + ']';
+    public String permissionName() {
+      return "label";
     }
   }
 }

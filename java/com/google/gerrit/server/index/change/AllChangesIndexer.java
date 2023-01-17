@@ -271,7 +271,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     @Override
     public String toString() {
-      return "Index all changes of project " + project.get();
+      if (slices == 1) {
+        return "Index all changes of project " + project.get();
+      }
+      return "Index changes slice " + slice + "/" + slices + " of project " + project.get();
     }
   }
 

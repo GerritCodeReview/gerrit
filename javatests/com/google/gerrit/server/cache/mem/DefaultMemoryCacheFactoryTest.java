@@ -19,16 +19,25 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalNotification;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheDef;
+import com.google.gerrit.server.cache.ForwardingRemovalListener;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.util.IdGenerator;
+import com.google.inject.Guice;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -48,20 +57,44 @@ public class DefaultMemoryCacheFactoryTest {
   private static final String TEST_CACHE = "test-cache";
   private static final long TEST_TIMEOUT_SEC = 1;
   private static final int TEST_CACHE_KEY = 1;
+  private static final int TEST_CACHE_VALUE = 2;
 
   private DefaultMemoryCacheFactory memoryCacheFactory;
+  private DefaultMemoryCacheFactory memoryCacheFactoryDirectExecutor;
+  private DefaultMemoryCacheFactory memoryCacheFactoryWithThreadPool;
   private Config memoryCacheConfig;
-  private ScheduledExecutorService executor;
+  private Config memoryCacheConfigDirectExecutor;
+  private Config memoryCacheConfigWithThreadPool;
   private CyclicBarrier cacheGetStarted;
   private CyclicBarrier cacheGetCompleted;
+  private CyclicBarrier evictionReceived;
+  private ForwardingRemovalTrackerListener forwardingRemovalListener;
+  private WorkQueue workQueue;
+  private ScheduledExecutorService executor;
 
   @Before
   public void setUp() {
+    IdGenerator idGenerator = Guice.createInjector().getInstance(IdGenerator.class);
+    workQueue = new WorkQueue(idGenerator, 10, new DisabledMetricMaker());
     memoryCacheConfig = new Config();
-    memoryCacheFactory = new DefaultMemoryCacheFactory(memoryCacheConfig, null);
+    memoryCacheConfigDirectExecutor = new Config();
+    memoryCacheConfigDirectExecutor.setInt("cache", null, "threads", 0);
+    memoryCacheConfigWithThreadPool = new Config();
+    memoryCacheConfigWithThreadPool.setInt("cache", null, "threads", 1);
+    forwardingRemovalListener = new ForwardingRemovalTrackerListener();
+    memoryCacheFactory =
+        new DefaultMemoryCacheFactory(
+            memoryCacheConfig, (cache) -> forwardingRemovalListener, workQueue);
+    memoryCacheFactoryDirectExecutor =
+        new DefaultMemoryCacheFactory(
+            memoryCacheConfigDirectExecutor, (cache) -> forwardingRemovalListener, workQueue);
+    memoryCacheFactoryWithThreadPool =
+        new DefaultMemoryCacheFactory(
+            memoryCacheConfigWithThreadPool, (cache) -> forwardingRemovalListener, workQueue);
     executor = Executors.newScheduledThreadPool(1);
     cacheGetStarted = new CyclicBarrier(2);
     cacheGetCompleted = new CyclicBarrier(2);
+    evictionReceived = new CyclicBarrier(2);
   }
 
   @Test
@@ -94,6 +127,46 @@ public class DefaultMemoryCacheFactoryTest {
 
     assertThat(cacheValue.isDone()).isTrue();
     assertThat(cacheValue.get()).isEqualTo(TEST_CACHE_KEY);
+  }
+
+  @Test
+  public void shouldRunEvictionListenerInBackgroundByDefault() throws Exception {
+    shouldRunEvictionListenerInThreadPool(memoryCacheFactory, "ForkJoinPool");
+  }
+
+  @Test
+  public void shouldRunEvictionListenerInThreadPool() throws Exception {
+    shouldRunEvictionListenerInThreadPool(
+        memoryCacheFactoryWithThreadPool, DefaultMemoryCacheFactory.CACHE_EXECUTOR_PREFIX);
+  }
+
+  private void shouldRunEvictionListenerInThreadPool(
+      DefaultMemoryCacheFactory cacheFactory, String threadPoolPrefix) throws Exception {
+    LoadingCache<Integer, Integer> cache =
+        cacheFactory.build(newCacheDef(1), newCacheLoader(identity()), CacheBackend.CAFFEINE);
+
+    cache.put(TEST_CACHE_KEY, TEST_CACHE_VALUE);
+    cache.invalidate(TEST_CACHE_KEY);
+
+    assertThat(forwardingRemovalListener.contains(TEST_CACHE_KEY, TEST_CACHE_VALUE)).isFalse();
+
+    evictionReceived.await(TEST_TIMEOUT_SEC, TimeUnit.SECONDS);
+
+    assertThat(forwardingRemovalListener.contains(TEST_CACHE_KEY, TEST_CACHE_VALUE)).isTrue();
+    assertThat(forwardingRemovalListener.removalThreadName(TEST_CACHE_KEY))
+        .startsWith(threadPoolPrefix);
+  }
+
+  @Test
+  public void shouldRunEvictionListenerWithDirectExecutor() throws Exception {
+    LoadingCache<Integer, Integer> cache =
+        memoryCacheFactoryDirectExecutor.build(
+            newCacheDef(1), newCacheLoader(identity()), CacheBackend.CAFFEINE);
+
+    cache.put(TEST_CACHE_KEY, TEST_CACHE_VALUE);
+    cache.invalidate(TEST_CACHE_KEY);
+
+    assertThat(forwardingRemovalListener.contains(TEST_CACHE_KEY, TEST_CACHE_VALUE)).isTrue();
   }
 
   @Test
@@ -144,6 +217,48 @@ public class DefaultMemoryCacheFactoryTest {
             .collect(Collectors.toMap(identity(), identity()));
       }
     };
+  }
+
+  private class ForwardingRemovalTrackerListener extends ForwardingRemovalListener<Object, Object> {
+    private final ConcurrentHashMap<Object, Set<Object>> removalEvents;
+    private final ConcurrentHashMap<Object, String> removalThreads;
+
+    public ForwardingRemovalTrackerListener() {
+      super(null, null);
+
+      removalEvents = new ConcurrentHashMap<>();
+      removalThreads = new ConcurrentHashMap<>();
+    }
+
+    @Override
+    public void onRemoval(RemovalNotification<Object, Object> notification) {
+      Set<Object> setOfValues =
+          removalEvents.computeIfAbsent(
+              notification.getKey(),
+              (key) -> {
+                Set<Object> elements = ConcurrentHashMap.newKeySet();
+                return elements;
+              });
+      setOfValues.add(notification.getValue());
+
+      removalThreads.put(notification.getKey(), Thread.currentThread().getName());
+
+      try {
+        evictionReceived.await(TEST_TIMEOUT_SEC, TimeUnit.SECONDS);
+      } catch (InterruptedException | BrokenBarrierException | TimeoutException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+
+    private boolean contains(Object key, Object value) {
+      return Optional.ofNullable(removalEvents.get(key))
+          .map(sv -> sv.contains(value))
+          .orElse(false);
+    }
+
+    private String removalThreadName(Object key) {
+      return removalThreads.get(key);
+    }
   }
 
   private CacheDef<Integer, Integer> newCacheDef(long maximumWeight) {

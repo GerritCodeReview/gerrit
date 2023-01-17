@@ -8,11 +8,21 @@ import '../shared/gr-icon/gr-icon';
 import {LitElement, css, html, PropertyValues, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {RunResult} from '../../models/checks/checks-model';
-import {createFixAction, iconFor} from '../../models/checks/checks-util';
+import {
+  createFixAction,
+  createPleaseFixComment,
+  iconFor,
+} from '../../models/checks/checks-util';
 import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {Action} from '../../api/checks';
+import {assertIsDefined} from '../../utils/common-util';
+import {resolve} from '../../models/dependency';
+import {commentsModelToken} from '../../models/comments/comments-model';
+import {subscribe} from '../lit/subscription-controller';
+import {changeModelToken} from '../../models/change/change-model';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -31,6 +41,13 @@ export class GrDiffCheckResult extends LitElement {
 
   @state()
   isExpandable = false;
+
+  @state()
+  isOwner = false;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   static override get styles() {
     return [
@@ -114,6 +131,15 @@ export class GrDiffCheckResult extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
+    );
+  }
+
   override render() {
     if (!this.result) return;
     const cat = this.result.category.toLowerCase();
@@ -182,10 +208,27 @@ export class GrDiffCheckResult extends LitElement {
 
   private renderActions() {
     if (!this.isExpanded) return nothing;
-    return html`<div class="actions">${this.renderFixButton()}</div>`;
+    return html`<div class="actions">
+      ${this.renderPleaseFixButton()}${this.renderShowFixButton()}
+    </div>`;
   }
 
-  private renderFixButton() {
+  private renderPleaseFixButton() {
+    if (this.isOwner) return nothing;
+    const action: Action = {
+      name: 'Please Fix',
+      callback: () => {
+        assertIsDefined(this.result, 'result');
+        this.getCommentsModel().saveDraft(createPleaseFixComment(this.result));
+        return undefined;
+      },
+    };
+    return html`
+      <gr-checks-action context="diff-fix" .action=${action}></gr-checks-action>
+    `;
+  }
+
+  private renderShowFixButton() {
     const action = createFixAction(this, this.result);
     if (!action) return nothing;
     return html`

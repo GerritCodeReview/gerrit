@@ -743,6 +743,19 @@ By default, true.
 [[cache]]
 === Section cache
 
+[[cache.threads]]cache.threads::
++
+Number of threads to use when running asynchronous cache tasks.
+The threads executor is delegated to when sending removal notifications to listeners,
+when asynchronous computations like refresh, refreshAfterWrite are performed, or when
+performing periodic maintenance.
++
+**NOTE**: Setting it to 0 disables the dedicated thread pool and indexing will be done in the
+same thread as the operation. This may result in evictions taking longer because the
+listeners are executed in the caller's thread.
++
+By default, the JVM common ForkJoinPool is used.
+
 [[cache.directory]]cache.directory::
 +
 Path to a local directory where Gerrit can write cached entities for

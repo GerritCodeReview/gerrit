@@ -20,6 +20,7 @@ _java_ -jar gerrit.war _init_
   [--dev]
   [--skip-all-downloads]
   [--skip-download=<LIBRARY_NAME>]
+  [--reindex-threads=<N>]
 --
 
 == DESCRIPTION
@@ -98,6 +99,14 @@ objects these SQL statements must be executed manually.
 	Do not automatically download and install the library with the given name.
 	The administrator must manually install the required library in the `lib/`
 	folder.
+
+--show-cache-stats::
+	Show cache statistics at the end of program.
+
+--reindex-threads::
+	Number of threads to use for reindex after init. Defaults to 1. Can be
+	set to -1 to skip reindex after init. Skipping reindex will also not
+	automatically start the daemon.
 
 == CONTEXT
 This command can only be run on a server which has direct local access to the

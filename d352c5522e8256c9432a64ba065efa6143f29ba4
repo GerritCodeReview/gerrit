@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e9dd7676_08c7fcfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-17T13:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4c90fb0_5fe1840d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b4729539_150d7a5e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +78,24 @@
       "writtenOn": "2023-01-16T14:14:59Z",
       "side": 1,
       "message": "nit: move this up, so that the order here is the same as for the parameters above",
+      "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99bbf0a8_d9f2f00e",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-17T13:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb86d10_9836806f",
       "revId": "d352c5522e8256c9432a64ba065efa6143f29ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac381a76_c1a7ce5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-17T16:03:34Z",
+      "side": 1,
+      "message": "This seems like a good change and it\u0027s ok if it forces some change in the index-elasticsearch module. @kaushik.lingarkar@linaro.org can you take a closer look please at this change itself and also see what updates will be needed for the es module?",
+      "revId": "fd5052b6dad0e978b6a6dc392436821278cf5b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56aacc30_124be0a5",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-17T12:08:53Z",
+      "side": 0,
+      "message": "This might break the ElasticSearch implementation. However, this anyway seems like a bad workaround. It was introduced in I51ee5bfeb2a154630955b3c94b78fda7d050610d. It should rather be ensured that ElasticSearch uses the correct mapping types.",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "56d3e7c32273953462c0df586b09aa63e9a31f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

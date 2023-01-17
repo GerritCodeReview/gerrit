@@ -87,6 +87,13 @@ public class Rebase
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
+    rsrc.permissions().check(ChangePermission.REBASE);
+
+    projectCache
+        .get(rsrc.getProject())
+        .orElseThrow(illegalState(rsrc.getProject()))
+        .checkStatePermitsWrite();
+
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
@@ -94,7 +101,7 @@ public class Rebase
         RevWalk rw = CodeReviewCommit.newRevWalk(reader);
         BatchUpdate bu =
             updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      RebaseUtil.verifyRebasePreconditions(projectCache, patchSetUtil, rw, rsrc);
+      rebaseUtil.verifyRebasePreconditions(rw, rsrc.getNotes(), rsrc.getPatchSet());
 
       RebaseChangeOp rebaseOp =
           rebaseUtil.getRebaseOp(

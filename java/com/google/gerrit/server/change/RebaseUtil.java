@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -37,7 +35,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
@@ -70,30 +67,28 @@ public class RebaseUtil {
     this.rebaseFactory = rebaseFactory;
   }
 
-  public static void verifyRebasePreconditions(
-      ProjectCache projectCache, PatchSetUtil patchSetUtil, RevWalk rw, RevisionResource rsrc)
-      throws ResourceConflictException, IOException, AuthException, PermissionBackendException {
+  /**
+   * Checks whether the given change fulfills all preconditions to be rebased.
+   *
+   * <p>This method does not check whether the calling user is allowed to rebase the change.
+   */
+  public void verifyRebasePreconditions(RevWalk rw, ChangeNotes changeNotes, PatchSet patchSet)
+      throws ResourceConflictException, IOException {
     // Not allowed to rebase if the current patch set is locked.
-    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
+    psUtil.checkPatchSetNotLocked(changeNotes);
 
-    rsrc.permissions().check(ChangePermission.REBASE);
-    projectCache
-        .get(rsrc.getProject())
-        .orElseThrow(illegalState(rsrc.getProject()))
-        .checkStatePermitsWrite();
-
-    if (!rsrc.getChange().isNew()) {
+    Change change = changeNotes.getChange();
+    if (!change.isNew()) {
       throw new ResourceConflictException(
-          String.format(
-              "Change %s is %s", rsrc.getChange().getId(), ChangeUtil.status(rsrc.getChange())));
-    } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
+          String.format("Change %s is %s", change.getId(), ChangeUtil.status(change)));
+    }
+
+    if (!hasOneParent(rw, patchSet)) {
       throw new ResourceConflictException(
           String.format(
               "Error rebasing %s. Cannot rebase %s",
-              rsrc.getChange().getId(),
-              countParents(rw, rsrc.getPatchSet()) > 1
-                  ? "merge commits"
-                  : "commit with no ancestor"));
+              change.getId(),
+              countParents(rw, patchSet) > 1 ? "merge commits" : "commit with no ancestor"));
     }
   }
 

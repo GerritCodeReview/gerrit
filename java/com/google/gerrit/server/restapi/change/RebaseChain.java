@@ -113,7 +113,11 @@ public class RebaseChain
   @Override
   public Response<RebaseChainInfo> apply(ChangeResource tipRsrc, RebaseInput input)
       throws IOException, PermissionBackendException, RestApiException, UpdateException {
+    tipRsrc.permissions().check(ChangePermission.REBASE);
+
     Project.NameKey project = tipRsrc.getProject();
+    projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();
+
     CurrentUser user = tipRsrc.getUser();
 
     List<Change.Id> upToDateAncestors = new ArrayList<>();
@@ -136,7 +140,8 @@ public class RebaseChain
 
         RevisionResource revRsrc =
             new RevisionResource(changeResourceFactory.create(changeData, user), ps);
-        RebaseUtil.verifyRebasePreconditions(projectCache, patchSetUtil, rw, revRsrc);
+        revRsrc.permissions().check(ChangePermission.REBASE);
+        rebaseUtil.verifyRebasePreconditions(rw, changeData.notes(), ps);
 
         boolean isUpToDate = false;
         RebaseChangeOp rebaseOp = null;

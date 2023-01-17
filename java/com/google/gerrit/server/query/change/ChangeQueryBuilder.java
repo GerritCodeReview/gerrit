@@ -545,14 +545,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> mergedBefore(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_BEFORE);
+    checkOperatorAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_BEFORE);
     return new BeforePredicate(
         ChangeField.MERGED_ON_SPEC, ChangeQueryBuilder.OPERATOR_MERGED_BEFORE, value);
   }
 
   @Operator
   public Predicate<ChangeData> mergedAfter(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_AFTER);
+    checkOperatorAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_AFTER);
     return new AfterPredicate(
         ChangeField.MERGED_ON_SPEC, ChangeQueryBuilder.OPERATOR_MERGED_AFTER, value);
   }
@@ -635,7 +635,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("attention".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.ATTENTION_SET_USERS, "has:attention");
+      checkOperatorAvailable(ChangeField.ATTENTION_SET_USERS, "has:attention");
       return new IsAttentionPredicate();
     }
 
@@ -678,7 +678,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("uploader".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.UPLOADER_SPEC, "is:uploader");
+      checkOperatorAvailable(ChangeField.UPLOADER_SPEC, "is:uploader");
       return ChangePredicates.uploader(self());
     }
 
@@ -701,7 +701,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("merge".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.MERGE_SPEC, "is:merge");
+      checkOperatorAvailable(ChangeField.MERGE_SPEC, "is:merge");
       return new BooleanPredicate(ChangeField.MERGE_SPEC);
     }
 
@@ -710,7 +710,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("attention".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.ATTENTION_SET_USERS, "is:attention");
+      checkOperatorAvailable(ChangeField.ATTENTION_SET_USERS, "is:attention");
       return new IsAttentionPredicate();
     }
 
@@ -723,7 +723,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("pure-revert".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.IS_PURE_REVERT_SPEC, "is:pure-revert");
+      checkOperatorAvailable(ChangeField.IS_PURE_REVERT_SPEC, "is:pure-revert");
       return ChangePredicates.pureRevert("1");
     }
 
@@ -739,12 +739,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             Predicate.not(new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
             Predicate.not(new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)));
       }
-      checkFieldAvailable(ChangeField.IS_SUBMITTABLE_SPEC, "is:submittable");
+      checkOperatorAvailable(ChangeField.IS_SUBMITTABLE_SPEC, "is:submittable");
       return new IsSubmittablePredicate();
     }
 
     if ("started".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.STARTED_SPEC, "is:started");
+      checkOperatorAvailable(ChangeField.STARTED_SPEC, "is:started");
       return new BooleanPredicate(ChangeField.STARTED_SPEC);
     }
 
@@ -753,7 +753,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("cherrypick".equalsIgnoreCase(value)) {
-      checkFieldAvailable(ChangeField.CHERRY_PICK_SPEC, "is:cherrypick");
+      checkOperatorAvailable(ChangeField.CHERRY_PICK_SPEC, "is:cherrypick");
       return new BooleanPredicate(ChangeField.CHERRY_PICK_SPEC);
     }
 
@@ -888,7 +888,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.hashtag(hashtag);
     }
 
-    checkFieldAvailable(ChangeField.FUZZY_HASHTAG, "inhashtag");
+    checkOperatorAvailable(ChangeField.FUZZY_HASHTAG, "inhashtag");
     return ChangePredicates.fuzzyHashtag(hashtag);
   }
 
@@ -898,7 +898,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.hashtag(hashtag);
     }
 
-    checkFieldAvailable(ChangeField.PREFIX_HASHTAG, "prefixhashtag");
+    checkOperatorAvailable(ChangeField.PREFIX_HASHTAG, "prefixhashtag");
     return ChangePredicates.prefixHashtag(hashtag);
   }
 
@@ -924,7 +924,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.exactTopic(name);
     }
 
-    checkFieldAvailable(ChangeField.PREFIX_TOPIC, "prefixtopic");
+    checkOperatorAvailable(ChangeField.PREFIX_TOPIC, "prefixtopic");
     return ChangePredicates.prefixTopic(name);
   }
 
@@ -990,7 +990,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> hasfooter(String footerName) throws QueryParseException {
-    checkFieldAvailable(ChangeField.FOOTER_NAME, "hasfooter");
+    checkOperatorAvailable(ChangeField.FOOTER_NAME, "hasfooter");
     return ChangePredicates.hasFooter(footerName);
   }
 
@@ -1141,7 +1141,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     if (text.startsWith("^")) {
-      checkFieldAvailable(ChangeField.COMMIT_MESSAGE_EXACT, "messageexact");
+      checkFieldAvailable(
+          ChangeField.COMMIT_MESSAGE_EXACT,
+          "'message' operator with regular expression is not supported on this gerrit host");
       return new RegexMessagePredicate(text);
     }
     return ChangePredicates.message(text);
@@ -1149,13 +1151,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> subject(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.SUBJECT_SPEC, ChangeQueryBuilder.FIELD_SUBJECT);
+    checkOperatorAvailable(ChangeField.SUBJECT_SPEC, ChangeQueryBuilder.FIELD_SUBJECT);
     return ChangePredicates.subject(value);
   }
 
   @Operator
   public Predicate<ChangeData> prefixsubject(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.PREFIX_SUBJECT_SPEC, ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);
+    checkOperatorAvailable(
+        ChangeField.PREFIX_SUBJECT_SPEC, ChangeQueryBuilder.FIELD_PREFIX_SUBJECT);
     return ChangePredicates.prefixSubject(value);
   }
 
@@ -1243,7 +1246,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> uploader(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    checkFieldAvailable(ChangeField.UPLOADER_SPEC, "uploader");
+    checkOperatorAvailable(ChangeField.UPLOADER_SPEC, "uploader");
     return uploader(parseAccount(who, (AccountState s) -> true));
   }
 
@@ -1258,7 +1261,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> attention(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    checkFieldAvailable(ChangeField.ATTENTION_SET_USERS, "attention");
+    checkOperatorAvailable(ChangeField.ATTENTION_SET_USERS, "attention");
     return attention(parseAccount(who, (AccountState s) -> true));
   }
 
@@ -1303,7 +1306,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> uploaderin(String group) throws QueryParseException, IOException {
-    checkFieldAvailable(ChangeField.UPLOADER_SPEC, "uploaderin");
+    checkOperatorAvailable(ChangeField.UPLOADER_SPEC, "uploaderin");
 
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
@@ -1569,8 +1572,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> cherryPickOf(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.CHERRY_PICK_OF_CHANGE, "cherryPickOf");
-    checkFieldAvailable(ChangeField.CHERRY_PICK_OF_PATCHSET, "cherryPickOf");
+    checkOperatorAvailable(ChangeField.CHERRY_PICK_OF_CHANGE, "cherryPickOf");
+    checkOperatorAvailable(ChangeField.CHERRY_PICK_OF_PATCHSET, "cherryPickOf");
     if (Ints.tryParse(value) != null) {
       return ChangePredicates.cherryPickOf(Change.id(Ints.tryParse(value)));
     }
@@ -1642,11 +1645,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return Predicate.or(predicates);
   }
 
-  protected void checkFieldAvailable(SchemaField<ChangeData, ?> field, String operator)
+  private void checkOperatorAvailable(SchemaField<ChangeData, ?> field, String operator)
+      throws QueryParseException {
+    checkFieldAvailable(
+        field, String.format("'%s' operator is not supported on this gerrit host", operator));
+  }
+
+  protected void checkFieldAvailable(SchemaField<ChangeData, ?> field, String errorMessage)
       throws QueryParseException {
     if (!args.index.getSchema().hasField(field)) {
-      throw new QueryParseException(
-          String.format("'%s' operator is not supported on this gerrit host", operator));
+      throw new QueryParseException(errorMessage);
     }
   }
 

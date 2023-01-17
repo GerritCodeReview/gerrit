@@ -666,6 +666,30 @@
       },
       "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6c8dca6_c214b67d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-17T12:27:45Z",
+      "side": 1,
+      "message": "If the same username is used for the new email, then it should fail. Usernames as emails are unique in Gerrit. However, one username can have multiple emails configured and can if the security realm allows it also switch the primary email being used.\nI read your test like this:\n- User `foo` with email `bar@example.com` logs into Gerrit via LDAP\n- The `username:foo` and `gerrit:foo` external IDs are being created by Gerrit\n- Switch to Oauth\n- User `foo` with email `baz@example.com` logs into Gerrit via Oauth\n- Gerrit deletes `gerrit:foo` ExternalID and creates `google-oauth:foo` ExternalID\nHowever, this should fail, since the username exists, but the email addresses do not match.\n\nIn the last Patchset the email did not change, but the account ID did. However, since we still have the same user as identified by the username and email, the accountID should not change, since it is still the same account, just with a changed set of ExternalIDs. This is also reflected by the runtime code. The assertion should thus fail. I think your assumption that real accounts are created by your tests may be wrong. No accounts are persisted. Thus, for the second authRequest the complete account and with it the `username:foo` ExternalID is recreated. If not, there is a bug that would allow duplicate usernames between accounts.\n\nFrom your comment and the test method name, you want to test that the account linking fails, if the emails don\u0027t match or no email was provided. A valid test case, but that is not tested here. Also in that case, if the username stays the same, an Exception like \"Username already exists in different account\" would be expected.",
+      "parentUuid": "81280232_bed8ba9a",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

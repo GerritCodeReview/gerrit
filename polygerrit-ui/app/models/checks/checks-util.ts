@@ -14,12 +14,13 @@ import {
   Replacement,
   RunStatus,
 } from '../../api/checks';
-import {PatchSetNumber} from '../../api/rest-api';
+import {PatchSetNumber, RevisionPatchSetNum} from '../../api/rest-api';
+import {CommentSide} from '../../constants/constants';
 import {FixSuggestionInfo, FixReplacementInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID} from '../../utils/comment-util';
-import {assert, assertNever} from '../../utils/common-util';
+import {PROVIDED_FIX_ID, UnsavedInfo} from '../../utils/comment-util';
+import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
 
@@ -84,6 +85,27 @@ export function tooltipForLink(linkIcon?: LinkIcon) {
       // linkIcon.
       return 'Link to details';
   }
+}
+
+function pleaseFixMessage(result: RunResult) {
+  return `Please fix this ${result.category} reported by ${result.checkName}: ${result.summary}
+
+${result.message}`;
+}
+
+export function createPleaseFixComment(result: RunResult): UnsavedInfo {
+  const pointer = result.codePointers?.[0];
+  assertIsDefined(pointer, 'codePointer');
+  return {
+    __unsaved: true,
+    path: pointer.path,
+    patch_set: result.patchset as RevisionPatchSetNum,
+    side: CommentSide.REVISION,
+    line: pointer.range.end_line ?? pointer.range.start_line,
+    range: pointer.range,
+    message: pleaseFixMessage(result),
+    unresolved: true,
+  };
 }
 
 export function createFixAction(

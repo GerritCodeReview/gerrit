@@ -2152,6 +2152,12 @@ export class GrChangeView extends LitElement {
     // 2. We have to somehow trigger the change-model reloading. Otherwise
     //    this.change is not updated.
     if (this.changeNum) {
+      if (!this._patchRange?.patchNum) {
+        this._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: computeLatestPatchNum(this.allPatchSets),
+        };
+      }
       fireReload(this);
       return;
     }

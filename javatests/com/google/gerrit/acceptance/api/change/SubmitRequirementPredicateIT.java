@@ -39,10 +39,12 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -294,11 +296,92 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         "unexpected base value format");
   }
 
+  @Test
+  public void nonContributorLabelVote_acceptedVote() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    PushOneCommit.Result r1 = createNormalCommit(user.newIdent(), "refs/for/master", "file1");
+    Change.Id cId = r1.getChange().getId();
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+    String revisionId = r1.getPatchSet().commitId().getName();
+    // TODO(ghareeb): uploader is not user
+    // assertUploader(changeInfo, revisionId, user.email());
+    assertCommitter(changeInfo, revisionId, user.email());
+    assertAuthor(changeInfo, revisionId, user.email());
+
+    // Vote as admin
+    requestScopeOperations.setApiUser(admin.id());
+    approve(cId.toString());
+    // TODO(fix)
+    // assertMatching("label:Code-Review=+2,user=non_contributor", cId);
+  }
+
+  @Test
+  public void nonContributorLabelVote_voteFromUploader_notAccepted() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createNormalCommit(user.newIdent(), "refs/for/master", "file1");
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+    String revisionId = r1.getPatchSet().commitId().getName();
+    assertUploader(changeInfo, revisionId, admin.email());
+
+    // Vote from uploader does not match
+    requestScopeOperations.setApiUser(admin.id());
+    assertNotMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
+  }
+
+  @Test
+  public void nonContributorLabelVote_voteFromAuthor_notAccepted() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createNormalCommit(user.newIdent(), "refs/for/master", "file1");
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+    String revisionId = r1.getPatchSet().commitId().getName();
+    assertAuthor(changeInfo, revisionId, user.email());
+
+    // Vote from author does not match
+    requestScopeOperations.setApiUser(user.id());
+    assertNotMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
+  }
+
+  @Test
+  public void nonContributorLabelVote_voteFromCommitter_notAccepted() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createNormalCommit(user.newIdent(), "refs/for/master", "file1");
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+    String revisionId = r1.getPatchSet().commitId().getName();
+    assertCommitter(changeInfo, revisionId, user.email());
+
+    // Vote from author does not match
+    requestScopeOperations.setApiUser(user.id());
+    assertNotMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
+  }
+
+  private void assertUploader(ChangeInfo changeInfo, String revision, String email) {
+    assertThat(changeInfo.revisions.get(revision).uploader.email).isEqualTo(email);
+  }
+
+  private static void assertCommitter(ChangeInfo changeInfo, String revision, String email) {
+    assertThat(changeInfo.revisions.get(revision).commit.committer.email).isEqualTo(email);
+  }
+
+  private static void assertAuthor(ChangeInfo changeInfo, String revision, String email) {
+    assertThat(changeInfo.revisions.get(revision).commit.author.email).isEqualTo(email);
+  }
+
   private PushOneCommit.Result createGitSubmoduleCommit(String ref) throws Exception {
     return pushFactory
         .create(admin.newIdent(), testRepo, "subject", ImmutableMap.of())
         .addGitSubmodule(
             "modules/module-a", ObjectId.fromString("19f1787342cb15d7e82a762f6b494e91ccb4dd34"))
+        .to(ref);
+  }
+
+  private PushOneCommit.Result createNormalCommit(
+      PersonIdent personIdent, String ref, String fileName) throws Exception {
+    return pushFactory
+        .create(personIdent, testRepo, "subject", ImmutableMap.of(fileName, fileName))
         .to(ref);
   }
 

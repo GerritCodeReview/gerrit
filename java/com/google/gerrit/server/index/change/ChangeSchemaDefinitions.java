@@ -238,6 +238,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .addSearchSpecs(ChangeField.PREFIX_SUBJECT_SPEC)
           .build();
 
+  // TODO: add javadocs
+  static final Schema<ChangeData> V82 = new Schema.Builder<ChangeData>().add(V81).build();
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

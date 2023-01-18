@@ -15,22 +15,30 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.submitrequirement.predicate.ConstantPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.DistinctVotersPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate.FileEditsArgs;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
+import com.google.gerrit.server.submitrequirement.predicate.NonContributorLabelPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPredicate;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
  * A query builder for submit requirement expressions that includes all {@link ChangeQueryBuilder}
@@ -45,6 +53,10 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   private final DistinctVotersPredicate.Factory distinctVotersPredicateFactory;
   private final HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory;
+  private final NonContributorLabelPredicate.Factory labelSrPredicateFactory;
+
+  public static final String ARG_ID_NON_CONTRIBUTOR = "non_contributor";
+  public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
 
   /**
    * Regular expression for the {@link #file(String)} operator. Field value is of the form:
@@ -66,11 +78,13 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       Arguments args,
       DistinctVotersPredicate.Factory distinctVotersPredicateFactory,
       FileEditsPredicate.Factory fileEditsPredicateFactory,
-      HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory) {
+      HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory,
+      NonContributorLabelPredicate.Factory labelSrPredicateFactory) {
     super(def, args);
     this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
     this.fileEditsPredicateFactory = fileEditsPredicateFactory;
     this.hasSubmoduleUpdateFactory = hasSubmoduleUpdateFactory;
+    this.labelSrPredicateFactory = labelSrPredicateFactory;
   }
 
   @Override
@@ -121,6 +135,53 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       }
     }
     return super.has(value);
+  }
+
+  @Override
+  public Predicate<ChangeData> label(String name)
+      throws QueryParseException, IOException, ConfigInvalidException {
+    Optional<NonContributorLabelPredicate> nonContributorPredicate =
+        parseLabelFormatForNonContributor(name);
+    if (nonContributorPredicate.isPresent()) {
+      return nonContributorPredicate.get();
+    }
+    return super.label(name);
+  }
+
+  /**
+   * Returns an {@link Optional} containing a {@link NonContributorLabelPredicate} entity if the
+   * {@code name} parameter matches the format 'label:$label_name=vote,user=non_contributor' and
+   * {@link Optional#empty()} otherwise.
+   */
+  private Optional<NonContributorLabelPredicate> parseLabelFormatForNonContributor(String name)
+      throws QueryParseException {
+    List<String> splitReviewer = LABEL_SPLITTER.limit(2).splitToList(name);
+    if (splitReviewer.size() != 2) {
+      return Optional.empty();
+    }
+    name = splitReviewer.get(0); // get the label vote piece, e.g.'CodeReview=1'
+    // TODO(ghareeb): extract this code to be reused from LabelPredicate as well
+    LabelVote lv;
+    try {
+      lv = LabelVote.parseWithEquals(name);
+    } catch (IllegalArgumentException e) {
+      return Optional.empty();
+    }
+    PredicateArgs lblArgs = new PredicateArgs(splitReviewer.get(1));
+    if (lblArgs.keyValue.entrySet().size() != 1) {
+      // We expect a single argument in the form 'user=non_contributor'
+      return Optional.empty();
+    }
+    Map.Entry<String, ValOp> keyValue = lblArgs.keyValue.entrySet().iterator().next();
+    String key = keyValue.getKey();
+    String value = keyValue.getValue().value();
+    PredicateArgs.Operator operator = keyValue.getValue().operator();
+    if (!(key.equalsIgnoreCase(ARG_ID_USER) && value.equals(ARG_ID_NON_CONTRIBUTOR))
+        && operator.equals(PredicateArgs.Operator.EQUAL)) {
+      return Optional.empty();
+    }
+
+    return Optional.of(labelSrPredicateFactory.create(lv.label(), lv.value()));
   }
 
   @Operator

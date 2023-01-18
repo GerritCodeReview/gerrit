@@ -96,6 +96,7 @@ import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submitrequirement.predicate.DistinctVotersPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
+import com.google.gerrit.server.submitrequirement.predicate.NonContributorLabelPredicate;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -217,6 +218,7 @@ public class BatchProgramModule extends FactoryModule {
     DynamicSet.setOf(binder(), SubmitRequirement.class);
 
     factory(FileEditsPredicate.Factory.class);
+    factory(NonContributorLabelPredicate.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));

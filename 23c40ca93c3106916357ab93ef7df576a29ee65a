@@ -22,6 +22,75 @@
       },
       "revId": "23c40ca93c3106916357ab93ef7df576a29ee65a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51b8f476_5bcf8e6f",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-18T13:15:35Z",
+      "side": 1,
+      "message": "these variable names are getting harder to parse.\nMaybe just inline this? Adding another variable `a` is not helping much I think.",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 9
+      },
+      "revId": "23c40ca93c3106916357ab93ef7df576a29ee65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffd67eae_69dd29ae",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-18T13:15:35Z",
+      "side": 1,
+      "message": "same with this.\nInline.",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "23c40ca93c3106916357ab93ef7df576a29ee65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b347a2fe_cda7e12a",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-18T13:15:35Z",
+      "side": 1,
+      "message": "why 10?\nI guess it\u0027s just randomly chosen. (maybe mention in the commit message or the code).\nIIUC this puts negative votes after positive votes?\n\nv1 \u003d 1\nv2 \u003d -2\n\nv2 \u003d 10 - v2 \u003d 12\n\nv2 - v1 \u003d 11 which means v1 is not sorted before v2?\nI think negative votes if they are blocking should go first?",
+      "range": {
+        "startLine": 139,
+        "startChar": 19,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "23c40ca93c3106916357ab93ef7df576a29ee65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -7,6 +7,7 @@ import {assert} from '@open-wc/testing';
 import {fakeRun1} from '../../models/checks/checks-fakes';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup';
+import {queryAndAssert} from '../../utils/common-util';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 
@@ -48,6 +49,32 @@ suite('gr-diff-check-result tests', () => {
         <div class="details"></div>
       </div>
     `
+    );
+  });
+
+  test('renders expanded', async () => {
+    element.result = {...fakeRun1, ...fakeRun1.results?.[2]} as RunResult;
+    element.isExpanded = true;
+    await element.updateComplete;
+
+    const details = queryAndAssert(element, 'div.details');
+    assert.dom.equal(
+      details,
+      /* HTML */ `
+        <div class="details">
+          <gr-result-expanded hidecodepointers=""></gr-result-expanded>
+          <div class="actions">
+            <gr-checks-action
+              id="please-fix"
+              context="diff-fix"
+            ></gr-checks-action>
+            <gr-checks-action
+              id="show-fix"
+              context="diff-fix"
+            ></gr-checks-action>
+          </div>
+        </div>
+      `
     );
   });
 });

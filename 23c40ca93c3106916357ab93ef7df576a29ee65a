@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726e93be_ab75c410",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-18T12:48:46Z",
+      "side": 1,
+      "message": "update docs",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "23c40ca93c3106916357ab93ef7df576a29ee65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

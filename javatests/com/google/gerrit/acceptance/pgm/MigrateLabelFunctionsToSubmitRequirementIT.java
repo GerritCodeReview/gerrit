@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -260,6 +261,94 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   }
 
   @Test
+  public void migrateBlockingLabel_withBranchAttribute() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/master"));
+
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName */ "Foo",
+        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withMultipleBranchAttributes() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/master", "refs/heads/develop"));
+
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName */ "Foo",
+        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\" OR branch:\\\"refs/heads/develop\\\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withRegexBranchAttribute() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("^refs/heads/main-.*"));
+
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName */ "Foo",
+        /* applicabilityExpression= */ "branch:\\\"^refs/heads/main-.*\\\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withRegexAndNonRegexBranchAttributes() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/master", "^refs/heads/main-.*"));
+
+    assertNonExistentSr(/* srName = */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName */ "Foo",
+        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\" OR branch:\\\"^refs/heads/main-.*\\\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
   public void migrationIsIdempotent() throws Exception {
     String oldRefsConfigId;
     try (Repository repo = repoManager.openRepository(project)) {
@@ -378,6 +467,21 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     input.function = function;
     input.ignoreSelfApproval = ignoreSelfApproval;
     input.values = values;
+    gApi.projects().name(project.get()).label(labelName).create(input);
+  }
+
+  private void createLabelWithBranch(
+      String labelName,
+      String function,
+      boolean ignoreSelfApproval,
+      ImmutableList<String> refPatterns)
+      throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.name = labelName;
+    input.function = function;
+    input.ignoreSelfApproval = ignoreSelfApproval;
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.branches = refPatterns;
     gApi.projects().name(project.get()).label(labelName).create(input);
   }
 

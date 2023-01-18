@@ -86,6 +86,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
@@ -225,9 +226,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
+  public static final String ARG_ID_NON_CONTRIBUTOR = "non_contributor";
   public static final String ARG_COUNT = "count";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
+  public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
 
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
   public static final String OPERATOR_MERGED_AFTER = "mergedafter";
@@ -260,6 +263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final IndexConfig indexConfig;
     final PatchListCache patchListCache;
     final ProjectCache projectCache;
+    final Provider<InternalAccountQuery> accountQueryProvider;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
     final StarredChangesUtil starredChangesUtil;
@@ -278,6 +282,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     @Inject
     @VisibleForTesting
     public Arguments(
+        Provider<InternalAccountQuery> accountQueryProvider,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
@@ -310,6 +315,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules) {
       this(
+          accountQueryProvider,
           queryProvider,
           rewriter,
           opFactories,
@@ -345,6 +351,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     private Arguments(
+        Provider<InternalAccountQuery> accountQueryProvider,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
@@ -377,6 +384,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules) {
+      this.accountQueryProvider = accountQueryProvider;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -413,6 +421,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     public Arguments asUser(CurrentUser otherUser) {
       return new Arguments(
+          accountQueryProvider,
           queryProvider,
           rewriter,
           opFactories,
@@ -485,14 +494,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private final Arguments args;
+  protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
   private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
   private boolean forceAccountVisibilityCheck = false;
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
-  private static final Splitter LABEL_SPLITTER = Splitter.on(",");
+  protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
   protected ChangeQueryBuilder(Arguments args) {
@@ -1052,6 +1061,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             accounts = Collections.singleton(OWNER_ACCOUNT_ID);
           } else if (value.equals(ARG_ID_NON_UPLOADER)) {
             accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
+            accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
           } else {
             accounts = parseAccount(value);
           }
@@ -1086,6 +1097,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             accounts = Collections.singleton(OWNER_ACCOUNT_ID);
           } else if (value.equals(ARG_ID_NON_UPLOADER)) {
             accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
+            accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
           } else {
             accounts = parseAccount(value);
           }
@@ -1120,7 +1133,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     }
 
+    validateLabelArgs(accounts);
     return new LabelPredicate(args, name, accounts, group, count, countOp);
+  }
+
+  protected void validateLabelArgs(Set<Account.Id> accounts) throws QueryParseException {
+    if (accounts != null && accounts.contains(NON_CONTRIBUTOR_ACCOUNT_ID)) {
+      throw new QueryParseException("non_contributor arg is not allowed in change queries");
+    }
   }
 
   /** Assert that keys {@code k1} and {@code k2} do not exist in {@code labelArgs} together. */

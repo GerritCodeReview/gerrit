@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPred
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -163,6 +165,9 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
     }
     return fileEditsPredicateFactory.create(FileEditsArgs.create(filePattern, contentPattern));
   }
+
+  @Override
+  protected void validateLabelArgs(Set<Account.Id> accountIds) throws QueryParseException {}
 
   private static void validateRegularExpression(String pattern, String errorMessage)
       throws QueryParseException {

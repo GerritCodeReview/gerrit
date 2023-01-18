@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -216,12 +217,19 @@ public class MigrateLabelFunctionsToSubmitRequirement {
                   Arrays.asList(
                       cfg.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_VALUE)))
               .build();
+      ImmutableList<String> refPatterns =
+          ImmutableList.<String>builder()
+              .addAll(
+                  Arrays.asList(
+                      cfg.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_BRANCH)))
+              .build();
       LabelAttributes attributes =
           LabelAttributes.create(
               function == null ? "MaxWithBlock" : function,
               canOverride,
               ignoreSelfApproval,
-              values);
+              values,
+              refPatterns);
       labelTypes.put(labelName, attributes);
     }
     return labelTypes;
@@ -319,6 +327,15 @@ public class MigrateLabelFunctionsToSubmitRequirement {
         break;
       default:
         break;
+    }
+    if (!attributes.refPatterns().isEmpty()) {
+      builder.setApplicabilityExpression(
+          SubmitRequirementExpression.of(
+              String.join(
+                  " OR ",
+                  attributes.refPatterns().stream()
+                      .map(b -> "branch:\\\"" + b + "\\\"")
+                      .collect(Collectors.toList()))));
     }
     return builder.build();
   }
@@ -435,13 +452,16 @@ public class MigrateLabelFunctionsToSubmitRequirement {
 
     abstract ImmutableList<String> values();
 
+    abstract ImmutableList<String> refPatterns();
+
     static LabelAttributes create(
         String function,
         boolean canOverride,
         boolean ignoreSelfApproval,
-        ImmutableList<String> values) {
+        ImmutableList<String> values,
+        ImmutableList<String> refPatterns) {
       return new AutoValue_MigrateLabelFunctionsToSubmitRequirement_LabelAttributes(
-          function, canOverride, ignoreSelfApproval, values);
+          function, canOverride, ignoreSelfApproval, values, refPatterns);
     }
   }
 }

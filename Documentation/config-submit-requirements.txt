@@ -246,6 +246,15 @@ If no regular expression is used, the text is matched by checking that the file
 name contains the file pattern, or the edits of the file diff contain the edit
 pattern.
 
+[[operator_label]]
+label:labelName=+1,user=non_contributor::
++
+Submit requirements support an additional `user=non_contributor` argument for
+labels that returns true if the change has a label vote matching the specified
+value and the vote is applied from a gerrit account that's not the uploader,
+author or committer of the latest patchset. See the documentation for the labels
+operator in the link:user-search.html[user search] page.
+
 [[unsupported_operators]]
 === Unsupported Operators
 

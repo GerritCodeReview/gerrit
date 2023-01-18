@@ -1256,7 +1256,14 @@ export class GrChangeView extends LitElement {
         flatten
         down-arrow
         class="showCopyLinkDialogButton"
-        @click=${() => this.copyLinksDropdown?.toggleDropdown()}
+        @click=${(e: MouseEvent) => {
+          // We don't want to handle clicks on the star or the <a> link.
+          // Calling `stopPropagation()` from the click handler of <a> is not an
+          // option, because then the click does not reach the top-level page.js
+          // click handler and would result is a full page reload.
+          if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
+          this.copyLinksDropdown?.toggleDropdown();
+        }}
         ><gr-change-star
           id="changeStar"
           .change=${this.change}
@@ -1267,10 +1274,7 @@ export class GrChangeView extends LitElement {
         <a
           class="changeNumber"
           aria-label=${`Change ${this.change?._number}`}
-          @click=${(e: MouseEvent) => {
-            fireReload(this, true);
-            e.stopPropagation();
-          }}
+          href=${ifDefined(this.computeChangeUrl(true))}
           >${this.change?._number}</a
         >
       </gr-button>

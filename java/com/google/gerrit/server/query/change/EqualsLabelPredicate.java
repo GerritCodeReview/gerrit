@@ -23,16 +23,22 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.account.AccountPredicates;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
+import com.google.inject.Provider;
+import java.util.List;
 import java.util.Optional;
 
 public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
+  protected final Provider<InternalAccountQuery> queryProcessorProvider;
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
@@ -61,6 +67,7 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
       @Nullable Integer count) {
     super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, count));
     this.permissionBackend = args.permissionBackend;
+    this.queryProcessorProvider = args.queryProcessorProvider;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.count = count;
@@ -155,6 +162,14 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
           && cd.currentPatchSet().uploader().equals(approver)) {
         return false;
       }
+
+      if (account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)) {
+        if ((cd.currentPatchSet().uploader().equals(approver)
+            || matchAccount(cd.getCommitter().getEmailAddress(), approver)
+            || matchAccount(cd.getAuthor().getEmailAddress(), approver))) {
+          return false;
+        }
+      }
     }
 
     IdentifiedUser reviewer = userFactory.create(approver);
@@ -176,9 +191,20 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
     }
   }
 
+  /**
+   * Returns true if the {@code email} parameter belongs to the account identified by the {@code
+   * accountId} parameter.
+   */
+  private boolean matchAccount(String email, Account.Id accountId) {
+    List<AccountState> accountsList =
+        queryProcessorProvider.get().query(AccountPredicates.preferredEmail(email));
+    return accountsList.stream().anyMatch(c -> c.account().id().equals(accountId));
+  }
+
   private boolean isMagicUser() {
     return account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
-        || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID);
+        || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+        || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
   }
 
   @Override

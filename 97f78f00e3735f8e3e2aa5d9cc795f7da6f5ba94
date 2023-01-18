@@ -16,6 +16,24 @@
       "message": "nit: this line seems to be too long now, please wrap it",
       "revId": "97f78f00e3735f8e3e2aa5d9cc795f7da6f5ba94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8826bc3_25dc80c0",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-18T14:09:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ba46f1f_923ccab7",
+      "revId": "97f78f00e3735f8e3e2aa5d9cc795f7da6f5ba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

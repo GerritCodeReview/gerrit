@@ -23,6 +23,8 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver.Result;
 import com.google.gerrit.server.account.AccountResolver.Searcher;
 import com.google.gerrit.server.account.AccountResolver.StringSearcher;
@@ -35,6 +37,8 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AccountResolverTest {
+  private final CurrentUser user = new AnonymousUser();
+
   private static class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;
@@ -282,7 +286,7 @@ public class AccountResolverTest {
     AccountResolver resolver = newAccountResolver();
     assertThat(
             new UnresolvableAccountException(
-                resolver.new Result("foo", ImmutableList.of(), ImmutableList.of())))
+                resolver.new Result("foo", ImmutableList.of(), ImmutableList.of(), user)))
         .hasMessageThat()
         .isEqualTo("Account 'foo' not found");
   }
@@ -292,7 +296,7 @@ public class AccountResolverTest {
     AccountResolver resolver = newAccountResolver();
     UnresolvableAccountException e =
         new UnresolvableAccountException(
-            resolver.new Result("self", ImmutableList.of(), ImmutableList.of()));
+            resolver.new Result("self", ImmutableList.of(), ImmutableList.of(), user));
     assertThat(e.isSelf()).isTrue();
     assertThat(e).hasMessageThat().isEqualTo("Resolving account 'self' requires login");
   }
@@ -302,7 +306,7 @@ public class AccountResolverTest {
     AccountResolver resolver = newAccountResolver();
     UnresolvableAccountException e =
         new UnresolvableAccountException(
-            resolver.new Result("me", ImmutableList.of(), ImmutableList.of()));
+            resolver.new Result("me", ImmutableList.of(), ImmutableList.of(), user));
     assertThat(e.isSelf()).isTrue();
     assertThat(e).hasMessageThat().isEqualTo("Resolving account 'me' requires login");
   }
@@ -314,7 +318,10 @@ public class AccountResolverTest {
             new UnresolvableAccountException(
                 resolver
                 .new Result(
-                    "foo", ImmutableList.of(newAccount(3), newAccount(1)), ImmutableList.of())))
+                    "foo",
+                    ImmutableList.of(newAccount(3), newAccount(1)),
+                    ImmutableList.of(),
+                    user)))
         .hasMessageThat()
         .isEqualTo(
             "Account 'foo' is ambiguous (at most 3 shown):\n1: Anonymous Name (1)\n3: Anonymous Name (3)");
@@ -329,7 +336,8 @@ public class AccountResolverTest {
                 .new Result(
                     "foo",
                     ImmutableList.of(),
-                    ImmutableList.of(newInactiveAccount(3), newInactiveAccount(1)))))
+                    ImmutableList.of(newInactiveAccount(3), newInactiveAccount(1)),
+                    user)))
         .hasMessageThat()
         .isEqualTo(
             "Account 'foo' only matches inactive accounts. To use an inactive account, retry"
@@ -352,10 +360,11 @@ public class AccountResolverTest {
       Supplier<Predicate<AccountState>> visibilitySupplier,
       Predicate<AccountState> activityPredicate)
       throws Exception {
-    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier, activityPredicate);
+    return newAccountResolver()
+        .searchImpl(input, searchers, user, visibilitySupplier, activityPredicate);
   }
 
-  private static AccountResolver newAccountResolver() {
+  private AccountResolver newAccountResolver() {
     return new AccountResolver(null, null, null, null, null, null, null, null, "Anonymous Name");
   }
 

@@ -77,13 +77,8 @@
       {for $line, $index in $comment.lines}
         {if $index == 0}
           {if $comment.startLine != 0}
-            {$comment.link}
+            {$comment.link}{sp}:{\n}
           {/if}
-
-          // Insert a space before the newline so that Gmail does not mistakenly
-          // link the following line with the file link. See issue 9201.
-          {sp}{\n}
-
           {$comment.linePrefix}
         {else}
           {$comment.linePrefixEmpty}

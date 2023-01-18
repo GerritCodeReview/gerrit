@@ -217,6 +217,7 @@ import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.submitrequirement.predicate.DistinctVotersPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
+import com.google.gerrit.server.submitrequirement.predicate.NonContributorLabelPredicate;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
@@ -504,6 +505,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(VersionedAuthorizedKeys.Factory.class);
     factory(StoreSubmitRequirementsOp.Factory.class);
     factory(FileEditsPredicate.Factory.class);
+    factory(NonContributorLabelPredicate.Factory.class);
 
     bind(AccountManager.class);
     bind(SubscriptionGraph.Factory.class).to(ConfiguredSubscriptionGraphFactory.class);

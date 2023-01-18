@@ -485,14 +485,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private final Arguments args;
+  protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
   private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
   private boolean forceAccountVisibilityCheck = false;
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
-  private static final Splitter LABEL_SPLITTER = Splitter.on(",");
+  protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
   protected ChangeQueryBuilder(Arguments args) {

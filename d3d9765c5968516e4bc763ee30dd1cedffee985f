@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a303de_f577772c",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-18T13:47:22Z",
+      "side": 1,
+      "message": "Can there be strange branch names that need to be quoted?\n\nRepository.isValidRefName seems to reject most strange characters, but e.g. it seems branch names may contain double-quotes which would probably cause parsing issues here if not quoted (maybe there are other characters that are allowed in branch names and require the branch name to be quoted?).\n\nIn addition if this is a regexp, it can probably contain more troublesome characters, e.g. I believe \"^refs/heads/[abc]main-.*\" would confuse the query parser if not quoted.",
+      "range": {
+        "startLine": 337,
+        "startChar": 44,
+        "endLine": 337,
+        "endChar": 45
+      },
+      "revId": "d3d9765c5968516e4bc763ee30dd1cedffee985f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

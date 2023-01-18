@@ -3,7 +3,12 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  DetailedLabelInfo,
+  ServerInfo,
+} from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {
   getAccountTemplate,
@@ -13,6 +18,7 @@ import {
 } from './account-util';
 import {CommentThread, isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
+import {getCodeReviewLabel} from './label-util';
 
 export function canHaveAttention(account?: AccountInfo): boolean {
   return !!account?._account_id && !isServiceUser(account);
@@ -117,7 +123,20 @@ export function sortReviewers(
   }
   const a1 = hasAttention(r1, change) ? 1 : 0;
   const a2 = hasAttention(r2, change) ? 1 : 0;
-  const s1 = isServiceUser(r1) ? -2 : 0;
-  const s2 = isServiceUser(r2) ? -2 : 0;
-  return a2 - a1 + s2 - s1;
+  const a = a2 - a1;
+  if (a !== 0) return a;
+
+  const s1 = isServiceUser(r1) ? -1 : 0;
+  const s2 = isServiceUser(r2) ? -1 : 0;
+  const s = s2 - s1;
+  if (s !== 0) return s;
+
+  const crLabel = getCodeReviewLabel(change?.labels ?? {}) as DetailedLabelInfo;
+  let v1 =
+    crLabel?.all?.find(vote => vote._account_id === r1._account_id)?.value ?? 0;
+  let v2 =
+    crLabel?.all?.find(vote => vote._account_id === r2._account_id)?.value ?? 0;
+  if (v1 < 0) v1 = 10 - v1;
+  if (v2 < 0) v2 = 10 - v2;
+  return v2 - v1;
 }

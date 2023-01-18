@@ -28,6 +28,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabelRemoval;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
@@ -160,6 +161,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
@@ -2406,7 +2408,68 @@ public class ChangeIT extends AbstractDaemonTest {
                     .id(r.getChangeId())
                     .reviewer(admin.id().toString())
                     .deleteVote(LabelId.CODE_REVIEW));
-    assertThat(thrown).hasMessageThat().contains("delete vote not permitted");
+    assertThat(thrown).hasMessageThat().contains("Delete vote not permitted");
+  }
+
+  @Test
+  public void deleteVoteAlwaysPermittedForSelfVotes() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            blockLabelRemoval(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(block(Permission.REMOVE_REVIEWER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+  }
+
+  @Test
+  public void deleteVoteAlwaysPermittedForAdmin() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            blockLabelRemoval(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(block(Permission.REMOVE_REVIEWER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
   }
 
   @Test
@@ -2996,7 +3059,11 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
 
-    createChange();
+    PushOneCommit.Result change = createChange();
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
 
     requestScopeOperations.setApiUser(user.id());
     try (AutoCloseable ignored = disableNoteDb()) {
@@ -3005,6 +3072,34 @@ public class ChangeIT extends AbstractDaemonTest {
                   .query()
                   .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
                   .withOptions(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                  .get())
+          .hasSize(2);
+    }
+  }
+
+  @Test
+  public void nonLazyloadQueryOptionsDoNotTouchDatabase() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+    PushOneCommit.Result change = createChange();
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
+
+    requestScopeOperations.setApiUser(user.id());
+    try (AutoCloseable ignored = disableNoteDb()) {
+      assertThat(
+              gApi.changes()
+                  .query()
+                  .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
+                  .withOptions(EnumSet.complementOf(EnumSet.copyOf(ChangeJson.REQUIRE_LAZY_LOAD)))
                   .get())
           .hasSize(2);
     }
@@ -3275,6 +3370,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.status).isEqualTo(ChangeStatus.NEW);
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.removableLabels).isEmpty();
 
     // add new label and assert that it's returned for existing changes
     AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
@@ -3304,6 +3400,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .review(new ReviewInput().label(verified.getName(), verified.getMax().getValue()));
+    change = gApi.changes().id(r.getChangeId()).get();
+    assertPermitted(change, LabelId.VERIFIED, -1, 0, 1);
+    assertOnlyRemovableLabel(change, LabelId.VERIFIED, "+1", admin);
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       // remove label and assert that it's no longer returned for existing
@@ -3323,6 +3422,7 @@ public class ChangeIT extends AbstractDaemonTest {
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.removableLabels).isEmpty();
 
     // abandon the change and see that the returned labels stay the same
     // while all permitted labels disappear.
@@ -3331,6 +3431,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels).isEmpty();
+    assertThat(change.removableLabels).isEmpty();
   }
 
   @Test
@@ -3447,6 +3548,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
     assertPermitted(change, LabelId.VERIFIED, 1);
+    assertThat(change.removableLabels).isEmpty();
 
     // remove label and assert that it's no longer returned for existing
     // changes, even if there is an approval for it
@@ -3464,6 +3566,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
+    assertThat(change.removableLabels).isEmpty();
   }
 
   @Test
@@ -3560,6 +3663,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(LabelId.CODE_REVIEW, "Non-Author-Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertPermitted(change, LabelId.CODE_REVIEW, 0, 1, 2);
+    assertThat(change.removableLabels).isEmpty();
   }
 
   @Test
@@ -3575,6 +3679,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertPermitted(change, LabelId.CODE_REVIEW, 0, 1, 2);
+    assertThat(change.removableLabels).isEmpty();
   }
 
   @Test
@@ -4281,8 +4386,12 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
-    int number = gApi.changes().id(change.getChangeId()).get()._number;
+    // Populate change with a reasonable set of fields. We can't exhaustively
+    // test all possible variations, but can try to cover a reasonable set.
+    approve(change.getChangeId());
+    gApi.changes().id(change.getChangeId()).addReviewer(user.email());
 
+    int number = gApi.changes().id(change.getChangeId()).get()._number;
     try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
       assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());

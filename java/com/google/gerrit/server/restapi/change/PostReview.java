@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
+import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.groupingBy;

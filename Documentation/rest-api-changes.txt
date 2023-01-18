@@ -6703,16 +6703,25 @@ progress, the user will still be added.
 [[change-id]]
 === \{change-id\}
 Identifier that uniquely identifies one change. It contains the URL-encoded
-project name as well as the change number: "'$$<project>~<numericId>$$'"
+project name as well as the change number: "'$$<project>~<changeNumber>$$'"
 
-Gerrit also supports the following identifiers:
+==== Alternative identifiers
+Gerrit also supports an array of other change identifiers.
+
+[NOTE]
+Even though these identifiers will work in the majority of cases it is highly
+recommended to use "'$$<project>~<changeNumber>$$'" whenever possible.
+Since these identifiers require additional lookups from index and caches, to
+be translated to the "'$$<project>~<changeNumber>$$'" identifier, they
+may result in both false-positives and false-negatives.
+Furthermore the additional lookup mean that they come with a performance penalty.
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
-* a numeric change ID ("4247")
+* a change number if it uniquely identifies one change ("4247")
 
 [[change-message-id]]
 === \{change-message-id\}
@@ -7063,8 +7072,8 @@ change index doesn't have the data.
 Number of unresolved inline comment threads across all patch sets. Not set if
 the current change index doesn't have the data.
 |`_number`            ||
-The numeric ID of the change. (The underscore is just a relict of a prior
-attempt to deprecate the numeric ID.)
+The change number. (The underscore is just a relict of a prior
+attempt to deprecate the change number.)
 |`owner`              ||
 The owner of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.
@@ -7157,15 +7166,15 @@ When present, change is marked as Work In Progress.
 |`has_review_started` |optional, not set if `false`|
 When present, change has been marked Ready at some point in time.
 |`revert_of`          |optional|
-The numeric Change-Id of the change that this change reverts.
+The change number of the change that this change reverts.
 |`submission_id`      |optional|
 ID of the submission of this change. Only set if the status is `MERGED`.
-This ID is equal to the numeric ID of the change that triggered the submission.
-If the change that triggered the submission also has a topic, it will be
-"<id>-<topic>" of the change that triggered the submission.
+This ID is equal to the change number of the change that triggered the
+submission. If the change that triggered the submission also has a topic,
+it will be "<id>-<topic>" of the change that triggered the submission.
 The callers must not rely on the format of the submission ID.
 |`cherry_pick_of_change`   |optional|
-The numeric Change-Id of the change that this change was cherry-picked from.
+The change number of the change that this change was cherry-picked from.
 Only set if the cherry-pick has been done through the Gerrit REST API (and
 not if a cherry-picked commit was pushed).
 |`cherry_pick_of_patch_set`|optional|

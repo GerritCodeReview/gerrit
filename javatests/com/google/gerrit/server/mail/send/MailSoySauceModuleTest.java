@@ -25,6 +25,7 @@ import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -43,6 +44,7 @@ public class MailSoySauceModuleTest {
     SitePaths sitePaths = new SitePaths(Paths.get("."));
     Injector injector =
         Guice.createInjector(
+            new WorkQueue.WorkQueueModule(),
             new MailSoySauceModule(),
             new AbstractModule() {
               @Override

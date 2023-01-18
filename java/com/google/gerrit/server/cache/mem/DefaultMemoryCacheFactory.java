@@ -26,26 +26,44 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalNotification;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import java.time.Duration;
+import java.util.concurrent.Executor;
 import org.eclipse.jgit.lib.Config;
 
 class DefaultMemoryCacheFactory implements MemoryCacheFactory {
+  static final String CACHE_EXECUTOR_PREFIX = "InMemoryCacheExecutor";
+  private static final int DEFAULT_CACHE_EXECUTOR_THREADS = -1;
+
   private final Config cfg;
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
+  private int executorThreads;
+  private final Executor executor;
 
   @Inject
   DefaultMemoryCacheFactory(
       @GerritServerConfig Config config,
-      ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
+      ForwardingRemovalListener.Factory forwardingRemovalListenerFactory,
+      WorkQueue workQueue) {
     this.cfg = config;
     this.forwardingRemovalListenerFactory = forwardingRemovalListenerFactory;
+    this.executorThreads = config.getInt("cache", "threads", DEFAULT_CACHE_EXECUTOR_THREADS);
+
+    if (executorThreads == 0) {
+      executor = MoreExecutors.newDirectExecutorService();
+    } else if (executorThreads > DEFAULT_CACHE_EXECUTOR_THREADS) {
+      executor = workQueue.createQueue(executorThreads, CACHE_EXECUTOR_PREFIX);
+    } else {
+      executor = null;
+    }
   }
 
   @Override
@@ -65,6 +83,10 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     builder.recordStats();
     builder.maximumWeight(cacheMaximumWeight(def));
     builder = builder.removalListener(newRemovalListener(def.name()));
+
+    if (executor != null) {
+      builder.executor(executor);
+    }
     builder.weigher(newWeigher(def.weigher()));
 
     Duration expireAfterWrite = def.expireAfterWrite();

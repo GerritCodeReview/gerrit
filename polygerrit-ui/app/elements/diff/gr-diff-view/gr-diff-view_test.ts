@@ -1842,6 +1842,7 @@ suite('gr-diff-view tests', () => {
         new CustomEvent('value-change', {detail: {value: 'file2'}})
       );
       assert.isTrue(navToDiffStub.calledOnce);
+      assert.deepEqual(navToDiffStub.lastCall.firstArg, {path: 'file2'});
 
       // This is to mock the param change triggered by above navigate
       viewModel.setState({

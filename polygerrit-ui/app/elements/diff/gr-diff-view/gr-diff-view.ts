@@ -1454,10 +1454,10 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  handleFileChange(e: CustomEvent) {
-    const path = e.detail.value;
+  handleFileChange(e: ValueChangedEvent<string>) {
+    const path: string = e.detail.value;
     if (path === this.path) return;
-    this.getChangeModel().navigateToDiff(path);
+    this.getChangeModel().navigateToDiff({path});
   }
 
   // Private but used in tests.

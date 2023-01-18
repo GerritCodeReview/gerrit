@@ -22,6 +22,30 @@
       },
       "revId": "d3d9765c5968516e4bc763ee30dd1cedffee985f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69d06f0_4b118ed6",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-18T14:05:05Z",
+      "side": 1,
+      "message": "Right. Thanks for bringing this up! I tried it out and got the following error\n\nproject.config: Expression \u0027branch:^refs/heads/(1[.][0-9]{2}.*)$*\u0027 of submit requirement \u0027ghareeb-test\u0027 (parameter submit-requirement.ghareeb-test.applicableIf) is invalid: line 1:21 no viable alternative at character \u0027[\u0027\n\n\u003e it seems branch names may contain double-quotes\n\nI couldn\u0027t find an internal case with with the label branch attribute containing double quotes, but branches contain ()[]?_-!\n\nI enclosed the expression with escaped double quotes similar to how we did it for other repos during the manual migration. PTAL.",
+      "parentUuid": "04a303de_f577772c",
+      "range": {
+        "startLine": 337,
+        "startChar": 44,
+        "endLine": 337,
+        "endChar": 45
+      },
+      "revId": "d3d9765c5968516e4bc763ee30dd1cedffee985f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

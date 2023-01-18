@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -22,15 +23,21 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.account.AccountPredicates;
+import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
+import com.google.inject.Provider;
 import java.util.Optional;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
   protected final ProjectCache projectCache;
@@ -53,13 +60,21 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
 
   protected final AccountGroup.UUID group;
 
+  private Provider<AccountQueryProcessor> queryProcessorProvider;
+
+  public interface Factory {
+    EqualsLabelPredicate create(LabelPredicate.Args args, String label, int expVal, Account.Id account, @Nullable Integer count);
+  }
+
   public EqualsLabelPredicate(
+      Provider<AccountQueryProcessor> queryProcessorProvider,
       LabelPredicate.Args args,
       String label,
       int expVal,
       Account.Id account,
       @Nullable Integer count) {
     super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, count));
+    this.queryProcessorProvider = queryProcessorProvider;
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
@@ -155,6 +170,29 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
           && cd.currentPatchSet().uploader().equals(approver)) {
         return false;
       }
+
+      if (account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)) {
+        if (cd.currentPatchSet().uploader().equals(approver)) {
+          return false;
+        }
+        try {
+          PersonIdent committer = cd.getCommitter();
+          PersonIdent author = cd.getAuthor();
+          AccountQueryProcessor processor = queryProcessorProvider.get();
+          ImmutableList<AccountState> committers = processor.query(
+              AccountPredicates.preferredEmail(committer.getEmailAddress())).entities();
+          if (committers.stream().anyMatch(c -> c.account().id().equals(account))) {
+            return false;
+          }
+          ImmutableList<AccountState> authors = processor.query(
+              AccountPredicates.preferredEmail(author.getEmailAddress())).entities();
+          if (authors.stream().anyMatch(c -> c.account().id().equals(account))) {
+            return false;
+          }
+        } catch (QueryParseException e) {
+
+        }
+      }
     }
 
     IdentifiedUser reviewer = userFactory.create(approver);
@@ -178,7 +216,8 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
 
   private boolean isMagicUser() {
     return account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
-        || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID);
+        || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+        || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
   }
 
   @Override

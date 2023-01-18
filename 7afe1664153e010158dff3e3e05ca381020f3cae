@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84e8f9f5_857d7033",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-18T11:03:59Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a4ffab71_b16b7bf0",
+      "range": {
+        "startLine": 227,
+        "startChar": 7,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "7afe1664153e010158dff3e3e05ca381020f3cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6df0783d_eba0b637",
         "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
         "patchSetId": 2

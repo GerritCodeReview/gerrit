@@ -16,6 +16,24 @@
       "message": "Don\u0027t you need to keep this definition?",
       "revId": "ce51b74675772455d2d27d1408116cff2c629076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0eb3827_b53eb898",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-01-19T13:59:56Z",
+      "side": 0,
+      "message": "See commit message, unless you mean something else?",
+      "parentUuid": "73e28b4c_973590ea",
+      "revId": "ce51b74675772455d2d27d1408116cff2c629076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

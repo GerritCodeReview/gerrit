@@ -76,6 +76,9 @@ export class GrDiffSection extends LitElement {
 
     const pairs = this.getLinePairs();
     const responsiveMode = getResponsiveMode(this.diffPrefs, this.renderPrefs);
+    const hideFileCommentButton =
+      this.diffPrefs?.show_file_comment_button === false ||
+      this.renderPrefs?.show_file_comment_button === false;
     const body = html`
       <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
@@ -92,6 +95,7 @@ export class GrDiffSection extends LitElement {
               .tabSize=${this.diffPrefs?.tab_size ?? 2}
               .unifiedDiff=${this.isUnifiedDiff()}
               .responsiveMode=${responsiveMode}
+              .hideFileCommentButton=${hideFileCommentButton}
             >
             </gr-diff-row>
           `;

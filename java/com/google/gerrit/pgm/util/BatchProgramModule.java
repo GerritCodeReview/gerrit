@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.LibModuleLoader;
@@ -127,6 +128,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(PatchListCacheImpl.module());
     modules.add(new DefaultUrlFormatterModule());
     modules.add(DiffOperationsImpl.module());
+    modules.add(new DefaultRefLogIdentityProvider.Module());
 
     // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
     //  listener().to(SomeClassImplementingLifecycleListener.class);

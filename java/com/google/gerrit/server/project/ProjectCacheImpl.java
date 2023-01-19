@@ -76,7 +76,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -301,20 +300,19 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
-      Stream<AccountGroup.UUID> configuredRelevantGroups =
-          Arrays.stream(config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
-              .map(AccountGroup::uuid);
-
-      Stream<AccountGroup.UUID> guessedRelevantGroups =
-          inMemoryProjectCache.asMap().values().stream()
-              .filter(Objects::nonNull)
-              .flatMap(p -> p.getAllGroupUUIDs().stream())
-              // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
-              // against them just in case there is a bug or corner case.
-              .filter(id -> id != null && id.get() != null);
-
       Set<AccountGroup.UUID> relevantGroupUuids =
-          Streams.concat(configuredRelevantGroups, guessedRelevantGroups).collect(toSet());
+          Streams.concat(
+                  Arrays.stream(
+                          config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
+                      .map(AccountGroup::uuid),
+                  all().stream()
+                      .map(n -> inMemoryProjectCache.getIfPresent(n))
+                      .filter(Objects::nonNull)
+                      .flatMap(p -> p.getAllGroupUUIDs().stream())
+                      // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
+                      // against them just in case there is a bug or corner case.
+                      .filter(id -> id != null && id.get() != null))
+              .collect(toSet());
       logger.atFine().log("relevant group UUIDs: %s", relevantGroupUuids);
       return relevantGroupUuids;
     }

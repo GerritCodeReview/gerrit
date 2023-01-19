@@ -201,7 +201,7 @@ export declare interface DiffPreferencesInfo {
   syntax_highlighting?: boolean;
   tab_size: number;
   font_size: number;
-  // TODO: Missing documentation
+  // Hides the FILE and LOST diff rows. Default is TRUE.
   show_file_comment_button?: boolean;
   line_wrapping?: boolean;
 }

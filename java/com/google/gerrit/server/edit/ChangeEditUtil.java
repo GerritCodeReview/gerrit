@@ -250,7 +250,7 @@ public class ChangeEditUtil {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       String refName = edit.getRefName();
       RefUpdate ru = repo.updateRef(refName, true);
-      ru.setExpectedOldObjectId(edit.getEditCommit());
+      ru.setExpectedOldObjectId(edit.getEditCommitId());
       ru.setForceUpdate(true);
       RefUpdate.Result result = ru.delete();
       switch (result) {

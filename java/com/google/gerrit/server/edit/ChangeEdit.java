@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -31,6 +32,7 @@ public class ChangeEdit {
   private final Change change;
   private final String editRefName;
   private final RevCommit editCommit;
+  private final ObjectId editCommitId;
   private final PatchSet basePatchSet;
 
   public ChangeEdit(
@@ -39,6 +41,16 @@ public class ChangeEdit {
     this.editRefName = requireNonNull(editRefName);
     this.editCommit = requireNonNull(editCommit);
     this.basePatchSet = requireNonNull(basePatchSet);
+    editCommitId = null;
+  }
+
+  public ChangeEdit(
+      Change change, String editRefName, ObjectId editCommitId, PatchSet basePatchSet) {
+    this.change = requireNonNull(change);
+    this.editRefName = requireNonNull(editRefName);
+    this.editCommitId = requireNonNull(editCommitId);
+    this.basePatchSet = requireNonNull(basePatchSet);
+    editCommit = null;
   }
 
   public Change getChange() {
@@ -51,6 +63,13 @@ public class ChangeEdit {
 
   public RevCommit getEditCommit() {
     return editCommit;
+  }
+
+  public ObjectId getEditCommitId() {
+    if (editCommit != null) {
+      return editCommit.getId();
+    }
+    return editCommitId;
   }
 
   public PatchSet getBasePatchSet() {

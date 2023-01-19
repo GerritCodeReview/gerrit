@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -108,6 +109,9 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -175,6 +179,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -3224,6 +3229,209 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void deleteAccount_deletesAccountIdentifiers() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "name@domain.com", "Full Name", "Display");
+    String secondaryEmail = "secondary@email.com";
+    gApi.accounts().id(deleted.id().get()).addEmail(newEmailInput(secondaryEmail));
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().self().delete();
+
+    // Verifies the account info is empty
+    AccountInfo info = gApi.accounts().id(deleted.id().get()).get();
+    assertThat(info.inactive).isTrue();
+    assertThat(info.username).isNull();
+    assertThat(info.name).isNull();
+    assertThat(info.displayName).isNull();
+    assertThat(info.email).isNull();
+    assertThat(info.secondaryEmails).isNull();
+    assertThat(gApi.accounts().self().listSshKeys()).isEmpty();
+
+    // Verifies the account is not queryable
+    assertThat(gApi.accounts().query(deleted.id().toString()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.username()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.fullName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.displayName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.email()).get()).isEmpty();
+    assertThat(gApi.accounts().query(secondaryEmail).get()).isEmpty();
+  }
+
+  @Test
+  public void deleteAccount_deletesAccountExternalIds() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "deleted@internal.com", "Full Name", "Display");
+    AccountState preUpdateState = accountCache.get(deleted.id()).get();
+    requestScopeOperations.setApiUser(deleted.id());
+    addExternalIdEmail(deleted, "deleted@external.com");
+    assertExternalEmails(
+        deleted.id(), ImmutableSet.of("deleted@internal.com", "deleted@external.com"));
+
+    gApi.accounts().self().delete();
+
+    assertExternalEmails(deleted.id(), ImmutableSet.of());
+    AccountState updatedState = accountCache.get(deleted.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState.account().metaId());
+  }
+
+  @Test
+  @UseSsh
+  public void deleteAccount_deletesSshKeys() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "name@domain.com", "Full Name", "Display");
+    requestScopeOperations.setApiUser(deleted.id());
+    String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), deleted.email());
+    gApi.accounts().self().addSshKey(newKey);
+    assertThat(gApi.accounts().self().listSshKeys()).hasSize(1);
+
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.accounts().self().listSshKeys()).hasSize(0);
+  }
+
+  @Test
+  public void deleteAccount_deletesGpgKeys() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "name@domain.com", "Full Name", "Display");
+    requestScopeOperations.setApiUser(deleted.id());
+    addExternalIdEmail(
+        deleted,
+        PushCertificateIdent.parse(validKeyWithoutExpiration().getFirstUserId()).getEmailAddress());
+    TestKey key = validKeyWithoutExpiration();
+    addGpgKey(deleted, key.getPublicKeyArmored());
+    assertKeys(key);
+
+    gApi.accounts().self().delete();
+
+    assertKeys();
+  }
+
+  @Test
+  public void deleteAccount_deletesGeneralPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    GeneralPreferencesInfo prefs = new GeneralPreferencesInfo();
+    prefs.disableKeyboardShortcuts = true;
+    gApi.accounts().id(deleted.id().get()).setPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getPreferences().disableKeyboardShortcuts)
+        .isNull();
+  }
+
+  @Test
+  public void deleteAccount_deletesDiffPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    DiffPreferencesInfo prefs = new DiffPreferencesInfo();
+    prefs.expandAllComments = true;
+    gApi.accounts().id(deleted.id().get()).setDiffPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getDiffPreferences().expandAllComments)
+        .isNull();
+  }
+
+  @Test
+  public void deleteAccount_deletesEditPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    EditPreferencesInfo prefs = new EditPreferencesInfo();
+    prefs.hideTopMenu = true;
+    gApi.accounts().id(deleted.id().get()).setEditPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getEditPreferences().hideTopMenu).isNull();
+  }
+
+  @Test
+  public void deleteAccount_deletesStarredChanges() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.accounts().self().starChange(triplet);
+    assertThat(info(triplet).starred).isTrue();
+
+    gApi.accounts().self().delete();
+
+    assertThat(info(triplet).starred).isNull();
+  }
+
+  @Test
+  public void deleteAccount_deletesChangeEdits() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.changes().id(r.getChangeId()).edit().create();
+    gApi.changes()
+        .id(r.getChangeId())
+        .edit()
+        .modifyFile(PushOneCommit.FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.changes().id(r.getChangeId()).edit().get()).isEmpty();
+  }
+
+  @Test
+  public void deleteAccount_deletesDraftComments() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    createDraft(r, PushOneCommit.FILE_NAME, "draft");
+    assertThat(gApi.changes().id(r.getChangeId()).current().draftsAsList()).hasSize(1);
+
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.changes().id(r.getChangeId()).current().draftsAsList()).isEmpty();
+  }
+
+  @Test
+  public void deleteAccount_deletesReviewedFlags() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount deleted = accountCreator.admin2();
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = deleted.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.changes().id(r.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
+    assertThat(Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().reviewed()))
+        .isEqualTo(PushOneCommit.FILE_NAME);
+
+    gApi.accounts().self().delete();
+
+    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed()).isEmpty();
+  }
+
+  @Test
+  public void deleteAccount_appliesForSelfById() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().id(deleted.id().get()).delete();
+  }
+
+  @Test
+  public void deleteAccount_throwsForOtherUsers() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is only permitted for self");
+  }
+
   private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)
       throws IOException {
     TestGroupBackend testGroupBackend = new TestGroupBackend();
@@ -3277,6 +3485,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(
             gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(e -> e.identity)
+                .collect(toImmutableSet()))
+        .isEqualTo(extIds);
+  }
+
+  private void assertExternalEmails(Account.Id accountId, ImmutableSet<String> extIds)
+      throws Exception {
+    assertThat(
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
+                .map(e -> e.emailAddress)
+                .filter(Objects::nonNull)
                 .collect(toImmutableSet()))
         .isEqualTo(extIds);
   }

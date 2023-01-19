@@ -45,6 +45,7 @@ public class AccountRestApiModule extends RestApiModule {
 
     create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
+    delete(ACCOUNT_KIND).to(DeleteAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
     post(ACCOUNT_KIND, "index").to(Index.class);

@@ -41,12 +41,14 @@ public class PublicKeyStoreUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ExternalIds externalIds;
-  private final Provider<PublicKeyStore> storeProvider;
+
+  // Store provider is not bound when public keys are disabled.
+  @Inject(optional = true)
+  private Provider<PublicKeyStore> storeProvider = null;
 
   @Inject
-  public PublicKeyStoreUtil(ExternalIds externalIds, Provider<PublicKeyStore> storeProvider) {
+  public PublicKeyStoreUtil(ExternalIds externalIds) {
     this.externalIds = externalIds;
-    this.storeProvider = storeProvider;
   }
 
   public static byte[] parseFingerprint(ExternalId gpgKeyExtId) {

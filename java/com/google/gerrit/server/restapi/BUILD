@@ -15,6 +15,7 @@ java_library(
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
+        "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/index/project",

@@ -157,14 +157,17 @@ suite('gr-repo tests', () => {
     element = await fixture(html`<gr-repo></gr-repo>`);
   });
 
-  test('render', () => {
+  test('render', async () => {
+    element.repo = REPO as RepoName;
+    await element.loadRepo();
+    await element.updateComplete;
     // prettier and shadowDom assert do not agree about span.title wrapping
     assert.shadowDom.equal(
       element,
       /* prettier-ignore */ /* HTML */ `
       <div class="gr-form-styles main read-only">
         <div class="info">
-          <h1 class="heading-1" id="Title"></h1>
+          <h1 class="heading-1" id="Title">test-repo</h1>
           <hr />
           <div>
             <a href="">
@@ -178,7 +181,7 @@ suite('gr-repo tests', () => {
                 Browse
               </gr-button>
             </a>
-            <a href="">
+            <a href="/q/project:test-repo">
               <gr-button
                 aria-disabled="false"
                 link=""
@@ -190,15 +193,7 @@ suite('gr-repo tests', () => {
             </a>
           </div>
         </div>
-        <div class="loading" id="loading">Loading...</div>
-        <div class="loading" id="loadedContent">
-          <div class="hide" id="downloadContent">
-            <h2 class="heading-2" id="download">Download</h2>
-            <fieldset>
-              <gr-download-commands id="downloadCommands">
-              </gr-download-commands>
-            </fieldset>
-          </div>
+        <div id="loadedContent">
           <h2 class="heading-2" id="configurations">Configurations</h2>
           <div id="form">
             <fieldset>
@@ -266,7 +261,7 @@ suite('gr-repo tests', () => {
                   </span>
                 </section>
                 <section
-                  class="repositorySettings"
+                  class="repositorySettings showConfig"
                   id="enableSignedPushSettings"
                 >
                   <span class="title"> Enable signed push </span>
@@ -277,7 +272,7 @@ suite('gr-repo tests', () => {
                   </span>
                 </section>
                 <section
-                  class="repositorySettings"
+                  class="repositorySettings showConfig"
                   id="requireSignedPushSettings"
                 >
                   <span class="title"> Require signed push </span>
@@ -379,9 +374,6 @@ suite('gr-repo tests', () => {
                   </span>
                 </section>
               </fieldset>
-              <div class="hide pluginConfig">
-                <h3 class="heading-3">Plugins</h3>
-              </div>
               <gr-button
                 aria-disabled="true"
                 disabled=""
@@ -398,7 +390,51 @@ suite('gr-repo tests', () => {
           </div>
         </div>
       </div>
-    `
+    `,
+      {ignoreTags: ['option']}
+    );
+  });
+
+  test('render loading', async () => {
+    element.repo = REPO as RepoName;
+    element.loading = true;
+    await element.updateComplete;
+    // prettier and shadowDom assert do not agree about span.title wrapping
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
+      <div class="gr-form-styles main read-only">
+        <div class="info">
+          <h1 class="heading-1" id="Title">test-repo</h1>
+          <hr />
+          <div>
+            <a href="">
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                link=""
+                role="button"
+                tabindex="-1"
+              >
+                Browse
+              </gr-button>
+            </a>
+            <a href="/q/project:test-repo">
+              <gr-button
+                aria-disabled="false"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                View Changes
+              </gr-button>
+            </a>
+          </div>
+        </div>
+        <div id="loading">Loading...</div>
+      </div>
+    `,
+      {ignoreTags: ['option']}
     );
   });
 
@@ -451,55 +487,22 @@ suite('gr-repo tests', () => {
     assert.isTrue(requestUpdateStub.called);
   });
 
-  test('loading displays before repo config is loaded', () => {
-    assert.isTrue(
-      queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains(
-        'loading'
-      )
-    );
-    assert.isFalse(
-      getComputedStyle(queryAndAssert<HTMLDivElement>(element, '#loading'))
-        .display === 'none'
-    );
-    assert.isTrue(
-      queryAndAssert<HTMLDivElement>(
-        element,
-        '#loadedContent'
-      ).classList.contains('loading')
-    );
-    assert.isTrue(
-      getComputedStyle(
-        queryAndAssert<HTMLDivElement>(element, '#loadedContent')
-      ).display === 'none'
-    );
-  });
-
-  test('download commands visibility', async () => {
-    element.loading = false;
-    await element.updateComplete;
-    assert.isTrue(
-      queryAndAssert<HTMLDivElement>(
-        element,
-        '#downloadContent'
-      ).classList.contains('hide')
-    );
-    assert.isTrue(
-      getComputedStyle(
-        queryAndAssert<HTMLDivElement>(element, '#downloadContent')
-      ).display === 'none'
-    );
+  test('render download commands', async () => {
+    element.repo = REPO as RepoName;
+    await element.loadRepo();
     element.schemesObj = SCHEMES;
     await element.updateComplete;
-    assert.isFalse(
-      queryAndAssert<HTMLDivElement>(
-        element,
-        '#downloadContent'
-      ).classList.contains('hide')
-    );
-    assert.isFalse(
-      getComputedStyle(
-        queryAndAssert<HTMLDivElement>(element, '#downloadContent')
-      ).display === 'none'
+    const content = queryAndAssert<HTMLDivElement>(element, '#downloadContent');
+    assert.dom.equal(
+      content,
+      /* HTML */ `
+        <div id="downloadContent">
+          <h2 class="heading-2" id="download">Download</h2>
+          <fieldset>
+            <gr-download-commands id="downloadCommands"></gr-download-commands>
+          </fieldset>
+        </div>
+      `
     );
   });
 
@@ -715,9 +718,9 @@ suite('gr-repo tests', () => {
         Promise.resolve(new Response())
       );
 
-      const button = queryAll<GrButton>(element, 'gr-button')[2];
-
       await element.loadRepo();
+
+      const button = queryAll<GrButton>(element, 'gr-button')[2];
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(

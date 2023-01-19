@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df56a67a_7151d9d1",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-19T12:32:02Z",
+      "side": 1,
+      "message": "Thanks for explaining. Done",
+      "parentUuid": "7ddc6241_222e187f",
+      "revId": "45d8a748c1cd8cdb29409b04ac6a3c74f23945bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05631415_2a4bf165",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-19T11:59:49Z",
       "side": 1,
       "message": "\"for a\"?",
+      "range": {
+        "startLine": 48,
+        "startChar": 69,
+        "endLine": 48,
+        "endChar": 77
+      },
+      "revId": "45d8a748c1cd8cdb29409b04ac6a3c74f23945bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa88de38_2eb06c1d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-19T12:32:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05631415_2a4bf165",
       "range": {
         "startLine": 48,
         "startChar": 69,

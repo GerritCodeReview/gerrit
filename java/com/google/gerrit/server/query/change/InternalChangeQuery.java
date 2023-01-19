@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -103,6 +104,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(ChangePredicates.idStr(id));
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
@@ -113,15 +115,6 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   public List<ChangeData> byBranchKey(BranchNameKey branch, Change.Key key) {
     return query(byBranchKeyPred(branch, key));
-  }
-
-  public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key) {
-    return query(and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open()));
-  }
-
-  public static Predicate<ChangeData> byBranchKeyOpenPred(
-      Project.NameKey project, String branch, Change.Key key) {
-    return and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open());
   }
 
   private static Predicate<ChangeData> byBranchKeyPred(BranchNameKey branch, Change.Key key) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7bc269b_cf61d441",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-19T13:49:18Z",
+      "side": 1,
+      "message": "Missing tabs",
+      "revId": "5dcaed4971d3ed65b5b1ec9057ff957c4e63f6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

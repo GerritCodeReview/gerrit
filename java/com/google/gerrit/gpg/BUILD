@@ -4,6 +4,9 @@ java_library(
     name = "gpg",
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
+    runtime_deps = [
+        "//lib/bouncycastle:bcpg",
+    ],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",

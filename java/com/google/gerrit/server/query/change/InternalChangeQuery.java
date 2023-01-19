@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -71,6 +72,10 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   private static Predicate<ChangeData> status(Change.Status status) {
     return ChangeStatusPredicate.forStatus(status);
+  }
+
+  private static Predicate<ChangeData> editBy(Account.Id accountId) {
+    return ChangePredicates.editBy(accountId);
   }
 
   private static Predicate<ChangeData> commit(String id) {
@@ -208,6 +213,10 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   public List<ChangeData> byTopicOpen(String topic) {
     return query(and(ChangePredicates.exactTopic(topic), open()));
+  }
+
+  public List<ChangeData> byOpenEditByUser(Account.Id accountId) {
+    return query(editBy(accountId));
   }
 
   public List<ChangeData> byCommit(ObjectId id) {

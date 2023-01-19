@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687c7c62_71736707",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-19T21:04:42Z",
+      "side": 0,
+      "message": "This is already included at L23",
+      "revId": "6e94e10653d5817f61c0aa10ada1d806f195f27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21107d91_c9ab9b86",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-19T21:04:42Z",
+      "side": 0,
+      "message": "This has been already included in master with Change 351534",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 43
+      },
+      "revId": "6e94e10653d5817f61c0aa10ada1d806f195f27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

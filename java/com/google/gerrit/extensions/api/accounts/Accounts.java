@@ -58,6 +58,9 @@ public interface Accounts {
   /** Create a new account. */
   AccountApi create(AccountInput input) throws RestApiException;
 
+  /** Delete the account of the current in-scope user. */
+  void deleteSelf() throws RestApiException;
+
   /**
    * Suggest users for a given query.
    *
@@ -243,6 +246,11 @@ public interface Accounts {
 
     @Override
     public AccountApi create(AccountInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteSelf() throws RestApiException {
       throw new NotImplementedException();
     }
 

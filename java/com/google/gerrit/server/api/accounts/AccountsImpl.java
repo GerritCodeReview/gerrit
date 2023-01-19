@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.account.CreateAccount;
+import com.google.gerrit.server.restapi.account.DeleteAccount;
 import com.google.gerrit.server.restapi.account.QueryAccounts;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,6 +47,7 @@ public class AccountsImpl implements Accounts {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
   private final CreateAccount createAccount;
+  private final DeleteAccount deleteAccount;
   private final Provider<QueryAccounts> queryAccountsProvider;
 
   @Inject
@@ -55,12 +57,14 @@ public class AccountsImpl implements Accounts {
       PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       CreateAccount createAccount,
+      DeleteAccount deleteAccount,
       Provider<QueryAccounts> queryAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
     this.permissionBackend = permissionBackend;
     this.self = self;
     this.createAccount = createAccount;
+    this.deleteAccount = deleteAccount;
     this.queryAccountsProvider = queryAccountsProvider;
   }
 
@@ -109,6 +113,19 @@ public class AccountsImpl implements Accounts {
       return id(info._accountId);
     } catch (Exception e) {
       throw asRestApiException("Cannot create account " + in.username, e);
+    }
+  }
+
+  @Override
+  public void deleteSelf() throws RestApiException {
+    if (!self.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    try {
+      deleteAccount.apply(new AccountResource(self.get().asIdentifiedUser()), null);
+    } catch (Exception e) {
+      throw asRestApiException(
+          "Cannot delete account " + self.get().asIdentifiedUser().getEmailAddresses(), e);
     }
   }
 

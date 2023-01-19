@@ -82,6 +82,7 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -107,6 +108,9 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -3207,6 +3211,144 @@ public class AccountIT extends AbstractDaemonTest {
               accountControlFactory.get(identifiedUserFactory.create(user2.id())).canSee(user.id()))
           .isTrue();
     }
+  }
+
+  @Test
+  public void deleteSelf_deletesAccountIdentifiers() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "name@domain.com", "Full Name", "Display");
+    String secondaryEmail = "secondary@email.com";
+    gApi.accounts().id(deleted.id().get()).addEmail(newEmailInput(secondaryEmail));
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().deleteSelf();
+
+    // Verifies the account info is empty
+    AccountInfo info = gApi.accounts().id(deleted.id().get()).get();
+    assertThat(info.inactive).isTrue();
+    assertThat(info.username).isNull();
+    assertThat(info.name).isNull();
+    assertThat(info.displayName).isNull();
+    assertThat(info.email).isNull();
+    assertThat(info.secondaryEmails).isNull();
+    assertThat(gApi.accounts().self().listSshKeys()).isEmpty();
+
+    // Verifies the account is not queryable
+    assertThat(gApi.accounts().query(deleted.id().toString()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.username()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.fullName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.displayName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.email()).get()).isEmpty();
+    assertThat(gApi.accounts().query(secondaryEmail).get()).isEmpty();
+  }
+
+  @Test
+  public void deleteSelf_deletesGeneralPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    GeneralPreferencesInfo prefs = new GeneralPreferencesInfo();
+    prefs.disableKeyboardShortcuts = true;
+    gApi.accounts().id(deleted.id().get()).setPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getPreferences().disableKeyboardShortcuts)
+        .isNull();
+  }
+
+  @Test
+  public void deleteSelf_deletesDiffPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    DiffPreferencesInfo prefs = new DiffPreferencesInfo();
+    prefs.expandAllComments = true;
+    gApi.accounts().id(deleted.id().get()).setDiffPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getDiffPreferences().expandAllComments)
+        .isNull();
+  }
+
+  @Test
+  public void deleteSelf_deletesEditPreferences() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    EditPreferencesInfo prefs = new EditPreferencesInfo();
+    prefs.hideTopMenu = true;
+    gApi.accounts().id(deleted.id().get()).setEditPreferences(prefs);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.accounts().id(deleted.id().get()).getEditPreferences().hideTopMenu).isNull();
+  }
+
+  @Test
+  public void deleteSelf_deletesStarredChanges() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.accounts().self().starChange(triplet);
+    assertThat(info(triplet).starred).isTrue();
+
+    gApi.accounts().deleteSelf();
+
+    assertThat(info(triplet).starred).isNull();
+  }
+
+  @Test
+  public void deleteSelf_deletesChangeEdits() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.changes().id(r.getChangeId()).edit().create();
+    gApi.changes()
+        .id(r.getChangeId())
+        .edit()
+        .modifyFile(PushOneCommit.FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.changes().id(r.getChangeId()).edit().get()).isEmpty();
+  }
+
+  @Test
+  public void deleteSelf_deletesDraftComments() throws Exception {
+    TestAccount deleted = accountCreator.admin2();
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    createDraft(r, PushOneCommit.FILE_NAME, "draft");
+    assertThat(gApi.changes().id(r.getChangeId()).current().draftsAsList()).hasSize(1);
+
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.changes().id(r.getChangeId()).current().draftsAsList()).isEmpty();
+  }
+
+  @Test
+  public void deleteSelf_deletesReviewedFlags() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount deleted = accountCreator.admin2();
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = deleted.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.changes().id(r.getChangeId()).current().setReviewed(PushOneCommit.FILE_NAME, true);
+    assertThat(Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().reviewed()))
+        .isEqualTo(PushOneCommit.FILE_NAME);
+
+    gApi.accounts().deleteSelf();
+
+    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed()).isEmpty();
   }
 
   private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)

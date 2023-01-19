@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812f6b03_26d88060",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-19T14:44:56Z",
+      "side": 1,
+      "message": "Please add Javadocs",
+      "revId": "927fa91501d649d605c4aec13c871007fcb4087c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

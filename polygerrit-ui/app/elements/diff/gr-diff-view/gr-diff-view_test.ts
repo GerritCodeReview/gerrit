@@ -1315,7 +1315,7 @@ suite('gr-diff-view tests', () => {
     test('hash is determined from viewState', async () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload');
-      const initLineStub = sinon.stub(element, 'initLineOfInterestAndCursor');
+      const initLineStub = sinon.stub(element, 'initCursor');
 
       element.focusLineNum = 123;
 
@@ -1819,7 +1819,7 @@ suite('gr-diff-view tests', () => {
 
     test('File change should trigger setUrl once', async () => {
       element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
-      sinon.stub(element, 'initLineOfInterestAndCursor');
+      sinon.stub(element, 'initCursor');
 
       // Load file1
       viewModel.setState({

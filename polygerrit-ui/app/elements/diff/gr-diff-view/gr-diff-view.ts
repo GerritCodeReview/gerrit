@@ -732,7 +732,7 @@ export class GrDiffView extends LitElement {
       changedProperties.has('focusLineNum') ||
       changedProperties.has('leftSide')
     ) {
-      this.initLineOfInterestAndCursor();
+      this.initCursor();
     }
     if (
       changedProperties.has('change') ||
@@ -774,6 +774,7 @@ export class GrDiffView extends LitElement {
         .change=${this.change}
         .patchRange=${this.patchRange}
         .file=${file}
+        .lineOfInterest=${this.getLineOfInterest()}
         .path=${this.path}
         .projectName=${this.change?.project}
         @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
@@ -1348,13 +1349,6 @@ export class GrDiffView extends LitElement {
     }
 
     return {path: fileList[idx]};
-  }
-
-  // Private but used in tests.
-  initLineOfInterestAndCursor() {
-    if (!this.diffHost) return;
-    this.diffHost.lineOfInterest = this.getLineOfInterest();
-    this.initCursor();
   }
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {

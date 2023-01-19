@@ -33,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -54,7 +55,12 @@ class SignedPushModule extends AbstractModule {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ProvisionException("Bouncy Castle PGP not installed");
     }
-    bind(PublicKeyStore.class).toProvider(StoreProvider.class);
+    // This binding is optional as some modules might bind
+    // {@code UnimplementedPublicKeyStoreProvider} as default binding.
+    OptionalBinder.newOptionalBinder(binder(), PublicKeyStore.class)
+        .setBinding()
+        .toProvider(StoreProvider.class);
+
     DynamicSet.bind(binder(), ReceivePackInitializer.class).to(Initializer.class);
   }
 

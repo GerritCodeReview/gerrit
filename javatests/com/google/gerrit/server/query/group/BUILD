@@ -33,6 +33,9 @@ junit_tests(
         ["LuceneQueryGroupsTest.java"],
     ),
     visibility = ["//visibility:public"],
+    runtime_deps = [
+        "//lib/bouncycastle:bcpg",
+    ],
     deps = [
         ":abstract_query_tests",
         "//java/com/google/gerrit/server",
@@ -49,6 +52,9 @@ junit_tests(
         ["FakeQueryGroupsTest.java"],
     ),
     visibility = ["//visibility:public"],
+    runtime_deps = [
+        "//lib/bouncycastle:bcpg",
+    ],
     deps = [
         ":abstract_query_tests",
         "//java/com/google/gerrit/server",

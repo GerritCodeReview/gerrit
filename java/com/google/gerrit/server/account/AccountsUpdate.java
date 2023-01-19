@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -34,6 +35,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -53,6 +55,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,8 +65,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Creates and updates accounts.
@@ -380,6 +385,22 @@ public class AccountsUpdate {
         .get(0);
   }
 
+  /**
+   * Deletes all the account state data.
+   *
+   * @param message commit message for the account update, must not be {@code null or empty}
+   * @param accountId ID of the account
+   * @throws IOException if updating the user branch fails due to an IO error
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
+   */
+  public void delete(String message, Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    ImmutableSet<ExternalId> accountExternalIds = externalIds.byAccount(accountId);
+    Consumer<AccountDelta.Builder> delta =
+        deltaBuilder -> deltaBuilder.deleteAccount(accountExternalIds);
+    update(message, accountId, delta);
+  }
+
   private ExecutableUpdate createExecutableUpdate(UpdateArguments updateArguments) {
     return repo -> {
       AccountConfig accountConfig = read(repo, updateArguments.accountId);
@@ -395,7 +416,7 @@ public class AccountsUpdate {
       updateArguments.configureDeltaFromState.configure(accountState.get(), deltaBuilder);
 
       AccountDelta delta = deltaBuilder.build();
-      accountConfig.setAccountDelta(delta);
+
       ExternalIdNotes.checkSameAccount(
           Iterables.concat(
               delta.getCreatedExternalIds(),
@@ -415,9 +436,13 @@ public class AccountsUpdate {
         externalIdNotes.upsert(delta.getUpdatedExternalIds());
       }
 
+      if (delta.getShouldDeleteAccount().orElse(false)) {
+        return new DeletedAccount(updateArguments.message, accountConfig.getRefName());
+      }
+
+      accountConfig.setAccountDelta(delta);
       CachedPreferences cachedDefaultPreferences =
           CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
-
       return new UpdatedAccount(
           updateArguments.message, accountConfig, cachedDefaultPreferences, false);
     };
@@ -468,7 +493,8 @@ public class AccountsUpdate {
                   allUsersRepo,
                   updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
               for (UpdatedAccount ua : updatedAccounts) {
-                accountState.add(ua == null ? Optional.empty() : ua.getAccountState());
+                accountState.add(
+                    ua == null || ua.deleted ? Optional.empty() : ua.getAccountState());
               }
             }
             return null;
@@ -514,6 +540,7 @@ public class AccountsUpdate {
     beforeCommit.run();
 
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    Set<Account.Id> accountsToSkipForReindex = new HashSet<>();
     //  External ids may be not updated if:
     //  * externalIdNotes is not loaded  (there were no externalId updates in the delta)
     //  * new revCommit is identical to the previous externalId tip
@@ -531,7 +558,12 @@ public class AccountsUpdate {
       externalIdsUpdated = !Objects.equals(revCommit.getId(), oldExternalIdsRevision);
     }
     for (UpdatedAccount updatedAccount : updatedAccounts) {
-
+      if (updatedAccount.deleted) {
+        RefUpdate ru = RefUpdateUtil.deleteChecked(allUsersRepo, updatedAccount.refName, true);
+        gitRefUpdated.fire(allUsersName, ru, ReceiveCommand.Type.DELETE, null);
+        accountsToSkipForReindex.add(Account.Id.fromRef(updatedAccount.refName));
+        continue;
+      }
       // These updates are all for different refs (because batches never update the same account
       // more than once), so there can be multiple commits in the same batch, all with the same base
       // revision in their AccountConfig.
@@ -540,7 +572,7 @@ public class AccountsUpdate {
       // when no account properties are set and hence no
       // 'account.config' file will be created.
       // 2) When updating "refs/meta/external-ids", so that refs/users/* meta ref is updated too.
-      // This allows to schedule reindexing of account transactionally  on refs/users/* meta
+      // This allows to schedule reindexing of account transactionally on refs/users/* meta
       // updates.
       boolean allowEmptyCommit = externalIdsUpdated || updatedAccount.created;
       commitAccountConfig(
@@ -553,8 +585,8 @@ public class AccountsUpdate {
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
 
-    Set<Account.Id> accountsToSkipForReindex = getUpdatedAccountIds(batchRefUpdate);
     if (externalIdsUpdated) {
+      accountsToSkipForReindex.addAll(getUpdatedAccountIds(batchRefUpdate));
       extIdNotesLoader.updateExternalIdCacheAndMaybeReindexAccounts(
           externalIdNotes, accountsToSkipForReindex);
     }
@@ -615,23 +647,49 @@ public class AccountsUpdate {
     final String message;
     final AccountConfig accountConfig;
     final CachedPreferences defaultPreferences;
+    final String refName;
     final boolean created;
+    final boolean deleted;
 
     UpdatedAccount(
         String message,
         AccountConfig accountConfig,
         CachedPreferences defaultPreferences,
         boolean created) {
+      this(
+          message,
+          requireNonNull(accountConfig),
+          defaultPreferences,
+          accountConfig.getRefName(),
+          created,
+          false);
+    }
+
+    protected UpdatedAccount(
+        String message,
+        AccountConfig accountConfig,
+        CachedPreferences defaultPreferences,
+        String refName,
+        boolean created,
+        boolean deleted) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
       this.message = requireNonNull(message);
-      this.accountConfig = requireNonNull(accountConfig);
+      this.accountConfig = accountConfig;
       this.defaultPreferences = defaultPreferences;
+      this.refName = refName;
       this.created = created;
+      this.deleted = deleted;
     }
 
     Optional<AccountState> getAccountState() throws IOException {
       return AccountState.fromAccountConfig(
           externalIds, accountConfig, externalIdNotes, defaultPreferences);
+    }
+  }
+
+  private class DeletedAccount extends UpdatedAccount {
+    DeletedAccount(String message, String refName) {
+      super(message, null, null, refName, false, true);
     }
   }
 }

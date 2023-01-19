@@ -161,6 +161,15 @@ public abstract class AccountDelta {
    */
   public abstract Optional<EditPreferencesInfo> getEditPreferences();
 
+  /**
+   * Returns whether the delta for this account is deleting the account.
+   *
+   * <p>If set to true, deletion takes precedence on any other change in this delta.
+   *
+   * @return whether the account should be deleted.
+   */
+  public abstract Optional<Boolean> getShouldDeleteAccount();
+
   public boolean hasExternalIdUpdates() {
     return !this.getCreatedExternalIds().isEmpty()
         || !this.getDeletedExternalIds().isEmpty()
@@ -452,6 +461,20 @@ public abstract class AccountDelta {
      */
     public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
 
+    public abstract Builder setShouldDeleteAccount(boolean shouldDelete);
+
+    /**
+     * Builds an AccountDelta that deletes all data.
+     *
+     * @param extIdsToDelete external IDs that should be deleted
+     * @return the builder
+     */
+    public Builder deleteAccount(Collection<ExternalId> extIdsToDelete) {
+      deleteExternalIds(extIdsToDelete);
+      setShouldDeleteAccount(true);
+      return this;
+    }
+
     /** Builds the instance. */
     public abstract AccountDelta build();
 
@@ -600,6 +623,12 @@ public abstract class AccountDelta {
       @Override
       public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
         delegate.setEditPreferences(editPreferences);
+        return this;
+      }
+
+      @Override
+      public Builder setShouldDeleteAccount(boolean shouldDelete) {
+        delegate.setShouldDeleteAccount(shouldDelete);
         return this;
       }
     }

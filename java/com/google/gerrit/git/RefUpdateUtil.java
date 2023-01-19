@@ -16,6 +16,7 @@ package com.google.gerrit.git;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -135,6 +136,10 @@ public class RefUpdateUtil {
     }
   }
 
+  public static RefUpdate deleteChecked(Repository repo, String refName) throws IOException {
+    return deleteChecked(repo, refName, false);
+  }
+
   /**
    * Delete a single ref, throwing a checked exception on failure.
    *
@@ -143,22 +148,27 @@ public class RefUpdateUtil {
    *
    * @param repo repository.
    * @param refName ref name to delete.
+   * @param forcePreexists whether to verify the reference for deletion was preexists.
    * @throws LockFailureException if a low-level lock failure (e.g. compare-and-swap failure)
    *     occurs.
    * @throws IOException if an error occurred.
    */
-  public static void deleteChecked(Repository repo, String refName) throws IOException {
+  public static RefUpdate deleteChecked(Repository repo, String refName, boolean forcePreexists)
+      throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setForceUpdate(true);
     ru.setCheckConflicting(false);
     switch (ru.delete()) {
       case FORCED:
         // Ref was deleted.
-        return;
+        return ru;
 
       case NEW:
         // Ref didn't exist (yes, really).
-        return;
+        if (forcePreexists) {
+          throw new NoSuchElementException("Requested to delete a nonexistent object: " + refName);
+        }
+        return ru;
 
       case LOCK_FAILURE:
         throw new LockFailureException("Failed to delete " + refName + ": " + ru.getResult(), ru);

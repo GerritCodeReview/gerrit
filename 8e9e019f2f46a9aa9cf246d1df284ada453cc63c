@@ -75,6 +75,24 @@
       "parentUuid": "8a43dc2b_56e3c8d4",
       "revId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b19ad27_1a6ac164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-19T15:01:04Z",
+      "side": 1,
+      "message": "Restored the change. The reason for this upgrade is google upgrading their internal version of h2 to v2 which broke test \"javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java\". We\u0027ve applied a temporary internal patch to workaround that.",
+      "parentUuid": "3a6cdd76_d0361f06",
+      "revId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
@@ -92,13 +110,16 @@
         "allowOverrideInChildProjects": true
       },
       "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Review=MAX,user=non_uploader","label:Code-Review=MIN"]},
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Review=MAX,user=non_uploader","label:Code-Review=MIN"]}
+      },
       "overrideExpressionResult": {},
       "patchSetCommitId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -120,13 +141,16 @@
       "applicabilityExpressionResult": {
         "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
       },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]},
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
+      },
       "overrideExpressionResult": {},
       "patchSetCommitId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -148,13 +172,16 @@
       "applicabilityExpressionResult": {
         "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^tools/deps.bzl$\""],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\""]}
       },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Library-Compliance=MAX,user=non_uploader","label:Library-Compliance=MIN"]},
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Library-Compliance=MAX,user=non_uploader","label:Library-Compliance=MIN"]}
+      },
       "overrideExpressionResult": {},
       "patchSetCommitId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -176,13 +203,16 @@
       "applicabilityExpressionResult": {
         "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
       },
-      "submittabilityExpressionResult": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]},
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
+      },
       "overrideExpressionResult": {},
       "patchSetCommitId": "8e9e019f2f46a9aa9cf246d1df284ada453cc63c",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     }
   ]
 }

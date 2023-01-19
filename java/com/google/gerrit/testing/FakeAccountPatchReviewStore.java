@@ -117,6 +117,19 @@ public class FakeAccountPatchReviewStore implements AccountPatchReviewStore, Lif
   }
 
   @Override
+  public void clearReviewedBy(Account.Id accountId) {
+    synchronized (store) {
+      List<Entity> toRemove = new ArrayList<>();
+      for (Entity entity : store) {
+        if (entity.accountId().equals(accountId)) {
+          toRemove.add(entity);
+        }
+      }
+      store.removeAll(toRemove);
+    }
+  }
+
+  @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId) {
     synchronized (store) {
       int matchedPsNumber = -1;

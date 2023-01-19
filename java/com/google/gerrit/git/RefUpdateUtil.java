@@ -147,18 +147,18 @@ public class RefUpdateUtil {
    *     occurs.
    * @throws IOException if an error occurred.
    */
-  public static void deleteChecked(Repository repo, String refName) throws IOException {
+  public static RefUpdate deleteChecked(Repository repo, String refName) throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setForceUpdate(true);
     ru.setCheckConflicting(false);
     switch (ru.delete()) {
       case FORCED:
         // Ref was deleted.
-        return;
+        return ru;
 
       case NEW:
         // Ref didn't exist (yes, really).
-        return;
+        return ru;
 
       case LOCK_FAILURE:
         throw new LockFailureException("Failed to delete " + refName + ": " + ru.getResult(), ru);

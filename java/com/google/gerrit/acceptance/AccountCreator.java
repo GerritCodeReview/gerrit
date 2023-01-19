@@ -166,6 +166,10 @@ public class AccountCreator {
         accounts.get(username), () -> String.format("No TestAccount created for %s ", username));
   }
 
+  public void evict(Account.Id id) {
+    evict(ImmutableSet.of(id));
+  }
+
   public void evict(Collection<Account.Id> ids) {
     accounts.values().removeIf(a -> ids.contains(a.id()));
   }

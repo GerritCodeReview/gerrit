@@ -186,6 +186,27 @@ returned that describes the created account.
   }
 ----
 
+[[delete-account]]
+=== Delete Account
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]'
+--
+
+Deletes the given account.
+
+Currently only supporting self deletion (regardless of the way
+link:#account-id[\{account-id\}] is provided).
+
+.Request
+----
+  DELETE /accounts/self HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-detail]]
 === Get Account Details
 --

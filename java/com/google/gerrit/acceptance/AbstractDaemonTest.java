@@ -293,6 +293,7 @@ public abstract class AbstractDaemonTest {
   protected TestAccount admin;
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
+  protected String testMethodName;
   protected String resourcePrefix;
   protected Description description;
   protected GerritServer.Description testMethodDescription;
@@ -479,9 +480,10 @@ public abstract class AbstractDaemonTest {
 
     initSsh();
 
+    testMethodName = description.getMethodName();
     resourcePrefix =
         UNSAFE_PROJECT_NAME
-            .matcher(description.getClassName() + "_" + description.getMethodName() + "_")
+            .matcher(description.getClassName() + "_" + testMethodName + "_")
             .replaceAll("");
 
     Context ctx = newRequestContext(admin);

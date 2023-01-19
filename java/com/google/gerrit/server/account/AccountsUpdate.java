@@ -24,6 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
@@ -32,6 +33,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -375,6 +377,25 @@ public class AccountsUpdate {
     return updateBatch(
             ImmutableList.of(new UpdateArguments(message, accountId, configureDeltaFromState)))
         .get(0);
+  }
+
+  /**
+   * Deletes all the account state data.
+   *
+   * @param message commit message for the account update, must not be {@code null or empty}
+   * @param accountId ID of the account
+   * @param currentState state of the account
+   * @throws IOException if updating the user branch fails due to an IO error
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
+   */
+  public void delete(String message, Account.Id accountId, AccountState currentState)
+      throws IOException, ConfigInvalidException {
+    ImmutableSet<ExternalId> accountExternalIds = externalIds.byAccount(accountId);
+    ImmutableSet<ProjectWatches.ProjectWatchKey> projectWatches =
+        currentState.projectWatches().keySet();
+    Consumer<AccountDelta.Builder> delta =
+        deltaBuilder -> deltaBuilder.deleteAllData(accountExternalIds, projectWatches);
+    update(message, accountId, delta);
   }
 
   private ExecutableUpdate createExecutableUpdate(UpdateArguments updateArguments) {

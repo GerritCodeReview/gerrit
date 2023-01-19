@@ -54,6 +54,7 @@ import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
+import com.google.gerrit.server.restapi.account.DeleteAccount;
 import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteDraftComments;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
@@ -136,6 +137,8 @@ public class AccountApiImpl implements AccountApi {
   private final PutName putName;
   private final PutHttpPassword putHttpPassword;
 
+  private final DeleteAccount deleteAccount;
+
   @Inject
   AccountApiImpl(
       AccountLoader.Factory ailf,
@@ -176,6 +179,7 @@ public class AccountApiImpl implements AccountApi {
       EmailApiImpl.Factory emailApi,
       PutName putName,
       PutHttpPassword putPassword,
+      DeleteAccount deleteAccount,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -216,6 +220,7 @@ public class AccountApiImpl implements AccountApi {
     this.emailApi = emailApi;
     this.putName = putName;
     this.putHttpPassword = putPassword;
+    this.deleteAccount = deleteAccount;
   }
 
   @Override
@@ -602,6 +607,15 @@ public class AccountApiImpl implements AccountApi {
       return result.isNone() ? null : result.value();
     } catch (Exception e) {
       throw asRestApiException("Cannot generate HTTP password", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      deleteAccount.apply(account, null);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete account " + account.getUser().getNameEmail(), e);
     }
   }
 }

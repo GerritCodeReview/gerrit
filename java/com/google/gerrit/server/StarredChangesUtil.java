@@ -267,6 +267,10 @@ public class StarredChangesUtil {
   }
 
   public ImmutableSet<Change.Id> byAccountId(Account.Id accountId) {
+    return byAccountId(accountId, true);
+  }
+
+  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, boolean skipInvalidChanges) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
@@ -283,7 +287,7 @@ public class StarredChangesUtil {
 
         // Skip invalid change ids.
         Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
-        if (changeId == null) {
+        if (skipInvalidChanges && changeId == null) {
           continue;
         }
         builder.add(changeId);

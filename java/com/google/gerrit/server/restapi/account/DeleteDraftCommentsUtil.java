@@ -87,7 +87,7 @@ public class DeleteDraftCommentsUtil {
   }
 
   public ImmutableList<DeletedDraftCommentInfo> deleteDraftComments(
-      IdentifiedUser user, String query) throws RestApiException, UpdateException {
+      IdentifiedUser user, @Nullable String query) throws RestApiException, UpdateException {
     CommentJson.HumanCommentFormatter humanCommentFormatter =
         commentJsonProvider.get().newHumanCommentFormatter();
     Account.Id accountId = user.getAccountId();

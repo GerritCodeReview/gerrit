@@ -343,6 +343,21 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
+  public void clearReviewedBy(Account.Id accountId) {
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Clear reviewed flags", Metadata.builder().accountId(accountId.get()).build());
+        Connection con = ds.getConnection();
+        PreparedStatement stmt =
+            con.prepareStatement("DELETE FROM account_patch_reviews " + "WHERE account_id = ?")) {
+      stmt.setInt(1, accountId.get());
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      throw convertError("delete", e);
+    }
+  }
+
+  @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId) {
     try (TraceTimer ignored =
             TraceContext.newTimer(

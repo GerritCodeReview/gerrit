@@ -447,6 +447,28 @@ public abstract class AccountDelta {
      */
     public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
 
+    /**
+     * Builds an AccountDelta that deletes all data.
+     *
+     * @param extIds external IDs that should be deleted
+     * @param projectWatches project watches that should be deleted
+     * @return the builder
+     */
+    public Builder deleteAllData(
+        Collection<ExternalId> extIds, Collection<ProjectWatches.ProjectWatchKey> projectWatches) {
+      setActive(false);
+      setFullName(null);
+      setDisplayName(null);
+      setPreferredEmail(null);
+      setStatus(null);
+      setGeneralPreferences(GeneralPreferencesInfo.defaults());
+      setDiffPreferences(DiffPreferencesInfo.defaults());
+      setEditPreferences(EditPreferencesInfo.defaults());
+      deleteExternalIds(extIds);
+      deleteProjectWatches(projectWatches);
+      return this;
+    }
+
     /** Builds the instance. */
     public abstract AccountDelta build();
 

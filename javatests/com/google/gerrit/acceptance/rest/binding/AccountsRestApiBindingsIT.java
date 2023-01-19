@@ -97,7 +97,9 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/capabilities"),
           RestCall.get("/accounts/%s/capabilities/viewPlugins"),
           RestCall.get("/accounts/%s/gpgkeys"),
-          RestCall.post("/accounts/%s/gpgkeys"));
+          RestCall.post("/accounts/%s/gpgkeys"),
+          // Account deletion must be the last tested endpoint
+          RestCall.delete("/accounts/%s"));
 
   /**
    * Email REST endpoints to be tested, each URL contains a placeholders for the account and email

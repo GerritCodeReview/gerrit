@@ -92,6 +92,7 @@ public class IdentifiedUserTest {
             bind(AccountCache.class).toInstance(accountCache);
             bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
             bind(Realm.class).toInstance(mockRealm);
+            install(new DefaultRefLogIdentityProvider.Module());
           }
         };
 

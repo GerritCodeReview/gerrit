@@ -6,6 +6,7 @@ junit_tests(
     srcs = glob(["*.java"]),
     runtime_deps = [
         "//java/com/google/gerrit/lucene",
+        "//lib/bouncycastle:bcpg",
         "//prolog:gerrit-prolog-common",
     ],
     deps = [

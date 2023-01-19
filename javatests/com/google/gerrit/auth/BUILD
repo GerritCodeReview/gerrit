@@ -11,6 +11,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//java/com/google/gerrit/lucene",
+        "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcprov",
         "//prolog:gerrit-prolog-common",
     ],

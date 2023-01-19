@@ -25,7 +25,7 @@ import {
   RepoState,
   SubmitType,
 } from '../../../constants/constants';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
@@ -36,8 +36,9 @@ import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/deep-util';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
@@ -150,16 +151,6 @@ export class GrRepo extends LitElement {
           color: var(--deemphasized-text-color);
           content: ' *';
         }
-        .loading,
-        .hide {
-          display: none;
-        }
-        #loading.loading {
-          display: block;
-        }
-        #loading:not(.loading) {
-          display: none;
-        }
         #options .repositorySettings {
           display: none;
         }
@@ -187,49 +178,48 @@ export class GrRepo extends LitElement {
             >
           </div>
         </div>
-        <div id="loading" class=${this.loading ? 'loading' : ''}>
-          Loading...
-        </div>
-        <div id="loadedContent" class=${this.loading ? 'loading' : ''}>
-          ${this.renderDownloadCommands()}
-          <h2
-            id="configurations"
-            class="heading-2 ${configChanged ? 'edited' : ''}"
-          >
-            Configurations
-          </h2>
-          <div id="form">
-            <fieldset>
-              ${this.renderDescription()} ${this.renderRepoOptions()}
-              ${this.renderPluginConfig()}
-              <gr-button
-                ?disabled=${this.readOnly || !configChanged}
-                @click=${this.handleSaveRepoConfig}
-                >Save changes</gr-button
-              >
-            </fieldset>
-            <gr-endpoint-decorator name="repo-config">
-              <gr-endpoint-param
-                name="repoName"
-                .value=${this.repo}
-              ></gr-endpoint-param>
-              <gr-endpoint-param
-                name="readOnly"
-                .value=${this.readOnly}
-              ></gr-endpoint-param>
-            </gr-endpoint-decorator>
-          </div>
-        </div>
+        ${when(
+          this.loading || !this.repoConfig,
+          () => html`<div id="loading">Loading...</div>`,
+          () => html`<div id="loadedContent">
+            ${this.renderDownloadCommands()}
+            <h2
+              id="configurations"
+              class="heading-2 ${configChanged ? 'edited' : ''}"
+            >
+              Configurations
+            </h2>
+            <div id="form">
+              <fieldset>
+                ${this.renderDescription()} ${this.renderRepoOptions()}
+                ${this.renderPluginConfig()}
+                <gr-button
+                  ?disabled=${this.readOnly || !configChanged}
+                  @click=${this.handleSaveRepoConfig}
+                  >Save changes</gr-button
+                >
+              </fieldset>
+              <gr-endpoint-decorator name="repo-config">
+                <gr-endpoint-param
+                  name="repoName"
+                  .value=${this.repo}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="readOnly"
+                  .value=${this.readOnly}
+                ></gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </div>
+          </div>`
+        )}
       </div>
     `;
   }
 
   private renderDownloadCommands() {
+    if (!this.schemes.length) return nothing;
     return html`
-      <div
-        id="downloadContent"
-        class=${!this.schemes || !this.schemes.length ? 'hide' : ''}
-      >
+      <div id="downloadContent">
         <h2 id="download" class="heading-2">Download</h2>
         <fieldset>
           <gr-download-commands
@@ -252,6 +242,7 @@ export class GrRepo extends LitElement {
   }
 
   private renderDescription() {
+    assertIsDefined(this.repoConfig, 'repoConfig');
     return html`
       <h3 id="Description" class="heading-3">Description</h3>
       <fieldset>
@@ -263,7 +254,7 @@ export class GrRepo extends LitElement {
           rows="4"
           monospace
           ?disabled=${this.readOnly}
-          .text=${this.repoConfig?.description ?? ''}
+          .text=${this.repoConfig.description ?? ''}
           @text-changed=${this.handleDescriptionTextChanged}
         ></gr-textarea>
       </fieldset>
@@ -725,8 +716,9 @@ export class GrRepo extends LitElement {
 
   private renderPluginConfig() {
     const pluginData = this.computePluginData();
+    if (!pluginData.length) return nothing;
     return html` <div
-      class="pluginConfig ${!pluginData || !pluginData.length ? 'hide' : ''}"
+      class="pluginConfig"
       @plugin-config-changed=${this.handlePluginConfigChanged}
     >
       <h3 class="heading-3">Plugins</h3>
@@ -762,6 +754,12 @@ export class GrRepo extends LitElement {
   // private but used in test
   async loadRepo() {
     if (!this.repo) return Promise.resolve();
+    this.repoConfig = undefined;
+    this.originalConfig = undefined;
+    this.loading = true;
+    this.weblinks = [];
+    this.schemesObj = undefined;
+    this.readOnly = true;
 
     const promises = [];
 
@@ -1121,6 +1119,7 @@ export class GrRepo extends LitElement {
 
   private handleDescriptionTextChanged(e: BindValueChangeEvent) {
     if (!this.repoConfig || this.loading) return;
+    if (this.repoConfig.description === e.detail.value) return;
     this.repoConfig = {
       ...this.repoConfig,
       description: e.detail.value,
@@ -1130,6 +1129,7 @@ export class GrRepo extends LitElement {
 
   private handleStateSelectBindValueChanged(e: BindValueChangeEvent) {
     if (!this.repoConfig || this.loading) return;
+    if (this.repoConfig.state === e.detail.value) return;
     this.repoConfig = {
       ...this.repoConfig,
       state: e.detail.value as RepoState,
@@ -1139,6 +1139,7 @@ export class GrRepo extends LitElement {
 
   private handleSubmitTypeSelectBindValueChanged(e: BindValueChangeEvent) {
     if (!this.repoConfig || this.loading) return;
+    if (this.repoConfig.submit_type === e.detail.value) return;
     this.repoConfig = {
       ...this.repoConfig,
       submit_type: e.detail.value as SubmitType,

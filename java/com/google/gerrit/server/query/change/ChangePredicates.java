@@ -98,7 +98,7 @@ public class ChangePredicates {
   public static Predicate<ChangeData> starBy(
       StarredChangesUtil starredChangesUtil, Account.Id id, String label) {
     Set<Predicate<ChangeData>> starredChanges =
-        starredChangesUtil.byAccountId(id, label).stream()
+        starredChangesUtil.byAccountIdAndLabel(id, label).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);

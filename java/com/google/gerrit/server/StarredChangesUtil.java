@@ -266,7 +266,25 @@ public class StarredChangesUtil {
     }
   }
 
-  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, String label) {
+  public ImmutableSet<Change.Id> byAccountIdIncludingInvalid(Account.Id accountId) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
+      for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
+        Account.Id currentAccountId = Account.Id.fromRef(ref.getName());
+        // Skip all refs that don't correspond with accountId.
+        if (currentAccountId == null || !currentAccountId.equals(accountId)) {
+          continue;
+        }
+        builder.add(Change.Id.fromAllUsersRef(ref.getName()));
+      }
+      return builder.build();
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format("Get starred changes for account %d failed", accountId.get()), e);
+    }
+  }
+
+  public ImmutableSet<Change.Id> byAccountIdAndLabel(Account.Id accountId, String label) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
@@ -291,7 +309,9 @@ public class StarredChangesUtil {
       return builder.build();
     } catch (IOException e) {
       throw new StorageException(
-          String.format("Get starred changes for account %d failed", accountId.get()), e);
+          String.format(
+              "Get starred changes for account %d and label %s failed", accountId.get(), label),
+          e);
     }
   }
 

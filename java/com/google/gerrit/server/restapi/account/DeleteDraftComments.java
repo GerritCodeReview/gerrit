@@ -14,88 +14,32 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangePredicates;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.restapi.change.CommentJson;
-import com.google.gerrit.server.restapi.change.CommentJson.HumanCommentFormatter;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Singleton
 public class DeleteDraftComments
     implements RestModifyView<AccountResource, DeleteDraftCommentsInput> {
 
   private final Provider<CurrentUser> userProvider;
-  private final BatchUpdate.Factory batchUpdateFactory;
-  private final ChangeQueryBuilder queryBuilder;
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final ChangeData.Factory changeDataFactory;
-  private final ChangeJson.Factory changeJsonFactory;
-  private final Provider<CommentJson> commentJsonProvider;
-  private final CommentsUtil commentsUtil;
-  private final PatchSetUtil psUtil;
+  private final DeleteDraftCommentsUtil deleteDraftCommentsUtil;
 
   @Inject
   DeleteDraftComments(
-      Provider<CurrentUser> userProvider,
-      BatchUpdate.Factory batchUpdateFactory,
-      ChangeQueryBuilder queryBuilder,
-      Provider<InternalChangeQuery> queryProvider,
-      ChangeData.Factory changeDataFactory,
-      ChangeJson.Factory changeJsonFactory,
-      Provider<CommentJson> commentJsonProvider,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil) {
+      Provider<CurrentUser> userProvider, DeleteDraftCommentsUtil deleteDraftCommentsUtil) {
     this.userProvider = userProvider;
-    this.batchUpdateFactory = batchUpdateFactory;
-    this.queryBuilder = queryBuilder;
-    this.queryProvider = queryProvider;
-    this.changeDataFactory = changeDataFactory;
-    this.changeJsonFactory = changeJsonFactory;
-    this.commentJsonProvider = commentJsonProvider;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
+    this.deleteDraftCommentsUtil = deleteDraftCommentsUtil;
   }
 
   @Override
@@ -115,81 +59,6 @@ public class DeleteDraftComments
       throw new AuthException("Cannot delete drafts of other user");
     }
 
-    HumanCommentFormatter humanCommentFormatter =
-        commentJsonProvider.get().newHumanCommentFormatter();
-    Account.Id accountId = rsrc.getUser().getAccountId();
-    Instant now = TimeUtil.now();
-    Map<Project.NameKey, BatchUpdate> updates = new LinkedHashMap<>();
-    List<Op> ops = new ArrayList<>();
-    for (ChangeData cd :
-        queryProvider
-            .get()
-            // Don't attempt to mutate any changes the user can't currently see.
-            .enforceVisibility(true)
-            .query(predicate(accountId, input))) {
-      BatchUpdate update =
-          updates.computeIfAbsent(
-              cd.project(), p -> batchUpdateFactory.create(p, rsrc.getUser(), now));
-      Op op = new Op(humanCommentFormatter, accountId);
-      update.addOp(cd.getId(), op);
-      ops.add(op);
-    }
-
-    // Currently there's no way to let some updates succeed even if others fail. Even if there were,
-    // all updates from this operation only happen in All-Users and thus are fully atomic, so
-    // allowing partial failure would have little value.
-    BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
-
-    return Response.ok(
-        ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList()));
-  }
-
-  private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)
-      throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(commentsUtil, accountId);
-    if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(input.query)).isEmpty()) {
-      return hasDraft;
-    }
-    try {
-      return Predicate.and(hasDraft, queryBuilder.parse(input.query));
-    } catch (QueryParseException e) {
-      throw new BadRequestException("Invalid query: " + e.getMessage(), e);
-    }
-  }
-
-  private class Op implements BatchUpdateOp {
-    private final HumanCommentFormatter humanCommentFormatter;
-    private final Account.Id accountId;
-    private DeletedDraftCommentInfo result;
-
-    Op(HumanCommentFormatter humanCommentFormatter, Account.Id accountId) {
-      this.humanCommentFormatter = humanCommentFormatter;
-      this.accountId = accountId;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) throws PermissionBackendException {
-      ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
-      boolean dirty = false;
-      for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
-        dirty = true;
-        PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
-        commentsUtil.setCommentCommitId(c, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
-        commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
-        comments.add(humanCommentFormatter.format(c));
-      }
-      if (dirty) {
-        result = new DeletedDraftCommentInfo();
-        result.change =
-            changeJsonFactory.noOptions().format(changeDataFactory.create(ctx.getNotes()));
-        result.deleted = comments.build();
-      }
-      return dirty;
-    }
-
-    @Nullable
-    DeletedDraftCommentInfo getResult() {
-      return result;
-    }
+    return Response.ok(deleteDraftCommentsUtil.deleteDraftComments(rsrc.getUser(), input.query));
   }
 }

@@ -1317,6 +1317,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user=user1", change1);
     assertQuery("label:Code-Review=+1,user=user2");
     assertQuery("label:Code-Review=+1,group=" + external_group2.get());
+
+    // Negated operator tests
+    assertQuery("-label:Code-Review=+1," + external_group1.get(), change2);
+    assertQuery("-label:Code-Review=+1,group=" + external_group1.get(), change2);
+    assertQuery("-label:Code-Review=+1,user=user1", change2);
+    assertQuery("-label:Code-Review=+1,group=" + external_group2.get(), change2, change1);
+    assertQuery("-label:Code-Review=+1,user=user2", change2, change1);
   }
 
   @Test

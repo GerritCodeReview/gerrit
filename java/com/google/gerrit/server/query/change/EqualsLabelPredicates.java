@@ -21,6 +21,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -30,7 +31,39 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Optional;
 
-public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
+public class EqualsLabelPredicates {
+  public class PostFilterEqualsLabelPredicate extends PostFilterPredicate<ChangeData> {
+    public PostFilterEqualsLabelPredicate() {
+      super(ChangeQueryBuilder.FIELD_LABEL, ChangeField.formatLabel(label, expVal));
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      return EqualsLabelPredicates.this.match(object);
+    }
+
+    @Override
+    public int getCost() {
+      return 2;
+    }
+  }
+
+  public class IndexEqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
+    public IndexEqualsLabelPredicate() {
+      super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      return EqualsLabelPredicates.this.match(object);
+    }
+
+    @Override
+    public int getCost() {
+      return 1 + (group == null ? 0 : 1);
+    }
+  }
+
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
@@ -39,9 +72,11 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
   protected final Account.Id account;
   protected final AccountGroup.UUID group;
 
-  public EqualsLabelPredicate(
-      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+  EqualsLabelPredicates(LabelPredicate.Args args, String label, int expVal) {
+    this(args, label, expVal, null);
+  }
+
+  EqualsLabelPredicates(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
@@ -51,8 +86,7 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
     this.account = account;
   }
 
-  @Override
-  public boolean match(ChangeData object) {
+  protected boolean match(ChangeData object) {
     Change c = object.change();
     if (c == null) {
       // The change has disappeared.
@@ -77,7 +111,7 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(object, p.value(), p.accountId())) {
+        if (match(object, p)) {
           return true;
         }
       }
@@ -90,23 +124,11 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
     return false;
   }
 
-  protected static LabelType type(LabelTypes types, String toFind) {
-    if (types.byLabel(toFind).isPresent()) {
-      return types.byLabel(toFind).get();
-    }
-
-    for (LabelType lt : types.getLabelTypes()) {
-      if (toFind.equalsIgnoreCase(lt.getName())) {
-        return lt;
-      }
-    }
-    return null;
-  }
-
-  protected boolean match(ChangeData cd, short value, Account.Id approver) {
-    if (value != expVal) {
+  protected boolean match(ChangeData cd, PatchSetApproval p) {
+    if (p.value() != expVal) {
       return false;
     }
+    Account.Id approver = p.accountId();
 
     if (account != null) {
       // case when account in query is numeric
@@ -151,8 +173,16 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
         || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID);
   }
 
-  @Override
-  public int getCost() {
-    return 1 + (group == null ? 0 : 1);
+  public static LabelType type(LabelTypes types, String toFind) {
+    if (types.byLabel(toFind).isPresent()) {
+      return types.byLabel(toFind).get();
+    }
+
+    for (LabelType lt : types.getLabelTypes()) {
+      if (toFind.equalsIgnoreCase(lt.getName())) {
+        return lt;
+      }
+    }
+    return null;
   }
 }

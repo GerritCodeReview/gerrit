@@ -156,4 +156,8 @@ public interface Index<K, V> {
   default boolean isEnabled() {
     return true;
   }
+
+  default IndexRewriter<V> getIndexRewriter() {
+    return (in, opts) -> in;
+  }
 }

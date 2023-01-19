@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -89,6 +90,16 @@ public interface AccountPatchReviewStore {
    * @param changeId change ID
    */
   void clearReviewed(Change.Id changeId);
+
+  /**
+   * Clears the reviewed flags for the given user in all the relevant changes/patch-set/files.
+   *
+   * @param accountId account ID of the user
+   */
+  default void clearReviewedBy(Account.Id accountId) {
+    throw new NotImplementedException(
+        "clearReviewedBy() is not implemented for this AccountPatchReviewStore.");
+  }
 
   /**
    * Find the latest patch set, that is smaller or equals to the given patch set, where at least,

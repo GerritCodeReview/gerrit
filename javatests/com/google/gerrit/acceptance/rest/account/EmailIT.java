@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.DefaultRealm;
@@ -57,6 +58,7 @@ import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @AnonymousCowardName String anonymousCowardName;
+  @Inject private RefLogIdentityProvider refLogIdentityProvider;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
   @Inject private @EnablePeerIPInReflogRecord boolean enablePeerIPInReflogRecord;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
@@ -283,6 +285,7 @@ public class EmailIT extends AbstractDaemonTest {
             authConfig,
             realm,
             anonymousCowardName,
+            refLogIdentityProvider,
             canonicalUrl,
             enablePeerIPInReflogRecord,
             accountCache,

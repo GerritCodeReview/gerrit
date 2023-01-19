@@ -36,6 +36,7 @@ import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CacheRefreshExecutor;
+import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -193,6 +194,7 @@ public class InMemoryModule extends FactoryModule {
     install(new AuthModule(authConfig));
     install(new GerritApiModule());
     install(new ProjectQueryBuilderModule());
+    install(new DefaultRefLogIdentityProvider.Module());
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());

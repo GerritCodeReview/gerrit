@@ -103,25 +103,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(ChangePredicates.idStr(id));
   }
 
-  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
-    List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      preds.add(ChangePredicates.idStr(id));
-    }
-    return query(or(preds));
-  }
-
   public List<ChangeData> byBranchKey(BranchNameKey branch, Change.Key key) {
     return query(byBranchKeyPred(branch, key));
-  }
-
-  public List<ChangeData> byBranchKeyOpen(Project.NameKey project, String branch, Change.Key key) {
-    return query(and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open()));
-  }
-
-  public static Predicate<ChangeData> byBranchKeyOpenPred(
-      Project.NameKey project, String branch, Change.Key key) {
-    return and(byBranchKeyPred(BranchNameKey.create(project, branch), key), open());
   }
 
   private static Predicate<ChangeData> byBranchKeyPred(BranchNameKey branch, Change.Key key) {

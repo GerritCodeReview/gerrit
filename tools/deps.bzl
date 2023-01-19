@@ -2,7 +2,7 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
-COMMONMARK_VERS = "0.10.0"
+COMMONMARK_VERSION = "0.21.0"
 FLEXMARK_VERS = "0.50.50"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
@@ -14,7 +14,7 @@ AUTO_VALUE_VERSION = "1.7.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
-GITILES_VERS = "1.0.0"
+GITILES_VERS = "1.1.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
@@ -172,26 +172,26 @@ def java_dependencies():
     # commonmark must match the version used in Gitiles
     maven_jar(
         name = "commonmark",
-        artifact = "com.atlassian.commonmark:commonmark:" + COMMONMARK_VERS,
-        sha1 = "119cb7bedc3570d9ecb64ec69ab7686b5c20559b",
+        artifact = "org.commonmark:commonmark:" + COMMONMARK_VERSION,
+        sha1 = "c98f0473b17c87fe4fa2fc62a7c6523a2fe018f0",
     )
 
     maven_jar(
         name = "cm-autolink",
-        artifact = "com.atlassian.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERS,
-        sha1 = "a6056a5efbd68f57d420bc51bbc54b28a5d3c56b",
+        artifact = "org.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERSION,
+        sha1 = "55c0312cf443fa3d5af0daeeeca00d6deee3cf90",
     )
 
     maven_jar(
         name = "gfm-strikethrough",
-        artifact = "com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERS,
-        sha1 = "40837da951b421b545edddac57012e15fcc9e63c",
+        artifact = "org.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERSION,
+        sha1 = "953f4b71e133a98fcca93f3c3f4e58b895b76d1f",
     )
 
     maven_jar(
         name = "gfm-tables",
-        artifact = "com.atlassian.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERS,
-        sha1 = "c075db2a3301100cf70c7dced8ecf86b494458a2",
+        artifact = "org.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERSION,
+        sha1 = "fb7d65fa89a4cfcd2f51535d2549b570cf1dbd1a",
     )
 
     maven_jar(
@@ -347,8 +347,8 @@ def java_dependencies():
     # Transitive dependency of flexmark and gitiles
     maven_jar(
         name = "autolink",
-        artifact = "org.nibor.autolink:autolink:0.7.0",
-        sha1 = "649f9f13422cf50c926febe6035662ae25dc89b2",
+        artifact = "org.nibor.autolink:autolink:0.10.0",
+        sha1 = "6579ea7079be461e5ffa99f33222a632711cc671",
     )
 
     maven_jar(
@@ -527,14 +527,14 @@ def java_dependencies():
         artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
         attach_source = False,
         repository = GITILES_REPO,
-        sha1 = "f46833f8aa6f33ce3e443c8a414c295559eaf43e",
+        sha1 = "31c1a6e5d92b57bb2f9db24e1032145961c09a8d",
     )
 
     maven_jar(
         name = "gitiles-servlet",
         artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
         repository = GITILES_REPO,
-        sha1 = "90e107da00c2cd32490dd9ae8e3fb1ee095ea675",
+        sha1 = "c6550362c5c22d8e07edd4e2151ee12594082e76",
     )
 
     # prettify must match the version used in Gitiles

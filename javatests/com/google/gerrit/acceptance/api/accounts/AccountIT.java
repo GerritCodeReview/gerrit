@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -145,6 +146,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -175,6 +177,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -254,6 +258,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountOperations accountOperations;
 
   @Inject protected GroupOperations groupOperations;
+
+  @Inject private AccountPatchReviewStore accountPatchReviewStore;
 
   private BasicCookieStore httpCookieStore;
   private CloseableHttpClient httpclient;
@@ -3224,6 +3230,214 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void deleteAccount_deletesAccountIdentifiers() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    String secondaryEmail = "secondary@email.com";
+    gApi.accounts().id(deleted.id().get()).addEmail(newEmailInput(secondaryEmail));
+
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(deleted.id().get()).get());
+    assertThrows(NoSuchElementException.class, () -> accountCache.get(deleted.id()).get());
+
+    // Verifies the account is not queryable
+    assertThat(gApi.accounts().query(deleted.id().toString()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.username()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.fullName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.displayName()).get()).isEmpty();
+    assertThat(gApi.accounts().query(deleted.email()).get()).isEmpty();
+    assertThat(gApi.accounts().query(secondaryEmail).get()).isEmpty();
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesAccountExternalIds() throws Exception {
+    TestAccount deleted =
+        accountCreator.create("deleted", "deleted@internal.com", "Full Name", "Display");
+    requestScopeOperations.setApiUser(deleted.id());
+    addExternalIdEmail(deleted, "deleted@external.com");
+    assertExternalEmails(
+        deleted.id(), ImmutableSet.of("deleted@internal.com", "deleted@external.com"));
+
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(externalIds.allByEmail().keySet())
+        .containsNoneOf("deleted@internal.com", "deleted@external.com");
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  @UseSsh
+  public void deleteAccount_deletesSshKeys() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    requestScopeOperations.setApiUser(deleted.id());
+    String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), deleted.email());
+    gApi.accounts().self().addSshKey(newKey);
+    assertThat(gApi.accounts().self().listSshKeys()).hasSize(1);
+    assertThat(authorizedKeys.getKeys(deleted.id())).hasSize(1);
+
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(authorizedKeys.getKeys(deleted.id())).isEmpty();
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesGpgKeys() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+
+    requestScopeOperations.setApiUser(deleted.id());
+    addExternalIdEmail(
+        deleted,
+        PushCertificateIdent.parse(validKeyWithoutExpiration().getFirstUserId()).getEmailAddress());
+    TestKey key = validKeyWithoutExpiration();
+    addGpgKey(deleted, key.getPublicKeyArmored());
+    assertKeys(key);
+    assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
+
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    try (PublicKeyStore store = publicKeyStoreProvider.get()) {
+      Iterable<PGPPublicKeyRing> keys = store.get(key.getKeyId());
+      assertThat(keys).isEmpty();
+    }
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesStarredChanges() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.accounts().self().starChange(triplet);
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(RefNames.refsStarredChangesPrefix(r.getChange().getId())))
+          .hasSize(1);
+
+      gApi.accounts().self().delete();
+
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(RefNames.refsStarredChangesPrefix(r.getChange().getId())))
+          .isEmpty();
+    }
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesChangeEdits() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    gApi.changes().id(r.getChangeId()).edit().create();
+    gApi.changes()
+        .id(r.getChangeId())
+        .edit()
+        .modifyFile(PushOneCommit.FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+    try (Repository repo = repoManager.openRepository(r.getChange().change().getProject())) {
+      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsEditPrefix(deleted.id())))
+          .hasSize(1);
+
+      gApi.accounts().self().delete();
+
+      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsEditPrefix(deleted.id())))
+          .isEmpty();
+    }
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesDraftComments() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    createDraft(r, PushOneCommit.FILE_NAME, "draft");
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(r.getChange().getId())))
+          .hasSize(1);
+
+      gApi.accounts().self().delete();
+
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(r.getChange().getId())))
+          .isEmpty();
+    }
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_deletesReviewedFlags() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = deleted.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(deleted.id());
+
+    accountPatchReviewStore.markReviewed(r.getPatchSetId(), deleted.id(), PushOneCommit.FILE_NAME);
+    assertThat(accountPatchReviewStore.findReviewed(r.getPatchSetId(), deleted.id())).isPresent();
+
+    gApi.accounts().self().delete();
+
+    assertThat(accountPatchReviewStore.findReviewed(r.getPatchSetId(), deleted.id())).isEmpty();
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_appliesForSelfById() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    requestScopeOperations.setApiUser(deleted.id());
+    gApi.accounts().id(deleted.id().get()).delete();
+
+    // Clean up the test framework
+    accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_throwsForOtherUsers() throws Exception {
+    TestAccount deleted = accountCreator.createValid(testMethodName);
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is only permitted for self");
+  }
+
   private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)
       throws IOException {
     TestGroupBackend testGroupBackend = new TestGroupBackend();
@@ -3277,6 +3491,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(
             gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(e -> e.identity)
+                .collect(toImmutableSet()))
+        .isEqualTo(extIds);
+  }
+
+  private void assertExternalEmails(Account.Id accountId, ImmutableSet<String> extIds)
+      throws Exception {
+    assertThat(
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
+                .map(e -> e.emailAddress)
+                .filter(Objects::nonNull)
                 .collect(toImmutableSet()))
         .isEqualTo(extIds);
   }

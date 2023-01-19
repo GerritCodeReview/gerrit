@@ -107,4 +107,9 @@ public class PublicKeyStoreUtil {
     }
     return res;
   }
+
+  public List<RefUpdate.Result> deleteAllPgpKeysForUser(
+      Account.Id id, PersonIdent committer, PersonIdent author) throws PGPException, IOException {
+    return deletePgpKeys(listGpgKeysForUser(id), committer, author);
+  }
 }

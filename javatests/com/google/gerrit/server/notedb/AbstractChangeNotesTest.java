@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -180,6 +181,7 @@ public abstract class AbstractChangeNotesTest {
 
             install(new DefaultUrlFormatterModule());
             install(NoteDbModule.forTest());
+            install(new DefaultRefLogIdentityProvider.Module());
             bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
             bind(String.class).annotatedWith(GerritServerId.class).toInstance(serverId);
             bind(new TypeLiteral<ImmutableSet<String>>() {})

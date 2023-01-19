@@ -43,6 +43,16 @@ presented instead of a list.
 For more predictable results, use explicit search operators as described
 in the following section.
 
+|===
+| Note: The change search API is backed by a secondary index and might
+  sometimes return stale results if the re-indexing operation failed with the
+  change update.
+
+  Please also note that changes are not re-indexed if the project configuration
+  is updated with newly added or modified
+  link:config-submit-requirements.html[submit requirements].
+|===
+
 [[search-operators]]
 == Search Operators
 

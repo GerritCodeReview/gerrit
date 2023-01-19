@@ -147,23 +147,35 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   }
 
   protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
+    if (args.group != null && !args.group.isInternalGroup()) {
+      // We can only get members of internal groups and negating an index search that doesn't
+      // include the external group information leads to incorrect query results. Use a
+      // PostFilterPredicate in this case instead.
+      return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(args, label, expVal);
+    }
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicate(args, label, expVal, null);
+      return new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new EqualsLabelPredicate(args, label, expVal, a));
+      r.add(new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, a));
     }
     return or(r);
   }
 
   protected static Predicate<ChangeData> magicLabelPredicate(Args args, MagicLabelVote mlv) {
+    if (args.group != null && !args.group.isInternalGroup()) {
+      // We can only get members of internal groups and negating an index search that doesn't
+      // include the external group information leads to incorrect query results. Use a
+      // PostFilterPredicate in this case instead.
+      return new MagicLabelPredicates.PostFilterMagicLabelPredicate(args, mlv);
+    }
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new MagicLabelPredicate(args, mlv, /* account= */ null);
+      return new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new MagicLabelPredicate(args, mlv, a));
+      r.add(new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv, a));
     }
     return or(r);
   }

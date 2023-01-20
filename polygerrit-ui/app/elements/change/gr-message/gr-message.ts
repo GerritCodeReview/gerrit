@@ -93,7 +93,7 @@ export class GrMessage extends LitElement {
   @property({type: Array})
   commentThreads: CommentThread[] = [];
 
-  get author() {
+  getAuthor() {
     return this.message?.author || this.message?.updated_by;
   }
 
@@ -335,7 +335,7 @@ export class GrMessage extends LitElement {
         `
       )}
       <gr-account-label
-        .account=${this.author}
+        .account=${this.getAuthor()}
         .change=${this.change}
         class="authorLabel"
       ></gr-account-label>
@@ -687,11 +687,10 @@ export class GrMessage extends LitElement {
 
   // private but used in tests
   computeShowOnBehalfOf() {
-    if (!this.message) return false;
-    return !!(
-      this.author &&
-      this.message.real_author &&
-      this.author._account_id !== this.message.real_author._account_id
+    const author = this.getAuthor();
+    const realAuthor = this.message?.real_author;
+    return (
+      !!author && !!realAuthor && author._account_id !== realAuthor._account_id
     );
   }
 
@@ -740,7 +739,7 @@ export class GrMessage extends LitElement {
     const expanded = this.message?.expanded;
     const classes = [];
     classes.push(expanded ? 'expanded' : 'collapsed');
-    if (isServiceUser(this.author)) classes.push('serviceUser');
+    if (isServiceUser(this.getAuthor())) classes.push('serviceUser');
     return classes.join(' ');
   }
 

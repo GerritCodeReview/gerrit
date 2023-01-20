@@ -1370,10 +1370,11 @@ by navigating at the top of the page to BROWSE -> Groups, and then pushing the
 [[capability_createProject]]
 === Create Project
 
-Allow project creation.  This capability allows the granted group to
-either link:cmd-create-project.html[create new git projects via ssh]
-or via the web UI.
+Allow project creation.
 
+This capability allows the granted group to create projects via the web UI, via
+link:rest-api-projects.html#create-project][REST] and via
+link:cmd-create-project.html[SSH].
 
 [[capability_emailReviewers]]
 === Email Reviewers

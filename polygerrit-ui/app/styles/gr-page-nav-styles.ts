@@ -16,12 +16,15 @@ export const pageNavStyles = css`
     border-top: 1px solid transparent;
     display: block;
     padding: 0 var(--spacing-xl);
-  }
-  .navStyles li a {
-    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .navStyles li a {
+    display: block;
+    /* overflow and text-overflow are not inherited, must repeat them */
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .navStyles .subsectionItem {
     padding-left: var(--spacing-xxl);

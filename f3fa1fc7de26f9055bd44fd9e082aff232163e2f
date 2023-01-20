@@ -85,6 +85,24 @@
       "message": "I\u0027ve previously looked at different types in our Pojos, we also have enums and timestamps, ObjectId and maybe more.\n\nUpdate: you added a TODO at L118.",
       "revId": "f3fa1fc7de26f9055bd44fd9e082aff232163e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1377ad_d59e6155",
+        "filename": "java/com/google/gerrit/util/cli/ApiProtocolBufferGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-20T15:43:37Z",
+      "side": 1,
+      "message": "go/gerrit-rest-api-entities",
+      "parentUuid": "e4d02a78_26ae698d",
+      "revId": "f3fa1fc7de26f9055bd44fd9e082aff232163e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

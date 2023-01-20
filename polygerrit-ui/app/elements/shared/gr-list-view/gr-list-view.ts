@@ -121,30 +121,18 @@ export class GrListView extends LitElement {
       </div>
       <slot></slot>
       <nav>
-        Page ${this.computePage(this.offset, this.itemsPerPage)}
+        Page ${this.computePage()}
         <a
           id="prevArrow"
-          href=${this.computeNavLink(
-            this.offset,
-            -1,
-            this.itemsPerPage,
-            this.filter,
-            this.path
-          )}
+          href=${this.computeNavLink(-1)}
           ?hidden=${this.loading || this.offset === 0}
         >
           <gr-icon icon="chevron_left"></gr-icon>
         </a>
         <a
           id="nextArrow"
-          href=${this.computeNavLink(
-            this.offset,
-            1,
-            this.itemsPerPage,
-            this.filter,
-            this.path
-          )}
-          ?hidden=${this.hideNextArrow(this.loading, this.items)}
+          href=${this.computeNavLink(1)}
+          ?hidden=${this.hideNextArrow()}
         >
           <gr-icon icon="chevron_right"></gr-icon>
         </a>
@@ -193,19 +181,13 @@ export class GrListView extends LitElement {
   }
 
   // private but used in test
-  computeNavLink(
-    offset: number,
-    direction: number,
-    itemsPerPage: number,
-    filter: string | undefined,
-    path = ''
-  ) {
+  computeNavLink(direction: number) {
     // Offset could be a string when passed from the router.
-    offset = +(offset || 0);
-    const newOffset = Math.max(0, offset + itemsPerPage * direction);
-    let href = getBaseUrl() + path;
-    if (filter) {
-      href += '/q/filter:' + encodeURL(filter, false);
+    const offset = +(this.offset || 0);
+    const newOffset = Math.max(0, offset + this.itemsPerPage * direction);
+    let href = getBaseUrl() + (this.path ?? '');
+    if (this.filter) {
+      href += '/q/filter:' + encodeURL(this.filter, false);
     }
     if (newOffset > 0) {
       href += `,${newOffset}`;
@@ -214,11 +196,9 @@ export class GrListView extends LitElement {
   }
 
   // private but used in test
-  hideNextArrow(loading?: boolean, items?: unknown[]) {
-    if (loading || !items || !items.length) {
-      return true;
-    }
-    const lastPage = items.length < this.itemsPerPage + 1;
+  hideNextArrow() {
+    if (this.loading || !this.items?.length) return true;
+    const lastPage = this.items.length < this.itemsPerPage + 1;
     return lastPage;
   }
 
@@ -226,8 +206,8 @@ export class GrListView extends LitElement {
   // to either support a decimal or make it go to the nearest
   // whole number (e.g 3).
   // private but used in test
-  computePage(offset: number, itemsPerPage: number) {
-    return offset / itemsPerPage + 1;
+  computePage() {
+    return this.offset / this.itemsPerPage + 1;
   }
 
   private handleFilterBindValueChanged(e: BindValueChangeEvent) {

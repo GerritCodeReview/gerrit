@@ -100,30 +100,30 @@ public class IdentifiedUser extends CurrentUser {
           enablePeerIPInReflogRecord,
           Providers.of(null),
           state,
-          null);
+          /* realUser= */ null);
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return create(null, id);
+      return create(/* remotePeer= */ null, id);
     }
 
     @VisibleForTesting
     @UsedAt(UsedAt.Project.GOOGLE)
     public IdentifiedUser forTest(Account.Id id, PropertyMap properties) {
-      return runAs(null, id, null, properties);
+      return runAs(/* remotePeer= */ null, id, /* caller= */ null, properties);
     }
 
-    public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return runAs(remotePeer, id, null);
+    public IdentifiedUser create(@Nullable SocketAddress remotePeer, Account.Id id) {
+      return runAs(remotePeer, id, /* caller= */ null);
     }
 
     public IdentifiedUser runAs(
-        SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
+        @Nullable SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
       return runAs(remotePeer, id, caller, PropertyMap.EMPTY);
     }
 
     private IdentifiedUser runAs(
-        SocketAddress remotePeer,
+        @Nullable SocketAddress remotePeer,
         Account.Id id,
         @Nullable CurrentUser caller,
         PropertyMap properties) {
@@ -244,7 +244,7 @@ public class IdentifiedUser extends CurrentUser {
       AccountCache accountCache,
       GroupBackend groupBackend,
       Boolean enablePeerIPInReflogRecord,
-      @Nullable Provider<SocketAddress> remotePeerProvider,
+      Provider<SocketAddress> remotePeerProvider,
       AccountState state,
       @Nullable CurrentUser realUser) {
     this(
@@ -270,7 +270,7 @@ public class IdentifiedUser extends CurrentUser {
       AccountCache accountCache,
       GroupBackend groupBackend,
       Boolean enablePeerIPInReflogRecord,
-      @Nullable Provider<SocketAddress> remotePeerProvider,
+      Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser,
       PropertyMap properties) {

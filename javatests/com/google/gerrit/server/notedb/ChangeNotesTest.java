@@ -825,7 +825,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         ImmutableList.of(", ", ":\"", ",", "!@#$%^\0&*):\" \n: \r\"#$@,. :");
     for (String strangeTag : strangeTags) {
       Change c = newChange();
-      CurrentUser otherUserAsOwner = userFactory.runAs(null, changeOwner.getAccountId(), otherUser);
+      CurrentUser otherUserAsOwner =
+          userFactory.runAs(/* remotePeer= */ null, changeOwner.getAccountId(), otherUser);
       ChangeUpdate update = newUpdate(c, otherUserAsOwner);
       update.putApproval(LabelId.CODE_REVIEW, (short) 2);
       update.setTag(strangeTag);

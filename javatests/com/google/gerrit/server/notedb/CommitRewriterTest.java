@@ -399,7 +399,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     IdentifiedUser impersonatedChangeOwner =
         this.userFactory.runAs(
-            null, changeOwner.getAccountId(), requireNonNull(otherUser).getRealUser());
+            /* remotePeer= */ null,
+            changeOwner.getAccountId(),
+            requireNonNull(otherUser).getRealUser());
     ChangeUpdate impersonatedChangeMessageUpdate = newUpdate(c, impersonatedChangeOwner);
     impersonatedChangeMessageUpdate.setChangeMessage("Other comment on behalf of");
     impersonatedChangeMessageUpdate.commit();

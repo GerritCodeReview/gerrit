@@ -354,7 +354,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void realUser() throws Exception {
     Change c = newChange();
-    CurrentUser ownerAsOtherUser = userFactory.runAs(null, otherUserId, changeOwner);
+    CurrentUser ownerAsOtherUser =
+        userFactory.runAs(/* remotePeer= */ null, otherUserId, changeOwner);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     update.setChangeMessage("Message on behalf of other user");
     update.commit();

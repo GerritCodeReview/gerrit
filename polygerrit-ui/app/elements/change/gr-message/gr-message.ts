@@ -93,6 +93,7 @@ export class GrMessage extends LitElement {
   @property({type: Array})
   commentThreads: CommentThread[] = [];
 
+  @state()
   get author() {
     return this.message?.author || this.message?.updated_by;
   }

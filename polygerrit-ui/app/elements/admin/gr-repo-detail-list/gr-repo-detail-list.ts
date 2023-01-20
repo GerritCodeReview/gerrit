@@ -25,7 +25,6 @@ import {
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
-import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -51,36 +50,30 @@ export class GrRepoDetailList extends LitElement {
   @property({type: Object})
   params?: RepoViewState;
 
-  // private but used in test
   @state() detailType?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
 
-  // private but used in test
   @state() isOwner = false;
 
-  @state() private loggedIn = false;
+  @state() loggedIn = false;
 
-  @state() private offset = 0;
+  @state() offset = 0;
 
-  // private but used in test
   @state() repo?: RepoName;
 
-  // private but used in test
   @state() items?: BranchInfo[] | TagInfo[];
 
-  @state() private readonly itemsPerPage = 25;
+  @state() readonly itemsPerPage = 25;
 
-  @state() private loading = true;
+  @state() loading = true;
 
-  @state() private filter?: string;
+  @state() filter?: string;
 
-  @state() private refName?: GitRef;
+  @state() refName?: GitRef;
 
-  @state() private newItemName = false;
+  @state() newItemName = false;
 
-  // private but used in test
   @state() isEditing = false;
 
-  // private but used in test
   @state() revisedRef?: GitRef;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -185,7 +178,7 @@ export class GrRepoDetailList extends LitElement {
           </tbody>
           <tbody class=${this.loading ? 'loading' : ''}>
             ${this.items
-              ?.slice(0, SHOWN_ITEMS_COUNT)
+              ?.slice(0, this.itemsPerPage)
               .map((item, index) => this.renderItemList(item, index))}
           </tbody>
         </table>

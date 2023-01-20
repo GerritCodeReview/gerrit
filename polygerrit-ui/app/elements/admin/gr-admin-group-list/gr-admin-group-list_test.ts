@@ -15,7 +15,6 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
@@ -117,7 +116,9 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('groups', () => {
-      assert.equal(element.groups.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.groupsPerPage);
     });
 
     test('maybeOpenCreateModal', async () => {
@@ -145,7 +146,9 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('groups', () => {
-      assert.equal(element.groups.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.groupsPerPage);
     });
   });
 

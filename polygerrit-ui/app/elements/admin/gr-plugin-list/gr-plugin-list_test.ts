@@ -17,7 +17,6 @@ import {
 import {PluginInfo} from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
-import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
@@ -334,7 +333,9 @@ suite('gr-plugin-list tests', () => {
     });
 
     test('plugins', () => {
-      assert.equal(element.plugins!.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.pluginsPerPage);
     });
   });
 
@@ -348,7 +349,9 @@ suite('gr-plugin-list tests', () => {
     });
 
     test('plugins', () => {
-      assert.equal(element.plugins!.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.pluginsPerPage);
     });
   });
 

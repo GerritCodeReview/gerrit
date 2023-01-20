@@ -57,36 +57,25 @@ suite('gr-list-view tests', () => {
   });
 
   test('computeNavLink', () => {
-    const offset = 25;
-    const projectsPerPage = 25;
-    let filter = 'test';
-    const path = '/admin/projects';
+    element.offset = 25;
+    element.itemsPerPage = 25;
+    element.filter = 'test';
+    element.path = '/admin/projects';
 
     stubBaseUrl('');
 
-    assert.equal(
-      element.computeNavLink(offset, 1, projectsPerPage, filter, path),
-      '/admin/projects/q/filter:test,50'
-    );
+    assert.equal(element.computeNavLink(1), '/admin/projects/q/filter:test,50');
 
-    assert.equal(
-      element.computeNavLink(offset, -1, projectsPerPage, filter, path),
-      '/admin/projects/q/filter:test'
-    );
+    assert.equal(element.computeNavLink(-1), '/admin/projects/q/filter:test');
 
-    assert.equal(
-      element.computeNavLink(offset, 1, projectsPerPage, undefined, path),
-      '/admin/projects,50'
-    );
+    element.filter = undefined;
+    assert.equal(element.computeNavLink(1), '/admin/projects,50');
 
-    assert.equal(
-      element.computeNavLink(offset, -1, projectsPerPage, undefined, path),
-      '/admin/projects'
-    );
+    assert.equal(element.computeNavLink(-1), '/admin/projects');
 
-    filter = 'plugins/';
+    element.filter = 'plugins/';
     assert.equal(
-      element.computeNavLink(offset, 1, projectsPerPage, filter, path),
+      element.computeNavLink(1),
       '/admin/projects/q/filter:plugins%252F,50'
     );
   });
@@ -113,19 +102,19 @@ suite('gr-list-view tests', () => {
 
   test('next button', async () => {
     element.itemsPerPage = 25;
-    let projects = new Array(26);
+    element.items = new Array(26);
+    element.loading = false;
     await element.updateComplete;
 
-    let loading;
-    assert.isFalse(element.hideNextArrow(loading, projects));
-    loading = true;
-    assert.isTrue(element.hideNextArrow(loading, projects));
-    loading = false;
-    assert.isFalse(element.hideNextArrow(loading, projects));
-    projects = [];
-    assert.isTrue(element.hideNextArrow(loading, projects));
-    projects = new Array(4);
-    assert.isTrue(element.hideNextArrow(loading, projects));
+    assert.isFalse(element.hideNextArrow());
+    element.loading = true;
+    assert.isTrue(element.hideNextArrow());
+    element.loading = false;
+    assert.isFalse(element.hideNextArrow());
+    element.items = [];
+    assert.isTrue(element.hideNextArrow());
+    element.items = new Array(4);
+    assert.isTrue(element.hideNextArrow());
   });
 
   test('prev button', async () => {
@@ -186,20 +175,40 @@ suite('gr-list-view tests', () => {
   test('next/prev links change when path changes', async () => {
     const BRANCHES_PATH = '/path/to/branches';
     const TAGS_PATH = '/path/to/tags';
-    const computeNavLinkStub = sinon.stub(element, 'computeNavLink');
     element.offset = 0;
     element.itemsPerPage = 25;
     element.filter = '';
     element.path = BRANCHES_PATH;
     await element.updateComplete;
-    assert.equal(computeNavLinkStub.lastCall.args[4], BRANCHES_PATH);
+
+    assert.dom.equal(
+      queryAndAssert(element, 'nav a'),
+      /* HTML */ `
+        <a hidden="" href="${BRANCHES_PATH}" id="prevArrow">
+          <gr-icon icon="chevron_left"> </gr-icon>
+        </a>
+      `
+    );
+
     element.path = TAGS_PATH;
     await element.updateComplete;
-    assert.equal(computeNavLinkStub.lastCall.args[4], TAGS_PATH);
+
+    assert.dom.equal(
+      queryAndAssert(element, 'nav a'),
+      /* HTML */ `
+        <a hidden="" href="${TAGS_PATH}" id="prevArrow">
+          <gr-icon icon="chevron_left"> </gr-icon>
+        </a>
+      `
+    );
   });
 
   test('computePage', () => {
-    assert.equal(element.computePage(0, 25), 1);
-    assert.equal(element.computePage(50, 25), 3);
+    element.offset = 0;
+    element.itemsPerPage = 25;
+    assert.equal(element.computePage(), 1);
+    element.offset = 50;
+    element.itemsPerPage = 25;
+    assert.equal(element.computePage(), 3);
   });
 });

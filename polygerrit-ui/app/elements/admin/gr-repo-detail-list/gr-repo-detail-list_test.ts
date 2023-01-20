@@ -32,7 +32,6 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {PageErrorEvent} from '../../../types/events';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
-import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {RepoDetailView} from '../../../models/views/repo';
 
@@ -2391,7 +2390,9 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('items', () => {
-        assert.equal(element.items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
+        const table = queryAndAssert(element, 'table');
+        const rows = table.querySelectorAll('tr.table');
+        assert.equal(rows.length, element.itemsPerPage);
       });
     });
 
@@ -2411,7 +2412,9 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('items', () => {
-        assert.equal(element.items!.slice(0, SHOWN_ITEMS_COUNT)!.length, 25);
+        const table = queryAndAssert(element, 'table');
+        const rows = table.querySelectorAll('tr.table');
+        assert.equal(rows.length, element.itemsPerPage);
       });
     });
 

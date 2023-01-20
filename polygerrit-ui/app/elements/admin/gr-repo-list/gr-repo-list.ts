@@ -8,7 +8,7 @@ import '../../shared/gr-list-view/gr-list-view';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {RepoState} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {tableStyles} from '../../../styles/gr-table-styles';
@@ -39,23 +39,18 @@ export class GrRepoList extends LitElement {
   @property({type: Object})
   params?: AdminViewState;
 
-  // private but used in test
   @state() offset = 0;
 
-  @state() private newRepoName = false;
+  @state() newRepoName = false;
 
-  @state() private createNewCapability = false;
+  @state() createNewCapability = false;
 
-  // private but used in test
   @state() repos: ProjectInfoWithName[] = [];
 
-  // private but used in test
   @state() reposPerPage = 25;
 
-  // private but used in test
   @state() loading = true;
 
-  // private but used in test
   @state() filter = '';
 
   private readonly restApiService = getAppContext().restApiService;
@@ -147,7 +142,7 @@ export class GrRepoList extends LitElement {
   }
 
   private renderRepoList() {
-    const shownRepos = this.repos.slice(0, SHOWN_ITEMS_COUNT);
+    const shownRepos = this.repos.slice(0, this.reposPerPage);
     return shownRepos.map(item => this.renderRepo(item));
   }
 

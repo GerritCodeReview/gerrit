@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0be1d2c_2dc15da1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-20T13:34:18Z",
+      "side": 1,
+      "message": "I\u0027m assuming that with the @state it works?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "f87cf74c19c8b6e593af9143eace0bf210ad2637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f73f59_21f00d06",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-20T13:34:18Z",
+      "side": 1,
+      "message": "I don\u0027t understand how @state would have any impact on a getter.\n\nI\u0027m ok with approving this change, but this merits further debugging.",
+      "revId": "f87cf74c19c8b6e593af9143eace0bf210ad2637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

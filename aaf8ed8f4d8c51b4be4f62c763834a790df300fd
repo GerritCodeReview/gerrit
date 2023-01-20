@@ -118,6 +118,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e223eb83_29705e68",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-20T22:49:31Z",
+      "side": 1,
+      "message": "\u003e Am __I__ making any sense @nasser.grainawi@linaro.org?\n\nI\u0027m sorry, nothing wrong with you, I\u0027m just busy with $DAYJOB 😊\n\n\u003e Not quite certain what has triggered this debate regarding recommending the users of the API to use the actual unique identifier (i.e. project~change-number due to the way the change-ref is formatted) when possible to ensure a correct response.\n\nMy concern is the (new to me) assertion that the project+change-number is the unique identifier. I\u0027ve never seen that stated before and it\u0027s potentially a drastic impact to the project and users.\n\n\u003e Deleting a change.\n\nOk, so again a case where the index is out of date?\n\nTo continue on my concern from above, the fact that project+change-number often (always?) bypasses an index search seems like an implementation detail, not a guarantee of behavior for users.\n\n\u003e But even if we get the read latency down to 0.1 second it still is more stable to use project~change-number since it is the actual identifier.\n\nI don\u0027t think reducing the latency is the fix, removing it is. If a user executes a write API like creating or deleting a change, that API shouldn\u0027t complete/return until the index is guaranteed to respond to any reads correctly. That\u0027s exactly how the ES module already works. Why wouldn\u0027t we want that behavior if we could have it? That seems the best way to avoid the kind of pain you and your users had to go through (which completely sucks, I agree).",
+      "parentUuid": "89f8f731_6cdd3fe9",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

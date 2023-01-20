@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "660e6fd9_689bf587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-20T13:37:55Z",
+      "side": 1,
+      "message": "Sending for another review round, because I did not act on any of the comments.",
+      "revId": "1536b599e1c63b6e3eb2107745aaf8d80a5577a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f08dfe39_49d4e8b8",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "126cab4e_d791a2db",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-20T13:37:55Z",
+      "side": 1,
+      "message": "That will likely become a public property at some point, but as long as there are no usages, I would prefer not to be speculative and keep this private.",
+      "parentUuid": "f08dfe39_49d4e8b8",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "1536b599e1c63b6e3eb2107745aaf8d80a5577a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43adb225_32938f35",
@@ -37,6 +78,30 @@
       "writtenOn": "2023-01-20T11:14:22Z",
       "side": 1,
       "message": "these 4 pages are sharing a constant.\nDoes it make sense to extract into a CONST so we can easily change all 4 occurrences?\nOr do you think they behave independently.",
+      "range": {
+        "startLine": 50,
+        "startChar": 26,
+        "endLine": 50,
+        "endChar": 28
+      },
+      "revId": "1536b599e1c63b6e3eb2107745aaf8d80a5577a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a99ae182_04d2fc83",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-20T13:37:55Z",
+      "side": 1,
+      "message": "Yeah, I think these are 4 independent lists. I don\u0027t think there is much to be gained by sharing this constant somewhere.",
+      "parentUuid": "43adb225_32938f35",
       "range": {
         "startLine": 50,
         "startChar": 26,

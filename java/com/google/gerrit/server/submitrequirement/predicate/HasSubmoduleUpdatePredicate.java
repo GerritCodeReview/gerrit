@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.submitrequirement.predicate;
 
 import static com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder.SUBMODULE_UPDATE_HAS_ARG;
 
@@ -23,6 +23,8 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

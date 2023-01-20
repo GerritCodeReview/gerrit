@@ -176,6 +176,7 @@ export class GrChangeList extends LitElement {
   }
 
   override connectedCallback() {
+    // TODO: remove this comment
     super.connectedCallback();
     this.restApiService.getConfig().then(config => {
       this.config = config;

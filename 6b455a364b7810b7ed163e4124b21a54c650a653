@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3c9a3c5_f393379d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-20T11:14:22Z",
+      "side": 0,
+      "message": "why remove \"private\"?\nMaybe mention in the commit message but I wasn\u0027t aware of us doing this.",
+      "range": {
+        "startLine": 48,
+        "startChar": 11,
+        "endLine": 48,
+        "endChar": 18
+      },
+      "revId": "6b455a364b7810b7ed163e4124b21a54c650a653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

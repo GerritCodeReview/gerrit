@@ -22,6 +22,29 @@
       },
       "revId": "1536b599e1c63b6e3eb2107745aaf8d80a5577a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43adb225_32938f35",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-20T11:14:22Z",
+      "side": 1,
+      "message": "these 4 pages are sharing a constant.\nDoes it make sense to extract into a CONST so we can easily change all 4 occurrences?\nOr do you think they behave independently.",
+      "range": {
+        "startLine": 50,
+        "startChar": 26,
+        "endLine": 50,
+        "endChar": 28
+      },
+      "revId": "1536b599e1c63b6e3eb2107745aaf8d80a5577a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

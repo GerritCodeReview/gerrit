@@ -16,6 +16,24 @@
       "message": "It looks like we have an internal usage of this method.\nMaybe annotate with @UsedAt(UsedAt.Project.GOOGLE) instead of removing this?",
       "revId": "18087d902f48b5a939acb48005fbfbd9f865d1b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f715f609_2509bbde",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-20T08:46:20Z",
+      "side": 0,
+      "message": "Right, thanks for checking.\n\nI kept the removal of the other two methods (they\u0027re not used internally) and annotated this one.\n\nDone.",
+      "parentUuid": "2f0fdaea_3cac270e",
+      "revId": "18087d902f48b5a939acb48005fbfbd9f865d1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

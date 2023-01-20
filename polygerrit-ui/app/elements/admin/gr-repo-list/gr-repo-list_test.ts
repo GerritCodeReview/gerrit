@@ -17,7 +17,6 @@ import {
   ProjectInfoWithName,
   RepoName,
 } from '../../../types/common';
-import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {GerritView} from '../../../services/router/router-model';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
@@ -614,7 +613,9 @@ suite('gr-repo-list tests', () => {
     });
 
     test('shownRepos', () => {
-      assert.equal(element.repos.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.reposPerPage);
     });
 
     test('maybeOpenCreateModal', () => {
@@ -645,7 +646,9 @@ suite('gr-repo-list tests', () => {
     });
 
     test('shownRepos', () => {
-      assert.equal(element.repos.slice(0, SHOWN_ITEMS_COUNT).length, 25);
+      const table = queryAndAssert(element, 'table');
+      const rows = table.querySelectorAll('tr.table');
+      assert.equal(rows.length, element.reposPerPage);
     });
   });
 

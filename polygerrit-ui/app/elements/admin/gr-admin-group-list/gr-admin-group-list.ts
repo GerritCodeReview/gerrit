@@ -10,7 +10,6 @@ import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -43,21 +42,19 @@ export class GrAdminGroupList extends LitElement {
   /**
    * Offset of currently visible query results.
    */
-  @state() private offset = 0;
+  @state() offset = 0;
 
-  @state() private hasNewGroupName = false;
+  @state() hasNewGroupName = false;
 
-  @state() private createNewCapability = false;
+  @state() createNewCapability = false;
 
-  // private but used in test
   @state() groups: GroupInfo[] = [];
 
-  @state() private groupsPerPage = 25;
+  @state() groupsPerPage = 25;
 
-  // private but used in test
   @state() loading = true;
 
-  @state() private filter = '';
+  @state() filter = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -108,7 +105,7 @@ export class GrAdminGroupList extends LitElement {
           </tbody>
           <tbody class=${this.loading ? 'loading' : ''}>
             ${this.groups
-              .slice(0, SHOWN_ITEMS_COUNT)
+              .slice(0, this.groupsPerPage)
               .map(group => this.renderGroupList(group))}
           </tbody>
         </table>

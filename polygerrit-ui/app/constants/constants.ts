@@ -319,6 +319,4 @@ export function createDefaultEditPrefs(): EditPreferencesInfo {
 
 export const RELOAD_DASHBOARD_INTERVAL_MS = 10 * 1000;
 
-export const SHOWN_ITEMS_COUNT = 25;
-
 export const WAITING = 'Waiting';

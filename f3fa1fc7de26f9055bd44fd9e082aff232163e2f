@@ -16,6 +16,24 @@
       "message": "Nice! ❤️\n\nGoing forward, we will need test at some point. 😊",
       "revId": "f3fa1fc7de26f9055bd44fd9e082aff232163e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "383673eb_d1f9674c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-20T14:35:42Z",
+      "side": 1,
+      "message": "For sure - I also want to pipe the output through the protoc and formatter to make it produces sensible code.",
+      "parentUuid": "c7533957_a57212d0",
+      "revId": "f3fa1fc7de26f9055bd44fd9e082aff232163e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

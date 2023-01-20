@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37e1c0d_e7383008",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-20T11:13:11Z",
+      "side": 1,
+      "message": "The merged code misses the \"Index all changes ...\" case (line 275) from the auto-merge version.\n\nThe idea is to distinguish between having 1 slice in total, which means indexing a slice containing all changes of a project, and having more than 1 slice which means we are indexing a slice which is a subset of all changes.\n\nWe can either take the code from the lines 274-277 (auto-merge):\n\n```\n  if (projectSlice.slices() \u003d\u003d 1) {\n    return \"Index all changes of project \" + project.get();\n  }\n  return \"Index changes slice \" + projectSlice.slice() + \"/\" + projectSlice.slices() + \" of project \" + projectSlice.name();\n```\n\nas-is or rely on the toString from the AutoValue and have this code, preferable:\n\n```\n  if (projectSlice.slices() \u003d\u003d 1) {\n    return \"Index all changes of project \" + projectSlice.name();\n  }\n  return \"Index project slice \" + projectSlice;\n```",
+      "revId": "ac6c369c65ec94b1020249e44288c710c018c81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -243,6 +243,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96283a6b_7839f1f6",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-20T08:19:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6b3747b_adbfd820",
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8446b8d7_77104982",
@@ -706,6 +724,30 @@
       "side": 1,
       "message": "Ok I have changed it around a bit, the following summarises the changes.\n\n* If we are switching from LDAP to OAuth we will not error if an existing username external ID exists, we will remove the LDAP external ID and reuse the username external ID with the OAuth account\n* if the LDAP and OAUTH external ID\u0027s don\u0027t match, or it is a different OAuth provider then we will error if it tries to create a duplicate username external Id",
       "parentUuid": "c6c8dca6_c214b67d",
+      "range": {
+        "startLine": 585,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 96
+      },
+      "revId": "23d1316a55066211d5c7fa9fc1511262b2a63d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5051da98_a0e5e212",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-20T08:19:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c7528cb4_bd123675",
       "range": {
         "startLine": 585,
         "startChar": 4,

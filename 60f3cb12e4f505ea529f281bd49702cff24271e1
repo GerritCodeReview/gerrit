@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b161c6a_9c53d9c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-20T08:19:17Z",
+      "side": 1,
+      "message": "The logic looks good to me know. I only have one suggestion to make the code cleaner and more extensible. Sorry for bringing this up so late in the review.\n\nAlso pinging @david.ostrovsky@gmail.com again, since it would be great to have a review from somebody that knows the OAuth implementation. Thanks David!",
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa417e74_20fb7281",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-20T08:19:17Z",
+      "side": 1,
+      "message": "This method now got huge and deals with multiple concerns. It might be nicer to have an extra link()-method that deals with linking a new ExternalId to an existing account and put the decision whether to create or link to the authenticate(AuthRequest who)-method. This would be cleaner and more extensible, e.g. if we want to be able to also link ExternalIds of other IDPs.",
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

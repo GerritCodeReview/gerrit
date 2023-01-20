@@ -211,7 +211,7 @@ public class AccountResolver {
         return searchedAsUser.asIdentifiedUser();
       }
       return userFactory.runAs(
-          null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
+          /* remotePeer= */ null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
     }
 
     @VisibleForTesting

@@ -42,7 +42,6 @@ import {getAppContext} from '../../../services/app-context';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {specialFilePathCompare} from '../../../utils/path-list-util';
@@ -204,8 +203,6 @@ export class GrThreadList extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -495,14 +492,10 @@ export class GrThreadList extends LitElement {
       value: CommentTabState.UNRESOLVED,
     });
     if (this.account) {
-      if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-        items.push({
-          text: `Mentions (${
-            getMentionedThreads(threads, this.account).length
-          })`,
-          value: CommentTabState.MENTIONS,
-        });
-      }
+      items.push({
+        text: `Mentions (${getMentionedThreads(threads, this.account).length})`,
+        value: CommentTabState.MENTIONS,
+      });
       items.push({
         text: `Drafts (${threads.filter(isDraftThread).length})`,
         value: CommentTabState.DRAFTS,

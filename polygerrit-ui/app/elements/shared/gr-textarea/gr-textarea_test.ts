@@ -7,12 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {
-  pressKey,
-  stubFlags,
-  stubRestApi,
-  waitUntil,
-} from '../../../test/test-utils';
+import {pressKey, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
@@ -31,14 +26,16 @@ suite('gr-textarea tests', () => {
       element,
       /* HTML */ `<div id="hiddenText"></div>
         <span id="caratSpan"> </span>
+        <gr-autocomplete-dropdown id="emojiSuggestions" is-hidden="">
+        </gr-autocomplete-dropdown>
         <gr-autocomplete-dropdown
-          id="emojiSuggestions"
+          id="mentionsSuggestions"
           is-hidden=""
-          style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
+          role="listbox"
         >
         </gr-autocomplete-dropdown>
         <iron-autogrow-textarea aria-disabled="false" focused="" id="textarea">
-        </iron-autogrow-textarea> `,
+        </iron-autogrow-textarea>`,
       {
         // gr-autocomplete-dropdown sizing seems to vary between local & CI
         ignoreAttributes: [
@@ -49,47 +46,6 @@ suite('gr-textarea tests', () => {
   });
 
   suite('mention users', () => {
-    setup(async () => {
-      stubFlags('isEnabled').returns(true);
-      element.requestUpdate();
-      await element.updateComplete;
-    });
-
-    test('renders', () => {
-      assert.shadowDom.equal(
-        element,
-        /* HTML */ `
-          <div id="hiddenText"></div>
-          <span id="caratSpan"> </span>
-          <gr-autocomplete-dropdown
-            id="emojiSuggestions"
-            is-hidden=""
-            style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
-          >
-          </gr-autocomplete-dropdown>
-          <gr-autocomplete-dropdown
-            id="mentionsSuggestions"
-            is-hidden=""
-            role="listbox"
-            style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
-          >
-          </gr-autocomplete-dropdown>
-          <iron-autogrow-textarea
-            focused=""
-            aria-disabled="false"
-            id="textarea"
-          >
-          </iron-autogrow-textarea>
-        `,
-        {
-          // gr-autocomplete-dropdown sizing seems to vary between local & CI
-          ignoreAttributes: [
-            {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
-          ],
-        }
-      );
-    });
-
     test('mentions selector is open when @ is typed & the textarea has focus', async () => {
       // Needed for Safari tests. selectionStart is not updated when text is
       // updated.

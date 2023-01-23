@@ -17,12 +17,11 @@ import {
 import {Key} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {LitElement, css, html, nothing} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {NumericChangeId, ServerInfo} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -114,8 +113,6 @@ export class GrTextarea extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -265,8 +262,6 @@ export class GrTextarea extends LitElement {
   }
 
   private renderMentionsDropdown() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
       .suggestions=${this.suggestions}
@@ -524,8 +519,6 @@ export class GrTextarea extends LitElement {
   }
 
   private isMentionsDropdownActive() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return false;
     return (
       this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === '@'
     );
@@ -540,10 +533,8 @@ export class GrTextarea extends LitElement {
   private computeSpecialCharIndex() {
     const charAtCursor = this.text[this.textarea!.selectionStart - 1];
 
-    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      if (charAtCursor === '@' && this.specialCharIndex === -1) {
-        this.specialCharIndex = this.getSpecialCharIndex(this.text);
-      }
+    if (charAtCursor === '@' && this.specialCharIndex === -1) {
+      this.specialCharIndex = this.getSpecialCharIndex(this.text);
     }
     if (charAtCursor === ':' && this.specialCharIndex === -1) {
       this.specialCharIndex = this.getSpecialCharIndex(this.text);

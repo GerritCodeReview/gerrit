@@ -16,7 +16,9 @@ package com.google.gerrit.server.permissions;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GerritPermission;
+import java.util.Optional;
 
 public enum ChangePermission implements ChangePermissionOrLabel {
   READ,
@@ -53,24 +55,40 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    * <p>Before checking this permission, the caller should first verify the current patch set of the
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
-  REBASE,
+  REBASE(
+      /* description= */ null,
+      /* hint= */ "change owners and users with the 'Submit' or 'Rebase' permission can rebase"
+          + " if they have the 'Push' permission"),
   REVERT,
   SUBMIT,
   SUBMIT_AS("submit on behalf of other users"),
   TOGGLE_WORK_IN_PROGRESS_STATE;
 
   private final String description;
+  private final String hint;
 
   ChangePermission() {
     this.description = null;
+    this.hint = null;
   }
 
   ChangePermission(String description) {
     this.description = requireNonNull(description);
+    this.hint = null;
+  }
+
+  ChangePermission(@Nullable String description, String hint) {
+    this.description = description;
+    this.hint = requireNonNull(hint);
   }
 
   @Override
   public String describeForException() {
     return description != null ? description : GerritPermission.describeEnumValue(this);
+  }
+
+  @Override
+  public Optional<String> hintForException() {
+    return Optional.ofNullable(hint);
   }
 }

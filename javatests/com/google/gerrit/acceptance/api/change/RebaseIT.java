@@ -399,7 +399,11 @@ public class RebaseIT {
       String changeId = r2.getChangeId();
       requestScopeOperations.setApiUser(user.id());
       AuthException thrown = assertThrows(AuthException.class, () -> rebaseCall.call(changeId));
-      assertThat(thrown).hasMessageThat().contains("rebase not permitted");
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              "rebase not permitted (change owners and users with the 'Submit' or 'Rebase'"
+                  + " permission can rebase if they have the 'Push' permission)");
     }
 
     @Test
@@ -449,7 +453,11 @@ public class RebaseIT {
       String changeId = r2.getChangeId();
       requestScopeOperations.setApiUser(user.id());
       AuthException thrown = assertThrows(AuthException.class, () -> rebaseCall.call(changeId));
-      assertThat(thrown).hasMessageThat().contains("rebase not permitted");
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              "rebase not permitted (change owners and users with the 'Submit' or 'Rebase'"
+                  + " permission can rebase if they have the 'Push' permission)");
     }
 
     @Test
@@ -473,7 +481,11 @@ public class RebaseIT {
       // Rebase the second
       String changeId = r2.getChangeId();
       AuthException thrown = assertThrows(AuthException.class, () -> rebaseCall.call(changeId));
-      assertThat(thrown).hasMessageThat().contains("rebase not permitted");
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              "rebase not permitted (change owners and users with the 'Submit' or 'Rebase'"
+                  + " permission can rebase if they have the 'Push' permission)");
     }
 
     @Test

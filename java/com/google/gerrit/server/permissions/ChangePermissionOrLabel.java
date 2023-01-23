@@ -15,6 +15,17 @@
 package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
+import java.util.Optional;
 
 /** A {@link ChangePermission} or a {@link AbstractLabelPermission}. */
-public interface ChangePermissionOrLabel extends GerritPermission {}
+public interface ChangePermissionOrLabel extends GerritPermission {
+  /**
+   * A hint that explains under which conditions this permission is permitted.
+   *
+   * <p>This is useful for permissions that are not directly assigned but are indirectly permitted
+   * by the user having other permissions or being the change owner.
+   */
+  default Optional<String> hintForException() {
+    return Optional.empty();
+  }
+}

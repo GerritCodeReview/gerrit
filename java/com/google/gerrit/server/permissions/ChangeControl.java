@@ -216,7 +216,10 @@ class ChangeControl {
     public void check(ChangePermissionOrLabel perm)
         throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted");
+        throw new AuthException(
+            perm.describeForException()
+                + " not permitted"
+                + perm.hintForException().map(hint -> " (" + hint + ")").orElse(""));
       }
     }
 

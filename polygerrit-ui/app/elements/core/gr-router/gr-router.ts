@@ -49,6 +49,7 @@ import {
   AdminChildView,
   AdminViewModel,
   AdminViewState,
+  PLUGIN_LIST,
 } from '../../../models/views/admin';
 import {
   AgreementViewModel,
@@ -99,6 +100,8 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {Route, ViewState} from '../../../models/views/base';
+import {Model} from '../../../models/model';
 
 const RoutePattern = {
   ROOT: '/',
@@ -183,8 +186,6 @@ const RoutePattern = {
   TAG_LIST_FILTER_OFFSET: '/admin/repos/:repo,tags/q/filter::filter,:offset',
 
   PLUGINS: /^\/plugins\/(.+)$/,
-
-  PLUGIN_LIST: /^\/admin\/plugins(\/)?$/,
 
   // Matches /admin/plugins[,<offset>][/].
   PLUGIN_LIST_OFFSET: /^\/admin\/plugins(,(\d+))?(\/)?$/,
@@ -369,6 +370,7 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   setState(state: AppElementParams) {
+    // TODO: Move this logic into the change model.
     if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
       this.restApiService.setInProjectLookup(state.changeNum, state.repo);
 
@@ -488,6 +490,9 @@ export class GrRouter implements Finalizable, NavigationService {
    * route is matched, the handler will be executed with `this` referring
    * to the component. Its return value will be discarded so that it does
    * not interfere with page.js.
+   * TODO: Get rid of this parameter. This is really not something that the
+   * router wants to be concerned with. The reporting service and the view
+   * models should figure that out between themselves.
    * @param authRedirect If true, then auth is checked before
    * executing the handler. If the user is not logged in, it will redirect
    * to the login flow and the handler will not be executed. The login
@@ -512,6 +517,29 @@ export class GrRouter implements Finalizable, NavigationService {
         });
       }
     );
+  }
+
+  /**
+   * Convenienve wrapper of `mapRoute()` for when you have a `Route` object that
+   * can deal with state creation. Takes care of setting the view model state,
+   * which is currently duplicated lots of times for direct callers of
+   * `mapRoute()`.
+   */
+  mapRouteState<T extends ViewState>(
+    route: Route<T>,
+    viewModel: Model<T | undefined>,
+    handlerName: string,
+    authRedirect?: boolean
+  ) {
+    const handler = (ctx: PageContext) => {
+      const state = route.createState(ctx);
+      // Note that order is important: `this.setState()` must be called before
+      // `viewModel.setState()`. Otherwise the chain of model subscriptions
+      // would be very different.
+      this.setState(state as AppElementParams);
+      viewModel.setState(state);
+    };
+    this.mapRoute(route.urlPattern, handlerName, handler, authRedirect);
   }
 
   /**
@@ -814,10 +842,10 @@ export class GrRouter implements Finalizable, NavigationService {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.PLUGIN_LIST,
+    this.mapRouteState(
+      PLUGIN_LIST,
+      this.adminViewModel,
       'handlePluginListRoute',
-      ctx => this.handlePluginListRoute(ctx),
       true
     );
 
@@ -1393,16 +1421,6 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
       filter: ctx.params['filter'] || null,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handlePluginListRoute(_: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.PLUGINS,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

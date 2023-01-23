@@ -7,7 +7,18 @@ import {GerritView} from '../../services/router/router-model';
 import {getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
-import {ViewState} from './base';
+import {Route, ViewState} from './base';
+
+export const PLUGIN_LIST: Route<AdminViewState> = {
+  urlPattern: /^\/admin\/plugins(\/)?$/,
+  createState: () => {
+    const state: AdminViewState = {
+      view: GerritView.ADMIN,
+      adminView: AdminChildView.PLUGINS,
+    };
+    return state;
+  },
+};
 
 export enum AdminChildView {
   REPOS = 'gr-repo-list',

@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
@@ -410,7 +411,9 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     approve(change2Result.getChangeId());
 
     // submit button is disabled.
-    assertSubmitDisabled(change2Result.getChangeId());
+    if (mcb != MergeabilityComputationBehavior.NEVER) {
+      assertSubmitDisabled(change2Result.getChangeId());
+    }
 
     submitWithConflict(
         change2Result.getChangeId(),

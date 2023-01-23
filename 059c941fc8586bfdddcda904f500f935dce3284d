@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc422a6_59e304b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-23T11:28:46Z",
+      "side": 1,
+      "message": "Chris, apparently the conclusion of the investigation is \"this cannot happen\". :-) Do you have an opinion about what we should do? Just abandon the change?",
+      "revId": "059c941fc8586bfdddcda904f500f935dce3284d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

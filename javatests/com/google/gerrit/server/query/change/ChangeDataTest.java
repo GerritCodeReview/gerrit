@@ -46,6 +46,7 @@ public class ChangeDataTest {
         .id(PatchSet.id(changeId, num))
         .commitId(ObjectId.zeroId())
         .uploader(Account.id(1234))
+        .realUploader(Account.id(5678))
         .createdOn(TimeUtil.now())
         .build();
   }

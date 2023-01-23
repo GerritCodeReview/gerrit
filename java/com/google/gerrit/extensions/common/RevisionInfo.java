@@ -32,6 +32,7 @@ public class RevisionInfo {
   public Timestamp created;
 
   public AccountInfo uploader;
+  public AccountInfo realUploader;
   public String ref;
   public Map<String, FetchInfo> fetch;
   public CommitInfo commit;
@@ -72,6 +73,7 @@ public class RevisionInfo {
           && _number == revisionInfo._number
           && Objects.equals(created, revisionInfo.created)
           && Objects.equals(uploader, revisionInfo.uploader)
+          && Objects.equals(realUploader, revisionInfo.realUploader)
           && Objects.equals(ref, revisionInfo.ref)
           && Objects.equals(fetch, revisionInfo.fetch)
           && Objects.equals(commit, revisionInfo.commit)
@@ -92,6 +94,7 @@ public class RevisionInfo {
         _number,
         created,
         uploader,
+        realUploader,
         ref,
         fetch,
         commit,

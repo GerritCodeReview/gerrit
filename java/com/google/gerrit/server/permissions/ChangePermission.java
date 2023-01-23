@@ -59,6 +59,10 @@ public enum ChangePermission implements ChangePermissionOrLabel {
       /* description= */ null,
       /* hint= */ "change owners and users with the 'Submit' or 'Rebase' permission can rebase"
           + " if they have the 'Push' permission"),
+  REBASE_ON_BEHALF_OF_UPLOADER(
+      /* description= */ null,
+      /* hint= */ "change owners and users with the 'Submit' or 'Rebase' permission can rebase on"
+          + " behalf of the uploader"),
   REVERT,
   SUBMIT,
   SUBMIT_AS("submit on behalf of other users"),

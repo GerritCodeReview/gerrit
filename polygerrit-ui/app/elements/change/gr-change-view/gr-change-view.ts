@@ -2975,6 +2975,13 @@ export class GrChangeView extends LitElement {
       return Promise.resolve();
     }
 
+    if (
+      this._serverConfig?.change?.mergeability_computation_behavior === 'NEVER'
+    ) {
+      this.mergeable = true;
+      return Promise.resolve();
+    }
+
     this.mergeable = null;
     return this.restApiService
       .getMergeable(this.changeNum)

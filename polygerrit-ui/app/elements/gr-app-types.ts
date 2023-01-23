@@ -28,6 +28,7 @@ export interface AppElementJustRegisteredParams {
   justRegistered: boolean;
 }
 
+// TODO: Get rid of this type. <gr-app-element> needs to be refactored for that.
 export type AppElementParams =
   | DashboardViewState
   | GroupViewState

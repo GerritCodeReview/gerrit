@@ -21,12 +21,17 @@ export enum GerritView {
   SETTINGS = 'settings',
 }
 
+// TODO: Consider renaming this to AppElementState or something similar.
+// Or maybe RootViewState. This class does *not* model the state of the router.
 export interface RouterState {
   // Note that this router model view must be updated before view model state.
   view?: GerritView;
 }
 
 export const routerModelToken = define<RouterModel>('router-model');
+
+// TODO: Consider renaming this to AppElementViewModel or something similar.
+// Or maybe RootViewModel. This class is *not* a view model of the router.
 export class RouterModel extends Model<RouterState> {
   readonly routerView$: Observable<GerritView | undefined> = select(
     this.state$,

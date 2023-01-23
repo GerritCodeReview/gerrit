@@ -18,8 +18,6 @@ import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {getAppContext} from '../../../services/app-context';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -35,8 +33,6 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private repoCommentLinks: CommentLinks = {};
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -214,9 +210,7 @@ export class GrFormattedText extends LitElement {
 
   override updated() {
     // Look for @mentions and replace them with an account-label chip.
-    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      this.convertEmailsToAccountChips();
-    }
+    this.convertEmailsToAccountChips();
   }
 
   private convertEmailsToAccountChips() {

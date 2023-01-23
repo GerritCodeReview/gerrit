@@ -121,7 +121,6 @@ import {customElement, property, state, query} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {
   CommentEditingChangedDetail,
@@ -383,8 +382,6 @@ export class GrReplyDialog extends LitElement {
 
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -671,9 +668,6 @@ export class GrReplyDialog extends LitElement {
       this,
       () => this.getCommentsModel().mentionedUsersInUnresolvedDrafts$,
       x => {
-        if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-          return;
-        }
         this.mentionedUsersInUnresolvedDrafts = x.filter(
           v => !this.isAlreadyReviewerOrCC(v)
         );
@@ -1441,18 +1435,13 @@ export class GrReplyDialog extends LitElement {
     ).filter(isDefined);
 
     for (const user of newAttentionSetUsers) {
-      let reason;
-      if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-        reason =
-          getMentionedReason(
-            this.draftCommentThreads,
-            this.account,
-            user,
-            this.serverConfig
-          ) ?? '';
-      } else {
-        reason = getReplyByReason(this.account, this.serverConfig);
-      }
+      const reason =
+        getMentionedReason(
+          this.draftCommentThreads,
+          this.account,
+          user,
+          this.serverConfig
+        ) ?? '';
       reviewInput.add_to_attention_set.push({user: getUserId(user), reason});
     }
     reviewInput.remove_from_attention_set = [];

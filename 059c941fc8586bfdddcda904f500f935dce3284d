@@ -16,6 +16,24 @@
       "message": "Chris, apparently the conclusion of the investigation is \"this cannot happen\". :-) Do you have an opinion about what we should do? Just abandon the change?",
       "revId": "059c941fc8586bfdddcda904f500f935dce3284d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec35de5_0af40ed7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-23T11:30:07Z",
+      "side": 1,
+      "message": "Yes, let\u0027s abandon it.",
+      "parentUuid": "acc422a6_59e304b6",
+      "revId": "059c941fc8586bfdddcda904f500f935dce3284d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0867732_5d3355f9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-23T18:52:10Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 493,
+        "startChar": 11,
+        "endLine": 493,
+        "endChar": 38
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d776914_360d22ae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-23T18:52:10Z",
+      "side": 1,
+      "message": "I like this abstraction.",
+      "range": {
+        "startLine": 532,
+        "startChar": 4,
+        "endLine": 536,
+        "endChar": 6
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c9472c_10369708",
+        "filename": "polygerrit-ui/app/models/views/admin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-23T18:52:10Z",
+      "side": 1,
+      "message": "Nit: I would use more specific name like urlPattern, ...\n\nSo it\u0027s easy to search for all such patterns since now they will be in different files. Before it was nice that they were in one place.",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

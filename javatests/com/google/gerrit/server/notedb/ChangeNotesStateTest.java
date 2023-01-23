@@ -342,22 +342,24 @@ public class ChangeNotesStateTest {
             .id(PatchSet.id(ID, 1))
             .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
             .uploader(Account.id(2000))
+            .realUploader(Account.id(2001))
             .createdOn(cols.createdOn())
             .build();
     Entities.PatchSet ps1Proto = PatchSetProtoConverter.INSTANCE.toProto(ps1);
     ByteString ps1Bytes = Protos.toByteString(ps1Proto);
-    assertThat(ps1Bytes.size()).isEqualTo(66);
+    assertThat(ps1Bytes.size()).isEqualTo(71);
 
     PatchSet ps2 =
         PatchSet.builder()
             .id(PatchSet.id(ID, 2))
             .commitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"))
             .uploader(Account.id(3000))
+            .realUploader(Account.id(3001))
             .createdOn(cols.lastUpdatedOn())
             .build();
     Entities.PatchSet ps2Proto = PatchSetProtoConverter.INSTANCE.toProto(ps2);
     ByteString ps2Bytes = Protos.toByteString(ps2Proto);
-    assertThat(ps2Bytes.size()).isEqualTo(66);
+    assertThat(ps2Bytes.size()).isEqualTo(71);
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
 
     assertRoundTrip(
@@ -1018,6 +1020,7 @@ public class ChangeNotesStateTest {
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
+                .put("realUploader", Account.Id.class)
                 .put("createdOn", Instant.class)
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())

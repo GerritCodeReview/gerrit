@@ -239,6 +239,7 @@ public class CommentPorterTest {
         .id(id)
         .commitId(dummyObjectId)
         .uploader(Account.id(123))
+        .realUploader(Account.id(456))
         .createdOn(Instant.ofEpochMilli(12345))
         .build();
   }

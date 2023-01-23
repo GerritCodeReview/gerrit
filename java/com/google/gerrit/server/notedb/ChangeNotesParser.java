@@ -515,7 +515,7 @@ class ChangeNotesParser {
 
     ObjectId currRev = parseRevision(commit);
     if (currRev != null) {
-      parsePatchSet(psId, currRev, accountId, commitTimestamp);
+      parsePatchSet(psId, currRev, accountId, realAccountId, commitTimestamp);
     }
     parseCurrentPatchSet(psId, commit);
 
@@ -648,7 +648,8 @@ class ChangeNotesParser {
     }
   }
 
-  private void parsePatchSet(PatchSet.Id psId, ObjectId rev, Account.Id accountId, Instant ts)
+  private void parsePatchSet(
+      PatchSet.Id psId, ObjectId rev, Account.Id accountId, Account.Id realAccountId, Instant ts)
       throws ConfigInvalidException {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
@@ -665,6 +666,7 @@ class ChangeNotesParser {
         .id(psId)
         .commitId(rev)
         .uploader(accountId)
+        .realUploader(realAccountId)
         .createdOn(ts);
     // Fields not set here:
     // * Groups, parsed earlier in parseGroups.

@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.webui;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import java.util.HashMap;
+import java.util.Map;
 
 public interface UiAction<R extends RestResource> extends RestView<R> {
   /**
@@ -40,6 +43,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     private String title;
     private BooleanCondition visible = BooleanCondition.TRUE;
     private BooleanCondition enabled = BooleanCondition.TRUE;
+    private Map<String, Boolean> options;
 
     public String getMethod() {
       return method;
@@ -120,6 +124,22 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     /** Set if the button should be invokable (true), or greyed out (false). */
     public Description setEnabled(BooleanCondition enabled) {
       this.enabled = enabled;
+      return this;
+    }
+
+    @Nullable
+    public ImmutableMap<String, Boolean> getOptions() {
+      if (options == null) {
+        return null;
+      }
+      return ImmutableMap.copyOf(options);
+    }
+
+    public Description addOption(String optionName, boolean enabled) {
+      if (options == null) {
+        options = new HashMap<>();
+      }
+      options.put(optionName, enabled);
       return this;
     }
   }

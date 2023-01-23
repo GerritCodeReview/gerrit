@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fc5ef5_87b5dce5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-23T21:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bcc7edb_d35afb0b",
+      "revId": "b7898acc81128ac698234cd60b16a5c9b1dd4abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbce36ec_1c81c452",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-23T20:57:42Z",
       "side": 1,
       "message": "\u0027exclude\u0027 makes it sound like this change is doing this. I suggest using the past to describe behavior before this change, and the imperative for behavior that this change now exhibits newly.",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "b7898acc81128ac698234cd60b16a5c9b1dd4abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63869048_4f8bf4b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-23T21:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbce36ec_1c81c452",
       "range": {
         "startLine": 15,
         "startChar": 24,

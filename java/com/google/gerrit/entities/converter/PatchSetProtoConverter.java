@@ -42,6 +42,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             .setId(patchSetIdConverter.toProto(patchSet.id()))
             .setCommitId(objectIdConverter.toProto(patchSet.commitId()))
             .setUploaderAccountId(accountIdConverter.toProto(patchSet.uploader()))
+            .setRealUploaderAccountId(accountIdConverter.toProto(patchSet.realUploader()))
             .setCreatedOn(patchSet.createdOn().toEpochMilli());
     List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
@@ -75,15 +76,20 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
     // Callers that encounter one of these sentinels will likely fail, for example by failing to
     // look up the zeroId. They would have also failed back when the fields were nullable, for
     // example with NPE; the current behavior just fails slightly differently.
+    Account.Id uploader =
+        proto.hasUploaderAccountId()
+            ? accountIdConverter.fromProto(proto.getUploaderAccountId())
+            : Account.id(0);
     builder
         .commitId(
             proto.hasCommitId()
                 ? objectIdConverter.fromProto(proto.getCommitId())
                 : ObjectId.zeroId())
-        .uploader(
-            proto.hasUploaderAccountId()
-                ? accountIdConverter.fromProto(proto.getUploaderAccountId())
-                : Account.id(0))
+        .uploader(uploader)
+        .realUploader(
+            proto.hasRealUploaderAccountId()
+                ? accountIdConverter.fromProto(proto.getRealUploaderAccountId())
+                : uploader)
         .createdOn(
             proto.hasCreatedOn() ? Instant.ofEpochMilli(proto.getCreatedOn()) : Instant.EPOCH);
 

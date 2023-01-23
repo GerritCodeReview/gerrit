@@ -276,6 +276,7 @@ public class ChangeData {
             .id(PatchSet.id(id, currentPatchSetId))
             .commitId(commitId)
             .uploader(Account.id(1000))
+            .realUploader(Account.id(1000))
             .createdOn(TimeUtil.now())
             .build();
     return cd;

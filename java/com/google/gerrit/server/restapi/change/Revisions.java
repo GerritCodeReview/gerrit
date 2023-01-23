@@ -157,6 +157,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               .id(PatchSet.id(change.getId(), 0))
               .commitId(editCommit)
               .uploader(change.getUser().getAccountId())
+              .realUploader(change.getUser().getAccountId())
               .createdOn(editCommit.getCommitterIdent().getWhenAsInstant())
               .build();
       if (commitId == null || editCommit.equals(commitId)) {

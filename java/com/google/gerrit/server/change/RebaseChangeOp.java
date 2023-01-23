@@ -50,6 +50,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -326,7 +327,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
     if (postMessage) {
       patchSetInserter.setMessage(
-          messageForRebasedChange(rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));
+          messageForRebasedChange(
+              ctx.getIdentifiedUser(), rebasedPatchSetId, originalPatchSet.id(), rebasedCommit));
     }
 
     if (base != null && !base.notes().getChange().isMerged()) {
@@ -344,12 +346,21 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   private static String messageForRebasedChange(
-      PatchSet.Id rebasePatchSetId, PatchSet.Id originalPatchSetId, CodeReviewCommit commit) {
+      IdentifiedUser user,
+      PatchSet.Id rebasePatchSetId,
+      PatchSet.Id originalPatchSetId,
+      CodeReviewCommit commit) {
     StringBuilder stringBuilder =
         new StringBuilder(
             String.format(
                 "Patch Set %d: Patch Set %d was rebased",
                 rebasePatchSetId.get(), originalPatchSetId.get()));
+
+    if (user.isImpersonating()) {
+      stringBuilder.append(
+          String.format(
+              " on behalf of %s", AccountTemplateUtil.getAccountTemplate(user.getAccountId())));
+    }
 
     if (!commit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:\n");

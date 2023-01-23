@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RebaseChainInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -114,6 +115,11 @@ public class RebaseChain
   public Response<RebaseChainInfo> apply(ChangeResource tipRsrc, RebaseInput input)
       throws IOException, PermissionBackendException, RestApiException, UpdateException {
     tipRsrc.permissions().check(ChangePermission.REBASE);
+
+    if (input.onBehalfOfUploader) {
+      throw new BadRequestException(
+          "rebasing on behalf of the uploader is not supported when rebasing a chain");
+    }
 
     Project.NameKey project = tipRsrc.getProject();
     projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();

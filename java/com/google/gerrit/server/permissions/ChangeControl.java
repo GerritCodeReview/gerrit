@@ -84,6 +84,19 @@ class ChangeControl {
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
+  /**
+   * Can this user rebase this change on behalf of the uploader?
+   *
+   * <p>This only checks the permissions of the rebaser (aka the impersonating user).
+   *
+   * <p>In addition rebase on behalf of the uploader requires the uploader (aka the impersonated
+   * user) to have permissions to create the new patch set. These permissions need to be checked
+   * separately.
+   */
+  private boolean canRebaseOnBehalfOfUploader() {
+    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase());
+  }
+
   /** Can this user restore this change? */
   private boolean canRestore() {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
@@ -272,6 +285,8 @@ class ChangeControl {
             return canEditTopicName();
           case REBASE:
             return canRebase();
+          case REBASE_ON_BEHALF_OF_UPLOADER:
+            return canRebaseOnBehalfOfUploader();
           case RESTORE:
             return canRestore();
           case REVERT:

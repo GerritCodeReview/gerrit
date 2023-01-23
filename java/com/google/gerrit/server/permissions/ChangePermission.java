@@ -59,6 +59,19 @@ public enum ChangePermission implements ChangePermissionOrLabel {
       /* description= */ null,
       /* hint= */ "change owners and users with the 'Submit' or 'Rebase' permission can rebase"
           + " if they have the 'Push' permission"),
+  /**
+   * Permission that is required for a user to rebase a change on behalf of the uploader.
+   *
+   * <p>This only covers the permissions of the rebaser (aka the impersonating user).
+   *
+   * <p>In addition rebase on behalf of the uploader requires the uploader (aka the impersonated
+   * user) to have permissions to create the new patch set. These permissions need to be checked
+   * separately.
+   */
+  REBASE_ON_BEHALF_OF_UPLOADER(
+      /* description= */ null,
+      /* hint= */ "change owners and users with the 'Submit' or 'Rebase' permission can rebase on"
+          + " behalf of the uploader"),
   REVERT,
   SUBMIT,
   SUBMIT_AS("submit on behalf of other users"),

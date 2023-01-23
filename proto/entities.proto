@@ -98,6 +98,7 @@ message PatchSet {
   optional string groups = 6;
   optional string push_certificate = 8;
   optional string description = 9;
+  optional Account_Id real_uploader_account_id = 10;
 
   // Deleted fields, should not be reused:
   reserved 5;  // draft

@@ -288,6 +288,9 @@ public class RevisionJson {
     out.ref = in.refName();
     out.setCreated(in.createdOn());
     out.uploader = accountLoader.get(in.uploader());
+    if (!in.uploader().equals(in.realUploader())) {
+      out.realUploader = accountLoader.get(in.realUploader());
+    }
     out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.description().orElse(null);

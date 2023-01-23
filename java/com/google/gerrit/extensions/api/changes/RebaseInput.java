@@ -27,5 +27,21 @@ public class RebaseInput {
    */
   public boolean allowConflicts;
 
+  /**
+   * Whether the rebase should be done on behalf of the uploader.
+   *
+   * <p>This means the uploader of the current patch set will also be the uploader of the rebased
+   * patch set. The calling user will be recorded as the real user.
+   *
+   * <p>Rebasing on behalf of the uploader is only supported for trivial rebases. This means this
+   * option cannot be combined with the {@link #allowConflicts} option.
+   *
+   * <p>In addition, rebasing on behalf of the uploader is only supported for the current patch set
+   * of a change and not when rebasing a chain.
+   *
+   * <p>Using this option is not supported when rebasing a chain via the Rebase Chain REST endpoint.
+   */
+  public boolean onBehalfOfUploader;
+
   public Map<String, String> validationOptions;
 }

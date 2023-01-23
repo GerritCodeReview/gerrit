@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.webui.UiAction;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,11 +51,30 @@ public class ActionInfo {
    */
   public Boolean enabled;
 
+  /**
+   * Optional list of enabled options.
+   *
+   * <p>For the {@code rebase} REST view the following options are supported:
+   *
+   * <ul>
+   *   <li>{@code rebase}: Present if the user can rebase the change. This is the case for the
+   *       change owner and users with the {@code Submit} or {@code Rebase} permission if they have
+   *       the {@code Push} permission.
+   *   <li>{@code rebase_on_behalf_of}: Present if the user can rebase the change on behalf of the
+   *       uploader. This is the case for the change owner and users with the {@code Submit} or
+   *       {@code Rebase} permission.
+   * </ul>
+   *
+   * <p>For all other REST views no options are returned.
+   */
+  public List<String> enabledOptions;
+
   public ActionInfo(UiAction.Description d) {
     method = d.getMethod();
     label = d.getLabel();
     title = d.getTitle();
     enabled = d.isEnabled() ? true : null;
+    enabledOptions = d.getEnabledOptions();
   }
 
   @Override
@@ -64,14 +84,15 @@ public class ActionInfo {
       return Objects.equals(method, actionInfo.method)
           && Objects.equals(label, actionInfo.label)
           && Objects.equals(title, actionInfo.title)
-          && Objects.equals(enabled, actionInfo.enabled);
+          && Objects.equals(enabled, actionInfo.enabled)
+          && Objects.equals(enabledOptions, actionInfo.enabledOptions);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, label, title, enabled);
+    return Objects.hash(method, label, title, enabled, enabledOptions);
   }
 
   protected ActionInfo() {}

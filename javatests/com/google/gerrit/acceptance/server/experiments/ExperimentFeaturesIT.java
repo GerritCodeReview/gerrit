@@ -68,9 +68,7 @@ public class ExperimentFeaturesIT extends AbstractDaemonTest {
       values = {"UiFeature__patchset_comments", "UiFeature__submit_requirements_ui"})
   public void configOverride_defaultFeatureDisabled() {
     assertThat(experimentFeatures.isFeatureEnabled("enabledFeature")).isTrue();
-    assertThat(
-            experimentFeatures.isFeatureEnabled(
-                ExperimentFeaturesConstants.UI_FEATURE_PATCHSET_COMMENTS))
+    assertThat(experimentFeatures.isFeatureEnabled("UiFeature__patchset_comments"))
         .isFalse();
     assertThat(experimentFeatures.getEnabledExperimentFeatures()).containsExactly("enabledFeature");
   }

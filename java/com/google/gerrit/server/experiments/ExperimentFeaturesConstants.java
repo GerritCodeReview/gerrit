@@ -20,14 +20,9 @@ import com.google.common.collect.ImmutableSet;
 public class ExperimentFeaturesConstants {
 
   /** Features that are known experiments and can be referenced in the code. */
-  public static String UI_FEATURE_PATCHSET_COMMENTS = "UiFeature__patchset_comments";
-
-  public static String UI_FEATURE_SUBMIT_REQUIREMENTS_UI = "UiFeature__submit_requirements_ui";
-
   public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
       "GerritBackendFeature__attach_nonce_to_documentation";
 
   /** Features, enabled by default in the current release. */
-  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
-      ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS, UI_FEATURE_SUBMIT_REQUIREMENTS_UI);
+  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
 }

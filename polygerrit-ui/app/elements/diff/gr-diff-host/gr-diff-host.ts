@@ -347,9 +347,7 @@ export class GrDiffHost extends LitElement {
     );
     this.renderPrefs = {
       ...this.renderPrefs,
-      use_lit_components: this.flags.isEnabled(
-        KnownExperimentId.DIFF_RENDERING_LIT
-      ),
+      use_lit_components: true,
     };
     this.addEventListener(
       // These are named inconsistently for a reason:

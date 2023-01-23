@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd0a6e9a_786b62cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-23T12:24:35Z",
+      "side": 1,
+      "message": "This is now already done automatically.",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1b161c6a_9c53d9c5",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-01-20T08:19:17Z",
       "side": 1,
       "message": "The logic looks good to me know. I only have one suggestion to make the code cleaner and more extensible. Sorry for bringing this up so late in the review.\n\nAlso pinging @david.ostrovsky@gmail.com again, since it would be great to have a review from somebody that knows the OAuth implementation. Thanks David!",
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "685b0dcd_620197a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-23T12:24:35Z",
+      "side": 1,
+      "message": "Could you also add some documentation, e.g. to Documentation/config-accounts.txt?",
       "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -49,6 +89,24 @@
       "side": 1,
       "message": "I\u0027d just like to clarify this a bit more as it will be a refactor of the entire thing really.\n\nYour suggesting we in essense leave the ceate function alone. We decided at an early point, perhaps `java/com/google/gerrit/httpd/auth/oauth/OAuthSession.java:151` authenticateAndRedirect function. Here, we see if it is possible to link to an existing LDAP external ID, if it is then we call some link function which doees the needful linking of the external ID\u0027s and then call throgh to the authenticate(AuthRequest who)-method which should then work, alternatively we just pass straight through to authenticate(AuthRequest who)-method a",
       "parentUuid": "aa417e74_20fb7281",
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3db12b0_91f48d88",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-23T12:24:35Z",
+      "side": 1,
+      "message": "Currently, the authenticate(AuthRequest who) method is used to decide whether an account is to be created. I think it should also be the best place to decide whether it should be linked.\n\n```\n      if (!optionalExtId.isPresent()) {\n        if (usernameExternalIdExists(who)) {. // usernameExternalIdExists(who) would have to be implemented\n          return link(who); // should fail fast, if linking is not supported for the given ExternalID\n        } else {\n          logger.atFine().log(\n            \"External ID for account %s not found. A new account will be automatically created.\",\n            who.getUserName());\n          return create(who);\n        }\n      }\n```",
+      "parentUuid": "5633e38b_8e335655",
       "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

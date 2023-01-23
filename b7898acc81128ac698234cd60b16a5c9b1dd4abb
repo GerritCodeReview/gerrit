@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bcc7edb_d35afb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-01-23T20:57:42Z",
+      "side": 1,
+      "message": "This looks like a new paragraph, but it reads like it is continuing the previous sentence.",
+      "revId": "b7898acc81128ac698234cd60b16a5c9b1dd4abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbce36ec_1c81c452",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-01-23T20:57:42Z",
+      "side": 1,
+      "message": "\u0027exclude\u0027 makes it sound like this change is doing this. I suggest using the past to describe behavior before this change, and the imperative for behavior that this change now exhibits newly.",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "b7898acc81128ac698234cd60b16a5c9b1dd4abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acfde867_5cead12f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-01-23T20:57:42Z",
+      "side": 1,
+      "message": "Can you add a test for the borken case you are fixing?",
+      "revId": "b7898acc81128ac698234cd60b16a5c9b1dd4abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

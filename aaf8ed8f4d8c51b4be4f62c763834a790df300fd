@@ -166,6 +166,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af57eeac_20a4646d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-23T10:41:50Z",
+      "side": 1,
+      "message": "I believe that of course different indexing backends could make the issue more or less visible. However, that does not change the fact that the index is not updated atomically with the repository, therefore it may not be consistent.\n\nJust put an artificial \"sleep\" in the reindexing logic in Gerrit and, during the push of a new change press `CTRL+C` on the client. You will end up with a change in Gerrit that is not in the index.\n\nThis is how it works today and it has been the same since the introduction of Lucene AFAIK.",
+      "parentUuid": "f3577bd4_eeca3c39",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

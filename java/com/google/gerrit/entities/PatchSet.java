@@ -170,6 +170,8 @@ public abstract class PatchSet {
 
     public abstract Builder uploader(Account.Id uploader);
 
+    public abstract Builder realUploader(Account.Id realUploader);
+
     public abstract Builder createdOn(Instant createdOn);
 
     public abstract Builder groups(Iterable<String> groups);
@@ -204,11 +206,23 @@ public abstract class PatchSet {
   /**
    * Account that uploaded the patch set.
    *
+   * <p>If the upload was done on behalf of another user, the impersonated user on whom's behalf the
+   * patch set was uploaded.
+   *
    * <p>If this is a deserialized instance that was originally serialized by an older version of
    * Gerrit, and the old data erroneously did not include an {@code uploader}, then this method will
    * return an account ID of 0.
    */
   public abstract Account.Id uploader();
+
+  /**
+   * The real account that uploaded the patch set.
+   *
+   * <p>If this is a deserialized instance that was originally serialized by an older version of
+   * Gerrit, and the old data did not include an {@code realUploader}, then this method will return
+   * the {@code uploader}.
+   */
+  public abstract Account.Id realUploader();
 
   /**
    * When this patch set was first introduced onto the change.

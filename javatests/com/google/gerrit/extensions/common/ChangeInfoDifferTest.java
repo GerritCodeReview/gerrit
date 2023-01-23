@@ -294,6 +294,7 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.added().revisions.get(REVISION).uploader.name).isNull();
     assertThat(diff.added().revisions.get(REVISION).uploader.email)
         .isEqualTo(newRevision.uploader.email);
+    assertThat(diff.added().revisions.get(REVISION).realUploader).isNull();
     assertThat(diff.removed().revisions).isNotNull();
     assertThat(diff.removed().revisions).hasSize(1);
     assertThat(diff.removed().revisions).containsKey(REVISION);
@@ -301,6 +302,37 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.removed().revisions.get(REVISION).uploader.name).isNull();
     assertThat(diff.removed().revisions.get(REVISION).uploader.email)
         .isEqualTo(oldRevision.uploader.email);
+    assertThat(diff.removed().revisions.get(REVISION).realUploader).isNull();
+  }
+
+  @Test
+  public void getDiff_whenOneModifiedRevisionUploader_returnsModificationsToRevisionRealUploader() {
+    RevisionInfo oldRevision = new RevisionInfo(new AccountInfo("uploader", "uploader@mail.com"));
+    oldRevision.realUploader = new AccountInfo("real-uploader", "real-uploader@mail.com");
+    RevisionInfo newRevision = new RevisionInfo(oldRevision.uploader);
+    newRevision.realUploader =
+        new AccountInfo(oldRevision.realUploader.name, oldRevision.realUploader.email + "2");
+    ChangeInfo oldChangeInfo = new ChangeInfo(ImmutableMap.of(REVISION, oldRevision));
+    ChangeInfo newChangeInfo = new ChangeInfo(ImmutableMap.of(REVISION, newRevision));
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.added().revisions).isNotNull();
+    assertThat(diff.added().revisions).hasSize(1);
+    assertThat(diff.added().revisions).containsKey(REVISION);
+    assertThat(diff.added().revisions.get(REVISION).uploader).isNull();
+    assertThat(diff.added().revisions.get(REVISION).realUploader).isNotNull();
+    assertThat(diff.added().revisions.get(REVISION).realUploader.name).isNull();
+    assertThat(diff.added().revisions.get(REVISION).realUploader.email)
+        .isEqualTo(newRevision.realUploader.email);
+    assertThat(diff.removed().revisions).isNotNull();
+    assertThat(diff.removed().revisions).hasSize(1);
+    assertThat(diff.removed().revisions).containsKey(REVISION);
+    assertThat(diff.removed().revisions.get(REVISION).uploader).isNull();
+    assertThat(diff.removed().revisions.get(REVISION).realUploader).isNotNull();
+    assertThat(diff.removed().revisions.get(REVISION).realUploader.name).isNull();
+    assertThat(diff.removed().revisions.get(REVISION).realUploader.email)
+        .isEqualTo(oldRevision.realUploader.email);
   }
 
   @Test

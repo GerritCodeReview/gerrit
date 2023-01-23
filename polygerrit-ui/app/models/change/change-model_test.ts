@@ -41,6 +41,7 @@ import {
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
+import {configModelToken} from '../config/config-model';
 import {userModelToken} from '../user/user-model';
 import {
   ChangeChildView,
@@ -114,6 +115,7 @@ suite('change model tests', () => {
       testResolver(navigationToken),
       changeViewModel,
       getAppContext().restApiService,
+      testResolver(configModelToken),
       testResolver(userModelToken),
       testResolver(pluginLoaderToken),
       getAppContext().reportingService

@@ -16,7 +16,11 @@ import {
   PatchSetNumber,
   CommitId,
 } from '../../types/common';
-import {ChangeStatus, DefaultBase} from '../../constants/constants';
+import {
+  ChangeStatus,
+  DefaultBase,
+  MergeabilityComputationBehavior,
+} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
 import {map, filter, withLatestFrom, switchMap} from 'rxjs/operators';
 import {
@@ -32,6 +36,7 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
+import {ConfigModel} from '../config/config-model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
@@ -354,6 +359,7 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
+    private readonly configModel: ConfigModel,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
     private readonly reporting: ReportingService
@@ -542,13 +548,21 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   private loadMergeable() {
-    return this.change$
+    return combineLatest([
+      this.change$,
+      this.configModel.mergeabilityComputationBehavior$,
+    ])
       .pipe(
-        switchMap(change => {
+        switchMap(([change, mergeabilityComputationBehavior]) => {
           if (change?._number === undefined) return of(undefined);
           if (change.mergeable !== undefined) return of(change.mergeable);
           if (change.status === ChangeStatus.MERGED) return of(false);
           if (change.status === ChangeStatus.ABANDONED) return of(false);
+          if (
+            mergeabilityComputationBehavior ===
+            MergeabilityComputationBehavior.NEVER
+          )
+            return of(true);
           return from(
             this.restApiService
               .getMergeable(change._number)

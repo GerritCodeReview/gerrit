@@ -42,6 +42,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
+            .realUploader(Account.id(687))
             .createdOn(Instant.ofEpochMilli(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
@@ -59,6 +60,7 @@ public class PatchSetProtoConverterTest {
             .setCommitId(
                 Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
+            .setRealUploaderAccountId(Entities.Account_Id.newBuilder().setId(687))
             .setCreatedOn(930349320L)
             .setGroups("group1, group2")
             .setPushCertificate("my push certificate")
@@ -74,6 +76,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
+            .realUploader(Account.id(687))
             .createdOn(Instant.ofEpochMilli(930349320L))
             .build();
 
@@ -88,6 +91,7 @@ public class PatchSetProtoConverterTest {
             .setCommitId(
                 Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
+            .setRealUploaderAccountId(Entities.Account_Id.newBuilder().setId(687))
             .setCreatedOn(930349320L)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -100,6 +104,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
+            .realUploader(Account.id(687))
             .createdOn(Instant.ofEpochMilli(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
@@ -118,6 +123,7 @@ public class PatchSetProtoConverterTest {
             .id(PatchSet.id(Change.id(103), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
+            .realUploader(Account.id(687))
             .createdOn(Instant.ofEpochMilli(930349320L))
             .build();
 
@@ -143,6 +149,30 @@ public class PatchSetProtoConverterTest {
                 .id(PatchSet.id(Change.id(103), 73))
                 .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
                 .uploader(Account.id(0))
+                .realUploader(Account.id(0))
+                .createdOn(Instant.EPOCH)
+                .build());
+  }
+
+  @Test
+  public void realUploaderIsSetToUploaderIfMissingFromProto() {
+    Entities.PatchSet proto =
+        Entities.PatchSet.newBuilder()
+            .setId(
+                Entities.PatchSet_Id.newBuilder()
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+                    .setId(73))
+            .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
+            .build();
+
+    PatchSet convertedPatchSet = patchSetProtoConverter.fromProto(proto);
+    Truth.assertThat(convertedPatchSet)
+        .isEqualTo(
+            PatchSet.builder()
+                .id(PatchSet.id(Change.id(103), 73))
+                .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
+                .uploader(Account.id(452))
+                .realUploader(Account.id(452))
                 .createdOn(Instant.EPOCH)
                 .build());
   }
@@ -156,6 +186,7 @@ public class PatchSetProtoConverterTest {
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
+                .put("realUploader", Account.Id.class)
                 .put("createdOn", Instant.class)
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())

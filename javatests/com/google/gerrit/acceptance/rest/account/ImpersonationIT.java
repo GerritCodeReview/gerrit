@@ -78,8 +78,6 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import java.io.File;
-import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -964,13 +962,5 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   private static Header runAsHeader(Object user) {
     return new BasicHeader("X-Gerrit-RunAs", user.toString());
-  }
-
-  private void createRefLogFileIfMissing(Repository repo, String ref) throws IOException {
-    File log = new File(repo.getDirectory(), "logs/" + ref);
-    if (!log.exists()) {
-      log.getParentFile().mkdirs();
-      assertThat(log.createNewFile()).isTrue();
-    }
   }
 }

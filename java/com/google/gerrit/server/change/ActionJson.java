@@ -166,6 +166,7 @@ public class ActionJson {
     copy.ref = revisionInfo.ref;
     copy.created = revisionInfo.created;
     copy.uploader = revisionInfo.uploader;
+    copy.realUploader = revisionInfo.realUploader;
     copy.fetch = revisionInfo.fetch;
     copy.kind = revisionInfo.kind;
     copy.description = revisionInfo.description;

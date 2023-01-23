@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.webui.UiAction;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -50,11 +51,15 @@ public class ActionInfo {
    */
   public Boolean enabled;
 
+  /** Options as a map of option name to enabled status */
+  public Map<String, Boolean> options;
+
   public ActionInfo(UiAction.Description d) {
     method = d.getMethod();
     label = d.getLabel();
     title = d.getTitle();
     enabled = d.isEnabled() ? true : null;
+    options = d.getOptions();
   }
 
   @Override
@@ -64,14 +69,15 @@ public class ActionInfo {
       return Objects.equals(method, actionInfo.method)
           && Objects.equals(label, actionInfo.label)
           && Objects.equals(title, actionInfo.title)
-          && Objects.equals(enabled, actionInfo.enabled);
+          && Objects.equals(enabled, actionInfo.enabled)
+          && Objects.equals(options, actionInfo.options);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, label, title, enabled);
+    return Objects.hash(method, label, title, enabled, options);
   }
 
   protected ActionInfo() {}

@@ -539,6 +539,7 @@ public class RebaseIT {
 
       RevisionInfo r = info.revisions.get(info.currentRevision);
       assertThat(r._number).isEqualTo(expectedNumRevisions);
+      assertThat(r.realUploader._accountId).isEqualTo(r.uploader._accountId);
 
       // ...and the base should be correct
       assertThat(r.commit.parents).hasSize(1);

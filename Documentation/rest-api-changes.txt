@@ -6816,7 +6816,33 @@ the user hovers the mouse.
 If true the action is permitted at this time and the caller is
 likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
+|`options`              |optional|
+Optional information about enabled options as a map that maps the
+option name to the enabled status of the option. +
+See the list of suppported options link:action-options[below].
 |====================================
+
+[[action-options]]
+==== Action Options
+
+Options that are returned via the `options` field of
+link:#action-info[ActionInfo].
+
+[options="header",cols="1,^1,5"]
+|===============================
+|REST view |Option  |Description
+|`rebase`  |`rebase`|
+Whether the user can rebase the change. +
+`true` for the change owner and users with the
+link:access-control.html#category_submit[Submit] or
+link:access-control.html#category_rebase[Rebase] permission if they
+have the 'Push' permission.
+|`rebase`  |`rebase_on_behalf_of`|
+Whether the user can rebase the change on behalf of the uploader. +
+`true` for the change owner and users with the
+link:access-control.html#category_submit[Submit] or
+link:access-control.html#category_rebase[Rebase] permission.
+|===============================
 
 [[applypatch-input]]
 === ApplyPatchInput
@@ -8219,22 +8245,33 @@ The `RangeInfo` entity stores the coordinates of a range.
 The `RebaseInput` entity contains information for changing parent when rebasing.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name          ||Description
-|`base`              |optional|
+|====================================
+|Field Name             ||Description
+|`base`                 |optional|
 The new parent revision. This can be a ref or a SHA-1 to a concrete patchset. +
 Alternatively, a change number can be specified, in which case the current
 patch set is inferred. +
 Empty string is used for rebasing directly on top of the target branch,
 which effectively breaks dependency towards a parent change.
-|`allow_conflicts`   |optional, defaults to false|
+|`allow_conflicts`      |optional, defaults to false|
 If `true`, the rebase also succeeds if there are conflicts. +
 If there are conflicts the file contents of the rebased patch set contain
 git conflict markers to indicate the conflicts. +
 Callers can find out whether there were conflicts by checking the
 `contains_git_conflicts` field in the returned link:#change-info[ChangeInfo]. +
-If there are conflicts the change is marked as work-in-progress.
-|`validation_options`|optional|
+If there are conflicts the change is marked as work-in-progress. +
+Cannot be combined with the `on_behalf_of_uploader` option.
+|`on_behalf_of_uploader`|optional, defaults to false|
+If `true`, the rebase is done on behalf of the uploader. +
+This means the uploader of the current patch set will also be the uploader of
+the rebased patch set. The calling user will be recorded as the real user. +
+Rebasing on behalf of the uploader is only supported for trivial rebases.
+This means this option cannot be combined with the `allow_conflicts` option. +
+In addition, rebasing on behalf of the uploader is only supported for the
+current patch set of a change and not when rebasing a chain. +
+Using this option is not supported when rebasing a chain via the
+link:#rebase-chain[Rebase Chain] REST endpoint.
+|`validation_options`   |optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation
 options are supported depends on the installed commit validation listeners.
@@ -8242,7 +8279,7 @@ Gerrit core doesn't support any validation options, but commit validation
 listeners that are implemented in plugins may. Please refer to the
 documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
-|===========================
+|====================================
 
 [[rebase-chain-info]]
 === RebaseChainInfo

@@ -164,6 +164,10 @@ public abstract class AbstractChangeUpdate {
     return accountId;
   }
 
+  public Account.Id getRealAccountId() {
+    return accountId;
+  }
+
   /** Whether no updates have been done. */
   public abstract boolean isEmpty();
 

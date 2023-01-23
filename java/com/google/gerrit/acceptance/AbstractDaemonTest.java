@@ -1754,6 +1754,14 @@ public abstract class AbstractDaemonTest {
         .collect(ImmutableMap.toImmutableMap(branch -> branch.ref, branch -> branch));
   }
 
+  protected void createRefLogFileIfMissing(Repository repo, String ref) throws IOException {
+    File log = new File(repo.getDirectory(), "logs/" + ref);
+    if (!log.exists()) {
+      log.getParentFile().mkdirs();
+      assertThat(log.createNewFile()).isTrue();
+    }
+  }
+
   protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)
       throws Exception {
     return installPlugin(pluginName, sysModuleClass, null, null);

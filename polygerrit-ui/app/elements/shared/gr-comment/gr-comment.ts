@@ -275,9 +275,7 @@ export class GrComment extends LitElement {
         this.save();
       });
     }
-    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      this.messagePlaceholder = 'Mention others with @';
-    }
+    this.messagePlaceholder = 'Mention others with @';
     subscribe(
       this,
       () => this.getUserModel().account$,

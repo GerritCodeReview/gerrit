@@ -13,7 +13,6 @@ import {
   query,
   queryAll,
   queryAndAssert,
-  stubFlags,
   stubRestApi,
   waitUntilVisible,
 } from '../../../test/test-utils';
@@ -59,7 +58,6 @@ import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
 import {testResolver} from '../../../test/common-test-setup';
@@ -2527,9 +2525,6 @@ suite('gr-reply-dialog tests', () => {
 
   suite('mention users', () => {
     setup(async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.MENTION_USERS)
-        .returns(true);
       element.account = createAccountWithId(1);
       element.requestUpdate();
       await element.updateComplete;

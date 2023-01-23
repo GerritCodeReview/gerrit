@@ -55,7 +55,6 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when.js';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
 
@@ -120,8 +119,6 @@ export class GrChangeSummary extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   constructor() {
     super();
     subscribe(
@@ -174,24 +171,22 @@ export class GrChangeSummary extends LitElement {
       () => this.getUserModel().account$,
       x => (this.selfAccount = x)
     );
-    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      subscribe(
-        this,
-        () =>
-          combineLatest([
-            this.getUserModel().account$,
-            this.getCommentsModel().threads$,
-          ]),
-        ([selfAccount, threads]) => {
-          if (!selfAccount || !selfAccount.email) return;
-          const unresolvedThreadsMentioningSelf = getMentionedThreads(
-            threads,
-            selfAccount
-          ).filter(isUnresolved);
-          this.mentionCount = unresolvedThreadsMentioningSelf.length;
-        }
-      );
-    }
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getUserModel().account$,
+          this.getCommentsModel().threads$,
+        ]),
+      ([selfAccount, threads]) => {
+        if (!selfAccount || !selfAccount.email) return;
+        const unresolvedThreadsMentioningSelf = getMentionedThreads(
+          threads,
+          selfAccount
+        ).filter(isUnresolved);
+        this.mentionCount = unresolvedThreadsMentioningSelf.length;
+      }
+    );
   }
 
   static override get styles() {
@@ -575,8 +570,6 @@ export class GrChangeSummary extends LitElement {
   }
 
   private renderMentionChip() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return nothing;
     if (!this.mentionCount) return nothing;
     return html` <gr-summary-chip
       class="mentionSummary"

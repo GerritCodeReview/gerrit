@@ -15,14 +15,9 @@ import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
 import {createConfig} from '../../../test/test-data-generators';
-import {
-  queryAndAssert,
-  stubFlags,
-  waitUntilObserved,
-} from '../../../test/test-utils';
+import {queryAndAssert, waitUntilObserved} from '../../../test/test-utils';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 
 suite('gr-formatted-text tests', () => {
@@ -412,38 +407,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
-    test('does not handle @mentions if not enabled', async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.MENTION_USERS)
-        .returns(false);
-      element.content = '@someone@google.com';
-      await element.updateComplete;
-
-      assert.shadowDom.equal(
-        element,
-        /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                @
-                <a
-                  href="mailto:someone@google.com"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  someone@google.com
-                </a>
-              </p>
-            </div>
-          </marked-element>
-        `
-      );
-    });
-
-    test('handles @mentions if enabled', async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.MENTION_USERS)
-        .returns(true);
+    test('handles @mentions', async () => {
       element.content = '@someone@google.com';
       await element.updateComplete;
 
@@ -470,9 +434,6 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does not handle @mentions that is part of a code block', async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.MENTION_USERS)
-        .returns(true);
       element.content = '`@`someone@google.com';
       await element.updateComplete;
 

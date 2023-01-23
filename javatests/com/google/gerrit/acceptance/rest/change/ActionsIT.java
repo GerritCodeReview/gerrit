@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ActionsIT extends AbstractDaemonTest {
@@ -50,8 +52,21 @@ public class ActionsIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
+  @ConfigSuite.Config
+  public static Config mergeabilityCheckEnabled() {
+    Config cfg = new Config();
+    cfg.setEnum(
+        "change",
+        null,
+        "mergeabilityComputationBehavior",
+        MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX);
+    return cfg;
+  }
+
   @Inject private RevisionJson.Factory revisionJsonFactory;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  private MergeabilityComputationBehavior mcb;
 
   protected Map<String, ActionInfo> getActions(String id) throws Exception {
     return gApi.changes().id(id).revision(1).actions();
@@ -59,6 +74,11 @@ public class ActionsIT extends AbstractDaemonTest {
 
   protected Map<String, ActionInfo> getChangeActions(String id) throws Exception {
     return gApi.changes().id(id).get().actions;
+  }
+
+  @Before
+  public void setUp() {
+    mcb = MergeabilityComputationBehavior.fromConfig(cfg);
   }
 
   @Test
@@ -160,10 +180,12 @@ public class ActionsIT extends AbstractDaemonTest {
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
       ActionInfo info = actions.get("submit");
-      assertThat(info.enabled).isNull();
+      if (mcb != MergeabilityComputationBehavior.NEVER) {
+        assertThat(info.enabled).isNull();
+        assertThat(info.title).isEqualTo("Problems with change(s): " + changeNum2);
+      }
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Problems with change(s): " + changeNum2);
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
     }

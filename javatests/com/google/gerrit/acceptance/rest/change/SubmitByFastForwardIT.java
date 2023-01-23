@@ -27,6 +27,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -157,7 +158,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertThat(actions).containsKey("submit");
     ActionInfo info = actions.get("submit");
-    assertThat(info.enabled).isNull();
+    if (mcb != MergeabilityComputationBehavior.NEVER) {
+      assertThat(info.enabled).isNull();
+    }
 
     submitWithConflict(
         change2.getChangeId(),
@@ -226,8 +229,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     approve(changeResult.getChangeId());
     approve(change2Result.getChangeId());
 
-    // submit button is disabled.
-    assertSubmitDisabled(change2Result.getChangeId());
+    if (mcb != MergeabilityComputationBehavior.NEVER) {
+      // submit button is disabled.
+      assertSubmitDisabled(change2Result.getChangeId());
+    }
 
     submitWithConflict(
         change2Result.getChangeId(),

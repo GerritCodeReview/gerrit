@@ -190,6 +190,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4503a741_487e8651",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-23T23:40:28Z",
+      "side": 1,
+      "message": "So I think I understand the original point of this change much better now and I agree it\u0027s accurate for vanilla Gerrit with Lucene. Thank you for your patience and explanations. I\u0027ll look at adding a bit of text here indicating that if it\u0027s a concern then maybe use ES or contribute a fix for the Lucene backend :-)\n\nSeparately, I think we need to be careful when thinking/discussing about \"unique keys\". Just because our backend implementation has shifted such that we do lookups a certain way, that doesn\u0027t mean we\u0027ve changed the user-facing uniqueness guarantee of any other id/key. But I think that\u0027s a conversation I can continue over on 354234: Design document to adopt Project-Name~Change-Number as unique identifier | https://gerrit-review.googlesource.com/c/homepage/+/354234",
+      "parentUuid": "af57eeac_20a4646d",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

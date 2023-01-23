@@ -60,15 +60,13 @@ public class IndexServletTest {
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
 
-    // Pick any known experiment enabled by default;
-    String disabledDefault = ExperimentFeaturesConstants.UI_FEATURE_PATCHSET_COMMENTS;
-    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES).contains(disabledDefault);
+    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES).isEmpty();
 
     org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
     serverConfig.setStringList(
         "experiments", null, "enabled", ImmutableList.of("NewFeature", "DisabledFeature"));
     serverConfig.setStringList(
-        "experiments", null, "disabled", ImmutableList.of("DisabledFeature", disabledDefault));
+        "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
     IndexServlet servlet =
         new IndexServlet(
@@ -97,7 +95,6 @@ public class IndexServletTest {
                 + "\\x5b\\x5d\\x7d');");
     ImmutableSet<String> enabledDefaults =
         ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()
-            .filter(e -> !e.equals(disabledDefault))
             .collect(ImmutableSet.toImmutableSet());
     List<String> expectedEnabled = new ArrayList<>();
     expectedEnabled.add("NewFeature");

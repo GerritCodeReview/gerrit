@@ -1065,14 +1065,6 @@ suite('gr-router tests', () => {
           filter: 'foo',
         });
       });
-
-      test('handlePluginListRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handlePluginListRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
-        });
-      });
     });
 
     suite('change/diff routes', () => {

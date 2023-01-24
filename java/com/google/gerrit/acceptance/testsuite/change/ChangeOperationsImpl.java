@@ -441,8 +441,10 @@ public class ChangeOperationsImpl implements ChangeOperations {
         PatchSetInserter patchSetInserter =
             getPatchSetInserter(changeNotes, newPatchsetCommit, patchsetId);
 
-        IdentifiedUser changeOwner = userFactory.create(changeNotes.getChange().getOwner());
-        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+        Account.Id uploaderId =
+            patchsetCreation.uploader().orElse(changeNotes.getChange().getOwner());
+        IdentifiedUser uploader = userFactory.create(uploaderId);
+        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, uploader, now)) {
           batchUpdate.setRepository(repository, revWalk, objectInserter);
           batchUpdate.addOp(changeId, patchSetInserter);
           batchUpdate.execute();

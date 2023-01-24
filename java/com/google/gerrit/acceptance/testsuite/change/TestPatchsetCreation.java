@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.util.Optional;
@@ -24,6 +25,8 @@ import java.util.Optional;
 /** Initial attributes of the patchset. If not provided, arbitrary values will be used. */
 @AutoValue
 public abstract class TestPatchsetCreation {
+
+  public abstract Optional<Account.Id> uploader();
 
   public abstract Optional<String> commitMessage();
 
@@ -40,6 +43,11 @@ public abstract class TestPatchsetCreation {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    /**
+     * The uploader for the new patch set. If not set the new patch set is uploaded by the change
+     * owner.
+     */
+    public abstract Builder uploader(Account.Id uploader);
 
     public abstract Builder commitMessage(String commitMessage);
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc550fea_41909b8d",
+        "filename": "polygerrit-ui/app/utils/page-wrapper-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-24T19:48:31Z",
+      "side": 1,
+      "message": "Can be this const only in gr-router? Is the only reason why it is here so it is shared between gr-router and its test?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 58
+      },
+      "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

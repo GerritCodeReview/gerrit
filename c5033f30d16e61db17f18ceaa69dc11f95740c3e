@@ -16,6 +16,23 @@
       "message": "We check the formatting in our CI: I am curious to see how we ended up with unformatted source code?",
       "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "568f0f18_6f15fa57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:33:03Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org can you double-check?",
+      "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

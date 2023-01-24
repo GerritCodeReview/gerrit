@@ -50,6 +50,24 @@
       "message": "LGTM, tested with GJF",
       "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b863b2b9_09e29137",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-01-24T14:38:06Z",
+      "side": 1,
+      "message": "do we still run CI jobs on stable-3.4 ?",
+      "parentUuid": "680bb207_efa9301b",
+      "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

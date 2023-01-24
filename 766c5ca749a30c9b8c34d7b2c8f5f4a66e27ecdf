@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46b8d7b_4a19019b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:42:52Z",
+      "side": 1,
+      "message": "I am wondering if we could *at least* run the Code-Style automatically on all branches, that shouldn\u0027t take so much processing anyway.",
+      "revId": "766c5ca749a30c9b8c34d7b2c8f5f4a66e27ecdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

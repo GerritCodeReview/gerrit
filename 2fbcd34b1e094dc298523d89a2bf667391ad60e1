@@ -16,6 +16,24 @@
       "message": "Nit: To make this more generic, let it be a function from string -\u003e Bool.\n\nThe implementation can be a regexp, but maybe for some routes the implementation is not a regexp?",
       "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03910ca3_a7d10568",
+        "filename": "polygerrit-ui/app/models/views/base.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T11:32:14Z",
+      "side": 1,
+      "message": "We can only support here what page.js accepts as a parameter.\n\nOne fundamental issue that I am trying to fix is actually about all the route patterns that are *not* a regular expression, but a special page.js path syntax. They are causing troubles, because they work differently: `:repo` may not contain a slash, because it is a path component, while `(.+)` in regexes may contain a slash. This is leading to inconsistencies and bugs. So I would prefer to only do regex matching as long as we don\u0027t have a special need for something else.",
+      "parentUuid": "30ff6160_df151a29",
+      "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

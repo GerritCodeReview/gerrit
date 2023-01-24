@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66cc8543_81c10dd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-24T19:45:09Z",
+      "side": 1,
+      "message": "Great, 3 good reasons!",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 23
+      },
+      "revId": "118aa9f23b3c90ef61f95c0600de497b9ec41c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

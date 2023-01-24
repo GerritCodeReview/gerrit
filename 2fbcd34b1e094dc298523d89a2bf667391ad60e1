@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "039d01c7_7827ad2e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-24T12:22:26Z",
+      "side": 1,
+      "message": "```suggestion\n   * Convenience wrapper of `mapRoute()` for when you have a `Route` object that\n```",
+      "range": {
+        "startLine": 523,
+        "startChar": 5,
+        "endLine": 523,
+        "endChar": 16
+      },
+      "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ec64b8_c1c68c38",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-01-24T12:22:26Z",
+      "side": 1,
+      "message": "can you maybe describe what would exactly happen if the order would be different?(maybe as a reply to this or update the comment).",
+      "range": {
+        "startLine": 537,
+        "startChar": 33,
+        "endLine": 538,
+        "endChar": 33
+      },
+      "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30ff6160_df151a29",
         "filename": "polygerrit-ui/app/models/views/base.ts",
         "patchSetId": 4

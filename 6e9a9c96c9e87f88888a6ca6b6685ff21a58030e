@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a50b69f_a797a7fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T23:35:20Z",
+      "side": 1,
+      "message": "Release-Notes?",
+      "revId": "6e9a9c96c9e87f88888a6ca6b6685ff21a58030e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
@@ -16,24 +34,15 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dMAX,user\u003dnon_uploader"
-        ],
-        "failingAtoms": [
-          "label:Code-Review\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "6e9a9c96c9e87f88888a6ca6b6685ff21a58030e",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -53,37 +62,18 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config"
-          },
-          "status": "PASS",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config"
-          ]
-        }
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
       },
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Style\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "6e9a9c96c9e87f88888a6ca6b6685ff21a58030e",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -103,40 +93,18 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
-          },
-          "status": "FAIL",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config",
-            "file:\"^lib/.*\"",
-            "file:\"^WORKSPACE$\"",
-            "file:\"^.gitmodule$\"",
-            "file:\"^tools/deps.bzl$\""
-          ]
-        }
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
       },
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
-        },
-        "status": "FAIL",
-        "errorMessage": {},
-        "passingAtoms": [],
-        "failingAtoms": [
-          "label:Library-Compliance\u003dMAX,user\u003dnon_uploader",
-          "label:Library-Compliance\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Library-Compliance=MAX,user=non_uploader","label:Library-Compliance=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "6e9a9c96c9e87f88888a6ca6b6685ff21a58030e",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -156,37 +124,18 @@
         "allowOverrideInChildProjects": true
       },
       "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config"
-          },
-          "status": "PASS",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config"
-          ]
-        }
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
       },
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Verified\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "6e9a9c96c9e87f88888a6ca6b6685ff21a58030e",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     }
   ]
 }

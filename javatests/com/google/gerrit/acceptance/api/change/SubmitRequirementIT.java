@@ -2949,6 +2949,43 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void queryingChangesWithSubmitRequirement_asInternalUser() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            // Always not submittable
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:false"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUserInternal();
+    List<ChangeInfo> changeInfos =
+        gApi.changes()
+            .query()
+            .withQuery("project:{" + project.get() + "} status:open AND uploader:admin")
+            .withOptions(
+                new ImmutableSet.Builder<ListChangesOption>()
+                    .addAll(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                    .add(ListChangesOption.SUBMIT_REQUIREMENTS)
+                    .build())
+            .get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.get(0).submitRequirements,
+        "Code-Review",
+        Status.SATISFIED,
+        /* isLegacy = */ true);
+  }
+
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bfd75d4_aca91ffd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2971,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-24T15:54:51Z",
+      "side": 1,
+      "message": "Thanks for adding a test!\n\nQQ: does this test fail without the fix in the source file?\n\nSubmit requirements are always executed as an internal user, so setting `requestScopeOperations.setApiUserInternal` should have no effect on the SR evaluation if I understand correctly.\n\nhttps://gerrit.googlesource.com/gerrit/+/84543c2924fd4b2a249e82e1b9d159b02f6e226a/java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java#90",
+      "revId": "ca0b33a77595713bb560061f3ff919f6514b5871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,8 @@ import {customElement, query, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {createGroupUrl} from '../../../models/views/group';
+import {resolve} from '../../../models/dependency';
+import {routerToken} from '../../core/gr-router/gr-router';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +33,8 @@ export class GrCreateGroupDialog extends LitElement {
   name: GroupName | '' = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  readonly getRouter = resolve(this, routerToken);
 
   static override get styles() {
     return [
@@ -87,7 +91,7 @@ export class GrCreateGroupDialog extends LitElement {
         if (!group) return;
         const groupId = String(group.group_id!) as GroupId;
         // TODO: Use navigation service instead of `page.show()` directly.
-        page.show(createGroupUrl({groupId}));
+        this.getRouter().page.show(createGroupUrl({groupId}));
       });
     });
   }

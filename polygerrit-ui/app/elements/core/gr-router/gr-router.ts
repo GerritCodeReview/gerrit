@@ -103,7 +103,8 @@ import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
 
-const RoutePattern = {
+// visible for testing
+export const RoutePattern = {
   ROOT: '/',
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
@@ -307,6 +308,10 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
+  private readonly nowi = Date.now();
+
+  readonly page = page.create();
+
   constructor(
     private readonly reporting: ReportingService,
     private readonly routerModel: RouterModel,
@@ -343,7 +348,7 @@ export class GrRouter implements Finalizable, NavigationService {
         }
 
         if (browserUrl.toString() !== stateUrl.toString()) {
-          page.replace(
+          this.page.replace(
             stateUrl.toString(),
             null,
             /* init: */ false,
@@ -360,6 +365,7 @@ export class GrRouter implements Finalizable, NavigationService {
       subscription.unsubscribe();
     }
     this.subscriptions = [];
+    this.page.stop();
   }
 
   start() {
@@ -370,6 +376,9 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   setState(state: AppElementParams) {
+    console.log(
+      `setState ${this.nowi} ${Date.now() % 100000} ${JSON.stringify(state)}`
+    );
     // TODO: Move this logic into the change model.
     if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
       this.restApiService.setInProjectLookup(state.changeNum, state.repo);
@@ -382,10 +391,11 @@ export class GrRouter implements Finalizable, NavigationService {
     if (state.view !== GerritView.CHANGE) {
       this.changeViewModel.setState(undefined);
     }
-    this.appElement().params = state;
+    const appElement = this.appElement();
+    if (appElement) appElement.params = state;
   }
 
-  private appElement(): AppElement {
+  private appElement(): AppElement | undefined {
     // In Polymer2 you have to reach through the shadow root of the app
     // element. This obviously breaks encapsulation.
     // TODO(brohlfs): Make this more elegant, e.g. by exposing app-element
@@ -394,15 +404,17 @@ export class GrRouter implements Finalizable, NavigationService {
     // It is expected that application has a GrAppElement(id=='app-element')
     // at the document level or inside the shadow root of the GrApp ('gr-app')
     // element.
-    return (document.getElementById('app-element') ||
-      document
-        .querySelector('gr-app')!
-        .shadowRoot!.getElementById('app-element')!) as AppElement;
+    const appElement = document.getElementById('app-element');
+    if (appElement) return appElement as AppElement;
+    const shadowAppElement = document
+      .querySelector('gr-app')
+      ?.shadowRoot?.getElementById('app-element');
+    return (shadowAppElement as AppElement) ?? undefined;
   }
 
   redirect(url: string) {
     this._isRedirecting = true;
-    page.redirect(url);
+    this.page.redirect(url);
   }
 
   /**
@@ -431,7 +443,9 @@ export class GrRouter implements Finalizable, NavigationService {
    */
   redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';
-    page('/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
+    this.page(
+      '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
+    );
   }
 
   /**
@@ -504,11 +518,12 @@ export class GrRouter implements Finalizable, NavigationService {
     handler: (ctx: PageContext) => void,
     authRedirect?: boolean
   ) {
-    page(
+    this.page(
       pattern,
       (ctx, next) => this.loadUserMiddleware(ctx, next),
       ctx => {
         this.reporting.locationChanged(handlerName);
+        console.log(`mapRoute ${handlerName}`);
         const promise = authRedirect
           ? this.redirectIfNotLoggedIn(ctx)
           : Promise.resolve();
@@ -531,6 +546,7 @@ export class GrRouter implements Finalizable, NavigationService {
     handlerName: string,
     authRedirect?: boolean
   ) {
+    console.log(`mapRouteState ${this.nowi} ${handlerName}`);
     const handler = (ctx: PageContext) => {
       const state = route.createState(ctx);
       // Note that order is important: `this.setState()` must be called before
@@ -552,7 +568,7 @@ export class GrRouter implements Finalizable, NavigationService {
    * page.show() eventually just calls `window.history.pushState()`.
    */
   setUrl(url: string) {
-    page.show(url);
+    this.page.show(url);
   }
 
   /**
@@ -580,12 +596,13 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   startRouter() {
+    console.log(`startRouter ${this.nowi}`);
     const base = getBaseUrl();
     if (base) {
-      page.base(base);
+      this.page.base(base);
     }
 
-    page.exit('*', (_, next) => {
+    this.page.exit('*', (_, next) => {
       if (!this._isRedirecting) {
         this.reporting.beforeLocationChanged();
       }
@@ -596,7 +613,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
     // Remove the tracking param 'usp' (User Source Parameter) from the URL,
     // just to have users look at cleaner URLs.
-    page((ctx, next) => {
+    this.page((ctx, next) => {
       if (window.URLSearchParams) {
         const pathname = toPathname(ctx.canonicalPath);
         const searchParams = toSearchParams(ctx.canonicalPath);
@@ -612,7 +629,7 @@ export class GrRouter implements Finalizable, NavigationService {
     });
 
     // Middleware
-    page((ctx, next) => {
+    this.page((ctx, next) => {
       document.body.scrollTop = 0;
 
       if (ctx.hash.match(RoutePattern.PLUGIN_SCREEN)) {
@@ -983,7 +1000,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.handleDefaultRoute()
     );
 
-    page.start();
+    this.page.start();
   }
 
   /**
@@ -1147,10 +1164,11 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleGroupListOffsetRoute(ctx: PageContext) {
+    console.log(`handleGroupListOffsetRoute ctx ${JSON.stringify(ctx.params)}`);
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: ctx.params[1] || 0,
+      offset: ctx.params[1] ?? '0',
       filter: null,
       openCreateModal: ctx.hash === 'create',
     };
@@ -1160,11 +1178,15 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleGroupListFilterOffsetRoute(ctx: PageContext) {
+    console.log(
+      `handleGroupListFilterOffsetRoute ctx ${JSON.stringify(ctx.params)}`
+    );
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
+      openCreateModal: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1175,7 +1197,9 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
+      offset: '0',
       filter: ctx.params['filter'] || null,
+      openCreateModal: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1723,6 +1747,7 @@ export class GrRouter implements Finalizable, NavigationService {
    * by the catchall _handleDefaultRoute handler.
    */
   handlePassThroughRoute() {
+    console.log(`handlePassThroughRoute ${this._isInitialLoad}`);
     windowLocationReload();
   }
 
@@ -1778,6 +1803,7 @@ export class GrRouter implements Finalizable, NavigationService {
    * Catchall route for when no other route is matched.
    */
   handleDefaultRoute() {
+    console.log(`handleDefaultRoute ${this._isInitialLoad}`);
     if (this._isInitialLoad) {
       // Server recognized this route as polygerrit, so we show 404.
       this.show404();

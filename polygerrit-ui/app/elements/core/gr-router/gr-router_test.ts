@@ -11,6 +11,7 @@ import {
   stubRestApi,
   addListenerForTest,
   waitEventLoop,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {GrRouter, routerToken, _testOnly_RoutePattern} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -25,7 +26,7 @@ import {
 } from '../../../types/common';
 import {AppElementParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
-import {AdminChildView} from '../../../models/views/admin';
+import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
@@ -44,6 +45,10 @@ suite('gr-router tests', () => {
 
   setup(() => {
     router = testResolver(routerToken);
+  });
+
+  teardown(() => {
+    router.finalize();
   });
 
   test('getHashFromCanonicalPath', () => {
@@ -107,9 +112,7 @@ suite('gr-router tests', () => {
 
     const requiresAuth: any = {};
     const doesNotRequireAuth: any = {};
-    sinon.stub(page, 'start');
-    sinon.stub(page, 'base');
-    sinon
+    const mapRouteStub = sinon
       .stub(router, 'mapRoute')
       .callsFake((_pattern, methodName, _method, usesAuth) => {
         if (usesAuth) {
@@ -201,6 +204,8 @@ suite('gr-router tests', () => {
     );
     shouldNotRequireAuth.sort();
     assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
+
+    mapRouteStub.restore();
   });
 
   test('redirectIfNotLoggedIn while logged in', () => {
@@ -370,9 +375,9 @@ suite('gr-router tests', () => {
       ) => {
         onExit = _onExit;
       };
-      sinon.stub(page, 'exit').callsFake(onRegisteringExit);
-      sinon.stub(page, 'start');
-      sinon.stub(page, 'base');
+      sinon.stub(router.page, 'exit').callsFake(onRegisteringExit);
+      sinon.stub(router.page, 'start');
+      sinon.stub(router.page, 'base');
       router.startRouter();
 
       router.handleDefaultRoute();
@@ -735,55 +740,69 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('handleGroupListOffsetRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: 0,
-          filter: null,
-          openCreateModal: false,
-        });
+      test('list of groups', async () => {
+        router.startRouter();
 
-        ctx.params[1] = '42';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: null,
-          openCreateModal: false,
-        });
+        const checkUrlToState = async (
+          url: string,
+          partial: Partial<AdminViewState>
+        ) => {
+          console.log(`reset ${Date.now() % 100000} ${setStateStub.callCount}`);
+          setStateStub.reset();
+          console.log(`show ${Date.now() % 100000} ${setStateStub.callCount}`);
+          router.page.show(url);
+          console.log(
+            `waitUntilCalled ${Date.now() % 100000} ${setStateStub.callCount}`
+          );
+          await waitUntilCalled(setStateStub, 'setState');
+          console.log(`oops ${Date.now() % 100000} ${setStateStub.callCount}`);
+          assert.deepEqual(setStateStub.lastCall.firstArg, {
+            view: GerritView.ADMIN,
+            adminView: AdminChildView.GROUPS,
+            offset: '0',
+            openCreateModal: false,
+            filter: null,
+            ...partial,
+          });
+        };
+        const checkUrlNotMatched = async (url: string) => {
+          handlePassThroughRoute.reset();
+          router.page.show(url);
+          await waitUntilCalled(
+            handlePassThroughRoute,
+            'handlePassThroughRoute'
+          );
+        };
 
-        ctx.hash = 'create';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: null,
+        // await checkUrlToState('/admin/groups', {});
+        await checkUrlToState('/admin/groups/', {});
+        await checkUrlToState('/admin/groups#create', {
           openCreateModal: true,
         });
-      });
-
-      test('handleGroupListFilterOffsetRoute', () => {
-        const ctx = {
-          ...createPageContext(),
-          params: {filter: 'foo', offset: '42'},
-        };
-        assertctxToParams(ctx, 'handleGroupListFilterOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: 'foo',
+        await checkUrlToState('/admin/groups/', {});
+        await checkUrlToState('/admin/groups,123', {offset: '123'});
+        await checkUrlToState('/admin/groups,123#create', {
+          offset: '123',
+          openCreateModal: true,
         });
-      });
-
-      test('handleGroupListFilterRoute', () => {
-        const ctx = {...createPageContext(), params: {filter: 'foo'}};
-        assertctxToParams(ctx, 'handleGroupListFilterRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          filter: 'foo',
+        await checkUrlToState('/admin/groups/q/filter:asdf,11', {
+          filter: 'asdf',
+          offset: '11',
         });
+        // #create is ignored when filtering
+        await checkUrlToState('/admin/groups/q/filter:asdf,11#create', {
+          filter: 'asdf',
+          offset: '11',
+        });
+        // filter is decoded (twice)
+        await checkUrlToState(
+          '/admin/groups/q/filter:XX%20XX%2520XX%252FXX%3FXX',
+          {filter: 'XX XX XX/XX?XX'}
+        );
+
+        // Slash must be double encoded in `filter` param.
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf/qwer,11');
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf%2Fqwer,11');
       });
 
       test('handleGroupRoute', () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "680bb207_efa9301b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:28:34Z",
+      "side": 1,
+      "message": "We check the formatting in our CI: I am curious to see how we ended up with unformatted source code?",
+      "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

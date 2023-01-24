@@ -17,6 +17,7 @@ export interface Page {
   replace(path: string, state: null, init: boolean, dispatch: boolean): void;
   base(url: string): void;
   start(): void;
+  stop(): void;
   exit(pattern: string | RegExp, ...pageCallback: PageCallback[]): void;
 }
 
@@ -37,6 +38,7 @@ export type PageCallback = (
   next: PageNextCallback
 ) => void;
 
-// TODO: Convert page usages to the real types and remove this file of wrapper
-// types. Also remove workarounds in rollup config.
-export const page = pagejs as unknown as Page;
+// Must only be used by gr-router!
+// TODO: Move this into gr-router. Note that there is a Google import rule
+// that would need to be modified.
+export const page = pagejs as unknown as {create(): Page};

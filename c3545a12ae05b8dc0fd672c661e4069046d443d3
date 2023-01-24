@@ -143,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ab6e04a_9bce6d5e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-24T10:04:28Z",
+      "side": 1,
+      "message": "What I meant is that from the name of the variable, it\u0027s not clear that it\u0027s the variable that responsible for rendering of the list instead it seems more like it\u0027s the variable that contains the list.\n\nI would suggest something like: PLUGIN_LIST_ROUTE",
+      "parentUuid": "41e290ba_6acf9f95",
+      "range": {
+        "startLine": 841,
+        "startChar": 6,
+        "endLine": 841,
+        "endChar": 17
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8c9472c_10369708",
         "filename": "polygerrit-ui/app/models/views/admin.ts",
         "patchSetId": 2

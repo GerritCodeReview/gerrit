@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d60e40e_f7ae8417",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-24T19:57:24Z",
+      "side": 0,
+      "message": "Yes, your test are much better than this setting hash, params, etc.",
+      "range": {
+        "startLine": 750,
+        "startChar": 8,
+        "endLine": 751,
+        "endChar": 62
+      },
+      "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

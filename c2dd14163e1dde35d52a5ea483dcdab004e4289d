@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7ccfa3_6dc69158",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-24T19:57:24Z",
+      "side": 1,
+      "message": "I was thinking I would do it differently like\n```\nawait urlToStateEqual(\u0027/admin/groups\u0027, {\n...defaultAdminView,\nopenCreateModal: true\n});\n```\n\n1) So this checkUrlToState can be used for all types of views.\n2) Visually it shows what exactly it matches (to what it equals)\n\nBut your style works as well.",
+      "range": {
+        "startLine": 769,
+        "startChar": 47,
+        "endLine": 769,
+        "endChar": 49
+      },
+      "revId": "c2dd14163e1dde35d52a5ea483dcdab004e4289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

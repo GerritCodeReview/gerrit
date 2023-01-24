@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5bf2c2d_a8d5b79a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2953,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-24T15:56:32Z",
+      "side": 1,
+      "message": "That\u0027s not the test that I was expecting.\n\nI expected that the test would configure a submit requirement expression the uses \"uploader:...\" and then checks that a change that was uploaded by this uploader is submittable.",
+      "revId": "ca0b33a77595713bb560061f3ff919f6514b5871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bfd75d4_aca91ffd",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
         "patchSetId": 1

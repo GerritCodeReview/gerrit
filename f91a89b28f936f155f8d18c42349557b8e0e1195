@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40977212_8514d740",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-24T20:01:26Z",
+      "side": 1,
+      "message": "I appreciate the review, thanks! I was definitely not convinced this was the cleanest approach, so I\u0027m glad you suggested a different one.",
+      "parentUuid": "76601e4d_aa9ba3d5",
+      "revId": "f91a89b28f936f155f8d18c42349557b8e0e1195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57aead72_ce7c2688",

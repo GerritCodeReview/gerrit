@@ -795,6 +795,23 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void newPatchsetCanHaveDifferentUploader() throws Exception {
+    Account.Id changeOwner = accountOperations.newAccount().create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo currentPatchsetRevision = change.revisions.get(change.currentRevision);
+    assertThat(currentPatchsetRevision.uploader._accountId).isEqualTo(changeOwner.get());
+
+    Account.Id newUploader = accountOperations.newAccount().create();
+    changeOperations.change(changeId).newPatchset().uploader(newUploader).create();
+
+    change = getChangeFromServer(changeId);
+    currentPatchsetRevision = change.revisions.get(change.currentRevision);
+    assertThat(currentPatchsetRevision.uploader._accountId).isEqualTo(newUploader.get());
+  }
+
+  @Test
   public void newPatchsetCanHaveUpdatedCommitMessage() throws Exception {
     Change.Id changeId = changeOperations.newChange().commitMessage("Old message").create();
 

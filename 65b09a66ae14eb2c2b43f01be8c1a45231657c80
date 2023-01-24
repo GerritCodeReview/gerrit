@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f22cab92_cf2967af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:32:46Z",
+      "side": 1,
+      "message": "Code-Style -1",
+      "revId": "65b09a66ae14eb2c2b43f01be8c1a45231657c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "936c976d_f1d071b2",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:32:46Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org how did you verify the Code-Style +1? (you assigned it on this change)\n\n@matthias.sohn@gmail.com is fixing it now with Ifba886e1476.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 33
+      },
+      "revId": "65b09a66ae14eb2c2b43f01be8c1a45231657c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -24,6 +26,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.merge.MergeStrategy;
 
 /** Initial attributes of the change. If not provided, arbitrary values will be used. */
@@ -34,6 +37,14 @@ public abstract class TestChangeCreation {
   public abstract String branch();
 
   public abstract Optional<Account.Id> owner();
+
+  public abstract Optional<Account.Id> author();
+
+  public abstract Optional<PersonIdent> authorIdent();
+
+  public abstract Optional<Account.Id> committer();
+
+  public abstract Optional<PersonIdent> committerIdent();
 
   public abstract Optional<String> topic();
 
@@ -69,8 +80,64 @@ public abstract class TestChangeCreation {
      */
     public abstract Builder branch(String branch);
 
-    /** The change owner. Must be an existing user account. */
+    /**
+     * The change owner.
+     *
+     * <p>Must be an existing user account.
+     */
     public abstract Builder owner(Account.Id owner);
+
+    /**
+     * The author of the commit for which the change is created.
+     *
+     * <p>Must be an existing user account.
+     *
+     * <p>Cannot be set together with {@link #authorIdent()} is set.
+     *
+     * <p>If neither {@link #author()} nor {@link #authorIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the author.
+     */
+    public abstract Builder author(Account.Id author);
+
+    /**
+     * The author ident of the commit for which the change is created.
+     *
+     * <p>Cannot be set together with {@link #author()} is set.
+     *
+     * <p>If neither {@link #author()} nor {@link #authorIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the author.
+     */
+    public abstract Builder authorIdent(PersonIdent authorIdent);
+
+    public abstract Optional<Account.Id> author();
+
+    public abstract Optional<PersonIdent> authorIdent();
+
+    /**
+     * The committer of the commit for which the change is created.
+     *
+     * <p>Must be an existing user account.
+     *
+     * <p>Cannot be set together with {@link #committerIdent()} is set.
+     *
+     * <p>If neither {@link #committer()} nor {@link #committerIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the committer.
+     */
+    public abstract Builder committer(Account.Id committer);
+
+    /**
+     * The committer ident of the commit for which the change is created.
+     *
+     * <p>Cannot be set together with {@link #committer()} is set.
+     *
+     * <p>If neither {@link #committer()} nor {@link #committerIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the committer.
+     */
+    public abstract Builder committerIdent(PersonIdent committerIdent);
+
+    public abstract Optional<Account.Id> committer();
+
+    public abstract Optional<PersonIdent> committerIdent();
 
     /** The topic to add this change to. */
     public abstract Builder topic(String topic);
@@ -156,13 +223,23 @@ public abstract class TestChangeCreation {
 
     abstract TestChangeCreation autoBuild();
 
+    public TestChangeCreation build() {
+      checkState(
+          author().isEmpty() || authorIdent().isEmpty(),
+          "author and authorIdent cannot be set together");
+      checkState(
+          committer().isEmpty() || committerIdent().isEmpty(),
+          "committer and committerIdent cannot be set together");
+      return autoBuild();
+    }
+
     /**
      * Creates the change.
      *
      * @return the {@code Change.Id} of the created change
      */
     public Change.Id create() {
-      TestChangeCreation changeUpdate = autoBuild();
+      TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
     }
   }

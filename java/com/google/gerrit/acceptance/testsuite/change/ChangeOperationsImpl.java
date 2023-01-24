@@ -139,9 +139,10 @@ public class ChangeOperationsImpl implements ChangeOperations {
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
       Instant now = TimeUtil.now();
       IdentifiedUser changeOwner = getChangeOwner(changeCreation);
-      PersonIdent authorAndCommitter = changeOwner.newCommitterIdent(now, serverIdent.getZoneId());
+      PersonIdent author = getAuthorIdent(now, changeCreation);
+      PersonIdent committer = getCommitterIdent(now, changeCreation);
       ObjectId commitId =
-          createCommit(repository, revWalk, objectInserter, changeCreation, authorAndCommitter);
+          createCommit(repository, revWalk, objectInserter, changeCreation, author, committer);
 
       String refName = RefNames.fullName(changeCreation.branch());
       ChangeInserter inserter = getChangeInserter(changeId, refName, commitId);
@@ -189,6 +190,30 @@ public class ChangeOperationsImpl implements ChangeOperations {
     return getArbitraryUser();
   }
 
+  private PersonIdent getAuthorIdent(Instant when, TestChangeCreation changeCreation)
+      throws IOException, ConfigInvalidException {
+    if (changeCreation.authorIdent().isPresent()) {
+      return new PersonIdent(changeCreation.authorIdent().get(), when);
+    }
+
+    return (changeCreation.author().isPresent()
+            ? userFactory.create(changeCreation.author().get())
+            : getChangeOwner(changeCreation))
+        .newCommitterIdent(when, serverIdent.getZoneId());
+  }
+
+  private PersonIdent getCommitterIdent(Instant when, TestChangeCreation changeCreation)
+      throws IOException, ConfigInvalidException {
+    if (changeCreation.committerIdent().isPresent()) {
+      return new PersonIdent(changeCreation.committerIdent().get(), when);
+    }
+
+    return (changeCreation.committer().isPresent()
+            ? userFactory.create(changeCreation.committer().get())
+            : getChangeOwner(changeCreation))
+        .newCommitterIdent(when, serverIdent.getZoneId());
+  }
+
   private IdentifiedUser getArbitraryUser() throws ConfigInvalidException, IOException {
     ImmutableSet<Account.Id> foundAccounts = resolver.resolveIgnoreVisibility("").asIdSet();
     checkState(
@@ -202,15 +227,15 @@ public class ChangeOperationsImpl implements ChangeOperations {
       RevWalk revWalk,
       ObjectInserter objectInserter,
       TestChangeCreation changeCreation,
-      PersonIdent authorAndCommitter)
+      PersonIdent author,
+      PersonIdent committer)
       throws IOException, BadRequestException {
     ImmutableList<ObjectId> parentCommits = getParentCommits(repository, revWalk, changeCreation);
     TreeCreator treeCreator =
         getTreeCreator(objectInserter, parentCommits, changeCreation.mergeStrategy());
     ObjectId tree = createNewTree(repository, treeCreator, changeCreation.treeModifications());
     String commitMessage = correctCommitMessage(changeCreation.commitMessage());
-    return createCommit(
-        objectInserter, tree, parentCommits, authorAndCommitter, authorAndCommitter, commitMessage);
+    return createCommit(objectInserter, tree, parentCommits, author, committer, commitMessage);
   }
 
   private ImmutableList<ObjectId> getParentCommits(

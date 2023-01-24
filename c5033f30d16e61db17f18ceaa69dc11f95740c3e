@@ -68,6 +68,24 @@
       "parentUuid": "680bb207_efa9301b",
       "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "070eb510_e1da51d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T14:40:53Z",
+      "side": 1,
+      "message": "\u003e do we still run CI jobs on stable-3.4 ?\n\nYes, whilst Gerrit v3.4 was still alive. Since the EOL, the CI doesn\u0027t build anymore: the formatting issue comes from an post-EOL change.\n\nWe don\u0027t have capacity to run CI on all EOL branches.",
+      "parentUuid": "b863b2b9_09e29137",
+      "revId": "c5033f30d16e61db17f18ceaa69dc11f95740c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

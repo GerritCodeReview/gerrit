@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d477ca8_75a2a0ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T16:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "039d01c7_7827ad2e",
+      "range": {
+        "startLine": 523,
+        "startChar": 5,
+        "endLine": 523,
+        "endChar": 16
+      },
+      "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31ec64b8_c1c68c38",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-24T12:22:26Z",
       "side": 1,
       "message": "can you maybe describe what would exactly happen if the order would be different?(maybe as a reply to this or update the comment).",
+      "range": {
+        "startLine": 537,
+        "startChar": 33,
+        "endLine": 538,
+        "endChar": 33
+      },
+      "revId": "2fbcd34b1e094dc298523d89a2bf667391ad60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6efee7_14942d41",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T16:54:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31ec64b8_c1c68c38",
       "range": {
         "startLine": 537,
         "startChar": 33,

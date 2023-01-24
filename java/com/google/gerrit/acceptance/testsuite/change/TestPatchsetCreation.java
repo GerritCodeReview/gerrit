@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
@@ -21,12 +23,21 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.util.Optional;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /** Initial attributes of the patchset. If not provided, arbitrary values will be used. */
 @AutoValue
 public abstract class TestPatchsetCreation {
 
   public abstract Optional<Account.Id> uploader();
+
+  public abstract Optional<Account.Id> author();
+
+  public abstract Optional<PersonIdent> authorIdent();
+
+  public abstract Optional<Account.Id> committer();
+
+  public abstract Optional<PersonIdent> committerIdent();
 
   public abstract Optional<String> commitMessage();
 
@@ -44,10 +55,65 @@ public abstract class TestPatchsetCreation {
   @AutoValue.Builder
   public abstract static class Builder {
     /**
-     * The uploader for the new patch set. If not set the new patch set is uploaded by the change
-     * owner.
+     * The uploader for the new patch set.
+     *
+     * <p>Must be an existing user account.
+     *
+     * <p>If not set the new patch set is uploaded by the change owner.
      */
     public abstract Builder uploader(Account.Id uploader);
+
+    /**
+     * The author of the commit for which the change is created.
+     *
+     * <p>Must be an existing user account.
+     *
+     * <p>Cannot be set together with {@link #authorIdent()} is set.
+     *
+     * <p>If neither {@link #author()} nor {@link #authorIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the author.
+     */
+    public abstract Builder author(Account.Id author);
+
+    /**
+     * The author ident of the commit for which the change is created.
+     *
+     * <p>Cannot be set together with {@link #author()} is set.
+     *
+     * <p>If neither {@link #author()} nor {@link #authorIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the author.
+     */
+    public abstract Builder authorIdent(PersonIdent authorIdent);
+
+    public abstract Optional<Account.Id> author();
+
+    public abstract Optional<PersonIdent> authorIdent();
+
+    /**
+     * The committer of the commit for which the change is created.
+     *
+     * <p>Must be an existing user account.
+     *
+     * <p>Cannot be set together with {@link #committerIdent()} is set.
+     *
+     * <p>If neither {@link #committer()} nor {@link #committerIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the committer.
+     */
+    public abstract Builder committer(Account.Id committer);
+
+    /**
+     * The committer ident of the commit for which the change is created.
+     *
+     * <p>Cannot be set together with {@link #committer()} is set.
+     *
+     * <p>If neither {@link #committer()} nor {@link #committerIdent()} is set the {@link
+     * TestChangeCreation#owner()} is used as the committer.
+     */
+    public abstract Builder committerIdent(PersonIdent committerIdent);
+
+    public abstract Optional<Account.Id> committer();
+
+    public abstract Optional<PersonIdent> committerIdent();
 
     public abstract Builder commitMessage(String commitMessage);
 
@@ -100,13 +166,23 @@ public abstract class TestPatchsetCreation {
 
     abstract TestPatchsetCreation autoBuild();
 
+    public TestPatchsetCreation build() {
+      checkState(
+          author().isEmpty() || authorIdent().isEmpty(),
+          "author and authorIdent cannot be set together");
+      checkState(
+          committer().isEmpty() || committerIdent().isEmpty(),
+          "committer and committerIdent cannot be set together");
+      return autoBuild();
+    }
+
     /**
      * Creates the patchset.
      *
      * @return the {@code PatchSet.Id} of the created patchset
      */
     public PatchSet.Id create() {
-      TestPatchsetCreation patchsetCreation = autoBuild();
+      TestPatchsetCreation patchsetCreation = build();
       return patchsetCreation.patchsetCreator().applyAndThrowSilently(patchsetCreation);
     }
   }

@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -457,9 +458,18 @@ public class ChangeOperationsImpl implements ChangeOperations {
           ObjectInserter objectInserter = repository.newObjectInserter();
           RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
         Instant now = TimeUtil.now();
+        PersonIdent authorIdent = getAuthorIdent(now, patchsetCreation);
+        PersonIdent committerIdent = getCommitterIdent(now, patchsetCreation);
         ObjectId newPatchsetCommit =
             createPatchsetCommit(
-                repository, revWalk, objectInserter, changeNotes, patchsetCreation, now);
+                repository,
+                revWalk,
+                objectInserter,
+                changeNotes,
+                patchsetCreation,
+                authorIdent,
+                committerIdent,
+                now);
 
         PatchSet.Id patchsetId =
             ChangeUtil.nextPatchSetId(repository, changeNotes.getCurrentPatchSet().id());
@@ -478,12 +488,44 @@ public class ChangeOperationsImpl implements ChangeOperations {
       }
     }
 
+    @Nullable
+    private PersonIdent getAuthorIdent(Instant when, TestPatchsetCreation patchsetCreation) {
+      if (patchsetCreation.authorIdent().isPresent()) {
+        return new PersonIdent(patchsetCreation.authorIdent().get(), when);
+      }
+
+      if (patchsetCreation.author().isPresent()) {
+        return userFactory
+            .create(patchsetCreation.author().get())
+            .newCommitterIdent(when, serverIdent.getZoneId());
+      }
+
+      return null;
+    }
+
+    @Nullable
+    private PersonIdent getCommitterIdent(Instant when, TestPatchsetCreation patchsetCreation) {
+      if (patchsetCreation.committerIdent().isPresent()) {
+        return new PersonIdent(patchsetCreation.committerIdent().get(), when);
+      }
+
+      if (patchsetCreation.committer().isPresent()) {
+        return userFactory
+            .create(patchsetCreation.committer().get())
+            .newCommitterIdent(when, serverIdent.getZoneId());
+      }
+
+      return null;
+    }
+
     private ObjectId createPatchsetCommit(
         Repository repository,
         RevWalk revWalk,
         ObjectInserter objectInserter,
         ChangeNotes changeNotes,
         TestPatchsetCreation patchsetCreation,
+        @Nullable PersonIdent author,
+        @Nullable PersonIdent committer,
         Instant now)
         throws IOException, BadRequestException {
       ObjectId oldPatchsetCommitId = changeNotes.getCurrentPatchSet().commitId();
@@ -499,9 +541,13 @@ public class ChangeOperationsImpl implements ChangeOperations {
               changeNotes.getChange().getKey().get(),
               patchsetCreation.commitMessage().orElseGet(oldPatchsetCommit::getFullMessage));
 
-      PersonIdent author = getAuthor(oldPatchsetCommit);
-      PersonIdent committer = getCommitter(oldPatchsetCommit, now);
-      return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
+      return createCommit(
+          objectInserter,
+          tree,
+          parentCommitIds,
+          Optional.ofNullable(author).orElse(getAuthor(oldPatchsetCommit)),
+          Optional.ofNullable(committer).orElse(getCommitter(oldPatchsetCommit, now)),
+          commitMessage);
     }
 
     private String correctCommitMessage(String oldChangeId, String desiredCommitMessage)

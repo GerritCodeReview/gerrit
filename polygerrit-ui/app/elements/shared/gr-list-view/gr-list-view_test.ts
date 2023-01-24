@@ -6,10 +6,11 @@
 import '../../../test/common-test-setup';
 import './gr-list-view';
 import {GrListView} from './gr-list-view';
-import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 suite('gr-list-view tests', () => {
   let element: GrListView;
@@ -84,7 +85,9 @@ suite('gr-list-view tests', () => {
     let resolve: (url: string) => void;
     const promise = new Promise(r => (resolve = r));
     element.path = '/admin/projects';
-    sinon.stub(page, 'show').callsFake(r => resolve(r));
+    sinon
+      .stub(testResolver(navigationToken), 'setUrl')
+      .callsFake(r => resolve(r));
 
     element.filter = 'test';
     await element.updateComplete;

@@ -6,7 +6,6 @@
 import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
-import {page} from '../../../utils/page-wrapper-utils';
 import {
   AccountDetailInfo,
   AccountId,
@@ -28,6 +27,7 @@ import {
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
@@ -80,6 +80,8 @@ export class GrChangeListView extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -282,15 +284,13 @@ export class GrChangeListView extends LitElement {
   // private but used in test
   handleNextPage() {
     if (!this.nextArrow || !this.changesPerPage) return;
-    // TODO: Use navigation service instead of `page.show()` directly.
-    page.show(this.computeNavLink(1));
+    this.getNavigation().setUrl(this.computeNavLink(1));
   }
 
   // private but used in test
   handlePreviousPage() {
     if (!this.prevArrow || !this.changesPerPage) return;
-    // TODO: Use navigation service instead of `page.show()` directly.
-    page.show(this.computeNavLink(-1));
+    this.getNavigation().setUrl(this.computeNavLink(-1));
   }
 
   // private but used in test

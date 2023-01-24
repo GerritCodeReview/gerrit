@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-repo-list';
 import {GrRepoList} from './gr-repo-list';
-import {page} from '../../../utils/page-wrapper-utils';
 import {
   mockPromise,
   queryAndAssert,
@@ -23,6 +22,8 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {fixture, html, assert} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 function createRepo(name: string, counter: number) {
   return {
@@ -51,7 +52,7 @@ suite('gr-repo-list tests', () => {
   let repos: ProjectInfoWithName[];
 
   setup(async () => {
-    sinon.stub(page, 'show');
+    sinon.stub(testResolver(navigationToken), 'setUrl');
     element = await fixture(html`<gr-repo-list></gr-repo-list>`);
   });
 

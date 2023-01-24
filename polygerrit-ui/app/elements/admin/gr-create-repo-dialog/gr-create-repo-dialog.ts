@@ -7,7 +7,6 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {page} from '../../../utils/page-wrapper-utils';
 import {
   BranchName,
   GroupId,
@@ -24,6 +23,8 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {createRepoUrl} from '../../../models/views/repo';
+import {resolve} from '../../../models/dependency';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -70,6 +71,8 @@ export class GrCreateRepoDialog extends LitElement {
   private readonly queryGroups: AutocompleteQuery;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -195,8 +198,7 @@ export class GrCreateRepoDialog extends LitElement {
     );
     if (repoRegistered.status === 201) {
       this.repoCreated = true;
-      // TODO: Use navigation service instead of `page.show()` directly.
-      page.show(createRepoUrl({repo: this.repoConfig.name}));
+      this.getNavigation().setUrl(createRepoUrl({repo: this.repoConfig.name}));
     }
     return repoRegistered;
   }

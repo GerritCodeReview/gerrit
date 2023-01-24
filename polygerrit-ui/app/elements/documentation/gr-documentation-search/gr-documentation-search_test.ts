@@ -6,10 +6,11 @@
 import '../../../test/common-test-setup';
 import './gr-documentation-search';
 import {GrDocumentationSearch} from './gr-documentation-search';
-import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 function documentationGenerator(counter: number) {
   return {
@@ -31,7 +32,7 @@ suite('gr-documentation-search tests', () => {
   let documentationSearches: DocResult[];
 
   setup(async () => {
-    sinon.stub(page, 'show');
+    sinon.stub(testResolver(navigationToken), 'setUrl');
     element = await fixture(
       html`<gr-documentation-search></gr-documentation-search>`
     );

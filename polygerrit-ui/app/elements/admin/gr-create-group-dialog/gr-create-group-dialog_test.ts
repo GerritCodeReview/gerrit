@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-create-group-dialog';
 import {GrCreateGroupDialog} from './gr-create-group-dialog';
-import {page} from '../../../utils/page-wrapper-utils';
 import {
   mockPromise,
   queryAndAssert,
@@ -15,6 +14,8 @@ import {
 import {IronInputElement} from '@polymer/iron-input';
 import {GroupId} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 suite('gr-create-group-dialog tests', () => {
   let element: GrCreateGroupDialog;
@@ -68,9 +69,9 @@ suite('gr-create-group-dialog tests', () => {
       Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
     );
 
-    const showStub = sinon.stub(page, 'show');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     await element.handleCreateGroup();
-    assert.isTrue(showStub.calledWith('/admin/groups/551'));
+    assert.isTrue(setUrlStub.calledWith('/admin/groups/551'));
   });
 
   test('test for unsuccessful group creation', async () => {
@@ -81,8 +82,8 @@ suite('gr-create-group-dialog tests', () => {
       Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
     );
 
-    const showStub = sinon.stub(page, 'show');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     await element.handleCreateGroup();
-    assert.isFalse(showStub.called);
+    assert.isFalse(setUrlStub.called);
   });
 });

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0043aa18_a03b67fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-24T19:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f37960a8_0a2b0bee",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "f91a89b28f936f155f8d18c42349557b8e0e1195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "76601e4d_aa9ba3d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -87,6 +111,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2bc63e6_0d248d24",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-24T19:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6fcc02_7038c9cf",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 11
+      },
+      "revId": "f91a89b28f936f155f8d18c42349557b8e0e1195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ef6b08_4b4ecec5",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-24T19:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57aead72_ce7c2688",
+      "range": {
+        "startLine": 127,
+        "startChar": 58,
+        "endLine": 127,
+        "endChar": 59
+      },
+      "revId": "f91a89b28f936f155f8d18c42349557b8e0e1195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d6efc9f_b564cada",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-01-24T07:31:59Z",
       "side": 1,
       "message": "nit: Personal taste, but I think hiding this in a static creator method would make this code easier to read (maybe because I\u0027m old and comforted by \"normal\" method calls...):\n\n```\n    return EqualsLabelPredicates.newIndexEqualsLabelPredicate(args, label, expVal);\n```\n\n```\n    public class EqualsLabelPredicates {\n      public static Predicate\u003cChangeData\u003e newIndexEqualsLabelPredicate(...) {\n        return new EqualsLabelPredicates(args, label, expVal).new IndexEqualsLabelPredicate();\n      }\n    }\n```",
+      "range": {
+        "startLine": 157,
+        "startChar": 12,
+        "endLine": 157,
+        "endChar": 92
+      },
+      "revId": "f91a89b28f936f155f8d18c42349557b8e0e1195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ffd738_6f8273af",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-24T19:25:40Z",
+      "side": 1,
+      "message": "Switched to using the shared static class approach, so this is more \"normal\" now :-)",
+      "parentUuid": "7d6efc9f_b564cada",
       "range": {
         "startLine": 157,
         "startChar": 12,

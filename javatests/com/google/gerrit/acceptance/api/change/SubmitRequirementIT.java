@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
@@ -421,6 +422,26 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
     SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
     assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+  }
+
+  @Test
+  public void checkSubmitRequirement_verifiesUploader() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    voteLabel(changeId, "Code-Review", 2);
+    TestAccount anotherUser = accountCreator.createValid("anotherUser");
+
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Foo", /* submittabilityExpression= */ "uploader:" + anotherUser.id());
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
+
+    in =
+        createSubmitRequirementInput(
+            "Foo", /* submittabilityExpression= */ "uploader:" + r.getChange().change().getOwner());
+    result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
   }
 
   @Test

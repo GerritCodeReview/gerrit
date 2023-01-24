@@ -49,6 +49,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "889a332a_0965dcf3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebdb1137_234c8bc1",
+      "range": {
+        "startLine": 523,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 17
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2d776914_360d22ae",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e290ba_6acf9f95",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T09:59:14Z",
+      "side": 1,
+      "message": "Hmmm, this is a list actually: https://gerrit-review.git.corp.google.com/admin/plugins\n\nI would prefer cleaning up the naming scheme in a separate change, because that would entail other renames and I don\u0027t want to be inconsistent with the other route names.",
+      "parentUuid": "138c4029_63ff1486",
+      "range": {
+        "startLine": 841,
+        "startChar": 6,
+        "endLine": 841,
+        "endChar": 17
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8c9472c_10369708",
@@ -116,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "597f15fb_62aa28de",
+        "filename": "polygerrit-ui/app/models/views/admin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T09:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c9472c_10369708",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bbd5a97_c063b910",
@@ -129,6 +201,30 @@
       "writtenOn": "2023-01-24T09:38:43Z",
       "side": 1,
       "message": "nit: \"decides\" is a bit confusing here. Since the implementation of Route doesn\u0027t do the \"deciding\" it\u0027s the router that uses `pattern` parameter.",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7bc2e8a_8d1c64f8",
+        "filename": "polygerrit-ui/app/models/views/base.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-24T09:59:14Z",
+      "side": 1,
+      "message": "Renamed to `knows`.",
+      "parentUuid": "2bbd5a97_c063b910",
       "range": {
         "startLine": 25,
         "startChar": 22,

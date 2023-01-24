@@ -24,6 +24,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebdb1137_234c8bc1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-24T09:38:43Z",
+      "side": 1,
+      "message": "I think comment here can be improved. To me it\u0027s unclear how exactly it\u0027s different and what it does, it looks more like a convenience overload for mapRoute.\n\nMaybe elaborate, what is \"more\" that is being delegated. Like for example I don\u0027t really understand why does .setState is called for `this` and for `viewModel` and the docstring doesn\u0027t help me understand it.",
+      "range": {
+        "startLine": 523,
+        "startChar": 5,
+        "endLine": 524,
+        "endChar": 17
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2d776914_360d22ae",
@@ -49,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "138c4029_63ff1486",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-24T09:38:43Z",
+      "side": 1,
+      "message": "nit: I don\u0027t like the name PLUGIN_LIST. Right now, I would (wrongly) assume it to be a list",
+      "range": {
+        "startLine": 841,
+        "startChar": 6,
+        "endLine": 841,
+        "endChar": 17
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8c9472c_10369708",
         "filename": "polygerrit-ui/app/models/views/admin.ts",
         "patchSetId": 2
@@ -65,6 +111,29 @@
         "startChar": 2,
         "endLine": 13,
         "endChar": 9
+      },
+      "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bbd5a97_c063b910",
+        "filename": "polygerrit-ui/app/models/views/base.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-24T09:38:43Z",
+      "side": 1,
+      "message": "nit: \"decides\" is a bit confusing here. Since the implementation of Route doesn\u0027t do the \"deciding\" it\u0027s the router that uses `pattern` parameter.",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 29
       },
       "revId": "c3545a12ae05b8dc0fd672c661e4069046d443d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

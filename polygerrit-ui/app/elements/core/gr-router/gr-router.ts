@@ -307,6 +307,8 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
+  readonly page = page.create();
+
   constructor(
     private readonly reporting: ReportingService,
     private readonly routerModel: RouterModel,
@@ -343,7 +345,7 @@ export class GrRouter implements Finalizable, NavigationService {
         }
 
         if (browserUrl.toString() !== stateUrl.toString()) {
-          page.replace(
+          this.page.replace(
             stateUrl.toString(),
             null,
             /* init: */ false,
@@ -360,6 +362,7 @@ export class GrRouter implements Finalizable, NavigationService {
       subscription.unsubscribe();
     }
     this.subscriptions = [];
+    this.page.stop();
   }
 
   start() {
@@ -402,7 +405,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
   redirect(url: string) {
     this._isRedirecting = true;
-    page.redirect(url);
+    this.page.redirect(url);
   }
 
   /**
@@ -431,7 +434,9 @@ export class GrRouter implements Finalizable, NavigationService {
    */
   redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';
-    page('/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
+    this.page(
+      '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
+    );
   }
 
   /**
@@ -504,7 +509,7 @@ export class GrRouter implements Finalizable, NavigationService {
     handler: (ctx: PageContext) => void,
     authRedirect?: boolean
   ) {
-    page(
+    this.page(
       pattern,
       (ctx, next) => this.loadUserMiddleware(ctx, next),
       ctx => {
@@ -555,14 +560,14 @@ export class GrRouter implements Finalizable, NavigationService {
    * page.show() eventually just calls `window.history.pushState()`.
    */
   setUrl(url: string) {
-    page.show(url);
+    this.page.show(url);
   }
 
   /**
    * Navigate to this URL, but replace the current URL in the history instead of
    * adding a new one (which is what `setUrl()` would do).
    *
-   * page.redirect() eventually just calls `window.history.replaceState()`.
+   * this.page.redirect() eventually just calls `window.history.replaceState()`.
    */
   replaceUrl(url: string) {
     this.redirect(url);
@@ -585,10 +590,10 @@ export class GrRouter implements Finalizable, NavigationService {
   startRouter() {
     const base = getBaseUrl();
     if (base) {
-      page.base(base);
+      this.page.base(base);
     }
 
-    page.exit('*', (_, next) => {
+    this.page.exit('*', (_, next) => {
       if (!this._isRedirecting) {
         this.reporting.beforeLocationChanged();
       }
@@ -599,7 +604,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
     // Remove the tracking param 'usp' (User Source Parameter) from the URL,
     // just to have users look at cleaner URLs.
-    page((ctx, next) => {
+    this.page((ctx, next) => {
       if (window.URLSearchParams) {
         const pathname = toPathname(ctx.canonicalPath);
         const searchParams = toSearchParams(ctx.canonicalPath);
@@ -615,7 +620,7 @@ export class GrRouter implements Finalizable, NavigationService {
     });
 
     // Middleware
-    page((ctx, next) => {
+    this.page((ctx, next) => {
       document.body.scrollTop = 0;
 
       if (ctx.hash.match(RoutePattern.PLUGIN_SCREEN)) {
@@ -986,7 +991,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.handleDefaultRoute()
     );
 
-    page.start();
+    this.page.start();
   }
 
   /**

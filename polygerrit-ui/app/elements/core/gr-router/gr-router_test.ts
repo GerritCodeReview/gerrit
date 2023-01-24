@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-router';
-import {page, PageContext} from '../../../utils/page-wrapper-utils';
+import {Page, PageContext} from '../../../utils/page-wrapper-utils';
 import {
   stubBaseUrl,
   stubRestApi,
@@ -41,9 +41,11 @@ import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
+  let page: Page;
 
   setup(() => {
     router = testResolver(routerToken);
+    page = router.page;
   });
 
   test('getHashFromCanonicalPath', () => {

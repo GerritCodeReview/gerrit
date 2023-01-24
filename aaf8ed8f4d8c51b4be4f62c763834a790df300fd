@@ -214,6 +214,30 @@
       },
       "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc438910_f5832b33",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6273,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-01-24T06:43:58Z",
+      "side": 1,
+      "message": "I agree.\nPerhaps we should clarify that although project~branch~Change-Id comes with a lookup performance penalty and, depending on index-implementation, may give false-negatives it is guaranteed to be unique.",
+      "parentUuid": "4503a741_487e8651",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6273,
+        "endChar": 54
+      },
+      "revId": "aaf8ed8f4d8c51b4be4f62c763834a790df300fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

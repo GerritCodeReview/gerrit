@@ -790,7 +790,7 @@ public class AccountResolver {
 
     @Override
     public Predicate<AccountState> get() {
-      return accountControlFactory.get(asUser.asIdentifiedUser())::canSee;
+      return accountControlFactory.get(asUser)::canSee;
     }
   }
 

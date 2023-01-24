@@ -83,9 +83,7 @@ public class Reindex extends SiteProgram {
   @Option(name = "--index", usage = "Only reindex specified indices")
   private List<String> indices = new ArrayList<>();
 
-  @Option(
-      name = "--show-cache-stats",
-      usage = "Show cache statistics at the end.")
+  @Option(name = "--show-cache-stats", usage = "Show cache statistics at the end.")
   private boolean showCacheStats;
 
   private Injector dbInjector;

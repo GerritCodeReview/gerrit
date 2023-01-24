@@ -11,6 +11,7 @@ import {
   stubRestApi,
   addListenerForTest,
   waitEventLoop,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {GrRouter, routerToken, _testOnly_RoutePattern} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -25,7 +26,7 @@ import {
 } from '../../../types/common';
 import {AppElementParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
-import {AdminChildView} from '../../../models/views/admin';
+import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
@@ -737,55 +738,66 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('handleGroupListOffsetRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: 0,
-          filter: null,
-          openCreateModal: false,
-        });
+      test('list of groups', async () => {
+        router.startRouter();
 
-        ctx.params[1] = '42';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: null,
-          openCreateModal: false,
-        });
+        const checkUrlToState = async (
+          url: string,
+          partial: Partial<AdminViewState>
+        ) => {
+          setStateStub.reset();
+          router.page.show(url);
+          await waitUntilCalled(setStateStub, 'setState');
+          assert.deepEqual(setStateStub.lastCall.firstArg, {
+            view: GerritView.ADMIN,
+            adminView: AdminChildView.GROUPS,
+            offset: '0',
+            openCreateModal: false,
+            filter: null,
+            ...partial,
+          });
+        };
+        const checkUrlNotMatched = async (url: string) => {
+          handlePassThroughRoute.reset();
+          router.page.show(url);
+          await waitUntilCalled(
+            handlePassThroughRoute,
+            'handlePassThroughRoute'
+          );
+        };
 
-        ctx.hash = 'create';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: null,
+        await checkUrlToState('/admin/groups', {});
+        await checkUrlToState('/admin/groups/', {});
+        await checkUrlToState('/admin/groups#create', {
           openCreateModal: true,
         });
-      });
-
-      test('handleGroupListFilterOffsetRoute', () => {
-        const ctx = {
-          ...createPageContext(),
-          params: {filter: 'foo', offset: '42'},
-        };
-        assertctxToParams(ctx, 'handleGroupListFilterOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: 'foo',
+        await checkUrlToState('/admin/groups,123', {offset: '123'});
+        await checkUrlToState('/admin/groups,123#create', {
+          offset: '123',
+          openCreateModal: true,
         });
-      });
 
-      test('handleGroupListFilterRoute', () => {
-        const ctx = {...createPageContext(), params: {filter: 'foo'}};
-        assertctxToParams(ctx, 'handleGroupListFilterRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          filter: 'foo',
+        await checkUrlToState('/admin/groups/q/filter:asdf', {
+          filter: 'asdf',
         });
+        await checkUrlToState('/admin/groups/q/filter:asdf,123', {
+          filter: 'asdf',
+          offset: '123',
+        });
+        // #create is ignored when filtering
+        await checkUrlToState('/admin/groups/q/filter:asdf,123#create', {
+          filter: 'asdf',
+          offset: '123',
+        });
+        // filter is decoded (twice)
+        await checkUrlToState(
+          '/admin/groups/q/filter:XX%20XX%2520XX%252FXX%3FXX',
+          {filter: 'XX XX XX/XX?XX'}
+        );
+
+        // Slash must be double encoded in `filter` param.
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf/qwer,11');
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf%2Fqwer,11');
       });
 
       test('handleGroupRoute', () => {

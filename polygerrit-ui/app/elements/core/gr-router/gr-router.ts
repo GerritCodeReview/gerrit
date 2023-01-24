@@ -1158,7 +1158,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: ctx.params[1] || 0,
+      offset: ctx.params[1] ?? '0',
       filter: null,
       openCreateModal: ctx.hash === 'create',
     };
@@ -1173,6 +1173,7 @@ export class GrRouter implements Finalizable, NavigationService {
       adminView: AdminChildView.GROUPS,
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
+      openCreateModal: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1183,7 +1184,9 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
+      offset: ctx.params[1] ?? '0',
       filter: ctx.params['filter'] || null,
+      openCreateModal: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

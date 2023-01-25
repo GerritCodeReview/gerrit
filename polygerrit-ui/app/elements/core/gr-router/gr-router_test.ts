@@ -5,12 +5,13 @@
  */
 import '../../../test/common-test-setup';
 import './gr-router';
-import {page, PageContext} from '../../../utils/page-wrapper-utils';
+import {Page, PageContext} from '../../../utils/page-wrapper-utils';
 import {
   stubBaseUrl,
   stubRestApi,
   addListenerForTest,
   waitEventLoop,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {GrRouter, routerToken, _testOnly_RoutePattern} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -25,7 +26,7 @@ import {
 } from '../../../types/common';
 import {AppElementParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
-import {AdminChildView} from '../../../models/views/admin';
+import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
@@ -38,12 +39,15 @@ import {
   createRevision,
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
+import {ViewState} from '../../../models/views/base';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
+  let page: Page;
 
   setup(() => {
     router = testResolver(routerToken);
+    page = router.page;
   });
 
   test('getHashFromCanonicalPath', () => {
@@ -289,6 +293,19 @@ suite('gr-router tests', () => {
       assert.deepEqual(setStateStub.lastCall.args[0], params);
     }
 
+    async function checkUrlToState<T extends ViewState>(url: string, state: T) {
+      setStateStub.reset();
+      router.page.show(url);
+      await waitUntilCalled(setStateStub, 'setState');
+      assert.deepEqual(setStateStub.lastCall.firstArg, state);
+    }
+
+    async function checkUrlNotMatched(url: string) {
+      handlePassThroughRoute.reset();
+      router.page.show(url);
+      await waitUntilCalled(handlePassThroughRoute, 'handlePassThroughRoute');
+    }
+
     function createPageContext(): PageContext {
       return {
         canonicalPath: '',
@@ -304,6 +321,7 @@ suite('gr-router tests', () => {
       redirectStub = sinon.stub(router, 'redirect');
       setStateStub = sinon.stub(router, 'setState');
       handlePassThroughRoute = sinon.stub(router, 'handlePassThroughRoute');
+      router.startRouter();
     });
 
     test('handleLegacyProjectDashboardRoute', () => {
@@ -735,55 +753,55 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('handleGroupListOffsetRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
+      test('list of groups', async () => {
+        const defaultState: AdminViewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.GROUPS,
-          offset: 0,
-          filter: null,
+          offset: '0',
           openCreateModal: false,
-        });
-
-        ctx.params[1] = '42';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
           filter: null,
-          openCreateModal: false,
-        });
+        };
 
-        ctx.hash = 'create';
-        assertctxToParams(ctx, 'handleGroupListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: null,
+        await checkUrlToState('/admin/groups', defaultState);
+        await checkUrlToState('/admin/groups/', defaultState);
+        await checkUrlToState('/admin/groups#create', {
+          ...defaultState,
           openCreateModal: true,
         });
-      });
-
-      test('handleGroupListFilterOffsetRoute', () => {
-        const ctx = {
-          ...createPageContext(),
-          params: {filter: 'foo', offset: '42'},
-        };
-        assertctxToParams(ctx, 'handleGroupListFilterOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          offset: '42',
-          filter: 'foo',
+        await checkUrlToState('/admin/groups,123', {
+          ...defaultState,
+          offset: '123',
         });
-      });
-
-      test('handleGroupListFilterRoute', () => {
-        const ctx = {...createPageContext(), params: {filter: 'foo'}};
-        assertctxToParams(ctx, 'handleGroupListFilterRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.GROUPS,
-          filter: 'foo',
+        await checkUrlToState('/admin/groups,123#create', {
+          ...defaultState,
+          offset: '123',
+          openCreateModal: true,
         });
+
+        await checkUrlToState('/admin/groups/q/filter:asdf', {
+          ...defaultState,
+          filter: 'asdf',
+        });
+        await checkUrlToState('/admin/groups/q/filter:asdf,123', {
+          ...defaultState,
+          filter: 'asdf',
+          offset: '123',
+        });
+        // #create is ignored when filtering
+        await checkUrlToState('/admin/groups/q/filter:asdf,123#create', {
+          ...defaultState,
+          filter: 'asdf',
+          offset: '123',
+        });
+        // filter is decoded (twice)
+        await checkUrlToState(
+          '/admin/groups/q/filter:XX%20XX%2520XX%252FXX%3FXX',
+          {...defaultState, filter: 'XX XX XX/XX?XX'}
+        );
+
+        // Slash must be double encoded in `filter` param.
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf/qwer,11');
+        await checkUrlNotMatched('/admin/groups/q/filter:asdf%2Fqwer,11');
       });
 
       test('handleGroupRoute', () => {

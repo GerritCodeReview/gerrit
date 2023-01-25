@@ -6,7 +6,6 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {page} from '../../../utils/page-wrapper-utils';
 import {GroupId, GroupName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -16,6 +15,8 @@ import {customElement, query, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {createGroupUrl} from '../../../models/views/group';
+import {resolve} from '../../../models/dependency';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +32,8 @@ export class GrCreateGroupDialog extends LitElement {
   name: GroupName | '' = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   static override get styles() {
     return [
@@ -86,8 +89,7 @@ export class GrCreateGroupDialog extends LitElement {
       return this.restApiService.getGroupConfig(name).then(group => {
         if (!group) return;
         const groupId = String(group.group_id!) as GroupId;
-        // TODO: Use navigation service instead of `page.show()` directly.
-        page.show(createGroupUrl({groupId}));
+        this.getNavigation().setUrl(createGroupUrl({groupId}));
       });
     });
   }

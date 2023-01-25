@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-repo-detail-list';
 import {GrRepoDetailList} from './gr-repo-detail-list';
-import {page} from '../../../utils/page-wrapper-utils';
 import {
   addListenerForTest,
   mockPromise,
@@ -34,6 +33,8 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {fixture, html, assert} from '@open-wc/testing';
 import {RepoDetailView} from '../../../models/views/repo';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 function branchGenerator(counter: number) {
   return {
@@ -95,7 +96,7 @@ suite('gr-repo-detail-list', () => {
         html`<gr-repo-detail-list></gr-repo-detail-list>`
       );
       element.detailType = RepoDetailView.BRANCHES;
-      sinon.stub(page, 'show');
+      sinon.stub(testResolver(navigationToken), 'setUrl');
     });
 
     suite('list of repo branches', () => {
@@ -2338,7 +2339,7 @@ suite('gr-repo-detail-list', () => {
         html`<gr-repo-detail-list></gr-repo-detail-list>`
       );
       element.detailType = RepoDetailView.TAGS;
-      sinon.stub(page, 'show');
+      sinon.stub(testResolver(navigationToken), 'setUrl');
     });
 
     suite('list of repo tags', () => {

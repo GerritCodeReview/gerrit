@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
-import {page} from '../../../utils/page-wrapper-utils';
 import {query, queryAndAssert} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators';
 import {ChangeInfo} from '../../../api/rest-api';
@@ -14,6 +13,8 @@ import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GrChangeList} from '../gr-change-list/gr-change-list';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
@@ -158,7 +159,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('handleNextPage', async () => {
-    const showStub = sinon.stub(page, 'show');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     element.changes = Array(25)
       .fill(0)
       .map(_ => createChange());
@@ -166,7 +167,7 @@ suite('gr-change-list-view tests', () => {
     element.loading = false;
     await element.updateComplete;
     element.handleNextPage();
-    assert.isFalse(showStub.called);
+    assert.isFalse(setUrlStub.called);
 
     element.changes = Array(25)
       .fill(0)
@@ -174,11 +175,11 @@ suite('gr-change-list-view tests', () => {
     element.loading = false;
     await element.updateComplete;
     element.handleNextPage();
-    assert.isTrue(showStub.called);
+    assert.isTrue(setUrlStub.called);
   });
 
   test('handlePreviousPage', async () => {
-    const showStub = sinon.stub(page, 'show');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     element.offset = 0;
     element.changes = Array(25)
       .fill(0)
@@ -187,11 +188,11 @@ suite('gr-change-list-view tests', () => {
     element.loading = false;
     await element.updateComplete;
     element.handlePreviousPage();
-    assert.isFalse(showStub.called);
+    assert.isFalse(setUrlStub.called);
 
     element.offset = 25;
     await element.updateComplete;
     element.handlePreviousPage();
-    assert.isTrue(showStub.called);
+    assert.isTrue(setUrlStub.called);
   });
 });

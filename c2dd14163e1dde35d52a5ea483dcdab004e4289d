@@ -22,6 +22,30 @@
       },
       "revId": "c2dd14163e1dde35d52a5ea483dcdab004e4289d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc6d526_cff3024c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-25T08:42:03Z",
+      "side": 1,
+      "message": "+1,\n\nIf we do it the way Milutin suggests, we can also move checkUrlToState and checkUrlNotMatched outside of the test (to be potentially reusable)",
+      "parentUuid": "5b7ccfa3_6dc69158",
+      "range": {
+        "startLine": 769,
+        "startChar": 47,
+        "endLine": 769,
+        "endChar": 49
+      },
+      "revId": "c2dd14163e1dde35d52a5ea483dcdab004e4289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

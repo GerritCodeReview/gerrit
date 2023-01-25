@@ -46,6 +46,30 @@
       },
       "revId": "c2dd14163e1dde35d52a5ea483dcdab004e4289d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e22ec4a6_a8aab6fb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-25T13:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc6d526_cff3024c",
+      "range": {
+        "startLine": 769,
+        "startChar": 47,
+        "endLine": 769,
+        "endChar": 49
+      },
+      "revId": "c2dd14163e1dde35d52a5ea483dcdab004e4289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

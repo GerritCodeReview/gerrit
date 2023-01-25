@@ -22,6 +22,30 @@
       },
       "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac94b942_8c7d2b4d",
+        "filename": "polygerrit-ui/app/utils/page-wrapper-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-25T08:36:40Z",
+      "side": 1,
+      "message": "+1 And the test is only using the type definition above anyway AFAICT",
+      "parentUuid": "dc550fea_41909b8d",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 58
+      },
+      "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

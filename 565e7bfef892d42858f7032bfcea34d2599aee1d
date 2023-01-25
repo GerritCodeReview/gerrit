@@ -46,6 +46,30 @@
       },
       "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10270b29_f1541e8a",
+        "filename": "polygerrit-ui/app/utils/page-wrapper-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-25T13:03:03Z",
+      "side": 1,
+      "message": "Added a TODO, because that also requires changing `copy.bara.sky`, so this would require additional work and handholding.",
+      "parentUuid": "ac94b942_8c7d2b4d",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 58
+      },
+      "revId": "565e7bfef892d42858f7032bfcea34d2599aee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

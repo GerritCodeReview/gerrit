@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6032a58_888fb85a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2953,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-25T09:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5bf2c2d_a8d5b79a",
+      "revId": "ca0b33a77595713bb560061f3ff919f6514b5871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bfd75d4_aca91ffd",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-24T15:54:51Z",
       "side": 1,
       "message": "Thanks for adding a test!\n\nQQ: does this test fail without the fix in the source file?\n\nSubmit requirements are always executed as an internal user, so setting `requestScopeOperations.setApiUserInternal` should have no effect on the SR evaluation if I understand correctly.\n\nhttps://gerrit.googlesource.com/gerrit/+/84543c2924fd4b2a249e82e1b9d159b02f6e226a/java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java#90",
+      "revId": "ca0b33a77595713bb560061f3ff919f6514b5871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "693d8926_4689cabf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2971,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-25T09:44:39Z",
+      "side": 1,
+      "message": "Yes, this test failed without the fix. Note the test did not go through the evaluation flow. \n\nAs per Edwin\u0027s request above, replaced with another test.",
+      "parentUuid": "0bfd75d4_aca91ffd",
       "revId": "ca0b33a77595713bb560061f3ff919f6514b5871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

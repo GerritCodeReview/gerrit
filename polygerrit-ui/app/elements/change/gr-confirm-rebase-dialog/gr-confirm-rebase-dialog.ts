@@ -71,6 +71,9 @@ export class GrConfirmRebaseDialog
   text = '';
 
   @state()
+  shouldRebaseChain = false;
+
+  @state()
   private query: AutocompleteQuery;
 
   @state()
@@ -184,7 +187,7 @@ export class GrConfirmRebaseDialog
             />
             <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
               Rebase on top of the ${this.branch} branch<span
-                ?hidden=${!this.hasParent}
+                ?hidden=${!this.hasParent || this.shouldRebaseChain}
               >
                 (breaks relation chain)
               </span>
@@ -206,7 +209,9 @@ export class GrConfirmRebaseDialog
             />
             <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
               Rebase on a specific change, ref, or commit
-              <span ?hidden=${!this.hasParent}> (breaks relation chain) </span>
+              <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
+                (breaks relation chain)
+              </span>
             </label>
           </div>
           <div class="parentRevisionContainer">
@@ -230,10 +235,17 @@ export class GrConfirmRebaseDialog
             >
           </div>
           ${when(
-            this.flagsService.isEnabled(KnownExperimentId.REBASE_CHAIN),
+            this.flagsService.isEnabled(KnownExperimentId.REBASE_CHAIN) &&
+              this.hasParent,
             () =>
               html`<div>
-                <input id="rebaseChain" type="checkbox" />
+                <input
+                  id="rebaseChain"
+                  type="checkbox"
+                  @change=${() => {
+                    this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                  }}
+                />
                 <label for="rebaseChain">Rebase all ancestors</label>
               </div>`
           )}

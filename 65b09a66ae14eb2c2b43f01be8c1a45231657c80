@@ -39,6 +39,30 @@
       },
       "revId": "65b09a66ae14eb2c2b43f01be8c1a45231657c80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b279e0e_d2e1a7ea",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-01-25T00:19:42Z",
+      "side": 1,
+      "message": "I may have missed adding the reformatted file to my commit after performing the style check. Apologies.",
+      "parentUuid": "936c976d_f1d071b2",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 33
+      },
+      "revId": "65b09a66ae14eb2c2b43f01be8c1a45231657c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

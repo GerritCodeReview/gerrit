@@ -225,6 +225,11 @@ public class CommentContextLoader {
 
   private static Optional<Range> getStartAndEndLines(ContextInput comment) {
     if (comment.range() != null) {
+      if (comment.range().endLine < comment.range().startLine) {
+        // Seems like comments, created in reply to robot comments sometimes have invalid ranges
+        // Fix here, otherwise the range is invalid and we throw an error later on.
+        return Optional.of(Range.create(comment.range().startLine, comment.range().startLine + 1));
+      }
       return Optional.of(Range.create(comment.range().startLine, comment.range().endLine + 1));
     } else if (comment.lineNumber() > 0) {
       return Optional.of(Range.create(comment.lineNumber(), comment.lineNumber() + 1));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38986f8c_4d2a4abb",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-26T12:18:07Z",
+      "side": 0,
+      "message": "nit: unrelated change",
+      "revId": "c740ad70865244754183570efde0421a167dccab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

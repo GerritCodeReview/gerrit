@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306a3237_67f19a08",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-26T12:18:07Z",
+      "side": 1,
+      "message": "Much better.\nHow about taking this even further:\n\n```\n  private AuthResult createOrLinkAccount(AuthRequest who)\n      throws AccountException, IOException, ConfigInvalidException {\n    if (usernameExternalIdExists(who) \u0026\u0026 who.getExternalIdKey().isScheme(SCHEME_GOOGLE_OAUTH)) {\n      return migrateLdapAccountToOauth(who);\n    }\n    logger.atFine().log(\n        \"External ID for account %s not found. A new account will be automatically created.\",\n        who.getUserName());\n    return create(who);\n  }\n\n  private AuthResult migrateLdapAccountToOauth(AuthRequest who)\n      throws AccountException, IOException, ConfigInvalidException {\n    String email \u003d who.getEmailAddress();\n    if (email.isEmpty()) {\n      throw new AccountException(\n          \"No email provided in AuthRequest. Can\u0027t link OAuth account to existing account.\");\n    }\n    Account.Id extAccId;\n    Optional\u003cExternalId\u003e existingLDAPExtID \u003d\n        externalIds.byEmail(email).stream().filter(ext -\u003e ext.isScheme(SCHEME_GERRIT)).findFirst();\n\n    if (existingLDAPExtID.isEmpty()) {\n      throw new AccountException(\n          \"Cannot assign external ID \\\"\"\n              + who.getExternalIdKey().get()\n              + \"\\\" to account; no LDAP ExternalID esists for email \"\n              + email);\n    }\n\n    extAccId \u003d existingLDAPExtID.get().accountId();\n    ExternalId finalExtLDAPExtKey \u003d existingLDAPExtID.get();\n    try {\n      return link(extAccId, who);\n    } finally {\n      accountsUpdateProvider\n          .get()\n          .update(\n              \"remove existing LDAP externalId with matching e-mail\",\n              extAccId,\n              u -\u003e {\n                u.deleteExternalId(finalExtLDAPExtKey);\n              });\n    }\n  }\n```\n\nAn even more modular approach would be to create an `AccountMigrator` extension point that is used by plugins, e.g. the oauth plugin to register migrations as done here. This would be more scalable, since there are many more combinations like LDAP to Google OAuth and not all could be handled here.",
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c31225c_c63a2b25",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-26T12:18:07Z",
+      "side": 1,
+      "message": "I think we should only proceed with deleting the LDAP external ID, if the linking is successful.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 17
+      },
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f16bd3_9daa7009",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-26T12:18:07Z",
+      "side": 1,
+      "message": "nit: Unnecessary else",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 12
+      },
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

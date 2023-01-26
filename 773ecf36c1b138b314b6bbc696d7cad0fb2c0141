@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0f22566_8e187df3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-26T14:38:07Z",
+      "side": 1,
+      "message": "Happy to hear about better ideas how to measure the success of supporting rebase on behalf of the uploader.\n\nWhile I think that the proposed metric is not great in terms of implementation, I think it may be acceptable to be added at least temporarily.",
+      "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

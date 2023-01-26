@@ -33,6 +33,24 @@
       "message": "Thanks for this change!\n\nIs it possible to also make a similar change to PushOneCommit (or its generation in AbstractDaemonTest)? Currently these are always uploaded on behalf of `admin`, which makes some tests less clear.\n(e.g. in the test I added in Id667e5a36831c2e636cc31a306e3474bc87c3a89, I\u0027d love to explicitly state the uploader, instead of fetching it from the change data).",
       "revId": "f54507e9a92ed53d0446465a1ae4ca73b5183321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ff8a69_320cf1ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-26T10:50:24Z",
+      "side": 1,
+      "message": "It would be possible, but the long term idea is that the test API (aka ChangeOperations and the other *Operations classes) replaces AbstractDaemonTest, PushOneCommit, etc., so I wouldn\u0027t like to invest time into them.\n\n\u003e (e.g. in the test I added in Id667e5a36831c2e636cc31a306e3474bc87c3a89, I\u0027d \n\u003e love to explicitly state the uploader, instead of fetching it from the change\n\u003e data).\n\nMaybe consider migrating this test to use ChangeOperations instead of PushOneCommit to create the test change.",
+      "parentUuid": "346dd536_e951bb2f",
+      "revId": "f54507e9a92ed53d0446465a1ae4ca73b5183321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

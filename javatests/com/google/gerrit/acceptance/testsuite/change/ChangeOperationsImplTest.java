@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -49,6 +50,7 @@ import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
 public class ChangeOperationsImplTest extends AbstractDaemonTest {
@@ -611,6 +613,155 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void createdChangeHasOwnerAsAuthor() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    TestAccount changeOwner = accountOperations.account(Account.id(change.owner._accountId)).get();
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(changeOwner.fullname().get());
+    assertThat(revision.commit.author.email).isEqualTo(changeOwner.preferredEmail().get());
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedOwnerAsAuthor() throws Exception {
+    String changeOwnerName = "Change Owner";
+    String changeOwnerEmail = "change-owner@example.com";
+    Account.Id changeOwner =
+        accountOperations
+            .newAccount()
+            .fullname(changeOwnerName)
+            .preferredEmail(changeOwnerEmail)
+            .create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(changeOwnerName);
+    assertThat(revision.commit.author.email).isEqualTo(changeOwnerEmail);
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedAuthor() throws Exception {
+    String authorName = "Author";
+    String authorEmail = "author@example.com";
+    Account.Id author =
+        accountOperations.newAccount().fullname(authorName).preferredEmail(authorEmail).create();
+    Change.Id changeId = changeOperations.newChange().author(author).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isNotEqualTo(author.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorName);
+    assertThat(revision.commit.author.email).isEqualTo(authorEmail);
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedAuthorIdent() throws Exception {
+    PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
+    Change.Id changeId = changeOperations.newChange().authorIdent(authorIdent).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorIdent.getName());
+    assertThat(revision.commit.author.email).isEqualTo(authorIdent.getEmailAddress());
+  }
+
+  @Test
+  public void changeCannotBeCreatedWithAuthorAndAuthorIdent() throws Exception {
+    Account.Id author = accountOperations.newAccount().create();
+    PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () -> changeOperations.newChange().author(author).authorIdent(authorIdent).create());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("author and authorIdent cannot be set together");
+  }
+
+  @Test
+  public void createdChangeHasOwnerAsCommitter() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    TestAccount changeOwner = accountOperations.account(Account.id(change.owner._accountId)).get();
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(changeOwner.fullname().get());
+    assertThat(revision.commit.committer.email).isEqualTo(changeOwner.preferredEmail().get());
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedOwnerAsCommitter() throws Exception {
+    String changeOwnerName = "Change Owner";
+    String changeOwnerEmail = "change-owner@example.com";
+    Account.Id changeOwner =
+        accountOperations
+            .newAccount()
+            .fullname(changeOwnerName)
+            .preferredEmail(changeOwnerEmail)
+            .create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(changeOwnerName);
+    assertThat(revision.commit.committer.email).isEqualTo(changeOwnerEmail);
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedCommitter() throws Exception {
+    String committerName = "Committer";
+    String committerEmail = "committer@example.com";
+    Account.Id committer =
+        accountOperations
+            .newAccount()
+            .fullname(committerName)
+            .preferredEmail(committerEmail)
+            .create();
+    Change.Id changeId = changeOperations.newChange().committer(committer).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isNotEqualTo(committer.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerName);
+    assertThat(revision.commit.committer.email).isEqualTo(committerEmail);
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedCommitterIdent() throws Exception {
+    PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
+    Change.Id changeId = changeOperations.newChange().committerIdent(committerIdent).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerIdent.getName());
+    assertThat(revision.commit.committer.email).isEqualTo(committerIdent.getEmailAddress());
+  }
+
+  @Test
+  public void changeCannotBeCreatedWithCommitterAndCommitterIdent() throws Exception {
+    Account.Id committer = accountOperations.newAccount().create();
+    PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .committer(committer)
+                    .committerIdent(committerIdent)
+                    .create());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("committer and committerIdent cannot be set together");
+  }
+
+  @Test
   public void createdChangeHasSpecifiedTopic() throws Exception {
     Change.Id changeId = changeOperations.newChange().topic("test-topic").create();
 
@@ -809,6 +960,156 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     change = getChangeFromServer(changeId);
     currentPatchsetRevision = change.revisions.get(change.currentRevision);
     assertThat(currentPatchsetRevision.uploader._accountId).isEqualTo(newUploader.get());
+  }
+
+  @Test
+  public void createdPatchsetPreviousAuthorAsAuthor() throws Exception {
+    String authorName = "Author";
+    String authorEmail = "author@example.com";
+    Account.Id author =
+        accountOperations.newAccount().fullname(authorName).preferredEmail(authorEmail).create();
+    Change.Id changeId = changeOperations.newChange().author(author).create();
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorName);
+    assertThat(revision.commit.author.email).isEqualTo(authorEmail);
+
+    changeOperations.change(changeId).newPatchset().create();
+    change = getChangeFromServer(changeId);
+    revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorName);
+    assertThat(revision.commit.author.email).isEqualTo(authorEmail);
+  }
+
+  @Test
+  public void createdPatchsetHasSpecifiedAuthor() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String authorName = "Author";
+    String authorEmail = "author@example.com";
+    Account.Id author =
+        accountOperations.newAccount().fullname(authorName).preferredEmail(authorEmail).create();
+    changeOperations.change(changeId).newPatchset().author(author).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isNotEqualTo(author.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorName);
+    assertThat(revision.commit.author.email).isEqualTo(authorEmail);
+  }
+
+  @Test
+  public void createdPatchsetHasSpecifiedAuthorIdent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
+    changeOperations.change(changeId).newPatchset().authorIdent(authorIdent).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.author.name).isEqualTo(authorIdent.getName());
+    assertThat(revision.commit.author.email).isEqualTo(authorIdent.getEmailAddress());
+  }
+
+  @Test
+  public void patchsetCannotBeCreatedWithAuthorAndAuthorIdent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    Account.Id author = accountOperations.newAccount().create();
+    PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .change(changeId)
+                    .newPatchset()
+                    .author(author)
+                    .authorIdent(authorIdent)
+                    .create());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("author and authorIdent cannot be set together");
+  }
+
+  @Test
+  public void createdPatchsetPreviousCommitterAsCommitter() throws Exception {
+    String committerName = "Committer";
+    String committerEmail = "committer@example.com";
+    Account.Id committer =
+        accountOperations
+            .newAccount()
+            .fullname(committerName)
+            .preferredEmail(committerEmail)
+            .create();
+    Change.Id changeId = changeOperations.newChange().committer(committer).create();
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerName);
+    assertThat(revision.commit.committer.email).isEqualTo(committerEmail);
+
+    changeOperations.change(changeId).newPatchset().create();
+    change = getChangeFromServer(changeId);
+    revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerName);
+    assertThat(revision.commit.committer.email).isEqualTo(committerEmail);
+  }
+
+  @Test
+  public void createdPatchsetHasSpecifiedCommitter() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String committerName = "Committer";
+    String committerEmail = "committer@example.com";
+    Account.Id committer =
+        accountOperations
+            .newAccount()
+            .fullname(committerName)
+            .preferredEmail(committerEmail)
+            .create();
+    changeOperations.change(changeId).newPatchset().committer(committer).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.owner._accountId).isNotEqualTo(committer.get());
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerName);
+    assertThat(revision.commit.committer.email).isEqualTo(committerEmail);
+  }
+
+  @Test
+  public void createdPatchsetHasSpecifiedCommitterIdent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
+    changeOperations.change(changeId).newPatchset().committerIdent(committerIdent).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo revision = change.revisions.get(change.currentRevision);
+    assertThat(revision.commit.committer.name).isEqualTo(committerIdent.getName());
+    assertThat(revision.commit.committer.email).isEqualTo(committerIdent.getEmailAddress());
+  }
+
+  @Test
+  public void patchsetCannotBeCreatedWithCommitterAndCommitterIdent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    Account.Id committer = accountOperations.newAccount().create();
+    PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .change(changeId)
+                    .newPatchset()
+                    .committer(committer)
+                    .committerIdent(committerIdent)
+                    .create());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("committer and committerIdent cannot be set together");
   }
 
   @Test

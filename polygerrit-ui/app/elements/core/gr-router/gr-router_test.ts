@@ -10,33 +10,42 @@ import {
   stubBaseUrl,
   stubRestApi,
   addListenerForTest,
-  waitEventLoop,
   waitUntilCalled,
 } from '../../../test/test-utils';
-import {GrRouter, routerToken, _testOnly_RoutePattern} from './gr-router';
+import {GrRouter, routerToken} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
 import {
   BasePatchSetNum,
-  GroupId,
   NumericChangeId,
   PARENT,
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {AppElementParams} from '../../gr-app-types';
+import {AppElementJustRegisteredParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
-import {ChangeChildView, ChangeViewState} from '../../../models/views/change';
+import {ChangeChildView} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {
+  createAdminPluginsViewState,
+  createAdminReposViewState,
+  createChangeViewState,
   createComment,
+  createDashboardViewState,
   createDiff,
+  createDiffViewState,
+  createEditViewState,
+  createGroupViewState,
   createParsedChange,
+  createRepoBranchesViewState,
+  createRepoTagsViewState,
+  createRepoViewState,
   createRevision,
+  createSearchViewState,
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ViewState} from '../../../models/views/base';
@@ -48,6 +57,10 @@ suite('gr-router tests', () => {
   setup(() => {
     router = testResolver(routerToken);
     page = router.page;
+  });
+
+  teardown(async () => {
+    router.finalize();
   });
 
   test('getHashFromCanonicalPath', () => {
@@ -105,7 +118,7 @@ suite('gr-router tests', () => {
     });
   });
 
-  test('startRouter requires auth for the right handlers', () => {
+  test('startRouterForTesting requires auth for the right handlers', () => {
     // This test encodes the lists of route handler methods that gr-router
     // automatically checks for authentication before triggering.
 
@@ -122,7 +135,7 @@ suite('gr-router tests', () => {
           doesNotRequireAuth[methodName] = true;
         }
       });
-    router.startRouter();
+    router.startRouterForTesting();
 
     const actualRequiresAuth = Object.keys(requiresAuth);
     actualRequiresAuth.sort();
@@ -280,24 +293,36 @@ suite('gr-router tests', () => {
     let redirectStub: sinon.SinonStub;
     let setStateStub: sinon.SinonStub;
     let handlePassThroughRoute: sinon.SinonStub;
+    let redirectToLoginStub: sinon.SinonStub;
 
-    // Simple route handlers are direct mappings from parsed route ctx to a
-    // new set of app.params. This test helper asserts that passing `ctx`
-    // into `methodName` results in setting the params specified in `params`.
-    function assertctxToParams(
-      ctx: PageContext,
-      methodName: string,
-      params: AppElementParams
+    async function checkUrlToState<T extends ViewState>(
+      url: string,
+      state: T | AppElementJustRegisteredParams
     ) {
-      (router as any)[methodName](ctx);
-      assert.deepEqual(setStateStub.lastCall.args[0], params);
-    }
-
-    async function checkUrlToState<T extends ViewState>(url: string, state: T) {
       setStateStub.reset();
       router.page.show(url);
       await waitUntilCalled(setStateStub, 'setState');
+      assert.isTrue(setStateStub.calledOnce);
       assert.deepEqual(setStateStub.lastCall.firstArg, state);
+    }
+
+    async function checkRedirect(fromUrl: string, toUrl: string) {
+      redirectStub.reset();
+      router.page.show(fromUrl);
+      await waitUntilCalled(redirectStub, 'redirect');
+      assert.isTrue(redirectStub.calledOnce);
+      assert.isFalse(setStateStub.called);
+      assert.equal(redirectStub.lastCall.firstArg, toUrl);
+    }
+
+    async function checkRedirectToLogin(fromUrl: string, toUrl: string) {
+      redirectToLoginStub.reset();
+      router.page.show(fromUrl);
+      await waitUntilCalled(redirectToLoginStub, 'redirectToLogin');
+      assert.isTrue(redirectToLoginStub.calledOnce);
+      assert.isFalse(redirectStub.called);
+      assert.isFalse(setStateStub.called);
+      assert.equal(redirectToLoginStub.lastCall.firstArg, toUrl);
     }
 
     async function checkUrlNotMatched(url: string) {
@@ -318,57 +343,49 @@ suite('gr-router tests', () => {
     }
 
     setup(() => {
+      stubRestApi('setInProjectLookup');
       redirectStub = sinon.stub(router, 'redirect');
+      redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
       setStateStub = sinon.stub(router, 'setState');
       handlePassThroughRoute = sinon.stub(router, 'handlePassThroughRoute');
-      router.startRouter();
+      router.startRouterForTesting();
     });
 
-    test('handleLegacyProjectDashboardRoute', () => {
-      const params = {
-        ...createPageContext(),
-        params: {0: 'gerrit/project', 1: 'dashboard:main'},
-      };
-      router.handleLegacyProjectDashboardRoute(params);
-      assert.isTrue(redirectStub.calledOnce);
-      assert.equal(
-        redirectStub.lastCall.args[0],
+    test('LEGACY_PROJECT_DASHBOARD', async () => {
+      // LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
+      await checkRedirect(
+        '/projects/gerrit/project,dashboards/dashboard:main',
         '/p/gerrit/project/+/dashboard/dashboard:main'
       );
     });
 
-    test('handleAgreementsRoute', () => {
-      router.handleAgreementsRoute();
-      assert.isTrue(redirectStub.calledOnce);
-      assert.equal(redirectStub.lastCall.args[0], '/settings/#Agreements');
+    test('AGREEMENTS', async () => {
+      // AGREEMENTS: /^\/settings\/agreements\/?/,
+      await checkRedirect('/settings/agreements', '/settings/#Agreements');
     });
 
-    test('handleNewAgreementsRoute', () => {
-      router.handleNewAgreementsRoute();
-      assert.isTrue(setStateStub.calledOnce);
-      assert.equal(setStateStub.lastCall.args[0].view, GerritView.AGREEMENTS);
-    });
-
-    test('handleSettingsLegacyRoute', () => {
-      const ctx = {...createPageContext(), params: {0: 'my-token'}};
-      assertctxToParams(ctx, 'handleSettingsLegacyRoute', {
-        view: GerritView.SETTINGS,
-        emailToken: 'my-token',
+    test('NEW_AGREEMENTS', async () => {
+      // NEW_AGREEMENTS: /^\/settings\/new-agreement\/?/,
+      await checkUrlToState('/settings/new-agreement', {
+        view: GerritView.AGREEMENTS,
+      });
+      await checkUrlToState('/settings/new-agreement/', {
+        view: GerritView.AGREEMENTS,
       });
     });
 
-    test('handleSettingsLegacyRoute with +', () => {
-      const ctx = {...createPageContext(), params: {0: 'my-token test'}};
-      assertctxToParams(ctx, 'handleSettingsLegacyRoute', {
+    test('SETTINGS', async () => {
+      // SETTINGS: /^\/settings\/?/,
+      // SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
+      await checkUrlToState('/settings', {view: GerritView.SETTINGS});
+      await checkUrlToState('/settings/', {view: GerritView.SETTINGS});
+      await checkUrlToState('/settings/VE/asdf', {
         view: GerritView.SETTINGS,
-        emailToken: 'my-token+test',
+        emailToken: 'asdf',
       });
-    });
-
-    test('handleSettingsRoute', () => {
-      const ctx = createPageContext();
-      assertctxToParams(ctx, 'handleSettingsRoute', {
+      await checkUrlToState('/settings/VE/asdf%2520qwer', {
         view: GerritView.SETTINGS,
+        emailToken: 'asdf+qwer',
       });
     });
 
@@ -391,7 +408,7 @@ suite('gr-router tests', () => {
       sinon.stub(page, 'exit').callsFake(onRegisteringExit);
       sinon.stub(page, 'start');
       sinon.stub(page, 'base');
-      router.startRouter();
+      router.startRouterForTesting();
 
       router.handleDefaultRoute();
 
@@ -401,88 +418,62 @@ suite('gr-router tests', () => {
       assert.isTrue(handlePassThroughRoute.calledOnce);
     });
 
-    test('handleImproperlyEncodedPlusRoute', () => {
-      const params = {
-        ...createPageContext(),
-        canonicalPath: '/c/test/%20/42',
-        params: {0: 'test', 1: '42'},
-      };
-      // Regression test for Issue 7100.
-      router.handleImproperlyEncodedPlusRoute(params);
-      assert.isTrue(redirectStub.calledOnce);
-      assert.equal(redirectStub.lastCall.args[0], '/c/test/+/42');
-
-      sinon.stub(router, 'getHashFromCanonicalPath').returns('foo');
-      router.handleImproperlyEncodedPlusRoute(params);
-      assert.equal(redirectStub.lastCall.args[0], '/c/test/+/42#foo');
+    test('IMPROPERLY_ENCODED_PLUS', async () => {
+      // IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/ \/(.+)$/,
+      await checkRedirect('/c/repo/ /42', '/c/repo/+/42');
+      await checkRedirect('/c/repo/%20/42', '/c/repo/+/42');
+      await checkRedirect('/c/repo/ /42#foo', '/c/repo/+/42#foo');
     });
 
-    test('handleQueryRoute', () => {
-      const ctx: PageContext = {
-        ...createPageContext(),
-        params: {0: 'project:foo/bar/baz'},
-      };
-      assertctxToParams(ctx, 'handleQueryRoute', {
-        view: GerritView.SEARCH,
+    test('QUERY', async () => {
+      // QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
+      await checkUrlToState('/q/asdf', {
+        ...createSearchViewState(),
+        query: 'asdf',
+      });
+      await checkUrlToState('/q/project:foo/bar/baz', {
+        ...createSearchViewState(),
         query: 'project:foo/bar/baz',
-        offset: undefined,
-      } as AppElementParams);
-
-      ctx.params[1] = '123';
-      ctx.params[2] = '123';
-      assertctxToParams(ctx, 'handleQueryRoute', {
-        view: GerritView.SEARCH,
-        query: 'project:foo/bar/baz',
+      });
+      await checkUrlToState('/q/asdf,123', {
+        ...createSearchViewState(),
+        query: 'asdf',
         offset: '123',
-      } as AppElementParams);
+      });
     });
 
-    test('handleQueryLegacySuffixRoute', () => {
-      const params = {...createPageContext(), path: '/q/foo+bar,n,z'};
-      router.handleQueryLegacySuffixRoute(params);
-      assert.isTrue(redirectStub.calledOnce);
-      assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
+    test('QUERY_LEGACY_SUFFIX', async () => {
+      // QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
+      await checkRedirect('/q/foo+bar,n,z', '/q/foo+bar');
     });
 
-    test('handleChangeIdQueryRoute', () => {
-      const ctx = {
-        ...createPageContext(),
-        params: {0: 'I0123456789abcdef0123456789abcdef01234567'},
-      };
-      assertctxToParams(ctx, 'handleChangeIdQueryRoute', {
-        view: GerritView.SEARCH,
+    test('CHANGE_ID_QUERY', async () => {
+      // CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
+      await checkUrlToState('/id/I0123456789abcdef0123456789abcdef01234567', {
+        ...createSearchViewState(),
         query: 'I0123456789abcdef0123456789abcdef01234567',
-        offset: undefined,
-      } as AppElementParams);
-    });
-
-    suite('handleRegisterRoute', () => {
-      test('happy path', () => {
-        const ctx = {...createPageContext(), params: {0: '/foo/bar'}};
-        router.handleRegisterRoute(ctx);
-        assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
-        assert.isTrue(setStateStub.calledOnce);
-        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
-      });
-
-      test('no param', () => {
-        const ctx = createPageContext();
-        router.handleRegisterRoute(ctx);
-        assert.isTrue(redirectStub.calledWithExactly('/'));
-        assert.isTrue(setStateStub.calledOnce);
-        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
-      });
-
-      test('prevent redirect', () => {
-        const ctx = {...createPageContext(), params: {0: '/register'}};
-        router.handleRegisterRoute(ctx);
-        assert.isTrue(redirectStub.calledWithExactly('/'));
-        assert.isTrue(setStateStub.calledOnce);
-        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
       });
     });
 
-    suite('handleRootRoute', () => {
+    test('REGISTER', async () => {
+      // REGISTER: /^\/register(\/.*)?$/,
+      await checkUrlToState('/register/foo/bar', {
+        justRegistered: true,
+      });
+      assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
+
+      await checkUrlToState('/register', {
+        justRegistered: true,
+      });
+      assert.isTrue(redirectStub.calledWithExactly('/'));
+
+      await checkUrlToState('/register/register', {
+        justRegistered: true,
+      });
+      assert.isTrue(redirectStub.calledWithExactly('/'));
+    });
+
+    suite('ROOT', () => {
       test('closes for closeAfterLogin', () => {
         const ctx = {...createPageContext(), querystring: 'closeAfterLogin'};
         const closeStub = sinon.stub(window, 'close');
@@ -492,268 +483,116 @@ suite('gr-router tests', () => {
         assert.isFalse(redirectStub.called);
       });
 
-      test('redirects to dashboard if logged in', () => {
-        const ctx = {...createPageContext(), canonicalPath: '/', path: '/'};
-        const result = router.handleRootRoute(ctx);
-        assert.isOk(result);
-        return result!.then(() => {
-          assert.isTrue(redirectStub.calledWithExactly('/dashboard/self'));
-        });
+      test('ROOT logged in', async () => {
+        stubRestApi('getLoggedIn').resolves(true);
+        await checkRedirect('/', '/dashboard/self');
       });
 
-      test('redirects to open changes if not logged in', () => {
-        stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-        const ctx = {...createPageContext(), canonicalPath: '/', path: '/'};
-        const result = router.handleRootRoute(ctx);
-        assert.isOk(result);
-        return result!.then(() => {
-          assert.isTrue(
-            redirectStub.calledWithExactly('/q/status:open+-is:wip')
-          );
-        });
+      test('ROOT not logged in', async () => {
+        stubRestApi('getLoggedIn').resolves(false);
+        await checkRedirect('/', '/q/status:open+-is:wip');
       });
 
-      suite('GWT hash-path URLs', () => {
-        test('redirects hash-path URLs', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#/foo/bar/baz',
-            hash: '/foo/bar/baz',
-          };
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+      suite('ROOT GWT hash-path URLs', () => {
+        test('ROOT hash-path URLs', async () => {
+          await checkRedirect('/#/foo/bar/baz', '/foo/bar/baz');
         });
 
-        test('redirects hash-path URLs w/o leading slash', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#foo/bar/baz',
-            hash: 'foo/bar/baz',
-          };
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+        test('ROOT hash-path URLs w/o leading slash', async () => {
+          await checkRedirect('/#foo/bar/baz', '/foo/bar/baz');
         });
 
-        test('normalizes "/ /" in hash to "/+/"', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#/foo/bar/+/123/4',
-            hash: '/foo/bar/ /123/4',
-          };
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/foo/bar/+/123/4'));
+        test('ROOT normalizes "/ /" in hash to "/+/"', async () => {
+          await checkRedirect('/#/foo/bar/+/123/4', '/foo/bar/+/123/4');
         });
 
-        test('prepends baseurl to hash-path', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#/foo/bar',
-            hash: '/foo/bar',
-          };
+        test('ROOT prepends baseurl to hash-path', async () => {
           stubBaseUrl('/baz');
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/baz/foo/bar'));
+          await checkRedirect('/#/foo/bar', '/baz/foo/bar');
         });
 
-        test('normalizes /VE/ settings hash-paths', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#/VE/foo/bar',
-            hash: '/VE/foo/bar',
-          };
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/settings/VE/foo/bar'));
+        test('ROOT normalizes /VE/ settings hash-paths', async () => {
+          await checkRedirect('/#/VE/foo/bar', '/settings/VE/foo/bar');
         });
 
-        test('does not drop "inner hashes"', () => {
-          const ctx = {
-            ...createPageContext(),
-            canonicalPath: '/#/foo/bar#baz',
-            hash: '/foo/bar',
-          };
-          const result = router.handleRootRoute(ctx);
-          assert.isNotOk(result);
-          assert.isTrue(redirectStub.called);
-          assert.isTrue(redirectStub.calledWithExactly('/foo/bar#baz'));
+        test('ROOT does not drop "inner hashes"', async () => {
+          await checkRedirect('/#/foo/bar#baz', '/foo/bar#baz');
         });
       });
     });
 
-    suite('handleDashboardRoute', () => {
-      let redirectToLoginStub: sinon.SinonStub;
-
-      setup(() => {
-        redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
+    suite('DASHBOARD', () => {
+      test('DASHBOARD own dashboard but signed out redirects to login', async () => {
+        stubRestApi('getLoggedIn').resolves(false);
+        await checkRedirectToLogin('/dashboard/seLF', '/dashboard/seLF');
       });
 
-      test('own dashboard but signed out redirects to login', () => {
-        stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-        const ctx = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: 'seLF'},
-        };
-        return router.handleDashboardRoute(ctx).then(() => {
-          assert.isTrue(redirectToLoginStub.calledOnce);
-          assert.isFalse(redirectStub.called);
-          assert.isFalse(setStateStub.called);
-        });
+      test('DASHBOARD non-self dashboard but signed out redirects', async () => {
+        stubRestApi('getLoggedIn').resolves(false);
+        await checkRedirect('/dashboard/foo', '/q/owner:foo');
       });
 
-      test('non-self dashboard but signed out does not redirect', () => {
-        stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-        const ctx = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: 'foo'},
-        };
-        return router.handleDashboardRoute(ctx).then(() => {
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isFalse(setStateStub.called);
-          assert.isTrue(redirectStub.calledOnce);
-          assert.equal(redirectStub.lastCall.args[0], '/q/owner:foo');
-        });
-      });
-
-      test('dashboard while signed in sets params', () => {
-        const ctx = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: 'foo'},
-        };
-        return router.handleDashboardRoute(ctx).then(() => {
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isFalse(redirectStub.called);
-          assert.isTrue(setStateStub.calledOnce);
-          assert.deepEqual(setStateStub.lastCall.args[0], {
-            view: GerritView.DASHBOARD,
-            user: 'foo',
-          });
+      test('DASHBOARD', async () => {
+        // DASHBOARD: /^\/dashboard\/(.+)$/,
+        await checkUrlToState('/dashboard/foo', {
+          ...createDashboardViewState(),
+          user: 'foo',
         });
       });
     });
 
-    suite('handleCustomDashboardRoute', () => {
-      let redirectToLoginStub: sinon.SinonStub;
-
-      setup(() => {
-        redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
+    suite('CUSTOM_DASHBOARD', () => {
+      test('CUSTOM_DASHBOARD no user specified', async () => {
+        await checkRedirect('/dashboard/', '/dashboard/self');
       });
 
-      test('no user specified', () => {
-        const ctx: PageContext = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: ''},
-          querystring: '',
-        };
-        return router.handleCustomDashboardRoute(ctx).then(() => {
-          assert.isFalse(setStateStub.called);
-          assert.isTrue(redirectStub.called);
-          assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+      test('CUSTOM_DASHBOARD', async () => {
+        // CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
+        await checkUrlToState('/dashboard?title=Custom Dashboard&a=b&d=e', {
+          ...createDashboardViewState(),
+          sections: [
+            {name: 'a', query: 'b'},
+            {name: 'd', query: 'e'},
+          ],
+          title: 'Custom Dashboard',
         });
-      });
-
-      test('custom dashboard without title', () => {
-        const ctx: PageContext = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: ''},
-          querystring: '?a=b&c&d=e',
-        };
-        return router.handleCustomDashboardRoute(ctx).then(() => {
-          assert.isFalse(redirectStub.called);
-          assert.isTrue(setStateStub.calledOnce);
-          assert.deepEqual(setStateStub.lastCall.args[0], {
-            view: GerritView.DASHBOARD,
-            user: 'self',
-            sections: [
-              {name: 'a', query: 'b'},
-              {name: 'd', query: 'e'},
-            ],
-            title: 'Custom Dashboard',
-          });
-        });
-      });
-
-      test('custom dashboard with title', () => {
-        const ctx: PageContext = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: ''},
-          querystring: '?a=b&c&d=&=e&title=t',
-        };
-        return router.handleCustomDashboardRoute(ctx).then(() => {
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isFalse(redirectStub.called);
-          assert.isTrue(setStateStub.calledOnce);
-          assert.deepEqual(setStateStub.lastCall.args[0], {
-            view: GerritView.DASHBOARD,
-            user: 'self',
-            sections: [{name: 'a', query: 'b'}],
-            title: 't',
-          });
-        });
-      });
-
-      test('custom dashboard with foreach', () => {
-        const ctx: PageContext = {
-          ...createPageContext(),
-          canonicalPath: '/dashboard/',
-          params: {0: ''},
-          querystring: '?a=b&c&d=&=e&foreach=is:open',
-        };
-        return router.handleCustomDashboardRoute(ctx).then(() => {
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isFalse(redirectStub.called);
-          assert.isTrue(setStateStub.calledOnce);
-          assert.deepEqual(setStateStub.lastCall.args[0], {
-            view: GerritView.DASHBOARD,
-            user: 'self',
-            sections: [{name: 'a', query: 'is:open b'}],
-            title: 'Custom Dashboard',
-          });
+        await checkUrlToState('/dashboard?a=b&c&d=&=e&foreach=is:open', {
+          ...createDashboardViewState(),
+          sections: [{name: 'a', query: 'is:open b'}],
+          title: 'Custom Dashboard',
         });
       });
     });
 
     suite('group routes', () => {
-      test('handleGroupInfoRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '1234'}};
-        router.handleGroupInfoRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.equal(redirectStub.lastCall.args[0], '/admin/groups/1234');
+      test('GROUP_INFO', async () => {
+        // GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
+        await checkRedirect('/admin/groups/1234,info', '/admin/groups/1234');
       });
 
-      test('handleGroupAuditLogRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '1234'}};
-        assertctxToParams(ctx, 'handleGroupAuditLogRoute', {
-          view: GerritView.GROUP,
+      test('GROUP_AUDIT_LOG', async () => {
+        // GROUP_AUDIT_LOG: /^\/admin\/groups\/(?:uuid-)?(.+),audit-log$/,
+        await checkUrlToState('/admin/groups/1234,audit-log', {
+          ...createGroupViewState(),
           detail: GroupDetailView.LOG,
-          groupId: '1234' as GroupId,
+          groupId: '1234',
         });
       });
 
-      test('handleGroupMembersRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '1234'}};
-        assertctxToParams(ctx, 'handleGroupMembersRoute', {
-          view: GerritView.GROUP,
+      test('GROUP_MEMBERS', async () => {
+        // GROUP_MEMBERS: /^\/admin\/groups\/(?:uuid-)?(.+),members$/,
+        await checkUrlToState('/admin/groups/1234,members', {
+          ...createGroupViewState(),
           detail: GroupDetailView.MEMBERS,
-          groupId: '1234' as GroupId,
+          groupId: '1234',
         });
       });
 
-      test('list of groups', async () => {
+      test('GROUP_LIST_*', async () => {
+        // GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
+        // GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
+        // GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
+
         const defaultState: AdminViewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.GROUPS,
@@ -804,417 +643,274 @@ suite('gr-router tests', () => {
         await checkUrlNotMatched('/admin/groups/q/filter:asdf%2Fqwer,11');
       });
 
-      test('handleGroupRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '4321'}};
-        assertctxToParams(ctx, 'handleGroupRoute', {
-          view: GerritView.GROUP,
-          groupId: '4321' as GroupId,
+      test('GROUP', async () => {
+        // GROUP: /^\/admin\/groups\/(?:uuid-)?([^,]+)$/,
+        await checkUrlToState('/admin/groups/4321', {
+          ...createGroupViewState(),
+          groupId: '4321',
         });
       });
     });
 
-    suite('repo routes', () => {
-      test('handleProjectsOldRoute', () => {
-        const ctx = {...createPageContext(), params: {}};
-        router.handleProjectsOldRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.equal(redirectStub.lastCall.args[0], '/admin/repos/');
-      });
-
-      test('handleProjectsOldRoute test', () => {
-        const ctx = {...createPageContext(), params: {1: 'test'}};
-        router.handleProjectsOldRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.equal(redirectStub.lastCall.args[0], '/admin/repos/test');
-      });
-
-      test('handleProjectsOldRoute test,branches', () => {
-        const ctx = {...createPageContext(), params: {1: 'test,branches'}};
-        router.handleProjectsOldRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.equal(
-          redirectStub.lastCall.args[0],
+    suite('REPO*', () => {
+      test('PROJECT_OLD', async () => {
+        // PROJECT_OLD: /^\/admin\/(projects)\/?(.+)?$/,
+        await checkRedirect('/admin/projects/', '/admin/repos/');
+        await checkRedirect('/admin/projects/test', '/admin/repos/test');
+        await checkRedirect(
+          '/admin/projects/test,branches',
           '/admin/repos/test,branches'
         );
       });
 
-      test('handleRepoRoute', () => {
-        const ctx = {...createPageContext(), path: '/admin/repos/test'};
-        router.handleRepoRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.equal(
-          redirectStub.lastCall.args[0],
-          '/admin/repos/test,general'
-        );
+      test('REPO', async () => {
+        // REPO: /^\/admin\/repos\/([^,]+)$/,
+        await checkRedirect('/admin/repos/test', '/admin/repos/test,general');
       });
 
-      test('handleRepoGeneralRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '4321'}};
-        assertctxToParams(ctx, 'handleRepoGeneralRoute', {
-          view: GerritView.REPO,
+      test('REPO_GENERAL', async () => {
+        // REPO_GENERAL: /^\/admin\/repos\/(.+),general$/,
+        await checkUrlToState('/admin/repos/4321,general', {
+          ...createRepoViewState(),
           detail: RepoDetailView.GENERAL,
           repo: '4321' as RepoName,
         });
       });
 
-      test('handleRepoCommandsRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '4321'}};
-        assertctxToParams(ctx, 'handleRepoCommandsRoute', {
-          view: GerritView.REPO,
+      test('REPO_COMMANDS', async () => {
+        // REPO_COMMANDS: /^\/admin\/repos\/(.+),commands$/,
+        await checkUrlToState('/admin/repos/4321,commands', {
+          ...createRepoViewState(),
           detail: RepoDetailView.COMMANDS,
           repo: '4321' as RepoName,
         });
       });
 
-      test('handleRepoAccessRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '4321'}};
-        assertctxToParams(ctx, 'handleRepoAccessRoute', {
-          view: GerritView.REPO,
+      test('REPO_ACCESS', async () => {
+        // REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
+        await checkUrlToState('/admin/repos/4321,access', {
+          ...createRepoViewState(),
           detail: RepoDetailView.ACCESS,
           repo: '4321' as RepoName,
         });
       });
 
-      suite('branch list routes', () => {
-        test('handleBranchListOffsetRoute', () => {
-          const ctx: PageContext = {
-            ...createPageContext(),
-            params: {0: '4321'},
-          };
-          assertctxToParams(ctx, 'handleBranchListOffsetRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.BRANCHES,
+      suite('BRANCH_LIST_*', () => {
+        test('BRANCH_LIST_OFFSET', async () => {
+          // BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
+          await checkUrlToState('/admin/repos/4321,branches', {
+            ...createRepoBranchesViewState(),
             repo: '4321' as RepoName,
-            offset: 0,
-            filter: null,
           });
-
-          ctx.params[2] = '42';
-          assertctxToParams(ctx, 'handleBranchListOffsetRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.BRANCHES,
+          await checkUrlToState('/admin/repos/4321,branches,42', {
+            ...createRepoBranchesViewState(),
             repo: '4321' as RepoName,
             offset: '42',
-            filter: null,
           });
         });
 
-        test('handleBranchListFilterOffsetRoute', () => {
-          const ctx = {
-            ...createPageContext(),
-            params: {repo: '4321', filter: 'foo', offset: '42'},
-          };
-          assertctxToParams(ctx, 'handleBranchListFilterOffsetRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.BRANCHES,
+        test('BRANCH_LIST_FILTER_OFFSET', async () => {
+          // BRANCH_LIST_FILTER_OFFSET: '/admin/repos/:repo,branches/q/filter::filter,:offset',
+          await checkUrlToState('/admin/repos/4321,branches/q/filter:foo,42', {
+            ...createRepoBranchesViewState(),
             repo: '4321' as RepoName,
             offset: '42',
             filter: 'foo',
           });
         });
 
-        test('handleBranchListFilterRoute', () => {
-          const ctx = {
-            ...createPageContext(),
-            params: {repo: '4321', filter: 'foo'},
-          };
-          assertctxToParams(ctx, 'handleBranchListFilterRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.BRANCHES,
+        test('BRANCH_LIST_FILTER', async () => {
+          // BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
+          await checkUrlToState('/admin/repos/4321,branches/q/filter:foo', {
+            ...createRepoBranchesViewState(),
             repo: '4321' as RepoName,
             filter: 'foo',
           });
         });
       });
 
-      suite('tag list routes', () => {
-        test('handleTagListOffsetRoute', () => {
-          const ctx = {...createPageContext(), params: {0: '4321'}};
-          assertctxToParams(ctx, 'handleTagListOffsetRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.TAGS,
+      suite('TAG_LIST_*', () => {
+        test('TAG_LIST_OFFSET', async () => {
+          // TAG_LIST_OFFSET: /^\/admin\/repos\/(.+),tags(,(.+))?$/,
+          await checkUrlToState('/admin/repos/4321,tags', {
+            ...createRepoTagsViewState(),
             repo: '4321' as RepoName,
-            offset: 0,
-            filter: null,
+          });
+          await checkUrlToState('/admin/repos/4321,tags,42', {
+            ...createRepoTagsViewState(),
+            repo: '4321' as RepoName,
+            offset: '42',
           });
         });
 
-        test('handleTagListFilterOffsetRoute', () => {
-          const ctx = {
-            ...createPageContext(),
-            params: {repo: '4321', filter: 'foo', offset: '42'},
-          };
-          assertctxToParams(ctx, 'handleTagListFilterOffsetRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.TAGS,
+        test('TAG_LIST_FILTER_OFFSET', async () => {
+          // TAG_LIST_FILTER_OFFSET: '/admin/repos/:repo,tags/q/filter::filter,:offset',
+          await checkUrlToState('/admin/repos/4321,tags/q/filter:foo,42', {
+            ...createRepoTagsViewState(),
             repo: '4321' as RepoName,
             offset: '42',
             filter: 'foo',
           });
         });
 
-        test('handleTagListFilterRoute', () => {
-          const ctx: PageContext = {
-            ...createPageContext(),
-            params: {repo: '4321'},
-          };
-          assertctxToParams(ctx, 'handleTagListFilterRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.TAGS,
-            repo: '4321' as RepoName,
-            filter: null,
-          });
-
-          ctx.params.filter = 'foo';
-          assertctxToParams(ctx, 'handleTagListFilterRoute', {
-            view: GerritView.REPO,
-            detail: RepoDetailView.TAGS,
+        test('TAG_LIST_FILTER', async () => {
+          // TAG_LIST_FILTER: '/admin/repos/:repo,tags/q/filter::filter',
+          await checkUrlToState('/admin/repos/4321,tags/q/filter:foo', {
+            ...createRepoTagsViewState(),
             repo: '4321' as RepoName,
             filter: 'foo',
           });
         });
       });
 
-      suite('repo list routes', () => {
-        test('handleRepoListOffsetRoute', () => {
-          const ctx = createPageContext();
-          assertctxToParams(ctx, 'handleRepoListOffsetRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
-            offset: 0,
-            filter: null,
-            openCreateModal: false,
+      suite('REPO_LIST_*', () => {
+        test('REPO_LIST_OFFSET', async () => {
+          // REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
+          await checkUrlToState('/admin/repos', {
+            ...createAdminReposViewState(),
           });
-
-          ctx.params[1] = '42';
-          assertctxToParams(ctx, 'handleRepoListOffsetRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
+          await checkUrlToState('/admin/repos,42', {
+            ...createAdminReposViewState(),
             offset: '42',
-            filter: null,
-            openCreateModal: false,
           });
-
-          ctx.hash = 'create';
-          assertctxToParams(ctx, 'handleRepoListOffsetRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
+          await checkUrlToState('/admin/repos,42#create', {
+            ...createAdminReposViewState(),
             offset: '42',
-            filter: null,
             openCreateModal: true,
           });
         });
 
-        test('handleRepoListFilterOffsetRoute', () => {
-          const ctx = {
-            ...createPageContext(),
-            params: {filter: 'foo', offset: '42'},
-          };
-          assertctxToParams(ctx, 'handleRepoListFilterOffsetRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
+        test('REPO_LIST_FILTER_OFFSET', async () => {
+          // REPO_LIST_FILTER_OFFSET: '/admin/repos/q/filter::filter,:offset',
+          await checkUrlToState('/admin/repos/q/filter:foo,42', {
+            ...createAdminReposViewState(),
             offset: '42',
             filter: 'foo',
           });
         });
 
-        test('handleRepoListFilterRoute', () => {
-          const ctx = createPageContext();
-          assertctxToParams(ctx, 'handleRepoListFilterRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
-            filter: null,
-          });
-
-          ctx.params.filter = 'foo';
-          assertctxToParams(ctx, 'handleRepoListFilterRoute', {
-            view: GerritView.ADMIN,
-            adminView: AdminChildView.REPOS,
+        test('REPO_LIST_FILTER', async () => {
+          // REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
+          await checkUrlToState('/admin/repos/q/filter:foo', {
+            ...createAdminReposViewState(),
             filter: 'foo',
           });
         });
       });
     });
 
-    suite('plugin routes', () => {
-      test('handlePluginListOffsetRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handlePluginListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
-          offset: 0,
-          filter: null,
+    suite('PLUGIN_LIST_*', () => {
+      test('PLUGIN_LIST_OFFSET', async () => {
+        // PLUGIN_LIST_OFFSET: /^\/admin\/plugins(,(\d+))?(\/)?$/,
+        await checkUrlToState('/admin/plugins', {
+          ...createAdminPluginsViewState(),
         });
-
-        ctx.params[1] = '42';
-        assertctxToParams(ctx, 'handlePluginListOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
+        await checkUrlToState('/admin/plugins/', {
+          ...createAdminPluginsViewState(),
+        });
+        await checkUrlToState('/admin/plugins,42', {
+          ...createAdminPluginsViewState(),
           offset: '42',
-          filter: null,
         });
       });
 
-      test('handlePluginListFilterOffsetRoute', () => {
-        const ctx = {
-          ...createPageContext(),
-          params: {filter: 'foo', offset: '42'},
-        };
-        assertctxToParams(ctx, 'handlePluginListFilterOffsetRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
+      test('PLUGIN_LIST_FILTER_OFFSET', async () => {
+        // PLUGIN_LIST_FILTER_OFFSET: '/admin/plugins/q/filter::filter,:offset',
+        await checkUrlToState('/admin/plugins/q/filter:foo,42', {
+          ...createAdminPluginsViewState(),
           offset: '42',
           filter: 'foo',
         });
       });
 
-      test('handlePluginListFilterRoute', () => {
-        const ctx = createPageContext();
-        assertctxToParams(ctx, 'handlePluginListFilterRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
-          filter: null,
-        });
-
-        ctx.params.filter = 'foo';
-        assertctxToParams(ctx, 'handlePluginListFilterRoute', {
-          view: GerritView.ADMIN,
-          adminView: AdminChildView.PLUGINS,
+      test('PLUGIN_LIST_FILTER', async () => {
+        // PLUGIN_LIST_FILTER: '/admin/plugins/q/filter::filter',
+        await checkUrlToState('/admin/plugins/q/filter:foo', {
+          ...createAdminPluginsViewState(),
           filter: 'foo',
         });
       });
     });
 
-    suite('change/diff routes', () => {
-      test('handleChangeNumberLegacyRoute', () => {
-        const ctx = {...createPageContext(), params: {0: '12345'}};
-        router.handleChangeNumberLegacyRoute(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
+    suite('CHANGE* / DIFF*', () => {
+      test('CHANGE_NUMBER_LEGACY', async () => {
+        // CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
+        await checkRedirect('/12345', '/c/12345');
       });
 
-      test('handleChangeLegacyRoute', async () => {
-        stubRestApi('getFromProjectLookup').returns(
-          Promise.resolve('project' as RepoName)
-        );
-        const ctx = {
-          ...createPageContext(),
-          params: {0: '1234', 1: 'comment/6789'},
-        };
-        router.handleChangeLegacyRoute(ctx);
-        await waitEventLoop();
-        assert.isTrue(
-          redirectStub.calledWithExactly('/c/project/+/1234' + '/comment/6789')
+      test('CHANGE_LEGACY', async () => {
+        // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
+        stubRestApi('getFromProjectLookup').resolves('project' as RepoName);
+        await checkRedirect('/c/1234', '/c/project/+/1234/');
+        await checkRedirect(
+          '/c/1234/comment/6789',
+          '/c/project/+/1234/comment/6789'
         );
       });
 
-      test('handleLegacyLinenum w/ @321', () => {
-        const ctx = {...createPageContext(), path: '/c/1234/3..8/foo/bar@321'};
-        router.handleLegacyLinenum(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.isTrue(
-          redirectStub.calledWithExactly('/c/1234/3..8/foo/bar#321')
+      test('DIFF_LEGACY_LINENUM', async () => {
+        await checkRedirect(
+          '/c/1234/3..8/foo/bar@321',
+          '/c/1234/3..8/foo/bar#321'
+        );
+        await checkRedirect(
+          '/c/1234/3..8/foo/bar@b321',
+          '/c/1234/3..8/foo/bar#b321'
         );
       });
 
-      test('handleLegacyLinenum w/ @b123', () => {
-        const ctx = {...createPageContext(), path: '/c/1234/3..8/foo/bar@b123'};
-        router.handleLegacyLinenum(ctx);
-        assert.isTrue(redirectStub.calledOnce);
-        assert.isTrue(
-          redirectStub.calledWithExactly('/c/1234/3..8/foo/bar#b123')
-        );
-      });
-
-      suite('handleChangeRoute', () => {
-        function makeParams(_path: string, _hash: string): PageContext {
-          return {
-            ...createPageContext(),
-            params: {
-              0: 'foo/bar', // 0 Project
-              1: '1234', // 1 Change number
-              2: '', // 2 Unused
-              3: '', // 3 Unused
-              4: '4', // 4 Base patch number
-              5: '', // 5 Unused
-              6: '7', // 6 Patch number
-            },
-          };
-        }
-
-        setup(() => {
-          stubRestApi('setInProjectLookup');
+      test('CHANGE', async () => {
+        // CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+        await checkUrlToState('/c/test-project/+/42', {
+          ...createChangeViewState(),
+          basePatchNum: undefined,
+          patchNum: undefined,
         });
-
-        test('change view', () => {
-          const ctx = makeParams('', '');
-          assertctxToParams(ctx, 'handleChangeRoute', {
-            view: GerritView.CHANGE,
-            childView: ChangeChildView.OVERVIEW,
-            repo: 'foo/bar' as RepoName,
-            changeNum: 1234 as NumericChangeId,
-            basePatchNum: 4 as BasePatchSetNum,
-            patchNum: 7 as RevisionPatchSetNum,
-          });
-          assert.isFalse(redirectStub.called);
+        await checkUrlToState('/c/test-project/+/42/7', {
+          ...createChangeViewState(),
+          basePatchNum: PARENT,
+          patchNum: 7,
         });
-
-        test('params', () => {
-          const ctx = makeParams('', '');
-          const queryMap = new URLSearchParams();
-          queryMap.set('tab', 'checks');
-          queryMap.set('filter', 'fff');
-          queryMap.set('select', 'sss');
-          queryMap.set('attempt', '1');
-          queryMap.set('checksRunsSelected', 'asdf,qwer');
-          queryMap.set('checksResultsFilter', 'asdf.*qwer');
-          ctx.querystring = queryMap.toString();
-          assertctxToParams(ctx, 'handleChangeRoute', {
-            view: GerritView.CHANGE,
-            childView: ChangeChildView.OVERVIEW,
-            repo: 'foo/bar' as RepoName,
-            changeNum: 1234 as NumericChangeId,
-            basePatchNum: 4 as BasePatchSetNum,
-            patchNum: 7 as RevisionPatchSetNum,
+        await checkUrlToState('/c/test-project/+/42/4..7', {
+          ...createChangeViewState(),
+          basePatchNum: 4,
+          patchNum: 7,
+        });
+        await checkUrlToState(
+          '/c/test-project/+/42/4..7?tab=checks&filter=fff&attempt=1&checksRunsSelected=asdf,qwer&checksResultsFilter=asdf.*qwer',
+          {
+            ...createChangeViewState(),
+            basePatchNum: 4,
+            patchNum: 7,
             attempt: 1,
             filter: 'fff',
             tab: 'checks',
             checksRunsSelected: new Set(['asdf', 'qwer']),
             checksResultsFilter: 'asdf.*qwer',
-          });
-        });
+          }
+        );
+      });
+
+      test('COMMENTS_TAB', async () => {
+        // COMMENTS_TAB: /^\/c\/(.+)\/\+\/(\d+)\/comments(?:\/)?(\w+)?\/?$/,
+        await checkUrlToState(
+          '/c/gerrit/+/264833/comments/00049681_f34fd6a9/',
+          {
+            ...createChangeViewState(),
+            repo: 'gerrit' as RepoName,
+            changeNum: 264833 as NumericChangeId,
+            commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
+            view: GerritView.CHANGE,
+            childView: ChangeChildView.OVERVIEW,
+          }
+        );
       });
 
       suite('handleDiffRoute', () => {
-        function makeParams(path: string, hash: string): PageContext {
-          return {
-            ...createPageContext(),
-            hash,
-            params: {
-              0: 'foo/bar', // 0 Project
-              1: '1234', // 1 Change number
-              2: '', // 2 Unused
-              3: '', // 3 Unused
-              4: '4', // 4 Base patch number
-              5: '', // 5 Unused
-              6: '7', // 6 Patch number
-              7: '', // 7 Unused,
-              8: path, // 8 Diff path
-            },
-          };
-        }
-
-        setup(() => {
-          stubRestApi('setInProjectLookup');
-        });
-
-        test('diff view', () => {
-          const ctx = makeParams('foo/bar/baz', 'b44');
-          assertctxToParams(ctx, 'handleDiffRoute', {
-            view: GerritView.CHANGE,
-            childView: ChangeChildView.DIFF,
-            repo: 'foo/bar' as RepoName,
-            changeNum: 1234 as NumericChangeId,
+        test('DIFF', async () => {
+          // DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
+          await checkUrlToState('/c/test-project/+/42/4..7/foo/bar/baz#b44', {
+            ...createDiffViewState(),
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
             diffView: {
@@ -1223,10 +919,9 @@ suite('gr-router tests', () => {
               leftSide: true,
             },
           });
-          assert.isFalse(redirectStub.called);
         });
 
-        test('comment route base..1', async () => {
+        test('COMMENT base..1', async () => {
           const change: ParsedChangeInfo = createParsedChange();
           const repo = change.project;
           const changeNum = change._number;
@@ -1238,19 +933,13 @@ suite('gr-router tests', () => {
             filepath: [{...createComment(), id, patch_set: ps, line}],
           });
 
-          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
-          const groups = url.match(_testOnly_RoutePattern.COMMENT);
-          assert.deepEqual(groups!.slice(1), [repo, `${changeNum}`, id]);
-
-          await router.handleCommentRoute({params: groups!.slice(1)} as any);
-          assert.isTrue(redirectStub.calledOnce);
-          assert.equal(
-            redirectStub.lastCall.args[0],
+          await checkRedirect(
+            `/c/${repo}/+/${changeNum}/comment/${id}/`,
             `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
           );
         });
 
-        test('comment route 1..2', async () => {
+        test('COMMENT 1..2', async () => {
           const change: ParsedChangeInfo = {
             ...createParsedChange(),
             revisions: {
@@ -1270,16 +959,11 @@ suite('gr-router tests', () => {
           });
           const diffStub = stubRestApi('getDiff');
 
-          const url = `/c/${repo}/+/${changeNum}/comment/${id}/`;
-          const groups = url.match(_testOnly_RoutePattern.COMMENT);
-
           // If getDiff() returns a diff with changes, then we will compare
           // the patchset of the comment (1) against latest (2).
           diffStub.onFirstCall().resolves(createDiff());
-          await router.handleCommentRoute({params: groups!.slice(1)} as any);
-          assert.isTrue(redirectStub.calledOnce);
-          assert.equal(
-            redirectStub.lastCall.args[0],
+          await checkRedirect(
+            `/c/${repo}/+/${changeNum}/comment/${id}/`,
             `/c/${repo}/+/${changeNum}/${ps}..2/filepath#b${line}`
           );
 
@@ -1289,122 +973,56 @@ suite('gr-router tests', () => {
             ...createDiff(),
             content: [],
           });
-          await router.handleCommentRoute({params: groups!.slice(1)} as any);
-          assert.isTrue(redirectStub.calledTwice);
-          assert.equal(
-            redirectStub.lastCall.args[0],
+          await checkRedirect(
+            `/c/${repo}/+/${changeNum}/comment/${id}/`,
             `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
-          );
-        });
-
-        test('comments route', () => {
-          const url = '/c/gerrit/+/264833/comments/00049681_f34fd6a9/';
-          const groups = url.match(_testOnly_RoutePattern.COMMENTS_TAB);
-          assert.deepEqual(groups!.slice(1), [
-            'gerrit', // project
-            '264833', // changeNum
-            '00049681_f34fd6a9', // commentId
-          ]);
-          assertctxToParams(
-            {params: groups!.slice(1)} as any,
-            'handleCommentsRoute',
-            {
-              repo: 'gerrit' as RepoName,
-              changeNum: 264833 as NumericChangeId,
-              commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
-              view: GerritView.CHANGE,
-              childView: ChangeChildView.OVERVIEW,
-            }
           );
         });
       });
 
-      test('handleDiffEditRoute', () => {
-        stubRestApi('setInProjectLookup');
-        const ctx = {
-          ...createPageContext(),
-          hash: '',
-          params: {
-            0: 'foo/bar', // 0 Project
-            1: '1234', // 1 Change number
-            2: '3', // 2 Patch num
-            3: 'foo/bar/baz', // 3 File path
-          },
-        };
-        const appParams: ChangeViewState = {
+      test('DIFF_EDIT', async () => {
+        // DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(#\d+)?$/,
+        await checkUrlToState('/c/foo/bar/+/1234/3/foo/bar/baz,edit', {
+          ...createEditViewState(),
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
           editView: {path: 'foo/bar/baz', lineNum: 0},
-        };
-
-        router.handleDiffEditRoute(ctx);
-        assert.isFalse(redirectStub.called);
-        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
-      });
-
-      test('handleDiffEditRoute with lineNum', () => {
-        stubRestApi('setInProjectLookup');
-        const ctx = {
-          ...createPageContext(),
-          hash: '4',
-          params: {
-            0: 'foo/bar', // 0 Project
-            1: '1234', // 1 Change number
-            2: '3', // 2 Patch num
-            3: 'foo/bar/baz', // 3 File path
-          },
-        };
-        const appParams: ChangeViewState = {
+        });
+        await checkUrlToState('/c/foo/bar/+/1234/3/foo/bar/baz,edit#4', {
+          ...createEditViewState(),
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
           editView: {path: 'foo/bar/baz', lineNum: 4},
-        };
-
-        router.handleDiffEditRoute(ctx);
-        assert.isFalse(redirectStub.called);
-        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
+        });
       });
 
-      test('handleChangeEditRoute', () => {
-        stubRestApi('setInProjectLookup');
-        const ctx = {
-          ...createPageContext(),
-          params: {
-            0: 'foo/bar', // 0 Project
-            1: '1234', // 1 Change number
-            2: '',
-            3: '3', // 3 Patch num
-          },
-        };
-        const appParams: ChangeViewState = {
+      test('CHANGE_EDIT', async () => {
+        // CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+        await checkUrlToState('/c/foo/bar/+/1234/3,edit', {
+          ...createChangeViewState(),
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           childView: ChangeChildView.OVERVIEW,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
-        };
-
-        router.handleChangeEditRoute(ctx);
-        assert.isFalse(redirectStub.called);
-        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
+        });
       });
     });
 
-    test('handlePluginScreen', () => {
-      const ctx = {...createPageContext(), params: {0: 'foo', 1: 'bar'}};
-      assertctxToParams(ctx, 'handlePluginScreen', {
+    test('PLUGIN_SCREEN', async () => {
+      // PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
+      await checkUrlToState('/x/foo/bar', {
         view: GerritView.PLUGIN_SCREEN,
         plugin: 'foo',
         screen: 'bar',
       });
-      assert.isFalse(redirectStub.called);
     });
   });
 });

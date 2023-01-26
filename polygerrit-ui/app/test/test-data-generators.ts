@@ -116,6 +116,10 @@ import {DiffInfo} from '../api/diff';
 import {SearchViewState} from '../models/views/search';
 import {ChangeChildView, ChangeViewState} from '../models/views/change';
 import {NormalizedFileInfo} from '../models/change/files-model';
+import {GroupViewState} from '../models/views/group';
+import {RepoDetailView, RepoViewState} from '../models/views/repo';
+import {AdminChildView, AdminViewState} from '../models/views/admin';
+import {DashboardViewState} from '../models/views/dashboard';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -738,6 +742,73 @@ export function createDiffViewState(): ChangeViewState {
     childView: ChangeChildView.DIFF,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     repo: TEST_PROJECT_NAME,
+  };
+}
+
+export function createSearchViewState(): SearchViewState {
+  return {
+    view: GerritView.SEARCH,
+    query: '',
+    offset: undefined,
+    loading: false,
+    changes: [],
+  };
+}
+
+export function createDashboardViewState(): DashboardViewState {
+  return {
+    view: GerritView.DASHBOARD,
+    user: 'self',
+  };
+}
+
+export function createAdminReposViewState(): AdminViewState {
+  return {
+    view: GerritView.ADMIN,
+    adminView: AdminChildView.REPOS,
+    offset: '0',
+    filter: null,
+    openCreateModal: false,
+  };
+}
+
+export function createAdminPluginsViewState(): AdminViewState {
+  return {
+    view: GerritView.ADMIN,
+    adminView: AdminChildView.PLUGINS,
+    offset: '0',
+    filter: null,
+  };
+}
+
+export function createGroupViewState(): GroupViewState {
+  return {
+    view: GerritView.GROUP,
+    groupId: 'test-group-id' as GroupId,
+  };
+}
+
+export function createRepoViewState(): RepoViewState {
+  return {
+    view: GerritView.REPO,
+  };
+}
+
+export function createRepoBranchesViewState(): RepoViewState {
+  return {
+    view: GerritView.REPO,
+    detail: RepoDetailView.BRANCHES,
+    offset: '0',
+    filter: null,
+  };
+}
+
+export function createRepoTagsViewState(): RepoViewState {
+  return {
+    view: GerritView.REPO,
+    detail: RepoDetailView.TAGS,
+    offset: '0',
+    filter: null,
   };
 }
 

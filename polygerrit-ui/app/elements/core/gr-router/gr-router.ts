@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  Options,
   page,
   PageContext,
   PageNextCallback,
@@ -256,8 +257,6 @@ const RoutePattern = {
   DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
   DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
 };
-
-export const _testOnly_RoutePattern = RoutePattern;
 
 /**
  * Pattern to recognize and parse the diff line locations as they appear in
@@ -587,7 +586,11 @@ export class GrRouter implements Finalizable, NavigationService {
     );
   }
 
-  startRouter() {
+  startRouterForTesting() {
+    this.startRouter({dispatch: false, popstate: false});
+  }
+
+  startRouter(opts: Options = {}) {
     const base = getBaseUrl();
     if (base) {
       this.page.base(base);
@@ -991,7 +994,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.handleDefaultRoute()
     );
 
-    this.page.start();
+    this.page.start(opts);
   }
 
   /**
@@ -1280,7 +1283,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] || 0,
+      offset: ctx.params[2] ?? '0',
       filter: null,
     };
     // Note that router model view must be updated before view models.
@@ -1293,8 +1296,8 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: ctx.params['repo'] as RepoName,
-      offset: ctx.params['offset'],
-      filter: ctx.params['filter'],
+      offset: ctx.params['offset'] ?? '0',
+      filter: ctx.params['filter'] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1306,7 +1309,8 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: ctx.params['repo'] as RepoName,
-      filter: ctx.params['filter'] || null,
+      filter: ctx.params['filter'] ?? null,
+      offset: '0',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1318,7 +1322,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] || 0,
+      offset: ctx.params[2] ?? '0',
       filter: null,
     };
     // Note that router model view must be updated before view models.
@@ -1331,7 +1335,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: ctx.params['repo'] as RepoName,
-      offset: ctx.params['offset'],
+      offset: ctx.params['offset'] ?? '0',
       filter: ctx.params['filter'],
     };
     // Note that router model view must be updated before view models.
@@ -1344,7 +1348,8 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: ctx.params['repo'] as RepoName,
-      filter: ctx.params['filter'] || null,
+      offset: '0',
+      filter: ctx.params['filter'] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1355,7 +1360,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: ctx.params[1] || 0,
+      offset: ctx.params[1] ?? '0',
       filter: null,
       openCreateModal: ctx.hash === 'create',
     };
@@ -1368,8 +1373,9 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: ctx.params['offset'],
+      offset: ctx.params['offset'] ?? '0',
       filter: ctx.params['filter'],
+      openCreateModal: ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1380,7 +1386,9 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      filter: ctx.params['filter'] || null,
+      offset: '0',
+      filter: ctx.params['filter'] ?? null,
+      openCreateModal: ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1407,7 +1415,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: ctx.params[1] || 0,
+      offset: ctx.params[1] ?? '0',
       filter: null,
     };
     // Note that router model view must be updated before view models.
@@ -1419,7 +1427,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: ctx.params['offset'],
+      offset: ctx.params['offset'] ?? '0',
       filter: ctx.params['filter'],
     };
     // Note that router model view must be updated before view models.
@@ -1431,7 +1439,8 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      filter: ctx.params['filter'] || null,
+      offset: '0',
+      filter: ctx.params['filter'] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1439,10 +1448,12 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleQueryRoute(ctx: PageContext) {
-    const state: Partial<SearchViewState> = {
+    const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: ctx.params[2],
+      loading: false,
+      changes: [],
     };
     // Note that router model view must be updated before view models.
     this.setState(state as AppElementParams);
@@ -1453,10 +1464,12 @@ export class GrRouter implements Finalizable, NavigationService {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
-    const state: Partial<SearchViewState> = {
+    const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: undefined,
+      loading: false,
+      changes: [],
     };
     // Note that router model view must be updated before view models.
     this.setState(state as AppElementParams);

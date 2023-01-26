@@ -16,9 +16,14 @@ export interface Page {
   redirect(url: string): void;
   replace(path: string, state: null, init: boolean, dispatch: boolean): void;
   base(url: string): void;
-  start(): void;
+  start(opts: Options): void;
   stop(): void;
   exit(pattern: string | RegExp, ...pageCallback: PageCallback[]): void;
+}
+
+export interface Options {
+  popstate?: boolean;
+  dispatch?: boolean;
 }
 
 // See https://visionmedia.github.io/page.js/ for details

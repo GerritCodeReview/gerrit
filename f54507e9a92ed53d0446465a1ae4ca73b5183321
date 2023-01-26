@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41ab219_e956b541",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-26T09:01:53Z",
+      "side": 1,
+      "message": "Nitzan, can you review this please? I\u0027ll add the final +2 in the end. Thanks",
+      "revId": "f54507e9a92ed53d0446465a1ae4ca73b5183321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -199,6 +199,9 @@ setting.
 
 === Change
 
+* `change/submitted_with_rebaser_approval`: Number of rebased changes that were
+  submitted with a Code-Review approval of the rebaser that would not have been
+  submittable if the rebase was not done on behalf of the uploader.
 * `change/submit_rule_evaluation`: Latency for evaluating submit rules on a
   change.
 * `change/submit_type_evaluation`: Latency for evaluating the submit type on a

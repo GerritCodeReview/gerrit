@@ -99,6 +99,15 @@ public class MagicLabelPredicate extends ChangeIndexPredicate {
     return new EqualsLabelPredicate(args, label, value, account, count);
   }
 
+  public String getLabel() {
+    return magicLabelVote.label();
+  }
+
+  public boolean ignoresUploaderApprovals() {
+    return account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+        || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
+  }
+
   @Nullable
   protected static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind).isPresent()) {

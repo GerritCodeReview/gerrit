@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58bdbc8a_e2535d0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-26T13:54:48Z",
+      "side": 1,
+      "message": "Very nice improvement in tests",
+      "revId": "5aa69ea1f58b8f7fbfadc617556b0b1a32de77a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c844f39_5671de18",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-26T13:54:48Z",
+      "side": 1,
+      "message": "NIT: Maybe we can use pattern _testOnly_\n\n_testOnly_startRouter?\n\nI don\u0027t have a strong preference",
+      "range": {
+        "startLine": 589,
+        "startChar": 2,
+        "endLine": 589,
+        "endChar": 23
+      },
+      "revId": "5aa69ea1f58b8f7fbfadc617556b0b1a32de77a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc810af_a894d0c1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-26T13:54:48Z",
+      "side": 1,
+      "message": "This is probably new, that create works only on FilterOffsetRoute. It looks like good thing",
+      "range": {
+        "startLine": 1378,
+        "startChar": 6,
+        "endLine": 1378,
+        "endChar": 43
+      },
+      "revId": "5aa69ea1f58b8f7fbfadc617556b0b1a32de77a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f134ebe_9926c07a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-26T13:54:48Z",
+      "side": 1,
+      "message": "I really like this new way of testing especially comparing to old way.",
+      "range": {
+        "startLine": 356,
+        "startChar": 6,
+        "endLine": 359,
+        "endChar": 8
+      },
+      "revId": "5aa69ea1f58b8f7fbfadc617556b0b1a32de77a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

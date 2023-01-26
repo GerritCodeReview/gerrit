@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -33,6 +34,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
@@ -41,6 +43,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.MergeUpdateException;
@@ -71,8 +74,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
@@ -244,6 +249,8 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
+  private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
+  private final Counter0 countChangesThatWereSubmittedWithRebaserApproval;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -278,7 +285,9 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
+      SubmitRequirementsEvaluator submitRequirementsEvaluator,
+      MetricMaker metricMaker) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -296,12 +305,73 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
+    this.submitRequirementsEvaluator = submitRequirementsEvaluator;
+
+    this.countChangesThatWereSubmittedWithRebaserApproval =
+        metricMaker.newCounter(
+            "change/submitted_with_rebaser_approval",
+            new Description(
+                    "Number rebased changes that were submitted with an approval of the rebaser"
+                        + " that would not have been submittable if the rebase was not done on"
+                        + " behalf of the uploader (because then the approval of the rebaser would"
+                        + " have not counted due to the usage of 'user=non_uploader' in a submit"
+                        + " requirement expression)")
+                .setRate());
   }
 
   @Override
   public void close() {
     if (orm != null) {
       orm.close();
+    }
+  }
+
+  private void countChangesThatWereSubmittedWithRebaserApproval(ChangeData cd) {
+    Account.Id realUploader = cd.currentPatchSet().realUploader();
+    if (!cd.currentPatchSet().uploader().equals(realUploader)) {
+      // The uploader of the current patch set has been impersonated. Impersonating the uploader is
+      // only allowed on rebase by rebasing on behalf of the uploader. This means the patch set
+      // that is being submitted was created by rebasing on behalf of the uploader. The uploader
+      // of the patch set is the original uploader on whom's behalf the rebase was done. The real
+      // uploader is the user that did the rebase on behalf of the uploader (e.g. by clicking on
+      // the rebase button). If instead of a rebase on behalf of the uploader a normal rebase would
+      // have been done the rebaser would have been the uploader of the patch set. In this case
+      // approvals of the uploader would not count if the submit requirement expression ignores
+      // approvals of the uploader by using 'user=non_uploader' with a label predicate.
+      // To check whether the change would not have been submittable if a normal rebase instead of
+      // a rebase on behalf of the uploader was done, we do:
+      // 1. check whether any submit requirement expressions ignores approvals of the uploader
+      //    (i.e. uses 'user=non_uploader')
+      // 2. check whether any of the submit requirement expressions that ignore approvals of the
+      //    uploader would be non-passing without the approvals of the rebaser (to check this we
+      //    evaluate the submit requirement expression for a copy of ChangeData from which the
+      //    approvals of the uploader have been removed).
+
+      // TODO: The computation of this metric is a bit hacky, we likely want to remove it after
+      // the support for rebasing on behalf of the uploader has been rolled out and its success has
+      // been measured.
+
+      ChangeData changeDataWithOverriddenApprovals = changeDataFactory.create(cd.notes());
+      changeDataWithOverriddenApprovals.setCurrentApprovals(
+          cd.currentApprovals().stream()
+              .filter(psa -> !psa.accountId().equals(realUploader))
+              .collect(toImmutableList()));
+
+      for (SubmitRequirement submitRequirement : cd.submitRequirements().keySet()) {
+        if (submitRequirement
+            .submittabilityExpression()
+            .expressionString()
+            .contains(ChangeQueryBuilder.ARG_ID_NON_UPLOADER)) {
+          if (!submitRequirementsEvaluator
+              .evaluateExpression(
+                  submitRequirement.submittabilityExpression(), changeDataWithOverriddenApprovals)
+              .status()
+              .equals(SubmitRequirementExpressionResult.Status.PASS)) {
+            countChangesThatWereSubmittedWithRebaserApproval.increment();
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -374,6 +444,7 @@ public class MergeOp implements AutoCloseable {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
           checkSubmitRequirements(cd);
+          countChangesThatWereSubmittedWithRebaserApproval(cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());

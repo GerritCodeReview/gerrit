@@ -25,6 +25,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
@@ -66,6 +67,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private TestMetricMaker testMetricMaker;
 
   @Test
   public void cannotRebaseOnBehalfOfUploaderWithAllowConflicts() throws Exception {
@@ -926,6 +928,62 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
     gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
     assertThat(gApi.changes().id(changeToBeRebased.get()).get().submittable).isFalse();
+  }
+
+  @Test
+  public void testSubmittedWithRebaserApprovalMetric() throws Exception {
+    // Require a Code-Review approval from a non-uploader for submit.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName(TestLabels.codeReview().getName())
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          String.format(
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
+      u.save();
+    }
+
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    String uploaderEmail = "uploader@example.com";
+    Account.Id uploader = accountOperations.newAccount().preferredEmail(uploaderEmail).create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    // Create two changes both with the same parent
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    testMetricMaker.reset();
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
+
+    // Rebase it on behalf of the uploader
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+
+    // Approve the change as the rebaser.
+    allowVotingOnCodeReviewToAllUsers();
+    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
+
+    // The change is submittable because the approval is from a user (the rebaser) that is not the
+    // uploader.
+    allowPermissionToAllUsers(Permission.SUBMIT);
+    testMetricMaker.reset();
+    gApi.changes().id(changeToBeRebased.get()).current().submit();
+    assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(1);
   }
 
   private void allowPermissionToAllUsers(String permission) {

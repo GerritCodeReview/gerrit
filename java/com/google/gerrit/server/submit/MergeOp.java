@@ -54,6 +54,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -75,6 +77,8 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.MagicLabelPredicate;
+import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -246,6 +250,8 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
+  private final Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder;
+  private final Counter0 countChangesThatWereSubmittedWithRebaserApproval;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -280,7 +286,9 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
+      Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder,
+      MetricMaker metricMaker) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -298,6 +306,16 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
+    this.submitRequirementChangequeryBuilder = submitRequirementChangequeryBuilder;
+
+    this.countChangesThatWereSubmittedWithRebaserApproval =
+        metricMaker.newCounter(
+            "change/submitted_with_rebaser_approval",
+            new Description(
+                    "Number of rebased changes that were submitted with a Code-Review approval of"
+                        + " the rebaser that would not have been submittable if the rebase was not"
+                        + " done on behalf of the uploader.")
+                .setRate());
   }
 
   @Override
@@ -305,6 +323,79 @@ public class MergeOp implements AutoCloseable {
     if (orm != null) {
       orm.close();
     }
+  }
+
+  private void countChangesThatWereSubmittedWithRebaserApproval(ChangeData cd) {
+    if (isRebaseOnBehalfOfUploader(cd)
+        && hasCodeReviewApprovalOfRealUploader(cd)
+        && ignoresCodeReviewApprovalsOfUploader(cd)) {
+      // 1. The patch set that is being submitted was created by rebasing on behalf of the uploader.
+      // The uploader of the patch set is the original uploader on whom's behalf the rebase was
+      // done. The real uploader is the user that did the rebase on behalf of the uploader (e.g. by
+      // clicking on the rebase button).
+      //
+      // 2. The change has Code-Review approvals of the real uploader (aka the rebaser).
+      //
+      // 3. Code-Review approvals of the uploader are ignored.
+      //
+      // If instead of a rebase on behalf of the uploader a normal rebase would have been done the
+      // rebaser would have been the uploader of the patch set. In this case the Code-Review
+      // approval of the rebaser would not have counted since Code-Review approvals of the uploader
+      // are ignored.
+      //
+      // In this case we assume that the change would not be submittable if a normal rebase had been
+      // done. This is not always correct (e.g. if there are approvals of multiple reviewers) but
+      // it's good enough for the metric.
+      countChangesThatWereSubmittedWithRebaserApproval.increment();
+    }
+  }
+
+  private boolean isRebaseOnBehalfOfUploader(ChangeData cd) {
+    // If the uploader differs from the real uploader the upload of the patch set has been
+    // impersonated. Impersonating the uploader is only allowed on rebase by rebasing on behalf of
+    // the uploader. Hence if the current patch set has different accounts as uploader and real
+    // uploader we can assume that it was created by rebase on behalf of the uploader.
+    return !cd.currentPatchSet().uploader().equals(cd.currentPatchSet().realUploader());
+  }
+
+  private boolean hasCodeReviewApprovalOfRealUploader(ChangeData cd) {
+    return cd.currentApprovals().stream()
+        .anyMatch(psa -> psa.accountId().equals(cd.currentPatchSet().realUploader()));
+  }
+
+  private boolean ignoresCodeReviewApprovalsOfUploader(ChangeData cd) {
+    for (SubmitRequirement submitRequirement : cd.submitRequirements().keySet()) {
+      try {
+        Predicate<ChangeData> predicate =
+            submitRequirementChangequeryBuilder
+                .get()
+                .parse(submitRequirement.submittabilityExpression().expressionString());
+        return ignoresCodeReviewApprovalsOfUploader(predicate);
+      } catch (QueryParseException e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  private boolean ignoresCodeReviewApprovalsOfUploader(Predicate<ChangeData> predicate) {
+    if (predicate.getChildCount() == 0) {
+      if (predicate instanceof MagicLabelPredicate) {
+        MagicLabelPredicate magicLabelPredicate = (MagicLabelPredicate) predicate;
+        if (magicLabelPredicate.getLabel().equalsIgnoreCase("Code-Review")
+            && magicLabelPredicate.ignoresUploaderApprovals()) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    for (Predicate<ChangeData> childPredicate : predicate.getChildren()) {
+      if (ignoresCodeReviewApprovalsOfUploader(childPredicate)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static void checkSubmitRequirements(ChangeData cd) throws ResourceConflictException {
@@ -376,6 +467,7 @@ public class MergeOp implements AutoCloseable {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
           checkSubmitRequirements(cd);
+          countChangesThatWereSubmittedWithRebaserApproval(cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());

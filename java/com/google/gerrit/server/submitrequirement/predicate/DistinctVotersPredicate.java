@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.submitrequirement.predicate;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -22,6 +22,8 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Optional;

@@ -16,6 +16,23 @@
       "message": "Nitzan, can you review this please? I\u0027ll add the final +2 in the end. Thanks",
       "revId": "f54507e9a92ed53d0446465a1ae4ca73b5183321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "346dd536_e951bb2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-01-26T10:31:42Z",
+      "side": 1,
+      "message": "Thanks for this change!\n\nIs it possible to also make a similar change to PushOneCommit (or its generation in AbstractDaemonTest)? Currently these are always uploaded on behalf of `admin`, which makes some tests less clear.\n(e.g. in the test I added in Id667e5a36831c2e636cc31a306e3474bc87c3a89, I\u0027d love to explicitly state the uploader, instead of fetching it from the change data).",
+      "revId": "f54507e9a92ed53d0446465a1ae4ca73b5183321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2723fa66_bdb97c99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-26T15:46:01Z",
+      "side": 1,
+      "message": "Thank you for the quick review, Edwin!\n\nI\u0027ll mark this as abandoned for now, since we discussed other alternatives that we could use in the meantime.",
+      "revId": "0536cc1cff4e635e54684f0cdb61c196b00d31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9343a269_ce6edac3",

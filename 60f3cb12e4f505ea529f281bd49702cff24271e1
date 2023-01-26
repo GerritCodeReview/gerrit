@@ -127,6 +127,24 @@
       "parentUuid": "c3db12b0_91f48d88",
       "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a935f88_6ffd9d24",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-26T14:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "088fd9f6_649a7888",
+      "revId": "60f3cb12e4f505ea529f281bd49702cff24271e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62644f85_0c636cfc",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-26T14:12:27Z",
+      "side": 1,
+      "message": "thanks for the snippet Thomas, I have largely implemented it with some small modification. Mainly I don\u0027t think checking is a username identity exists was the correct approah, someone could only have user/pass login or perhaps a different external identiy and we would try to link the account to LDAP (and fail). I have changed it to check for LDAP and then follow through and ahve added a test casd for this",
+      "parentUuid": "306a3237_67f19a08",
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c31225c_c63a2b25",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 18
@@ -31,6 +49,30 @@
       "writtenOn": "2023-01-26T12:18:07Z",
       "side": 1,
       "message": "I think we should only proceed with deleting the LDAP external ID, if the linking is successful.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 17
+      },
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "089939fd_02003dd0",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-26T14:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c31225c_c63a2b25",
       "range": {
         "startLine": 205,
         "startChar": 0,
@@ -54,6 +96,30 @@
       "writtenOn": "2023-01-26T12:18:07Z",
       "side": 1,
       "message": "nit: Unnecessary else",
+      "range": {
+        "startLine": 214,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 12
+      },
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d046190_24014515",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-01-26T14:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f16bd3_9daa7009",
       "range": {
         "startLine": 214,
         "startChar": 6,

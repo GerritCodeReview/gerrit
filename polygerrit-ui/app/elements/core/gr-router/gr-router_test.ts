@@ -373,9 +373,9 @@ suite('gr-router tests', () => {
         view: GerritView.SETTINGS,
         emailToken: 'asdf',
       });
-      await checkUrlToState('/settings/VE/asdf%2520qwer', {
+      await checkUrlToState('/settings/VE/asdf%40qwer', {
         view: GerritView.SETTINGS,
-        emailToken: 'asdf+qwer',
+        emailToken: 'asdf@qwer',
       });
     });
 

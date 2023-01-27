@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getBaseUrl} from './url-util';
+import {encodeURL, getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
 import {
   NumericChangeId,

@@ -56,10 +56,10 @@ suite('search view state tests', () => {
 
     // The presence of the query param overrides other options.
     options.query = 'foo$bar';
-    assert.equal(createSearchUrl(options), '/q/foo%2524bar');
+    assert.equal(createSearchUrl(options), '/q/foo%24bar');
 
     options.offset = 100;
-    assert.equal(createSearchUrl(options), '/q/foo%2524bar,100');
+    assert.equal(createSearchUrl(options), '/q/foo%24bar,100');
 
     options = {statuses: ['a', 'b', 'c']};
     assert.equal(

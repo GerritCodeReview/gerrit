@@ -169,7 +169,7 @@ export class GrListView extends LitElement {
         if (!this.isConnected || !this.path) return;
         if (filter) {
           this.getNavigation().setUrl(
-            `${this.path}/q/filter:${encodeURL(filter, false)}`
+            `${this.path}/q/filter:${encodeURL(filter)}`
           );
           return;
         }
@@ -190,7 +190,7 @@ export class GrListView extends LitElement {
     const newOffset = Math.max(0, offset + this.itemsPerPage * direction);
     let href = getBaseUrl() + (this.path ?? '');
     if (this.filter) {
-      href += '/q/filter:' + encodeURL(this.filter, false);
+      href += '/q/filter:' + encodeURL(this.filter);
     }
     if (newOffset > 0) {
       href += `,${newOffset}`;

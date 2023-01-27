@@ -438,7 +438,7 @@ export class GrRepoDetailList extends LitElement {
     // TODO: Replace with `createRepoUrl()`, but be aware that `encodeURL()`
     // gets `false` as a second parameter here. The router pattern in gr-router
     // does not handle the filter URLs, if the repo is not encoded!
-    return `/admin/repos/${encodeURL(repo ?? '', false)},${detailType}`;
+    return `/admin/repos/${encodeURL(repo ?? '')},${detailType}`;
   }
 
   private computeWeblink(repo: ProjectInfo | BranchInfo | TagInfo) {

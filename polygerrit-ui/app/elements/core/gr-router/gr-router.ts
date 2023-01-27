@@ -188,10 +188,8 @@ const RoutePattern = {
 
   PLUGINS: /^\/plugins\/(.+)$/,
 
-  // Matches /admin/plugins[,<offset>][/].
-  PLUGIN_LIST_OFFSET: /^\/admin\/plugins(,(\d+))?(\/)?$/,
-  PLUGIN_LIST_FILTER: '/admin/plugins/q/filter::filter',
-  PLUGIN_LIST_FILTER_OFFSET: '/admin/plugins/q/filter::filter,:offset',
+  // Matches /admin/plugins with optional filter and offset.
+  PLUGIN_LIST: /^\/admin\/plugins(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
 
   QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
@@ -833,21 +831,7 @@ export class GrRouter implements Finalizable, NavigationService {
     );
 
     this.mapRoute(
-      RoutePattern.PLUGIN_LIST_OFFSET,
-      'handlePluginListOffsetRoute',
-      ctx => this.handlePluginListOffsetRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.PLUGIN_LIST_FILTER_OFFSET,
-      'handlePluginListFilterOffsetRoute',
-      ctx => this.handlePluginListFilterOffsetRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.PLUGIN_LIST_FILTER,
+      RoutePattern.PLUGIN_LIST,
       'handlePluginListFilterRoute',
       ctx => this.handlePluginListFilterRoute(ctx),
       true
@@ -1411,36 +1395,12 @@ export class GrRouter implements Finalizable, NavigationService {
     this.redirect(ctx.path + ',general');
   }
 
-  handlePluginListOffsetRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.PLUGINS,
-      offset: ctx.params[1] ?? '0',
-      filter: null,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handlePluginListFilterOffsetRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.PLUGINS,
-      offset: ctx.params['offset'] ?? '0',
-      filter: ctx.params['filter'],
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
   handlePluginListFilterRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: '0',
-      filter: ctx.params['filter'] ?? null,
+      offset: ctx.params[3] ?? '0',
+      filter: ctx.params[1] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

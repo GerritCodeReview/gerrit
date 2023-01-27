@@ -157,9 +157,7 @@ suite('gr-router tests', () => {
       'handleGroupRoute',
       'handleGroupSelfRedirectRoute',
       'handleNewAgreementsRoute',
-      'handlePluginListFilterOffsetRoute',
       'handlePluginListFilterRoute',
-      'handlePluginListOffsetRoute',
       'handlePluginListRoute',
       'handleRepoCommandsRoute',
       'handleRepoEditFileRoute',
@@ -799,36 +797,33 @@ suite('gr-router tests', () => {
       });
     });
 
-    suite('PLUGIN_LIST_*', () => {
-      test('PLUGIN_LIST_OFFSET', async () => {
-        // PLUGIN_LIST_OFFSET: /^\/admin\/plugins(,(\d+))?(\/)?$/,
-        await checkUrlToState('/admin/plugins', {
-          ...createAdminPluginsViewState(),
-        });
-        await checkUrlToState('/admin/plugins/', {
-          ...createAdminPluginsViewState(),
-        });
-        await checkUrlToState('/admin/plugins,42', {
-          ...createAdminPluginsViewState(),
-          offset: '42',
-        });
+    test('PLUGIN_LIST', async () => {
+      await checkUrlToState('/admin/plugins', {
+        ...createAdminPluginsViewState(),
       });
-
-      test('PLUGIN_LIST_FILTER_OFFSET', async () => {
-        // PLUGIN_LIST_FILTER_OFFSET: '/admin/plugins/q/filter::filter,:offset',
-        await checkUrlToState('/admin/plugins/q/filter:foo,42', {
-          ...createAdminPluginsViewState(),
-          offset: '42',
-          filter: 'foo',
-        });
+      await checkUrlToState('/admin/plugins/', {
+        ...createAdminPluginsViewState(),
       });
-
-      test('PLUGIN_LIST_FILTER', async () => {
-        // PLUGIN_LIST_FILTER: '/admin/plugins/q/filter::filter',
-        await checkUrlToState('/admin/plugins/q/filter:foo', {
-          ...createAdminPluginsViewState(),
-          filter: 'foo',
-        });
+      await checkUrlToState('/admin/plugins,42', {
+        ...createAdminPluginsViewState(),
+        offset: '42',
+      });
+      await checkUrlToState('/admin/plugins/q/filter:foo', {
+        ...createAdminPluginsViewState(),
+        filter: 'foo',
+      });
+      await checkUrlToState('/admin/plugins/q/filter:foo%2F%20%2525%252F', {
+        ...createAdminPluginsViewState(),
+        filter: 'foo/ %/',
+      });
+      await checkUrlToState('/admin/plugins/q/filter:foo,42', {
+        ...createAdminPluginsViewState(),
+        offset: '42',
+        filter: 'foo',
+      });
+      await checkUrlToState('/admin/plugins/q/filter:foo,asdf', {
+        ...createAdminPluginsViewState(),
+        filter: 'foo,asdf',
       });
     });
 

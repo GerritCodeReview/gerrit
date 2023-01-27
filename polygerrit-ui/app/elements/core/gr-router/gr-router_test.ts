@@ -165,9 +165,7 @@ suite('gr-router tests', () => {
     assert.deepEqual(actualRequiresAuth, shouldRequireAutoAuth);
 
     const unauthenticatedHandlers = [
-      'handleBranchListFilterOffsetRoute',
-      'handleBranchListFilterRoute',
-      'handleBranchListOffsetRoute',
+      'handleBranchListRoute',
       'handleChangeIdQueryRoute',
       'handleChangeNumberLegacyRoute',
       'handleChangeRoute',
@@ -193,9 +191,7 @@ suite('gr-router tests', () => {
       'handleQueryLegacySuffixRoute',
       'handleQueryRoute',
       'handleRegisterRoute',
-      'handleTagListFilterOffsetRoute',
-      'handleTagListFilterRoute',
-      'handleTagListOffsetRoute',
+      'handleTagListRoute',
       'handlePluginScreen',
     ];
 
@@ -682,72 +678,66 @@ suite('gr-router tests', () => {
         });
       });
 
-      suite('BRANCH_LIST_*', () => {
-        test('BRANCH_LIST_OFFSET', async () => {
-          // BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
-          await checkUrlToState('/admin/repos/4321,branches', {
-            ...createRepoBranchesViewState(),
-            repo: '4321' as RepoName,
-          });
-          await checkUrlToState('/admin/repos/4321,branches,42', {
-            ...createRepoBranchesViewState(),
-            repo: '4321' as RepoName,
-            offset: '42',
-          });
+      test('BRANCH_LIST', async () => {
+        await checkUrlToState('/admin/repos/4321,branches', {
+          ...createRepoBranchesViewState(),
+          repo: '4321' as RepoName,
         });
-
-        test('BRANCH_LIST_FILTER_OFFSET', async () => {
-          // BRANCH_LIST_FILTER_OFFSET: '/admin/repos/:repo,branches/q/filter::filter,:offset',
-          await checkUrlToState('/admin/repos/4321,branches/q/filter:foo,42', {
-            ...createRepoBranchesViewState(),
-            repo: '4321' as RepoName,
-            offset: '42',
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos/4321,branches,42', {
+          ...createRepoBranchesViewState(),
+          repo: '4321' as RepoName,
+          offset: '42',
         });
-
-        test('BRANCH_LIST_FILTER', async () => {
-          // BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
-          await checkUrlToState('/admin/repos/4321,branches/q/filter:foo', {
-            ...createRepoBranchesViewState(),
-            repo: '4321' as RepoName,
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos/4321,branches/q/filter:foo,42', {
+          ...createRepoBranchesViewState(),
+          repo: '4321' as RepoName,
+          offset: '42',
+          filter: 'foo',
         });
+        await checkUrlToState('/admin/repos/4321,branches/q/filter:foo', {
+          ...createRepoBranchesViewState(),
+          repo: '4321' as RepoName,
+          filter: 'foo',
+        });
+        await checkUrlToState(
+          '/admin/repos/asdf/%2F%20%2525%252Fqwer,branches/q/filter:foo/%2F%20%2525%252F',
+          {
+            ...createRepoBranchesViewState(),
+            repo: 'asdf// %/qwer' as RepoName,
+            filter: 'foo// %/',
+          }
+        );
       });
 
-      suite('TAG_LIST_*', () => {
-        test('TAG_LIST_OFFSET', async () => {
-          // TAG_LIST_OFFSET: /^\/admin\/repos\/(.+),tags(,(.+))?$/,
-          await checkUrlToState('/admin/repos/4321,tags', {
-            ...createRepoTagsViewState(),
-            repo: '4321' as RepoName,
-          });
-          await checkUrlToState('/admin/repos/4321,tags,42', {
-            ...createRepoTagsViewState(),
-            repo: '4321' as RepoName,
-            offset: '42',
-          });
+      test('TAG_LIST', async () => {
+        await checkUrlToState('/admin/repos/4321,tags', {
+          ...createRepoTagsViewState(),
+          repo: '4321' as RepoName,
         });
-
-        test('TAG_LIST_FILTER_OFFSET', async () => {
-          // TAG_LIST_FILTER_OFFSET: '/admin/repos/:repo,tags/q/filter::filter,:offset',
-          await checkUrlToState('/admin/repos/4321,tags/q/filter:foo,42', {
-            ...createRepoTagsViewState(),
-            repo: '4321' as RepoName,
-            offset: '42',
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos/4321,tags,42', {
+          ...createRepoTagsViewState(),
+          repo: '4321' as RepoName,
+          offset: '42',
         });
-
-        test('TAG_LIST_FILTER', async () => {
-          // TAG_LIST_FILTER: '/admin/repos/:repo,tags/q/filter::filter',
-          await checkUrlToState('/admin/repos/4321,tags/q/filter:foo', {
-            ...createRepoTagsViewState(),
-            repo: '4321' as RepoName,
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos/4321,tags/q/filter:foo,42', {
+          ...createRepoTagsViewState(),
+          repo: '4321' as RepoName,
+          offset: '42',
+          filter: 'foo',
         });
+        await checkUrlToState('/admin/repos/4321,tags/q/filter:foo', {
+          ...createRepoTagsViewState(),
+          repo: '4321' as RepoName,
+          filter: 'foo',
+        });
+        await checkUrlToState(
+          '/admin/repos/asdf/%2F%20%2525%252Fqwer,tags/q/filter:foo/%2F%20%2525%252F',
+          {
+            ...createRepoTagsViewState(),
+            repo: 'asdf// %/qwer' as RepoName,
+            filter: 'foo// %/',
+          }
+        );
       });
 
       test('REPO_LIST', async () => {

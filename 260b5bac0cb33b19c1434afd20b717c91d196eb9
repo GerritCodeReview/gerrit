@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d82138_d3897fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-27T09:21:03Z",
+      "side": 1,
+      "message": "Can we have summary of this reasoning documented in the codebase.\nProbably in gr-router.ts, Maybe file level docstring. Something like\n\n\u003e All routes must be regex patterns. We want to avoid  special handling of page.js when passing in strings as much as possible (see \u003clink to this change\u003e)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "260b5bac0cb33b19c1434afd20b717c91d196eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

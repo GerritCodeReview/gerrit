@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b61a959_401dbd4e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-01-27T09:16:07Z",
+      "side": 1,
+      "message": "Should the test include the opposite behaviour as well? (When pattern is not matched)",
+      "range": {
+        "startLine": 1020,
+        "startChar": 6,
+        "endLine": 1022,
+        "endChar": 47
+      },
+      "revId": "35882f8d85c5ba20579a11d8532c895e6393d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

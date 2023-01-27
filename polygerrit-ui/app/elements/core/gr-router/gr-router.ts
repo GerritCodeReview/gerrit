@@ -165,11 +165,6 @@ const RoutePattern = {
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
-  // Matches /admin/repos[,<offset>][/].
-  REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
-  REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
-  REPO_LIST_FILTER_OFFSET: '/admin/repos/q/filter::filter,:offset',
-
   // Matches /admin/repos/<repo>,branches[,<offset>].
   BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
   BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
@@ -187,6 +182,8 @@ const RoutePattern = {
   PLUGIN_LIST: /^\/admin\/plugins(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
   // Matches /admin/groups with optional filter and offset.
   GROUP_LIST: /^\/admin\/groups(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
+  // Matches /admin/repos with optional filter and offset.
+  REPO_LIST: /^\/admin\/repos(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
 
   QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
@@ -787,22 +784,8 @@ export class GrRouter implements Finalizable, NavigationService {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.REPO_LIST_OFFSET,
-      'handleRepoListOffsetRoute',
-      ctx => this.handleRepoListOffsetRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.REPO_LIST_FILTER_OFFSET,
-      'handleRepoListFilterOffsetRoute',
-      ctx => this.handleRepoListFilterOffsetRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.REPO_LIST_FILTER,
-      'handleRepoListFilterRoute',
-      ctx => this.handleRepoListFilterRoute(ctx)
+    this.mapRoute(RoutePattern.REPO_LIST, 'handleRepoListRoute', ctx =>
+      this.handleRepoListRoute(ctx)
     );
 
     this.mapRoute(RoutePattern.REPO, 'handleRepoRoute', ctx =>
@@ -1298,39 +1281,14 @@ export class GrRouter implements Finalizable, NavigationService {
     this.repoViewModel.setState(state);
   }
 
-  handleRepoListOffsetRoute(ctx: PageContext) {
+  handleRepoListRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: ctx.params[1] ?? '0',
-      filter: null,
-      openCreateModal: ctx.hash === 'create',
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handleRepoListFilterOffsetRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.REPOS,
-      offset: ctx.params['offset'] ?? '0',
-      filter: ctx.params['filter'],
-      openCreateModal: false,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handleRepoListFilterRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.REPOS,
-      offset: '0',
-      filter: ctx.params['filter'] ?? null,
-      openCreateModal: false,
+      offset: ctx.params[3] ?? '0',
+      filter: ctx.params[1] ?? null,
+      openCreateModal:
+        !ctx.params[3] && !ctx.params[1] && ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

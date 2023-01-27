@@ -188,9 +188,7 @@ suite('gr-router tests', () => {
       'handleRepoAccessRoute',
       'handleRepoDashboardsRoute',
       'handleRepoGeneralRoute',
-      'handleRepoListFilterOffsetRoute',
-      'handleRepoListFilterRoute',
-      'handleRepoListOffsetRoute',
+      'handleRepoListRoute',
       'handleRepoRoute',
       'handleQueryLegacySuffixRoute',
       'handleQueryRoute',
@@ -752,38 +750,33 @@ suite('gr-router tests', () => {
         });
       });
 
-      suite('REPO_LIST_*', () => {
-        test('REPO_LIST_OFFSET', async () => {
-          // REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
-          await checkUrlToState('/admin/repos', {
-            ...createAdminReposViewState(),
-          });
-          await checkUrlToState('/admin/repos,42', {
-            ...createAdminReposViewState(),
-            offset: '42',
-          });
-          await checkUrlToState('/admin/repos,42#create', {
-            ...createAdminReposViewState(),
-            offset: '42',
-            openCreateModal: true,
-          });
+      test('REPO_LIST', async () => {
+        await checkUrlToState('/admin/repos', {
+          ...createAdminReposViewState(),
         });
-
-        test('REPO_LIST_FILTER_OFFSET', async () => {
-          // REPO_LIST_FILTER_OFFSET: '/admin/repos/q/filter::filter,:offset',
-          await checkUrlToState('/admin/repos/q/filter:foo,42', {
-            ...createAdminReposViewState(),
-            offset: '42',
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos/', {
+          ...createAdminReposViewState(),
         });
-
-        test('REPO_LIST_FILTER', async () => {
-          // REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
-          await checkUrlToState('/admin/repos/q/filter:foo', {
-            ...createAdminReposViewState(),
-            filter: 'foo',
-          });
+        await checkUrlToState('/admin/repos,42', {
+          ...createAdminReposViewState(),
+          offset: '42',
+        });
+        await checkUrlToState('/admin/repos#create', {
+          ...createAdminReposViewState(),
+          openCreateModal: true,
+        });
+        await checkUrlToState('/admin/repos/q/filter:foo', {
+          ...createAdminReposViewState(),
+          filter: 'foo',
+        });
+        await checkUrlToState('/admin/repos/q/filter:foo/%2F%20%2525%252F', {
+          ...createAdminReposViewState(),
+          filter: 'foo// %/',
+        });
+        await checkUrlToState('/admin/repos/q/filter:foo,42', {
+          ...createAdminReposViewState(),
+          filter: 'foo',
+          offset: '42',
         });
       });
     });

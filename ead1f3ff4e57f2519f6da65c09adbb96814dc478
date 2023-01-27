@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb966f4_c3e20d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T22:39:07Z",
+      "side": 1,
+      "message": "This is now ready for review, thanks everyone for the feedback. Once this is merged, the v3.7.1 should be complete and ready to be released.",
+      "revId": "ead1f3ff4e57f2519f6da65c09adbb96814dc478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

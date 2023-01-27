@@ -16,6 +16,24 @@
       "message": "```suggestion\n  REPO_LIST: /^\\/admin\\/repos(\\/q\\/filter:([^,]*?))?(,(\\d+))?(\\/)?$/,\n```",
       "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627bea9d_95d69d7f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-27T13:43:19Z",
+      "side": 1,
+      "message": "Use non-capturing groups for groups you do not intend to capture. So\n\n```\n  REPO_LIST: /^\\/admin\\/repos(?:\\/q\\/filter:([^,]*?))?(?:,(\\d+))?(\\/)?$/,\n```",
+      "parentUuid": "c7a978ee_f6cd18d5",
+      "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

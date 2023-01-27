@@ -77,7 +77,7 @@ suite('gr-list-view tests', () => {
     element.filter = 'plugins/';
     assert.equal(
       element.computeNavLink(1),
-      '/admin/projects/q/filter:plugins%252F,50'
+      '/admin/projects/q/filter:plugins/,50'
     );
   });
 

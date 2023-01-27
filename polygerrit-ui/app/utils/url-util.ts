@@ -81,18 +81,56 @@ export function testOnly_clearDocsBaseUrlCache() {
 }
 
 /**
- * Pretty-encodes a URL. Double-encodes the string, and then replaces
- *   benevolent characters for legibility.
+ * Encodes *parts* of a URL. See inline comments below for the details.
+ * Note specifically that ? & = # are encoded. So this is very close to
+ * encodeURIComponent() with some tweaks.
  */
-export function encodeURL(url: string, replaceSlashes?: boolean): string {
-  // @see Issue 4255 regarding double-encoding.
-  let output = encodeURIComponent(encodeURIComponent(url));
-  // @see Issue 4577 regarding more readable URLs.
-  output = output.replace(/%253A/g, ':');
-  output = output.replace(/%2520/g, '+');
-  if (replaceSlashes) {
-    output = output.replace(/%252F/g, '/');
-  }
+export function encodeURL(url: string): string {
+  // page.js decodes the entire URL, and then decodes once more the
+  // individual regex matching groups. It uses `decodeURIComponent()`, which
+  // will choke on singular `%` chars without two trailing digits. We prefer
+  // to not double encode *everything* (just for readaiblity and simplicity),
+  // but `%` *must* be double encoded.
+  let output = url.replaceAll('%', '%25');
+
+  // This escapes ALL characters EXCEPT:
+  // A–Z a–z 0–9 - _ . ! ~ * ' ( )
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+  output = encodeURIComponent(output);
+
+  // If we would use `encodeURI()` instead of `encodeURIComponent()`, then we
+  // would also NOT encode:
+  // ; / ? : @ & = + $ , #
+  //
+  // That would be more readable, but for example ? and & have special meaning
+  // in the URL, so they must be encoded. Let's discuss all these chars and
+  // decide whether we have to encode them or not.
+  //
+  // ? & = # have to be encoded. Otherwise we might mess up the URL.
+  //
+  // : @ do not have to be encoded, because we are only dealing with path,
+  // query and fragment of the URL, not with scheme, user, host, port.
+  // For search queries it is much nicer to not encode those chars, think of
+  // searching for `owner:spearce@spearce.org`.
+  //
+  // / does not have to be encoded, because we don't care about individual path
+  // components. File path and repo names are so much nicer to read without /
+  // being encoded!
+  //
+  // + must be encoded, because we want to use it instead of %20 for spaces, see
+  // below.
+  //
+  // ; $ , probably don't have to be encoded, but we don't bother about them
+  // much, so we don't reverse the encoding here, but we don't think it would
+  // cause any harm, if we did.
+  output = output.replace(/%3A/g, ':');
+  output = output.replace(/%40/g, '@');
+  output = output.replace(/%2F/g, '/');
+
+  // page.js replaces `+` by ` ` in addition to calling `decodeURIComponent()`.
+  // So we can use `+` to increase readability.
+  output = output.replace(/%20/g, '+');
+
   return output;
 }
 

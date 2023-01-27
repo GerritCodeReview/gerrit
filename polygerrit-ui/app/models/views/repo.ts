@@ -36,7 +36,7 @@ export interface RepoViewState extends ViewState {
 }
 
 export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
-  let url = `/admin/repos/${encodeURL(`${state.repo}`, true)}`;
+  let url = `/admin/repos/${encodeURL(`${state.repo}`)}`;
   if (state.detail === RepoDetailView.GENERAL) {
     url += ',general';
   } else if (state.detail === RepoDetailView.ACCESS) {

@@ -173,7 +173,7 @@ export class GrPluginList extends LitElement {
   }
 
   private computePluginUrl(id: string) {
-    return getBaseUrl() + '/' + encodeURL(id, true);
+    return getBaseUrl() + '/' + encodeURL(id);
   }
 }
 

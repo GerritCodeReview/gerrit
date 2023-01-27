@@ -343,7 +343,7 @@ export class GrRuleEditor extends LitElement {
   // private but used in test
   computeGroupPath(groupId?: string) {
     if (!groupId) return;
-    return `${getBaseUrl()}/admin/groups/${encodeURL(groupId, true)}`;
+    return `${getBaseUrl()}/admin/groups/${encodeURL(groupId)}`;
   }
 
   // private but used in test

@@ -373,9 +373,9 @@ suite('gr-router tests', () => {
         view: GerritView.SETTINGS,
         emailToken: 'asdf',
       });
-      await checkUrlToState('/settings/VE/asdf%2520qwer', {
+      await checkUrlToState('/settings/VE/asdf%40qwer', {
         view: GerritView.SETTINGS,
-        emailToken: 'asdf+qwer',
+        emailToken: 'asdf@qwer',
       });
     });
 
@@ -1008,8 +1008,8 @@ suite('gr-router tests', () => {
         '/Documentation/q/filter:asdf'
       );
       await checkRedirect(
-        '/Documentation/q/as%20df',
-        '/Documentation/q/filter:as%20df'
+        '/Documentation/q/as%3Fdf',
+        '/Documentation/q/filter:as%3Fdf'
       );
 
       await checkUrlToState('/Documentation/q/filter:', {

@@ -165,17 +165,6 @@ const RoutePattern = {
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
-  // Matches /admin/repos/<repo>,branches[,<offset>].
-  BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
-  BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
-  BRANCH_LIST_FILTER_OFFSET:
-    '/admin/repos/:repo,branches/q/filter::filter,:offset',
-
-  // Matches /admin/repos/<repo>,tags[,<offset>].
-  TAG_LIST_OFFSET: /^\/admin\/repos\/(.+),tags(,(.+))?$/,
-  TAG_LIST_FILTER: '/admin/repos/:repo,tags/q/filter::filter',
-  TAG_LIST_FILTER_OFFSET: '/admin/repos/:repo,tags/q/filter::filter,:offset',
-
   PLUGINS: /^\/plugins\/(.+)$/,
 
   // Matches /admin/plugins with optional filter and offset.
@@ -184,6 +173,11 @@ const RoutePattern = {
   GROUP_LIST: /^\/admin\/groups(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
   // Matches /admin/repos with optional filter and offset.
   REPO_LIST: /^\/admin\/repos(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
+  // Matches /admin/repos/$REPO,branches with optional filter and offset.
+  BRANCH_LIST:
+    /^\/admin\/repos\/(.+),branches(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
+  // Matches /admin/repos/$REPO,tags with optional filter and offset.
+  TAG_LIST: /^\/admin\/repos\/(.+),tags(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
 
   QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
@@ -734,40 +728,12 @@ export class GrRouter implements Finalizable, NavigationService {
       ctx => this.handleRepoDashboardsRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.BRANCH_LIST_OFFSET,
-      'handleBranchListOffsetRoute',
-      ctx => this.handleBranchListOffsetRoute(ctx)
+    this.mapRoute(RoutePattern.BRANCH_LIST, 'handleBranchListRoute', ctx =>
+      this.handleBranchListRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.BRANCH_LIST_FILTER_OFFSET,
-      'handleBranchListFilterOffsetRoute',
-      ctx => this.handleBranchListFilterOffsetRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.BRANCH_LIST_FILTER,
-      'handleBranchListFilterRoute',
-      ctx => this.handleBranchListFilterRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.TAG_LIST_OFFSET,
-      'handleTagListOffsetRoute',
-      ctx => this.handleTagListOffsetRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.TAG_LIST_FILTER_OFFSET,
-      'handleTagListFilterOffsetRoute',
-      ctx => this.handleTagListFilterOffsetRoute(ctx)
-    );
-
-    this.mapRoute(
-      RoutePattern.TAG_LIST_FILTER,
-      'handleTagListFilterRoute',
-      ctx => this.handleTagListFilterRoute(ctx)
+    this.mapRoute(RoutePattern.TAG_LIST, 'handleTagListRoute', ctx =>
+      this.handleTagListRoute(ctx)
     );
 
     this.mapRoute(
@@ -1203,78 +1169,26 @@ export class GrRouter implements Finalizable, NavigationService {
     this.reporting.setRepoName(repo);
   }
 
-  handleBranchListOffsetRoute(ctx: PageContext) {
+  handleBranchListRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] ?? '0',
-      filter: null,
+      offset: ctx.params[4] ?? '0',
+      filter: ctx.params[2] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
 
-  handleBranchListFilterOffsetRoute(ctx: PageContext) {
-    const state: RepoViewState = {
-      view: GerritView.REPO,
-      detail: RepoDetailView.BRANCHES,
-      repo: ctx.params['repo'] as RepoName,
-      offset: ctx.params['offset'] ?? '0',
-      filter: ctx.params['filter'] ?? null,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.repoViewModel.setState(state);
-  }
-
-  handleBranchListFilterRoute(ctx: PageContext) {
-    const state: RepoViewState = {
-      view: GerritView.REPO,
-      detail: RepoDetailView.BRANCHES,
-      repo: ctx.params['repo'] as RepoName,
-      filter: ctx.params['filter'] ?? null,
-      offset: '0',
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.repoViewModel.setState(state);
-  }
-
-  handleTagListOffsetRoute(ctx: PageContext) {
+  handleTagListRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] ?? '0',
-      filter: null,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.repoViewModel.setState(state);
-  }
-
-  handleTagListFilterOffsetRoute(ctx: PageContext) {
-    const state: RepoViewState = {
-      view: GerritView.REPO,
-      detail: RepoDetailView.TAGS,
-      repo: ctx.params['repo'] as RepoName,
-      offset: ctx.params['offset'] ?? '0',
-      filter: ctx.params['filter'],
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.repoViewModel.setState(state);
-  }
-
-  handleTagListFilterRoute(ctx: PageContext) {
-    const state: RepoViewState = {
-      view: GerritView.REPO,
-      detail: RepoDetailView.TAGS,
-      repo: ctx.params['repo'] as RepoName,
-      offset: '0',
-      filter: ctx.params['filter'] ?? null,
+      offset: ctx.params[4] ?? '0',
+      filter: ctx.params[2] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

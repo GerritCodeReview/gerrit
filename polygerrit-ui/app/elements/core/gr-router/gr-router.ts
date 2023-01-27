@@ -253,7 +253,7 @@ const RoutePattern = {
 
   PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
 
-  DOCUMENTATION_SEARCH_FILTER: '/Documentation/q/filter::filter',
+  DOCUMENTATION_SEARCH_FILTER: /^\/Documentation\/q\/filter:(.*)$/,
   DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
   DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
 };
@@ -1776,7 +1776,7 @@ export class GrRouter implements Finalizable, NavigationService {
   handleDocumentationSearchRoute(ctx: PageContext) {
     const state: DocumentationViewState = {
       view: GerritView.DOCUMENTATION_SEARCH,
-      filter: ctx.params['filter'] || null,
+      filter: ctx.params[0] ?? '',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

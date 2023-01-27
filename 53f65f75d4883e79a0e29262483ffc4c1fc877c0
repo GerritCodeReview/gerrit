@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83851a1a_4dfeb2eb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-27T13:45:03Z",
+      "side": 1,
+      "message": "```suggestion\n  // Matches /admin/repos/$REPO,branches with optional filter and offset.\n  BRANCH_LIST:\n    /^\\/admin\\/repos\\/(.+),branches(?:\\/q\\/filter:([^,]*?))?(?:,(\\d+))?(?:\\/)?$/,\n  // Matches /admin/repos/$REPO,tags with optional filter and offset.\n  TAG_LIST: /^\\/admin\\/repos\\/(.+),tags(?:\\/q\\/filter:([^,]*?))?(?:,(\\d+))?(?:\\/)?$/,\n```",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 76
+      },
+      "revId": "53f65f75d4883e79a0e29262483ffc4c1fc877c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

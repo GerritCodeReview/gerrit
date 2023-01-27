@@ -12,6 +12,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-file-tree/gr-file-tree';
 import '../../shared/revision-info/revision-info';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -688,6 +689,9 @@ export class GrDiffView extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        .mainContainer {
+          display: flex;
+        }
       `,
     ];
   }
@@ -768,25 +772,31 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <gr-diff-host
-        id="diffHost"
-        .changeNum=${this.changeNum}
-        .change=${this.change}
-        .patchRange=${this.patchRange}
-        .file=${file}
-        .lineOfInterest=${this.getLineOfInterest()}
-        .path=${this.path}
-        .projectName=${this.change?.project}
-        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onLineSelected}
-        @line-selected=${this.onLineSelected}
-        @diff-changed=${this.onDiffChanged}
-        @edit-weblinks-changed=${this.onEditWeblinksChanged}
-        @files-weblinks-changed=${this.onFilesWeblinksChanged}
-        @is-image-diff-changed=${this.onIsImageDiffChanged}
-        @render=${this.reInitCursor}
-      >
-      </gr-diff-host>
+      <div class="mainContainer">
+        <gr-file-tree
+          .files=${this.files.sortedPaths}
+          .selectedPath=${this.path}
+        ></gr-file-tree>
+        <gr-diff-host
+          id="diffHost"
+          .changeNum=${this.changeNum}
+          .change=${this.change}
+          .patchRange=${this.patchRange}
+          .file=${file}
+          .lineOfInterest=${this.getLineOfInterest()}
+          .path=${this.path}
+          .projectName=${this.change?.project}
+          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+          @comment-anchor-tap=${this.onLineSelected}
+          @line-selected=${this.onLineSelected}
+          @diff-changed=${this.onDiffChanged}
+          @edit-weblinks-changed=${this.onEditWeblinksChanged}
+          @files-weblinks-changed=${this.onFilesWeblinksChanged}
+          @is-image-diff-changed=${this.onIsImageDiffChanged}
+          @render=${this.reInitCursor}
+        >
+        </gr-diff-host>
+      </div>
       ${this.renderDialogs()}
     `;
   }

@@ -52,6 +52,24 @@
       "parentUuid": "e2c5fa59_7c416849",
       "revId": "de7d366b0f3e2f68cdb173bcdf6a6d89f4dbee9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5f6fa71_50a5fbcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-27T23:24:13Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e @luca.milanesio@gmail.com @sasa.zivkov@sap.com does this need to wait for extra tests run on this JGit version like https://www.gerritcodereview.com/2022-01-12-esc-minutes.html#definition-of-a-policy-for-updating-jgit-on-stable-gerrit-branches describes?\n\u003e \u003e \n\u003e \u003e [1] was merged on the 7th of January, we just need a confirmation from Google that has been tested in prod for 2 weeks, as mentioned in [2].\n\n@ekempin@google.com can you confirm how long Google Gerrit servers have been running with https://gerrit-review.googlesource.com/c/gerrit/+/355916 ?\n\n\u003e \u003e \u003e Also, that post seems to be saying the tests would run on master, but should there be tests run with stable-3.5 (too)?\n\u003e \u003e \n\u003e \u003e More tests are always more than welcome 👍\n\u003e \n\u003e Great, I\u0027ll add a V+1 when we complete our 3.5 stress testing with this change.\n\nTesting looks good so far, I\u0027m just waiting on one set of comparison data to be presented.",
+      "parentUuid": "945e02c9_7f8c11fa",
+      "revId": "de7d366b0f3e2f68cdb173bcdf6a6d89f4dbee9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

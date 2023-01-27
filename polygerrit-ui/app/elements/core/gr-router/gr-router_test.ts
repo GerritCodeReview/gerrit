@@ -150,9 +150,7 @@ suite('gr-router tests', () => {
       'handleDiffEditRoute',
       'handleGroupAuditLogRoute',
       'handleGroupInfoRoute',
-      'handleGroupListFilterOffsetRoute',
-      'handleGroupListFilterRoute',
-      'handleGroupListOffsetRoute',
+      'handleGroupListRoute',
       'handleGroupMembersRoute',
       'handleGroupRoute',
       'handleGroupSelfRedirectRoute',
@@ -586,10 +584,8 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('GROUP_LIST_*', async () => {
-        // GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
-        // GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
-        // GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
+      test('GROUP_LIST', async () => {
+        // GROUP_LIST: /^\/admin\/groups(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
 
         const defaultState: AdminViewState = {
           view: GerritView.ADMIN,
@@ -605,40 +601,35 @@ suite('gr-router tests', () => {
           ...defaultState,
           openCreateModal: true,
         });
-        await checkUrlToState('/admin/groups,123', {
+        await checkUrlToState('/admin/groups,42', {
           ...defaultState,
-          offset: '123',
+          offset: '42',
         });
-        await checkUrlToState('/admin/groups,123#create', {
+        // #create is ignored when there is an offset
+        await checkUrlToState('/admin/groups,42#create', {
           ...defaultState,
-          offset: '123',
-          openCreateModal: true,
+          offset: '42',
         });
 
-        await checkUrlToState('/admin/groups/q/filter:asdf', {
+        await checkUrlToState('/admin/groups/q/filter:foo', {
           ...defaultState,
-          filter: 'asdf',
+          filter: 'foo',
         });
-        await checkUrlToState('/admin/groups/q/filter:asdf,123', {
+        await checkUrlToState('/admin/groups/q/filter:foo/%2F%20%2525%252F', {
           ...defaultState,
-          filter: 'asdf',
-          offset: '123',
+          filter: 'foo// %/',
+        });
+        await checkUrlToState('/admin/groups/q/filter:foo,42', {
+          ...defaultState,
+          filter: 'foo',
+          offset: '42',
         });
         // #create is ignored when filtering
-        await checkUrlToState('/admin/groups/q/filter:asdf,123#create', {
+        await checkUrlToState('/admin/groups/q/filter:foo,42#create', {
           ...defaultState,
-          filter: 'asdf',
-          offset: '123',
+          filter: 'foo',
+          offset: '42',
         });
-        // filter is decoded (twice)
-        await checkUrlToState(
-          '/admin/groups/q/filter:XX%20XX%2520XX%252FXX%3FXX',
-          {...defaultState, filter: 'XX XX XX/XX?XX'}
-        );
-
-        // Slash must be double encoded in `filter` param.
-        await checkUrlNotMatched('/admin/groups/q/filter:asdf/qwer,11');
-        await checkUrlNotMatched('/admin/groups/q/filter:asdf%2Fqwer,11');
       });
 
       test('GROUP', async () => {

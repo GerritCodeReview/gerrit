@@ -139,11 +139,6 @@ const RoutePattern = {
   // Matches /admin/groups/[uuid-]<group>,members
   GROUP_MEMBERS: /^\/admin\/groups\/(?:uuid-)?(.+),members$/,
 
-  // Matches /admin/groups[,<offset>][/].
-  GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
-  GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
-  GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
-
   // Matches /admin/create-project
   LEGACY_CREATE_PROJECT: /^\/admin\/create-project\/?$/,
 
@@ -190,6 +185,8 @@ const RoutePattern = {
 
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
+  // Matches /admin/groups with optional filter and offset.
+  GROUP_LIST: /^\/admin\/groups(\/q\/filter:(.*?))?(,(\d+))?(\/)?$/,
 
   QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
@@ -688,23 +685,9 @@ export class GrRouter implements Finalizable, NavigationService {
     );
 
     this.mapRoute(
-      RoutePattern.GROUP_LIST_OFFSET,
-      'handleGroupListOffsetRoute',
-      ctx => this.handleGroupListOffsetRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.GROUP_LIST_FILTER_OFFSET,
-      'handleGroupListFilterOffsetRoute',
-      ctx => this.handleGroupListFilterOffsetRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.GROUP_LIST_FILTER,
-      'handleGroupListFilterRoute',
-      ctx => this.handleGroupListFilterRoute(ctx),
+      RoutePattern.GROUP_LIST,
+      'handleGroupListRoute',
+      ctx => this.handleGroupListRoute(ctx),
       true
     );
 
@@ -1141,39 +1124,14 @@ export class GrRouter implements Finalizable, NavigationService {
     this.groupViewModel.setState(state);
   }
 
-  handleGroupListOffsetRoute(ctx: PageContext) {
+  handleGroupListRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: ctx.params[1] ?? '0',
-      filter: null,
-      openCreateModal: ctx.hash === 'create',
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handleGroupListFilterOffsetRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.GROUPS,
-      offset: ctx.params['offset'],
-      filter: ctx.params['filter'],
-      openCreateModal: false,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.adminViewModel.setState(state);
-  }
-
-  handleGroupListFilterRoute(ctx: PageContext) {
-    const state: AdminViewState = {
-      view: GerritView.ADMIN,
-      adminView: AdminChildView.GROUPS,
-      offset: ctx.params[1] ?? '0',
-      filter: ctx.params['filter'] || null,
-      openCreateModal: false,
+      offset: ctx.params[3] ?? '0',
+      filter: ctx.params[1] ?? null,
+      openCreateModal:
+        !ctx.params[3] && !ctx.params[1] && ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

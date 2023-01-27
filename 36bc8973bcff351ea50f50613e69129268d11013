@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d1d124_d28f2e16",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-27T11:40:56Z",
+      "side": 1,
+      "message": "This should live under AccountApi because it\u0027s an action you take on a single account. It\u0027s OK to only support \"self\" (or providing one\u0027s account ID) but that should work as:\n\nDELETE /accounts/self\n\ninstead of\n\nDELETE /accounts\n\nwhich translates 1:1 into the Java API:\n\ngApi.accounts().self().delete();\nor\ngApi.accounts().id(1).delete(); // where 1\u003d\u003d self\n\ninstead of:\n\ngApi.accounts().deleteSelf();",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b27de84_f39907fb",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-27T11:40:56Z",
+      "side": 1,
+      "message": "We have removed the concept of \"labels\" and this variable is only ever set to \"star\" (see StarredChangesUtil#158). Do you mind cleaning this up instead of renaming it (in a predecessor change) and just removing that variable in all of the call stack?\n\nI think this will also allow you to just use that method-as is (so no need to duplicate it in parts).",
+      "range": {
+        "startLine": 287,
+        "startChar": 82,
+        "endLine": 287,
+        "endChar": 87
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7caf6b68_f5d2eed0",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-27T11:40:56Z",
+      "side": 1,
+      "message": "nit: deleteSshKeys",
+      "range": {
+        "startLine": 126,
+        "startChar": 12,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aac2cbd_41fb611e",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-27T11:40:56Z",
+      "side": 1,
+      "message": "nit: @nullable and providing `null` here would make it slightly easier to understand.",
+      "range": {
+        "startLine": 129,
+        "startChar": 56,
+        "endLine": 129,
+        "endChar": 58
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8da79e4_601a9b3e",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-27T11:40:56Z",
+      "side": 1,
+      "message": "This is likely non-transactional and the API looks hard to handle. Can we build this into AccountDelta and AccountsUpdate instead, so that we can call \"deltaBuilder.deleteAllData()\" and the rest in handled inside AccountsUpdate?\n\nOr even simpler, just expose AccountsUpdate#delete (I think this would be my preference because it hides implementation details)?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 78
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

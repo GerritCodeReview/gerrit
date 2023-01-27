@@ -116,6 +116,30 @@
       },
       "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f530cfd3_3d913e3f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T20:32:14Z",
+      "side": 1,
+      "message": "I believe @clark.boylan@gmail.com is right: you _may_ have multiple comments associated with the `PATCHSET_LEVEL` entry and therefore we should process them all.",
+      "parentUuid": "b12e4571_e758d4e2",
+      "range": {
+        "startLine": 197,
+        "startChar": 79,
+        "endLine": 197,
+        "endChar": 88
+      },
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

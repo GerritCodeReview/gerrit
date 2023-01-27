@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe20bef9_57a56d51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1156235
+      },
+      "writtenOn": "2023-01-27T01:07:40Z",
+      "side": 1,
+      "message": "Hello!\n\nThis is also a problem for us wrt. jenkins not triggering jobs on comments (and I\u0027d love a 3.7.1 for https://gerrit-review.googlesource.com/c/gerrit/+/352194 as well as a firefox user...), is there any reason you stopped halfway two months ago?\n\n\u003e Current tests did not highlight the problem: hence we are missing at least ONE test that is posting draft comments and then send the review.\n\nLooking at `javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java` it wouldn\u0027t be too hard to add a new test (as a new test or just creating it as draft before adding in `patchsetLevelCommentCanBeAddedAndRetrieved`), but that doesn\u0027t really help with validating the stream event content.\nA new test in `javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java` that does something similar (create draft, post it) and waitForEvent() checking message is shown?\n\nI probably can\u0027t justify spending much time on it but if something quick would help moving forward and nobody else has started I can give it a shot.",
+      "parentUuid": "ee164215_ef276bcd",
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b4bd96_1e1ad458",

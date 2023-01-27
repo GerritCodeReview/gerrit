@@ -34,6 +34,24 @@
       "parentUuid": "c7a978ee_f6cd18d5",
       "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e37b36b0_ddaf4b5d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-27T13:45:52Z",
+      "side": 1,
+      "message": "I forgot a `?:` on `(\\/)`",
+      "parentUuid": "627bea9d_95d69d7f",
+      "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

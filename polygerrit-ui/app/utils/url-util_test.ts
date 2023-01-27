@@ -102,27 +102,20 @@ suite('url-util tests', () => {
 
   suite('url encoding and decoding tests', () => {
     suite('encodeURL', () => {
-      test('double encodes', () => {
-        assert.equal(encodeURL('abc?123'), 'abc%253F123');
-        assert.equal(encodeURL('def/ghi'), 'def%252Fghi');
-        assert.equal(encodeURL('jkl'), 'jkl');
-        assert.equal(encodeURL(''), '');
+      test('does not encode alphanumeric chars', () => {
+        assert.equal(encodeURL("AZaz09-_.!~*'()"), "AZaz09-_.!~*'()");
       });
 
-      test('does not convert colons', () => {
-        assert.equal(encodeURL('mno:pqr'), 'mno:pqr');
+      test('double encodes %', () => {
+        assert.equal(encodeURL('abc%def'), 'abc%2525def');
       });
 
-      test('converts spaces to +', () => {
+      test('does not encode colon and slash', () => {
+        assert.equal(encodeURL(':/'), ':/');
+      });
+
+      test('encodes spaces as +', () => {
         assert.equal(encodeURL('words with spaces'), 'words+with+spaces');
-      });
-
-      test('does not convert slashes when configured', () => {
-        assert.equal(encodeURL('stu/vwx', true), 'stu/vwx');
-      });
-
-      test('does not convert slashes when configured', () => {
-        assert.equal(encodeURL('stu/vwx', true), 'stu/vwx');
       });
     });
 

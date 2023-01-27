@@ -86,42 +86,39 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   }
 
   if (params.query) {
-    return `${getBaseUrl()}/q/${encodeURL(params.query, true)}${offsetExpr}`;
+    return `${getBaseUrl()}/q/${encodeURL(params.query)}${offsetExpr}`;
   }
 
   const operators: string[] = [];
   if (params.owner) {
-    operators.push('owner:' + encodeURL(params.owner, false));
+    operators.push('owner:' + encodeURL(params.owner));
   }
   if (params.repo) {
-    operators.push('project:' + encodeURL(params.repo, false));
+    operators.push('project:' + encodeURL(params.repo));
   }
   if (params.branch) {
-    operators.push('branch:' + encodeURL(params.branch, false));
+    operators.push('branch:' + encodeURL(params.branch));
   }
   if (params.topic) {
     operators.push(
-      'topic:' +
-        escapeAndWrapSearchOperatorValue(encodeURL(params.topic, false))
+      'topic:' + escapeAndWrapSearchOperatorValue(encodeURL(params.topic))
     );
   }
   if (params.hashtag) {
     operators.push(
       'hashtag:' +
         escapeAndWrapSearchOperatorValue(
-          encodeURL(params.hashtag.toLowerCase(), false)
+          encodeURL(params.hashtag.toLowerCase())
         )
     );
   }
   if (params.statuses) {
     if (params.statuses.length === 1) {
-      operators.push('status:' + encodeURL(params.statuses[0], false));
+      operators.push('status:' + encodeURL(params.statuses[0]));
     } else if (params.statuses.length > 1) {
       operators.push(
         '(' +
-          params.statuses
-            .map(s => `status:${encodeURL(s, false)}`)
-            .join(' OR ') +
+          params.statuses.map(s => `status:${encodeURL(s)}`).join(' OR ') +
           ')'
       );
     }

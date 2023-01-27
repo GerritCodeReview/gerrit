@@ -88,7 +88,7 @@ suite('gr-account-label tests', () => {
       /* HTML */ `
         <div class="container">
           <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
-          <a class="ownerLink" href="/q/owner:user-31%2540" tabindex="-1">
+          <a class="ownerLink" href="/q/owner:user-31@" tabindex="-1">
             <span class="hovercardTargetWrapper">
               <gr-avatar hidden="" imagesize="32"> </gr-avatar>
               <span

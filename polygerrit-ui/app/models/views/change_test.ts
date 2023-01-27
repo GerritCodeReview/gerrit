@@ -74,7 +74,7 @@ suite('change view state tests', () => {
       ...createChangeViewState(),
       repo: 'x+/y+/z+/w' as RepoName,
     };
-    assert.equal(createChangeUrl(state), '/c/x%252B/y%252B/z%252B/w/+/42');
+    assert.equal(createChangeUrl(state), '/c/x%2B/y%2B/z%2B/w/+/42');
   });
 
   test('createDiffUrl', () => {
@@ -85,7 +85,7 @@ suite('change view state tests', () => {
     };
     assert.equal(
       createDiffUrl(params),
-      '/c/test-project/+/42/12/x%252By/path.cpp'
+      '/c/test-project/+/42/12/x%2By/path.cpp'
     );
 
     window.CANONICAL_PATH = '/base';
@@ -93,10 +93,10 @@ suite('change view state tests', () => {
     window.CANONICAL_PATH = undefined;
 
     params.repo = 'test' as RepoName;
-    assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
+    assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%2By/path.cpp');
 
     params.basePatchNum = 6 as BasePatchSetNum;
-    assert.equal(createDiffUrl(params), '/c/test/+/42/6..12/x%252By/path.cpp');
+    assert.equal(createDiffUrl(params), '/c/test/+/42/6..12/x%2By/path.cpp');
 
     params.diffView = {
       path: 'foo bar/my+file.txt%',
@@ -105,7 +105,7 @@ suite('change view state tests', () => {
     delete params.basePatchNum;
     assert.equal(
       createDiffUrl(params),
-      '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525'
+      '/c/test/+/42/2/foo+bar/my%2Bfile.txt%2525'
     );
 
     params.diffView = {
@@ -129,7 +129,7 @@ suite('change view state tests', () => {
       repo: 'x+/y' as RepoName,
       diffView: {path: 'x+y/path.cpp'},
     };
-    assert.equal(createDiffUrl(params), '/c/x%252B/y/+/42/12/x%252By/path.cpp');
+    assert.equal(createDiffUrl(params), '/c/x%2B/y/+/42/12/x%2By/path.cpp');
   });
 
   test('createEditUrl', () => {
@@ -140,7 +140,7 @@ suite('change view state tests', () => {
     };
     assert.equal(
       createEditUrl(params),
-      '/c/test-project/+/42/12/x%252By/path.cpp,edit#31'
+      '/c/test-project/+/42/12/x%2By/path.cpp,edit#31'
     );
 
     window.CANONICAL_PATH = '/base';

@@ -22,7 +22,7 @@ export interface GroupViewState extends ViewState {
 }
 
 export function createGroupUrl(state: Omit<GroupViewState, 'view'>) {
-  let url = `/admin/groups/${encodeURL(`${state.groupId}`, true)}`;
+  let url = `/admin/groups/${encodeURL(`${state.groupId}`)}`;
   if (state.detail === GroupDetailView.MEMBERS) {
     url += ',members';
   } else if (state.detail === GroupDetailView.LOG) {

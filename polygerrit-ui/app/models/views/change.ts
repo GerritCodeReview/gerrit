@@ -196,7 +196,7 @@ export function createDiffUrl(
     childView: ChangeChildView.DIFF,
   });
 
-  const path = `/${encodeURL(state.diffView?.path ?? '', true)}`;
+  const path = `/${encodeURL(state.diffView?.path ?? '')}`;
 
   let suffix = '';
   // TODO: Move creating of comment URLs to a separate function. We are
@@ -226,7 +226,7 @@ export function createEditUrl(
     patchNum: obj.patchNum ?? EDIT,
   });
 
-  const path = `/${encodeURL(state.editView?.path ?? '', true)}`;
+  const path = `/${encodeURL(state.editView?.path ?? '')}`;
   const line = state.editView?.lineNum;
   const suffix = line ? `#${line}` : '';
 
@@ -242,7 +242,7 @@ function createChangeUrlCommon(state: ChangeViewState) {
   if (range.length) range = '/' + range;
 
   let repo = '';
-  if (state.repo) repo = `${encodeURL(state.repo, true)}/+/`;
+  if (state.repo) repo = `${encodeURL(state.repo)}/+/`;
 
   return `${getBaseUrl()}/c/${repo}${state.changeNum}${range}`;
 }

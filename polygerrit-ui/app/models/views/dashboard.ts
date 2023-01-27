@@ -33,7 +33,7 @@ function sectionsToEncodedParams(
     const query = repoName
       ? section.query.replace(REPO_TOKEN_PATTERN, repoName)
       : section.query;
-    return encodeURIComponent(section.name) + '=' + encodeURIComponent(query);
+    return encodeURL(section.name) + '=' + encodeURL(query);
   });
 }
 
@@ -43,13 +43,13 @@ export function createDashboardUrl(state: Omit<DashboardViewState, 'view'>) {
     // Custom dashboard.
     const queryParams = sectionsToEncodedParams(state.sections, repoName);
     if (state.title) {
-      queryParams.push('title=' + encodeURIComponent(state.title));
+      queryParams.push('title=' + encodeURL(state.title));
     }
     const user = state.user ? state.user : '';
     return `${getBaseUrl()}/dashboard/${user}?${queryParams.join('&')}`;
   } else if (repoName) {
     // Project dashboard.
-    const encodedRepo = encodeURL(repoName, true);
+    const encodedRepo = encodeURL(repoName);
     return `${getBaseUrl()}/p/${encodedRepo}/+/dashboard/${state.dashboard}`;
   } else {
     // User dashboard.

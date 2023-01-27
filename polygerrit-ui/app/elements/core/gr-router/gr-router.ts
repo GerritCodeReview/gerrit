@@ -35,6 +35,7 @@ import {GerritView, RouterModel} from '../../../services/router/router-model';
 import {fireAlert, firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
+  encodeURL,
   getBaseUrl,
   PatchRangeParams,
   toPath,
@@ -965,7 +966,7 @@ export class GrRouter implements Finalizable, NavigationService {
         if (ctx.params[0].toLowerCase() === 'self') {
           this.redirectToLogin(ctx.canonicalPath);
         } else {
-          this.redirect('/q/owner:' + encodeURIComponent(ctx.params[0]));
+          this.redirect('/q/owner:' + encodeURL(ctx.params[0]));
         }
       } else {
         const state: DashboardViewState = {
@@ -1271,7 +1272,7 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleChangeNumberLegacyRoute(ctx: PageContext) {
-    this.redirect('/c/' + encodeURIComponent(ctx.params[0]));
+    this.redirect('/c/' + ctx.params[0]);
   }
 
   handleChangeRoute(ctx: PageContext) {
@@ -1574,9 +1575,7 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleDocumentationSearchRedirectRoute(ctx: PageContext) {
-    this.redirect(
-      '/Documentation/q/filter:' + encodeURIComponent(ctx.params[0])
-    );
+    this.redirect('/Documentation/q/filter:' + encodeURL(ctx.params[0]));
   }
 
   handleDocumentationRedirectRoute(ctx: PageContext) {

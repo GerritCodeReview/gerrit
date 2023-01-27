@@ -118,7 +118,9 @@ const RoutePattern = {
 
   // Pattern for login and logout URLs intended to be passed-through. May
   // include a return URL.
-  LOG_IN_OR_OUT: /\/log(in|out)(\/(.+))?$/,
+  // TODO: Maybe this pattern and its handler can just be removed, because
+  // passing through is what the default router would eventually do anyway.
+  LOG_IN_OR_OUT: /^\/log(in|out)(\/(.+))?$/,
 
   // Pattern for a catchall route when no other pattern is matched.
   DEFAULT: /.*/,

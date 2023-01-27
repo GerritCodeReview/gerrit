@@ -1016,6 +1016,12 @@ suite('gr-router tests', () => {
       });
     });
 
+    test('LOG_IN_OR_OUT pass through', async () => {
+      // LOG_IN_OR_OUT: /^\/log(in|out)(\/(.+))?$/,
+      await checkUrlNotMatched('/login/asdf');
+      await checkUrlNotMatched('/logout/asdf');
+    });
+
     test('PLUGIN_SCREEN', async () => {
       // PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
       await checkUrlToState('/x/foo/bar', {

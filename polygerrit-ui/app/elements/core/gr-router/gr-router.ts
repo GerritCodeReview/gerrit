@@ -104,6 +104,8 @@ import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
 
+// TODO: Move all patterns to view model files and use the `Route` interface,
+// which will enforce using `RegExp` in its `urlPattern` property.
 const RoutePattern = {
   ROOT: '/',
 
@@ -255,7 +257,7 @@ const RoutePattern = {
 
   PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
 
-  DOCUMENTATION_SEARCH_FILTER: '/Documentation/q/filter::filter',
+  DOCUMENTATION_SEARCH_FILTER: /^\/Documentation\/q\/filter:(.*)$/,
   DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
   DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
 };
@@ -1778,7 +1780,7 @@ export class GrRouter implements Finalizable, NavigationService {
   handleDocumentationSearchRoute(ctx: PageContext) {
     const state: DocumentationViewState = {
       view: GerritView.DOCUMENTATION_SEARCH,
-      filter: ctx.params['filter'] || null,
+      filter: ctx.params[0] ?? '',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

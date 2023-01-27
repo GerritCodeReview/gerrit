@@ -10,7 +10,7 @@ import {ViewState} from './base';
 
 export interface DocumentationViewState extends ViewState {
   view: GerritView.DOCUMENTATION_SEARCH;
-  filter?: string | null;
+  filter: string;
 }
 
 export const documentationViewModelToken = define<DocumentationViewModel>(

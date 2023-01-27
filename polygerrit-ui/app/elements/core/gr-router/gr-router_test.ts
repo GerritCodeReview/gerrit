@@ -1030,5 +1030,40 @@ suite('gr-router tests', () => {
         screen: 'bar',
       });
     });
+
+    test('DOCUMENTATION_SEARCH*', async () => {
+      // DOCUMENTATION_SEARCH_FILTER: '/Documentation/q/filter::filter',
+      // DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
+      await checkRedirect(
+        '/Documentation/q/asdf',
+        '/Documentation/q/filter:asdf'
+      );
+      await checkRedirect(
+        '/Documentation/q/as%20df',
+        '/Documentation/q/filter:as%20df'
+      );
+
+      await checkUrlToState('/Documentation/q/filter:', {
+        view: GerritView.DOCUMENTATION_SEARCH,
+        filter: '',
+      });
+      await checkUrlToState('/Documentation/q/filter:asdf', {
+        view: GerritView.DOCUMENTATION_SEARCH,
+        filter: 'asdf',
+      });
+      // Percent decoding works fine. page.js decodes twice, so the only problem
+      // is having `%25` in the URL, because the first decoding pass will yield
+      // `%`, and then the second decoding pass will throw `URI malformed`.
+      await checkUrlToState('/Documentation/q/filter:as%20%2fdf', {
+        view: GerritView.DOCUMENTATION_SEARCH,
+        filter: 'as /df',
+      });
+      // We accept and process double-encoded values, but only *require* it for
+      // the percent symbol `%`.
+      await checkUrlToState('/Documentation/q/filter:as%252f%2525df', {
+        view: GerritView.DOCUMENTATION_SEARCH,
+        filter: 'as/%df',
+      });
+    });
   });
 });

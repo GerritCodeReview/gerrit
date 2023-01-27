@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9032bf4d_18d84513",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T20:49:33Z",
+      "side": 1,
+      "message": "\u003e Hello!\n\u003e \n\u003e This is also a problem for us wrt. jenkins not triggering jobs on comments (and I\u0027d love a 3.7.1 for https://gerrit-review.googlesource.com/c/gerrit/+/352194 as well as a firefox user...), is there any reason you stopped halfway two months ago?\n\nOverload at my $DAYJOB, but I am happy for everyone to help and collaborate to get this fixed.\n\n\u003e \u003e Current tests did not highlight the problem: hence we are missing at least ONE test that is posting draft comments and then send the review.\n\u003e \n\u003e Looking at `javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java` it wouldn\u0027t be too hard to add a new test (as a new test or just creating it as draft before adding in `patchsetLevelCommentCanBeAddedAndRetrieved`), but that doesn\u0027t really help with validating the stream event content.\n\u003e A new test in `javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java` that does something similar (create draft, post it) and waitForEvent() checking message is shown?\n\nExactly, the right place should be instead `StreamEventsIT`.\n\n\u003e I probably can\u0027t justify spending much time on it but if something quick would help moving forward and nobody else has started I can give it a shot.\n\nCan you help reviewing it? I\u0027ll add a new test to `StreamEventsIT` tonight and then this will be ready to go.\n\nContribution \u003d feedback; that\u0027s always more than welcome !",
+      "parentUuid": "fe20bef9_57a56d51",
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b4bd96_1e1ad458",
@@ -132,6 +150,30 @@
       "side": 1,
       "message": "I believe @clark.boylan@gmail.com is right: you _may_ have multiple comments associated with the `PATCHSET_LEVEL` entry and therefore we should process them all.",
       "parentUuid": "b12e4571_e758d4e2",
+      "range": {
+        "startLine": 197,
+        "startChar": 79,
+        "endLine": 197,
+        "endChar": 88
+      },
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7fc450f_5991f403",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T20:49:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f530cfd3_3d913e3f",
       "range": {
         "startLine": 197,
         "startChar": 79,

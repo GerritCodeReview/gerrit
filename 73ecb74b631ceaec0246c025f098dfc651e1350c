@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d3526a_03cb0d44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1156235
+      },
+      "writtenOn": "2023-01-28T01:51:32Z",
+      "side": 1,
+      "message": "Thanks! No problem, free time is a scarce resource for everyone. I\u0027ve had a look at the last version you just posted, it looks good to me; just a nitpick/possible simplification on the test.\n\nSince I took the time to install bazel to run tests I\u0027ve also built a release archive and upgraded our install to it (... might as well benefit from it right away), and as a double-check jenkins triggered build on comment just fine. Great!",
+      "parentUuid": "9032bf4d_18d84513",
+      "revId": "73ecb74b631ceaec0246c025f098dfc651e1350c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b4bd96_1e1ad458",

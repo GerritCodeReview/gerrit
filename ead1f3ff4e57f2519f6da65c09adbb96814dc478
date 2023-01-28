@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1c59b54d_2c6a865f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1156235
+      },
+      "writtenOn": "2023-01-28T06:13:06Z",
+      "side": 1,
+      "message": "ah, also I think this might be misunderstood. \u0027including comments created as draft\u0027 or something that doesn\u0027t imply drafts themselves are sent might be better?",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 71
+      },
+      "revId": "ead1f3ff4e57f2519f6da65c09adbb96814dc478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0cb966f4_c3e20d21",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

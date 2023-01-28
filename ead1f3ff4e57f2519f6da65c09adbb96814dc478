@@ -62,6 +62,30 @@
       },
       "revId": "ead1f3ff4e57f2519f6da65c09adbb96814dc478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61026116_26b93410",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-28T16:22:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40b56c49_2ca9ff70",
+      "range": {
+        "startLine": 133,
+        "startChar": 26,
+        "endLine": 134,
+        "endChar": 62
+      },
+      "revId": "ead1f3ff4e57f2519f6da65c09adbb96814dc478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

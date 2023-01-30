@@ -43,6 +43,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -80,6 +81,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.validators.ValidationException;
@@ -250,9 +253,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public ObjectId commit() throws IOException {
-    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
-      updateManager.add(this);
-      updateManager.execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
+        updateManager.add(this);
+        updateManager.execute();
+      }
     }
     return getResult();
   }

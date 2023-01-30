@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -62,6 +63,8 @@ import com.google.gerrit.server.submit.IntegrationConflictException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -331,52 +334,53 @@ public class CherryPickChange {
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage(), e);
       }
-
-      try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
-        bu.setRepository(git, revWalk, oi);
-        bu.setNotify(resolveNotify(input));
-        Change.Id changeId;
-        String newTopic = null;
-        if (input.topic != null) {
-          newTopic = Strings.emptyToNull(input.topic.trim());
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
+          bu.setRepository(git, revWalk, oi);
+          bu.setNotify(resolveNotify(input));
+          Change.Id changeId;
+          String newTopic = null;
+          if (input.topic != null) {
+            newTopic = Strings.emptyToNull(input.topic.trim());
+          }
+          if (newTopic == null
+              && sourceChange != null
+              && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+            newTopic = sourceChange.getTopic() + "-" + dest.shortName();
+          }
+          if (destChange != null) {
+            // The change key exists on the destination branch. The cherry pick
+            // will be added as a new patch set.
+            changeId =
+                insertPatchSet(
+                    bu,
+                    git,
+                    destChange.notes(),
+                    cherryPickCommit,
+                    sourceChange,
+                    newTopic,
+                    input,
+                    workInProgress);
+          } else {
+            // Change key not found on destination branch. We can create a new
+            // change.
+            changeId =
+                createNewChange(
+                    bu,
+                    cherryPickCommit,
+                    dest.branch(),
+                    newTopic,
+                    project,
+                    sourceChange,
+                    sourceCommit,
+                    input,
+                    revertedChange,
+                    idForNewChange,
+                    workInProgress);
+          }
+          bu.execute();
+          return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
         }
-        if (newTopic == null
-            && sourceChange != null
-            && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
-          newTopic = sourceChange.getTopic() + "-" + dest.shortName();
-        }
-        if (destChange != null) {
-          // The change key exists on the destination branch. The cherry pick
-          // will be added as a new patch set.
-          changeId =
-              insertPatchSet(
-                  bu,
-                  git,
-                  destChange.notes(),
-                  cherryPickCommit,
-                  sourceChange,
-                  newTopic,
-                  input,
-                  workInProgress);
-        } else {
-          // Change key not found on destination branch. We can create a new
-          // change.
-          changeId =
-              createNewChange(
-                  bu,
-                  cherryPickCommit,
-                  dest.branch(),
-                  newTopic,
-                  project,
-                  sourceChange,
-                  sourceCommit,
-                  input,
-                  revertedChange,
-                  idForNewChange,
-                  workInProgress);
-        }
-        bu.execute();
-        return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
       }
     }
   }

@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.CommitRewriter.BackfillResult;
 import com.google.gerrit.server.notedb.CommitRewriter.CommitDiff;
 import com.google.gerrit.server.notedb.CommitRewriter.RunOptions;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
@@ -90,7 +91,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       bru.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }
 
-    RefUpdateUtil.executeChecked(bru, repo);
+    RefUpdateContext.testSetup(() -> RefUpdateUtil.executeChecked(bru, repo));
   }
 
   @Test

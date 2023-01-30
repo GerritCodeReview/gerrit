@@ -25,6 +25,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
@@ -166,7 +167,7 @@ public class DeleteZombieCommentsRefsTest {
           new ReceiveCommand(ObjectId.zeroId(), commitId, refName, ReceiveCommand.Type.CREATE));
       refNames.add(refName);
     }
-    RefUpdateUtil.executeChecked(bru, usersRepo);
+    RefUpdateContext.testSetup(() -> RefUpdateUtil.executeChecked(bru, usersRepo));
     return refNames;
   }
 
@@ -201,7 +202,7 @@ public class DeleteZombieCommentsRefsTest {
     RefUpdate update = repo.updateRef(refName);
     update.setNewObjectId(commitId);
     update.setForceUpdate(true);
-    update.update();
+    RefUpdateContext.testSetup(() -> update.update());
     return repo.exactRef(refName);
   }
 

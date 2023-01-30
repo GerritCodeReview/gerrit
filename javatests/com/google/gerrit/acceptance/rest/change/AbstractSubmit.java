@@ -95,6 +95,8 @@ import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
@@ -1125,20 +1127,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Throwable {
-    for (PushOneCommit.Result change : changes) {
-      try (BatchUpdate bu =
-          batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.now())) {
-        bu.addOp(
-            change.getChange().getId(),
-            new BatchUpdateOp() {
-              @Override
-              public boolean updateChange(ChangeContext ctx) {
-                ctx.getChange().setStatus(Change.Status.NEW);
-                ctx.getUpdate(ctx.getChange().currentPatchSetId()).setStatus(Change.Status.NEW);
-                return true;
-              }
-            });
-        bu.execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(RefUpdateType.CHANGE_MODIFICATION)) {
+      for (PushOneCommit.Result change : changes) {
+        try (BatchUpdate bu =
+            batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.now())) {
+          bu.addOp(
+              change.getChange().getId(),
+              new BatchUpdateOp() {
+                @Override
+                public boolean updateChange(ChangeContext ctx) {
+                  ctx.getChange().setStatus(Change.Status.NEW);
+                  ctx.getUpdate(ctx.getChange().currentPatchSetId()).setStatus(Change.Status.NEW);
+                  return true;
+                }
+              });
+          bu.execute();
+        }
       }
     }
   }

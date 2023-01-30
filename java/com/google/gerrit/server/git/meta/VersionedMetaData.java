@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.meta;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.VERSIONED_META_DATA_CHANGE;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.InvalidConfigFileException;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import java.io.BufferedReader;
 import java.io.File;
@@ -438,53 +440,55 @@ public abstract class VersionedMetaData {
 
       private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
           throws IOException {
-        BatchRefUpdate bru = update.getBatch();
-        if (bru != null) {
-          bru.addCommand(new ReceiveCommand(oldId.toObjectId(), newId.toObjectId(), refName));
-          if (objInserter == null) {
-            inserter.flush();
-          }
-          revision = rw.parseCommit(newId);
-          return revision;
-        }
-
-        RefUpdate ru = db.updateRef(refName);
-        ru.setExpectedOldObjectId(oldId);
-        ru.setNewObjectId(newId);
-        ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
-        String message = update.getCommitBuilder().getMessage();
-        if (message == null) {
-          message = "meta data update";
-        }
-        try (BufferedReader reader = new BufferedReader(new StringReader(message))) {
-          // read the subject line and use it as reflog message
-          ru.setRefLogMessage("commit: " + reader.readLine(), true);
-        }
-        logger.atFine().log("Saving commit '%s' on project '%s'", message.trim(), projectName);
-        inserter.flush();
-        RefUpdate.Result result = ru.update();
-        switch (result) {
-          case NEW:
-          case FAST_FORWARD:
-            revision = rw.parseCommit(ru.getNewObjectId());
-            update.fireGitRefUpdatedEvent(ru);
-            logger.atFine().log(
-                "Saved commit '%s' as revision '%s' on project '%s'",
-                message.trim(), revision.name(), projectName);
+        try (RefUpdateContext ctx = RefUpdateContext.open(VERSIONED_META_DATA_CHANGE)) {
+          BatchRefUpdate bru = update.getBatch();
+          if (bru != null) {
+            bru.addCommand(new ReceiveCommand(oldId.toObjectId(), newId.toObjectId(), refName));
+            if (objInserter == null) {
+              inserter.flush();
+            }
+            revision = rw.parseCommit(newId);
             return revision;
-          case LOCK_FAILURE:
-            throw new LockFailureException(errorMsg(ru, db.getDirectory()), ru);
-          case FORCED:
-          case IO_FAILURE:
-          case NOT_ATTEMPTED:
-          case NO_CHANGE:
-          case REJECTED:
-          case REJECTED_CURRENT_BRANCH:
-          case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
-          default:
-            throw new GitUpdateFailureException(errorMsg(ru, db.getDirectory()), ru);
+          }
+
+          RefUpdate ru = db.updateRef(refName);
+          ru.setExpectedOldObjectId(oldId);
+          ru.setNewObjectId(newId);
+          ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
+          String message = update.getCommitBuilder().getMessage();
+          if (message == null) {
+            message = "meta data update";
+          }
+          try (BufferedReader reader = new BufferedReader(new StringReader(message))) {
+            // read the subject line and use it as reflog message
+            ru.setRefLogMessage("commit: " + reader.readLine(), true);
+          }
+          logger.atFine().log("Saving commit '%s' on project '%s'", message.trim(), projectName);
+          inserter.flush();
+          RefUpdate.Result result = ru.update();
+          switch (result) {
+            case NEW:
+            case FAST_FORWARD:
+              revision = rw.parseCommit(ru.getNewObjectId());
+              update.fireGitRefUpdatedEvent(ru);
+              logger.atFine().log(
+                  "Saved commit '%s' as revision '%s' on project '%s'",
+                  message.trim(), revision.name(), projectName);
+              return revision;
+            case LOCK_FAILURE:
+              throw new LockFailureException(errorMsg(ru, db.getDirectory()), ru);
+            case FORCED:
+            case IO_FAILURE:
+            case NOT_ATTEMPTED:
+            case NO_CHANGE:
+            case REJECTED:
+            case REJECTED_CURRENT_BRANCH:
+            case RENAMED:
+            case REJECTED_MISSING_OBJECT:
+            case REJECTED_OTHER_REASON:
+            default:
+              throw new GitUpdateFailureException(errorMsg(ru, db.getDirectory()), ru);
+          }
         }
       }
     };

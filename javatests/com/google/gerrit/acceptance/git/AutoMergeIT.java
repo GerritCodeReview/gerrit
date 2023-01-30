@@ -26,6 +26,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -201,7 +202,7 @@ public class AutoMergeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       RefUpdate ru = repo.updateRef(RefNames.refsCacheAutomerge(mergeCommit.name()));
       ru.setForceUpdate(true);
-      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      RefUpdateContext.testSetup(() -> assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED));
     }
     assertNoAutoMergeCreated(mergeCommit);
   }

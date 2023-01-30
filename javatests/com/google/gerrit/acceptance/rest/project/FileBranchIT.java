@@ -24,6 +24,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -58,7 +59,8 @@ public class FileBranchIT extends AbstractDaemonTest {
   @Test
   public void getFileFromSymbolicRefPointingToAnUnbornBranch() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      repo.updateRef(Constants.HEAD, true).link("refs/heads/non-existing");
+      RefUpdateContext.testSetup(
+          () -> repo.updateRef(Constants.HEAD, true).link("refs/heads/non-existing"));
     }
     RestResponse response =
         adminRestSession.get(String.format("/projects/%s/branches/HEAD/files/path", project.get()));

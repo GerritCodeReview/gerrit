@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -88,9 +90,11 @@ public class DeleteChangeMessage
         createNewChangeMessage(user.asIdentifiedUser().getAccountId(), input.reason);
     DeleteChangeMessageOp deleteChangeMessageOp =
         new DeleteChangeMessageOp(resource.getChangeMessageId(), newChangeMessage);
-    try (BatchUpdate batchUpdate =
-        updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.now())) {
-      batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate batchUpdate =
+          updateFactory.create(resource.getChangeResource().getProject(), user, TimeUtil.now())) {
+        batchUpdate.addOp(resource.getChangeId(), deleteChangeMessageOp).execute();
+      }
     }
 
     ChangeMessageInfo updatedMessageInfo =

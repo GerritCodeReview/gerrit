@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Joiner;
@@ -80,6 +81,7 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -329,102 +331,107 @@ public class CreateChange
       BatchUpdate.Factory updateFactory)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           UpdateException {
-    logger.atFine().log(
-        "Creating new change for target branch %s in project %s"
-            + " (new branch = %s, base change = %s, base commit = %s)",
-        input.branch, projectState.getName(), input.newBranch, input.baseChange, input.baseCommit);
-
-    try (Repository git = gitManager.openRepository(projectState.getNameKey());
-        ObjectInserter oi = git.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(reader)) {
-      PatchSet basePatchSet = null;
-      List<String> groups = Collections.emptyList();
-
-      if (input.baseChange != null) {
-        ChangeNotes baseChange = getBaseChange(input.baseChange);
-        basePatchSet = psUtil.current(baseChange);
-        groups = basePatchSet.groups();
-        logger.atFine().log("base patch set = %s (groups = %s)", basePatchSet.id(), groups);
-      }
-
-      ObjectId parentCommit =
-          getParentCommit(
-              git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit, input.merge);
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       logger.atFine().log(
-          "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
+          "Creating new change for target branch %s in project %s"
+              + " (new branch = %s, base change = %s, base commit = %s)",
+          input.branch, projectState.getName(), input.newBranch, input.baseChange,
+          input.baseCommit);
 
-      RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
+      try (Repository git = gitManager.openRepository(projectState.getNameKey());
+          ObjectInserter oi = git.newObjectInserter();
+          ObjectReader reader = oi.newReader();
+          CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(reader)) {
+        PatchSet basePatchSet = null;
+        List<String> groups = Collections.emptyList();
 
-      Instant now = TimeUtil.now();
-
-      PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
-      PersonIdent author =
-          input.author == null
-              ? committer
-              : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
-
-      String commitMessage = getCommitMessage(input.subject, me);
-
-      CodeReviewCommit c;
-      if (input.merge != null) {
-        // create a merge commit
-        c =
-            newMergeCommit(
-                git, oi, rw, projectState, mergeTip, input.merge, author, committer, commitMessage);
-        if (!c.getFilesWithGitConflicts().isEmpty()) {
-          logger.atFine().log(
-              "merge commit has conflicts in the following files: %s",
-              c.getFilesWithGitConflicts());
+        if (input.baseChange != null) {
+          ChangeNotes baseChange = getBaseChange(input.baseChange);
+          basePatchSet = psUtil.current(baseChange);
+          groups = basePatchSet.groups();
+          logger.atFine().log("base patch set = %s (groups = %s)", basePatchSet.id(), groups);
         }
-      } else if (input.patch != null) {
-        // create a commit with the given patch.
-        if (mergeTip == null) {
-          throw new BadRequestException("Cannot apply patch on top of an empty tree.");
+
+        ObjectId parentCommit =
+            getParentCommit(
+                git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit,
+                input.merge);
+        logger.atFine().log(
+            "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
+
+        RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
+
+        Instant now = TimeUtil.now();
+
+        PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
+        PersonIdent author =
+            input.author == null
+                ? committer
+                : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
+
+        String commitMessage = getCommitMessage(input.subject, me);
+
+        CodeReviewCommit c;
+        if (input.merge != null) {
+          // create a merge commit
+          c =
+              newMergeCommit(
+                  git, oi, rw, projectState, mergeTip, input.merge, author, committer,
+                  commitMessage);
+          if (!c.getFilesWithGitConflicts().isEmpty()) {
+            logger.atFine().log(
+                "merge commit has conflicts in the following files: %s",
+                c.getFilesWithGitConflicts());
+          }
+        } else if (input.patch != null) {
+          // create a commit with the given patch.
+          if (mergeTip == null) {
+            throw new BadRequestException("Cannot apply patch on top of an empty tree.");
+          }
+          ObjectId treeId = ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
+          c =
+              rw.parseCommit(
+                  CommitUtil.createCommitWithTree(
+                      oi, author, committer, mergeTip, commitMessage, treeId));
+        } else {
+          // create an empty commit.
+          c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
         }
-        ObjectId treeId = ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
-        c =
-            rw.parseCommit(
-                CommitUtil.createCommitWithTree(
-                    oi, author, committer, mergeTip, commitMessage, treeId));
-      } else {
-        // create an empty commit.
-        c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
-      }
-      // Flush inserter so that commit becomes visible to validators
-      oi.flush();
+        // Flush inserter so that commit becomes visible to validators
+        oi.flush();
 
-      Change.Id changeId = Change.id(seq.nextChangeId());
-      ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
-      ins.setMessage(messageForNewChange(ins.getPatchSetId(), c));
-      ins.setTopic(input.topic);
-      ins.setPrivate(input.isPrivate);
-      ins.setWorkInProgress(input.workInProgress || !c.getFilesWithGitConflicts().isEmpty());
-      ins.setGroups(groups);
+        Change.Id changeId = Change.id(seq.nextChangeId());
+        ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
+        ins.setMessage(messageForNewChange(ins.getPatchSetId(), c));
+        ins.setTopic(input.topic);
+        ins.setPrivate(input.isPrivate);
+        ins.setWorkInProgress(input.workInProgress || !c.getFilesWithGitConflicts().isEmpty());
+        ins.setGroups(groups);
 
-      if (input.validationOptions != null) {
-        ImmutableListMultimap.Builder<String, String> validationOptions =
-            ImmutableListMultimap.builder();
-        input
-            .validationOptions
-            .entrySet()
-            .forEach(e -> validationOptions.put(e.getKey(), e.getValue()));
-        ins.setValidationOptions(validationOptions.build());
-      }
+        if (input.validationOptions != null) {
+          ImmutableListMultimap.Builder<String, String> validationOptions =
+              ImmutableListMultimap.builder();
+          input
+              .validationOptions
+              .entrySet()
+              .forEach(e -> validationOptions.put(e.getKey(), e.getValue()));
+          ins.setValidationOptions(validationOptions.build());
+        }
 
-      try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
-        bu.setRepository(git, rw, oi);
-        bu.setNotify(
-            notifyResolver.resolve(
-                firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
-        bu.insertChange(ins);
-        bu.execute();
+        try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
+          bu.setRepository(git, rw, oi);
+          bu.setNotify(
+              notifyResolver.resolve(
+                  firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
+          bu.insertChange(ins);
+          bu.execute();
+        }
+        ChangeInfo changeInfo = jsonFactory.noOptions().format(ins.getChange());
+        changeInfo.containsGitConflicts = !c.getFilesWithGitConflicts().isEmpty() ? true : null;
+        return changeInfo;
+      } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {
+        throw new BadRequestException(e.getMessage());
       }
-      ChangeInfo changeInfo = jsonFactory.noOptions().format(ins.getChange());
-      changeInfo.containsGitConflicts = !c.getFilesWithGitConflicts().isEmpty() ? true : null;
-      return changeInfo;
-    } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {
-      throw new BadRequestException(e.getMessage());
     }
   }
 

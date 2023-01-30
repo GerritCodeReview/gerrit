@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INTERNAL_ACTION;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableAction.Action;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -443,28 +445,32 @@ public class AccountsUpdate {
 
   private ImmutableList<Optional<AccountState>> execute(List<ExecutableUpdate> executableUpdates)
       throws IOException, ConfigInvalidException {
-    List<Optional<AccountState>> accountState = new ArrayList<>();
-    List<UpdatedAccount> updatedAccounts = new ArrayList<>();
-    executeWithRetry(
-        () -> {
-          // Reset state for retry.
-          externalIdNotes = null;
-          accountState.clear();
-          updatedAccounts.clear();
+    try (RefUpdateContext ctx = RefUpdateContext.open(INTERNAL_ACTION)) {
+      List<Optional<AccountState>> accountState = new ArrayList<>();
+      List<UpdatedAccount> updatedAccounts = new ArrayList<>();
+      executeWithRetry(
+          () -> {
 
-          try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-            for (ExecutableUpdate executableUpdate : executableUpdates) {
-              updatedAccounts.add(executableUpdate.execute(allUsersRepo));
+            // Reset state for retry.
+            externalIdNotes = null;
+            accountState.clear();
+            updatedAccounts.clear();
+            try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+              for (ExecutableUpdate executableUpdate : executableUpdates) {
+                updatedAccounts.add(executableUpdate.execute(allUsersRepo));
+              }
+              commit(
+                  allUsersRepo,
+                  updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
+              for (UpdatedAccount ua : updatedAccounts) {
+                accountState.add(ua == null ? Optional.empty() : ua.getAccountState());
+              }
             }
-            commit(
-                allUsersRepo, updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
-            for (UpdatedAccount ua : updatedAccounts) {
-              accountState.add(ua == null ? Optional.empty() : ua.getAccountState());
-            }
-          }
-          return null;
-        });
-    return ImmutableList.copyOf(accountState);
+            return null;
+          });
+
+      return ImmutableList.copyOf(accountState);
+    }
   }
 
   private void executeWithRetry(Action<Void> action) throws IOException, ConfigInvalidException {

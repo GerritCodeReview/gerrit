@@ -21,12 +21,18 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Named Queries for user accounts.

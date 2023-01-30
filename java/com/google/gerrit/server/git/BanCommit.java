@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.entities.RefNames.REFS_REJECT_COMMITS;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BAN_COMMIT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.entities.Project;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -128,21 +130,23 @@ public class BanCommit {
         banCommitNotes.set(commitToBan, noteId);
       }
       NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project, repo, inserter);
-      NoteMap newlyCreated =
-          notesBranchUtil.commitNewNotes(
-              banCommitNotes,
-              REFS_REJECT_COMMITS,
-              createPersonIdent(),
-              buildCommitMessage(commitsToBan, reason));
+      try(RefUpdateContext ctx = RefUpdateContext.open(BAN_COMMIT)) {
+        NoteMap newlyCreated =
+            notesBranchUtil.commitNewNotes(
+                banCommitNotes,
+                REFS_REJECT_COMMITS,
+                createPersonIdent(),
+                buildCommitMessage(commitsToBan, reason));
 
-      for (Note n : banCommitNotes) {
-        if (newlyCreated.contains(n)) {
-          result.commitBanned(n);
-        } else {
-          result.commitAlreadyBanned(n);
+        for (Note n : banCommitNotes) {
+          if (newlyCreated.contains(n)) {
+            result.commitBanned(n);
+          } else {
+            result.commitAlreadyBanned(n);
+          }
         }
+        return result;
       }
-      return result;
     }
   }
 

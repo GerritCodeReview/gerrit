@@ -15,6 +15,7 @@
 package com.google.gerrit.gpg;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GPG_KEYS_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -24,6 +25,7 @@ import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -377,35 +379,36 @@ public class PublicKeyStore implements AutoCloseable {
       newTip = ins.insert(cb);
       ins.flush();
     }
-
-    RefUpdate ru = repo.updateRef(PublicKeyStore.REFS_GPG_KEYS);
-    ru.setExpectedOldObjectId(tip);
-    ru.setNewObjectId(newTip);
-    ru.setRefLogIdent(cb.getCommitter());
-    ru.setRefLogMessage("Store public keys", true);
-    RefUpdate.Result result = ru.update();
-    reset();
-    switch (result) {
-      case FAST_FORWARD:
-      case NEW:
-      case NO_CHANGE:
-        toAdd.clear();
-        toRemove.clear();
-        break;
-      case LOCK_FAILURE:
-        throw new LockFailureException("Failed to store public keys", ru);
-      case FORCED:
-      case IO_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      default:
-        break;
+    try(RefUpdateContext ctx = RefUpdateContext.open(GPG_KEYS_MODIFICATION)) {
+      RefUpdate ru = repo.updateRef(PublicKeyStore.REFS_GPG_KEYS);
+      ru.setExpectedOldObjectId(tip);
+      ru.setNewObjectId(newTip);
+      ru.setRefLogIdent(cb.getCommitter());
+      ru.setRefLogMessage("Store public keys", true);
+      RefUpdate.Result result = ru.update();
+      reset();
+      switch (result) {
+        case FAST_FORWARD:
+        case NEW:
+        case NO_CHANGE:
+          toAdd.clear();
+          toRemove.clear();
+          break;
+        case LOCK_FAILURE:
+          throw new LockFailureException("Failed to store public keys", ru);
+        case FORCED:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          break;
+      }
+      return result;
     }
-    return result;
   }
 
   private void saveToNotes(ObjectInserter ins, PGPPublicKeyRing keyRing)

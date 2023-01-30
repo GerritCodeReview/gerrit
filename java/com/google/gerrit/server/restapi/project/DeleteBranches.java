@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.collect.ImmutableSet;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -52,9 +54,10 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
       // Never allow to delete the meta config branch.
       throw new MethodNotAllowedException("not allowed to delete branch " + RefNames.REFS_CONFIG);
     }
-
-    deleteRef.deleteMultipleRefs(
-        project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      deleteRef.deleteMultipleRefs(
+          project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
+    }
     return Response.none();
   }
 }

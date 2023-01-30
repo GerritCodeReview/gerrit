@@ -98,6 +98,7 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
@@ -1147,7 +1148,7 @@ public class GroupsIT extends AbstractDaemonTest {
       RefUpdate ru = repo.updateRef(RefNames.refsGroups(uuid));
       ru.setForceUpdate(true);
       ru.setNewObjectId(ObjectId.zeroId());
-      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      RefUpdateContext.testSetup(() -> assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED));
     }
 
     // Reindex the group.
@@ -1349,7 +1350,8 @@ public class GroupsIT extends AbstractDaemonTest {
         updateRef.setExpectedOldObjectId(commit.toObjectId());
         updateRef.setNewObjectId(ObjectId.zeroId());
         updateRef.setForceUpdate(true);
-        assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+        RefUpdateContext.testSetup(
+            () -> assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED));
       }
 
       // refs/meta/group-names is only visible with ACCESS_DATABASE
@@ -1449,7 +1451,8 @@ public class GroupsIT extends AbstractDaemonTest {
       RefUpdate updateRef = repo.updateRef(groupRef);
       updateRef.setExpectedOldObjectId(commit.toObjectId());
       updateRef.setNewObjectId(emptyCommit);
-      assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+      RefUpdateContext.testSetup(
+          () -> assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED));
     }
     assertStaleGroupAndReindex(groupUuid);
 
@@ -1461,7 +1464,8 @@ public class GroupsIT extends AbstractDaemonTest {
       updateRef.setExpectedOldObjectId(commit.toObjectId());
       updateRef.setNewObjectId(ObjectId.zeroId());
       updateRef.setForceUpdate(true);
-      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      RefUpdateContext.testSetup(
+          () -> assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED));
     }
     assertStaleGroupAndReindex(groupUuid);
   }
@@ -1506,13 +1510,15 @@ public class GroupsIT extends AbstractDaemonTest {
       // then run the reindexer -> only the new group is reindexed.
       String groupName = "foo";
       AccountGroup.UUID groupUuid = AccountGroup.uuid(groupName + "-UUID");
-      groupsUpdate.createGroupInNoteDb(
-          InternalGroupCreation.builder()
-              .setGroupUUID(groupUuid)
-              .setNameKey(AccountGroup.nameKey(groupName))
-              .setId(AccountGroup.id(seq.nextGroupId()))
-              .build(),
-          GroupDelta.builder().build());
+      RefUpdateContext.testSetup(
+          () ->
+              groupsUpdate.createGroupInNoteDb(
+                  InternalGroupCreation.builder()
+                      .setGroupUUID(groupUuid)
+                      .setNameKey(AccountGroup.nameKey(groupName))
+                      .setId(AccountGroup.id(seq.nextGroupId()))
+                      .build(),
+                  GroupDelta.builder().build()));
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
 
@@ -1528,7 +1534,7 @@ public class GroupsIT extends AbstractDaemonTest {
       try (Repository repo = repoManager.openRepository(allUsers)) {
         RefUpdate u = repo.updateRef(RefNames.refsGroups(groupUuid));
         u.setForceUpdate(true);
-        assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
+        RefUpdateContext.testSetup(() -> assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED));
       }
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
@@ -1613,7 +1619,8 @@ public class GroupsIT extends AbstractDaemonTest {
       RefUpdate updateRef = r.updateRef(ref);
       updateRef.setExpectedOldObjectId(ObjectId.zeroId());
       updateRef.setNewObjectId(emptyCommit);
-      assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW);
+      RefUpdateContext.testSetup(
+          () -> assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW));
     }
   }
 

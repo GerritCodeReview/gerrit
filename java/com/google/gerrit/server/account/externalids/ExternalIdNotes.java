@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

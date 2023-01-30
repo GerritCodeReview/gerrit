@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db.testing;
 
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -45,26 +46,29 @@ public class GroupTestUtil {
       String fileName,
       String contents)
       throws Exception {
-    try (RevWalk rw = new RevWalk(allUsersRepo);
-        TestRepository<Repository> testRepository = new TestRepository<>(allUsersRepo, rw)) {
-      TestRepository<Repository>.CommitBuilder builder =
-          testRepository
-              .branch(refName)
-              .commit()
-              .add(fileName, contents)
-              .message("update group file")
-              .author(serverIdent)
-              .committer(serverIdent);
+    RefUpdateContext.testSetup(
+        () -> {
+          try (RevWalk rw = new RevWalk(allUsersRepo);
+              TestRepository<Repository> testRepository = new TestRepository<>(allUsersRepo, rw)) {
+            TestRepository<Repository>.CommitBuilder builder =
+                testRepository
+                    .branch(refName)
+                    .commit()
+                    .add(fileName, contents)
+                    .message("update group file")
+                    .author(serverIdent)
+                    .committer(serverIdent);
 
-      Ref ref = allUsersRepo.exactRef(refName);
-      if (ref != null) {
-        RevCommit c = rw.parseCommit(ref.getObjectId());
-        if (c != null) {
-          builder.parent(c);
-        }
-      }
-      builder.create();
-    }
+            Ref ref = allUsersRepo.exactRef(refName);
+            if (ref != null) {
+              RevCommit c = rw.parseCommit(ref.getObjectId());
+              if (c != null) {
+                builder.parent(c);
+              }
+            }
+            builder.create();
+          }
+        });
   }
 
   private GroupTestUtil() {}

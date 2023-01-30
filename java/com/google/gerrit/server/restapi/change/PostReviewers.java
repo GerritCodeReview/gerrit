@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -70,11 +73,14 @@ public class PostReviewers
     if (modification.op == null) {
       return Response.ok(modification.result);
     }
-    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      bu.setNotify(resolveNotify(rsrc, input));
-      Change.Id id = rsrc.getChange().getId();
-      bu.addOp(id, modification.op);
-      bu.execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(),
+          TimeUtil.now())) {
+        bu.setNotify(resolveNotify(rsrc, input));
+        Change.Id id = rsrc.getChange().getId();
+        bu.addOp(id, modification.op);
+        bu.execute();
+      }
     }
 
     // Re-read change to take into account results of the update.

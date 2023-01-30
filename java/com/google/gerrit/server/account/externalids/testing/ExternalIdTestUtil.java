@@ -22,6 +22,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -143,7 +144,7 @@ public class ExternalIdTestUtil {
       RefUpdate u = repo.updateRef(RefNames.REFS_EXTERNAL_IDS);
       u.setExpectedOldObjectId(rev);
       u.setNewObjectId(commitId);
-      RefUpdate.Result res = u.update();
+      RefUpdate.Result res = RefUpdateContext.testSetup(() -> u.update());
       switch (res) {
         case NEW:
         case FAST_FORWARD:

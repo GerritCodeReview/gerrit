@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -47,6 +48,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -99,11 +101,13 @@ public class Restore
         .checkStatePermitsWrite();
 
     Op op = new Op(input);
-    try (BatchUpdate u =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
-      u.addOp(rsrc.getId(), op).execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u =
+          updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
+        u.addOp(rsrc.getId(), op).execute();
+      }
+      return Response.ok(json.noOptions().format(op.change));
     }
-    return Response.ok(json.noOptions().format(op.change));
   }
 
   private class Op implements BatchUpdateOp {

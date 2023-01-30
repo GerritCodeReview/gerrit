@@ -19,6 +19,7 @@ import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
@@ -59,6 +60,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -156,11 +159,14 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();
 
     Op op = new Op(input);
-    try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.now())) {
-      u.addOp(change.getId(), op);
-      u.execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u = updateFactory.create(project, caller, TimeUtil.now())) {
+        u.addOp(change.getId(), op);
+        u.execute();
+      }
     }
     return Response.ok(json.noOptions().format(op.getChange()));
+
   }
 
   private class Op implements BatchUpdateOp {

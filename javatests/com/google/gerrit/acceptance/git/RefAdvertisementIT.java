@@ -24,6 +24,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -217,7 +218,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
       mtu.setExpectedOldObjectId(ObjectId.zeroId());
       mtu.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
-      assertThat(mtu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(mtu.update()).isEqualTo(RefUpdate.Result.NEW));
 
       //   rcMaster (c1 master master-tag) <-- rcBranch (c2 branch branch-tag)
       //       \                                  \
@@ -225,14 +226,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(repo.exactRef("refs/heads/branch").getObjectId());
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW));
 
       // Create a tag for the tree of the commit on 'master'
       // tree-tag -> master.tree
       RefUpdate ttu = repo.updateRef("refs/tags/tree-tag");
       ttu.setExpectedOldObjectId(ObjectId.zeroId());
       ttu.setNewObjectId(rcMaster.getTree().toObjectId());
-      assertThat(ttu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(ttu.update()).isEqualTo(RefUpdate.Result.NEW));
     }
   }
 
@@ -588,14 +589,17 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
         .update();
-    // Create a tag for the pending change on 'branch' so that the tag is orphaned
-    try (Repository repo = repoManager.openRepository(project)) {
-      // change4-tag -> psRef4
-      RefUpdate ctu = repo.updateRef("refs/tags/change4-tag");
-      ctu.setExpectedOldObjectId(ObjectId.zeroId());
-      ctu.setNewObjectId(repo.exactRef(psRef4).getObjectId());
-      assertThat(ctu.update()).isEqualTo(RefUpdate.Result.NEW);
-    }
+    testRefAction(
+        () -> {
+          // Create a tag for the pending change on 'branch' so that the tag is orphaned
+          try (Repository repo = repoManager.openRepository(project)) {
+            // change4-tag -> psRef4
+            RefUpdate ctu = repo.updateRef("refs/tags/change4-tag");
+            ctu.setExpectedOldObjectId(ObjectId.zeroId());
+            ctu.setNewObjectId(repo.exactRef(psRef4).getObjectId());
+            assertThat(ctu.update()).isEqualTo(RefUpdate.Result.NEW);
+          }
+        });
 
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(
@@ -641,7 +645,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate btu = repo.updateRef("refs/tags/master-newtag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(r.getCommit());
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW));
     }
 
     assertUploadPackRefs(
@@ -695,7 +699,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate btu = repo.updateRef("refs/tags/branch-newtag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(tagRc);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW));
     }
 
     assertUploadPackRefs(
@@ -751,7 +755,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate btu = repo.updateRef("refs/tags/branch-newtag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(tagRc);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW));
     }
 
     assertUploadPackRefs(
@@ -794,10 +798,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RevCommit bRc = r.getCommit();
 
       // rcBranch (c2) <- newcommit1 (branch-oldtag) <- newcommit2 (branch)
-      RefUpdate btu = repo.updateRef("refs/tags/branch-oldtag");
-      btu.setExpectedOldObjectId(ObjectId.zeroId());
-      btu.setNewObjectId(tagRc);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      RefUpdate btu1 = repo.updateRef("refs/tags/branch-oldtag");
+
+      btu1.setExpectedOldObjectId(ObjectId.zeroId());
+      btu1.setNewObjectId(tagRc);
+      testRefAction(() -> assertThat(btu1.update()).isEqualTo(RefUpdate.Result.NEW));
 
       assertUploadPackRefs(
           psRef2,
@@ -811,11 +816,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           "refs/tags/master-tag");
 
       // rcBranch (c2 branch) <- newcommit1 (branch-oldtag) <- newcommit2
-      btu = repo.updateRef("refs/heads/branch");
-      btu.setExpectedOldObjectId(bRc);
-      btu.setNewObjectId(rcBranch);
-      btu.setForceUpdate(true);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.FORCED);
+      RefUpdate btu2 = repo.updateRef("refs/heads/branch");
+      btu2.setExpectedOldObjectId(bRc);
+      btu2.setNewObjectId(rcBranch);
+      btu2.setForceUpdate(true);
+      testRefAction(() -> assertThat(btu2.update()).isEqualTo(RefUpdate.Result.FORCED));
     }
 
     assertUploadPackRefs(
@@ -907,7 +912,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       btu.setExpectedOldObjectId(tagRc);
       btu.setNewObjectId(rcBranch);
       btu.setForceUpdate(true);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.FORCED);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.FORCED));
     }
 
     assertUploadPackRefs(
@@ -939,7 +944,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       RefUpdate btu = repo.updateRef("refs/tags/updated-tag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(rcBranch);
-      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+      testRefAction(() -> assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW));
 
       assertUploadPackRefs(
           psRef2,
@@ -995,13 +1000,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/tags/master-tag");
 
     // rcBranch (c2 branch)
-    try (Repository repo = repoManager.openRepository(project)) {
-      RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
-      btu.setExpectedOldObjectId(rcBranch);
-      btu.setNewObjectId(ObjectId.zeroId());
-      btu.setForceUpdate(true);
-      assertThat(btu.delete()).isEqualTo(RefUpdate.Result.FORCED);
-    }
+    testRefAction(
+        () -> {
+          try (Repository repo = repoManager.openRepository(project)) {
+            RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
+            btu.setExpectedOldObjectId(rcBranch);
+            btu.setNewObjectId(ObjectId.zeroId());
+            btu.setForceUpdate(true);
+            assertThat(btu.delete()).isEqualTo(RefUpdate.Result.FORCED);
+          }
+        });
 
     assertUploadPackRefs(
         psRef2, metaRef2, psRef4, metaRef4, "refs/heads/branch", "refs/tags/master-tag");

@@ -27,6 +27,7 @@ import static com.google.gerrit.extensions.common.testing.GitPersonSubject.asser
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
@@ -116,16 +117,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Before
   public void addNonCommitHead() throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter ins = repo.newObjectInserter()) {
-      ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
-      ins.flush();
-      ins.close();
+    testRefAction(
+        () -> {
+          try (Repository repo = repoManager.openRepository(project);
+              ObjectInserter ins = repo.newObjectInserter()) {
+            ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
+            ins.flush();
+            ins.close();
 
-      RefUpdate update = repo.getRefDatabase().newUpdate("refs/heads/answer", false);
-      update.setNewObjectId(answer);
-      assertThat(update.forceUpdate()).isEqualTo(RefUpdate.Result.NEW);
-    }
+            RefUpdate update = repo.getRefDatabase().newUpdate("refs/heads/answer", false);
+            update.setNewObjectId(answer);
+            assertThat(update.forceUpdate()).isEqualTo(RefUpdate.Result.NEW);
+          }
+        });
   }
 
   @Test

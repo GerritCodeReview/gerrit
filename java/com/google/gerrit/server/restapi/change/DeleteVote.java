@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,34 +82,37 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     if (r.getRevisionResource() != null && !r.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException("Cannot delete vote on non-current patch set");
     }
-
-    try (BatchUpdate bu =
-        updateFactory.create(
-            change.getProject(), r.getChangeResource().getUser(), TimeUtil.now())) {
-      bu.setNotify(
-          notifyResolver.resolve(
-              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
-      bu.addOp(
-          change.getId(),
-          deleteVoteOpFactory.create(
-              r.getChange().getProject(),
-              r.getReviewerUser().state(),
-              rsrc.getLabel(),
-              input,
-              true));
-      if (!input.ignoreAutomaticAttentionSetRules
-          && !r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(
+              change.getProject(), r.getChangeResource().getUser(), TimeUtil.now())) {
+        bu.setNotify(
+            notifyResolver.resolve(
+                firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
         bu.addOp(
             change.getId(),
-            attentionSetOpFactory.create(
-                r.getReviewerUser().getAccountId(),
-                /* reason= */ "Their vote was deleted",
-                /* notify= */ false));
+            deleteVoteOpFactory.create(
+                r.getChange().getProject(),
+                r.getReviewerUser().state(),
+                rsrc.getLabel(),
+                input,
+                true));
+        if (!input.ignoreAutomaticAttentionSetRules
+            && !r.getReviewerUser()
+                .getAccountId()
+                .equals(currentUserProvider.get().getAccountId())) {
+          bu.addOp(
+              change.getId(),
+              attentionSetOpFactory.create(
+                  r.getReviewerUser().getAccountId(),
+                  /* reason= */ "Their vote was deleted",
+                  /* notify= */ false));
+        }
+        if (input.ignoreAutomaticAttentionSetRules) {
+          bu.addOp(change.getId(), new AttentionSetUnchangedOp());
+        }
+        bu.execute();
       }
-      if (input.ignoreAutomaticAttentionSetRules) {
-        bu.addOp(change.getId(), new AttentionSetUnchangedOp());
-      }
-      bu.execute();
     }
 
     return Response.none();

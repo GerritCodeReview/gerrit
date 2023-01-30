@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TAG_MODIFICATION;
+
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -22,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.TagResource;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -44,7 +47,9 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
 
     Preconditions.checkState(tag.startsWith(Constants.R_TAGS));
 
-    deleteRef.deleteSingleRef(resource.getProjectState(), tag);
+    try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
+      deleteRef.deleteSingleRef(resource.getProjectState(), tag);
+    }
     return Response.none();
   }
 }

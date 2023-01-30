@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -189,20 +191,24 @@ public class ChangeEditUtil {
       } else {
         message.append("Published edit on patch set ").append(basePatchSet.number()).append(".");
       }
-
-      try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.now())) {
-        bu.setRepository(repo, rw, oi);
-        bu.setNotify(notify);
-        bu.addOp(change.getId(), inserter.setMessage(message.toString()));
-        bu.addOp(
-            change.getId(),
-            new BatchUpdateOp() {
-              @Override
-              public void updateRepo(RepoContext ctx) throws Exception {
-                ctx.addRefUpdate(edit.getEditCommit().copy(), ObjectId.zeroId(), edit.getRefName());
-              }
-            });
-        bu.execute();
+      try (RefUpdateContext editCtx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        try (RefUpdateContext changeCtx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+          try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.now())) {
+            bu.setRepository(repo, rw, oi);
+            bu.setNotify(notify);
+            bu.addOp(change.getId(), inserter.setMessage(message.toString()));
+            bu.addOp(
+                change.getId(),
+                new BatchUpdateOp() {
+                  @Override
+                  public void updateRepo(RepoContext ctx) throws Exception {
+                    ctx.addRefUpdate(
+                        edit.getEditCommit().copy(), ObjectId.zeroId(), edit.getRefName());
+                  }
+                });
+            bu.execute();
+          }
+        }
       }
     }
   }
@@ -243,28 +249,30 @@ public class ChangeEditUtil {
   }
 
   private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
-    String refName = edit.getRefName();
-    RefUpdate ru = repo.updateRef(refName, true);
-    ru.setExpectedOldObjectId(edit.getEditCommit());
-    ru.setForceUpdate(true);
-    RefUpdate.Result result = ru.delete();
-    switch (result) {
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        break;
-      case LOCK_FAILURE:
-        throw new LockFailureException(String.format("Failed to delete ref %s", refName), ru);
-      case FAST_FORWARD:
-      case IO_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      default:
-        throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      String refName = edit.getRefName();
+      RefUpdate ru = repo.updateRef(refName, true);
+      ru.setExpectedOldObjectId(edit.getEditCommit());
+      ru.setForceUpdate(true);
+      RefUpdate.Result result = ru.delete();
+      switch (result) {
+        case FORCED:
+        case NEW:
+        case NO_CHANGE:
+          break;
+        case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Failed to delete ref %s", refName), ru);
+        case FAST_FORWARD:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
+      }
     }
     gitReferenceUpdated.fire(
         edit.getChange().getProject(),

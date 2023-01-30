@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.RefNames.REFS_VERSION;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -62,14 +63,14 @@ public class NoteDbSchemaVersionManagerTest {
 
   @Test
   public void incrementFromMissing() throws Exception {
-    manager.increment(123);
+    testRefAction(() -> manager.increment(123));
     assertThat(manager.read()).isEqualTo(124);
   }
 
   @Test
   public void increment() throws Exception {
     tr.update(REFS_VERSION, tr.blob("123"));
-    manager.increment(123);
+    testRefAction(() -> manager.increment(123));
     assertThat(manager.read()).isEqualTo(124);
   }
 

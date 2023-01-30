@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad091f4d_4667141c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-30T09:20:48Z",
+      "side": 1,
+      "message": "Less regex, better :)",
+      "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df68a1df_52b703ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-30T09:20:48Z",
+      "side": 1,
+      "message": "I assume this is offset now.",
+      "range": {
+        "startLine": 189,
+        "startChar": 52,
+        "endLine": 189,
+        "endChar": 58
+      },
+      "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

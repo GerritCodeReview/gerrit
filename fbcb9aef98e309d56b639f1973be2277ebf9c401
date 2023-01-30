@@ -87,6 +87,24 @@
       "parentUuid": "9b7f7381_9a7cb172",
       "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1267d183_911acb09",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T11:16:18Z",
+      "side": 1,
+      "message": "Thanks for the pointer!\n\nI would prefer to not encode `[!\u0027()*]` at this point, for the same reason that we don\u0027t encode `[:/@]`. As long as we don\u0027t run into problems I think less encoding is better than more encoding.\n\nAs I said, elegancy here does not seem to be useful, so yeah, let\u0027s keep that as is.\n\nBut I am happy to discuss the behavior of the function further, i.e. should something else be encoded or not?\n\nPassing the attention back for review.",
+      "parentUuid": "ffb232b1_47546032",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

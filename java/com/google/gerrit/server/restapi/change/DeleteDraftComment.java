@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -30,6 +32,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,11 +56,13 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
-      Op op = new Op(rsrc.getComment().key);
-      bu.addOp(rsrc.getChange().getId(), op);
-      bu.execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
+        Op op = new Op(rsrc.getComment().key);
+        bu.addOp(rsrc.getChange().getId(), op);
+        bu.execute();
+      }
     }
     return Response.none();
   }

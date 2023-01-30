@@ -5,7 +5,7 @@ java_library(
     testonly = True,
     srcs = glob(
         ["**/*.java"],
-        exclude = ["AssertableExecutorService.java"],
+        exclude = ["AssertableExecutorService.java", "TestActionRefUpdateContext.java"],
     ),
     visibility = ["//visibility:public"],
     exports = [
@@ -14,6 +14,7 @@ java_library(
     ],
     runtime_deps = ["//java/com/google/gerrit/index/testing"],
     deps = [
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/auth",
@@ -51,6 +52,7 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/log:impl-log4j",
         "//lib/truth",
+        "//lib/mockito",
     ],
 )
 
@@ -64,4 +66,13 @@ java_library(
         "//lib:guava",
         "//lib/truth",
     ],
+)
+
+java_library(
+    name = "test-ref-update-context",
+    srcs = ["TestActionRefUpdateContext.java"],
+    deps = ["//java/com/google/gerrit/server:server",
+            "//lib/errorprone:annotations"],
+    testonly = True,
+    visibility = ["//visibility:public"],
 )

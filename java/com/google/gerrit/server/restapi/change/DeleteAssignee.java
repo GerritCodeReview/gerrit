@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -36,6 +38,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -67,15 +70,17 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
-
-    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      Op op = new Op();
-      bu.addOp(rsrc.getChange().getId(), op);
-      bu.execute();
-      Account.Id deletedAssignee = op.getDeletedAssignee();
-      return deletedAssignee == null
-          ? Response.none()
-          : Response.ok(accountLoaderFactory.create(true).fillOne(deletedAssignee));
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
+        Op op = new Op();
+        bu.addOp(rsrc.getChange().getId(), op);
+        bu.execute();
+        Account.Id deletedAssignee = op.getDeletedAssignee();
+        return deletedAssignee == null
+            ? Response.none()
+            : Response.ok(accountLoaderFactory.create(true).fillOne(deletedAssignee));
+      }
     }
   }
 

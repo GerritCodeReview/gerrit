@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -90,16 +92,18 @@ public class AllUsersCreator {
   }
 
   public void create() throws IOException, ConfigInvalidException {
-    try (Repository git = mgr.openRepository(allUsersName)) {
-      initAllUsers(git);
-    } catch (RepositoryNotFoundException notFound) {
-      try (Repository git = mgr.createRepository(allUsersName)) {
+    try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
+      try (Repository git = mgr.openRepository(allUsersName)) {
         initAllUsers(git);
-        RefUpdate u = git.updateRef(Constants.HEAD);
-        u.link(RefNames.REFS_CONFIG);
-      } catch (RepositoryNotFoundException err) {
-        String name = allUsersName.get();
-        throw new IOException("Cannot create repository " + name, err);
+      } catch (RepositoryNotFoundException notFound) {
+        try (Repository git = mgr.createRepository(allUsersName)) {
+          initAllUsers(git);
+          RefUpdate u = git.updateRef(Constants.HEAD);
+          u.link(RefNames.REFS_CONFIG);
+        } catch (RepositoryNotFoundException err) {
+          String name = allUsersName.get();
+          throw new IOException("Cannot create repository " + name, err);
+        }
       }
     }
   }

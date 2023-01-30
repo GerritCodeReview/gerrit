@@ -94,7 +94,8 @@ public class DeleteChangeOp implements BatchUpdateOp {
                     .map(p -> p.commitId().name())
                     .orElse("n/a")));
     ctx.deleteChange();
-    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(), ctx.getWhen());
+    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(),
+        ctx.getWhen());
     return true;
   }
 

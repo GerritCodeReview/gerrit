@@ -39,6 +39,23 @@
       },
       "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76e283cb_82c6c874",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-30T09:22:37Z",
+      "side": 1,
+      "message": "Please use non-capturing groups for things you do not intend to capture.",
+      "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

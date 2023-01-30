@@ -32,6 +32,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.TEST_UPDATE;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
@@ -143,6 +144,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.context.UpdateContext;
+import com.google.gerrit.server.update.context.UpdateContext.UpdateType;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -1707,11 +1710,13 @@ public abstract class AbstractDaemonTest {
     }
 
     public void save() throws Exception {
-      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
-      projectConfig.commit(metaDataUpdate);
-      metaDataUpdate.close();
-      metaDataUpdate = null;
-      projectCache.evictAndReindex(projectConfig.getProject());
+      try(UpdateContext ctx = UpdateContext.open(TEST_UPDATE)) {
+        metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
+        projectConfig.commit(metaDataUpdate);
+        metaDataUpdate.close();
+        metaDataUpdate = null;
+        projectCache.evictAndReindex(projectConfig.getProject());
+      }
     }
 
     @Override

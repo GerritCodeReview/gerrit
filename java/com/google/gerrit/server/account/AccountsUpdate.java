@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.ACCOUNTS_UPDATE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableAction.Action;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -451,15 +453,17 @@ public class AccountsUpdate {
           externalIdNotes = null;
           accountState.clear();
           updatedAccounts.clear();
-
-          try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-            for (ExecutableUpdate executableUpdate : executableUpdates) {
-              updatedAccounts.add(executableUpdate.execute(allUsersRepo));
-            }
-            commit(
-                allUsersRepo, updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
-            for (UpdatedAccount ua : updatedAccounts) {
-              accountState.add(ua == null ? Optional.empty() : ua.getAccountState());
+          try(UpdateContext ctx = UpdateContext.open(ACCOUNTS_UPDATE)) {
+            try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+              for (ExecutableUpdate executableUpdate : executableUpdates) {
+                updatedAccounts.add(executableUpdate.execute(allUsersRepo));
+              }
+              commit(
+                  allUsersRepo,
+                  updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
+              for (UpdatedAccount ua : updatedAccounts) {
+                accountState.add(ua == null ? Optional.empty() : ua.getAccountState());
+              }
             }
           }
           return null;

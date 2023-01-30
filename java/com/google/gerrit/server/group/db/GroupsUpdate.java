@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.GROUPS_UPDATE;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -361,30 +364,32 @@ public class GroupsUpdate {
   @VisibleForTesting
   public UpdateResult updateGroupInNoteDb(AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
-    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
-      groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
-      if (!groupConfig.getLoadedGroup().isPresent()) {
-        throw new NoSuchGroupException(groupUuid);
+    try (UpdateContext ctx = UpdateContext.open(GROUPS_UPDATE)) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+        GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
+        groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
+        if (!groupConfig.getLoadedGroup().isPresent()) {
+          throw new NoSuchGroupException(groupUuid);
+        }
+
+        InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
+        GroupNameNotes groupNameNotes = null;
+        if (groupDelta.getName().isPresent()) {
+          AccountGroup.NameKey oldName = originalGroup.getNameKey();
+          AccountGroup.NameKey newName = groupDelta.getName().get();
+          groupNameNotes =
+              GroupNameNotes.forRename(allUsersName, allUsersRepo, groupUuid, oldName, newName);
+        }
+
+        commit(allUsersRepo, groupConfig, groupNameNotes);
+
+        InternalGroup updatedGroup =
+            groupConfig
+                .getLoadedGroup()
+                .orElseThrow(
+                    () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+        return getUpdateResult(originalGroup, updatedGroup);
       }
-
-      InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
-      GroupNameNotes groupNameNotes = null;
-      if (groupDelta.getName().isPresent()) {
-        AccountGroup.NameKey oldName = originalGroup.getNameKey();
-        AccountGroup.NameKey newName = groupDelta.getName().get();
-        groupNameNotes =
-            GroupNameNotes.forRename(allUsersName, allUsersRepo, groupUuid, oldName, newName);
-      }
-
-      commit(allUsersRepo, groupConfig, groupNameNotes);
-
-      InternalGroup updatedGroup =
-          groupConfig
-              .getLoadedGroup()
-              .orElseThrow(
-                  () -> new IllegalStateException("Updated group wasn't automatically loaded"));
-      return getUpdateResult(originalGroup, updatedGroup);
     }
   }
 

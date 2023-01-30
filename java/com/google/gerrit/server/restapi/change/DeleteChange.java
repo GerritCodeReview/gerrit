@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.DELETE_CHANGE;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.Input;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,11 +55,13 @@ public class DeleteChange
       throw new MethodNotAllowedException("delete not permitted");
     }
     rsrc.permissions().check(ChangePermission.DELETE);
-
-    try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      Change.Id id = rsrc.getChange().getId();
-      bu.addOp(id, opFactory.create(id));
-      bu.execute();
+    try(UpdateContext ctx = UpdateContext.open(DELETE_CHANGE)) {
+      try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(),
+          TimeUtil.now())) {
+        Change.Id id = rsrc.getChange().getId();
+        bu.addOp(id, opFactory.create(id));
+        bu.execute();
+      }
     }
     return Response.none();
   }

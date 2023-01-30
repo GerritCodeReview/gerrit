@@ -5,6 +5,7 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
+import '../gr-file-outline/gr-file-outline';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
@@ -768,25 +769,26 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <gr-diff-host
-        id="diffHost"
-        .changeNum=${this.changeNum}
-        .change=${this.change}
-        .patchRange=${this.patchRange}
-        .file=${file}
-        .lineOfInterest=${this.getLineOfInterest()}
-        .path=${this.path}
-        .projectName=${this.change?.project}
-        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onLineSelected}
-        @line-selected=${this.onLineSelected}
-        @diff-changed=${this.onDiffChanged}
-        @edit-weblinks-changed=${this.onEditWeblinksChanged}
-        @files-weblinks-changed=${this.onFilesWeblinksChanged}
-        @is-image-diff-changed=${this.onIsImageDiffChanged}
-        @render=${this.reInitCursor}
-      >
-      </gr-diff-host>
+      <gr-file-outline></gr-file-outline>
+      <!-- <gr-diff-host
+          id="diffHost"
+          .changeNum=${this.changeNum}
+          .change=${this.change}
+          .patchRange=${this.patchRange}
+          .file=${file}
+          .lineOfInterest=${this.getLineOfInterest()}
+          .path=${this.path}
+          .projectName=${this.change?.project}
+          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+          @comment-anchor-tap=${this.onLineSelected}
+          @line-selected=${this.onLineSelected}
+          @diff-changed=${this.onDiffChanged}
+          @edit-weblinks-changed=${this.onEditWeblinksChanged}
+          @files-weblinks-changed=${this.onFilesWeblinksChanged}
+          @is-image-diff-changed=${this.onIsImageDiffChanged}
+          @render=${this.reInitCursor}
+        >
+        </gr-diff-host> -->
       ${this.renderDialogs()}
     `;
   }

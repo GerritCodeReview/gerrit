@@ -3,6 +3,9 @@
   "description": "Gerrit Code Review - Polygerrit dependencies",
   "browser": true,
   "dependencies": {
+    "@lezer/common": "^1.0.2",
+    "@lezer/java": "^1.0.0",
+    "@lezer/javascript": "^1.4.1",
     "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
     "@polymer/iron-a11y-announcer": "^3.1.0",

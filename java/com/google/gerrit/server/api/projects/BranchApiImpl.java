@@ -36,6 +36,7 @@ import com.google.gerrit.server.restapi.project.FilesCollection;
 import com.google.gerrit.server.restapi.project.GetBranch;
 import com.google.gerrit.server.restapi.project.GetContent;
 import com.google.gerrit.server.restapi.project.GetReflog;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

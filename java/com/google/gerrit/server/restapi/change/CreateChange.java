@@ -80,6 +80,7 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -332,7 +333,8 @@ public class CreateChange
     logger.atFine().log(
         "Creating new change for target branch %s in project %s"
             + " (new branch = %s, base change = %s, base commit = %s)",
-        input.branch, projectState.getName(), input.newBranch, input.baseChange, input.baseCommit);
+        input.branch, projectState.getName(), input.newBranch, input.baseChange,
+        input.baseCommit);
 
     try (Repository git = gitManager.openRepository(projectState.getNameKey());
         ObjectInserter oi = git.newObjectInserter();
@@ -350,7 +352,8 @@ public class CreateChange
 
       ObjectId parentCommit =
           getParentCommit(
-              git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit, input.merge);
+              git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit,
+              input.merge);
       logger.atFine().log(
           "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
 
@@ -371,7 +374,8 @@ public class CreateChange
         // create a merge commit
         c =
             newMergeCommit(
-                git, oi, rw, projectState, mergeTip, input.merge, author, committer, commitMessage);
+                git, oi, rw, projectState, mergeTip, input.merge, author, committer,
+                commitMessage);
         if (!c.getFilesWithGitConflicts().isEmpty()) {
           logger.atFine().log(
               "merge commit has conflicts in the following files: %s",

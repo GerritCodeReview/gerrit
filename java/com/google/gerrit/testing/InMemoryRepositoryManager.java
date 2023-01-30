@@ -17,8 +17,10 @@ package com.google.gerrit.testing;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
+import com.google.gerrit.server.update.context.UpdateContextManager;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
@@ -54,6 +57,20 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     private Repo(Project.NameKey name) {
       super(new Description(name));
       setPerformsAtomicTransactions(true);
+    }
+
+    @Override
+    protected MemRefDatabase createMemRefDb() {
+      return new MemRefDatabase() {
+        @Override
+        public BatchRefUpdate newBatchUpdate() {
+          if(!UpdateContextManager.getThreadLocalInstance().hasOpenCtx()) {
+            checkState(UpdateContextManager.getThreadLocalInstance().hasOpenCtx());
+          }
+          return super.newBatchUpdate();
+
+        }
+      };
     }
 
     @Override

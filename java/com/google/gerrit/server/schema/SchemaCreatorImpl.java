@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.CREATE_ADMINS_GROUP;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.CREATE_BATCH_USERS_GROUP;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
@@ -38,6 +41,7 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -131,11 +135,13 @@ public class SchemaCreatorImpl implements SchemaCreator {
   private void createAdminsGroup(
       Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
       throws IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
-    GroupDelta groupDelta =
-        GroupDelta.builder().setDescription("Gerrit Site Administrators").build();
+    try(UpdateContext ctx = UpdateContext.open(CREATE_ADMINS_GROUP)) {
+      InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
+      GroupDelta groupDelta =
+          GroupDelta.builder().setDescription("Gerrit Site Administrators").build();
 
-    createGroup(allUsersRepo, groupCreation, groupDelta);
+      createGroup(allUsersRepo, groupCreation, groupDelta);
+    }
   }
 
   private void createBatchUsersGroup(
@@ -144,14 +150,16 @@ public class SchemaCreatorImpl implements SchemaCreator {
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
       throws IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
-    GroupDelta groupDelta =
-        GroupDelta.builder()
-            .setDescription("Users who perform batch actions on Gerrit")
-            .setOwnerGroupUUID(adminsGroupUuid)
-            .build();
+    try(UpdateContext ctx = UpdateContext.open(CREATE_BATCH_USERS_GROUP)) {
+      InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
+      GroupDelta groupDelta =
+          GroupDelta.builder()
+              .setDescription("Users who perform batch actions on Gerrit")
+              .setOwnerGroupUUID(adminsGroupUuid)
+              .build();
 
-    createGroup(allUsersRepo, groupCreation, groupDelta);
+      createGroup(allUsersRepo, groupCreation, groupDelta);
+    }
   }
 
   private void createGroup(

@@ -22,6 +22,30 @@
       },
       "revId": "260b5bac0cb33b19c1434afd20b717c91d196eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "554da70f_8bb2a259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T10:29:22Z",
+      "side": 1,
+      "message": "Added this TODO to `RoutePattern`:\n```\n// TODO: Move all patterns to view model files and use the `Route` interface,\n// which will enforce using `RegExp` in its `urlPattern` property.\n```",
+      "parentUuid": "c3d82138_d3897fe9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "260b5bac0cb33b19c1434afd20b717c91d196eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

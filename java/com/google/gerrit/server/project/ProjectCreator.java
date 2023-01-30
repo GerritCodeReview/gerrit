@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -43,6 +44,8 @@ import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.git.RepositoryExistsException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -105,36 +108,38 @@ public class ProjectCreator {
 
   public ProjectState createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
-    final Project.NameKey nameKey = args.getProject();
-    try {
-      final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
-      Status status = repoManager.getRepositoryStatus(nameKey);
-      if (!status.equals(Status.NON_EXISTENT)) {
-        throw new RepositoryExistsException(nameKey, "Repository status: " + status);
-      }
-      try (Repository repo = repoManager.createRepository(nameKey)) {
-        RefUpdate u = repo.updateRef(Constants.HEAD);
-        u.disableRefLog();
-        u.link(head);
-
-        createProjectConfig(args);
-
-        if (!args.permissionsOnly && args.createEmptyCommit) {
-          createEmptyCommits(repo, nameKey, args.branch);
+    try(RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
+      final Project.NameKey nameKey = args.getProject();
+      try {
+        final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
+        Status status = repoManager.getRepositoryStatus(nameKey);
+        if (!status.equals(Status.NON_EXISTENT)) {
+          throw new RepositoryExistsException(nameKey, "Repository status: " + status);
         }
+        try (Repository repo = repoManager.createRepository(nameKey)) {
+          RefUpdate u = repo.updateRef(Constants.HEAD);
+          u.disableRefLog();
+          u.link(head);
 
-        fire(nameKey, head);
+          createProjectConfig(args);
 
-        return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+          if (!args.permissionsOnly && args.createEmptyCommit) {
+            createEmptyCommits(repo, nameKey, args.branch);
+          }
+
+          fire(nameKey, head);
+
+          return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+        }
+      } catch (RepositoryExistsException e) {
+        throw new ResourceConflictException(
+            "Cannot create "
+                + nameKey.get()
+                + " because the name is already occupied by another project.",
+            e);
+      } catch (RepositoryNotFoundException badName) {
+        throw new BadRequestException("invalid project name: " + nameKey, badName);
       }
-    } catch (RepositoryExistsException e) {
-      throw new ResourceConflictException(
-          "Cannot create "
-              + nameKey.get()
-              + " because the name is already occupied by another project.",
-          e);
-    } catch (RepositoryNotFoundException badName) {
-      throw new BadRequestException("invalid project name: " + nameKey, badName);
     }
   }
 

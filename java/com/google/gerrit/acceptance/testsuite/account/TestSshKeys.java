@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.testing.TestActionRefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
@@ -88,7 +89,9 @@ public class TestSshKeys {
   private KeyPair createKeyPair(Account.Id accountId, String username, @Nullable String email)
       throws Exception {
     KeyPair keyPair = SshSessionFactory.genSshKey();
-    authorizedKeys.addKey(accountId, publicKey(keyPair, email));
+    TestActionRefUpdateContext.testRefAction(
+        () -> authorizedKeys.addKey(accountId, publicKey(keyPair, email)));
+
     sshKeyCache.evict(username);
     return keyPair;
   }

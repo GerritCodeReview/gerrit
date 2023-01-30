@@ -7,6 +7,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/server",
         "//lib:jgit",
     ],

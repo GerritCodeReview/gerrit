@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Charsets;
 import com.google.gerrit.common.Nullable;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -408,8 +410,10 @@ public class ChangeEditModifier {
     ObjectId newEditCommit =
         createCommit(repository, basePatchsetCommit, newTreeId, newCommitMessage, nowTimestamp);
 
-    return editBehavior.updateEditInStorage(
-        repository, notes, basePatchset, newEditCommit, nowTimestamp);
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      return editBehavior.updateEditInStorage(
+          repository, notes, basePatchset, newEditCommit, nowTimestamp);
+    }
   }
 
   private void assertCanEdit(ChangeNotes notes)
@@ -801,20 +805,22 @@ public class ChangeEditModifier {
         ObjectId targetObjectId,
         Instant timestamp)
         throws IOException {
-      RefUpdate ru = repository.updateRef(refName);
-      ru.setExpectedOldObjectId(currentObjectId);
-      ru.setNewObjectId(targetObjectId);
-      ru.setRefLogIdent(getRefLogIdent(timestamp));
-      ru.setRefLogMessage("inline edit (amend)", false);
-      ru.setForceUpdate(true);
-      try (RevWalk revWalk = new RevWalk(repository)) {
-        RefUpdate.Result res = ru.update(revWalk);
-        String message = "cannot update " + ru.getName() + " in " + projectName + ": " + res;
-        if (res == RefUpdate.Result.LOCK_FAILURE) {
-          throw new LockFailureException(message, ru);
-        }
-        if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
-          throw new IOException(message);
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        RefUpdate ru = repository.updateRef(refName);
+        ru.setExpectedOldObjectId(currentObjectId);
+        ru.setNewObjectId(targetObjectId);
+        ru.setRefLogIdent(getRefLogIdent(timestamp));
+        ru.setRefLogMessage("inline edit (amend)", false);
+        ru.setForceUpdate(true);
+        try (RevWalk revWalk = new RevWalk(repository)) {
+          RefUpdate.Result res = ru.update(revWalk);
+          String message = "cannot update " + ru.getName() + " in " + projectName + ": " + res;
+          if (res == RefUpdate.Result.LOCK_FAILURE) {
+            throw new LockFailureException(message, ru);
+          }
+          if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
+            throw new IOException(message);
+          }
         }
       }
       gitReferenceUpdated.fire(projectName, ru, getUpdater());
@@ -850,18 +856,21 @@ public class ChangeEditModifier {
         ObjectId targetObjectId,
         Instant timestamp)
         throws IOException {
-      BatchRefUpdate batchRefUpdate = repository.getRefDatabase().newBatchUpdate();
-      batchRefUpdate.addCommand(new ReceiveCommand(ObjectId.zeroId(), targetObjectId, newRefName));
-      batchRefUpdate.addCommand(
-          new ReceiveCommand(currentObjectId, ObjectId.zeroId(), currentRefName));
-      batchRefUpdate.setRefLogMessage("rebase edit", false);
-      batchRefUpdate.setRefLogIdent(getRefLogIdent(timestamp));
-      try (RevWalk revWalk = new RevWalk(repository)) {
-        batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
-      }
-      for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
-        if (cmd.getResult() != ReceiveCommand.Result.OK) {
-          throw new IOException("failed: " + cmd);
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        BatchRefUpdate batchRefUpdate = repository.getRefDatabase().newBatchUpdate();
+        batchRefUpdate.addCommand(
+            new ReceiveCommand(ObjectId.zeroId(), targetObjectId, newRefName));
+        batchRefUpdate.addCommand(
+            new ReceiveCommand(currentObjectId, ObjectId.zeroId(), currentRefName));
+        batchRefUpdate.setRefLogMessage("rebase edit", false);
+        batchRefUpdate.setRefLogIdent(getRefLogIdent(timestamp));
+        try (RevWalk revWalk = new RevWalk(repository)) {
+          batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
+        }
+        for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
+          if (cmd.getResult() != ReceiveCommand.Result.OK) {
+            throw new IOException("failed: " + cmd);
+          }
         }
       }
       gitReferenceUpdated.fire(projectName, batchRefUpdate, getUpdater());

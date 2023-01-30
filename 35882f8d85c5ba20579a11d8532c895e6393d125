@@ -22,6 +22,30 @@
       },
       "revId": "35882f8d85c5ba20579a11d8532c895e6393d125",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abeb9395_39e588af",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T10:29:11Z",
+      "side": 1,
+      "message": "The `LOG_IN_OR_OUT` pattern is a bit weird, because it actually matches URLs that we don\u0027t want to handle. Thus the tests already use `checkUrlNotMatched`. TBH I think without the `LOG_IN_OR_OUT` pattern and its handler Gerrit would behave identically, because calling `handlePassThroughRoute()` is also what the default router will eventually do.\n\nAdded a TODO.",
+      "parentUuid": "3b61a959_401dbd4e",
+      "range": {
+        "startLine": 1020,
+        "startChar": 6,
+        "endLine": 1022,
+        "endChar": 47
+      },
+      "revId": "35882f8d85c5ba20579a11d8532c895e6393d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

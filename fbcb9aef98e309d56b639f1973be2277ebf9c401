@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f59216_0e69fd0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-30T08:44:47Z",
+      "side": 1,
+      "message": "2 high-level comments:\n1. We still create URLs in far too many places.\n2. Can we fix page.js so we don\u0027t have to hack around encodeURIComponent for the % scenario? Or do the hack at parse time rather than encode-time.",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ed6a783_791a2217",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-30T08:44:47Z",
+      "side": 1,
+      "message": "Have a single output replacement stanza like:\n\n\n```\n  // page.js decodes the entire URL, and then decodes once more the\n  // individual regex matching groups. It uses `decodeURIComponent()`, which\n  // will choke on singular `%` chars without two trailing digits. We prefer\n  // to not double encode *everything* (just for readaiblity and simplicity),\n  // but `%` *must* be double encoded.\n  return encodeURIComponent(url.replace(\u0027%\u0027, \u0027%25\u0027)\n     // Note that the more recent RFC3986 reserves !, \u0027, (, ), and *\n     .replace(/[!\u0027()*]/g,\n              (c) \u003d\u003e `%${c.charCodeAt(0).toString(16).toUpperCase()}`\n     )\n     // Note that the following do not need to be escaped: :@/+|`^\n      .replace(/%(3A|40|2F|20|7C|60|5E)/, \n               (str, hex) \u003d\u003e String.fromCharCode(parseInt(hex, 16))\n      );\n```",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

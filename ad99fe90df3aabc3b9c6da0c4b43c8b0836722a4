@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217c2230_26243694",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-01-30T09:22:42Z",
+      "side": 1,
+      "message": "Do we need to change urls in UI buttons?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 13
+      },
+      "revId": "ad99fe90df3aabc3b9c6da0c4b43c8b0836722a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

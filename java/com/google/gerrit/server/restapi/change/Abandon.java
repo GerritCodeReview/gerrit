@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -36,6 +38,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -126,16 +130,18 @@ public class Abandon
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt);
     ChangeData changeData = changeDataFactory.create(notes.getProjectName(), notes.getChangeId());
-    try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.now())) {
-      u.setNotify(notify);
-      u.addOp(notes.getChangeId(), op);
-      u.addOp(
-          notes.getChangeId(),
-          storeSubmitRequirementsOpFactory.create(
-              changeData.submitRequirements().values(), changeData));
-      u.execute();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.now())) {
+        u.setNotify(notify);
+        u.addOp(notes.getChangeId(), op);
+        u.addOp(
+            notes.getChangeId(),
+            storeSubmitRequirementsOpFactory.create(
+                changeData.submitRequirements().values(), changeData));
+        u.execute();
+      }
+      return op.getChange();
     }
-    return op.getChange();
   }
 
   @Override

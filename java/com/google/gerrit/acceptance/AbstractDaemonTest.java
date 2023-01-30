@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.gerrit.server.update.context.TestActionRefUpdateContext.testRefAction;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.OptionalSubject.optionals;
@@ -1707,11 +1708,13 @@ public abstract class AbstractDaemonTest {
     }
 
     public void save() throws Exception {
-      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
-      projectConfig.commit(metaDataUpdate);
-      metaDataUpdate.close();
-      metaDataUpdate = null;
-      projectCache.evictAndReindex(projectConfig.getProject());
+      testRefAction(() -> {
+        metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
+        projectConfig.commit(metaDataUpdate);
+        metaDataUpdate.close();
+        metaDataUpdate = null;
+        projectCache.evictAndReindex(projectConfig.getProject());
+      });
     }
 
     @Override

@@ -36,6 +36,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -252,7 +253,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     try (BatchUpdate u =
         batchUpdateFactory.create(
             project, identifiedUserFactory.create(admin.id()), TimeUtil.now())) {
-      u.addOp(
+      RefUpdateContext.testSetup(() -> u.addOp(
               changeId,
               new BatchUpdateOp() {
                 @Override
@@ -265,7 +266,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
                   return true;
                 }
               })
-          .execute();
+          .execute());
     }
     assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
   }

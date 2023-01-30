@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.UPDATE_SUPERPROJECT;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.BranchNameKey;
@@ -25,6 +27,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -103,10 +106,12 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(
-          orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
-          ImmutableList.of(),
-          dryrun);
+      try (RefUpdateContext ctx = RefUpdateContext.open(UPDATE_SUPERPROJECT)) {
+        BatchUpdate.execute(
+            orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
+            ImmutableList.of(),
+            dryrun);
+      }
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -162,18 +164,19 @@ public class CommitUtil {
       ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp)
       throws RestApiException, UpdateException, ConfigInvalidException, IOException {
     String message = Strings.emptyToNull(input.message);
-
-    try (Repository git = repoManager.openRepository(notes.getProjectName());
-        ObjectInserter oi = git.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
-      ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
-      ObjectId revCommit =
-          createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
-      return createRevertChangeFromCommit(
-          revCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
-    } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(notes.getChangeId().toString(), e);
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (Repository git = repoManager.openRepository(notes.getProjectName());
+          ObjectInserter oi = git.newObjectInserter();
+          ObjectReader reader = oi.newReader();
+          RevWalk revWalk = new RevWalk(reader)) {
+        ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
+        ObjectId revCommit =
+            createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
+        return createRevertChangeFromCommit(
+            revCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
+      } catch (RepositoryNotFoundException e) {
+        throw new ResourceNotFoundException(notes.getChangeId().toString(), e);
+      }
     }
   }
 

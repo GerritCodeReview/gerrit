@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
+import static com.google.gerrit.server.update.context.TestActionRefUpdateContext.openTestRefUpdateContext;
+
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment.Status;
 import com.google.gerrit.entities.HumanComment;
@@ -34,6 +36,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -101,21 +104,23 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
 
   private String createComment(TestCommentCreation commentCreation)
       throws IOException, RestApiException, UpdateException {
+
     Project.NameKey project = changeNotes.getProjectName();
+    try(RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (Repository repository = repositoryManager.openRepository(project);
+          ObjectInserter objectInserter = repository.newObjectInserter();
+          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+        Instant now = TimeUtil.now();
 
-    try (Repository repository = repositoryManager.openRepository(project);
-        ObjectInserter objectInserter = repository.newObjectInserter();
-        RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Instant now = TimeUtil.now();
-
-      IdentifiedUser author = getAuthor(commentCreation);
-      CommentAdditionOp commentAdditionOp = new CommentAdditionOp(commentCreation);
-      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
-        batchUpdate.setRepository(repository, revWalk, objectInserter);
-        batchUpdate.addOp(changeNotes.getChangeId(), commentAdditionOp);
-        batchUpdate.execute();
+        IdentifiedUser author = getAuthor(commentCreation);
+        CommentAdditionOp commentAdditionOp = new CommentAdditionOp(commentCreation);
+        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
+          batchUpdate.setRepository(repository, revWalk, objectInserter);
+          batchUpdate.addOp(changeNotes.getChangeId(), commentAdditionOp);
+          batchUpdate.execute();
+        }
+        return commentAdditionOp.createdCommentUuid;
       }
-      return commentAdditionOp.createdCommentUuid;
     }
   }
 
@@ -197,21 +202,22 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
   private String createRobotComment(TestRobotCommentCreation robotCommentCreation)
       throws IOException, RestApiException, UpdateException {
     Project.NameKey project = changeNotes.getProjectName();
+    try(RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (Repository repository = repositoryManager.openRepository(project);
+          ObjectInserter objectInserter = repository.newObjectInserter();
+          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+        Instant now = TimeUtil.now();
 
-    try (Repository repository = repositoryManager.openRepository(project);
-        ObjectInserter objectInserter = repository.newObjectInserter();
-        RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Instant now = TimeUtil.now();
-
-      IdentifiedUser author = getAuthor(robotCommentCreation);
-      RobotCommentAdditionOp robotCommentAdditionOp =
-          new RobotCommentAdditionOp(robotCommentCreation);
-      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
-        batchUpdate.setRepository(repository, revWalk, objectInserter);
-        batchUpdate.addOp(changeNotes.getChangeId(), robotCommentAdditionOp);
-        batchUpdate.execute();
+        IdentifiedUser author = getAuthor(robotCommentCreation);
+        RobotCommentAdditionOp robotCommentAdditionOp =
+            new RobotCommentAdditionOp(robotCommentCreation);
+        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
+          batchUpdate.setRepository(repository, revWalk, objectInserter);
+          batchUpdate.addOp(changeNotes.getChangeId(), robotCommentAdditionOp);
+          batchUpdate.execute();
+        }
+        return robotCommentAdditionOp.createdRobotCommentUuid;
       }
-      return robotCommentAdditionOp.createdRobotCommentUuid;
     }
   }
 

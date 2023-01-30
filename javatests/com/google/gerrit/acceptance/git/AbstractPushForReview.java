@@ -111,6 +111,7 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
@@ -335,7 +336,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(repo.resolve(RefNames.REFS_CONFIG));
-      assertThat(u.delete(rw)).isEqualTo(Result.FORCED);
+      RefUpdateContext.testSetup(() -> assertThat(u.delete(rw)).isEqualTo(Result.FORCED));
     }
 
     RevCommit c =

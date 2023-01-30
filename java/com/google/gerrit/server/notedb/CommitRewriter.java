@@ -21,6 +21,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.CommitMessageRange;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -337,13 +339,15 @@ public class CommitRewriter {
     if (refsUpdate == null) {
       return;
     }
-    if (!refsUpdate.batchRefUpdate().getCommands().isEmpty()) {
-      if (!options.dryRun) {
-        refsUpdate.inserter().flush();
-        RefUpdateUtil.executeChecked(refsUpdate.batchRefUpdate(), refsUpdate.revWalk());
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      if (!refsUpdate.batchRefUpdate().getCommands().isEmpty()) {
+        if (!options.dryRun) {
+          refsUpdate.inserter().flush();
+          RefUpdateUtil.executeChecked(refsUpdate.batchRefUpdate(), refsUpdate.revWalk());
+        }
       }
+      refsUpdate.close();
     }
-    refsUpdate.close();
   }
 
   /**

@@ -30,6 +30,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.Optional;
@@ -197,7 +198,8 @@ public class SubmoduleCommitsTest {
     RefUpdate ru = serverRepo.updateRef(refName);
     ru.setExpectedOldObjectId(oldCommitId);
     ru.setNewObjectId(newCommitId);
-    assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD);
+    RefUpdateContext.testSetup(
+        () -> assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD));
     return rw.parseCommit(newCommitId);
   }
 

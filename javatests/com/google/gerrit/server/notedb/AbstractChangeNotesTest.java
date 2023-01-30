@@ -63,6 +63,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NullProjectCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
 import com.google.gerrit.testing.ConfigSuite;
@@ -247,13 +248,15 @@ public abstract class AbstractChangeNotesTest {
   }
 
   protected Change newChange(Injector injector, boolean workInProgress) throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate u = newUpdate(injector, c, changeOwner, false);
-    u.setChangeId(c.getKey().get());
-    u.setBranch(c.getDest().branch());
-    u.setWorkInProgress(workInProgress);
-    u.commit();
-    return c;
+    return RefUpdateContext.testSetup(() -> {
+      Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+      ChangeUpdate u = newUpdate(injector, c, changeOwner, false);
+      u.setChangeId(c.getKey().get());
+      u.setBranch(c.getDest().branch());
+      u.setWorkInProgress(workInProgress);
+      u.commit();
+      return c;
+    });
   }
 
   protected Change newWorkInProgressChange() throws Exception {

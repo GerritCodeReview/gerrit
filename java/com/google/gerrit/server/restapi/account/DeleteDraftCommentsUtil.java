@@ -14,6 +14,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -106,10 +108,12 @@ public class DeleteDraftCommentsUtil {
       update.addOp(cd.getId(), op);
       ops.add(op);
     }
-    // Currently there's no way to let some updates succeed even if others fail. Even if there were,
-    // all updates from this operation only happen in All-Users and thus are fully atomic, so
-    // allowing partial failure would have little value.
-    BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      // Currently there's no way to let some updates succeed even if others fail. Even if there were,
+      // all updates from this operation only happen in All-Users and thus are fully atomic, so
+      // allowing partial failure would have little value.
+      BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
+    }
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }
 

@@ -58,6 +58,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
@@ -1114,7 +1115,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.putReviewer(otherUser.getAccount().id(), CC);
-    update.commit();
+    RefUpdateContext.testSetup(() -> update.commit());
 
     ChangeNotes notes = newNotes(c);
     Instant ts = update.getWhen();
@@ -2022,7 +2023,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
       updateManager.add(update1);
       updateManager.add(update2);
-      updateManager.execute();
+      RefUpdateContext.testSetup(() -> updateManager.execute());
     }
 
     ChangeNotes notes = newNotes(c);
@@ -2071,7 +2072,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       update2.putApproval(LabelId.CODE_REVIEW, (short) 2);
       updateManager.add(update2);
 
-      updateManager.execute();
+      RefUpdateContext.testSetup(() -> updateManager.execute());
     }
 
     ChangeNotes notes = newNotes(c);
@@ -2133,7 +2134,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
       updateManager.add(update1);
       updateManager.add(update2);
-      updateManager.execute();
+      RefUpdateContext.testSetup(() ->updateManager.execute());
     }
 
     Ref ref1 = repo.exactRef(update1.getRefName());
@@ -3448,7 +3449,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     draftUpdate.putComment(comment2);
     try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject())) {
       manager.add(draftUpdate);
-      manager.execute();
+      RefUpdateContext.testSetup(() -> manager.execute());
     }
 
     // Looking at drafts directly shows the zombie comment.
@@ -3512,7 +3513,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
       manager.add(update1);
       manager.add(update2);
-      manager.execute();
+      RefUpdateContext.testSetup(() -> manager.execute());
     }
 
     ChangeNotes notes = newNotes(c);

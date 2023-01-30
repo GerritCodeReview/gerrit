@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -30,6 +31,8 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.notedb.ChangeNoteJson;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
@@ -191,10 +194,12 @@ public class DeleteZombieDraftIT extends AbstractDaemonTest {
   }
 
   private void restoreRef(String refName, ObjectId id) throws Exception {
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
-      RefUpdate u = allUsersRepo.updateRef(refName);
-      u.setNewObjectId(id);
-      u.forceUpdate();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+        RefUpdate u = allUsersRepo.updateRef(refName);
+        u.setNewObjectId(id);
+        u.forceUpdate();
+      }
     }
   }
 

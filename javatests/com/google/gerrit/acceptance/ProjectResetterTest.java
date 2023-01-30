@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.update.context.TestActionRefUpdateContext.openTestRefUpdateContext;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -286,14 +288,16 @@ public class ProjectResetterTest {
   }
 
   private Ref createRef(Repository repo, String ref) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(repo)) {
-      ObjectId emptyCommit = createCommit(repo);
-      RefUpdate updateRef = repo.updateRef(ref);
-      updateRef.setExpectedOldObjectId(ObjectId.zeroId());
-      updateRef.setNewObjectId(emptyCommit);
-      assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW);
-      return repo.exactRef(ref);
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (ObjectInserter oi = repo.newObjectInserter();
+          RevWalk rw = new RevWalk(repo)) {
+        ObjectId emptyCommit = createCommit(repo);
+        RefUpdate updateRef = repo.updateRef(ref);
+        updateRef.setExpectedOldObjectId(ObjectId.zeroId());
+        updateRef.setNewObjectId(emptyCommit);
+        assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW);
+        return repo.exactRef(ref);
+      }
     }
   }
 
@@ -302,17 +306,19 @@ public class ProjectResetterTest {
   }
 
   private Ref updateRef(Repository repo, Ref ref) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(repo)) {
-      ObjectId emptyCommit = createCommit(repo);
-      RefUpdate updateRef = repo.updateRef(ref.getName());
-      updateRef.setExpectedOldObjectId(ref.getObjectId());
-      updateRef.setNewObjectId(emptyCommit);
-      updateRef.setForceUpdate(true);
-      assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.FORCED);
-      Ref updatedRef = repo.exactRef(ref.getName());
-      assertThat(updatedRef.getObjectId()).isNotEqualTo(ref.getObjectId());
-      return updatedRef;
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (ObjectInserter oi = repo.newObjectInserter();
+          RevWalk rw = new RevWalk(repo)) {
+        ObjectId emptyCommit = createCommit(repo);
+        RefUpdate updateRef = repo.updateRef(ref.getName());
+        updateRef.setExpectedOldObjectId(ref.getObjectId());
+        updateRef.setNewObjectId(emptyCommit);
+        updateRef.setForceUpdate(true);
+        assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.FORCED);
+        Ref updatedRef = repo.exactRef(ref.getName());
+        assertThat(updatedRef.getObjectId()).isNotEqualTo(ref.getObjectId());
+        return updatedRef;
+      }
     }
   }
 

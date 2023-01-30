@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -63,6 +64,7 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -200,18 +202,20 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.id());
       PatchSetInserter psInserter =
           patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
-      try (BatchUpdate bu = updateFactory.create(project, me, now)) {
-        bu.setRepository(git, rw, oi);
-        bu.setNotify(NotifyResolver.Result.none());
-        psInserter
-            .setMessage(messageForChange(nextPsId, newCommit))
-            .setWorkInProgress(!newCommit.getFilesWithGitConflicts().isEmpty())
-            .setCheckAddPatchSetPermission(false);
-        if (groups != null) {
-          psInserter.setGroups(groups);
+      try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        try (BatchUpdate bu = updateFactory.create(project, me, now)) {
+          bu.setRepository(git, rw, oi);
+          bu.setNotify(NotifyResolver.Result.none());
+          psInserter
+              .setMessage(messageForChange(nextPsId, newCommit))
+              .setWorkInProgress(!newCommit.getFilesWithGitConflicts().isEmpty())
+              .setCheckAddPatchSetPermission(false);
+          if (groups != null) {
+            psInserter.setGroups(groups);
+          }
+          bu.addOp(rsrc.getId(), psInserter);
+          bu.execute();
         }
-        bu.addOp(rsrc.getId(), psInserter);
-        bu.execute();
       }
 
       ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);

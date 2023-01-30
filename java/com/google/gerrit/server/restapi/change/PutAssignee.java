@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -97,20 +100,22 @@ public class PutAssignee
       throw new AuthException("read not permitted for " + input.assignee, e);
     }
 
-    try (BatchUpdate bu =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
-      SetAssigneeOp op = assigneeFactory.create(assignee);
-      bu.addOp(rsrc.getId(), op);
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
+        SetAssigneeOp op = assigneeFactory.create(assignee);
+        bu.addOp(rsrc.getId(), op);
 
-      ReviewerSet currentReviewers = approvalsUtil.getReviewers(rsrc.getNotes());
-      if (!currentReviewers.all().contains(assignee.getAccountId())) {
-        ReviewerModification reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
-        reviewersAddition.op.suppressEmail();
-        bu.addOp(rsrc.getId(), reviewersAddition.op);
+        ReviewerSet currentReviewers = approvalsUtil.getReviewers(rsrc.getNotes());
+        if (!currentReviewers.all().contains(assignee.getAccountId())) {
+          ReviewerModification reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+          reviewersAddition.op.suppressEmail();
+          bu.addOp(rsrc.getId(), reviewersAddition.op);
+        }
+
+        bu.execute();
+        return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.getAccountId()));
       }
-
-      bu.execute();
-      return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.getAccountId()));
     }
   }
 

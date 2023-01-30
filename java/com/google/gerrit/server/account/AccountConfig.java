@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.time.Instant;

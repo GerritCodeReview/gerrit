@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TAG_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.ImmutableSet;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -43,12 +45,14 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
-
-    // If input.tags = ["refs/heads/bla"], this will actually delete the 'ref/heads/bla' branch,
-    // rather than refs/tags/refs/heads/bla.
-    // Since this is checked against DELETE permissions for refs/heads/bla, we'll let it go through.
-    deleteRef.deleteMultipleRefs(
-        project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
+    try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
+      // If input.tags = ["refs/heads/bla"], this will actually delete the 'ref/heads/bla' branch,
+      // rather than refs/tags/refs/heads/bla.
+      // Since this is checked against DELETE permissions for refs/heads/bla, we'll let it go
+      // through.
+      deleteRef.deleteMultipleRefs(
+          project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
+    }
     return Response.none();
   }
 }

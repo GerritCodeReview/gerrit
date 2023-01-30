@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.entities.RefNames.REFS_VERSION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.OFFLINE_OPERATION;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.exceptions.StorageException;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;

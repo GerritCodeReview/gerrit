@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -70,6 +71,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -306,24 +308,26 @@ public class RevertSubmission
     cherryPickInput.message = revertInput.message;
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
-    try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.now())) {
-      bu.setNotify(
-          notifyResolver.resolve(
-              firstNonNull(cherryPickInput.notify, NotifyHandling.ALL),
-              cherryPickInput.notifyDetails));
-      bu.addOp(
-          changeNotes.getChange().getId(),
-          new CreateCherryPickOp(
-              revCommitId,
-              generatedChangeId,
-              cherryPickRevertChangeId,
-              timestamp,
-              revertInput.workInProgress));
-      if (!revertInput.workInProgress) {
-        commitUtil.addChangeRevertedNotificationOps(
-            bu, changeNotes.getChangeId(), cherryPickRevertChangeId, generatedChangeId.name());
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.now())) {
+        bu.setNotify(
+            notifyResolver.resolve(
+                firstNonNull(cherryPickInput.notify, NotifyHandling.ALL),
+                cherryPickInput.notifyDetails));
+        bu.addOp(
+            changeNotes.getChange().getId(),
+            new CreateCherryPickOp(
+                revCommitId,
+                generatedChangeId,
+                cherryPickRevertChangeId,
+                timestamp,
+                revertInput.workInProgress));
+        if (!revertInput.workInProgress) {
+          commitUtil.addChangeRevertedNotificationOps(
+              bu, changeNotes.getChangeId(), cherryPickRevertChangeId, generatedChangeId.name());
+        }
+        bu.execute();
       }
-      bu.execute();
     }
   }
 

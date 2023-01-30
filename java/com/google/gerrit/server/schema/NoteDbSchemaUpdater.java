@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.OFFLINE_OPERATION;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -26,6 +27,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.stream.IntStream;
@@ -87,15 +90,16 @@ public class NoteDbSchemaUpdater {
       // seeded refs/meta/version during AllProjectsCreator, so it won't hit this block.
       checkNoteDbConfigFor216();
     }
-
-    for (int nextVersion : requiredUpgrades(currentVersion, schemaVersions.keySet())) {
-      try {
-        ui.message(String.format("Migrating data to schema %d ...", nextVersion));
-        NoteDbSchemaVersions.get(schemaVersions, nextVersion).upgrade(args, ui);
-        versionManager.increment(nextVersion - 1);
-      } catch (Exception e) {
-        throw new StorageException(
-            String.format("Failed to upgrade to schema version %d", nextVersion), e);
+    try(RefUpdateContext ctx = RefUpdateContext.open(OFFLINE_OPERATION)) {
+      for (int nextVersion : requiredUpgrades(currentVersion, schemaVersions.keySet())) {
+        try {
+          ui.message(String.format("Migrating data to schema %d ...", nextVersion));
+          NoteDbSchemaVersions.get(schemaVersions, nextVersion).upgrade(args, ui);
+          versionManager.increment(nextVersion - 1);
+        } catch (Exception e) {
+          throw new StorageException(
+              String.format("Failed to upgrade to schema version %d", nextVersion), e);
+        }
       }
     }
   }

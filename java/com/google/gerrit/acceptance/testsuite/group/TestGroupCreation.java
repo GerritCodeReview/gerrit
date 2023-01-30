@@ -14,12 +14,15 @@
 
 package com.google.gerrit.acceptance.testsuite.group;
 
+import static com.google.gerrit.server.update.context.TestActionRefUpdateContext.testRefAction;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.server.update.context.TestActionRefUpdateContext;
 import java.util.Optional;
 import java.util.Set;
 
@@ -106,7 +109,8 @@ public abstract class TestGroupCreation {
      */
     public AccountGroup.UUID create() {
       TestGroupCreation groupCreation = autoBuild();
-      return groupCreation.groupCreator().applyAndThrowSilently(groupCreation);
+      return TestActionRefUpdateContext.testRefAction(() -> groupCreation.groupCreator().applyAndThrowSilently(groupCreation));
+
     }
   }
 }

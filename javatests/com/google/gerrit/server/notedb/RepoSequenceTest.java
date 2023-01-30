@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -385,7 +386,7 @@ public class RepoSequenceTest {
       ins.flush();
       RefUpdate ru = repo.updateRef(refName);
       ru.setNewObjectId(newId);
-      assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED);
+      RefUpdateContext.testSetup(() -> assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED));
       return newId;
     } catch (IOException e) {
       throw new RuntimeException(e);

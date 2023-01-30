@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -47,6 +49,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -179,13 +182,15 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       ChangeNotes destNotes,
       CodeReviewCommit commit)
       throws IOException, UpdateException, RestApiException {
-    Change destChange = destNotes.getChange();
-    PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, commit);
-    inserter.setMessage(buildMessageForPatchSet(psId));
-    bu.addOp(destChange.getId(), inserter);
-    bu.execute();
-    return inserter.getChange();
+    try(RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      Change destChange = destNotes.getChange();
+      PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
+      PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, commit);
+      inserter.setMessage(buildMessageForPatchSet(psId));
+      bu.addOp(destChange.getId(), inserter);
+      bu.execute();
+      return inserter.getChange();
+    }
   }
 
   private static String buildMessageForPatchSet(PatchSet.Id psId) {

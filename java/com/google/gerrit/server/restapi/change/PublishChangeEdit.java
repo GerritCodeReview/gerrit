@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit implements RestModifyView<ChangeResource, PublishChangeEditInput> {
+
   private final BatchUpdate.Factory updateFactory;
   private final ChangeEditUtil editUtil;
   private final NotifyResolver notifyResolver;

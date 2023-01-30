@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -25,6 +26,7 @@ import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
@@ -90,26 +92,28 @@ public class AllUsersAsyncUpdate {
     Future<?> possiblyIgnoredError =
         executor.submit(
             () -> {
-              try (OpenRepo allUsersRepo = OpenRepo.open(repoManager, allUsersName)) {
-                allUsersRepo.addUpdatesNoLimits(draftUpdates);
-                allUsersRepo.flush();
-                BatchRefUpdate bru = allUsersRepo.repo.getRefDatabase().newBatchUpdate();
-                bru.setPushCertificate(pushCert);
-                if (refLogMessage != null) {
-                  bru.setRefLogMessage(refLogMessage, false);
-                } else {
-                  bru.setRefLogMessage(
-                      firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs async"),
-                      false);
+              try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+                try (OpenRepo allUsersRepo = OpenRepo.open(repoManager, allUsersName)) {
+                  allUsersRepo.addUpdatesNoLimits(draftUpdates);
+                  allUsersRepo.flush();
+                  BatchRefUpdate bru = allUsersRepo.repo.getRefDatabase().newBatchUpdate();
+                  bru.setPushCertificate(pushCert);
+                  if (refLogMessage != null) {
+                    bru.setRefLogMessage(refLogMessage, false);
+                  } else {
+                    bru.setRefLogMessage(
+                        firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs async"),
+                        false);
+                  }
+                  bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent);
+                  bru.setAtomic(true);
+                  allUsersRepo.cmds.addTo(bru);
+                  bru.setAllowNonFastForwards(true);
+                  RefUpdateUtil.executeChecked(bru, allUsersRepo.rw);
+                } catch (IOException e) {
+                  logger.atSevere().withCause(e).log(
+                      "Failed to delete draft comments asynchronously after publishing them");
                 }
-                bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent);
-                bru.setAtomic(true);
-                allUsersRepo.cmds.addTo(bru);
-                bru.setAllowNonFastForwards(true);
-                RefUpdateUtil.executeChecked(bru, allUsersRepo.rw);
-              } catch (IOException e) {
-                logger.atSevere().withCause(e).log(
-                    "Failed to delete draft comments asynchronously after publishing them");
               }
             });
   }

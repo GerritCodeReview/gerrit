@@ -185,6 +185,21 @@ public class RefNames {
     return ref.startsWith(REFS_CHANGES);
   }
 
+  /** True if the provided ref is in {@code refs/sequences/*}. */
+  public static boolean isSequenceRef(String ref) {
+    return ref.startsWith(REFS_SEQUENCES);
+  }
+
+  /** True if the provided ref is in {@code refs/tags/*}. */
+  public static boolean isTagRef(String ref) {
+    return ref.startsWith(REFS_TAGS);
+  }
+
+  /** True if the provided ref is {@link REFS_EXTERNAL_IDS}. */
+  public static boolean isExternalIdRef(String ref) {
+    return REFS_EXTERNAL_IDS.equals(ref);
+  }
+
   public static String refsGroups(AccountGroup.UUID groupUuid) {
     return REFS_GROUPS + shardUuid(groupUuid.get());
   }
@@ -328,6 +343,21 @@ public class RefNames {
   /** Whether the ref is the configuration branch, i.e. {@code refs/meta/config}, for a project. */
   public static boolean isConfigRef(String ref) {
     return REFS_CONFIG.equals(ref);
+  }
+
+  /** Whether the ref is the version branch, i.e. {@code refs/meta/version}. */
+  public static boolean isVersionRef(String ref) {
+    return REFS_VERSION.equals(ref);
+  }
+
+  /** Whether the ref is an auto-merge ref. */
+  public static boolean isAutoMergeRef(String ref) {
+    return ref.startsWith(REFS_CACHE_AUTOMERGE);
+  }
+
+  /** Whether the ref is an reject commit ref, i.e. {@code refs/meta/reject-commits} */
+  public static boolean isRejectCommitsRef(String ref) {
+    return REFS_REJECT_COMMITS.equals(ref);
   }
 
   /**

@@ -42,6 +42,7 @@ junit_tests(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",

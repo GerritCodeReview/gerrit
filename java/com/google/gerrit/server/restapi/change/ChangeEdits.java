@@ -61,6 +61,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -283,6 +284,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   /** Put handler that is activated when PUT request is called on collection element. */
   @Singleton
   public static class Put implements RestModifyView<ChangeEditResource, FileContentInput> {
+
     private static final Pattern BINARY_DATA_PATTERN =
         Pattern.compile("data:([\\w/.-]*);([\\w]+),(.*)");
     private static final String BASE64 = "base64";
@@ -304,14 +306,14 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<Object> apply(ChangeEditResource rsrc, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
-            PermissionBackendException {
+        PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
     public Response<Object> apply(
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
-            PermissionBackendException {
+        PermissionBackendException {
 
       if (fileContentInput.content == null && fileContentInput.binary_content == null) {
         throw new BadRequestException("either content or binary_content is required");
@@ -348,7 +350,6 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
                   + ") was invalid: supported values are 0, 644, or 755.");
         }
       }
-
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(
             repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);

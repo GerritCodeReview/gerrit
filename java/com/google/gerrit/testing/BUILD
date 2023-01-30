@@ -51,6 +51,7 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/log:impl-log4j",
         "//lib/truth",
+        "//lib/mockito",
     ],
 )
 

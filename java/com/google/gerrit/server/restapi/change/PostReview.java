@@ -104,6 +104,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -273,7 +274,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       reviewerJsonResults = Maps.newHashMap();
       for (ReviewerInput reviewerInput : input.reviewers) {
         ReviewerModification result =
-            reviewerModifier.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerModifier.prepare(revision.getNotes(), revision.getUser(), reviewerInput,
+                true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           logger.atFine().log(
@@ -312,7 +314,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (input.labels != null && !input.labels.isEmpty()) {
         ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
         if (ccOrReviewer) {
-          logger.atFine().log("calling user is cc/reviewer on the change due to voting on a label");
+          logger.atFine()
+              .log("calling user is cc/reviewer on the change due to voting on a label");
         }
       }
 
@@ -402,6 +405,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     return Response.ok(output);
   }
+
 
   private boolean didWorkInProgressChange(boolean currentWorkInProgress, ReviewInput input) {
     return input.ready == currentWorkInProgress || input.workInProgress != currentWorkInProgress;

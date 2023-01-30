@@ -31,6 +31,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -94,7 +95,8 @@ public class DeleteChangeOp implements BatchUpdateOp {
                     .map(p -> p.commitId().name())
                     .orElse("n/a")));
     ctx.deleteChange();
-    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(), ctx.getWhen());
+    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(),
+        ctx.getWhen());
     return true;
   }
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.ACQURE_SEQ;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -39,6 +40,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.update.context.UpdateContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -265,29 +267,31 @@ public class RepoSequence {
    * @param count the number of sequence numbers which should be retrieved
    */
   private void acquire(int count) {
-    try (Repository repo = repoManager.openRepository(projectName);
-        RevWalk rw = new RevWalk(repo)) {
-      logger.atFine().log("acquire %d ids on %s in %s", count, refName, projectName);
-      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
-      afterReadRef.run();
-      ObjectId oldId;
-      int next;
-      if (!blob.isPresent()) {
-        oldId = ObjectId.zeroId();
-        next = seed.get();
-      } else {
-        oldId = blob.get().id();
-        next = blob.get().value();
+    try(UpdateContext ctx = UpdateContext.open(ACQURE_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName);
+          RevWalk rw = new RevWalk(repo)) {
+        logger.atFine().log("acquire %d ids on %s in %s", count, refName, projectName);
+        Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+        afterReadRef.run();
+        ObjectId oldId;
+        int next;
+        if (!blob.isPresent()) {
+          oldId = ObjectId.zeroId();
+          next = seed.get();
+        } else {
+          oldId = blob.get().id();
+          next = blob.get().value();
+        }
+        next = Math.max(floor, next);
+        RefUpdate refUpdate =
+            IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
+        RefUpdateUtil.checkResult(refUpdate);
+        counter = next;
+        limit = counter + count;
+        acquireCount++;
+      } catch (IOException e) {
+        throw new StorageException(e);
       }
-      next = Math.max(floor, next);
-      RefUpdate refUpdate =
-          IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
-      RefUpdateUtil.checkResult(refUpdate);
-      counter = next;
-      limit = counter + count;
-      acquireCount++;
-    } catch (IOException e) {
-      throw new StorageException(e);
     }
   }
 

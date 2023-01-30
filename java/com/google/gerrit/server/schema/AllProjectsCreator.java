@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
+import static com.google.gerrit.server.update.context.UpdateContext.UpdateType.INIT_ALL_PROJECTS;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.update.context.UpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -84,18 +86,20 @@ public class AllProjectsCreator {
   }
 
   public void create(AllProjectsInput input) throws IOException, ConfigInvalidException {
-    try (Repository git = repositoryManager.openRepository(allProjectsName)) {
-      initAllProjects(git, input);
-    } catch (RepositoryNotFoundException notFound) {
-      // A repository may be missing if this project existed only to store
-      // inheritable permissions. For example 'All-Projects'.
-      try (Repository git = repositoryManager.createRepository(allProjectsName)) {
+    try(UpdateContext updCtx = UpdateContext.open(INIT_ALL_PROJECTS)) {
+      try (Repository git = repositoryManager.openRepository(allProjectsName)) {
         initAllProjects(git, input);
-        RefUpdate u = git.updateRef(Constants.HEAD);
-        u.link(RefNames.REFS_CONFIG);
-      } catch (RepositoryNotFoundException err) {
-        String name = allProjectsName.get();
-        throw new IOException("Cannot create repository " + name, err);
+      } catch (RepositoryNotFoundException notFound) {
+        // A repository may be missing if this project existed only to store
+        // inheritable permissions. For example 'All-Projects'.
+        try (Repository git = repositoryManager.createRepository(allProjectsName)) {
+          initAllProjects(git, input);
+          RefUpdate u = git.updateRef(Constants.HEAD);
+          u.link(RefNames.REFS_CONFIG);
+        } catch (RepositoryNotFoundException err) {
+          String name = allProjectsName.get();
+          throw new IOException("Cannot create repository " + name, err);
+        }
       }
     }
   }

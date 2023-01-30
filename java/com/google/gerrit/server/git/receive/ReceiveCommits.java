@@ -33,6 +33,8 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INSERT_CHANGES_AND_PATCH_SETS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -192,6 +194,7 @@ import com.google.gerrit.server.update.SubmissionExecutor;
 import com.google.gerrit.server.update.SubmissionListener;
 import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -759,13 +762,15 @@ class ReceiveCommits {
         String pushKind = magicBranch != null && magicBranch.submit ? "direct_submit" : "magic";
         metrics.pushCount.increment(pushKind, project.getName(), getUpdateType(magicCommands));
       }
-      if (!regularCommands.isEmpty()) {
-        metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
-      }
+      try (RefUpdateContext ctx = RefUpdateContext.open(DIRECT_PUSH)) {
+        if (!regularCommands.isEmpty()) {
+          metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
+        }
 
-      if (!regularCommands.isEmpty()) {
-        handleRegularCommands(regularCommands, progress);
-        return;
+        if (!regularCommands.isEmpty()) {
+          handleRegularCommands(regularCommands, progress);
+          return;
+        }
       }
 
       boolean first = true;
@@ -1015,120 +1020,124 @@ class ReceiveCommits {
 
   private void insertChangesAndPatchSets(
       ImmutableList<CreateRequest> newChanges, Task replaceProgress) {
-    try (TraceTimer traceTimer =
-        newTimer(
-            "insertChangesAndPatchSets", Metadata.builder().resourceCount(newChanges.size()))) {
-      ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
-      if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
-        logger.atWarning().log(
-            "Skipping change updates on %s because ref update failed: %s %s",
-            project.getName(),
-            magicBranchCmd.getResult(),
-            Strings.nullToEmpty(magicBranchCmd.getMessage()));
-        return;
-      }
-
-      try (BatchUpdate bu =
-              batchUpdateFactory.create(
-                  project.getNameKey(), user.materializedCopy(), TimeUtil.now());
-          ObjectInserter ins = repo.newObjectInserter();
-          ObjectReader reader = ins.newReader();
-          RevWalk rw = new RevWalk(reader)) {
-        bu.setRepository(repo, rw, ins);
-        bu.setRefLogMessage("push");
-        if (magicBranch != null) {
-          bu.setNotify(magicBranch.getNotifyForNewChange());
+    try (RefUpdateContext ctx = RefUpdateContext.open(INSERT_CHANGES_AND_PATCH_SETS)) {
+      try (TraceTimer traceTimer =
+          newTimer(
+              "insertChangesAndPatchSets", Metadata.builder().resourceCount(newChanges.size()))) {
+        ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
+        if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
+          logger.atWarning().log(
+              "Skipping change updates on %s because ref update failed: %s %s",
+              project.getName(),
+              magicBranchCmd.getResult(),
+              Strings.nullToEmpty(magicBranchCmd.getMessage()));
+          return;
         }
 
-        logger.atFine().log("Adding %d replace requests", newChanges.size());
-        for (ReplaceRequest replace : replaceByChange.values()) {
-          replace.addOps(bu, replaceProgress);
+        try (BatchUpdate bu =
+                batchUpdateFactory.create(
+                    project.getNameKey(), user.materializedCopy(), TimeUtil.now());
+            ObjectInserter ins = repo.newObjectInserter();
+            ObjectReader reader = ins.newReader();
+            RevWalk rw = new RevWalk(reader)) {
+          bu.setRepository(repo, rw, ins);
+          bu.setRefLogMessage("push");
           if (magicBranch != null) {
-            bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
-            if (magicBranch.shouldPublishComments()) {
-              bu.addOp(
-                  replace.notes.getChangeId(),
-                  publishCommentsOp.create(replace.psId, project.getNameKey()));
-              Optional<ChangeNotes> changeNotes = getChangeNotes(replace.notes.getChangeId());
-              if (!changeNotes.isPresent()) {
-                // If not present, no need to update attention set here since this is a new change.
-                continue;
+            bu.setNotify(magicBranch.getNotifyForNewChange());
+          }
+
+          logger.atFine().log("Adding %d replace requests", newChanges.size());
+          for (ReplaceRequest replace : replaceByChange.values()) {
+            replace.addOps(bu, replaceProgress);
+            if (magicBranch != null) {
+              bu.setNotifyHandling(
+                  replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+              if (magicBranch.shouldPublishComments()) {
+                bu.addOp(
+                    replace.notes.getChangeId(),
+                    publishCommentsOp.create(replace.psId, project.getNameKey()));
+                Optional<ChangeNotes> changeNotes = getChangeNotes(replace.notes.getChangeId());
+                if (!changeNotes.isPresent()) {
+                  // If not present, no need to update attention set here since this is a new
+                  // change.
+                  continue;
+                }
+                List<HumanComment> drafts =
+                    commentsUtil.draftByChangeAuthor(changeNotes.get(), user.getAccountId());
+                if (drafts.isEmpty()) {
+                  // If no comments, attention set shouldn't update since the user didn't reply.
+                  continue;
+                }
+                replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
+                    bu, changeNotes.get(), isReadyForReview(changeNotes.get()), user, drafts);
               }
-              List<HumanComment> drafts =
-                  commentsUtil.draftByChangeAuthor(changeNotes.get(), user.getAccountId());
-              if (drafts.isEmpty()) {
-                // If no comments, attention set shouldn't update since the user didn't reply.
-                continue;
-              }
-              replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
-                  bu, changeNotes.get(), isReadyForReview(changeNotes.get()), user, drafts);
             }
           }
-        }
 
-        logger.atFine().log("Adding %d create requests", newChanges.size());
-        for (CreateRequest create : newChanges) {
-          create.addOps(bu);
-        }
-
-        logger.atFine().log("Adding %d group update requests", newChanges.size());
-        updateGroups.forEach(r -> r.addOps(bu));
-
-        logger.atFine().log("Executing batch");
-        try {
-          bu.execute();
-        } catch (UpdateException e) {
-          throw asRestApiException(e);
-        }
-
-        replaceByChange.values().stream()
-            .forEach(
-                req ->
-                    result.addChange(ReceiveCommitsResult.ChangeStatus.REPLACED, req.ontoChange));
-        newChanges.stream()
-            .forEach(
-                req -> result.addChange(ReceiveCommitsResult.ChangeStatus.CREATED, req.changeId));
-
-        if (magicBranchCmd != null) {
-          magicBranchCmd.setResult(OK);
-        }
-        for (ReplaceRequest replace : replaceByChange.values()) {
-          String rejectMessage = replace.getRejectMessage();
-          if (rejectMessage == null) {
-            if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
-              // Not necessarily the magic branch, so need to set OK on the original value.
-              replace.inputCommand.setResult(OK);
-            }
-          } else {
-            logger.atFine().log("Rejecting due to message from ReplaceOp");
-            reject(replace.inputCommand, rejectMessage);
+          logger.atFine().log("Adding %d create requests", newChanges.size());
+          for (CreateRequest create : newChanges) {
+            create.addOps(bu);
           }
-        }
 
-      } catch (ResourceConflictException e) {
-        addError(e.getMessage());
-        reject(magicBranchCmd, "conflict");
-      } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
-        logger.atFine().withCause(e).log("Rejecting due to client error");
-        reject(magicBranchCmd, e.getMessage());
-      } catch (RestApiException | IOException e) {
-        throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
-      }
+          logger.atFine().log("Adding %d group update requests", newChanges.size());
+          updateGroups.forEach(r -> r.addOps(bu));
 
-      if (magicBranch != null && magicBranch.submit) {
-        try {
-          submit(newChanges, replaceByChange.values());
+          logger.atFine().log("Executing batch");
+          try {
+            bu.execute();
+          } catch (UpdateException e) {
+            throw asRestApiException(e);
+          }
+
+          replaceByChange.values().stream()
+              .forEach(
+                  req ->
+                      result.addChange(ReceiveCommitsResult.ChangeStatus.REPLACED, req.ontoChange));
+          newChanges.stream()
+              .forEach(
+                  req -> result.addChange(ReceiveCommitsResult.ChangeStatus.CREATED, req.changeId));
+
+          if (magicBranchCmd != null) {
+            magicBranchCmd.setResult(OK);
+          }
+          for (ReplaceRequest replace : replaceByChange.values()) {
+            String rejectMessage = replace.getRejectMessage();
+            if (rejectMessage == null) {
+              if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
+                // Not necessarily the magic branch, so need to set OK on the original value.
+                replace.inputCommand.setResult(OK);
+              }
+            } else {
+              logger.atFine().log("Rejecting due to message from ReplaceOp");
+              reject(replace.inputCommand, rejectMessage);
+            }
+          }
+
         } catch (ResourceConflictException e) {
           addError(e.getMessage());
           reject(magicBranchCmd, "conflict");
-        } catch (RestApiException
-            | StorageException
-            | UpdateException
-            | IOException
-            | ConfigInvalidException
-            | PermissionBackendException e) {
-          logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
-          reject(magicBranchCmd, "error during submit");
+        } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
+          logger.atFine().withCause(e).log("Rejecting due to client error");
+          reject(magicBranchCmd, e.getMessage());
+        } catch (RestApiException | IOException e) {
+          throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
+        }
+
+        if (magicBranch != null && magicBranch.submit) {
+          try {
+            submit(newChanges, replaceByChange.values());
+          } catch (ResourceConflictException e) {
+            addError(e.getMessage());
+            reject(magicBranchCmd, "conflict");
+          } catch (RestApiException
+              | StorageException
+              | UpdateException
+              | IOException
+              | ConfigInvalidException
+              | PermissionBackendException e) {
+            logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
+            reject(magicBranchCmd, "error during submit");
+          }
         }
       }
     }

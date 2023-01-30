@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INTERNAL_ACTION;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -305,16 +308,18 @@ public class GroupsUpdate {
   private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
-    try {
-      return retryHelper
-          .groupUpdate("createGroup", () -> createGroupInNoteDb(groupCreation, groupDelta))
-          .call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, IOException.class);
-      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
-      throw new IOException(e);
+    try (RefUpdateContext ctx = RefUpdateContext.open(INTERNAL_ACTION)) {
+      try {
+        return retryHelper
+            .groupUpdate("createGroup", () -> createGroupInNoteDb(groupCreation, groupDelta))
+            .call();
+      } catch (Exception e) {
+        Throwables.throwIfUnchecked(e);
+        Throwables.throwIfInstanceOf(e, IOException.class);
+        Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+        Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
+        throw new IOException(e);
+      }
     }
   }
 
@@ -344,17 +349,19 @@ public class GroupsUpdate {
   private UpdateResult updateGroupInNoteDbWithRetry(
       AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
-    try {
-      return retryHelper
-          .groupUpdate("updateGroup", () -> updateGroupInNoteDb(groupUuid, groupDelta))
-          .call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, IOException.class);
-      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
-      Throwables.throwIfInstanceOf(e, NoSuchGroupException.class);
-      throw new IOException(e);
+    try (RefUpdateContext ctx = RefUpdateContext.open(INTERNAL_ACTION)) {
+      try {
+        return retryHelper
+            .groupUpdate("updateGroup", () -> updateGroupInNoteDb(groupUuid, groupDelta))
+            .call();
+      } catch (Exception e) {
+        Throwables.throwIfUnchecked(e);
+        Throwables.throwIfInstanceOf(e, IOException.class);
+        Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+        Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
+        Throwables.throwIfInstanceOf(e, NoSuchGroupException.class);
+        throw new IOException(e);
+      }
     }
   }
 

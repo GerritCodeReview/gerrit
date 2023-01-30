@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316bee4a_550b8e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-30T17:55:30Z",
+      "side": 1,
+      "message": "@ekempin@google.com can you confirm when https://gerrit-review.googlesource.com/c/gerrit/+/356714 was deployed to Google Gerrit servers? I think it was sometime before Jan 27.",
+      "revId": "af9706b8d09b37f64d4e647dbedc9f500bfcfad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

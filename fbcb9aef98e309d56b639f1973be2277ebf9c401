@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "432ed40e_2d9ed4ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T11:07:03Z",
+      "side": 1,
+      "message": "Re 1.: I am acutely aware of this. This is one of my meta goals with all that I am doing in this area. We really want all URL creation (and URL matching/parsing) to take place only in view model files.\n\nRe 2.: I have looked at https://github.com/visionmedia/page.js/blob/master/page.js for a long, long while. There actually is an option `decodeURLComponents` that we could set to false, but I would expect lots of troubles, if we do that. I think we already have sufficiently many double encoded URLs out there, so I am not sure whether not supporting them anymore is a great option.\n\nThere might be alternatives to how I have approached the situation in this change, but I hope I have struck a good balance between:\n- Be safe and don\u0027t break anything.\n- Make sure that URLs are as readable as possible.\n- Make sure that all URL creation uses this one `encodeURL()` method.\n- Document `encodeURL()` extensively so that future developers have a chance to understand what is going on here.",
+      "parentUuid": "d3f59216_0e69fd0a",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ed6a783_791a2217",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-30T08:44:47Z",
       "side": 1,
       "message": "Have a single output replacement stanza like:\n\n\n```\n  // page.js decodes the entire URL, and then decodes once more the\n  // individual regex matching groups. It uses `decodeURIComponent()`, which\n  // will choke on singular `%` chars without two trailing digits. We prefer\n  // to not double encode *everything* (just for readaiblity and simplicity),\n  // but `%` *must* be double encoded.\n  return encodeURIComponent(url.replace(\u0027%\u0027, \u0027%25\u0027)\n     // Note that the more recent RFC3986 reserves !, \u0027, (, ), and *\n     .replace(/[!\u0027()*]/g,\n              (c) \u003d\u003e `%${c.charCodeAt(0).toString(16).toUpperCase()}`\n     )\n     // Note that the following do not need to be escaped: :@/+|`^\n      .replace(/%(3A|40|2F|20|7C|60|5E)/, \n               (str, hex) \u003d\u003e String.fromCharCode(parseInt(hex, 16))\n      );\n```",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b7f7381_9a7cb172",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T11:07:03Z",
+      "side": 1,
+      "message": "In this function I would like to put more emphasis on the comments and on explaining exactly what each step is doing, rather than making the code look nice and use streaming patterns.\n\nFor example `encodeURIComponent(url.replace(\u0027%\u0027, \u0027%25\u0027)` is doing two things, and I want to comment on both things individually. I think it helps readability to separate them.\n\nWhy are you suggesting to encode `[!\u0027()*]`?\n\nI would prefer to not use `String.fromCharCode()`, because I would like the reader to understand which character each hex code is referring to.\n\nI am sorry to reject all of your suggestions. :-/ It looks like you have spent some time thinking about this. Maybe we can have a VC to discuss this further?",
+      "parentUuid": "6ed6a783_791a2217",
       "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

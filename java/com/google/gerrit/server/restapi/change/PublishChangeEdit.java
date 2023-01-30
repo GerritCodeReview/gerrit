@@ -30,6 +30,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit implements RestModifyView<ChangeResource, PublishChangeEditInput> {
+
   private final BatchUpdate.Factory updateFactory;
   private final ChangeEditUtil editUtil;
   private final NotifyResolver notifyResolver;
@@ -58,7 +60,7 @@ public class PublishChangeEdit implements RestModifyView<ChangeResource, Publish
   @Override
   public Response<Object> apply(ChangeResource rsrc, PublishChangeEditInput in)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException,
-          NoSuchProjectException {
+      NoSuchProjectException {
     contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     if (!edit.isPresent()) {

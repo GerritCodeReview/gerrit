@@ -38,6 +38,8 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -91,31 +93,33 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   @Override
   public void create() throws IOException, ConfigInvalidException {
-    GroupReference admins = createGroupReference("Administrators");
-    GroupReference serviceUsers = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    try(RefUpdateContext ctx = RefUpdateContext.open(RefUpdateType.INIT_REPO)) {
+      GroupReference admins = createGroupReference("Administrators");
+      GroupReference serviceUsers = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
 
-    AllProjectsInput allProjectsInput =
-        AllProjectsInput.builder()
-            .administratorsGroup(admins)
-            .serviceUsersGroup(serviceUsers)
-            .build();
-    allProjectsCreator.create(allProjectsInput);
-    // We have to create the All-Users repository before we can use it to store the groups in it.
-    allUsersCreator.setAdministrators(admins).create();
+      AllProjectsInput allProjectsInput =
+          AllProjectsInput.builder()
+              .administratorsGroup(admins)
+              .serviceUsersGroup(serviceUsers)
+              .build();
+      allProjectsCreator.create(allProjectsInput);
+      // We have to create the All-Users repository before we can use it to store the groups in it.
+      allUsersCreator.setAdministrators(admins).create();
 
-    // Don't rely on injection to construct Sequences, as the default GitReferenceUpdated has a
-    // thick dependency stack which may not all be available at schema creation time.
-    Sequences seqs =
-        new Sequences(
-            config,
-            repoManager,
-            GitReferenceUpdated.DISABLED,
-            allProjectsName,
-            allUsersName,
-            metricMaker);
-    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      createAdminsGroup(seqs, allUsersRepo, admins);
-      createBatchUsersGroup(seqs, allUsersRepo, serviceUsers, admins.getUUID());
+      // Don't rely on injection to construct Sequences, as the default GitReferenceUpdated has a
+      // thick dependency stack which may not all be available at schema creation time.
+      Sequences seqs =
+          new Sequences(
+              config,
+              repoManager,
+              GitReferenceUpdated.DISABLED,
+              allProjectsName,
+              allUsersName,
+              metricMaker);
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+        createAdminsGroup(seqs, allUsersRepo, admins);
+        createBatchUsersGroup(seqs, allUsersRepo, serviceUsers, admins.getUUID());
+      }
     }
   }
 

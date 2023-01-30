@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.REFS_USERS;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
@@ -202,10 +203,12 @@ public class ProjectResetter implements AutoCloseable {
     keptRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     restoredRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     deletedRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
-
-    restoreRefs();
-    deleteNewlyCreatedRefs();
-    evictCachesAndReindex();
+    testRefAction(
+        () -> {
+          restoreRefs();
+          deleteNewlyCreatedRefs();
+          evictCachesAndReindex();
+        });
   }
 
   /** Read the states of all matching refs. */

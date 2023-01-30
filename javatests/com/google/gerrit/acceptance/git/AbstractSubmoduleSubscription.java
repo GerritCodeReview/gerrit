@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -511,7 +512,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       RefUpdate ru = serverRepo.updateRef(refName);
       ru.setExpectedOldObjectId(oldCommitId);
       ru.setNewObjectId(newCommitId);
-      assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD);
+      testRefAction(() -> assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD));
     }
   }
 }

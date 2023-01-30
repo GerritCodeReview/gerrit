@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
@@ -38,7 +39,7 @@ public class NoteDbSchemaVersionCheckTest {
     GitRepositoryManager repoManager = new InMemoryRepositoryManager();
     repoManager.createRepository(allProjectsName);
     versionManager = new NoteDbSchemaVersionManager(allProjectsName, repoManager);
-    versionManager.init();
+    testRefAction(() -> versionManager.init());
 
     sitePaths = new SitePaths(Paths.get("/tmp/foo"));
   }
@@ -51,7 +52,7 @@ public class NoteDbSchemaVersionCheckTest {
 
   @Test
   public void shouldFailIfCurrentVersionIsOneMoreThanExpected() throws IOException {
-    versionManager.increment(NoteDbSchemaVersions.LATEST);
+    testRefAction(() -> versionManager.increment(NoteDbSchemaVersions.LATEST));
 
     ProvisionException e =
         assertThrows(
@@ -69,7 +70,7 @@ public class NoteDbSchemaVersionCheckTest {
           throws IOException {
     Config gerritConfig = new Config();
     gerritConfig.setBoolean("gerrit", null, "experimentalRollingUpgrade", true);
-    versionManager.increment(NoteDbSchemaVersions.LATEST);
+    testRefAction(() -> versionManager.increment(NoteDbSchemaVersions.LATEST));
 
     NoteDbSchemaVersionCheck versionCheck =
         new NoteDbSchemaVersionCheck(versionManager, sitePaths, gerritConfig);

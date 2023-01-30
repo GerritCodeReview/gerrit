@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -48,6 +49,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
@@ -58,6 +60,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -106,12 +109,21 @@ public class BatchUpdateTest {
   private Project.NameKey project;
   private TestRepository<Repository> repo;
 
+  private RefUpdateContext testRefUpdateContext;
+
   @Before
   public void setUp() throws Exception {
     project = Project.nameKey("test");
 
     Repository inMemoryRepo = repoManager.createRepository(project);
     repo = new TestRepository<>(inMemoryRepo);
+    // All tests here are low level. Open context here to avoid repeated code in multiple tests.
+    testRefUpdateContext = openTestRefUpdateContext();
+  }
+
+  @After
+  public void tearDown() {
+    testRefUpdateContext.close();
   }
 
   @Test
@@ -129,7 +141,6 @@ public class BatchUpdateTest {
           });
       bu.execute();
     }
-
     assertThat(repo.getRepository().exactRef("refs/heads/master").getObjectId())
         .isEqualTo(branchCommit.getId());
   }
@@ -341,7 +352,8 @@ public class BatchUpdateTest {
 
     int cacheSizeBefore = diffSummaryCache.asMap().size();
 
-    // We don't want to depend on the test helper used above so we perform an explicit commit here.
+    // We don't want to depend on the test helper used above so we perform an explicit commit
+    // here.
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       ObjectId commitId =
           repo.amend(notes.getCurrentPatchSet().commitId())

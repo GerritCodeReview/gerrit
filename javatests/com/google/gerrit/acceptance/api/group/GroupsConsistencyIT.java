@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
+import com.google.gerrit.testing.TestActionRefUpdateContext;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -90,7 +91,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.REFS_GROUPNAMES);
       ru.setForceUpdate(true);
-      RefUpdate.Result result = ru.delete();
+      RefUpdate.Result result = TestActionRefUpdateContext.testRefAction(() -> ru.delete());
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
@@ -103,7 +104,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.refsGroups(AccountGroup.uuid(g1.id)));
       ru.setForceUpdate(true);
-      RefUpdate.Result result = ru.delete();
+      RefUpdate.Result result = TestActionRefUpdateContext.testRefAction(() -> ru.delete());
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
@@ -117,7 +118,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       RefRename ru =
           repo.renameRef(
               RefNames.refsGroups(AccountGroup.uuid(g1.id)), RefNames.REFS_GROUPS + BOGUS_UUID);
-      RefUpdate.Result result = ru.rename();
+      RefUpdate.Result result = TestActionRefUpdateContext.testRefAction(() -> ru.rename());
       assertThat(result).isEqualTo(Result.RENAMED);
     }
 
@@ -132,7 +133,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
           repo.renameRef(
               RefNames.refsGroups(AccountGroup.uuid(g1.id)),
               RefNames.refsGroups(AccountGroup.uuid(BOGUS_UUID)));
-      RefUpdate.Result result = ru.rename();
+      RefUpdate.Result result = TestActionRefUpdateContext.testRefAction(() -> ru.rename());
       assertThat(result).isEqualTo(Result.RENAMED);
     }
 

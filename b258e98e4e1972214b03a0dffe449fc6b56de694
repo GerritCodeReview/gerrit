@@ -16,6 +16,24 @@
       "message": "This broke the autosubmitter plugin, see [1]. Looks like it would make sense to call out such API changes in the release notes.\n\n[1] https://groups.google.com/g/repo-discuss/c/OHapgrhC9Zs",
       "revId": "b258e98e4e1972214b03a0dffe449fc6b56de694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02cc6f33_f4a783f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-01-30T09:19:28Z",
+      "side": 1,
+      "message": "+1 to be more verbose in general.\n\nHowever, this isn\u0027t official API (it\u0027s not part of extension or plugin API), so plugins should expect such internal APIs to break and I think we expect plugin owners to be OK to fix such small breakages as they provide a new plugin release for newer version of gerrit.",
+      "parentUuid": "cfaea732_5f58e2d7",
+      "revId": "b258e98e4e1972214b03a0dffe449fc6b56de694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -28,6 +28,7 @@ import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -511,7 +512,8 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       RefUpdate ru = serverRepo.updateRef(refName);
       ru.setExpectedOldObjectId(oldCommitId);
       ru.setNewObjectId(newCommitId);
-      assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD);
+      RefUpdateContext.testSetup(
+          () -> assertThat(ru.update()).isEqualTo(RefUpdate.Result.FAST_FORWARD));
     }
   }
 }

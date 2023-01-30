@@ -80,6 +80,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -116,16 +117,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Before
   public void addNonCommitHead() throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter ins = repo.newObjectInserter()) {
-      ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
-      ins.flush();
-      ins.close();
+    RefUpdateContext.testSetup(
+        () -> {
+          try (Repository repo = repoManager.openRepository(project);
+              ObjectInserter ins = repo.newObjectInserter()) {
+            ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
+            ins.flush();
+            ins.close();
 
-      RefUpdate update = repo.getRefDatabase().newUpdate("refs/heads/answer", false);
-      update.setNewObjectId(answer);
-      assertThat(update.forceUpdate()).isEqualTo(RefUpdate.Result.NEW);
-    }
+            RefUpdate update = repo.getRefDatabase().newUpdate("refs/heads/answer", false);
+            update.setNewObjectId(answer);
+            assertThat(update.forceUpdate()).isEqualTo(RefUpdate.Result.NEW);
+          }
+        });
   }
 
   @Test

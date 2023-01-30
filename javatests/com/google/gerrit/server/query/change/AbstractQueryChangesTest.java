@@ -131,6 +131,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -4188,11 +4189,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey project = Project.nameKey(repoName);
     Account.Id ownerId = owner != null ? owner : userId;
     IdentifiedUser user = userFactory.create(ownerId);
-    try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
-      bu.insertChange(ins);
-      bu.execute();
-      return ins.getChange();
-    }
+    return RefUpdateContext.testSetup(
+        () -> {
+          try (BatchUpdate bu = updateFactory.create(project, user, createdOn)) {
+            bu.insertChange(ins);
+            bu.execute();
+            return ins.getChange();
+          }
+        });
   }
 
   protected Change newPatchSet(
@@ -4214,15 +4218,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
               .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
               .setFireRevisionCreated(false)
               .setValidate(false);
-      try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
-          ObjectInserter oi = repo.getRepository().newObjectInserter();
-          ObjectReader reader = oi.newReader();
-          RevWalk rw = new RevWalk(reader)) {
-        bu.setRepository(repo.getRepository(), rw, oi);
-        bu.setNotify(NotifyResolver.Result.none());
-        bu.addOp(c.getId(), inserter);
-        bu.execute();
-      }
+      RefUpdateContext.testSetup(
+          () -> {
+            try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
+                ObjectInserter oi = repo.getRepository().newObjectInserter();
+                ObjectReader reader = oi.newReader();
+                RevWalk rw = new RevWalk(reader)) {
+              bu.setRepository(repo.getRepository(), rw, oi);
+              bu.setNotify(NotifyResolver.Result.none());
+              bu.addOp(c.getId(), inserter);
+              bu.execute();
+            }
+          });
 
       return inserter.getChange();
     }

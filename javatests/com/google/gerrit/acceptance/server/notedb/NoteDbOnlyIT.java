@@ -35,6 +35,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -100,10 +101,13 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           }
         };
 
-    try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
-      bu.addOp(id, backupMasterOp);
-      bu.execute();
-    }
+    RefUpdateContext.testSetup(
+        () -> {
+          try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
+            bu.addOp(id, backupMasterOp);
+            bu.execute();
+          }
+        });
 
     // Ensure backupMasterOp worked.
     assertThat(getRef(backup)).hasValue(master1);
@@ -158,13 +162,16 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
             .changeUpdate(
                 "testUpdateRefAndAddMessageOp",
                 batchUpdateFactory -> {
-                  try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
-                    bu.addOp(
-                        id,
-                        new UpdateRefAndAddMessageOp(
-                            updateRepoCalledCount, updateChangeCalledCount));
-                    bu.execute(new ConcurrentWritingListener(afterUpdateReposCalledCount));
-                  }
+                  RefUpdateContext.testSetup(
+                      () -> {
+                        try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
+                          bu.addOp(
+                              id,
+                              new UpdateRefAndAddMessageOp(
+                                  updateRepoCalledCount, updateChangeCalledCount));
+                          bu.execute(new ConcurrentWritingListener(afterUpdateReposCalledCount));
+                        }
+                      });
                   return "Done";
                 })
             .call();

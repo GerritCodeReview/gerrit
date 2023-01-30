@@ -48,6 +48,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
@@ -116,22 +117,25 @@ public class BatchUpdateTest {
 
   @Test
   public void addRefUpdateFromFastForwardCommit() throws Exception {
-    RevCommit masterCommit = repo.branch("master").commit().create();
-    RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
+    RefUpdateContext.testSetup(
+        () -> {
+          RevCommit masterCommit = repo.branch("master").commit().create();
+          RevCommit branchCommit = repo.branch("branch").commit().parent(masterCommit).create();
 
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-      bu.addRepoOnlyOp(
-          new RepoOnlyOp() {
-            @Override
-            public void updateRepo(RepoContext ctx) throws Exception {
-              ctx.addRefUpdate(masterCommit.getId(), branchCommit.getId(), "refs/heads/master");
-            }
-          });
-      bu.execute();
-    }
-
-    assertThat(repo.getRepository().exactRef("refs/heads/master").getObjectId())
-        .isEqualTo(branchCommit.getId());
+          try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+            bu.addRepoOnlyOp(
+                new RepoOnlyOp() {
+                  @Override
+                  public void updateRepo(RepoContext ctx) throws Exception {
+                    ctx.addRefUpdate(
+                        masterCommit.getId(), branchCommit.getId(), "refs/heads/master");
+                  }
+                });
+            bu.execute();
+          }
+          assertThat(repo.getRepository().exactRef("refs/heads/master").getObjectId())
+              .isEqualTo(branchCommit.getId());
+        });
   }
 
   @Test
@@ -341,21 +345,25 @@ public class BatchUpdateTest {
 
     int cacheSizeBefore = diffSummaryCache.asMap().size();
 
-    // We don't want to depend on the test helper used above so we perform an explicit commit here.
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-      ObjectId commitId =
-          repo.amend(notes.getCurrentPatchSet().commitId())
-              .add("bar.txt", "bar")
-              .add("baz.txt", "baz")
-              .message("blah")
-              .create();
-      bu.addOp(
-          changeId,
-          patchSetInserterFactory
-              .create(notes, PatchSet.id(changeId, 3), commitId)
-              .setMessage("blah"));
-      bu.execute();
-    }
+    RefUpdateContext.testSetup(
+        () -> {
+          // We don't want to depend on the test helper used above so we perform an explicit commit
+          // here.
+          try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+            ObjectId commitId =
+                repo.amend(notes.getCurrentPatchSet().commitId())
+                    .add("bar.txt", "bar")
+                    .add("baz.txt", "baz")
+                    .message("blah")
+                    .create();
+            bu.addOp(
+                changeId,
+                patchSetInserterFactory
+                    .create(notes, PatchSet.id(changeId, 3), commitId)
+                    .setMessage("blah"));
+            bu.execute();
+          }
+        });
 
     // Assert that we only performed the diff computation once. This would e.g. catch
     // bugs/deviations in the computation of the cache key.
@@ -363,43 +371,51 @@ public class BatchUpdateTest {
   }
 
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
-    checkArgument(totalUpdates > 0);
-    checkArgument(totalUpdates <= MAX_UPDATES);
-    Change.Id id = Change.id(sequences.nextChangeId());
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-      bu.insertChange(
-          changeInserterFactory.create(
-              id, repo.commit().message("Change").insertChangeId().create(), "refs/heads/master"));
-      bu.execute();
-    }
-    assertThat(getUpdateCount(id)).isEqualTo(1);
-    for (int i = 2; i <= totalUpdates; i++) {
-      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-        bu.addOp(id, new AddMessageOp("Update " + i));
-        bu.execute();
-      }
-    }
-    assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
-    return id;
+    return RefUpdateContext.testSetup(
+        () -> {
+          checkArgument(totalUpdates > 0);
+          checkArgument(totalUpdates <= MAX_UPDATES);
+          Change.Id id = Change.id(sequences.nextChangeId());
+          try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+            bu.insertChange(
+                changeInserterFactory.create(
+                    id,
+                    repo.commit().message("Change").insertChangeId().create(),
+                    "refs/heads/master"));
+            bu.execute();
+          }
+          assertThat(getUpdateCount(id)).isEqualTo(1);
+          for (int i = 2; i <= totalUpdates; i++) {
+            try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+              bu.addOp(id, new AddMessageOp("Update " + i));
+              bu.execute();
+            }
+          }
+          assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
+          return id;
+        });
   }
 
   private Change.Id createChangeWithPatchSets(int patchSets) throws Exception {
-    checkArgument(patchSets >= 2);
-    Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
-    ChangeNotes notes = changeNotesFactory.create(project, id);
-    for (int i = 2; i <= patchSets; ++i) {
-      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-        ObjectId commitId =
-            repo.amend(notes.getCurrentPatchSet().commitId()).message("PS" + i).create();
-        bu.addOp(
-            id,
-            patchSetInserterFactory
-                .create(notes, PatchSet.id(id, i), commitId)
-                .setMessage("Add PS" + i));
-        bu.execute();
-      }
-    }
-    return id;
+    return RefUpdateContext.testSetup(
+        () -> {
+          checkArgument(patchSets >= 2);
+          Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
+          ChangeNotes notes = changeNotesFactory.create(project, id);
+          for (int i = 2; i <= patchSets; ++i) {
+            try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+              ObjectId commitId =
+                  repo.amend(notes.getCurrentPatchSet().commitId()).message("PS" + i).create();
+              bu.addOp(
+                  id,
+                  patchSetInserterFactory
+                      .create(notes, PatchSet.id(id, i), commitId)
+                      .setMessage("Add PS" + i));
+              bu.execute();
+            }
+          }
+          return id;
+        });
   }
 
   private static class AddMessageOp implements BatchUpdateOp {

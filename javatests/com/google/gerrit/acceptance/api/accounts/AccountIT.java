@@ -155,6 +155,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -1888,7 +1889,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Mark first key as invalid
       assertThat(info.get(0).valid).isTrue();
-      authorizedKeys.markKeyInvalid(admin.id(), 1);
+      RefUpdateContext.testSetup(() -> authorizedKeys.markKeyInvalid(admin.id(), 1));
       info = gApi.accounts().self().listSshKeys();
       assertThat(info).hasSize(2);
       assertThat(info.get(0).seq).isEqualTo(1);
@@ -2434,79 +2435,88 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Manually updating the user ref makes the index document stale.
     String userRef = RefNames.refsUsers(accountId);
-    try (Repository repo = repoManager.openRepository(allUsers);
-        ObjectInserter oi = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
+    RefUpdateContext.testSetup(
+        () -> {
+          try (Repository repo = repoManager.openRepository(allUsers);
+              ObjectInserter oi = repo.newObjectInserter();
+              RevWalk rw = new RevWalk(repo)) {
+            RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.now());
-      CommitBuilder cb = new CommitBuilder();
-      cb.setTreeId(commit.getTree());
-      cb.setCommitter(ident);
-      cb.setAuthor(ident);
-      cb.setMessage(commit.getFullMessage());
-      ObjectId emptyCommit = oi.insert(cb);
-      oi.flush();
+            PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.now());
+            CommitBuilder cb = new CommitBuilder();
+            cb.setTreeId(commit.getTree());
+            cb.setCommitter(ident);
+            cb.setAuthor(ident);
+            cb.setMessage(commit.getFullMessage());
+            ObjectId emptyCommit = oi.insert(cb);
+            oi.flush();
 
-      RefUpdate updateRef = repo.updateRef(userRef);
-      updateRef.setExpectedOldObjectId(commit.toObjectId());
-      updateRef.setNewObjectId(emptyCommit);
-      assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
-    }
+            RefUpdate updateRef = repo.updateRef(userRef);
+            updateRef.setExpectedOldObjectId(commit.toObjectId());
+            updateRef.setNewObjectId(emptyCommit);
+            assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+          }
+        });
     assertStaleAccountAndReindex(accountId);
 
     // Manually inserting/updating/deleting an external ID of the user makes the index document
     // stale.
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      ExternalIdNotes extIdNotes =
-          ExternalIdNotes.load(
-              allUsers,
-              repo,
-              externalIdFactory,
-              authConfig.isUserNameCaseInsensitiveMigrationMode());
+      RefUpdateContext.testSetup(
+          () -> {
+            ExternalIdNotes extIdNotes =
+                ExternalIdNotes.load(
+                    allUsers,
+                    repo,
+                    externalIdFactory,
+                    authConfig.isUserNameCaseInsensitiveMigrationMode());
 
-      ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
-      extIdNotes.insert(externalIdFactory.create(key, accountId));
-      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
-        extIdNotes.commit(update);
-      }
-      assertStaleAccountAndReindex(accountId);
+            ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
+            extIdNotes.insert(externalIdFactory.create(key, accountId));
+            try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+              extIdNotes.commit(update);
+            }
+            assertStaleAccountAndReindex(accountId);
 
-      extIdNotes =
-          ExternalIdNotes.load(
-              allUsers,
-              repo,
-              externalIdFactory,
-              authConfig.isUserNameCaseInsensitiveMigrationMode());
-      extIdNotes.upsert(externalIdFactory.createWithEmail(key, accountId, "foo@example.com"));
-      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
-        extIdNotes.commit(update);
-      }
-      assertStaleAccountAndReindex(accountId);
+            extIdNotes =
+                ExternalIdNotes.load(
+                    allUsers,
+                    repo,
+                    externalIdFactory,
+                    authConfig.isUserNameCaseInsensitiveMigrationMode());
+            extIdNotes.upsert(externalIdFactory.createWithEmail(key, accountId, "foo@example.com"));
+            try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+              extIdNotes.commit(update);
+            }
+            assertStaleAccountAndReindex(accountId);
 
-      extIdNotes =
-          ExternalIdNotes.load(
-              allUsers,
-              repo,
-              externalIdFactory,
-              authConfig.isUserNameCaseInsensitiveMigrationMode());
-      extIdNotes.delete(accountId, key);
-      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
-        extIdNotes.commit(update);
-      }
+            extIdNotes =
+                ExternalIdNotes.load(
+                    allUsers,
+                    repo,
+                    externalIdFactory,
+                    authConfig.isUserNameCaseInsensitiveMigrationMode());
+            extIdNotes.delete(accountId, key);
+            try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+              extIdNotes.commit(update);
+            }
+          });
       assertStaleAccountAndReindex(accountId);
     }
 
     // Manually delete account
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
-      RefUpdate updateRef = repo.updateRef(userRef);
-      updateRef.setExpectedOldObjectId(commit.toObjectId());
-      updateRef.setNewObjectId(ObjectId.zeroId());
-      updateRef.setForceUpdate(true);
-      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
-    }
+    RefUpdateContext.testSetup(
+        () -> {
+          try (Repository repo = repoManager.openRepository(allUsers);
+              RevWalk rw = new RevWalk(repo)) {
+            RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
+            RefUpdate updateRef = repo.updateRef(userRef);
+            updateRef.setExpectedOldObjectId(commit.toObjectId());
+            updateRef.setNewObjectId(ObjectId.zeroId());
+            updateRef.setForceUpdate(true);
+            assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+          }
+        });
     assertStaleAccountAndReindex(accountId);
   }
 
@@ -3385,16 +3395,19 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(TestAccount account, String armored) throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      Map<String, GpgKeyInfo> gpgKeys =
-          gApi.accounts()
-              .id(account.username())
-              .putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
-      accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.username()).get());
-      return gpgKeys;
-    }
+    return RefUpdateContext.testSetup(
+        () -> {
+          AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+          try (Registration registration =
+              extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+            Map<String, GpgKeyInfo> gpgKeys =
+                gApi.accounts()
+                    .id(account.username())
+                    .putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+            accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.username()).get());
+            return gpgKeys;
+          }
+        });
   }
 
   private Map<String, GpgKeyInfo> addGpgKeyNoReindex(String armored) throws Exception {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.SCHEMA_UPGRADE;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -84,17 +87,19 @@ public class Schema_184 implements NoteDbSchemaVersion {
       GroupConfig groupConfig,
       GroupNameNotes groupNameNotes)
       throws IOException {
-    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
-    try (MetaDataUpdate metaDataUpdate =
-        createMetaDataUpdate(allUsersName, serverUser, allUsersRepo, batchRefUpdate)) {
-      groupConfig.commit(metaDataUpdate);
+    try (RefUpdateContext ctx = RefUpdateContext.open(SCHEMA_UPGRADE)) {
+      BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+      try (MetaDataUpdate metaDataUpdate =
+          createMetaDataUpdate(allUsersName, serverUser, allUsersRepo, batchRefUpdate)) {
+        groupConfig.commit(metaDataUpdate);
+      }
+      // MetaDataUpdates unfortunately can't be reused. -> Create a new one.
+      try (MetaDataUpdate metaDataUpdate =
+          createMetaDataUpdate(allUsersName, serverUser, allUsersRepo, batchRefUpdate)) {
+        groupNameNotes.commit(metaDataUpdate);
+      }
+      RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     }
-    // MetaDataUpdates unfortunately can't be reused. -> Create a new one.
-    try (MetaDataUpdate metaDataUpdate =
-        createMetaDataUpdate(allUsersName, serverUser, allUsersRepo, batchRefUpdate)) {
-      groupNameNotes.commit(metaDataUpdate);
-    }
-    RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
   }
 
   private MetaDataUpdate createMetaDataUpdate(

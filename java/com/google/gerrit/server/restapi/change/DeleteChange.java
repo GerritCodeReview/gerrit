@@ -53,7 +53,6 @@ public class DeleteChange
       throw new MethodNotAllowedException("delete not permitted");
     }
     rsrc.permissions().check(ChangePermission.DELETE);
-
     try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, opFactory.create(id));

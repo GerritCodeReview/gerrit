@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.ACCOUNT_CONFIG_COMMIT;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.time.Instant;
@@ -252,9 +254,11 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
-    RevCommit c = super.commit(update);
-    loadedAccountProperties.get().setMetaId(c);
-    return c;
+    try (RefUpdateContext ctx = RefUpdateContext.open(ACCOUNT_CONFIG_COMMIT)) {
+      RevCommit c = super.commit(update);
+      loadedAccountProperties.get().setMetaId(c);
+      return c;
+    }
   }
 
   @Override

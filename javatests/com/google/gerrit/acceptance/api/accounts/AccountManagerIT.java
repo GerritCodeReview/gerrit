@@ -18,6 +18,7 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TEST_SETUP;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
 
@@ -45,6 +46,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 import java.util.Optional;
@@ -285,11 +287,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create orphaned SCHEME_GERRIT external ID.
     Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId gerritExtId = externalIdFactory.create(gerritExtIdKey, accountId);
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = extIdNotesFactory.load(allUsersRepo);
-      extIdNotes.insert(gerritExtId);
-      extIdNotes.commit(md);
+    try (RefUpdateContext ctx = RefUpdateContext.open(TEST_SETUP)) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+          MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+        ExternalIdNotes extIdNotes = extIdNotesFactory.load(allUsersRepo);
+        extIdNotes.insert(gerritExtId);
+        extIdNotes.commit(md);
+      }
     }
 
     AuthRequest who = authRequestFactory.createForUser(username);

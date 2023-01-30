@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Constants;
@@ -388,7 +389,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(normalProject)) {
       RefUpdate u = repo.updateRef(RefNames.REFS_HEADS + "master");
       u.setForceUpdate(true);
-      assertThat(u.delete()).isEqualTo(Result.FORCED);
+      RefUpdateContext.testSetup(() -> assertThat(u.delete()).isEqualTo(Result.FORCED));
     }
     AccessCheckInput input = new AccessCheckInput();
     input.account = privilegedUser.email();

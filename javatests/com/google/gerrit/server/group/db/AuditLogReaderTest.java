@@ -24,6 +24,7 @@ import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.account.GroupUuid;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.time.Instant;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -236,34 +237,40 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   private InternalGroup createGroup(
       int next, String groupName, PersonIdent authorIdent, Account.Id authorId) throws Exception {
-    InternalGroupCreation groupCreation =
-        InternalGroupCreation.builder()
-            .setGroupUUID(GroupUuid.make(groupName, serverIdent))
-            .setNameKey(AccountGroup.nameKey(groupName))
-            .setId(AccountGroup.id(next))
-            .build();
-    GroupDelta groupDelta =
-        authorIdent.equals(serverIdent)
-            ? GroupDelta.builder().setDescription("Groups").build()
-            : GroupDelta.builder()
-                .setDescription("Groups")
-                .setMemberModification(members -> ImmutableSet.of(authorId))
-                .build();
+    return RefUpdateContext.testSetup(
+        () -> {
+          InternalGroupCreation groupCreation =
+              InternalGroupCreation.builder()
+                  .setGroupUUID(GroupUuid.make(groupName, serverIdent))
+                  .setNameKey(AccountGroup.nameKey(groupName))
+                  .setId(AccountGroup.id(next))
+                  .build();
+          GroupDelta groupDelta =
+              authorIdent.equals(serverIdent)
+                  ? GroupDelta.builder().setDescription("Groups").build()
+                  : GroupDelta.builder()
+                      .setDescription("Groups")
+                      .setMemberModification(members -> ImmutableSet.of(authorId))
+                      .build();
 
-    GroupConfig groupConfig =
-        GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
-    groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
+          GroupConfig groupConfig =
+              GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
+          groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
 
-    groupConfig.commit(createMetaDataUpdate(authorIdent));
-    return groupConfig
-        .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("create group failed"));
+          groupConfig.commit(createMetaDataUpdate(authorIdent));
+          return groupConfig
+              .getLoadedGroup()
+              .orElseThrow(() -> new IllegalStateException("create group failed"));
+        });
   }
 
   private void updateGroup(AccountGroup.UUID uuid, GroupDelta groupDelta) throws Exception {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid);
-    groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
-    groupConfig.commit(createMetaDataUpdate(userIdent));
+    RefUpdateContext.testSetup(
+        () -> {
+          GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid);
+          groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
+          groupConfig.commit(createMetaDataUpdate(userIdent));
+        });
   }
 
   private void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids) throws Exception {

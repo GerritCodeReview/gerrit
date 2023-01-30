@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.EXTERNAL_ID_NOTES_COMMIT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -860,10 +862,12 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
-    oldRev = ObjectIds.copyOrZero(revision);
-    RevCommit commit = super.commit(update);
-    updateCount.increment();
-    return commit;
+    try (RefUpdateContext context = RefUpdateContext.open(EXTERNAL_ID_NOTES_COMMIT)) {
+      oldRev = ObjectIds.copyOrZero(revision);
+      RevCommit commit = super.commit(update);
+      updateCount.increment();
+      return commit;
+    }
   }
 
   @Override

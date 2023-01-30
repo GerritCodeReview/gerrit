@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68278d2_5bbff607",
+        "filename": "java/com/google/gerrit/extensions/common/ActionInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "nit: Could we extend the comment to describe possible options and how they are used?\n\nI understand that we will have two option as a drop-down for rebase now: rebaseOnBehalfOF and the regular rebase? What does the boolean value used for? E.g. why not just returning the list of enabled options?",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd8f226c_b411fd6c",
+        "filename": "java/com/google/gerrit/extensions/webui/UiAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "nit: Why not initializing options with the options \u003d new HashMap\u003c\u003e(); here",
+      "range": {
+        "startLine": 46,
+        "startChar": 33,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71e19f00_e2ad0f00",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "do we even need to send it back to the frontend if upload \u003d\u003d realUploader?\n\nMaybe it should be just null in this case?",
+      "range": {
+        "startLine": 291,
+        "startChar": 41,
+        "endLine": 291,
+        "endChar": 58
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2719e5b3_2cae55cf",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "shouldn\u0027t it return realAccountId?",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51dc1b7f_1d903d7a",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "Should it be canRebase() ?",
+      "range": {
+        "startLine": 89,
+        "startChar": 60,
+        "endLine": 89,
+        "endChar": 83
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d935b54_fb7e0c38",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "Should it constrain if the uploader has the \u0027Push\u0027 permission?",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d56016_4d43c20d",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "seems like this would be checked in PatchSetInserter, so not needed here?",
+      "range": {
+        "startLine": 184,
+        "startChar": 25,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7175bffa_2d702296",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "Isn\u0027t it checked by CommitValidators later on?\n\nI think it should just work, since the the Identified user is onBehalfOf now?",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 7
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b15fe02_c03c3f8e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-30T17:22:08Z",
+      "side": 1,
+      "message": "nit: should there be a test when realUploader._accountId !\u003d  uploader._accountId ?",
+      "range": {
+        "startLine": 542,
+        "startChar": 6,
+        "endLine": 542,
+        "endChar": 77
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

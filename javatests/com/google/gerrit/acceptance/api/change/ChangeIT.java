@@ -55,6 +55,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TEST_SETUP;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.CacheStatsSubject.assertThat;
 import static com.google.gerrit.truth.CacheStatsSubject.cloneStats;
@@ -181,6 +182,7 @@ import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -2908,9 +2910,11 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void submitToSymref() throws Exception {
     // Create symref in the origin repository (testRepo references to a local repository)
-    try (Repository repo = repoManager.openRepository(project)) {
-      RefUpdate u = repo.updateRef("refs/heads/master_symref");
-      assertThat(u.link("refs/heads/master")).isEqualTo(Result.NEW);
+    try(RefUpdateContext ctx = RefUpdateContext.open(TEST_SETUP)) {
+      try (Repository repo = repoManager.openRepository(project)) {
+        RefUpdate u = repo.updateRef("refs/heads/master_symref");
+        assertThat(u.link("refs/heads/master")).isEqualTo(Result.NEW);
+      }
     }
 
     PushOneCommit.Result r = createChange("refs/for/master_symref");

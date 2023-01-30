@@ -52,6 +52,24 @@
       "parentUuid": "627bea9d_95d69d7f",
       "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eb0eeab_0923a056",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T10:30:02Z",
+      "side": 1,
+      "message": "Done, but I cannot use `[^,]`, because otherwise I cannot filter on `,` in the name of the plugin/repo/branch/tag. Probably does not matter much. And yes, I am aware that I cannot filter on `,$number`. The real solution would be to migrate `offset` to query params, but I don\u0027t I can prioritize that at the moment.",
+      "parentUuid": "e37b36b0_ddaf4b5d",
+      "revId": "b2686b8a1635d7ddedf1f3413611bf22092e8b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

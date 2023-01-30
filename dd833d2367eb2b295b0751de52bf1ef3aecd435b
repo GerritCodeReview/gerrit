@@ -22,6 +22,30 @@
       },
       "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f32d51b_71e83443",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1156235
+      },
+      "writtenOn": "2023-01-30T08:03:53Z",
+      "side": 1,
+      "message": "The trim should convert it to an empty string, which will in turn be ignored through the `isEmpty()` check below. I think it\u0027s fine.",
+      "parentUuid": "0fef9934_1bf7128d",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 55
+      },
+      "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

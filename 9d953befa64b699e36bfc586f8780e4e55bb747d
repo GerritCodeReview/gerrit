@@ -74,6 +74,48 @@
       "parentUuid": "76e283cb_82c6c874",
       "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c21787_009a6661",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T10:29:48Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "df68a1df_52b703ca",
+      "range": {
+        "startLine": 189,
+        "startChar": 52,
+        "endLine": 189,
+        "endChar": 58
+      },
+      "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95c5e3d_afeece51",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-30T10:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e00fd9e_d090d2b7",
+      "revId": "9d953befa64b699e36bfc586f8780e4e55bb747d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

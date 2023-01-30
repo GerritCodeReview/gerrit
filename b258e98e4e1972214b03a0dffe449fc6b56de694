@@ -34,6 +34,24 @@
       "parentUuid": "cfaea732_5f58e2d7",
       "revId": "b258e98e4e1972214b03a0dffe449fc6b56de694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8260df2_d87b3ccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-30T09:24:59Z",
+      "side": 1,
+      "message": "Yeah, I also think that changes that potentially break plugins don\u0027t need to be included into release notes. The nature of a plugin is that it can access all Gerrit internals, at the price that it can get easily broken with new Gerrit releases. From what I understand it\u0027s the responsibility of the plugin authors to check that their plugin still work with new Gerrit versions. As Gerrit core developers we only guarantee to not break extensions (which are limited to plugin API). So only changes that break extensions would require to be called out in the release notes.",
+      "parentUuid": "02cc6f33_f4a783f4",
+      "revId": "b258e98e4e1972214b03a0dffe449fc6b56de694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

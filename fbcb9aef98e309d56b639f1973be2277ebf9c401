@@ -69,6 +69,24 @@
       "parentUuid": "6ed6a783_791a2217",
       "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb232b1_47546032",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-30T11:09:00Z",
+      "side": 1,
+      "message": "I was basing my suggestion off of the documentation in \n https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent\n\nThat\u0027s also where I got `[!\u0027()*]` from.\n\nI don\u0027t think this needs a VC, if you feel strongly I\u0027m ok with the current approach.",
+      "parentUuid": "9b7f7381_9a7cb172",
+      "revId": "fbcb9aef98e309d56b639f1973be2277ebf9c401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

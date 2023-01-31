@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55e0ebc_345d30b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-31T21:38:35Z",
+      "side": 1,
+      "message": "I believe we also need to add a test with multiple comments, including empty ones in the middle.",
+      "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fef9934_1bf7128d",
@@ -62,6 +79,30 @@
       "side": 1,
       "message": "(ah, didn\u0027t consider the case with multiple comments and some empty ones in the middle -- that\u0027ll add empty lines, yes... Sorry for trigger-happy updates, time to head home)",
       "parentUuid": "3f32d51b_71e83443",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 55
+      },
+      "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c32491e_64623ea7",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-31T21:38:35Z",
+      "side": 1,
+      "message": "I believe Edwin is right: best to just filter out null or empty messages. If we are left without any message, then we just skip at L202.",
+      "parentUuid": "3146e7f7_12956b77",
       "range": {
         "startLine": 199,
         "startChar": 14,

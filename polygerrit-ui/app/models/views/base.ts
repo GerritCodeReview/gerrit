@@ -10,7 +10,7 @@ export interface ViewState {
 }
 
 /**
- * While we are using page.js this interface will normally be implemented by
+ * While we are using gr-page this interface will normally be implemented by
  * PageContext, but it helps testing and independence to have our own type
  * here.
  */

@@ -41,22 +41,22 @@ public class RevisionResource implements RestResource, HasETag {
     return new RevisionResource(change, ps, Optional.empty(), false);
   }
 
-  private final ChangeResource change;
+  private final ChangeResource changeResource;
   private final PatchSet ps;
   private final Optional<ChangeEdit> edit;
   private final boolean cacheable;
 
-  public RevisionResource(ChangeResource change, PatchSet ps) {
-    this(change, ps, Optional.empty());
+  public RevisionResource(ChangeResource changeResource, PatchSet ps) {
+    this(changeResource, ps, Optional.empty());
   }
 
-  public RevisionResource(ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit) {
-    this(change, ps, edit, true);
+  public RevisionResource(ChangeResource changeResource, PatchSet ps, Optional<ChangeEdit> edit) {
+    this(changeResource, ps, edit, true);
   }
 
   private RevisionResource(
-      ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit, boolean cacheable) {
-    this.change = change;
+      ChangeResource changeResource, PatchSet ps, Optional<ChangeEdit> edit, boolean cacheable) {
+    this.changeResource = changeResource;
     this.ps = ps;
     this.edit = edit;
     this.cacheable = cacheable;
@@ -67,15 +67,15 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   public PermissionBackend.ForChange permissions() {
-    return change.permissions();
+    return changeResource.permissions();
   }
 
   public ChangeResource getChangeResource() {
-    return change;
+    return changeResource;
   }
 
   public Change getChange() {
-    return getChangeResource().getChange();
+    return changeResource.getChange();
   }
 
   public Project.NameKey getProject() {
@@ -83,7 +83,7 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   public ChangeNotes getNotes() {
-    return getChangeResource().getNotes();
+    return changeResource.getNotes();
   }
 
   public PatchSet getPatchSet() {
@@ -96,9 +96,9 @@ public class RevisionResource implements RestResource, HasETag {
         TraceContext.newTimer(
             "Compute revision ETag",
             Metadata.builder()
-                .changeId(change.getId().get())
+                .changeId(changeResource.getId().get())
                 .patchSetId(ps.number())
-                .projectName(change.getProject().get())
+                .projectName(changeResource.getProject().get())
                 .build())) {
       Hasher h = Hashing.murmur3_128().newHasher();
       prepareETag(h, getUser());
@@ -109,7 +109,7 @@ public class RevisionResource implements RestResource, HasETag {
   public void prepareETag(Hasher h, CurrentUser user) {
     // Conservative estimate: refresh the revision if its parent change has changed, so we don't
     // have to check whether a given modification affected this revision specifically.
-    change.prepareETag(h, user);
+    changeResource.prepareETag(h, user);
   }
 
   public Account.Id getAccountId() {
@@ -117,7 +117,7 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   public CurrentUser getUser() {
-    return getChangeResource().getUser();
+    return changeResource.getUser();
   }
 
   public Optional<ChangeEdit> getEdit() {

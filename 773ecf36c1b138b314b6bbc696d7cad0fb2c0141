@@ -34,6 +34,24 @@
       "parentUuid": "b0f22566_8e187df3",
       "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a96a28_406cfea9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T13:06:05Z",
+      "side": 1,
+      "message": "The main interest of our stakeholders is to reduce the time a change takes from when it\u0027s uploaded to when it\u0027s being submitted.\n\nWith the old logic (normal rebase by reviewer), the change has to be (re-)approved by a user that is not the uploader (aka that is not the reviewer in this case). Re-approval takes time and if (re-)approval is not needed we save this time. With rebase on behalf of the uploader a (re-)approval by another user is not required. Ideally we want to know how many changes get submitted where a (re-)approval was needed before and is not needed now.\n\nCounting all rebases that are done on behalf of the uploader may count too much, e.g.:\n* changes where submit requirements don\u0027t ignore approvals of the uploader, so that also with the old logic a (re-)approval was not needed. \n* changes that have approvals from multiple users, so that also with the old logic a (re-)approval was not needed.\n\nSo I think the metric that is implemented by this change is more accurate?\n\nFWIW we expect that likely all rebases that are not done by the uploader themselves will become rebases on behalf of the uploader as this will become the default when rebasing from the UI.",
+      "parentUuid": "c0d1a3ce_9e69496d",
+      "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

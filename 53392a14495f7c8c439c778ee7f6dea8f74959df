@@ -230,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "996c0e77_95bc94e7",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T15:52:14Z",
+      "side": 1,
+      "message": "Looks like it also used in Proto converter, so maybe also update a test there.",
+      "parentUuid": "c2f84db0_b8c88b71",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51dc1b7f_1d903d7a",
@@ -326,6 +350,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80f06824_85b2d168",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T15:52:14Z",
+      "side": 1,
+      "message": "So we the check the \"rebase permission\" for the impersonated uploader in this case (not the calling user), correct? So then we need to check the push permission for the uploader?",
+      "parentUuid": "b5491d75_50ff3089",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33f07b83_f9c92bd6",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T15:52:14Z",
+      "side": 1,
+      "message": "should we also check the ChangePermission.REBASE for the impersonated uploader user here?",
+      "range": {
+        "startLine": 154,
+        "startChar": 26,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35d56016_4d43c20d",
         "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
         "patchSetId": 3
@@ -373,6 +444,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7234d53c_8fb49631",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T15:52:14Z",
+      "side": 1,
+      "message": "Yes, makes sense, thank you for pointing at this.\n\nWould it make sense to leave a comment before onBehalfOf, so that it is obvious to the next reader?",
+      "parentUuid": "d6abc4f8_9b6394b5",
+      "range": {
+        "startLine": 184,
+        "startChar": 25,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7175bffa_2d702296",
         "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
         "patchSetId": 3
@@ -408,6 +503,30 @@
       "side": 1,
       "message": "Same as above. Does it get clear with the explanation at [1]?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356762/3//COMMIT_MSG#184",
       "parentUuid": "7175bffa_2d702296",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 7
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63cfbf35_19c8291e",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T15:52:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ce23beb_8d42086e",
       "range": {
         "startLine": 187,
         "startChar": 4,

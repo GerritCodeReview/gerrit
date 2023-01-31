@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-router';
-import {Page, PageContext} from '../../../utils/page-wrapper-utils';
+import {Page, PageContext} from './gr-page';
 import {
   stubBaseUrl,
   stubRestApi,
@@ -212,20 +212,8 @@ suite('gr-router tests', () => {
 
   test('redirectIfNotLoggedIn while logged in', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(true));
-    const ctx = {
-      save() {},
-      handled: true,
-      canonicalPath: '',
-      path: '',
-      querystring: '',
-      pathname: '',
-      state: '',
-      title: '',
-      hash: '',
-      params: {test: 'test'},
-    };
     const redirectStub = sinon.stub(router, 'redirectToLogin');
-    return router.redirectIfNotLoggedIn(ctx).then(() => {
+    return router.redirectIfNotLoggedIn('somepath').then(() => {
       assert.isFalse(redirectStub.called);
     });
   });
@@ -233,21 +221,9 @@ suite('gr-router tests', () => {
   test('redirectIfNotLoggedIn while logged out', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     const redirectStub = sinon.stub(router, 'redirectToLogin');
-    const ctx = {
-      save() {},
-      handled: true,
-      canonicalPath: '',
-      path: '',
-      querystring: '',
-      pathname: '',
-      state: '',
-      title: '',
-      hash: '',
-      params: {test: 'test'},
-    };
     return new Promise(resolve => {
       router
-        .redirectIfNotLoggedIn(ctx)
+        .redirectIfNotLoggedIn('somepath')
         .then(() => {
           assert.isTrue(false, 'Should never execute');
         })
@@ -319,17 +295,6 @@ suite('gr-router tests', () => {
       handlePassThroughRoute.reset();
       router.page.show(url);
       await waitUntilCalled(handlePassThroughRoute, 'handlePassThroughRoute');
-    }
-
-    function createPageContext(): PageContext {
-      return {
-        canonicalPath: '',
-        path: '',
-        querystring: '',
-        pathname: '',
-        hash: '',
-        params: {},
-      };
     }
 
     setup(() => {
@@ -465,7 +430,10 @@ suite('gr-router tests', () => {
 
     suite('ROOT', () => {
       test('closes for closeAfterLogin', () => {
-        const ctx = {...createPageContext(), querystring: 'closeAfterLogin'};
+        const ctx = {
+          querystring: 'closeAfterLogin',
+          canonicalPath: '',
+        } as PageContext;
         const closeStub = sinon.stub(window, 'close');
         const result = router.handleRootRoute(ctx);
         assert.isNotOk(result);
@@ -586,7 +554,7 @@ suite('gr-router tests', () => {
           adminView: AdminChildView.GROUPS,
           offset: '0',
           openCreateModal: false,
-          filter: null,
+          filter: '',
         };
 
         await checkUrlToState('/admin/groups', defaultState);
@@ -1020,7 +988,7 @@ suite('gr-router tests', () => {
         view: GerritView.DOCUMENTATION_SEARCH,
         filter: 'asdf',
       });
-      // Percent decoding works fine. page.js decodes twice, so the only problem
+      // Percent decoding works fine. gr-page decodes twice, so the only problem
       // is having `%25` in the URL, because the first decoding pass will yield
       // `%`, and then the second decoding pass will throw `URI malformed`.
       await checkUrlToState('/Documentation/q/filter:as%20%2fdf', {

@@ -111,6 +111,30 @@
       },
       "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abe7bd12_36362522",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-31T22:10:50Z",
+      "side": 1,
+      "message": "@ekempin@google.com I checked and I cannot reproduce a situation where we add null draft comments.\n\nI believe the code should then work as-is today.",
+      "parentUuid": "1c32491e_64623ea7",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 55
+      },
+      "revId": "dd833d2367eb2b295b0751de52bf1ef3aecd435b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

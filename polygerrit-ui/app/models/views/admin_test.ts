@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
+import {PageContext} from '../../elements/core/gr-router/gr-page';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
 import {AdminChildView, PLUGIN_LIST_ROUTE} from './admin';
@@ -20,7 +21,7 @@ suite('admin view model', () => {
       assert.isFalse(pattern.test('//admin/plugins?'));
       assert.isFalse(pattern.test('/admin/plugins//'));
 
-      assert.deepEqual(createState({}), {
+      assert.deepEqual(createState(new PageContext('')), {
         view: GerritView.ADMIN,
         adminView: AdminChildView.PLUGINS,
       });

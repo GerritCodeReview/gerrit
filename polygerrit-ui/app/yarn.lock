@@ -677,11 +677,6 @@ is-fullwidth-code-point@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz#a3b30a5c4f199183167aaab93beefae3ddfb654f"
   integrity sha1-o7MKXE8ZkYMWeqq5O+764937ZU8=
 
-isarray@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
-  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
-
 isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -813,24 +808,10 @@ once@^1.3.0, once@^1.3.1:
   dependencies:
     wrappy "1"
 
-page@^1.11.6:
-  version "1.11.6"
-  resolved "https://registry.yarnpkg.com/page/-/page-1.11.6.tgz#5ef4efc7073749b8085ccdaa0dcd7c9e0de12fe3"
-  integrity sha512-P6e2JfzkBrPeFCIPplLP7vDDiU84RUUZMrWdsH4ZBGJ8OosnwFkcUkBHp1DTIjuipLliw9yQn/ZJsXZvarsO+g==
-  dependencies:
-    path-to-regexp "~1.2.1"
-
 path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
   integrity sha1-F0uSaHNVNP+8es5r9TpanhtcX18=
-
-path-to-regexp@~1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.2.1.tgz#b33705c140234d873c8721c7b9fd8b541ed3aff9"
-  integrity sha1-szcFwUAjTYc8hyHHuf2LVB7Tr/k=
-  dependencies:
-    isarray "0.0.1"
 
 "polymer-bridges@file:../../polymer-bridges":
   version "1.0.0"

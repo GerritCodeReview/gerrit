@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6922c5b_39251c74",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-31T12:46:55Z",
+      "side": 1,
+      "message": "const [comments, robotComments, change] \u003d Promise.all( ...)",
+      "revId": "5e788415f0ae19f398dfc60bb185c195db0329f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

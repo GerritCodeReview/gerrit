@@ -73,14 +73,15 @@ export default {
     customResolveOptions: {
       // By default, it tries to use page.mjs file instead of page.js
       // when importing 'page/page'.
+      // TODO: page.was removed. Is something obsolete here?
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
     },
   }),
   define({
-     replacements: {
-       'process.env.NODE_ENV': JSON.stringify('production'),
-     },
+    replacements: {
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    },
   }),
   importLocalFontMetaUrlResolver()],
 };

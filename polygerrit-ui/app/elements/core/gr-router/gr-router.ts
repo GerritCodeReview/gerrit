@@ -3,12 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  Options,
-  page,
-  PageContext,
-  PageNextCallback,
-} from '../../../utils/page-wrapper-utils';
+import {Page, PageOptions, PageContext, PageNextCallback} from './gr-page';
 import {NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -108,7 +103,7 @@ import {Model} from '../../../models/model';
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.
 const RoutePattern = {
-  ROOT: '/',
+  ROOT: /^\/$/,
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
@@ -302,7 +297,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
-  readonly page = page.create();
+  readonly page = new Page();
 
   constructor(
     private readonly reporting: ReportingService,
@@ -340,12 +335,7 @@ export class GrRouter implements Finalizable, NavigationService {
         }
 
         if (browserUrl.toString() !== stateUrl.toString()) {
-          this.page.replace(
-            stateUrl.toString(),
-            null,
-            /* init: */ false,
-            /* dispatch: */ false
-          );
+          this.page.replace(stateUrl.toString(), {}, /* dispatch: */ false);
         }
       }),
       this.routerModel.routerView$.subscribe(view => (this.view = view)),
@@ -429,13 +419,13 @@ export class GrRouter implements Finalizable, NavigationService {
    */
   redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';
-    this.page(
+    this.setUrl(
       '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
     );
   }
 
   /**
-   * Hashes parsed by page.js exclude "inner" hashes, so a URL like "/a#b#c"
+   * Hashes parsed by gr-page exclude "inner" hashes, so a URL like "/a#b#c"
    * is parsed to have a hash of "b" rather than "b#c". Instead, this method
    * parses hashes correctly. Will return an empty string if there is no hash.
    *
@@ -464,18 +454,18 @@ export class GrRouter implements Finalizable, NavigationService {
    * @return A promise yielding the original route ctx
    * (if it resolves).
    */
-  redirectIfNotLoggedIn(ctx: PageContext) {
+  redirectIfNotLoggedIn(path: string) {
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         return Promise.resolve();
       } else {
-        this.redirectToLogin(ctx.canonicalPath);
+        this.redirectToLogin(path);
         return Promise.reject(new Error());
       }
     });
   }
 
-  /**  Page.js middleware that warms the REST API's logged-in cache line. */
+  /**  gr-page middleware that warms the REST API's logged-in cache line. */
   private loadUserMiddleware(_: PageContext, next: PageNextCallback) {
     this.restApiService.getLoggedIn().then(() => {
       next();
@@ -485,11 +475,10 @@ export class GrRouter implements Finalizable, NavigationService {
   /**
    * Map a route to a method on the router.
    *
-   * @param pattern The page.js pattern for the route.
+   * @param pattern The regex pattern for the route.
    * @param handlerName The method name for the handler. If the
    * route is matched, the handler will be executed with `this` referring
-   * to the component. Its return value will be discarded so that it does
-   * not interfere with page.js.
+   * to the component. Its return value will be discarded.
    * TODO: Get rid of this parameter. This is really not something that the
    * router wants to be concerned with. The reporting service and the view
    * models should figure that out between themselves.
@@ -499,24 +488,23 @@ export class GrRouter implements Finalizable, NavigationService {
    * redirect specifies the matched URL to be used after successful auth.
    */
   mapRoute(
-    pattern: string | RegExp,
+    pattern: RegExp,
     handlerName: string,
     handler: (ctx: PageContext) => void,
     authRedirect?: boolean
   ) {
-    this.page(
-      pattern,
-      (ctx, next) => this.loadUserMiddleware(ctx, next),
-      ctx => {
-        this.reporting.locationChanged(handlerName);
-        const promise = authRedirect
-          ? this.redirectIfNotLoggedIn(ctx)
-          : Promise.resolve();
-        promise.then(() => {
-          handler(ctx);
-        });
-      }
+    this.page.registerRoute(pattern, (ctx, next) =>
+      this.loadUserMiddleware(ctx, next)
     );
+    this.page.registerRoute(pattern, ctx => {
+      this.reporting.locationChanged(handlerName);
+      const promise = authRedirect
+        ? this.redirectIfNotLoggedIn(ctx.canonicalPath)
+        : Promise.resolve();
+      promise.then(() => {
+        handler(ctx);
+      });
+    });
   }
 
   /**
@@ -583,16 +571,13 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   _testOnly_startRouter() {
-    this.startRouter({dispatch: false, popstate: false});
+    this.startRouter({dispatch: false, popstate: false, base: getBaseUrl()});
   }
 
-  startRouter(opts: Options = {}) {
-    const base = getBaseUrl();
-    if (base) {
-      this.page.base(base);
-    }
-
-    this.page.exit('*', (_, next) => {
+  startRouter(
+    opts: PageOptions = {dispatch: true, popstate: true, base: getBaseUrl()}
+  ) {
+    this.page.registerExitRoute(/(.*)/, (_, next) => {
       if (!this._isRedirecting) {
         this.reporting.beforeLocationChanged();
       }
@@ -603,7 +588,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
     // Remove the tracking param 'usp' (User Source Parameter) from the URL,
     // just to have users look at cleaner URLs.
-    this.page((ctx, next) => {
+    this.page.registerRoute(/(.*)/, (ctx, next) => {
       if (window.URLSearchParams) {
         const pathname = toPathname(ctx.canonicalPath);
         const searchParams = toSearchParams(ctx.canonicalPath);
@@ -619,7 +604,7 @@ export class GrRouter implements Finalizable, NavigationService {
     });
 
     // Middleware
-    this.page((ctx, next) => {
+    this.page.registerRoute(/(.*)/, (ctx, next) => {
       document.body.scrollTop = 0;
 
       if (ctx.hash.match(RoutePattern.PLUGIN_SCREEN)) {
@@ -937,7 +922,7 @@ export class GrRouter implements Finalizable, NavigationService {
     // For backward compatibility with GWT links.
     if (hash) {
       // In certain login flows the server may redirect to a hash without
-      // a leading slash, which page.js doesn't handle correctly.
+      // a leading slash, which gr-page doesn't handle correctly.
       if (hash[0] !== '/') {
         hash = '/' + hash;
       }
@@ -1087,7 +1072,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: ctx.params[2] ?? '0',
+      offset: ctx.params[2] || '0',
       filter: ctx.params[1] ?? null,
       openCreateModal:
         !ctx.params[1] && !ctx.params[2] && ctx.hash === 'create',
@@ -1184,7 +1169,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] ?? '0',
+      offset: ctx.params[2] || '0',
       filter: ctx.params[1] ?? null,
     };
     // Note that router model view must be updated before view models.
@@ -1197,7 +1182,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: ctx.params[0] as RepoName,
-      offset: ctx.params[2] ?? '0',
+      offset: ctx.params[2] || '0',
       filter: ctx.params[1] ?? null,
     };
     // Note that router model view must be updated before view models.
@@ -1209,7 +1194,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: ctx.params[2] ?? '0',
+      offset: ctx.params[2] || '0',
       filter: ctx.params[1] ?? null,
       openCreateModal:
         !ctx.params[1] && !ctx.params[2] && ctx.hash === 'create',
@@ -1239,7 +1224,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: ctx.params[2] ?? '0',
+      offset: ctx.params[2] || '0',
       filter: ctx.params[1] ?? null,
     };
     // Note that router model view must be updated before view models.
@@ -1251,7 +1236,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
-      offset: ctx.params[2],
+      offset: ctx.params[2] || '0',
       loading: false,
       changes: [],
     };
@@ -1267,7 +1252,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
-      offset: undefined,
+      offset: '0',
       loading: false,
       changes: [],
     };

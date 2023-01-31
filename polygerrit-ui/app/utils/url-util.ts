@@ -86,7 +86,7 @@ export function testOnly_clearDocsBaseUrlCache() {
  * encodeURIComponent() with some tweaks.
  */
 export function encodeURL(url: string): string {
-  // page.js decodes the entire URL, and then decodes once more the
+  // gr-page decodes the entire URL, and then decodes once more the
   // individual regex matching groups. It uses `decodeURIComponent()`, which
   // will choke on singular `%` chars without two trailing digits. We prefer
   // to not double encode *everything* (just for readaiblity and simplicity),
@@ -127,7 +127,7 @@ export function encodeURL(url: string): string {
   output = output.replace(/%40/g, '@');
   output = output.replace(/%2F/g, '/');
 
-  // page.js replaces `+` by ` ` in addition to calling `decodeURIComponent()`.
+  // gr-page replaces `+` by ` ` in addition to calling `decodeURIComponent()`.
   // So we can use `+` to increase readability.
   output = output.replace(/%20/g, '+');
 

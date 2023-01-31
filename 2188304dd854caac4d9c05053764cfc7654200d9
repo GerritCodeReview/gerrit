@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc607971_6fd3f345",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-01-31T12:19:37Z",
+      "side": 1,
+      "message": "These calls could be parallelized as well as the robots call below",
+      "range": {
+        "startLine": 1333,
+        "startChar": 0,
+        "endLine": 1334,
+        "endChar": 72
+      },
+      "revId": "2188304dd854caac4d9c05053764cfc7654200d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,22 +3,11 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {PageContext} from '../../elements/core/gr-router/gr-page';
 import {GerritView} from '../../services/router/router-model';
 
 export interface ViewState {
   view: GerritView;
-}
-
-/**
- * While we are using page.js this interface will normally be implemented by
- * PageContext, but it helps testing and independence to have our own type
- * here.
- */
-export interface UrlInfo {
-  querystring?: string;
-  hash?: string;
-  /** What the regular expression matching returns. */
-  params?: {[paramIndex: string]: string};
 }
 
 /**
@@ -27,5 +16,5 @@ export interface UrlInfo {
  */
 export interface Route<T extends ViewState> {
   urlPattern: RegExp;
-  createState: (info: UrlInfo) => T;
+  createState: (ctx: PageContext) => T;
 }

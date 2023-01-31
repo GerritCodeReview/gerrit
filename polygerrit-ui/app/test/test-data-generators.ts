@@ -749,7 +749,7 @@ export function createSearchViewState(): SearchViewState {
   return {
     view: GerritView.SEARCH,
     query: '',
-    offset: undefined,
+    offset: '0',
     loading: false,
     changes: [],
   };
@@ -767,7 +767,7 @@ export function createAdminReposViewState(): AdminViewState {
     view: GerritView.ADMIN,
     adminView: AdminChildView.REPOS,
     offset: '0',
-    filter: null,
+    filter: '',
     openCreateModal: false,
   };
 }
@@ -777,7 +777,7 @@ export function createAdminPluginsViewState(): AdminViewState {
     view: GerritView.ADMIN,
     adminView: AdminChildView.PLUGINS,
     offset: '0',
-    filter: null,
+    filter: '',
   };
 }
 
@@ -799,7 +799,7 @@ export function createRepoBranchesViewState(): RepoViewState {
     view: GerritView.REPO,
     detail: RepoDetailView.BRANCHES,
     offset: '0',
-    filter: null,
+    filter: '',
   };
 }
 
@@ -808,7 +808,7 @@ export function createRepoTagsViewState(): RepoViewState {
     view: GerritView.REPO,
     detail: RepoDetailView.TAGS,
     offset: '0',
-    filter: null,
+    filter: '',
   };
 }
 

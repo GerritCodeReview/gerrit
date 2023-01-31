@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
@@ -45,6 +46,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
@@ -74,6 +77,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, ADDED_FILE_NAME);
     DiffInfo diff = fetchDiffForFile(result, ADDED_FILE_NAME);
     assertDiffForNewFile(diff, result.currentRevision, ADDED_FILE_NAME, ADDED_FILE_CONTENT);
   }
@@ -99,6 +103,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, MODIFIED_FILE_NAME);
     DiffInfo diff = fetchDiffForFile(result, MODIFIED_FILE_NAME);
     assertDiffForFullyModifiedFile(
         diff,
@@ -121,6 +126,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, deletedFileName);
     DiffInfo diff = fetchDiffForFile(result, deletedFileName);
     assertDiffForDeletedFile(diff, deletedFileName, deletedFileOriginalContent);
   }
@@ -144,6 +150,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, renamedFileOriginalName, renamedFileNewName);
     DiffInfo originalFileDiff = fetchDiffForFile(result, renamedFileOriginalName);
     assertDiffForDeletedFile(
         originalFileDiff, renamedFileOriginalName, MODIFIED_FILE_ORIGINAL_CONTENT);
@@ -154,6 +161,9 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
   @Test
   public void applyGerritBasedPatchWithSingleFile_success() throws Exception {
+    merge(
+        createChange(
+            testRepo, "master", "Add unaffected file", "unaffected.txt", "unaffected", ""));
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
     PushOneCommit.Result baseCommit = createChange("Add file", ADDED_FILE_NAME, ADDED_FILE_CONTENT);
@@ -164,6 +174,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, ADDED_FILE_NAME);
     BinaryResult resultPatch = gApi.changes().id(result.id).current().patch();
     assertThat(removeHeader(resultPatch)).isEqualTo(removeHeader(originalPatch));
   }
@@ -186,6 +197,36 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     ChangeInfo result = applyPatch(in);
 
+    assertOnlyAffectedFiles(result, ADDED_FILE_NAME, MODIFIED_FILE_NAME);
+    BinaryResult resultPatch = gApi.changes().id(result.id).current().patch();
+    assertThat(removeHeader(resultPatch)).isEqualTo(removeHeader(originalPatch));
+  }
+
+  @Test
+  public void applyGerritBasedPatchToAnotherRepo_success() throws Exception {
+    PushOneCommit.Result baseCommit = createChange("Add file", ADDED_FILE_NAME, ADDED_FILE_CONTENT);
+    baseCommit.assertOkStatus();
+    BinaryResult originalPatch = gApi.changes().id(baseCommit.getChangeId()).current().patch();
+    ApplyPatchPatchSetInput in = buildInput(originalPatch.asString());
+
+    Project.NameKey targetProjectName = Project.nameKey(name("targetProject"));
+    gApi.projects().create(targetProjectName.get());
+    TestRepository<InMemoryRepository> targetProject = cloneProject(targetProjectName);
+    merge(
+        createChange(
+            targetProject,
+            "master",
+            "Add unaffected file in target branch",
+            "unaffected.txt",
+            "unaffected",
+            ""));
+
+    ChangeInfo result =
+        gApi.changes()
+            .create(new ChangeInput(targetProjectName.get(), "master", COMMIT_MESSAGE))
+            .applyPatch(in);
+
+    assertOnlyAffectedFiles(result, ADDED_FILE_NAME);
     BinaryResult resultPatch = gApi.changes().id(result.id).current().patch();
     assertThat(removeHeader(resultPatch)).isEqualTo(removeHeader(originalPatch));
   }
@@ -372,7 +413,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
   private void initDestBranch() throws Exception {
     String head = getHead(repo(), HEAD).name();
-    createBranchWithRevision(BranchNameKey.create(project, ApplyPatchIT.DESTINATION_BRANCH), head);
+    createBranchWithRevision(BranchNameKey.create(project, DESTINATION_BRANCH), head);
   }
 
   private void initBaseWithFile(String fileName, String fileContent) throws Exception {

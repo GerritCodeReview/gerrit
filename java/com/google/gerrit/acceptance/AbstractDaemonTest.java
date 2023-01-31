@@ -1266,6 +1266,14 @@ public abstract class AbstractDaemonTest {
     assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
   }
 
+  protected void assertOnlyAffectedFiles(ChangeInfo result, String... filenames)
+      throws RestApiException {
+    List<String> files = Arrays.stream(filenames).collect(toList());
+    files.add("/COMMIT_MSG");
+    assertThat(gApi.changes().id(result.id).current().files().keySet())
+        .containsExactlyElementsIn(files);
+  }
+
   protected void assertDiffForFullyModifiedFile(
       DiffInfo diff,
       String commitName,

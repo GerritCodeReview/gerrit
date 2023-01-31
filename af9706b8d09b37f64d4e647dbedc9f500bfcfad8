@@ -34,6 +34,24 @@
       "parentUuid": "316bee4a_550b8e55",
       "revId": "af9706b8d09b37f64d4e647dbedc9f500bfcfad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2cd38a3_1d106bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-31T16:16:36Z",
+      "side": 1,
+      "message": "Ok, thanks. I\u0027ll plan to submit on Feb 13th then and I\u0027ll leave this unresolved until then.",
+      "parentUuid": "77683cb2_dfe2d2fa",
+      "revId": "af9706b8d09b37f64d4e647dbedc9f500bfcfad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

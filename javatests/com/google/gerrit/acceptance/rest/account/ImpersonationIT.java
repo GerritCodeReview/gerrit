@@ -70,6 +70,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -143,11 +144,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
       assertThat(psa.value()).isEqualTo(1);
       assertThat(psa.realAccountId()).isEqualTo(realUser.id());
 
-      ChangeData cd = r.getChange();
-      ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-      assertThat(m.getMessage()).endsWith(in.message);
-      assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-      assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+      assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
 
       // The change meta commit is created by the server and has the impersonated user as the
       // author.
@@ -187,11 +184,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(realUser.id());
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
 
     // realUser2 votes Code-Review+1 on behalf of impersonatedUser, this should override the
     // impersonated Code-Review+1 of realUser with an impersonated Code-Review+1 of realUser2
@@ -208,11 +201,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(realUser2.id());
 
-    cd = r.getChange();
-    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser2.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser2);
   }
 
   @Test
@@ -237,11 +226,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(realUser.id());
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
 
     // realUser2 votes Code-Review-1 on behalf of impersonatedUser, this should override the
     // impersonated Code-Review+1 of realUser with an impersonated Code-Review-1 of realUser2
@@ -258,11 +243,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(-1);
     assertThat(psa.realAccountId()).isEqualTo(realUser2.id());
 
-    cd = r.getChange();
-    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser2.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser2);
   }
 
   @Test
@@ -286,11 +267,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(realUser.id());
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
 
     // impersonatedUser votes Code-Review+1 themselves, this should override the impersonated
     // Code-Review+1 with a non-impersonated Code-Review+1
@@ -306,11 +283,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(impersonatedUser.id());
 
-    cd = r.getChange();
-    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(impersonatedUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, impersonatedUser);
   }
 
   @Test
@@ -334,11 +307,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(realUser.id());
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
 
     // impersonatedUser votes Code-Review-1 themselves, this should override the impersonated
     // Code-Review+1 with a non-impersonated Code-Review-1
@@ -354,11 +323,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(-1);
     assertThat(psa.realAccountId()).isEqualTo(impersonatedUser.id());
 
-    cd = r.getChange();
-    m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
-    assertThat(m.getRealAuthor()).isEqualTo(impersonatedUser.id());
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, impersonatedUser);
   }
 
   @Test
@@ -879,11 +844,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(admin.id()); // not user2
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(user.id());
-    assertThat(m.getRealAuthor()).isEqualTo(admin.id()); // not user2
+    assertLastChangeMessage(r.getChange(), in.message, user, admin);
   }
 
   @Test
@@ -902,10 +863,30 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get(MESSAGES);
     assertThat(info.messages).hasSize(2);
 
-    ChangeMessageInfo changeMessageInfo = Iterables.getLast(info.messages);
-    assertThat(changeMessageInfo.realAuthor).isNotNull();
-    assertThat(changeMessageInfo.realAuthor._accountId)
-        .isEqualTo(accountCreator.user2().id().get());
+    assertLastChangeMessage(r.getChange(), in.message, user, accountCreator.user2());
+  }
+
+  private void assertLastChangeMessage(
+      ChangeData changeData,
+      String expectedMessage,
+      TestAccount expectedAuthor,
+      TestAccount expectedRealAuthor)
+      throws RestApiException {
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(changeData.notes()));
+    assertThat(m.getMessage()).endsWith(expectedMessage);
+    assertThat(m.getAuthor()).isEqualTo(expectedAuthor.id());
+    assertThat(m.getRealAuthor()).isEqualTo(expectedRealAuthor.id());
+
+    ChangeMessageInfo lastChangeMessageInfo =
+        Iterables.getLast(gApi.changes().id(changeData.getId().get()).get().messages);
+    assertThat(lastChangeMessageInfo.message).endsWith(expectedMessage);
+    assertThat(lastChangeMessageInfo.author._accountId).isEqualTo(expectedAuthor.id().get());
+    if (expectedAuthor.id().equals(expectedRealAuthor.id())) {
+      assertThat(lastChangeMessageInfo.realAuthor).isNull();
+    } else {
+      assertThat(lastChangeMessageInfo.realAuthor._accountId)
+          .isEqualTo(expectedRealAuthor.id().get());
+    }
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

@@ -7278,7 +7278,7 @@ Unset if written by the Gerrit system.
 |`real_author`         |optional|
 Real author of the message as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Set if the message was posted on behalf of another user.
+Only set if the message was posted on behalf of another user.
 |`date`            ||
 The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`message`            ||

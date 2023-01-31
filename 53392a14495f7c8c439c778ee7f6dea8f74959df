@@ -159,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96e4bb40_dcb5d8f2",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T14:11:06Z",
+      "side": 1,
+      "message": "\u003e Should we fix this and then change it here?\n\nDone in https://gerrit-review.git.corp.google.com/c/gerrit/+/356941 and also fixed here.",
+      "parentUuid": "9fe42b83_08a68347",
+      "range": {
+        "startLine": 291,
+        "startChar": 41,
+        "endLine": 291,
+        "endChar": 58
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2719e5b3_2cae55cf",

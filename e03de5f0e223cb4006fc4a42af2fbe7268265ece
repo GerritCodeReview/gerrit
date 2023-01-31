@@ -16,6 +16,24 @@
       "message": "Ben, can you please double-check that this change is fine for the web frontend?",
       "revId": "e03de5f0e223cb4006fc4a42af2fbe7268265ece",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884e01c7_4d543295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-31T18:39:10Z",
+      "side": 1,
+      "message": "Yes, this is ok.\n\nAll usages of `real_author` can be found using this Code Search query: https://cs.opensource.google/search?q\u003df:ts$%20real.%3Fauthor%20f:polygerrit",
+      "parentUuid": "61c85029_6973d5c4",
+      "revId": "e03de5f0e223cb4006fc4a42af2fbe7268265ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

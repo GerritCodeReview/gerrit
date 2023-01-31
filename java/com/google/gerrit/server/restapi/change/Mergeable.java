@@ -29,7 +29,9 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -46,6 +48,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -59,6 +62,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       usage = "test mergeability for other branches too")
   private boolean otherBranches;
 
+  private final Config cfg;
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
   private final MergeUtilFactory mergeUtilFactory;
@@ -69,6 +73,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   @Inject
   Mergeable(
+      @GerritServerConfig Config cfg,
       GitRepositoryManager gitManager,
       ProjectCache projectCache,
       MergeUtilFactory mergeUtilFactory,
@@ -76,6 +81,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeIndexer indexer,
       MergeabilityCache cache,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+    this.cfg = cfg;
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -175,7 +181,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
     boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
     // TODO(dborowitz): Include something else in the change ETag that it's possible to bump here,
     // such as cache or secondary index update time.
-    if (!Objects.equals(mergeable, old)) {
+    if (!Objects.equals(mergeable, old)
+        && MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()) {
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError = indexer.indexAsync(change.getProject(), change.getId());
     }

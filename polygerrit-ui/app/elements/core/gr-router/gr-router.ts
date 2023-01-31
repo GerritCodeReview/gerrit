@@ -28,6 +28,7 @@ import {
   PARENT,
   PatchSetNumber,
   BranchName,
+  CommentInfo,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
@@ -1332,7 +1333,13 @@ export class GrRouter implements Finalizable, NavigationService {
     const comments = await this.restApiService.getDiffComments(changeNum);
     const change = await this.restApiService.getChangeDetail(changeNum);
 
-    const comment = findComment(addPath(comments), commentId);
+    let comment = findComment(addPath(comments), commentId);
+    if (!comment) {
+      const robotComments = await this.restApiService.getDiffRobotComments(
+        changeNum
+      );
+      comment = findComment(addPath(robotComments), commentId);
+    }
     const path = comment?.path;
     const patchsets = computeAllPatchSets(change);
     const latestPatchNum = computeLatestPatchNum(patchsets);

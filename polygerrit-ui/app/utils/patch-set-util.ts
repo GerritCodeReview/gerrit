@@ -64,7 +64,7 @@ export function isPatchSetNum(patchset: string) {
 export function convertToPatchSetNum(
   patchset: string | undefined
 ): PatchSetNum | undefined {
-  if (patchset === undefined) return patchset;
+  if (!patchset) return undefined;
   if (!isPatchSetNum(patchset)) {
     console.error('string is not of type PatchSetNum');
   }

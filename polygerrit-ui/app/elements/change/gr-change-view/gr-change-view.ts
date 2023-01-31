@@ -1259,7 +1259,7 @@ export class GrChangeView extends LitElement {
         @click=${(e: MouseEvent) => {
           // We don't want to handle clicks on the star or the <a> link.
           // Calling `stopPropagation()` from the click handler of <a> is not an
-          // option, because then the click does not reach the top-level page.js
+          // option, because then the click does not reach the top-level gr-page
           // click handler and would result is a full page reload.
           if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
           this.copyLinksDropdown?.toggleDropdown();

@@ -16,6 +16,24 @@
       "message": "Happy to hear about better ideas how to measure the success of supporting rebase on behalf of the uploader.\n\nWhile I think that the proposed metric is not great in terms of implementation, I think it may be acceptable to be added at least temporarily.",
       "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0d1a3ce_9e69496d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-01-31T11:11:40Z",
+      "side": 1,
+      "message": "Can we just measure the number of rebase requests with rebaseOnBehalfOf enabled?",
+      "parentUuid": "b0f22566_8e187df3",
+      "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

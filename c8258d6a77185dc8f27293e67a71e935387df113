@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ae3583c_563f3ee9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-01-31T14:58:59Z",
+      "side": 1,
+      "message": "[optional] this could be made #get (since the class name is already self describing)\n\n(sorry for not catching in the original review).",
+      "range": {
+        "startLine": 90,
+        "startChar": 33,
+        "endLine": 90,
+        "endChar": 39
+      },
+      "revId": "c8258d6a77185dc8f27293e67a71e935387df113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

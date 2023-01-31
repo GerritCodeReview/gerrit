@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00935aa_b1d5b9de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "Thanks for the review!!",
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b68278d2_5bbff607",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd5631a_a6c7e95e",
+        "filename": "java/com/google/gerrit/extensions/common/ActionInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "\u003e nit: Could we extend the comment to describe possible options and how they are used?\n\nDone.\n\n \n\u003e I understand that we will have two option as a drop-down for rebase now:\n\u003e rebaseOnBehalfOF and the regular rebase? What does the boolean value used for?\n\u003e E.g. why not just returning the list of enabled options?\n\nThe boolean value was just telling whether the option is enabled or disabled. Just returning the enabled options as a list also works. I have changed the code to this now.",
+      "parentUuid": "b68278d2_5bbff607",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd8f226c_b411fd6c",
@@ -37,6 +78,30 @@
       "writtenOn": "2023-01-30T17:22:08Z",
       "side": 1,
       "message": "nit: Why not initializing options with the options \u003d new HashMap\u003c\u003e(); here",
+      "range": {
+        "startLine": 46,
+        "startChar": 33,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e31e9ded_5f9f0d8f",
+        "filename": "java/com/google/gerrit/extensions/webui/UiAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "Done (I didn\u0027t initialise this because most UiActions will have no options so instantiating the object could be saved for them, but I guess it\u0027s not really making a difference).",
+      "parentUuid": "cd8f226c_b411fd6c",
       "range": {
         "startLine": 46,
         "startChar": 33,
@@ -72,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fe42b83_08a68347",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "Yeah, I initially also thought that we want to return null in this case, but then I realised that this would be inconsistent with realAuthor in ChangeMessageInfo that is always set, even if author \u003d\u003d realAuthor (see [1], note that getRealAuthor() falls back to the author if realAuthor is not set [2], so it should never return null). This may actually be a bug, since the real_author field in ChangeMessageInfo [3] is marked as optional. Should we fix this and then change it here? All I care for is that it\u0027s consistent.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/ChangeMessagesUtil.java#152\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/entities/ChangeMessage.java#102\n[3] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-message-info",
+      "parentUuid": "71e19f00_e2ad0f00",
+      "range": {
+        "startLine": 291,
+        "startChar": 41,
+        "endLine": 291,
+        "endChar": 58
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2719e5b3_2cae55cf",
         "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
         "patchSetId": 3
@@ -83,6 +172,30 @@
       "writtenOn": "2023-01-30T17:22:08Z",
       "side": 1,
       "message": "shouldn\u0027t it return realAccountId?",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f84db0_b8c88b71",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "Good catch! Thanks for noticing this.\n\nInteresting that this wasn\u0027t caught by the tests. Looks like it only influences the RevisionInfo that is provided to RevisionCreatedListeners. I\u0027ve added assertions for this to RebaseOnBehalfOfUploaderIT so that this is covered now.",
+      "parentUuid": "2719e5b3_2cae55cf",
       "range": {
         "startLine": 168,
         "startChar": 11,
@@ -106,6 +219,30 @@
       "writtenOn": "2023-01-30T17:22:08Z",
       "side": 1,
       "message": "Should it be canRebase() ?",
+      "range": {
+        "startLine": 89,
+        "startChar": 60,
+        "endLine": 89,
+        "endChar": 83
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fbb5d34_75f8d568",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "No, we want to check here is the user has the \u0027Rebase\u0027 permission (which is what refControl#canRebase does), but canRebase() in ChangeControl checks if the caller can do a rebase (which is the case if the user is the change owner or has the Submit or the Rebase permission and can create changes). \n\nSo using refControl.canRebase() here looks correct.",
+      "parentUuid": "51dc1b7f_1d903d7a",
       "range": {
         "startLine": 89,
         "startChar": 60,
@@ -141,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5491d75_50ff3089",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "It\u0027s intentional to not check the \u0027Push\u0027 permission of the uploader here.\n\ncanRebaseOnBehalfOfUploader is used to check whether the calling user is allowed to invoke the Rebase REST endpoint with the onBehalfOfUploader option and if it\u0027s not allowed the request is rejected with \u0027403 Forbidden\u0027. It would be wrong to return \u0027403 Forbidden\u0027 for the calling user, when a permission for the uploader is missing. If a permission for the uploader is missing we rather want to return \u0027409 Conflict\u0027. This means to return the correct response code, the permission checks for the calling user and the permission checks for the uploader must be done separately.\n\nDoes this make sense?",
+      "parentUuid": "4d935b54_fb7e0c38",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35d56016_4d43c20d",
         "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
         "patchSetId": 3
@@ -152,6 +313,30 @@
       "writtenOn": "2023-01-30T17:22:08Z",
       "side": 1,
       "message": "seems like this would be checked in PatchSetInserter, so not needed here?",
+      "range": {
+        "startLine": 184,
+        "startChar": 25,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6abc4f8_9b6394b5",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "This is explained in the commit message at [1]. Does it make it clear enough?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356762/3//COMMIT_MSG#184",
+      "parentUuid": "35d56016_4d43c20d",
       "range": {
         "startLine": 184,
         "startChar": 25,
@@ -187,6 +372,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ce23beb_8d42086e",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "Same as above. Does it get clear with the explanation at [1]?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356762/3//COMMIT_MSG#184",
+      "parentUuid": "7175bffa_2d702296",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 7
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b15fe02_c03c3f8e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
         "patchSetId": 3
@@ -198,6 +407,30 @@
       "writtenOn": "2023-01-30T17:22:08Z",
       "side": 1,
       "message": "nit: should there be a test when realUploader._accountId !\u003d  uploader._accountId ?",
+      "range": {
+        "startLine": 542,
+        "startChar": 6,
+        "endLine": 542,
+        "endChar": 77
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3123cfe6_e686275f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-01-31T12:42:01Z",
+      "side": 1,
+      "message": "This is covered by RebaseOnBehalfOfUploaderIT, e.g. at [1] but also by the other tests.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356762/3/javatests/com/google/gerrit/acceptance/api/change/RebaseOnBehalfOfUploaderIT.java#202",
+      "parentUuid": "3b15fe02_c03c3f8e",
       "range": {
         "startLine": 542,
         "startChar": 6,

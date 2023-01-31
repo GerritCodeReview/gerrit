@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9025ce14_284b6270",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-01-31T17:05:55Z",
+      "side": 1,
+      "message": "A more generic solution to this problem would be to allow aliasing a plugin-provided operator over a core operator. Then you can have a google_editby: that you alias as editby: without any extra complexity in core. I haven\u0027t tried it recently, but it might already just work.",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "c8258d6a77185dc8f27293e67a71e935387df113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3ae3583c_563f3ee9",

@@ -16,6 +16,24 @@
       "message": "const [comments, robotComments, change] \u003d Promise.all( ...)",
       "revId": "5e788415f0ae19f398dfc60bb185c195db0329f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dac9684_e45f12c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-01-31T13:02:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6922c5b_39251c74",
+      "revId": "5e788415f0ae19f398dfc60bb185c195db0329f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

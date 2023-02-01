@@ -1415,13 +1415,6 @@ If set to true, users are not allowed to create private changes.
 +
 The default is false.
 
-[[change.enableAttentionSet]]change.enableAttentionSet::
-+
-If set to true, then all UI features for using and interacting with the
-attention set are enabled.
-+
-The default is true.
-
 [[change.enableAssignee]]change.enableAssignee::
 +
 If set to true, then all UI features for using and interacting with the

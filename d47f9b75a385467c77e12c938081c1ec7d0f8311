@@ -22,6 +22,52 @@
       },
       "revId": "d47f9b75a385467c77e12c938081c1ec7d0f8311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd4dcd1_c1790f83",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-01T19:24:56Z",
+      "side": 1,
+      "message": "TIL:\nBy default quantifiers like * and + are \"greedy\", meaning that they try to match as much of the string as possible. The ? character after the quantifier makes the quantifier \"non-greedy\"",
+      "range": {
+        "startLine": 192,
+        "startChar": 17,
+        "endLine": 192,
+        "endChar": 20
+      },
+      "revId": "d47f9b75a385467c77e12c938081c1ec7d0f8311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655f4c5f_e3aef409",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-01T19:24:56Z",
+      "side": 1,
+      "message": "Thanks, that helped me best to understand change",
+      "range": {
+        "startLine": 433,
+        "startChar": 4,
+        "endLine": 441,
+        "endChar": 9
+      },
+      "revId": "d47f9b75a385467c77e12c938081c1ec7d0f8311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -457,33 +457,19 @@ public class AccountResolver {
     }
   }
 
-  private class ByFullName implements Searcher<AccountState> {
-    boolean allowSkippingVisibilityCheck = true;
-
+  private class ByFullName extends StringSearcher {
     ByFullName() {
       super();
     }
 
-    ByFullName(boolean allowSkippingVisibilityCheck) {
-      this();
-      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
+    @Override
+    protected boolean matches(String input) {
+      return true;
     }
 
     @Override
-    public boolean callerMayAssumeCandidatesAreVisible() {
-      return allowSkippingVisibilityCheck;
-    }
-
-    @Override
-    public Optional<AccountState> tryParse(String input) {
-      List<AccountState> results =
-          accountQueryProvider.get().enforceVisibility(true).byFullName(input);
-      return results.size() == 1 ? Optional.of(results.get(0)) : Optional.empty();
-    }
-
-    @Override
-    public Stream<AccountState> search(AccountState input) {
-      return Stream.of(input);
+    public Stream<AccountState> search(String input) {
+      return accountQueryProvider.get().byFullName(input).stream();
     }
 
     @Override
@@ -493,20 +479,8 @@ public class AccountResolver {
   }
 
   private class ByDefaultSearch extends StringSearcher {
-    boolean allowSkippingVisibilityCheck = true;
-
     ByDefaultSearch() {
       super();
-    }
-
-    ByDefaultSearch(boolean allowSkippingVisibilityCheck) {
-      this();
-      this.allowSkippingVisibilityCheck = allowSkippingVisibilityCheck;
-    }
-
-    @Override
-    public boolean callerMayAssumeCandidatesAreVisible() {
-      return allowSkippingVisibilityCheck;
     }
 
     @Override
@@ -533,8 +507,7 @@ public class AccountResolver {
       } catch (PermissionBackendException e) {
         // remains false
       }
-      return accountQueryProvider.get().enforceVisibility(true)
-          .byDefault(input, canSeeSecondaryEmails).stream();
+      return accountQueryProvider.get().byDefault(input, canSeeSecondaryEmails).stream();
     }
 
     @Override
@@ -561,18 +534,6 @@ public class AccountResolver {
           .add(new ByUsername())
           .addAll(nameOrEmailSearchers)
           .build();
-
-  private final ImmutableList<Searcher<?>> forcedVisibilitySearchers =
-      ImmutableList.of(
-          new ByNameAndEmail(),
-          new ByEmail(),
-          new FromRealm(),
-          new ByFullName(false),
-          new ByDefaultSearch(false),
-          new BySelf(),
-          new ByExactAccountId(),
-          new ByParenthesizedAccountId(),
-          new ByUsername());
 
   private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
@@ -670,25 +631,21 @@ public class AccountResolver {
    *
    * @param asUser user to resolve the users by.
    * @param input input string.
-   * @param forceVisibilityCheck whether to force all searchers to check for visibility.
    * @return a result describing matching accounts. Never null even if the result set is empty.
    * @throws ConfigInvalidException if an error occurs.
    * @throws IOException if an error occurs.
    */
-  public Result resolveAsUser(CurrentUser asUser, String input, boolean forceVisibilityCheck)
+  public Result resolveAsUser(CurrentUser asUser, String input)
       throws ConfigInvalidException, IOException {
-    return resolveAsUser(asUser, input, AccountResolver::isActive, forceVisibilityCheck);
+    return resolveAsUser(asUser, input, AccountResolver::isActive);
   }
 
   public Result resolveAsUser(
-      CurrentUser asUser,
-      String input,
-      Predicate<AccountState> accountActivityPredicate,
-      boolean forceVisibilityCheck)
+      CurrentUser asUser, String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
     return searchImpl(
         input,
-        forceVisibilityCheck ? forcedVisibilitySearchers : searchers,
+        searchers,
         asUser,
         new ProvidedUserCanSeePredicate(asUser),
         accountActivityPredicate);

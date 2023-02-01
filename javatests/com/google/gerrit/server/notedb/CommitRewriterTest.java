@@ -2029,237 +2029,10 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void fixAssigneeFooterIdent() throws Exception {
-    Change c = newChange();
-
-    String assigneeIdentToFix = getAccountIdentToFix(changeOwner.getAccount());
-    RevCommit invalidUpdateCommit =
-        writeUpdate(
-            RefNames.changeMetaRef(c.getId()),
-            getChangeUpdateBody(c, "Assignee added", "Assignee: " + assigneeIdentToFix),
-            getAuthorIdent(changeOwner.getAccount()));
-
-    ChangeUpdate changeAssigneeUpdate = newUpdate(c, changeOwner);
-    changeAssigneeUpdate.setAssignee(otherUserId);
-    changeAssigneeUpdate.commit();
-
-    ChangeUpdate removeAssigneeUpdate = newUpdate(c, changeOwner);
-    removeAssigneeUpdate.removeAssignee();
-    removeAssigneeUpdate.commit();
-
-    Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
-
-    ImmutableList<RevCommit> commitsBeforeRewrite = logMetaRef(repo, metaRefBeforeRewrite);
-
-    int invalidCommitIndex = commitsBeforeRewrite.indexOf(invalidUpdateCommit);
-    ChangeNotes notesBeforeRewrite = newNotes(c);
-
-    RunOptions options = new RunOptions();
-    options.dryRun = false;
-    BackfillResult result = rewriter.backfillProject(project, repo, options);
-    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
-
-    ChangeNotes notesAfterRewrite = newNotes(c);
-    assertThat(notesBeforeRewrite.getPastAssignees())
-        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
-    assertThat(notesBeforeRewrite.getChange().getAssignee()).isNull();
-    assertThat(notesAfterRewrite.getPastAssignees())
-        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
-    assertThat(notesAfterRewrite.getChange().getAssignee()).isNull();
-
-    Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
-    assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
-
-    ImmutableList<RevCommit> commitsAfterRewrite = logMetaRef(repo, metaRefAfterRewrite);
-    assertValidCommits(
-        commitsBeforeRewrite, commitsAfterRewrite, ImmutableList.of(invalidCommitIndex));
-    assertFixedCommits(ImmutableList.of(invalidUpdateCommit.getId()), result, c.getId());
-
-    RevCommit fixedUpdateCommit = commitsAfterRewrite.get(invalidCommitIndex);
-    assertThat(invalidUpdateCommit.getAuthorIdent()).isEqualTo(fixedUpdateCommit.getAuthorIdent());
-    assertThat(invalidUpdateCommit.getCommitterIdent())
-        .isEqualTo(fixedUpdateCommit.getCommitterIdent());
-    assertThat(invalidUpdateCommit.getFullMessage())
-        .isNotEqualTo(fixedUpdateCommit.getFullMessage());
-    assertThat(fixedUpdateCommit.getFullMessage()).doesNotContain(changeOwner.getName());
-    assertThat(invalidUpdateCommit.getFullMessage()).contains(assigneeIdentToFix);
-    String expectedFixedIdent = getValidIdentAsString(changeOwner.getAccount());
-    assertThat(fixedUpdateCommit.getFullMessage()).contains(expectedFixedIdent);
-
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
-    assertThat(commitHistoryDiff)
-        .containsExactly(
-            "@@ -9 +9 @@\n"
-                + "-Assignee: Change Owner <1@gerrit>\n"
-                + "+Assignee: Gerrit User 1 <1@gerrit>\n");
-    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
-    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
-    assertThat(secondRunResult.refsFailedToFix).isEmpty();
-  }
-
-  @Test
-  public void fixAssigneeChangeMessage() throws Exception {
-    Change c = newChange();
-
-    ImmutableList<ObjectId> commitsToFix =
-        new ImmutableList.Builder<ObjectId>()
-            .add(
-                writeUpdate(
-                    RefNames.changeMetaRef(c.getId()),
-                    getChangeUpdateBody(
-                        c,
-                        "Assignee added: " + changeOwner.getNameEmail(),
-                        "Assignee: " + getValidIdentAsString(changeOwner.getAccount())),
-                    getAuthorIdent(changeOwner.getAccount())))
-            .add(
-                writeUpdate(
-                    RefNames.changeMetaRef(c.getId()),
-                    getChangeUpdateBody(
-                        c,
-                        String.format(
-                            "Assignee changed from: %s to: %s",
-                            changeOwner.getNameEmail(), otherUser.getNameEmail()),
-                        "Assignee: " + getValidIdentAsString(otherUser.getAccount())),
-                    getAuthorIdent(changeOwner.getAccount())))
-            .add(
-                writeUpdate(
-                    RefNames.changeMetaRef(c.getId()),
-                    getChangeUpdateBody(
-                        c, "Assignee deleted: " + otherUser.getNameEmail(), "Assignee:"),
-                    getAuthorIdent(changeOwner.getAccount())))
-            .build();
-
-    Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
-
-    ImmutableList<RevCommit> commitsBeforeRewrite = logMetaRef(repo, metaRefBeforeRewrite);
-
-    ImmutableList<Integer> invalidCommits =
-        commitsToFix.stream()
-            .map(commit -> commitsBeforeRewrite.indexOf(commit))
-            .collect(toImmutableList());
-    ChangeNotes notesBeforeRewrite = newNotes(c);
-
-    RunOptions options = new RunOptions();
-    options.dryRun = false;
-    BackfillResult result = rewriter.backfillProject(project, repo, options);
-    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
-
-    ChangeNotes notesAfterRewrite = newNotes(c);
-    assertThat(notesBeforeRewrite.getPastAssignees())
-        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
-    assertThat(notesBeforeRewrite.getChange().getAssignee()).isNull();
-    assertThat(changeMessages(notesBeforeRewrite))
-        .containsExactly(
-            "Assignee added: Change Owner <change@owner.com>",
-            "Assignee changed from: Change Owner <change@owner.com> to: Other Account <other@account.com>",
-            "Assignee deleted: Other Account <other@account.com>");
-
-    assertThat(notesAfterRewrite.getPastAssignees())
-        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
-    assertThat(notesAfterRewrite.getChange().getAssignee()).isNull();
-    assertThat(changeMessages(notesAfterRewrite))
-        .containsExactly(
-            "Assignee added: " + AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
-            String.format(
-                "Assignee changed from: %s to: %s",
-                AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
-                AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId())),
-            "Assignee deleted: "
-                + AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId()));
-
-    Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
-    assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
-
-    ImmutableList<RevCommit> commitsAfterRewrite = logMetaRef(repo, metaRefAfterRewrite);
-    assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
-    assertFixedCommits(commitsToFix, result, c.getId());
-
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
-    assertThat(commitHistoryDiff)
-        .containsExactly(
-            "@@ -6 +6 @@\n"
-                + "-Assignee added: Change Owner <change@owner.com>\n"
-                + "+Assignee added: <GERRIT_ACCOUNT_1>\n",
-            "@@ -6 +6 @@\n"
-                + "-Assignee changed from: Change Owner <change@owner.com> to: Other Account <other@account.com>\n"
-                + "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n",
-            "@@ -6 +6 @@\n"
-                + "-Assignee deleted: Other Account <other@account.com>\n"
-                + "+Assignee deleted: <GERRIT_ACCOUNT_2>\n"
-                // Both empty value and space are parsed as deleted assignee anyway.
-                + "@@ -9 +9 @@\n"
-                + "-Assignee:\n"
-                + "+Assignee: \n");
-    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
-    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
-    assertThat(secondRunResult.refsFailedToFix).isEmpty();
-  }
-
-  @Test
-  public void fixAssigneeChangeMessageNoAssigneeFooter() throws Exception {
-    Change c = newChange();
-    writeUpdate(
-        RefNames.changeMetaRef(c.getId()),
-        getChangeUpdateBody(c, "Assignee added: " + changeOwner.getName()),
-        getAuthorIdent(changeOwner.getAccount()));
-
-    writeUpdate(
-        RefNames.changeMetaRef(c.getId()),
-        getChangeUpdateBody(
-            c,
-            String.format(
-                "Assignee changed from: %s to: %s",
-                changeOwner.getNameEmail(), otherUser.getNameEmail())),
-        getAuthorIdent(otherUser.getAccount()));
-    writeUpdate(
-        RefNames.changeMetaRef(c.getId()),
-        getChangeUpdateBody(c, "Assignee deleted: " + otherUser.getName()),
-        getAuthorIdent(changeOwner.getAccount()));
-    Account reviewer =
-        Account.builder(Account.id(3), TimeUtil.now())
-            .setFullName("Reviewer User")
-            .setPreferredEmail("reviewer@account.com")
-            .build();
-    accountCache.put(reviewer);
-    // Even though account is present in the cache, it won't be used because it does not appear in
-    // the history of this change.
-    writeUpdate(
-        RefNames.changeMetaRef(c.getId()),
-        getChangeUpdateBody(c, "Assignee added: " + reviewer.getName()),
-        getAuthorIdent(changeOwner.getAccount()));
-
-    writeUpdate(
-        RefNames.changeMetaRef(c.getId()),
-        getChangeUpdateBody(c, "Assignee deleted: Gerrit Account"),
-        getAuthorIdent(changeOwner.getAccount()));
-
-    RunOptions options = new RunOptions();
-    options.dryRun = false;
-    BackfillResult result = rewriter.backfillProject(project, repo, options);
-    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
-    assertThat(commitHistoryDiff)
-        .containsExactly(
-            "@@ -6 +6 @@\n"
-                + "-Assignee added: Change Owner\n"
-                + "+Assignee added: <GERRIT_ACCOUNT_1>\n",
-            "@@ -6 +6 @@\n"
-                + "-Assignee changed from: Change Owner <change@owner.com> to: Other Account <other@account.com>\n"
-                + "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n",
-            "@@ -6 +6 @@\n"
-                + "-Assignee deleted: Other Account\n"
-                + "+Assignee deleted: <GERRIT_ACCOUNT_2>\n",
-            "@@ -6 +6 @@\n" + "-Assignee added: Reviewer User\n" + "+Assignee was added.\n");
-    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
-    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
-    assertThat(secondRunResult.refsFailedToFix).isEmpty();
-  }
-
-  @Test
   public void singleRunFixesAll() throws Exception {
     Change c = newChange();
     Instant when = TimeUtil.now();
-    String assigneeIdentToFix = getAccountIdentToFix(otherUser.getAccount());
+    String reviewerIdentToFix = getAccountIdentToFix(otherUser.getAccount());
     PersonIdent authorIdentToFix =
         new PersonIdent(
             changeOwner.getName(),
@@ -2272,8 +2045,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             RefNames.changeMetaRef(c.getId()),
             getChangeUpdateBody(
                 c,
-                "Assignee added: Other Account <other@account.com>",
-                "Assignee: " + assigneeIdentToFix),
+                "Removed reviewer: Other Account <other@account.com>.",
+                "Reviewer: " + reviewerIdentToFix),
             authorIdentToFix);
     Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
 
@@ -2287,9 +2060,17 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
+    ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
+        ImmutableList.of(
+            ReviewerStatusUpdate.create(
+                addReviewerUpdate.when, changeOwner.getAccountId(), otherUserId, REVIEWER),
+            ReviewerStatusUpdate.create(
+                updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
+
     ChangeNotes notesAfterRewrite = newNotes(c);
-    assertThat(notesBeforeRewrite.getChange().getAssignee()).isEqualTo(otherUserId);
-    assertThat(notesAfterRewrite.getChange().getAssignee()).isEqualTo(otherUserId);
+    assertThat(notesBeforeRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);
+    assertThat(notesAfterRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);
 
     Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
     assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
@@ -2313,11 +2094,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(commitHistoryDiff.get(0))
         .contains(
             "@@ -6 +6 @@\n"
-                + "-Assignee added: Other Account <other@account.com>\n"
-                + "+Assignee added: <GERRIT_ACCOUNT_2>\n"
+                + "-Added reviewer: Other Account <other@account.com>\n"
+                + "+Added reviewer: <GERRIT_ACCOUNT_2>\n"
                 + "@@ -9 +9 @@\n"
-                + "-Assignee: Other Account <2@gerrit>\n"
-                + "+Assignee: Gerrit User 2 <2@gerrit>");
+                + "-Reviewer: Other Account <2@gerrit>\n"
+                + "+Reviewer: Gerrit User 2 <2@gerrit>");
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();

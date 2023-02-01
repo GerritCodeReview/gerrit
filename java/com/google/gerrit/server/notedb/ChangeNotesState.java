@@ -50,12 +50,10 @@ import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
-import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionSetUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
@@ -124,7 +122,6 @@ public abstract class ChangeNotesState {
       List<ReviewerStatusUpdate> reviewerUpdates,
       Set<AttentionSetUpdate> attentionSetUpdates,
       List<AttentionSetUpdate> allAttentionSetUpdates,
-      List<AssigneeStatusUpdate> assigneeUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
       ListMultimap<ObjectId, HumanComment> publishedComments,
@@ -178,7 +175,6 @@ public abstract class ChangeNotesState {
         .reviewerUpdates(reviewerUpdates)
         .attentionSet(attentionSetUpdates)
         .allAttentionSetUpdates(allAttentionSetUpdates)
-        .assigneeUpdates(assigneeUpdates)
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
@@ -320,8 +316,6 @@ public abstract class ChangeNotesState {
   /** Returns all attention set updates. */
   abstract ImmutableList<AttentionSetUpdate> allAttentionSetUpdates();
 
-  abstract ImmutableList<AssigneeStatusUpdate> assigneeUpdates();
-
   abstract ImmutableList<SubmitRecord> submitRecords();
 
   abstract ImmutableList<ChangeMessage> changeMessages();
@@ -369,9 +363,6 @@ public abstract class ChangeNotesState {
     change.setTopic(Strings.emptyToNull(c.topic()));
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
-    if (!assigneeUpdates().isEmpty()) {
-      change.setAssignee(assigneeUpdates().get(0).currentAssignee().orElse(null));
-    }
     change.setPrivate(c.isPrivate());
     change.setWorkInProgress(c.workInProgress());
     change.setReviewStarted(c.reviewStarted());
@@ -404,7 +395,6 @@ public abstract class ChangeNotesState {
           .reviewerUpdates(ImmutableList.of())
           .attentionSet(ImmutableSet.of())
           .allAttentionSetUpdates(ImmutableList.of())
-          .assigneeUpdates(ImmutableList.of())
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
           .publishedComments(ImmutableListMultimap.of())
@@ -441,8 +431,6 @@ public abstract class ChangeNotesState {
     abstract Builder attentionSet(Set<AttentionSetUpdate> attentionSetUpdates);
 
     abstract Builder allAttentionSetUpdates(List<AttentionSetUpdate> attentionSetUpdates);
-
-    abstract Builder assigneeUpdates(List<AssigneeStatusUpdate> assigneeUpdates);
 
     abstract Builder submitRecords(List<SubmitRecord> submitRecords);
 
@@ -519,7 +507,6 @@ public abstract class ChangeNotesState {
       object
           .allAttentionSetUpdates()
           .forEach(u -> b.addAllAttentionSetUpdate(toAttentionSetUpdateProto(u)));
-      object.assigneeUpdates().forEach(u -> b.addAssigneeUpdate(toAssigneeStatusUpdateProto(u)));
       object
           .submitRecords()
           .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
@@ -616,17 +603,6 @@ public abstract class ChangeNotesState {
           .build();
     }
 
-    private static AssigneeStatusUpdateProto toAssigneeStatusUpdateProto(AssigneeStatusUpdate u) {
-      AssigneeStatusUpdateProto.Builder builder =
-          AssigneeStatusUpdateProto.newBuilder()
-              .setTimestampMillis(u.date().toEpochMilli())
-              .setUpdatedBy(u.updatedBy().get())
-              .setHasCurrentAssignee(u.currentAssignee().isPresent());
-
-      u.currentAssignee().ifPresent(assignee -> builder.setCurrentAssignee(assignee.get()));
-      return builder.build();
-    }
-
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
@@ -659,7 +635,6 @@ public abstract class ChangeNotesState {
               .attentionSet(toAttentionSetUpdates(proto.getAttentionSetUpdateList()))
               .allAttentionSetUpdates(
                   toAllAttentionSetUpdates(proto.getAllAttentionSetUpdateList()))
-              .assigneeUpdates(toAssigneeStatusUpdateList(proto.getAssigneeUpdateList()))
               .submitRecords(
                   proto.getSubmitRecordList().stream()
                       .map(r -> GSON.fromJson(r, StoredSubmitRecord.class).toSubmitRecord())
@@ -780,21 +755,6 @@ public abstract class ChangeNotesState {
                 Account.id(proto.getAccount()),
                 AttentionSetUpdate.Operation.valueOf(proto.getOperation()),
                 proto.getReason()));
-      }
-      return b.build();
-    }
-
-    private static ImmutableList<AssigneeStatusUpdate> toAssigneeStatusUpdateList(
-        List<AssigneeStatusUpdateProto> protos) {
-      ImmutableList.Builder<AssigneeStatusUpdate> b = ImmutableList.builder();
-      for (AssigneeStatusUpdateProto proto : protos) {
-        b.add(
-            AssigneeStatusUpdate.create(
-                Instant.ofEpochMilli(proto.getTimestampMillis()),
-                Account.id(proto.getUpdatedBy()),
-                proto.getHasCurrentAssignee()
-                    ? Optional.of(Account.id(proto.getCurrentAssignee()))
-                    : Optional.empty()));
       }
       return b.build();
     }

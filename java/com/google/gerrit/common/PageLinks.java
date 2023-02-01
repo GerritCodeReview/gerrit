@@ -106,10 +106,6 @@ public class PageLinks {
     return toChangeQuery(op("owner", fullname) + " " + status(status));
   }
 
-  public static String toAssigneeQuery(String fullname) {
-    return toChangeQuery(op("assignee", fullname));
-  }
-
   public static String toCustomDashboard(String params) {
     return "/dashboard/?" + params;
   }

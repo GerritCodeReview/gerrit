@@ -53,7 +53,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -496,26 +495,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
               getProjectName(), state.changeId().get()));
     }
     return state.submitRequirementsResult();
-  }
-
-  /**
-   * Returns an ImmutableSet of Account.Ids of all users that have been assigned to this change. The
-   * order of the set is the order in which they were assigned.
-   */
-  public ImmutableSet<Account.Id> getPastAssignees() {
-    return Lists.reverse(state.assigneeUpdates()).stream()
-        .map(AssigneeStatusUpdate::currentAssignee)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(toImmutableSet());
-  }
-
-  /**
-   * Returns an ImmutableList of AssigneeStatusUpdate of all the updates to the assignee field to
-   * this change. The order of the list is from most recent updates to least recent.
-   */
-  public ImmutableList<AssigneeStatusUpdate> getAssigneeUpdates() {
-    return state.assigneeUpdates();
   }
 
   /** Returns an ImmutableSet of all hashtags for this change sorted in alphabetical order. */

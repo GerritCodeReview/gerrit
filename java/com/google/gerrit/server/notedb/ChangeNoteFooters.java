@@ -19,7 +19,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 /** Footers, that can be set in NoteDb commits. */
 public class ChangeNoteFooters {
   public static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
-  public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
   public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");

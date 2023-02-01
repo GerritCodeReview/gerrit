@@ -93,7 +93,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final QueryDocumentationExecutor docSearcher;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
-  private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
 
   @Inject
@@ -116,7 +115,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       QueryDocumentationExecutor docSearcher,
       ProjectCache projectCache,
       AgreementJson agreementJson,
-      ChangeIndexCollection indexes,
       SitePaths sitePaths) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
@@ -136,7 +134,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.docSearcher = docSearcher;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
-    this.indexes = indexes;
     this.sitePaths = sitePaths;
   }
 
@@ -220,11 +217,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private ChangeConfigInfo getChangeInfo() {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
-    boolean hasAssigneeInIndex =
-        indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE_SPEC);
-    info.showAssigneeInChangesTable =
-        toBoolean(
-            config.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = toBoolean(MergeSuperSet.wholeTopicEnabled(config));

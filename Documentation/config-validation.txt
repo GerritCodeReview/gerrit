@@ -100,13 +100,6 @@ input arguments.
 E.g. a plugin could use this to enforce a certain name scheme for
 group names.
 
-[[assignee-validation]]
-== Assignee validation
-
-
-Plugins implementing the `AssigneeValidationListener` interface can perform
-validation of assignees before they are assigned to a change.
-
 [[hashtag-validation]]
 == Hashtag validation
 

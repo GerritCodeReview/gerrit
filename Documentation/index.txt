@@ -22,12 +22,13 @@
 . link:intro-project-owner.html[Project Owner Guide]
 . link:https://source.android.com/source/developing[Default Android Workflow,role=external,window=_blank] (external)
 
-== Tutorials
+== Features and Workflows
 . Web
 .. link:user-review-ui.html[Review UI Overview]
 .. link:user-search.html[Searching Changes]
 .. link:user-inline-edit.html[Manipulating Changes in Browser]
 .. link:user-notify.html[Subscribing to Email Notifications]
+.. link:user-attention-set.html[Attention Set]
 . SSH
 .. link:user-upload.html#ssh[SSH connection details]
 .. link:cmd-index.html[Command Line Tools]

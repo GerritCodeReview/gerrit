@@ -1613,7 +1613,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.enableAttentionSet", value = "true")
   public void attentionSetEmailHeader() throws Exception {
     PushOneCommit.Result r = createChange();
     TestAccount user2 = accountCreator.user2();
@@ -1646,21 +1645,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Abandon the change which removes user from attention set; there is an email but without the
     // attention footer.
     change(r).abandon();
-    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
-        .doesNotContain("Attention is currently required");
-    assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
-        .doesNotContain("Attention is currently required");
-    sender.clear();
-  }
-
-  @Test
-  @GerritConfig(name = "change.enableAttentionSet", value = "false")
-  public void noReferenceToAttentionSetInEmailsWhenDisabled() throws Exception {
-    PushOneCommit.Result r = createChange();
-    // Add user and to the attention set.
-    change(r).addReviewer(user.id().toString());
-
-    // Attention set is not referenced.
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
         .doesNotContain("Attention is currently required");
     assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())

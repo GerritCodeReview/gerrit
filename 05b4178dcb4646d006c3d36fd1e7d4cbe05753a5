@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "042bd59d_b79a3660",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T12:51:57Z",
+      "side": 1,
+      "message": "nit: inverse if to avoid the nesting\nif(cd.currentPatchSet().uploader().equals(realUploader))){\n return;\n}",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 64
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28dd2dfd_51732f63",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T12:51:57Z",
+      "side": 1,
+      "message": "could we just check the if label.account !\u003d laber.real_account for Code-Review? Then we do not need to re-evaluate the SR.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 43
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57faa1e8_13f72e38",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T12:51:57Z",
+      "side": 1,
+      "message": "Should it be an extension that we can implement internally?\nE.g. we have  OnStoreSubmitRequirementResultModifier extension, where we could add a metric not actually modifying the SR result.\nUnless you think the metric is useful for upstream as well.",
+      "range": {
+        "startLine": 447,
+        "startChar": 10,
+        "endLine": 447,
+        "endChar": 63
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

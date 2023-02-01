@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003b6ee2_c7b9603c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-01T15:57:01Z",
+      "side": 1,
+      "message": "maybe clarify the regex changes.\nie before the regex matched any character not in \",\" but now it matches until it find a \",123\".\n\nThen the second paragraph makes sense ie \"querying for \",123\"\" is always assumed to be an offset according to the current regex, so I\u0027m not sure why you call it impossible?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "d47f9b75a385467c77e12c938081c1ec7d0f8311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

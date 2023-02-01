@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d217b3bc_2b189c31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-01T11:28:12Z",
+      "side": 1,
+      "message": "You could\u0027ve used the \"Revert\" button on the original change (easier to revert).",
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a737bb93_c05e084b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-01T11:28:12Z",
+      "side": 1,
+      "message": "Not related to this change?\n\nPlease revert.",
+      "range": {
+        "startLine": 1778,
+        "startChar": 2,
+        "endLine": 1778,
+        "endChar": 8
+      },
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

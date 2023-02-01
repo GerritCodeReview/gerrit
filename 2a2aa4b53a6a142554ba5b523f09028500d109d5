@@ -16,6 +16,24 @@
       "message": "Will this change have side effects on the Lucene / elastic implementations? Will their implementations work just fine with this change?",
       "revId": "2a2aa4b53a6a142554ba5b523f09028500d109d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "218783f0_53a6fd5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-01T13:09:17Z",
+      "side": 1,
+      "message": "Marking unresolved.",
+      "parentUuid": "84f6714f_950453dd",
+      "revId": "2a2aa4b53a6a142554ba5b523f09028500d109d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

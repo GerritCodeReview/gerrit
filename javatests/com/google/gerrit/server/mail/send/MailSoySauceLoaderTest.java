@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.template.soy.shared.SoyAstCache;
 import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,9 +39,7 @@ public class MailSoySauceLoaderTest {
   public void soyCompilation() {
     MailSoySauceLoader loader =
         new MailSoySauceLoader(
-            sitePaths,
-            new SoyAstCache(),
-            new PluginSetContext<>(set, PluginMetrics.DISABLED_INSTANCE));
+            sitePaths, new PluginSetContext<>(set, PluginMetrics.DISABLED_INSTANCE));
     assertThat(loader.load()).isNotNull(); // should not throw
   }
 }

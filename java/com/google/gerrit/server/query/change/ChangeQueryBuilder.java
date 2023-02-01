@@ -86,7 +86,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.query.change.ChangePredicates.EditByPredicateProvider;
 import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
@@ -276,8 +275,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     private final Provider<CurrentUser> self;
 
-    private final EditByPredicateProvider editByPredicateProvider;
-
     @Inject
     @VisibleForTesting
     public Arguments(
@@ -311,8 +308,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ExperimentFeatures experimentFeatures,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
-        PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        PluginSetContext<SubmitRule> submitRules) {
       this(
           queryProvider,
           rewriter,
@@ -345,8 +341,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           experimentFeatures,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
-          submitRules,
-          editByPredicateProvider);
+          submitRules);
     }
 
     private Arguments(
@@ -381,8 +376,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ExperimentFeatures experimentFeatures,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
-        PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        PluginSetContext<SubmitRule> submitRules) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -415,7 +409,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.experimentFeatures = experimentFeatures;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
       this.submitRules = submitRules;
-      this.editByPredicateProvider = editByPredicateProvider;
     }
 
     public Arguments asUser(CurrentUser otherUser) {
@@ -451,8 +444,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           experimentFeatures,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
-          submitRules,
-          editByPredicateProvider);
+          submitRules);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -645,7 +637,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("edit".equalsIgnoreCase(value)) {
-      return this.args.editByPredicateProvider.editBy(self());
+      return ChangePredicates.editBy(self());
     }
 
     if ("attention".equalsIgnoreCase(value)) {
@@ -1782,7 +1774,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return value;
   }
 
-  private Account.Id self() throws QueryParseException {
+  /** Returns {@link Account.Id} of the identified calling user. */
+  public Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
   }
 

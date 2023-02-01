@@ -443,6 +443,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31cacae8_91f0de85",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T12:32:55Z",
+      "side": 1,
+      "message": "Thank you for the extensive comment!\n\nI think it is clear enough now and the behavior makes sense.",
+      "parentUuid": "ccc7c552_b1e273b0",
+      "range": {
+        "startLine": 154,
+        "startChar": 26,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35d56016_4d43c20d",

@@ -782,7 +782,7 @@ is already restricted to the correct set of users.
 === Rebase
 
 This category permits users to rebase changes via the web UI by pushing
-the `Rebase Change` button.
+the `REBASE` button.
 
 The change owner and submitters can always rebase changes in the web UI
 (even without having the `Rebase` access right assigned).

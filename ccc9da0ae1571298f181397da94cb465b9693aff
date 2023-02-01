@@ -16,6 +16,24 @@
       "message": "Marija, thanks for all the review rounds. Your comments were very helpful to improve this change!",
       "revId": "ccc9da0ae1571298f181397da94cb465b9693aff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38befc4_185ff7d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T14:13:24Z",
+      "side": 1,
+      "message": "Thank you for an extremely detailed change description and sorry for the delay in review!",
+      "parentUuid": "08ae7ce2_e568551d",
+      "revId": "ccc9da0ae1571298f181397da94cb465b9693aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

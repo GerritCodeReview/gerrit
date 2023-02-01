@@ -227,8 +227,7 @@ public class ChangeField {
 
   /** List of full file paths modified in the current patch set. */
   public static final IndexedField<ChangeData, Iterable<String>> PATH_FIELD =
-      // Named for backwards compatibility.
-      IndexedField.<ChangeData>iterableStringBuilder("File")
+      IndexedField.<ChangeData>iterableStringBuilder("ModifiedFile")
           .build(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec PATH_SPEC =
@@ -770,7 +769,7 @@ public class ChangeField {
 
   /** Commit ID of any patch set on the change, using prefix match. */
   public static final IndexedField<ChangeData, Iterable<String>> COMMIT_FIELD =
-      IndexedField.<ChangeData>iterableStringBuilder("Commit")
+      IndexedField.<ChangeData>iterableStringBuilder("CommitId")
           .size(40)
           .required()
           .build(ChangeField::getRevisions);
@@ -1222,7 +1221,7 @@ public class ChangeField {
 
   /** Determines if this change is private. */
   public static final IndexedField<ChangeData, String> PRIVATE_FIELD =
-      IndexedField.<ChangeData>stringBuilder("Private")
+      IndexedField.<ChangeData>stringBuilder("IsPrivate")
           .size(1)
           .build(cd -> cd.change().isPrivate() ? "1" : "0");
 

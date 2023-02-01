@@ -107,6 +107,7 @@ public class PatchSetUtil {
         .id(psId)
         .commitId(commit)
         .uploader(update.getAccountId())
+        .realUploader(update.getRealAccountId())
         .createdOn(update.getWhen())
         .groups(groups)
         .pushCertificate(Optional.ofNullable(pushCertificate))

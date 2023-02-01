@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.webui;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface UiAction<R extends RestResource> extends RestView<R> {
   /**
@@ -40,6 +43,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     private String title;
     private BooleanCondition visible = BooleanCondition.TRUE;
     private BooleanCondition enabled = BooleanCondition.TRUE;
+    private List<String> enabledOptions = new ArrayList<>();
 
     public String getMethod() {
       return method;
@@ -120,6 +124,23 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     /** Set if the button should be invokable (true), or greyed out (false). */
     public Description setEnabled(BooleanCondition enabled) {
       this.enabled = enabled;
+      return this;
+    }
+
+    @Nullable
+    public ImmutableList<String> getEnabledOptions() {
+      if (enabledOptions.isEmpty()) {
+        return null;
+      }
+      return ImmutableList.copyOf(enabledOptions);
+    }
+
+    public Description setOption(String optionName, boolean enabled) {
+      if (enabled) {
+        enabledOptions.add(optionName);
+      } else {
+        enabledOptions.remove(optionName);
+      }
       return this;
     }
   }

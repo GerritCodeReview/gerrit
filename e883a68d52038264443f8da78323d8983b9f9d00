@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd4467f_8b6b2bdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T11:29:32Z",
+      "side": 1,
+      "message": "Not a pure revert, see commit message.",
+      "parentUuid": "d217b3bc_2b189c31",
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a737bb93_c05e084b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-01T11:28:12Z",
       "side": 1,
       "message": "Not related to this change?\n\nPlease revert.",
+      "range": {
+        "startLine": 1778,
+        "startChar": 2,
+        "endLine": 1778,
+        "endChar": 8
+      },
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce18d99a_21127074",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T11:29:32Z",
+      "side": 1,
+      "message": "See commit message \"Since the ChangeOperandFactory interface accepts\nChangeQueryBuider and nothing else, I had to expose the self() method,\nthat is used when creating editBy predicate.\"",
+      "parentUuid": "a737bb93_c05e084b",
       "range": {
         "startLine": 1778,
         "startChar": 2,

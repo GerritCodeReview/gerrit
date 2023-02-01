@@ -558,8 +558,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (Account.Id attentionUser : currentAttentionSet) {
       footers.add(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
     }
-    // Since this would be user visible, only show it if attention set is enabled
-    if (args.settings.isAttentionSetEnabled && !currentAttentionSet.isEmpty()) {
+    if (!currentAttentionSet.isEmpty()) {
       // We need names rather than account ids / emails to make it user readable.
       soyContext.put(
           "attentionSet",

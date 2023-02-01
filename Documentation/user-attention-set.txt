@@ -164,13 +164,7 @@ been replaced by the attention set.
 
 === For Gerrit Admins
 
-The Attention Set has been available since the 3.3 release (late 2020). It
-is enabled by default, but you can disable it by setting
-link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet] to false.
-
-As part of Gerrit 3.3 upgrade, the user group "Non-Interactive Users" is
-renamed "Service Users". For a new installation, the group is automatically
-created upon initialization.
+The Attention Set has been available since the 3.3 release (late 2020).
 
 === Important note for all host owners, project owners, and bot owners
 

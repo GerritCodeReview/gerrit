@@ -60,7 +60,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // change
   @GerritConfig(name = "change.updateDelay", value = "50s")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
-  @GerritConfig(name = "change.enableAttentionSet", value = "true")
   @GerritConfig(name = "change.enableAssignee", value = "true")
 
   // download
@@ -102,7 +101,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // change
     assertThat(i.change.updateDelay).isEqualTo(50);
     assertThat(i.change.disablePrivateChanges).isTrue();
-    assertThat(i.change.enableAttentionSet).isTrue();
     assertThat(i.change.enableAssignee).isTrue();
 
     // download

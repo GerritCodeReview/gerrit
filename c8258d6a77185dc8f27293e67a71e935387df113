@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5022669b_cc8abfdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-01T11:10:07Z",
+      "side": 1,
+      "message": "Oh, thank you for the hint, I did not know we have this extension.\n\nTurned out, this works if I set up has-operand-alias.\n\nThe ChangeOperandFactory has quite inconvenient interface though:\n\n```\n  Predicate\u003cChangeData\u003e create(ChangeQueryBuilder builder)\n```\nI had to expose self method to get the user id.\n\nchange 357081 to revert this extension + expose self method",
+      "parentUuid": "37ce5981_6f1fa50f",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "c8258d6a77185dc8f27293e67a71e935387df113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3ae3583c_563f3ee9",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 2

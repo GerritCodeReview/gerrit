@@ -150,7 +150,7 @@ public class ChangeMessagesUtil {
     cmi.tag = message.getTag();
     cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
     Account.Id realAuthor = message.getRealAuthor();
-    if (realAuthor != null) {
+    if (realAuthor != null && !realAuthor.equals(message.getAuthor())) {
       cmi.realAuthor = accountLoader.get(realAuthor);
     }
     cmi.accountsInMessage =

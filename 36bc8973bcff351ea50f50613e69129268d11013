@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14f1df4_4ff60541",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-01T21:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3d1d124_d28f2e16",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b27de84_f39907fb",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-27T11:40:56Z",
       "side": 1,
       "message": "We have removed the concept of \"labels\" and this variable is only ever set to \"star\" (see StarredChangesUtil#158). Do you mind cleaning this up instead of renaming it (in a predecessor change) and just removing that variable in all of the call stack?\n\nI think this will also allow you to just use that method-as is (so no need to duplicate it in parts).",
+      "range": {
+        "startLine": 287,
+        "startChar": 82,
+        "endLine": 287,
+        "endChar": 87
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99474200_961ce241",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-01T21:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b27de84_f39907fb",
       "range": {
         "startLine": 287,
         "startChar": 82,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f1391d_33f4267f",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-01T21:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7caf6b68_f5d2eed0",
+      "range": {
+        "startLine": 126,
+        "startChar": 12,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aac2cbd_41fb611e",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "705cbecc_6daab9fd",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-01T21:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aac2cbd_41fb611e",
+      "range": {
+        "startLine": 129,
+        "startChar": 56,
+        "endLine": 129,
+        "endChar": 58
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8da79e4_601a9b3e",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-01-27T11:40:56Z",
       "side": 1,
       "message": "This is likely non-transactional and the API looks hard to handle. Can we build this into AccountDelta and AccountsUpdate instead, so that we can call \"deltaBuilder.deleteAllData()\" and the rest in handled inside AccountsUpdate?\n\nOr even simpler, just expose AccountsUpdate#delete (I think this would be my preference because it hides implementation details)?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 78
+      },
+      "revId": "36bc8973bcff351ea50f50613e69129268d11013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0edc3137_12f5bc8d",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-01T21:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8da79e4_601a9b3e",
       "range": {
         "startLine": 142,
         "startChar": 0,

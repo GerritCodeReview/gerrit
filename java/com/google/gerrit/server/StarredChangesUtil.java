@@ -266,7 +266,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, String label) {
+  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
@@ -277,7 +277,7 @@ public class StarredChangesUtil {
         }
         // Skip all refs that don't contain the required label.
         StarRef starRef = readLabels(repo, ref.getName());
-        if (!starRef.labels().contains(label)) {
+        if (!starRef.labels().contains(DEFAULT_LABEL)) {
           continue;
         }
 

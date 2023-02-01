@@ -110,10 +110,9 @@ public class ChangePredicates {
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
-  public static Predicate<ChangeData> starBy(
-      StarredChangesUtil starredChangesUtil, Account.Id id, String label) {
+  public static Predicate<ChangeData> starBy(StarredChangesUtil starredChangesUtil, Account.Id id) {
     Set<Predicate<ChangeData>> starredChanges =
-        starredChangesUtil.byAccountId(id, label).stream()
+        starredChangesUtil.byAccountId(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);

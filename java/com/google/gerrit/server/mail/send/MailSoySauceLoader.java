@@ -17,6 +17,8 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.io.CharStreams;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -24,13 +26,13 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.jbcsrc.api.SoySauce;
-import com.google.template.soy.shared.SoyAstCache;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Configures and loads Soy Sauce object for rendering email templates.
@@ -90,56 +92,76 @@ class MailSoySauceLoader {
     "SetAssigneeHtml.soy",
   };
 
+  private static final SoySauce DEFAULT = getDefault().build().compileTemplates();
+
   private final SitePaths site;
-  private final SoyAstCache cache;
   private final PluginSetContext<MailSoyTemplateProvider> templateProviders;
 
   @Inject
-  MailSoySauceLoader(
-      SitePaths site,
-      SoyAstCache cache,
-      PluginSetContext<MailSoyTemplateProvider> templateProviders) {
+  MailSoySauceLoader(SitePaths site, PluginSetContext<MailSoyTemplateProvider> templateProviders) {
     this.site = site;
-    this.cache = cache;
     this.templateProviders = templateProviders;
   }
 
   public SoySauce load() {
-    SoyFileSet.Builder builder = SoyFileSet.builder();
-    builder.setSoyAstCache(cache);
-    for (String name : TEMPLATES) {
-      addTemplate(builder, "com/google/gerrit/server/mail/", name);
+    if (!hasCustomTemplates(site, templateProviders)) {
+      return DEFAULT;
     }
+
+    SoyFileSet.Builder builder = getDefault();
     templateProviders.runEach(
-        e -> e.getFileNames().forEach(p -> addTemplate(builder, e.getPath(), p)));
+        e -> e.getFileNames().forEach(p -> addTemplate(builder, site, e.getPath(), p)));
     return builder.build().compileTemplates();
   }
 
-  private void addTemplate(SoyFileSet.Builder builder, String resourcePath, String name)
+  private static boolean hasCustomTemplates(
+      SitePaths site, PluginSetContext<MailSoyTemplateProvider> templateProviders) {
+    try {
+      if (!templateProviders.isEmpty()) {
+        return true;
+      }
+      return Files.exists(site.mail_dir) && FileUtils.hasFiles(site.mail_dir);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  private static SoyFileSet.Builder getDefault() {
+    SoyFileSet.Builder builder = SoyFileSet.builder();
+    for (String name : TEMPLATES) {
+      addTemplate(builder, null, "com/google/gerrit/server/mail/", name);
+    }
+    return builder;
+  }
+
+  private static void addTemplate(
+      SoyFileSet.Builder builder, @Nullable SitePaths site, String resourcePath, String name)
       throws ProvisionException {
     if (!resourcePath.endsWith("/")) {
       resourcePath += "/";
     }
     String logicalPath = resourcePath + name;
 
-    // Load as a file in the mail templates directory if present.
-    Path tmpl = site.mail_dir.resolve(name);
-    if (Files.isRegularFile(tmpl)) {
-      String content;
-      // TODO(davido): Consider using JGit's FileSnapshot to cache based on
-      // mtime.
-      try (Reader r = Files.newBufferedReader(tmpl, StandardCharsets.UTF_8)) {
-        content = CharStreams.toString(r);
-      } catch (IOException err) {
-        throw new ProvisionException(
-            "Failed to read template file " + tmpl.toAbsolutePath().toString(), err);
+    if (site != null) {
+      // Load as a file in the mail templates directory if present.
+      Path tmpl = site.mail_dir.resolve(name);
+      if (Files.isRegularFile(tmpl)) {
+        String content;
+        // TODO(davido): Consider using JGit's FileSnapshot to cache based on
+        // mtime.
+        try (Reader r = Files.newBufferedReader(tmpl, StandardCharsets.UTF_8)) {
+          content = CharStreams.toString(r);
+        } catch (IOException err) {
+          throw new ProvisionException(
+              "Failed to read template file " + tmpl.toAbsolutePath(), err);
+        }
+        builder.add(content, logicalPath);
+        return;
       }
-      builder.add(content, logicalPath);
-      return;
     }
 
     // Otherwise load the template as a resource.
-    URL resource = this.getClass().getClassLoader().getResource(logicalPath);
+    URL resource = MailSoySauceLoader.class.getClassLoader().getResource(logicalPath);
     checkArgument(resource != null, "resource %s not found.", logicalPath);
     builder.add(resource, logicalPath);
   }

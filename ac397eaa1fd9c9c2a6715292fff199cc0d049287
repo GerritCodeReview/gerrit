@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f639dbe4_190d24c9",
+        "filename": "java/com/google/gerrit/extensions/common/ActionInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-01T08:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add6b581_2b5fff5b",
+      "range": {
+        "startLine": 61,
+        "startChar": 90,
+        "endLine": 61,
+        "endChar": 93
+      },
+      "revId": "ac397eaa1fd9c9c2a6715292fff199cc0d049287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceba1304_6baff7f2",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-31T15:52:14Z",
       "side": 1,
       "message": "nit: setOption?",
+      "range": {
+        "startLine": 138,
+        "startChar": 23,
+        "endLine": 138,
+        "endChar": 32
+      },
+      "revId": "ac397eaa1fd9c9c2a6715292fff199cc0d049287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fc4b920_0500d747",
+        "filename": "java/com/google/gerrit/extensions/webui/UiAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-01T08:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceba1304_6baff7f2",
       "range": {
         "startLine": 138,
         "startChar": 23,

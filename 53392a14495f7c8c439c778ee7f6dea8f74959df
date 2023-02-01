@@ -372,6 +372,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9277b7_d09bcc2d",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-01T08:58:10Z",
+      "side": 1,
+      "message": "No, we check the Rebase permission for the user that is clicking on the \u0027REBASE\u0027 button, which is the impersonating user (aka the calling user).\n\nThe Push permission for the uploader is checked too, but not by ChangeControl#canRebaseOnBehalfOfUploader, this method only checks the permissions of the impersonating user (aka the calling user aka the rebaser). I\u0027ve added more javadoc to this method and also here to explain this better.\n\nThe permissions for the uploader (including the Push permission) are checked in Rebase#onBehalfOf. This is also clarified by new javadoc on that method.",
+      "parentUuid": "80f06824_85b2d168",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33f07b83_f9c92bd6",
@@ -385,6 +409,30 @@
       "writtenOn": "2023-01-31T15:52:14Z",
       "side": 1,
       "message": "should we also check the ChangePermission.REBASE for the impersonated uploader user here?",
+      "range": {
+        "startLine": 154,
+        "startChar": 26,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc7c552_b1e273b0",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-01T08:58:10Z",
+      "side": 1,
+      "message": "I was considering this but I looking at the semantics of the Rebase permission I think it shouldn\u0027t be required for the uploader.\n\nThe \u0027Rebase\u0027 permission is specifically about allowing a user to do a rebase via the web UI by clicking on the REBASE button [1]. Since the uploader is not clicking on this button, we shouldn\u0027t require this permission for them.\n\nAdded this explanation as javadoc.\n\nContext as far as I remember:\nRebasing just creates a new patch set, so historically all users that can create new patch sets can rebase (and they still can through git push, i.e rebasing through git push doesn\u0027t require the Rebase permission). The problem was that on gerrit-review all users can create new patch sets, this led to random user clicking Rebase on random changes. To stop this rebasing from the WebUI was limited to change owners and users with Submit permission. Later the Rebase permission was added so we could allow trusted users to rebase from the web UI too.\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#category_rebase",
+      "parentUuid": "33f07b83_f9c92bd6",
       "range": {
         "startLine": 154,
         "startChar": 26,
@@ -456,6 +504,30 @@
       "side": 1,
       "message": "Yes, makes sense, thank you for pointing at this.\n\nWould it make sense to leave a comment before onBehalfOf, so that it is obvious to the next reader?",
       "parentUuid": "d6abc4f8_9b6394b5",
+      "range": {
+        "startLine": 184,
+        "startChar": 25,
+        "endLine": 184,
+        "endChar": 39
+      },
+      "revId": "53392a14495f7c8c439c778ee7f6dea8f74959df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad451083_4017a472",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-01T08:58:10Z",
+      "side": 1,
+      "message": "Sure, added this as javadoc.",
+      "parentUuid": "7234d53c_8fb49631",
       "range": {
         "startLine": 184,
         "startChar": 25,

@@ -133,7 +133,6 @@ public class EventFactory {
     a.subject = change.getSubject();
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner(), accountLoader);
-    a.assignee = asAccountAttribute(change.getAssignee(), accountLoader);
     a.status = change.getStatus();
     a.createdOn = change.getCreatedOn().getEpochSecond();
     a.wip = change.isWorkInProgress() ? true : null;

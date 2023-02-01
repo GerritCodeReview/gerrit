@@ -86,8 +86,6 @@ class MailSoySauceLoader {
     "RestoredHtml.soy",
     "Reverted.soy",
     "RevertedHtml.soy",
-    "SetAssignee.soy",
-    "SetAssigneeHtml.soy",
   };
 
   private final SitePaths site;

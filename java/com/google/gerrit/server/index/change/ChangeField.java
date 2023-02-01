@@ -110,8 +110,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class ChangeField {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static final int NO_ASSIGNEE = -1;
-
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   /**
@@ -502,14 +500,6 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
       ATTENTION_SET_FULL_SPEC =
           ATTENTION_SET_FULL_FIELD.storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL);
-
-  /** The user assigned to the change. */
-  public static final IndexedField<ChangeData, Integer> ASSIGNEE_FIELD =
-      IndexedField.<ChangeData>integerBuilder("Assignee")
-          .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
-
-  public static final IndexedField<ChangeData, Integer>.SearchSpec ASSIGNEE_SPEC =
-      ASSIGNEE_FIELD.integer(ChangeQueryBuilder.FIELD_ASSIGNEE);
 
   /** Reviewer(s) associated with the change. */
   public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_FIELD =

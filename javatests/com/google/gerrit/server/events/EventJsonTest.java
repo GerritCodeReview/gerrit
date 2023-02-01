@@ -153,51 +153,6 @@ public class EventJsonTest {
   }
 
   @Test
-  public void assigneeChangedEvent() {
-    Change change = newChange();
-    AssigneeChangedEvent event = new AssigneeChangedEvent(change);
-    event.change = asChangeAttribute(change);
-    event.changer = newAccount("changer");
-    event.oldAssignee = newAccount("oldAssignee");
-
-    assertThatJsonMap(event)
-        .isEqualTo(
-            ImmutableMap.builder()
-                .put(
-                    "changer",
-                    ImmutableMap.builder()
-                        .put("name", event.changer.get().name)
-                        .put("email", event.changer.get().email)
-                        .put("username", event.changer.get().username)
-                        .build())
-                .put(
-                    "oldAssignee",
-                    ImmutableMap.builder()
-                        .put("name", event.oldAssignee.get().name)
-                        .put("email", event.oldAssignee.get().email)
-                        .put("username", event.oldAssignee.get().username)
-                        .build())
-                .put(
-                    "change",
-                    ImmutableMap.builder()
-                        .put("project", PROJECT)
-                        .put("branch", BRANCH)
-                        .put("id", CHANGE_ID)
-                        .put("number", CHANGE_NUM_DOUBLE)
-                        .put("url", URL)
-                        .put("commitMessage", COMMIT_MESSAGE)
-                        .put("createdOn", TS1)
-                        .put("status", NEW.name())
-                        .build())
-                .put("project", PROJECT)
-                .put("refName", REF)
-                .put("changeKey", map("id", CHANGE_ID))
-                .put("type", "assignee-changed")
-                .put("eventCreatedOn", TS2)
-                .build());
-  }
-
-  @Test
   public void changeDeletedEvent() {
     Change change = newChange();
     ChangeDeletedEvent event = new ChangeDeletedEvent(change);

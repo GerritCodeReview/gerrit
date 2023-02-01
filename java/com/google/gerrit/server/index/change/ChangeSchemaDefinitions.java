@@ -38,7 +38,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ImmutableList.<IndexedField<ChangeData, ?>>of(
               ChangeField.ADDED_LINES_FIELD,
               ChangeField.APPROVAL_FIELD,
-              ChangeField.ASSIGNEE_FIELD,
               ChangeField.ATTENTION_SET_FULL_FIELD,
               ChangeField.ATTENTION_SET_USERS_COUNT_FIELD,
               ChangeField.ATTENTION_SET_USERS_FIELD,
@@ -108,7 +107,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
               ChangeField.ADDED_LINES_SPEC,
               ChangeField.APPROVAL_SPEC,
-              ChangeField.ASSIGNEE_SPEC,
               ChangeField.ATTENTION_SET_FULL_SPEC,
               ChangeField.ATTENTION_SET_USERS,
               ChangeField.ATTENTION_SET_USERS_COUNT,

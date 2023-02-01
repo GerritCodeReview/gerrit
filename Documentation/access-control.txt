@@ -951,15 +951,6 @@ The change owner, branch owners, project owners, and site administrators
 can always edit or remove hashtags (even without having the `Edit Hashtags`
 access right assigned).
 
-[[category_edit_assigned_to]]
-=== Edit Assignee
-
-This category permits users to set who is assigned to a change that is
-uploaded for review.
-
-The change owner, ref owners, and the user currently assigned to a change
-can always change the assignee.
-
 [[example_roles]]
 == Examples of typical roles in a project
 

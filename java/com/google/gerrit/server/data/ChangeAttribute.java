@@ -32,7 +32,6 @@ public class ChangeAttribute {
   public int number;
   public String subject;
   public AccountAttribute owner;
-  public AccountAttribute assignee;
   public String url;
   public String commitMessage;
   public List<String> hashtags;

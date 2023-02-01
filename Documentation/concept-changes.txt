@@ -39,10 +39,6 @@ properties about that change.
 `git push` command, or the user that triggered the patch set creation through
 an action in the UI).
 
-|Assignee
-|The contributor responsible for the change. Often used when a change has
-mulitple reviewers to identify the individual responsible for final approval.
-
 |Reviewers
 |A list of one or more contributors responsible for reviewing the change.
 

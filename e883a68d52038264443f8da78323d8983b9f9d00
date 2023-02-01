@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a7be35_d084aebe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-01T22:34:17Z",
+      "side": 1,
+      "message": "To Youssef\u0027s point, it\u0027s usually easier to review the pure revert + a follow up change that adds the new thing you need, even when it\u0027s a tiny change to make a method public 😊",
+      "parentUuid": "7cd4467f_8b6b2bdb",
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a737bb93_c05e084b",

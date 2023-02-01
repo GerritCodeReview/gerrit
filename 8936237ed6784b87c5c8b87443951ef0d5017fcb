@@ -93,6 +93,30 @@
       },
       "revId": "8936237ed6784b87c5c8b87443951ef0d5017fcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82d15326_4e045868",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-01T11:08:10Z",
+      "side": 1,
+      "message": "Files.list internally calls Files.newDirectoryStream and wraps it into another stream - so Files.list still should be closed.",
+      "parentUuid": "0f4fade2_12d9d60f",
+      "range": {
+        "startLine": 123,
+        "startChar": 35,
+        "endLine": 123,
+        "endChar": 59
+      },
+      "revId": "8936237ed6784b87c5c8b87443951ef0d5017fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

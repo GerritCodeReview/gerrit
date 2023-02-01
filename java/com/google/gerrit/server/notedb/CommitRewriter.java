@@ -15,7 +15,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_REAL_USER;
@@ -177,13 +176,6 @@ public class CommitRewriter {
 
   private static final Pattern OK_ACCOUNT_NAME_PATTERN =
       Pattern.compile("(?i:someone|someone else|anonymous)|" + ACCOUNT_TEMPLATE_REGEX);
-
-  /** Patterns to match change messages that need to be fixed. */
-  private static final Pattern ASSIGNEE_DELETED_PATTERN = Pattern.compile("Assignee deleted: (.*)");
-
-  private static final Pattern ASSIGNEE_ADDED_PATTERN = Pattern.compile("Assignee added: (.*)");
-  private static final Pattern ASSIGNEE_CHANGED_PATTERN =
-      Pattern.compile("Assignee changed from: (.*) to: (.*)");
 
   private static final Pattern REMOVED_REVIEWER_PATTERN =
       Pattern.compile(
@@ -365,7 +357,6 @@ public class CommitRewriter {
       }
     }
     accounts.addAll(changeNotes.getAllPastReviewers());
-    accounts.addAll(changeNotes.getPastAssignees());
     changeNotes
         .getAttentionSetUpdates()
         .forEach(attentionSetUpdate -> accounts.add(attentionSetUpdate.account()));
@@ -582,73 +573,6 @@ public class CommitRewriter {
     return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
         && newIdent.getWhenAsInstant().equals(originalIdent.getWhenAsInstant())
         && newIdent.getEmailAddress().equals(originalIdent.getEmailAddress());
-  }
-
-  private Optional<String> fixAssigneeChangeMessage(
-      ChangeFixProgress changeFixProgress,
-      Optional<Account.Id> oldAssignee,
-      Optional<Account.Id> newAssignee,
-      String originalChangeMessage) {
-    if (Strings.isNullOrEmpty(originalChangeMessage)) {
-      return Optional.empty();
-    }
-
-    Matcher assigneeDeletedMatcher = ASSIGNEE_DELETED_PATTERN.matcher(originalChangeMessage);
-    if (assigneeDeletedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeDeletedMatcher.group(1)).matches()) {
-        Optional<String> assigneeReplacement =
-            getPossibleAccountReplacement(
-                changeFixProgress,
-                oldAssignee,
-                getAccountInfoFromNameEmail(assigneeDeletedMatcher.group(1)));
-
-        return Optional.of(
-            assigneeReplacement.isPresent()
-                ? "Assignee deleted: " + assigneeReplacement.get()
-                : "Assignee was deleted.");
-      }
-      return Optional.empty();
-    }
-
-    Matcher assigneeAddedMatcher = ASSIGNEE_ADDED_PATTERN.matcher(originalChangeMessage);
-    if (assigneeAddedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeAddedMatcher.group(1)).matches()) {
-        Optional<String> assigneeReplacement =
-            getPossibleAccountReplacement(
-                changeFixProgress,
-                newAssignee,
-                getAccountInfoFromNameEmail(assigneeAddedMatcher.group(1)));
-        return Optional.of(
-            assigneeReplacement.isPresent()
-                ? "Assignee added: " + assigneeReplacement.get()
-                : "Assignee was added.");
-      }
-      return Optional.empty();
-    }
-
-    Matcher assigneeChangedMatcher = ASSIGNEE_CHANGED_PATTERN.matcher(originalChangeMessage);
-    if (assigneeChangedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeChangedMatcher.group(1)).matches()) {
-        Optional<String> oldAssigneeReplacement =
-            getPossibleAccountReplacement(
-                changeFixProgress,
-                oldAssignee,
-                getAccountInfoFromNameEmail(assigneeChangedMatcher.group(1)));
-        Optional<String> newAssigneeReplacement =
-            getPossibleAccountReplacement(
-                changeFixProgress,
-                newAssignee,
-                getAccountInfoFromNameEmail(assigneeChangedMatcher.group(2)));
-        return Optional.of(
-            oldAssigneeReplacement.isPresent() && newAssigneeReplacement.isPresent()
-                ? String.format(
-                    "Assignee changed from: %s to: %s",
-                    oldAssigneeReplacement.get(), newAssigneeReplacement.get())
-                : "Assignee was changed.");
-      }
-      return Optional.empty();
-    }
-    return Optional.empty();
   }
 
   private Optional<String> fixReviewerChangeMessage(String originalChangeMessage) {
@@ -910,28 +834,6 @@ public class CommitRewriter {
       String footerValue = fl.getValue();
       if (footerKey.equalsIgnoreCase(FOOTER_TAG.getName())) {
         fixProgress.tag = footerValue;
-      } else if (footerKey.equalsIgnoreCase(FOOTER_ASSIGNEE.getName())) {
-        Account.Id oldAssignee = fixProgress.assigneeId;
-        FixIdentResult fixedAssignee = null;
-        if (footerValue.equals("")) {
-          fixProgress.assigneeId = null;
-        } else {
-          fixedAssignee = getFixedIdentString(fixProgress, footerValue);
-          fixProgress.assigneeId = fixedAssignee.accountId;
-        }
-        if (!fixedChangeMessage.isPresent()) {
-          fixedChangeMessage =
-              fixAssigneeChangeMessage(
-                  fixProgress,
-                  Optional.ofNullable(oldAssignee),
-                  Optional.ofNullable(fixProgress.assigneeId),
-                  originalChangeMessage);
-        }
-        if (fixedAssignee != null && fixedAssignee.fixedIdentString.isPresent()) {
-          addFooter(footerLinesBuilder, footerKey, fixedAssignee.fixedIdentString.get());
-          anyFootersFixed = true;
-          continue;
-        }
       } else if (Arrays.stream(ReviewerStateInternal.values())
           .anyMatch(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))) {
         if (!fixedChangeMessage.isPresent()) {
@@ -1026,11 +928,6 @@ public class CommitRewriter {
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =
           fixRemoveVoteChangeMessage(fixProgress, Optional.empty(), originalChangeMessage);
-    }
-    if (!fixedChangeMessage.isPresent()) {
-      fixedChangeMessage =
-          fixAssigneeChangeMessage(
-              fixProgress, Optional.empty(), Optional.empty(), originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
@@ -1288,9 +1185,6 @@ public class CommitRewriter {
 
     /** Tag at current commit update. */
     String tag = null;
-
-    /** Assignee at current commit update. */
-    Account.Id assigneeId = null;
 
     /** Author of the current commit update. */
     Optional<Account.Id> updateAuthorId = null;

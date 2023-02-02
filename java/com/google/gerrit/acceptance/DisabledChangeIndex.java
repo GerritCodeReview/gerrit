@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -68,6 +69,11 @@ public class DisabledChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id key) {
+    throw new UnsupportedOperationException("ChangeIndex is disabled");
+  }
+
+  @Override
+  public void deleteAllForProject(Project.NameKey project) {
     throw new UnsupportedOperationException("ChangeIndex is disabled");
   }
 

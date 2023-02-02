@@ -26,7 +26,9 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaFieldDefs;
@@ -48,6 +50,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.time.Instant;
@@ -56,6 +59,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.annotations.Nullable;
@@ -247,6 +251,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       extends AbstractFakeIndex<Change.Id, ChangeData, Map<String, Object>> implements ChangeIndex {
     private final ChangeData.Factory changeDataFactory;
     private final boolean skipMergable;
+    private final IndexConfig indexConfig;
 
     @Inject
     @VisibleForTesting
@@ -254,10 +259,12 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
         SitePaths sitePaths,
         ChangeData.Factory changeDataFactory,
         @Assisted Schema<ChangeData> schema,
-        @GerritServerConfig Config cfg) {
+        @GerritServerConfig Config cfg,
+        IndexConfig indexConfig) {
       super(schema, sitePaths, "changes");
       this.changeDataFactory = changeDataFactory;
       this.skipMergable = !MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
+      this.indexConfig = indexConfig;
     }
 
     @Override
@@ -313,6 +320,16 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     @Override
     public void deleteByValue(ChangeData value) {
       delete(ChangeIndex.ENTITY_TO_KEY.apply(value));
+    }
+
+    @Override
+    public void deleteAllForProject(NameKey project) {
+      QueryOptions opts = QueryOptions.create(indexConfig, 0, Integer.MAX_VALUE, Set.of());
+      DataSource<ChangeData> result = getSource(ChangePredicates.project(project), opts);
+      for (FieldBundle f : result.readRaw().toList()) {
+        int changeNum = f.<Integer>getValue(ChangeField.CHANGENUM_SPEC).intValue();
+        delete(Change.id(changeNum));
+      }
     }
   }
 

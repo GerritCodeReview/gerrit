@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "70cf90bc_76724c0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-02T08:52:24Z",
+      "side": 1,
+      "message": "I am not sure what to clarify wrt to the regex changes. I am replacing `[^,]` with `.`.\n\nWhat I am saying is that it is impossible (even after this change) to search for `,123`. If you type that into the search box, then it will converted into a URL and that URL will be interpreted with `123` as an offset.",
+      "parentUuid": "003b6ee2_c7b9603c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "d47f9b75a385467c77e12c938081c1ec7d0f8311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bbd4dcd1_c1790f83",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1

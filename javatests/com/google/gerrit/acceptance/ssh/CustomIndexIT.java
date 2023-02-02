@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.ssh;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -108,7 +109,8 @@ class CustomModuleFakeIndexChange extends AbstractFakeIndex.FakeChangeIndex {
       SitePaths sitePaths,
       ChangeData.Factory changeDataFactory,
       @Assisted Schema<ChangeData> schema,
-      @GerritServerConfig Config cfg) {
-    super(sitePaths, changeDataFactory, schema, cfg);
+      @GerritServerConfig Config cfg,
+      IndexConfig indexConfig) {
+    super(sitePaths, changeDataFactory, schema, cfg, indexConfig);
   }
 }

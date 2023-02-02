@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SiteIndexer.Result;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -102,6 +104,21 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
       createIndexWithStaleChangeAndReindex(changeIndexedCounter);
       assertThat(changeIndexedCounter.getTotalCount()).isEqualTo(1);
     }
+  }
+
+  @Test
+  public void deleteAllForProjectDeletesFromIndex() throws Exception {
+    createChange();
+    createChange();
+    createChange();
+
+    List<ChangeInfo> result = gApi.changes().query("project:" + project.get()).get();
+    assertThat(result).hasSize(3);
+
+    index.deleteAllForProject(project);
+
+    result = gApi.changes().query("project:" + project.get()).get();
+    assertThat(result).isEmpty();
   }
 
   private void createIndexWithMissingChangeAndReindex(ChangeIndexedCounter changeIndexedCounter)

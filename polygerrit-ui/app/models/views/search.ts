@@ -64,8 +64,13 @@ export interface SearchViewState extends ViewState {
 
   /**
    * The search results for the current query.
+   * `undefined` must be allowed here, because updating state with a partial
+   * state without `changes` must be possible without overwriting existing
+   * changes.
+   * TODO: We should consider moving `changes` to a another model. This is not
+   * really "view" state. View state must directly correlate to the URL.
    */
-  changes: ChangeInfo[];
+  changes?: ChangeInfo[];
 }
 
 export interface SearchUrlOptions {

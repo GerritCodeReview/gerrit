@@ -415,7 +415,7 @@ export function createFileInfo(
   };
 }
 
-export function createChange(): ChangeInfo {
+export function createChange(partial: Partial<ChangeInfo> = {}): ChangeInfo {
   return {
     id: TEST_CHANGE_INFO_ID,
     project: TEST_PROJECT_NAME,
@@ -431,6 +431,7 @@ export function createChange(): ChangeInfo {
     owner: createAccountWithId(),
     // This is documented as optional, but actually always set.
     reviewers: createReviewers(),
+    ...partial,
   };
 }
 
@@ -751,7 +752,6 @@ export function createSearchViewState(): SearchViewState {
     query: '',
     offset: undefined,
     loading: false,
-    changes: [],
   };
 }
 

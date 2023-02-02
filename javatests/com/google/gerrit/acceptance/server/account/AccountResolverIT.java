@@ -26,11 +26,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.Result;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
@@ -56,7 +58,9 @@ public class AccountResolverIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountOperations accountOperations;
   @Inject private AccountResolver accountResolver;
+  @Inject private AccountControl.Factory accountControlFactory;
   @Inject private Provider<CurrentUser> self;
+  @Inject private GroupOperations groupOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences sequences;
 
@@ -365,12 +369,53 @@ public class AccountResolverIT extends AbstractDaemonTest {
     assertThat(resolve("doe")).containsExactly(id2);
   }
 
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void resolveAsUser_byFullName_accountThatIsNotVisibleToCurrentUserIsFound()
+      throws Exception {
+    Account.Id currentUser = accountOperations.newAccount().create();
+    Account.Id resolveAsUser = accountOperations.newAccount().create();
+    Account.Id userToBeFound = accountOperations.newAccount().fullname("Somebodys Name").create();
+
+    // Create a group that contains resolveAsUser and userToBeFound, so that resolveAsUser can see
+    // userToBeFound.
+    groupOperations.newGroup().addMember(resolveAsUser).addMember(userToBeFound).create();
+
+    // Verify that resolveAsUser can see userToBeFound.
+    assertThat(canSee(resolveAsUser, userToBeFound)).isTrue();
+
+    // Verify that currentUser cannot see userToBeFound
+    assertThat(canSee(currentUser, userToBeFound)).isFalse();
+
+    // Resolving userToBeFound as resolveAsUser should work even if the currentUser cannot see
+    // userToBeFound.
+    requestScopeOperations.setApiUser(currentUser);
+    String input = accountOperations.account(userToBeFound).get().fullname().get();
+    assertThat(resolveAsUser(resolveAsUser, input)).containsExactly(userToBeFound);
+  }
+
+  private boolean canSee(Account.Id currentUser, Account.Id userToBeSeen) {
+    return accountControlFactory
+        .get(identifiedUserFactory.create(currentUser))
+        .canSee(userToBeSeen);
+  }
+
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
     return resolveAsResult(input).asIdSet();
   }
 
   private Result resolveAsResult(Object input) throws Exception {
     return accountResolver.resolve(input.toString());
+  }
+
+  private ImmutableSet<Account.Id> resolveAsUser(Account.Id resolveAsUser, Object input)
+      throws Exception {
+    return resolveAsUserAsResult(resolveAsUser, input).asIdSet();
+  }
+
+  private Result resolveAsUserAsResult(Account.Id resolveAsUser, Object input) throws Exception {
+    return accountResolver.resolveAsUser(
+        identifiedUserFactory.create(resolveAsUser), input.toString());
   }
 
   @SuppressWarnings("deprecation")

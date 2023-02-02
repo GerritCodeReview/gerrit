@@ -1169,8 +1169,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
-    return ChangePredicates.starBy(
-        args.starredChangesUtil, self(), StarredChangesUtil.DEFAULT_LABEL);
+    return ChangePredicates.starBy(args.starredChangesUtil, self());
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {

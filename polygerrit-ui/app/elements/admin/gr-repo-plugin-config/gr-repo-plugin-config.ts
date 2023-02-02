@@ -183,6 +183,7 @@ export class GrRepoPluginConfig extends LitElement {
     ) {
       return html`
         <iron-input
+          .bindValue=${option.info.value ?? ''}
           @input=${this._handleStringChange}
           data-option-key="${option._key}"
         >

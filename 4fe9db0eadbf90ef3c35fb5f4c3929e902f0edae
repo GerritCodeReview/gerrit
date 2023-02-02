@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "977b7db7_69f8c865",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-02T22:06:56Z",
+      "side": 1,
+      "message": "Test coverage of gr-page.ts is at 94%.",
+      "revId": "4fe9db0eadbf90ef3c35fb5f4c3929e902f0edae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

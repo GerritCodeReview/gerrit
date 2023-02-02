@@ -416,7 +416,7 @@ suite('gr-router tests', () => {
     });
 
     test('QUERY', async () => {
-      // QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
+      // QUERY: /^\/q\/(.+?)(,(\d+))?$/,
       await checkUrlToState('/q/asdf', {
         ...createSearchViewState(),
         query: 'asdf',
@@ -428,6 +428,15 @@ suite('gr-router tests', () => {
       await checkUrlToState('/q/asdf,123', {
         ...createSearchViewState(),
         query: 'asdf',
+        offset: '123',
+      });
+      await checkUrlToState('/q/asdf,qwer', {
+        ...createSearchViewState(),
+        query: 'asdf,qwer',
+      });
+      await checkUrlToState('/q/asdf,qwer,123', {
+        ...createSearchViewState(),
+        query: 'asdf,qwer',
         offset: '123',
       });
     });

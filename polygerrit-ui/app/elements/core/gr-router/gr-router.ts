@@ -189,7 +189,7 @@ const RoutePattern = {
   // Matches /admin/repos/$REPO,tags with optional filter and offset.
   TAG_LIST: /^\/admin\/repos\/(.+),tags\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
 
-  QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
+  QUERY: /^\/q\/(.+?)(,(\d+))?$/,
 
   /**
    * Support vestigial params from GWT UI.

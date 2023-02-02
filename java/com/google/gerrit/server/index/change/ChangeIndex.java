@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
@@ -35,4 +36,6 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
   }
 
   Function<ChangeData, Change.Id> ENTITY_TO_KEY = ChangeData::getId;
+
+  public void deleteAllForProject(Project.NameKey project);
 }

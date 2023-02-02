@@ -22,6 +22,7 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
@@ -101,6 +102,11 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
 
   @Override
   public void delete(Change.Id key) {
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
+  }
+
+  @Override
+  public void deleteAllForProject(Project.NameKey project) {
     throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }
 

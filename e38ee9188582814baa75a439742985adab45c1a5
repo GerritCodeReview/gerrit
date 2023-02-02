@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c55050_19c46bcc",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-02T08:35:05Z",
+      "side": 1,
+      "message": "Ok. Found that behavior describe din the Oauth plugin docs. So yes, checking for the username should not be done.",
+      "parentUuid": "ffc6177d_42993e22",
+      "revId": "e38ee9188582814baa75a439742985adab45c1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c31225c_c63a2b25",

@@ -16,7 +16,7 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {getCLS, getFID, getLCP, Metric} from 'web-vitals';
+import {onCLS, onFID, onLCP, Metric, onINP} from 'web-vitals';
 
 // Latency reporting constants.
 
@@ -198,9 +198,10 @@ export function initWebVitals(reportingService: ReportingService) {
     );
   }
 
-  getCLS(metric => reportWebVitalMetric(Timing.CLS, metric));
-  getFID(metric => reportWebVitalMetric(Timing.FID, metric));
-  getLCP(metric => reportWebVitalMetric(Timing.LCP, metric));
+  onCLS(metric => reportWebVitalMetric(Timing.CLS, metric));
+  onFID(metric => reportWebVitalMetric(Timing.FID, metric));
+  onLCP(metric => reportWebVitalMetric(Timing.LCP, metric));
+  onINP(metric => reportWebVitalMetric(Timing.INP, metric));
 }
 
 // Calculates the time of Gerrit being in a background tab. When Gerrit reports

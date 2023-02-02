@@ -93,6 +93,8 @@ export enum Timing {
   FID = 'FID',
   // WebVitals - Largest Contentful Paint (LCP): measures loading performance.
   LCP = 'LCP',
+  // WebVitals - Interaction to Next Paint (INP): measures responsiveness
+  INP = 'INP',
 }
 
 export enum Interaction {

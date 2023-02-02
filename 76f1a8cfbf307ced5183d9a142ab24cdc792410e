@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb91e23_c0d08ebc",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-02T08:18:36Z",
+      "side": 1,
+      "message": "This is still racy: If between here and the next line we add an external ID to this account that will be left over. It\u0027s a rare case, though.\n\nCan we make this transactional to prevent the race?\n\nSo read the data in the actual update. The delete case seems simple, so maybe we can avoid using the complex machinery in AccountsUpdate.\n\nSomething like:\n\n```\n public void delete(String message, Account.Id accountId, AccountState currentState)\n      throws IOException, ConfigInvalidException {\n      \n\n     try (Repository repo \u003d repoManager.openRepository(allUsers);\n       RevWalk rw \u003d new RevWalk(repo)) {\n       BatchRefUpdate batchUpdate \u003d repo.getRefDatabase().newBatchUpdate();\n       ExternalIdNotes extIds \u003d ExternalIdNotes.load(repo);\n       ObjectId oldExtIdRev \u003d extIds.getRev();\n       extIds.deleteAllFor(accId);\n       RevCommit revCommit \u003d commitExternalIdUpdates(...);\n       // Update external IDs\n       batchUpdate.addCommand(oldExtIdRev, revCommit, RefNames.EXT_ID);\n       // Delete account ref\n       batchUpdate.addCommand(new ReceiveCommand(refDb.exactRef(RefNames.account(accId).getId(), ObjectId.zeroId(), newRefName));\n       // Any more things to do ?\n       RefUpdateUtil.executeChecked(...);\n     }\n      \n}\n```\n\n@ekempin@google.com what do you think about this?",
+      "range": {
+        "startLine": 397,
+        "startChar": 37,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b026818c_a53290f8",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-02T08:18:36Z",
+      "side": 1,
+      "message": "nit: move below the check is-self check before the place where it is first used.",
+      "range": {
+        "startLine": 109,
+        "startChar": 22,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc468c26_90657e92",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-02T08:18:36Z",
+      "side": 1,
+      "message": "I am puzzled: The javadoc of that class says \"Sender that informs a user by email about the removal of an SSH or GPG key from their account.\"\n\nIt seems it\u0027s not deleting anything, just sending emails? Where are we deleting the keys?",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d056df8c_0b620f09",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-02T08:18:36Z",
+      "side": 1,
+      "message": "optional nit: this API is a little strange. ususally, there\u0027d be two methods:\n\nStarredChangesUtil#star(cId, accId)\nStarredChangesUtil#unstar(cId, accId)",
+      "range": {
+        "startLine": 141,
+        "startChar": 25,
+        "endLine": 141,
+        "endChar": 29
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4acbc405_f65f8983",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-02T08:18:36Z",
+      "side": 1,
+      "message": "This is quite expensive (We have hosts with thousands of repos) and scanning all edit refs synchronously will time out.\n\nCan we use the change index instead?\n\nInternalChangeQuery#editBy(accId)\n\nwhere that uses the EditByPredicate internally\n\nWe risk that that the index is stale (which internally, with our new index is guaranteed to not happen), but that seems acceptable. For installations without this guarantee there could be a background program that cleans up (outside the scope of our work).",
+      "range": {
+        "startLine": 147,
+        "startChar": 9,
+        "endLine": 147,
+        "endChar": 52
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

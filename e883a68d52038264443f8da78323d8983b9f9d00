@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d12f24_88be3bd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-02T08:54:36Z",
+      "side": 1,
+      "message": "Thanks I will keep it in mind for the next change.\n\nSorry for the trouble.",
+      "parentUuid": "25b21944_54c0ea74",
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a737bb93_c05e084b",

@@ -6,9 +6,9 @@
 ====
 This document aims to provide a concise description of the core principles of
 code review in Gerrit for people that were previously using Pull Requests on
-Github or similar concepts. Nothing in this document is meant to state that
+GitHub or similar concepts. Nothing in this document is meant to state that
 one or the other might be better, but only aims to help new users understand
-Gerrit more readily. We use Github as the point of comparison since it seems
+Gerrit more readily. We use GitHub as the point of comparison since it seems
 to be the most popular service.
 ====
 
@@ -123,7 +123,7 @@ pull request in the GitHub Web UI.
 
 Next, you would go and visit your Gerrit change in the Web UI to get your change
 ready for review (choose reviewers, cc people, check for failing CI builds or
-tests, etc.), very similar to what you do on Github. Reviewers will be notified
+tests, etc.), very similar to what you do on GitHub. Reviewers will be notified
 via email once you add them. By default, anyone can add reviewers to a Gerrit
 change. In GitHub, this ability is reserved for certain users, so you may have
 relied on others adding reviewers for you before. This can be the case in a
@@ -139,7 +139,7 @@ been added to via email or see an “incoming” change on your Gerrit dashboard
 The dashboard is the central overview of changes going on within a Gerrit
 instance. By default, the dashboard shows changes that you are involved in, in
 any way. You can also see all changes on a Gerrit server by using the top menu
-(“Changes” -> “Open”). This view is more similar to what you see on Github, when
+(“Changes” -> “Open”). This view is more similar to what you see on GitHub, when
 you navigate to the Pull Requests tab of the project/repository you are working
 on. Note, however, that a single Gerrit instance can host multiple projects
 (also referred to as repositories; a list can be found, for example, https://gerrit-review.googlesource.com/admin/repos[here,role=external,window=_blank]). Your

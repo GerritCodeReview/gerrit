@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b21944_54c0ea74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-02T08:43:12Z",
+      "side": 1,
+      "message": "+1.\n\nWhile I was reviewing this change I hoped we have a \"diff against revert base\" which I could\u0027ve used to quickly spot if this revert is adding changes. Unfortunately we don\u0027t have that.\n\nWith Nasser\u0027s suggestion it\u0027d be easier to review.",
+      "parentUuid": "c0a7be35_d084aebe",
+      "revId": "e883a68d52038264443f8da78323d8983b9f9d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a737bb93_c05e084b",

@@ -206,6 +206,29 @@ file:"'<filePattern>',withDiffContaining='<contentPattern>'"::
 +
 An operator that returns true if the latest patchset contained a modified file
 matching `<filePattern>` with a modified region matching `<contentPattern>`.
++
+Both `<filePattern>` and `<contentPattern>` support regular expressions if they
+start with the '^' character. Regular expressions are matched with the
+`java.util.regex` engine. When using regular expressions, special characters
+should be double escaped because the config is parsed twice when the server
+reads the `project.config` file and when the submit-requirement expressions
+are parsed as a predicate tree. For example, to match against modified files
+that end with ".cc" or ".cpp" the following `applicableIf` expression can be
+used:
++
+----
+  applicableIf = file:\"^.*\\\\.(cc|cpp)$\"
+----
++
+Below is another example that uses both `<filePattern>` and `<contentPattern>`:
++
+----
+  applicableIf = file:\"'^.*\\\\.(cc|cpp)$',withDiffContaining='^.*th[rR]ee$'\"
+----
++
+If no regular expression is used, the text is matched by checking that the file
+name contains the file pattern, or the edits of the file diff contain the edit
+pattern.
 
 [[unsupported_operators]]
 === Unsupported Operators

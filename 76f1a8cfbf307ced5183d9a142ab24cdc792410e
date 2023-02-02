@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c38b78f_f9278624",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-02T09:03:15Z",
+      "side": 1,
+      "message": "Yes, using a BatchRefUpdate is definitely a good idea.\n\nIf you have a BatchRefUpdate to update refs/meta/external-ids and refs/users/... at the same time you are right that the update to refs/meta/external-ids fails with LOCK_FAILURE if there was a racing request that updated it, e.g. to add a new external ID for the account to be deleted. And hence the deletion of refs/users/... fails too (because it\u0027s in the same transaction).\n\nThere may be a special case for deleting an account that has no external IDs. If the account to be deleted has no external IDs, you don\u0027t have a refs/meta/external-ids update that you can include into the BatchRefUpdate. This means when you then only delete refs/users/... there may be a race with someone adding an external ID for this account just at the same time (since the deletion doesn\u0027t update refs/meta/external-ids there is no LOCK_FAILURE on this ref). To prevent this we may want to make an empty commit on refs/meta/external-ids in this case.",
+      "parentUuid": "fdb91e23_c0d08ebc",
+      "range": {
+        "startLine": 397,
+        "startChar": 37,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b026818c_a53290f8",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
         "patchSetId": 7

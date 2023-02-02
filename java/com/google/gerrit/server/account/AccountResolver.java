@@ -230,10 +230,6 @@ public class AccountResolver {
       return true;
     }
 
-    default boolean callerMayAssumeCandidatesAreVisible() {
-      return false;
-    }
-
     /**
      * Searches can be done on behalf of either the current user or another provided user. The
      * results of some searchers, such as BySelf, are affected by the context user.
@@ -309,11 +305,6 @@ public class AccountResolver {
     @Override
     public boolean callerShouldFilterOutInactiveCandidates() {
       return false;
-    }
-
-    @Override
-    public boolean callerMayAssumeCandidatesAreVisible() {
-      return true;
     }
 
     @Override
@@ -783,9 +774,9 @@ public class AccountResolver {
       }
       Stream<AccountState> results = maybeResults.get();
 
-      if (!searcher.callerMayAssumeCandidatesAreVisible()) {
-        results = results.filter(visibilitySupplier.get());
-      }
+      // Filter out non-visible results, except if it's the BySelf searcher. Since users can always
+      // see themselves checking the visibility is not needed for the BySelf searcher.
+      results = searcher instanceof BySelf ? results : results.filter(visibilitySupplier.get());
 
       List<AccountState> list;
       if (searcher.callerShouldFilterOutInactiveCandidates()) {

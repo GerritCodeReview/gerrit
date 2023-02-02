@@ -43,7 +43,6 @@ public class AccountResolverTest {
     private final String pattern;
     private final boolean shortCircuit;
     private final ImmutableList<AccountState> accounts;
-    private boolean assumeVisible;
     private boolean filterInactive;
 
     private TestSearcher(String pattern, boolean shortCircuit, AccountState... accounts) {
@@ -65,15 +64,6 @@ public class AccountResolverTest {
     @Override
     public boolean shortCircuitIfNoResults() {
       return shortCircuit;
-    }
-
-    @Override
-    public boolean callerMayAssumeCandidatesAreVisible() {
-      return assumeVisible;
-    }
-
-    void setCallerMayAssumeCandidatesAreVisible() {
-      this.assumeVisible = true;
     }
 
     @Override
@@ -136,17 +126,6 @@ public class AccountResolverTest {
     assertThat(search("foo", searchers, AccountResolverTest::allVisiblePredicate).asIdSet())
         .containsExactlyElementsIn(ids(1, 2));
     assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(2));
-  }
-
-  @Test
-  public void skipVisibilityCheck() throws Exception {
-    TestSearcher searcher = new TestSearcher("foo", false, newAccount(1), newAccount(2));
-    ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher);
-
-    assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(2));
-
-    searcher.setCallerMayAssumeCandidatesAreVisible();
-    assertThat(search("foo", searchers, only(2)).asIdSet()).containsExactlyElementsIn(ids(1, 2));
   }
 
   @Test

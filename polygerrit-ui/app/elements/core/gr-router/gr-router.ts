@@ -1253,7 +1253,6 @@ export class GrRouter implements Finalizable, NavigationService {
       query: ctx.params[0],
       offset: ctx.params[2],
       loading: false,
-      changes: [],
     };
     // Note that router model view must be updated before view models.
     this.setState(state as AppElementParams);
@@ -1269,7 +1268,6 @@ export class GrRouter implements Finalizable, NavigationService {
       query: ctx.params[0],
       offset: undefined,
       loading: false,
-      changes: [],
     };
     // Note that router model view must be updated before view models.
     this.setState(state as AppElementParams);

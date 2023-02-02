@@ -751,7 +751,6 @@ export function createSearchViewState(): SearchViewState {
     query: '',
     offset: undefined,
     loading: false,
-    changes: [],
   };
 }
 

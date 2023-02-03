@@ -85,11 +85,6 @@ to include a unit suffix, for example `-age:2d`:
 means 'everything older than 2 days' while `-age:2d` means
 'everything with an age of at most 2 days'.
 
-[[assignee]]
-assignee:'USER'::
-+
-Changes assigned to the given user.
-
 [[attention]]
 attention:'USER'::
 +
@@ -485,19 +480,11 @@ True if the change has attention by the current user.
 
 
 [[is]]
-is:assigned::
-+
-True if the change has an assignee.
-
 [[is-starred]]
 is:starred::
 +
 Same as 'has:star', true if the change has been starred by the
 current user with the default label.
-
-is:unassigned::
-+
-True if the change does not have an assignee.
 
 is:attention::
 +

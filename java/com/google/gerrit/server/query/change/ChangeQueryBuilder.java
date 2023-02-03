@@ -153,7 +153,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_ATTENTION_SET_USERS = "attentionusers";
   public static final String FIELD_ATTENTION_SET_USERS_COUNT = "attentionuserscount";
   public static final String FIELD_ATTENTION_SET_FULL = "attentionfull";
-  public static final String FIELD_ASSIGNEE = "assignee";
+  @Deprecated public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_EXACTAUTHOR = "exactauthor";
 
@@ -714,14 +714,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new IsAttentionPredicate();
     }
 
-    if ("assigned".equalsIgnoreCase(value)) {
-      return Predicate.not(ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE)));
-    }
-
-    if ("unassigned".equalsIgnoreCase(value)) {
-      return ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE));
-    }
-
     if ("pure-revert".equalsIgnoreCase(value)) {
       checkOperatorAvailable(ChangeField.IS_PURE_REVERT_SPEC, "is:pure-revert");
       return ChangePredicates.pureRevert("1");
@@ -1266,20 +1258,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> attention(Set<Account.Id> who) {
     return Predicate.or(who.stream().map(ChangePredicates::attentionSet).collect(toImmutableSet()));
-  }
-
-  @Operator
-  public Predicate<ChangeData> assignee(String who)
-      throws QueryParseException, IOException, ConfigInvalidException {
-    return assignee(parseAccount(who, (AccountState s) -> true));
-  }
-
-  private Predicate<ChangeData> assignee(Set<Account.Id> who) {
-    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
-    for (Account.Id id : who) {
-      p.add(ChangePredicates.assignee(id));
-    }
-    return Predicate.or(p);
   }
 
   @Operator

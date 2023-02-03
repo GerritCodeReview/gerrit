@@ -21,12 +21,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -41,7 +39,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
   private final ChangeMessagesUtil cmUtil;
   private final PluginSetContext<AssigneeValidationListener> validationListeners;
   private final IdentifiedUser newAssignee;
-  private final AssigneeChanged assigneeChanged;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private Change change;
@@ -51,12 +48,10 @@ public class SetAssigneeOp implements BatchUpdateOp {
   SetAssigneeOp(
       ChangeMessagesUtil cmUtil,
       PluginSetContext<AssigneeValidationListener> validationListeners,
-      AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       @Assisted IdentifiedUser newAssignee) {
     this.cmUtil = cmUtil;
     this.validationListeners = validationListeners;
-    this.assigneeChanged = assigneeChanged;
     this.userFactory = userFactory;
     this.newAssignee = requireNonNull(newAssignee, "assignee");
   }
@@ -100,14 +95,5 @@ public class SetAssigneeOp implements BatchUpdateOp {
       msg.append(AccountTemplateUtil.getAccountTemplate(newAssignee.getAccountId()));
     }
     cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
-  }
-
-  @Override
-  public void postUpdate(PostUpdateContext ctx) {
-    assigneeChanged.fire(
-        ctx.getChangeData(change),
-        ctx.getAccount(),
-        oldAssignee != null ? oldAssignee.state() : null,
-        ctx.getWhen());
   }
 }

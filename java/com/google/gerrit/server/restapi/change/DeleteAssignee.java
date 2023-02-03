@@ -27,14 +27,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -45,7 +43,6 @@ import com.google.inject.Singleton;
 public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final AssigneeChanged assigneeChanged;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountLoader.Factory accountLoaderFactory;
 
@@ -53,12 +50,10 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   DeleteAssignee(
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil cmUtil,
-      AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       AccountLoader.Factory accountLoaderFactory) {
     this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
-    this.assigneeChanged = assigneeChanged;
     this.userFactory = userFactory;
     this.accountLoaderFactory = accountLoaderFactory;
   }
@@ -109,12 +104,6 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
           "Assignee deleted: "
               + AccountTemplateUtil.getAccountTemplate(deletedAssignee.getAccountId()),
           ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
-    }
-
-    @Override
-    public void postUpdate(PostUpdateContext ctx) {
-      assigneeChanged.fire(
-          ctx.getChangeData(change), ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }
 }

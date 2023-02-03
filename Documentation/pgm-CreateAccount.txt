@@ -1,0 +1,61 @@
+= CreateAccount
+
+== NAME
+CreateAccount - Create a new account.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _CreateAccount_
+	-d <SITE_PATH>
+	[--email EMAIL]
+	[--display-name DISPLAY_NAME]
+	[--ssh-key SSH_KEY]
+	[--password PASSWORD]
+	[--group GROUP]
+	USERNAME
+
+--
+
+== DESCRIPTION
+Create a new internal account in Gerrit. This allows to create a new user without
+already having an account in Gerrit.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Location of the `gerrit.config` file, and all other per-site
+	configuration data, supporting libraries and log files.
+
+--display-name::
+	The display name of the user.
+
+--email::
+	The email address of the user.
+
+--ssh-key::
+	The public SSH key of the user.
+
+--password::
+	The HTTP password of the user. If not set, it has to be entered into a password prompt.
+
+--group::
+	A group the user will be added to. Can be used multiple times.
+
+== ARGUMENTS
+
+USERNAME::
+	Username used by the new account.
+
+== CONTEXT
+
+This utility is useful during E2E tests not using DEVELOPMENT_BECOME_ANY_ACCOUNT or if
+additional components not running in the same JVM require a Gerrit account.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

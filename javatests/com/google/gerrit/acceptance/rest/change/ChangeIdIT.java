@@ -19,6 +19,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.restapi.IdString;
 import org.junit.Test;
 
 public class ChangeIdIT extends AbstractDaemonTest {
@@ -44,6 +45,13 @@ public class ChangeIdIT extends AbstractDaemonTest {
     // Try a non-numeric change number
     RestResponse res3 = adminRestSession.get(project.get() + "~some-id");
     res3.assertNotFound();
+  }
+
+  @Test
+  public void invalidProjectChangeNumberReturnsNotFound() throws Exception {
+    RestResponse res =
+        adminRestSession.get(changeDetail(IdString.fromDecoded("<%=FOO%>~1").encoded()));
+    res.assertNotFound();
   }
 
   @Test

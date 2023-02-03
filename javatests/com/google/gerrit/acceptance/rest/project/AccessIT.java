@@ -109,4 +109,13 @@ public class AccessIT extends AbstractDaemonTest {
             .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
     assertThat(infoByProject.keySet()).containsExactly(project.get());
   }
+
+  @Test
+  public void listAccess_invalidProject() throws Exception {
+    String invalidProject = "<%=FOO%>";
+    RestResponse r =
+        adminRestSession.get("/access/?project=" + IdString.fromDecoded(invalidProject));
+    r.assertNotFound();
+    assertThat(r.getEntityContent()).isEqualTo(invalidProject);
+  }
 }

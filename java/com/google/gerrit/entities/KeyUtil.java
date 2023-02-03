@@ -66,7 +66,13 @@ public class KeyUtil {
     return r.toString();
   }
 
-  public static String decode(final String key) {
+  public static String decode(String key) {
+    // URLs use percentage encoding which replaces unsafe ASCII characters with a '%' followed by
+    // two hexadecimal digits. If there is '%' that is not followed by two hexadecimal digits
+    // the code below fails with an IllegalArgumentException. To prevent this replace any '%'
+    // hat is not followed by two hexadecimal digits by "%25", which is the URL encoding for '%'.
+    key = key.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+
     if (key.indexOf('%') < 0) {
       return key.replace('+', ' ');
     }

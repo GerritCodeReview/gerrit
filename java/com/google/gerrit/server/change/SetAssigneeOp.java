@@ -16,15 +16,12 @@ package com.google.gerrit.server.change;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
-import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -34,12 +31,9 @@ import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 public class SetAssigneeOp implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     SetAssigneeOp create(IdentifiedUser assignee);
   }
@@ -48,10 +42,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   private final PluginSetContext<AssigneeValidationListener> validationListeners;
   private final IdentifiedUser newAssignee;
   private final AssigneeChanged assigneeChanged;
-  private final SetAssigneeSender.Factory setAssigneeSenderFactory;
-  private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final MessageIdGenerator messageIdGenerator;
 
   private Change change;
   private IdentifiedUser oldAssignee;
@@ -61,18 +52,12 @@ public class SetAssigneeOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       PluginSetContext<AssigneeValidationListener> validationListeners,
       AssigneeChanged assigneeChanged,
-      SetAssigneeSender.Factory setAssigneeSenderFactory,
-      Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory userFactory,
-      MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser newAssignee) {
     this.cmUtil = cmUtil;
     this.validationListeners = validationListeners;
     this.assigneeChanged = assigneeChanged;
-    this.setAssigneeSenderFactory = setAssigneeSenderFactory;
-    this.user = user;
     this.userFactory = userFactory;
-    this.messageIdGenerator = messageIdGenerator;
     this.newAssignee = requireNonNull(newAssignee, "assignee");
   }
 
@@ -119,18 +104,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    try {
-      SetAssigneeSender emailSender =
-          setAssigneeSenderFactory.create(
-              change.getProject(), change.getId(), newAssignee.getAccountId());
-      emailSender.setFrom(user.get().getAccountId());
-      emailSender.setMessageId(
-          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
-    } catch (Exception err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot send email to new assignee of change %s", change.getId());
-    }
     assigneeChanged.fire(
         ctx.getChangeData(change),
         ctx.getAccount(),

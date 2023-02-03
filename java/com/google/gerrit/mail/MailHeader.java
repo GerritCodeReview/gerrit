@@ -17,7 +17,6 @@ package com.google.gerrit.mail;
 /** Variables used by emails to hold data */
 public enum MailHeader {
   // Gerrit metadata holders
-  ASSIGNEE("Gerrit-Assignee"),
   ATTENTION("Gerrit-Attention"),
   BRANCH("Gerrit-Branch"),
   CC("Gerrit-CC"),

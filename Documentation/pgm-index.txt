@@ -33,6 +33,9 @@ version::
 link:pgm-passwd.html[passwd]::
 	Set or reset password in secure.config.
 
+link:CreateAccount.html[CreateAccount]::
+	Create a new account.
+
 === Transition Utilities
 
 link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::

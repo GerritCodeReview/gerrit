@@ -17,17 +17,13 @@ package com.google.gerrit.server.change;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
-import com.google.gerrit.server.validators.AssigneeValidationListener;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -37,7 +33,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
   }
 
   private final ChangeMessagesUtil cmUtil;
-  private final PluginSetContext<AssigneeValidationListener> validationListeners;
   private final IdentifiedUser newAssignee;
   private final IdentifiedUser.GenericFactory userFactory;
 
@@ -47,11 +42,9 @@ public class SetAssigneeOp implements BatchUpdateOp {
   @Inject
   SetAssigneeOp(
       ChangeMessagesUtil cmUtil,
-      PluginSetContext<AssigneeValidationListener> validationListeners,
       IdentifiedUser.GenericFactory userFactory,
       @Assisted IdentifiedUser newAssignee) {
     this.cmUtil = cmUtil;
-    this.validationListeners = validationListeners;
     this.userFactory = userFactory;
     this.newAssignee = requireNonNull(newAssignee, "assignee");
   }
@@ -62,13 +55,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
     if (newAssignee.getAccountId().equals(change.getAssignee())) {
       return false;
     }
-    try {
-      validationListeners.runEach(
-          l -> l.validateAssignee(change, newAssignee.getAccount()), ValidationException.class);
-    } catch (ValidationException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    }
-
     if (change.getAssignee() != null) {
       oldAssignee = userFactory.create(change.getAssignee());
     }

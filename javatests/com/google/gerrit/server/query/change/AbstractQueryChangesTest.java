@@ -68,7 +68,6 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
@@ -3387,7 +3386,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     private boolean wip;
     private boolean abandoned;
     @Nullable private Account.Id mergedBy;
-    @Nullable private Account.Id assigneeId;
 
     @Nullable Change.Id id;
 
@@ -3397,11 +3395,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       cced = new ArrayList<>();
       draftCommentBy = new ArrayList<>();
       deleteDraftCommentBy = new ArrayList<>();
-    }
-
-    DashboardChangeState assignTo(Account.Id assigneeId) {
-      this.assigneeId = assigneeId;
-      return this;
     }
 
     DashboardChangeState wip() {
@@ -3444,11 +3437,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       Change change = insert("repo", newChange(repo), ownerId);
       id = change.getId();
       ChangeApi cApi = gApi.changes().id(change.getChangeId());
-      if (assigneeId != null) {
-        AssigneeInput in = new AssigneeInput();
-        in.assignee = "" + assigneeId;
-        cApi.setAssignee(in);
-      }
       if (wip) {
         cApi.setWorkInProgress();
       }
@@ -3526,33 +3514,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void dashboardAssignedReviews() throws Exception {
-    repo = createAndOpenProject("repo");
-    Account.Id otherAccountId = createAccount("other");
-    DashboardChangeState otherOpenWip =
-        new DashboardChangeState(otherAccountId).wip().assignTo(user.getAccountId()).create(repo);
-    DashboardChangeState selfOpenWip =
-        new DashboardChangeState(user.getAccountId())
-            .wip()
-            .assignTo(user.getAccountId())
-            .create(repo);
-
-    // Create changes that should not be returned by query.
-    new DashboardChangeState(user.getAccountId()).assignTo(user.getAccountId()).abandon();
-    new DashboardChangeState(user.getAccountId())
-        .assignTo(user.getAccountId())
-        .mergeBy(user.getAccountId());
-
-    assertDashboardQuery(
-        "self", IndexPreloadingUtil.DASHBOARD_ASSIGNED_QUERY, selfOpenWip, otherOpenWip);
-
-    // Viewing another user's dashboard.
-    requestContext.setContext(newRequestContext(otherAccountId));
-    assertDashboardQuery(
-        userId.toString(), IndexPreloadingUtil.DASHBOARD_ASSIGNED_QUERY, otherOpenWip);
-  }
-
-  @Test
   public void dashboardWorkInProgressReviews() throws Exception {
     repo = createAndOpenProject("repo");
     DashboardChangeState ownedOpenWip =
@@ -3593,12 +3554,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id otherAccountId = createAccount("other");
     DashboardChangeState reviewingReviewable =
         new DashboardChangeState(otherAccountId).addReviewer(user.getAccountId()).create(repo);
-    DashboardChangeState assignedReviewable =
-        new DashboardChangeState(otherAccountId).assignTo(user.getAccountId()).create(repo);
 
     // Create changes that should not be returned by any queries in this test.
     new DashboardChangeState(otherAccountId).wip().addReviewer(user.getAccountId()).create(repo);
-    new DashboardChangeState(otherAccountId).wip().assignTo(user.getAccountId()).create(repo);
     new DashboardChangeState(otherAccountId).addReviewer(otherAccountId).create(repo);
     new DashboardChangeState(otherAccountId)
         .addReviewer(user.getAccountId())
@@ -3606,19 +3564,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .create(repo);
 
     // Viewing one's own dashboard.
-    assertDashboardQuery(
-        "self",
-        IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY,
-        assignedReviewable,
-        reviewingReviewable);
+    assertDashboardQuery("self", IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY, reviewingReviewable);
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
     assertDashboardQuery(
-        userId.toString(),
-        IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY,
-        assignedReviewable,
-        reviewingReviewable);
+        userId.toString(), IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY, reviewingReviewable);
   }
 
   @Test
@@ -3637,11 +3588,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .addCc(user.getAccountId())
             .mergeBy(user.getAccountId())
             .create(repo);
-    DashboardChangeState mergedAssigned =
-        new DashboardChangeState(otherAccountId)
-            .assignTo(user.getAccountId())
-            .mergeBy(user.getAccountId())
-            .create(repo);
     DashboardChangeState abandonedOwned =
         new DashboardChangeState(user.getAccountId()).abandon().create(repo);
     DashboardChangeState abandonedOwnedWip =
@@ -3649,17 +3595,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     DashboardChangeState abandonedReviewing =
         new DashboardChangeState(otherAccountId)
             .addReviewer(user.getAccountId())
-            .abandon()
-            .create(repo);
-    DashboardChangeState abandonedAssigned =
-        new DashboardChangeState(otherAccountId)
-            .assignTo(user.getAccountId())
-            .abandon()
-            .create(repo);
-    DashboardChangeState abandonedAssignedWip =
-        new DashboardChangeState(otherAccountId)
-            .assignTo(user.getAccountId())
-            .wip()
             .abandon()
             .create(repo);
 
@@ -3674,11 +3609,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertDashboardQuery(
         "self",
         IndexPreloadingUtil.DASHBOARD_RECENTLY_CLOSED_QUERY,
-        abandonedAssigned,
         abandonedReviewing,
         abandonedOwnedWip,
         abandonedOwned,
-        mergedAssigned,
         mergedCced,
         mergedReviewing,
         mergedOwned);
@@ -3688,11 +3621,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertDashboardQuery(
         userId.toString(),
         IndexPreloadingUtil.DASHBOARD_RECENTLY_CLOSED_QUERY,
-        abandonedAssignedWip,
-        abandonedAssigned,
         abandonedReviewing,
         abandonedOwned,
-        mergedAssigned,
         mergedCced,
         mergedReviewing,
         mergedOwned);
@@ -3751,24 +3681,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(changeInfo.attentionSet.keySet()).containsExactly(userId.get(), user2Id.get());
     assertThat(changeInfo.attentionSet.get(userId.get()).reason).isEqualTo("reason 1");
     assertThat(changeInfo.attentionSet.get(user2Id.get()).reason).isEqualTo("reason 2");
-  }
-
-  @Test
-  public void assignee() throws Exception {
-    repo = createAndOpenProject("repo");
-    Change change1 = insert("repo", newChange(repo));
-    Change change2 = insert("repo", newChange(repo));
-
-    AssigneeInput input = new AssigneeInput();
-    input.assignee = user.getAccountId().toString();
-    gApi.changes().id(change1.getChangeId()).setAssignee(input);
-
-    assertQuery("is:assigned", change1);
-    assertQuery("-is:assigned", change2);
-    assertQuery("is:unassigned", change2);
-    assertQuery("-is:unassigned", change1);
-    assertQuery("assignee:" + user.getAccountId(), change1);
-    assertQuery("-assignee:" + user.getAccountId(), change2);
   }
 
   @GerritConfig(name = "accounts.visibility", value = "NONE")
@@ -3998,7 +3910,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void selfFailsForAnonymousUser() throws Exception {
-    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred")) {
+    for (String query : ImmutableList.of("has:star", "is:starred")) {
       assertQuery(query);
       RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
 

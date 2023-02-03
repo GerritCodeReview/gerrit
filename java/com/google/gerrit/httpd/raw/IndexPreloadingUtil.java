@@ -58,25 +58,21 @@ public class IndexPreloadingUtil {
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts
   public static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft limit:10";
   public static final String YOUR_TURN = "attention:${user} limit:25";
-  public static final String DASHBOARD_ASSIGNED_QUERY =
-      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open limit:25";
   public static final String DASHBOARD_WORK_IN_PROGRESS_QUERY =
       "is:open owner:${user} is:wip limit:25";
   public static final String DASHBOARD_OUTGOING_QUERY = "is:open owner:${user} -is:wip limit:25";
   public static final String DASHBOARD_INCOMING_QUERY =
-      "is:open -owner:${user} -is:wip (reviewer:${user} OR assignee:${user}) limit:25";
+      "is:open -owner:${user} -is:wip reviewer:${user} limit:25";
   public static final String CC_QUERY = "is:open -is:wip cc:${user} limit:10";
   public static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
       "is:closed (-is:wip OR owner:self) "
-          + "(owner:${user} OR reviewer:${user} OR assignee:${user} "
-          + "OR cc:${user}) -age:4w limit:10";
+          + "(owner:${user} OR reviewer:${user} OR cc:${user}) "
+          + "-age:4w limit:10";
   public static final String NEW_USER = "owner:${user} limit:1";
 
   public static final String SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY =
       DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY.replaceAll("\\$\\{user}", "self");
   public static final String SELF_YOUR_TURN = YOUR_TURN.replaceAll("\\$\\{user}", "self");
-  public static final String SELF_DASHBOARD_ASSIGNED_QUERY =
-      DASHBOARD_ASSIGNED_QUERY.replaceAll("\\$\\{user}", "self");
   public static final ImmutableList<String> SELF_DASHBOARD_QUERIES =
       Stream.of(
               DASHBOARD_WORK_IN_PROGRESS_QUERY,
@@ -196,20 +192,9 @@ public class IndexPreloadingUtil {
     List<String> queryList = new ArrayList<>();
     queryList.add(SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);
     queryList.add(SELF_YOUR_TURN);
-    if (isEnabledAssignee(serverApi)) {
-      queryList.add(SELF_DASHBOARD_ASSIGNED_QUERY);
-    }
-
     queryList.addAll(SELF_DASHBOARD_QUERIES);
 
     return queryList;
-  }
-
-  private static boolean isEnabledAssignee(Server serverApi) throws RestApiException {
-    return serverApi.getInfo() != null
-        && serverApi.getInfo().change != null
-        && serverApi.getInfo().change.enableAssignee != null
-        && serverApi.getInfo().change.enableAssignee;
   }
 
   private IndexPreloadingUtil() {}

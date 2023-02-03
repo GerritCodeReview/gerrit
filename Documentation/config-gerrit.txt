@@ -1415,13 +1415,6 @@ If set to true, users are not allowed to create private changes.
 +
 The default is false.
 
-[[change.enableAssignee]]change.enableAssignee::
-+
-If set to true, then all UI features for using and interacting with the
-assignee are enabled.
-+
-The default is false.
-
 [[change.maxComments]]change.maxComments::
 +
 Maximum number of comments (regular plus robot) allowed per change. Additional

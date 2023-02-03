@@ -88,8 +88,6 @@ class MailSoySauceLoader {
     "RestoredHtml.soy",
     "Reverted.soy",
     "RevertedHtml.soy",
-    "SetAssignee.soy",
-    "SetAssigneeHtml.soy",
   };
 
   private static final SoySauce DEFAULT = getDefault().build().compileTemplates();

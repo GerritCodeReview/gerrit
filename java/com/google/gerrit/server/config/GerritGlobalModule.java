@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
-import com.google.gerrit.extensions.events.AssigneeChangedListener;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
@@ -360,7 +359,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), PluginProjectPermissionDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), GitBatchRefUpdateListener.class);
-    DynamicSet.setOf(binder(), AssigneeChangedListener.class);
     DynamicSet.setOf(binder(), ChangeAbandonedListener.class);
     DynamicSet.setOf(binder(), ChangeDeletedListener.class);
     DynamicSet.setOf(binder(), CommentAddedListener.class);

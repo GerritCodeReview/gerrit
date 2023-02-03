@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf3bfb0_0c958443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-03T14:46:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99a4b1ae_b381408b",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "d352e454605d71ed375c1207b1eb9e1496ff9ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4628049_c03587ae",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f307bdb3_c30783e8",
+        "filename": "java/com/google/gerrit/pgm/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-03T14:46:11Z",
+      "side": 1,
+      "message": "We actually only need to add the sysInjector to the LifecycleManager.",
+      "parentUuid": "b4628049_c03587ae",
+      "revId": "d352e454605d71ed375c1207b1eb9e1496ff9ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6de0d6f2_9146bb4f",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-02-03T14:34:24Z",
       "side": 1,
       "message": "shouldn\u0027t the order of stopping be the opposite of starting?",
+      "revId": "d352e454605d71ed375c1207b1eb9e1496ff9ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ab2347_0513949f",
+        "filename": "java/com/google/gerrit/pgm/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-03T14:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6de0d6f2_9146bb4f",
       "revId": "d352e454605d71ed375c1207b1eb9e1496ff9ef9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1765,7 +1765,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return value;
   }
 
-  /** Returns {@link Account.Id} of the identified calling user. */
+  /** Returns {@link com.google.gerrit.entities.Account.Id} of the identified calling user. */
   public Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
   }

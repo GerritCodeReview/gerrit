@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6814a324_b1f8dc4b",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-03T13:07:51Z",
+      "side": 1,
+      "message": "Should this be part of the change?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e73a98_e15c900e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2085,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-03T13:07:51Z",
+      "side": 1,
+      "message": "The comment is not clear to me here. The check is about \"is change obsolete\" but the comment is about \"change number has changed\".",
+      "range": {
+        "startLine": 2083,
+        "startChar": 0,
+        "endLine": 2085,
+        "endChar": 68
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884520ba_1e1410c5",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-03T13:07:51Z",
+      "side": 1,
+      "message": "Unless I am reading this wrong, the only thing that changed on this line, is parameter name `childView` got renamed to `x`. I think using the name is clearer than `x`.",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f81cac_9f9def0d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-03T13:07:51Z",
+      "side": 1,
+      "message": "I can\u0027t understand this comment. In what way would we have used \"undefined\". How exactly setting change number here, facilitates caching?",
+      "range": {
+        "startLine": 247,
+        "startChar": 8,
+        "endLine": 249,
+        "endChar": 34
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

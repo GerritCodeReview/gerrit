@@ -902,11 +902,23 @@ class ChangeNotesParser {
     String labelVoteStr;
     // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
     // Only parsed for backward compatibility
+    String voteUuidSeparator = ", ";
+    int voteUuidSeparatorIndex = line.indexOf(voteUuidSeparator);
+    int firstSpace = line.indexOf(' ');
+    // We need some additional logic to differentiate between labels that have a UUID and those that
+    // have a user with a comma. This allows us to separate the following cases (note that the
+    // leading `Label: ` has been elided at this point):
+    //   Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+    //   Label: <LABEL>=VOTE <Gerrit, Account>
+    // As neither a comma nor a space are allowed in the label name or its vote by specification:
+    // * If we have no comma (i.e. `voteUuidSeparator`), we can't have a line with a UUID
+    // * If we do, we have a UUID in the line only if it appears before the space
+    boolean hasUuid = voteUuidSeparatorIndex != -1 && voteUuidSeparatorIndex < firstSpace;
+    int reviewerStart =
+        line.indexOf(' ', hasUuid ? voteUuidSeparatorIndex + voteUuidSeparator.length() : 0);
     // Footer has the following format in this case: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
-    int uuidStart = line.indexOf(", ");
-    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
-    if (uuidStart != -1) {
-      labelVoteStr = line.substring(0, uuidStart);
+    if (hasUuid) {
+      labelVoteStr = line.substring(0, voteUuidSeparatorIndex);
     } else if (reviewerStart != -1) {
       labelVoteStr = line.substring(0, reviewerStart);
     } else {

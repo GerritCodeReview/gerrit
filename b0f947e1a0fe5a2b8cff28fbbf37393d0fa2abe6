@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "566265b8_671b30c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-06T13:44:20Z",
+      "side": 1,
+      "message": "I am personally am not a big fan of this change since I disagree with the premise of the bug reported.\nWhen I read, Ack I don\u0027t think the author is \"not bothered to type a full word\".\nI also in general believe in \"Assume best intentions\".\n\nThe downside of the change is more noise in the Comment UI, since we are rendering more letters and I would prefer keeping as is.\n\nIf it turns out typing \"Ack\" is an issue, like the reporter mentions they manually edit \"Ack\" -\u003e \"Acknowledge\" in the comment , we can keep the UI as is but enter the text Acknowledged in the text field.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "b0f947e1a0fe5a2b8cff28fbbf37393d0fa2abe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d40f9b_f8306c01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-06T13:44:20Z",
+      "side": 1,
+      "message": "add a screenshot?",
+      "revId": "b0f947e1a0fe5a2b8cff28fbbf37393d0fa2abe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

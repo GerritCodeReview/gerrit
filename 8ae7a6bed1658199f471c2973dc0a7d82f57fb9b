@@ -34,6 +34,24 @@
       "parentUuid": "af3abc53_5d18e31e",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4d227b_6958695f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-06T16:21:57Z",
+      "side": 0,
+      "message": "Reworded for clarity (and less typos):\nI am not sure I understand, where the incompatibility is coming from:\n\n1) Which fields defined or not (not set, but defined) are not part of serialized proto. It\u0027s part of the .proto files. The changes to .proto is included in the change. So they will be delivered alongside the rollback/forward\n2) repeated fields are not \"optional\". Meaning when reading a proto without assignee field \"getAssigneeUpdateList\" would return an empty list.\n3) toAssigneeStatusUpdateList when given an empty list will produce empty ImmutableList (so working as intended).\n\nSo I think this:\n\nbut the proto won\u0027t have that field and it will fail.\n\nis not true. Unless you mean something when you say \"fail\", other than \"throw an exception\".\n\nAFAIU the change will not cause to overwrite old entries, so that is not a concern either.\n\nDoes that make sense?",
+      "parentUuid": "63f523bc_932aed8b",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

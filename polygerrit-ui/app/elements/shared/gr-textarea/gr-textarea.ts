@@ -630,10 +630,7 @@ export class GrTextarea extends LitElement {
     // This is a bit redundant, because the `text` property has `notify:true`,
     // so whenever the `text` changes the component fires two identical events
     // `text-changed` and `value-changed`.
-    fire(this, 'value-changed', {value: this.text});
     fire(this, 'text-changed', {value: this.text});
-    // Relay the event.
-    fire(this, 'bind-value-changed', {value: this.text});
   }
 
   private indent(e: KeyboardEvent): void {

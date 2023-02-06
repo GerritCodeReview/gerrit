@@ -50,7 +50,7 @@ suite('gr-textarea tests', () => {
       // Needed for Safari tests. selectionStart is not updated when text is
       // updated.
       const listenerStub = sinon.stub();
-      element.addEventListener('bind-value-changed', listenerStub);
+      element.addEventListener('text-changed', listenerStub);
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
@@ -166,7 +166,7 @@ suite('gr-textarea tests', () => {
 
     test('emoji dropdown does not open if mention dropdown is open', async () => {
       const listenerStub = sinon.stub();
-      element.addEventListener('bind-value-changed', listenerStub);
+      element.addEventListener('text-changed', listenerStub);
       const resetSpy = sinon.spy(element, 'resetDropdown');
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
@@ -217,7 +217,7 @@ suite('gr-textarea tests', () => {
 
     test('mention dropdown does not open if emoji dropdown is open', async () => {
       const listenerStub = sinon.stub();
-      element.addEventListener('bind-value-changed', listenerStub);
+      element.addEventListener('text-changed', listenerStub);
       element.textarea!.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
@@ -311,7 +311,7 @@ suite('gr-textarea tests', () => {
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
     const listenerStub = sinon.stub();
-    element.addEventListener('bind-value-changed', listenerStub);
+    element.addEventListener('text-changed', listenerStub);
     element.textarea!.focus();
     await waitUntil(() => element.textarea!.focused === true);
     element.textarea!.selectionStart = 1;

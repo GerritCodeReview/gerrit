@@ -1218,7 +1218,7 @@ Default is true.
 Maximum number of changes that can be chained together in the same repository
 to be submitted at once.
 +
-Default is 32767.
+Default is 1024.
 
 
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::

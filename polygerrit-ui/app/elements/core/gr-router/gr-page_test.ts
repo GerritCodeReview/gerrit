@@ -13,7 +13,7 @@ suite('gr-page tests', () => {
 
   setup(() => {
     page = new Page();
-    page.start({dispatch: false, popstate: false, base: ''});
+    page.start({dispatch: false, base: ''});
   });
 
   teardown(() => {
@@ -47,7 +47,7 @@ suite('gr-page tests', () => {
 
   test('register, show, replace', () => {
     const handleA = sinon.spy();
-    const handleB = sinon.stub();
+    const handleB = sinon.spy();
     page.registerRoute(/\/A/, handleA);
     page.registerRoute(/\/B/, handleB);
 
@@ -68,12 +68,32 @@ suite('gr-page tests', () => {
     assert.equal(handleB.callCount, 2);
   });
 
+  test('popstate browser back', async () => {
+    const handleA = sinon.spy();
+    const handleB = sinon.spy();
+    page.registerRoute(/\/A/, handleA);
+    page.registerRoute(/\/B/, handleB);
+
+    page.show('/A');
+    assert.equal(handleA.callCount, 1);
+    assert.equal(handleB.callCount, 0);
+
+    page.show('/B');
+    assert.equal(handleA.callCount, 1);
+    assert.equal(handleB.callCount, 1);
+
+    window.history.back();
+    await waitUntil(() => window.location.href.includes('/A'));
+    assert.equal(handleA.callCount, 2);
+    assert.equal(handleB.callCount, 1);
+  });
+
   test('register pattern, check context', async () => {
     let context: PageContext;
     const handler = (ctx: PageContext) => (context = ctx);
     page.registerRoute(/\/asdf\/(.*)\/qwer\/(.*)\//, handler);
     page.stop();
-    page.start({dispatch: false, popstate: false, base: '/base'});
+    page.start({dispatch: false, base: '/base'});
 
     page.show('/base/asdf/1234/qwer/abcd/');
 

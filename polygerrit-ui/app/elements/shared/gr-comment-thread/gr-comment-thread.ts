@@ -883,7 +883,7 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleCommentAck() {
-    this.createReplyComment('Ack', false, false);
+    this.createReplyComment('Acknowledged', false, false);
   }
 
   private handleCommentDone() {

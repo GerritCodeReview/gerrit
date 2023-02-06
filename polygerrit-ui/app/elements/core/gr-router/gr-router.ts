@@ -571,12 +571,10 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   _testOnly_startRouter() {
-    this.startRouter({dispatch: false, popstate: false, base: getBaseUrl()});
+    this.startRouter({dispatch: false, base: getBaseUrl()});
   }
 
-  startRouter(
-    opts: PageOptions = {dispatch: true, popstate: true, base: getBaseUrl()}
-  ) {
+  startRouter(opts: PageOptions = {dispatch: true, base: getBaseUrl()}) {
     this.page.registerExitRoute(/(.*)/, (_, next) => {
       if (!this._isRedirecting) {
         this.reporting.beforeLocationChanged();

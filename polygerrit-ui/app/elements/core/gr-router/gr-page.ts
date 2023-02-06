@@ -29,11 +29,6 @@ export type PageNextCallback = () => void;
 /** Options for starting the router. */
 export interface PageOptions {
   /**
-   * Should a `popstate` listener be installed? The default is `true`. Can be
-   * turned off for testing.
-   */
-  popstate: boolean;
-  /**
    * Should the router inspect the current URL and dispatch it when the router
    * is started? Default is `true`, but can be turned off for testing.
    */
@@ -102,16 +97,14 @@ export class Page {
    */
   private documentLoaded = false;
 
-  start(options: PageOptions = {dispatch: true, popstate: true, base: ''}) {
+  start(options: PageOptions = {dispatch: true, base: ''}) {
     if (this.running) return;
     this.running = true;
     this.base = options.base;
 
     window.document.addEventListener(clickEvent, this.clickHandler);
     window.addEventListener('load', this.loadHandler);
-    if (options.popstate) {
-      window.addEventListener('popstate', this.popStateHandler);
-    }
+    window.addEventListener('popstate', this.popStateHandler);
     if (document.readyState === 'complete') this.documentLoaded = true;
 
     if (options.dispatch) {
@@ -247,7 +240,7 @@ export class Page {
     this.show(orig);
   };
 
-  popStateHandler = () => (e: PopStateEvent) => {
+  popStateHandler = (e: PopStateEvent) => {
     if (!this.documentLoaded) return;
     if (e.state) {
       const path = e.state.path;

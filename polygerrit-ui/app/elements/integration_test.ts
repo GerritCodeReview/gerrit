@@ -67,7 +67,7 @@ suite('integration tests', () => {
     router.setUrl(createSettingsUrl());
     await assertView('gr-settings-view');
 
-    router.setUrl(createSearchUrl({query: 'asdf'}));
+    window.history.back();
     view = await assertView('gr-change-list-view');
     assert.equal(assertItems(view).length, 3);
   });

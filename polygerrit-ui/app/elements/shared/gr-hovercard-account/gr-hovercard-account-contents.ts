@@ -160,6 +160,12 @@ export class GrHovercardAccountContents extends LitElement {
         .status .value {
           white-space: pre-wrap;
         }
+        /* Make sure that users cannot break the layout with super long
+           "About Me" texts. */
+        div.status {
+          max-height: 8em;
+          overflow-y: auto;
+        }
       `,
     ];
   }
@@ -273,7 +279,7 @@ export class GrHovercardAccountContents extends LitElement {
     return html`
       <div class="status">
         <span class="title">About me:</span>
-        <span class="value">${this.account.status}</span>
+        <span class="value">${this.account.status.trim()}</span>
       </div>
     `;
   }

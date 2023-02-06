@@ -22,6 +22,30 @@
       },
       "revId": "ea1173f32f41d3d8482eb85a0b3a75bbdfd620d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b573a72d_ec6a31ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-06T12:55:07Z",
+      "side": 1,
+      "message": "Yeah, but I think rewriting the query to a query with one predicate per group member is also a bit brittle since there is max limit for predicates...",
+      "parentUuid": "650e5545_2dfc818c",
+      "range": {
+        "startLine": 18,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 66
+      },
+      "revId": "ea1173f32f41d3d8482eb85a0b3a75bbdfd620d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

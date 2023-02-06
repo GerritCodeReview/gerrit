@@ -45,7 +45,6 @@ message Change {
   optional string topic = 14;
   optional string original_subject = 17;
   optional string submission_id = 18;
-  optional Account_Id assignee = 19;
   optional bool is_private = 20;
   optional bool work_in_progress = 21;
   optional bool review_started = 22;
@@ -59,6 +58,7 @@ message Change {
   reserved 11;   // nbrPatchSets
   reserved 15;   // lastSha1MergeTested
   reserved 16;   // mergeable
+  reserved 19;   // assignee
   reserved 101;  // note_db_state
 }
 

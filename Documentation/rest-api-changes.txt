@@ -6878,9 +6878,6 @@ to link:#attention-set-info[AttentionSetInfo] of that account. Those are all
 accounts that were in the attention set but were removed. The
 link:#attention-set-info[AttentionSetInfo] is the latest and most recent removal
  of the account from the attention set.
-|`assignee`           |optional|
-The assignee of the change as an link:rest-api-accounts.html#account-info[
-AccountInfo] entity.
 |`hashtags`           |optional|
 List of hashtags that are set on the change.
 |`change_id`          ||The Change-Id of the change.

@@ -26,6 +26,7 @@ import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate.F
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexCommitterEmailPredicate;
+import com.google.gerrit.server.submitrequirement.predicate.RegexUploaderEmailPredicateFactory;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
@@ -61,17 +62,20 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private static final Splitter SUBMODULE_UPDATE_SPLITTER = Splitter.on(",");
 
   private final FileEditsPredicate.Factory fileEditsPredicateFactory;
+  private final RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory;
 
   @Inject
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
       DistinctVotersPredicate.Factory distinctVotersPredicateFactory,
       FileEditsPredicate.Factory fileEditsPredicateFactory,
-      HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory) {
+      HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory,
+      RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory) {
     super(def, args);
     this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
     this.fileEditsPredicateFactory = fileEditsPredicateFactory;
     this.hasSubmoduleUpdateFactory = hasSubmoduleUpdateFactory;
+    this.regexUploaderEmailPredicateFactory = regexUploaderEmailPredicateFactory;
   }
 
   @Override
@@ -132,6 +136,11 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   @Operator
   public Predicate<ChangeData> committerEmail(String who) throws QueryParseException {
     return new RegexCommitterEmailPredicate(who);
+  }
+
+  @Operator
+  public Predicate<ChangeData> uploaderEmail(String who) throws QueryParseException {
+    return regexUploaderEmailPredicateFactory.create(who);
   }
 
   @Operator

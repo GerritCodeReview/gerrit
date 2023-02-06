@@ -78,7 +78,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.defaultBaseForMerges = DefaultBase.AUTO_MERGE;
     i.disableKeyboardShortcuts = true;
     i.expandInlineDiffs ^= true;
-    i.highlightAssigneeInChangeTable ^= true;
     i.relativeDateInChangeTable ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;

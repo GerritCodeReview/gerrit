@@ -52,6 +52,24 @@
       "parentUuid": "63f523bc_932aed8b",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e21e2ce_88899951",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-06T17:12:48Z",
+      "side": 0,
+      "message": "The scenario happens when there are two versions of the server (code_old, code_new) and two versions of the data (data_old, data_new).\n\nThis change in itself is fine. Today {code_old} writes {data_old}. When this change rolls out, {code_new} will write {data_new}. Writing here means persisting the data since persisted caches are serialized and stored on disk.\n\nIf for any reason we needed to rollback the release thereafter, {code_old} will be running but trying to parse {data_new} that was written previously by the {code_new}. {code_old} (i.e. this line we\u0027re commenting on) will be executed and will fail since the new Proto does not have the assignee field.\n\nI\u0027d be careful doing this change, either by splitting the change or testing this scenario with some test code and see if it will work.\n\nHappy to chat offline about this if it\u0027s still unclear.",
+      "parentUuid": "4c4d227b_6958695f",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

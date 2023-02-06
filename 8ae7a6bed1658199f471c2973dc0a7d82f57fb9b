@@ -16,6 +16,24 @@
       "message": "I think this line is not forward compatible and might fail if we did roll-fw / roll-back.\n\nIf you submit this change, new binaries will start writing the protos without the assignee field (serialize method does not store it anymore - line 522 that you removed). If we rolled back the binary for any reason, old releases will execute this line (try to parse the assignee list from the proto) but the proto won\u0027t have that field and it will fail.\n\nTo make this safe, please split this change into two: the first change should only make the server stop reading the assignee field from the serialized proto (i.e. only modify the deserialize method - also adapt the test). We can roll this change and wait for a while then submit another change to stop writing this field to the proto.\n\nAlternative:\nWe can update this line to make it safe w.r.t. for compatibility, i.e. add a condition that makes sure the field is set before accessing it.",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f523bc_932aed8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-06T16:18:36Z",
+      "side": 0,
+      "message": "I am not sure I understand, where the incompatibility is coming from:\n\n1) Which fields do and do not exist (not set, but exist) are not part of serialized proto. It\u0027s part of the .proto files. The changes to .proto is included in the change. So they will be delivered alongside the rollback/forward\n2) repeated fields are not \"optional\". Meaning \"getAssigneeUpdateList\" would return an empty list.\n3) toAssigneeStatusUpdateList when given an empty list will produce empty ImmutableList (so working as intended).\n\nSo I think this: \n\n\u003e but the proto won\u0027t have that field and *it will fail*.\n\nis not true. Unless you imply something else but fail, other than \"throw an exception\".\n\nAFAIU the change will not cause to overwrite old entries, so that is not a concern either.\n\nDoes that make sense?",
+      "parentUuid": "af3abc53_5d18e31e",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

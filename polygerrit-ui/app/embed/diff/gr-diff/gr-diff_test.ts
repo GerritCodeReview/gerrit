@@ -68,18 +68,9 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('a unified diff legacy', async () => {
+    test('a unified diff', async () => {
       element.viewMode = DiffViewMode.UNIFIED;
-      await testUnified();
-    });
-
-    test('a unified diff lit', async () => {
-      element.viewMode = DiffViewMode.UNIFIED;
-      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
-      await testUnified();
-    });
-
-    const testUnified = async () => {
+      element.renderPrefs = {...element.renderPrefs};
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
       await element.updateComplete;
@@ -1343,18 +1334,9 @@ suite('gr-diff tests', () => {
           ],
         }
       );
-    };
-
-    test('a normal diff legacy', async () => {
-      await testNormal();
     });
 
-    test('a normal diff lit', async () => {
-      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
-      await testNormal();
-    });
-
-    const testNormal = async () => {
+    test('a normal diff', async () => {
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
       await element.updateComplete;
@@ -3008,7 +2990,7 @@ suite('gr-diff tests', () => {
           ],
         }
       );
-    };
+    });
   });
 
   suite('selectionchange event handling', () => {

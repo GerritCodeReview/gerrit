@@ -345,10 +345,6 @@ export class GrDiffHost extends LitElement {
       resolve(this, highlightServiceToken),
       () => getAppContext().reportingService
     );
-    this.renderPrefs = {
-      ...this.renderPrefs,
-      use_lit_components: true,
-    };
     this.addEventListener(
       // These are named inconsistently for a reason:
       // The create-comment event is fired to indicate that we should

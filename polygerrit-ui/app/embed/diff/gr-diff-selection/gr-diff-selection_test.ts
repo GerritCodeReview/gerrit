@@ -62,7 +62,7 @@ suite('gr-diff-selection', () => {
       ],
     };
     grDiff.prefs = createDefaultDiffPrefs();
-    grDiff.renderPrefs = {use_lit_components: true};
+    grDiff.renderPrefs = {};
     grDiff.diff = diff;
     await waitForEventOnce(grDiff, 'render');
     assert.isOk(element.diffTable);

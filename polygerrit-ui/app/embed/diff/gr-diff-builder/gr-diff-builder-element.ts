@@ -13,9 +13,7 @@ import {
   DiffContextExpandedEventDetail,
   isImageDiffBuilder,
 } from './gr-diff-builder';
-import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
-import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
 import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
@@ -433,7 +431,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
     }
 
     let builder = null;
-    const useLit = this.renderPrefs?.use_lit_components ?? false;
     if (this.isImageDiff) {
       builder = new GrDiffBuilderImage(
         this.diff,
@@ -452,45 +449,25 @@ export class GrDiffBuilderElement implements GroupConsumer {
         ...this.renderPrefs,
         view_mode: DiffViewMode.SIDE_BY_SIDE,
       };
-      if (useLit) {
-        builder = new GrDiffBuilderLit(
-          this.diff,
-          localPrefs,
-          this.diffElement,
-          this.layersInternal,
-          this.renderPrefs
-        );
-      } else {
-        builder = new GrDiffBuilderSideBySide(
-          this.diff,
-          localPrefs,
-          this.diffElement,
-          this.layersInternal,
-          this.renderPrefs
-        );
-      }
+      builder = new GrDiffBuilderLit(
+        this.diff,
+        localPrefs,
+        this.diffElement,
+        this.layersInternal,
+        this.renderPrefs
+      );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       this.renderPrefs = {
         ...this.renderPrefs,
         view_mode: DiffViewMode.UNIFIED,
       };
-      if (useLit) {
-        builder = new GrDiffBuilderLit(
-          this.diff,
-          localPrefs,
-          this.diffElement,
-          this.layersInternal,
-          this.renderPrefs
-        );
-      } else {
-        builder = new GrDiffBuilderUnified(
-          this.diff,
-          localPrefs,
-          this.diffElement,
-          this.layersInternal,
-          this.renderPrefs
-        );
-      }
+      builder = new GrDiffBuilderLit(
+        this.diff,
+        localPrefs,
+        this.diffElement,
+        this.layersInternal,
+        this.renderPrefs
+      );
     }
     if (!builder) {
       throw Error(`Unsupported diff view mode: ${this.viewMode}`);

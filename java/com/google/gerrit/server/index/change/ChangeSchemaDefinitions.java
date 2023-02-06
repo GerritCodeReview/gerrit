@@ -232,10 +232,19 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Add prefixsubject field. */
+  @Deprecated
   static final Schema<ChangeData> V81 =
       new Schema.Builder<ChangeData>()
           .add(V80)
           .addSearchSpecs(ChangeField.PREFIX_SUBJECT_SPEC)
+          .build();
+
+  /** Remove assignee field. */
+  static final Schema<ChangeData> V82 =
+      new Schema.Builder<ChangeData>()
+          .add(V81)
+          .remove(ChangeField.ASSIGNEE_SPEC)
+          .remove(ChangeField.ASSIGNEE_FIELD)
           .build();
 
   /**

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a3dc11_19b2a872",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-06T14:30:52Z",
+      "side": 0,
+      "message": "It seems like this statement was not accurately true; i.e. this boolean only affected the email template and IndexPreloadingUtil, but the attention set was still available on the change page and the server logic, right?",
+      "range": {
+        "startLine": 1579,
+        "startChar": 0,
+        "endLine": 1579,
+        "endChar": 54
+      },
+      "revId": "c0a3cc03284b55bc164b174b4a3822f67161d30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

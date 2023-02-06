@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3c7e6f_c82e2956",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-06T10:52:25Z",
+      "side": 1,
+      "message": "add before/after picture",
+      "revId": "7176eaf02d2d8876d215c5837dcfd66bd5f65203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "247a26db_e3777686",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-06T10:52:25Z",
+      "side": 1,
+      "message": "don\u0027t wrap",
+      "range": {
+        "startLine": 163,
+        "startChar": 11,
+        "endLine": 163,
+        "endChar": 91
+      },
+      "revId": "7176eaf02d2d8876d215c5837dcfd66bd5f65203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af3abc53_5d18e31e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-06T16:07:54Z",
+      "side": 0,
+      "message": "I think this line is not forward compatible and might fail if we did roll-fw / roll-back.\n\nIf you submit this change, new binaries will start writing the protos without the assignee field (serialize method does not store it anymore - line 522 that you removed). If we rolled back the binary for any reason, old releases will execute this line (try to parse the assignee list from the proto) but the proto won\u0027t have that field and it will fail.\n\nTo make this safe, please split this change into two: the first change should only make the server stop reading the assignee field from the serialized proto (i.e. only modify the deserialize method - also adapt the test). We can roll this change and wait for a while then submit another change to stop writing this field to the proto.\n\nAlternative:\nWe can update this line to make it safe w.r.t. for compatibility, i.e. add a condition that makes sure the field is set before accessing it.",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

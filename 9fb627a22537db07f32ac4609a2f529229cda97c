@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d13e60b_6e17e0e9",
+        "filename": "java/com/google/gerrit/extensions/events/AssigneeChangedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-06T14:50:47Z",
+      "side": 0,
+      "message": "You might want to consider removing any implementations of this interface in other plugins: https://cs.bazel.build/search?q\u003dAssigneeValidationListener\u0026num\u003d0 \n\nUsages seem only in `examples` and `cookbook`, which look like to being used in tutorials, etc...",
+      "revId": "9fb627a22537db07f32ac4609a2f529229cda97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

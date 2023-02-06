@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db4daaa_38357fe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-06T11:57:34Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: Was just a test",
+      "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "07af225c_52c1f90b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
@@ -20,10 +38,10 @@
         "endChar": 23
       },
       "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f545d20d_a5fe22c6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
@@ -44,10 +62,10 @@
         "endChar": 23
       },
       "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ff173d25_e3141130",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
@@ -68,8 +86,7 @@
         "endChar": 23
       },
       "revId": "b3ef7afda63decbcda2fd7b2a2e44a4ebf440867",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

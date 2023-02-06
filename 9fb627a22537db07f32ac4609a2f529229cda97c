@@ -16,6 +16,24 @@
       "message": "You might want to consider removing any implementations of this interface in other plugins: https://cs.bazel.build/search?q\u003dAssigneeValidationListener\u0026num\u003d0 \n\nUsages seem only in `examples` and `cookbook`, which look like to being used in tutorials, etc...",
       "revId": "9fb627a22537db07f32ac4609a2f529229cda97c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8346dda_99f92914",
+        "filename": "java/com/google/gerrit/extensions/events/AssigneeChangedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-06T15:12:08Z",
+      "side": 0,
+      "message": "Sent: \nhttps://gerrit-review.git.corp.google.com/c/plugins/examples/+/357482\n\nand\n\nhttps://gerrit-review.git.corp.google.com/c/plugins/cookbook-plugin/+/357483",
+      "parentUuid": "7d13e60b_6e17e0e9",
+      "revId": "9fb627a22537db07f32ac4609a2f529229cda97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

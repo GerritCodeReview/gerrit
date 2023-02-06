@@ -102,6 +102,13 @@ public class TestGroupBackend implements GroupBackend {
     memberships.put(user, membership);
   }
 
+  /**
+   * Remove a the memberships of the given user. No-op if the user does not have any memberships.
+   */
+  public void removeMembershipsOf(Account.Id user) {
+    memberships.remove(user);
+  }
+
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
     if (uuid != null) {

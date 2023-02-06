@@ -504,9 +504,9 @@ public class ChangeField {
           ATTENTION_SET_FULL_FIELD.storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL);
 
   /** The user assigned to the change. */
+  // The getter always returns NO_ASSIGNEE, since assignee field is deprecated.
   public static final IndexedField<ChangeData, Integer> ASSIGNEE_FIELD =
-      IndexedField.<ChangeData>integerBuilder("Assignee")
-          .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
+      IndexedField.<ChangeData>integerBuilder("Assignee").build(changeGetter(c -> NO_ASSIGNEE));
 
   public static final IndexedField<ChangeData, Integer>.SearchSpec ASSIGNEE_SPEC =
       ASSIGNEE_FIELD.integer(ChangeQueryBuilder.FIELD_ASSIGNEE);

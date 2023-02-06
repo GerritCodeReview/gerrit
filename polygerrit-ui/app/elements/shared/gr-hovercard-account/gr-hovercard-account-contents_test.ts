@@ -38,7 +38,7 @@ suite('gr-hovercard-account-contents tests', () => {
     email: 'kermit@gmail.com' as EmailAddress,
     username: 'kermit',
     name: 'Kermit The Frog',
-    status: 'I am a frog',
+    status: '  I am a frog  ',
     _account_id: 31415926535 as AccountId,
   };
 

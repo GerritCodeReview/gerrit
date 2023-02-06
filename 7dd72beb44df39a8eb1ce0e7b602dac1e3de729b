@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3e083b_c6248174",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-06T15:27:47Z",
+      "side": 1,
+      "message": "Thanks for splitting the removal into these series!\n\nYou\u0027d need to add a Forward-Compatible footer to the commit message.",
+      "revId": "7dd72beb44df39a8eb1ce0e7b602dac1e3de729b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

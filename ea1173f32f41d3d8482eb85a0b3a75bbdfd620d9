@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "650e5545_2dfc818c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-06T12:26:38Z",
+      "side": 1,
+      "message": "The fix makes sense but the fact that we generally check external group membership in a post filter predicate sounds very expensive and like asking for trouble :-P",
+      "range": {
+        "startLine": 18,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 66
+      },
+      "revId": "ea1173f32f41d3d8482eb85a0b3a75bbdfd620d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -247,7 +247,7 @@ suite('gr-comment-thread tests', () => {
                   role="button"
                   tabindex="0"
                 >
-                  Ack
+                  Acknowledge
                 </gr-button>
                 <gr-button
                   aria-disabled="false"
@@ -320,10 +320,10 @@ suite('gr-comment-thread tests', () => {
       await element.updateComplete;
     });
 
-    test('handle Ack', async () => {
+    test('handle Acknowledge', async () => {
       queryAndAssert<GrButton>(element, '#ackBtn').click();
       waitUntilCalled(stub, 'saveDraft()');
-      assert.equal(stub.lastCall.firstArg.message, 'Ack');
+      assert.equal(stub.lastCall.firstArg.message, 'Acknowledge');
       assert.equal(stub.lastCall.firstArg.unresolved, false);
       assert.isTrue(element.saving);
 

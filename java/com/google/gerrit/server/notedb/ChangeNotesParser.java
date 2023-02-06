@@ -903,10 +903,14 @@ class ChangeNotesParser {
     // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
     // Only parsed for backward compatibility
     // Footer has the following format in this case: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
-    int uuidStart = line.indexOf(", ");
-    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
-    if (uuidStart != -1) {
-      labelVoteStr = line.substring(0, uuidStart);
+    int firstComma = line.indexOf(',');
+    int firstSpace = line.indexOf(' ');
+    // We need some additional logic to differentiate between labels that have a UUID and those that
+    // have a user with a comma.
+    boolean hasUuid = firstComma != -1 && firstComma < firstSpace;
+    int reviewerStart = line.indexOf(' ', hasUuid ? firstComma + 2 : 0);
+    if (hasUuid) {
+      labelVoteStr = line.substring(0, firstComma);
     } else if (reviewerStart != -1) {
       labelVoteStr = line.substring(0, reviewerStart);
     } else {

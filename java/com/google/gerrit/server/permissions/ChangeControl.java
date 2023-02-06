@@ -133,16 +133,6 @@ class ChangeControl {
     return false;
   }
 
-  /** Is this user assigned to this change? */
-  private boolean isAssignee() {
-    Account.Id currentAssignee = getChange().getAssignee();
-    if (currentAssignee != null && getUser().isIdentifiedUser()) {
-      Account.Id id = getUser().getAccountId();
-      return id.equals(currentAssignee);
-    }
-    return false;
-  }
-
   /** Is this user a reviewer for the change? */
   private boolean isReviewer(ChangeData cd) {
     if (getUser().isIdentifiedUser()) {
@@ -182,13 +172,6 @@ class ChangeControl {
           || getProjectControl().isAdmin();
     }
     return false;
-  }
-
-  private boolean canEditAssignee() {
-    return isOwner()
-        || getProjectControl().isOwner()
-        || refControl.canPerform(Permission.EDIT_ASSIGNEE)
-        || isAssignee();
   }
 
   /** Can this user edit the hashtag name? */
@@ -275,8 +258,6 @@ class ChangeControl {
             return getProjectControl().isAdmin() || refControl.canDeleteChanges(isOwner());
           case ADD_PATCH_SET:
             return canAddPatchSet();
-          case EDIT_ASSIGNEE:
-            return canEditAssignee();
           case EDIT_DESCRIPTION:
             return canEditDescription();
           case EDIT_HASHTAGS:

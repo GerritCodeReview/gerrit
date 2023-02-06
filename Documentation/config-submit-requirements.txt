@@ -168,6 +168,14 @@ specific regular expression pattern. The
 link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for the evaluation of such patterns.
 
+[[operator_uploaderemail]]
+uploaderemail:'EMAIL_PATTERN'::
++
+An operator that returns true if the change uploader's primary email address
+matches a specific regular expression pattern. The
+link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns.
+
 [[operator_distinctvoters]]
 distinctvoters:'[Label1,Label2,...,LabelN],value=MAX,count>1'::
 +

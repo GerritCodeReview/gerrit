@@ -415,8 +415,8 @@ const appThemeCss = safeStyleSheet`
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --focused-line-outline-color: var(--blue-700);
     --coverage-covered-line-num-color: var(--deemphasized-text-color);
-    --coverage-covered: #e0f2f1;
-    --coverage-not-covered: #ffd1a4;
+    --coverage-covered: var(--cyan-100);
+    --coverage-not-covered: var(--orange-100);
     --ranged-comment-hint-text-color: var(--orange-900);
     --token-highlighting-color: #fffd54;
 

@@ -241,9 +241,9 @@ const darkThemeCss = safeStyleSheet`
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --focused-line-outline-color: var(--blue-200);
-    --coverage-covered: #37674a;
+    --coverage-covered: var(--cyan-tonal);
     --coverage-covered-line-num-color: var(--gray-200);
-    --coverage-not-covered: #6b3600;
+    --coverage-not-covered: var(--orange-tonal);
     --ranged-comment-hint-text-color: var(--blue-50);
     --token-highlighting-color: var(--yellow-tonal);
 

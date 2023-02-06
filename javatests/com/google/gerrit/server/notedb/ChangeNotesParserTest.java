@@ -168,6 +168,18 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseApprovaNoUUIDUserWithComma() throws Exception {
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Label: Code-Review=+1 User Name (company_name, department) <2@gerrit>\n"
+            + "Subject: This is a test change\n");
+  }
+
+  @Test
   public void parseCopiedApproval() throws Exception {
     assertParseSucceeds(
         "Update change\n"

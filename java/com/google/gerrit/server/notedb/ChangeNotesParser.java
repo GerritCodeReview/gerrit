@@ -107,6 +107,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final String LABEL_VOTE_UUID_SEPARATOR = ", ";
+
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
   private final NoteDbMetrics metrics;
@@ -801,6 +803,42 @@ class ChangeNotesParser {
     }
   }
 
+  // Return the UUID start index or -1 if no UUID is present
+  private int parseCopiedApprovalUuidStart(String line, int tagStart) {
+    int separatorIndex = line.indexOf(LABEL_VOTE_UUID_SEPARATOR);
+
+    // The first part of the condition checks whether the footer has the following format:
+    //   Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
+    //   Weird tag that contains uuid delimiter. The uuid is actually not present.
+    if ((tagStart != -1 && separatorIndex > tagStart)
+        ||
+
+        // The second part of the condition allows us to distinguish the following two lines:
+        //   Label2=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit>
+        //   Label2=+1 User Name (company_name, department) <2@gerrit>
+        (line.indexOf(' ') < separatorIndex)) {
+      return -1;
+    }
+    return separatorIndex;
+  }
+
+  // Splitting on "," breaks for identities containing commas. The below re-implements splitting on
+  // "(?<=>),", but it's 3-5x faster, as performance is an important consideration for this part of
+  // the code.
+  private String[] parseIdentities(String line) {
+    String[] idents = line.split(",");
+    List<String> identitiesList = new ArrayList<>();
+    for (int i = 0; i < idents.length; i++) {
+      if (i == 0 || idents[i - 1].endsWith(">")) {
+        identitiesList.add(idents[i]);
+      } else {
+        int lastIndex = identitiesList.size() - 1;
+        identitiesList.set(lastIndex, identitiesList.get(lastIndex) + "," + idents[i]);
+      }
+    }
+    return identitiesList.toArray(new String[0]);
+  }
+
   // Footer example: Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
   // ":<"TAG>"" is optional. <Gerrit Real Account> is also optional, if it was not set.
   // The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
@@ -817,14 +855,9 @@ class ChangeNotesParser {
     int tagStart = line.indexOf(":\"");
     // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
     // Only parsed for backward compatibility
-    // Footer has the following format in this case:
-    // Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
-    int uuidStart = line.indexOf(", ");
-    // Wired tag that contains uuid delimiter. The uuid is actually not present.
-    if (tagStart != -1 && uuidStart > tagStart) {
-      uuidStart = -1;
-    }
-    int identitiesStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+    int uuidStart = parseCopiedApprovalUuidStart(line, tagStart);
+    int identitiesStart =
+        line.indexOf(' ', uuidStart != -1 ? uuidStart + LABEL_VOTE_UUID_SEPARATOR.length() : 0);
     // The first account is the accountId, and second (if applicable) is the realAccountId.
     try {
       labelVoteStr = line.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
@@ -832,7 +865,9 @@ class ChangeNotesParser {
       throw new ConfigInvalidException(ex.getMessage(), ex);
     }
     String[] identities =
-        line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart).split(",");
+        parseIdentities(
+            line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart));
+
     PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
     checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
     accountId = parseIdent(ident);
@@ -902,11 +937,22 @@ class ChangeNotesParser {
     String labelVoteStr;
     // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
     // Only parsed for backward compatibility
+    int voteUuidSeparatorIndex = line.indexOf(LABEL_VOTE_UUID_SEPARATOR);
+    // We need some additional logic to differentiate between labels that have a UUID and those that
+    // have a user with a comma. This allows us to separate the following cases (note that the
+    // leading `Label: ` has been elided at this point):
+    //   Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+    //   Label: <LABEL>=VOTE <Gerrit, Account>
+    // As neither a comma nor a space are allowed in the label name or its vote by specification:
+    // * If we have no `LABEL_VOTE_UUID_SEPARATOR` (i.e. ", "), the line doesn't have a UUID
+    // * If we do, the line has a UUID only if it appears before the first space
+    boolean hasUuid = voteUuidSeparatorIndex != -1 && voteUuidSeparatorIndex < line.indexOf(' ');
+    int reviewerStart =
+        line.indexOf(
+            ' ', hasUuid ? voteUuidSeparatorIndex + LABEL_VOTE_UUID_SEPARATOR.length() : 0);
     // Footer has the following format in this case: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
-    int uuidStart = line.indexOf(", ");
-    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
-    if (uuidStart != -1) {
-      labelVoteStr = line.substring(0, uuidStart);
+    if (hasUuid) {
+      labelVoteStr = line.substring(0, voteUuidSeparatorIndex);
     } else if (reviewerStart != -1) {
       labelVoteStr = line.substring(0, reviewerStart);
     } else {

@@ -22,6 +22,30 @@
       },
       "revId": "c0a3cc03284b55bc164b174b4a3822f67161d30e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cede10_a762188f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-06T14:33:25Z",
+      "side": 0,
+      "message": "Yes, as far as I understand. The flag only affecting those two things. And the concept of this flag didn\u0027t exist in the Web UI code at all.",
+      "parentUuid": "45a3dc11_19b2a872",
+      "range": {
+        "startLine": 1579,
+        "startChar": 0,
+        "endLine": 1579,
+        "endChar": 54
+      },
+      "revId": "c0a3cc03284b55bc164b174b4a3822f67161d30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

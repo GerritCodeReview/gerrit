@@ -25,6 +25,7 @@ import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate.FileEditsArgs;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPredicate;
+import com.google.gerrit.server.submitrequirement.predicate.RegexCommitterEmailPredicate;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
@@ -126,6 +127,11 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   @Operator
   public Predicate<ChangeData> authoremail(String who) throws QueryParseException {
     return new RegexAuthorEmailPredicate(who);
+  }
+
+  @Operator
+  public Predicate<ChangeData> committerEmail(String who) throws QueryParseException {
+    return new RegexCommitterEmailPredicate(who);
   }
 
   @Operator

@@ -578,7 +578,7 @@ export class GrCommentThread extends LitElement {
                     class="action ack"
                     ?disabled=${this.saving}
                     @click=${this.handleCommentAck}
-                    >Ack</gr-button
+                    >Acknowledge</gr-button
                   >
                   <gr-button
                     id="doneBtn"
@@ -883,7 +883,7 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleCommentAck() {
-    this.createReplyComment('Ack', false, false);
+    this.createReplyComment('Acknowledge', false, false);
   }
 
   private handleCommentDone() {

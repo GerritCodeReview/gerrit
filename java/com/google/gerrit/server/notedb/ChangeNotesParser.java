@@ -83,6 +83,7 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -819,20 +820,30 @@ class ChangeNotesParser {
     // Only parsed for backward compatibility
     // Footer has the following format in this case:
     // Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
-    int uuidStart = line.indexOf(", ");
+    String voteUuidSeparator = ", ";
+    int uuidStart = line.indexOf(voteUuidSeparator);
+    // The first part of the 'if' allows us to distinguish the following two lines:
+    //   Label2=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit>
+    //   Label2=+1 User Name (company_name, department) <2@gerrit>
     // Wired tag that contains uuid delimiter. The uuid is actually not present.
-    if (tagStart != -1 && uuidStart > tagStart) {
+    int firstSpace = line.indexOf(' ');
+    if ((firstSpace < uuidStart) || (tagStart != -1 && uuidStart > tagStart)) {
       uuidStart = -1;
     }
-    int identitiesStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+    int identitiesStart =
+        line.indexOf(' ', uuidStart != -1 ? uuidStart + voteUuidSeparator.length() : 0);
     // The first account is the accountId, and second (if applicable) is the realAccountId.
     try {
       labelVoteStr = line.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
     } catch (StringIndexOutOfBoundsException ex) {
       throw new ConfigInvalidException(ex.getMessage(), ex);
     }
+    // We split on ">," to allow identities with commas. Caveat, we now don't support identities
+    // with ">,.
+    String identitiesSubstring =
+        line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart);
     String[] identities =
-        line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart).split(",");
+        Arrays.stream(identitiesSubstring.split(">,")).map(id -> id + ">").toArray(String[]::new);
     PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
     checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
     accountId = parseIdent(ident);
@@ -902,11 +913,23 @@ class ChangeNotesParser {
     String labelVoteStr;
     // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
     // Only parsed for backward compatibility
+    String voteUuidSeparator = ", ";
+    int voteUuidSeparatorIndex = line.indexOf(voteUuidSeparator);
+    int firstSpace = line.indexOf(' ');
+    // We need some additional logic to differentiate between labels that have a UUID and those that
+    // have a user with a comma. This allows us to separate the following cases (note that the
+    // leading `Label: ` has been elided at this point):
+    //   Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+    //   Label: <LABEL>=VOTE <Gerrit, Account>
+    // As neither a comma nor a space are allowed in the label name or its vote by specification:
+    // * If we have no comma (i.e. `voteUuidSeparator`), we can't have a line with a UUID
+    // * If we do, we have a UUID in the line only if it appears before the space
+    boolean hasUuid = voteUuidSeparatorIndex != -1 && voteUuidSeparatorIndex < firstSpace;
+    int reviewerStart =
+        line.indexOf(' ', hasUuid ? voteUuidSeparatorIndex + voteUuidSeparator.length() : 0);
     // Footer has the following format in this case: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
-    int uuidStart = line.indexOf(", ");
-    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
-    if (uuidStart != -1) {
-      labelVoteStr = line.substring(0, uuidStart);
+    if (hasUuid) {
+      labelVoteStr = line.substring(0, voteUuidSeparatorIndex);
     } else if (reviewerStart != -1) {
       labelVoteStr = line.substring(0, reviewerStart);
     } else {

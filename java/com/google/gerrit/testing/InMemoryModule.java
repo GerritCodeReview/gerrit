@@ -21,6 +21,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.auth.AuthModule;
@@ -279,6 +281,7 @@ public class InMemoryModule extends FactoryModule {
     install(new ConfigExperimentFeaturesModule());
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
+    bind(GroupOperations.class).to(GroupOperationsImpl.class);
     bind(TestGroupBackend.class).in(SINGLETON);
     DynamicSet.bind(binder(), GroupBackend.class).to(TestGroupBackend.class);
   }

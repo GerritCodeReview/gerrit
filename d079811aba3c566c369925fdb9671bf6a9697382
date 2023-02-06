@@ -16,6 +16,24 @@
       "message": "This might also break plugins that might be implementing this interface. You could check references in https://cs.bazel.build",
       "revId": "d079811aba3c566c369925fdb9671bf6a9697382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c9ed9c4_ea59c8c7",
+        "filename": "java/com/google/gerrit/server/validators/AssigneeValidationListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-06T15:20:41Z",
+      "side": 0,
+      "message": "Sent the changes for the plugins",
+      "parentUuid": "de6e3e5b_524173f7",
+      "revId": "d079811aba3c566c369925fdb9671bf6a9697382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

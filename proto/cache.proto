@@ -198,14 +198,7 @@ message ChangeNotesStateProto {
   string server_id = 20;
   bool has_server_id = 21;
 
-  message AssigneeStatusUpdateProto {
-    // Epoch millis.
-    int64 timestamp_millis = 1;
-    int32 updated_by = 2;
-    int32 current_assignee = 3;
-    bool has_current_assignee = 4;
-  }
-  repeated AssigneeStatusUpdateProto assignee_update = 22;
+  reserved 22;  // assignee_update;
 
   // An update to the attention set of the change. See class AttentionSetUpdate
   // for context.

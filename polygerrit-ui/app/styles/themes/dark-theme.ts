@@ -123,8 +123,8 @@ const darkThemeCss = safeStyleSheet`
     /* directly derived from primary background colors */
     /*   empty, because inheriting from app-theme is just fine
       /* unique background colors */
-    --assignee-highlight-color: #3a361c;
-    --assignee-highlight-selection-color: #423e24;
+    --line-item-highlight-color: #3a361c;
+    --line-item-highlight-selection-color: #423e24;
     --chip-selected-background-color: #3c4455;
     --edit-mode-background-color: #5c0a36;
     --emphasis-color: #383f4a;

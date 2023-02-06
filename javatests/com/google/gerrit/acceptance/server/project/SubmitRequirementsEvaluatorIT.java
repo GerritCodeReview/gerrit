@@ -493,6 +493,40 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         SubmitRequirementResult.Status.UNSATISFIED);
   }
 
+  @Test
+  public void byCommitterEmail() throws Exception {
+    TestAccount user2 =
+        accountCreator.create("Foo", "user@example.com", "User", /* displayName = */ null);
+    requestScopeOperations.setApiUser(user2.id());
+    ChangeInfo info =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get();
+    ChangeData cd =
+        changeQueryProvider
+            .get()
+            .byLegacyChangeId(Change.Id.tryParse(Integer.toString(info._number)).get())
+            .get(0);
+
+    // Match by email works
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "committeremail:\"^.*@example\\.com\"",
+        SubmitRequirementResult.Status.SATISFIED);
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "committeremail:\"^user@.*\\.com\"",
+        SubmitRequirementResult.Status.SATISFIED);
+
+    // Match by name does not work
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "committeremail:\"^Foo$\"",
+        SubmitRequirementResult.Status.UNSATISFIED);
+    checkSubmitRequirementResult(
+        cd,
+        /* submittabilityExpr= */ "committeremail:\"^User$\"",
+        SubmitRequirementResult.Status.UNSATISFIED);
+  }
+
   private void checkSubmitRequirementResult(
       ChangeData cd, String submittabilityExpr, SubmitRequirementResult.Status expectedStatus) {
     SubmitRequirement sr =

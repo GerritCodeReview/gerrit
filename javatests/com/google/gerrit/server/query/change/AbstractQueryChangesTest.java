@@ -46,12 +46,14 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.FakeSubmitRule;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -198,6 +200,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AuthRequest.Factory authRequestFactory;
   @Inject protected ExternalIdFactory externalIdFactory;
   @Inject protected ProjectOperations projectOperations;
+  @Inject protected GroupOperations groupOperations;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
 
@@ -739,6 +742,38 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("ownerin:\"Registered Users\"", change3, change2, change1);
     assertQuery("ownerin:\"Registered Users\" project:repo", change3, change2, change1);
     assertQuery("ownerin:\"Registered Users\" status:merged", change3);
+
+    GroupDescription.Basic externalGroup = testGroupBackend.create("External Group");
+    try {
+      testGroupBackend.setMembershipsOf(
+          user2, new ListGroupMembership(ImmutableList.of(externalGroup.getGroupUUID())));
+
+      assertQuery("ownerin:\"" + "testbackend:" + externalGroup.getName() + "\"", change3, change2);
+
+      String nameOfGroupThatContainsExternalGroupAsSubgroup = "test-group-1";
+      AccountGroup.UUID uuidOfGroupThatContainsExternalGroupAsSubgroup =
+          groupOperations
+              .newGroup()
+              .name(nameOfGroupThatContainsExternalGroupAsSubgroup)
+              .addSubgroup(externalGroup.getGroupUUID())
+              .create();
+      assertQuery(
+          "ownerin:\"" + nameOfGroupThatContainsExternalGroupAsSubgroup + "\"", change3, change2);
+
+      String nameOfGroupThatContainsExternalGroupAsSubSubgroup = "test-group-2";
+      groupOperations
+          .newGroup()
+          .name(nameOfGroupThatContainsExternalGroupAsSubSubgroup)
+          .addSubgroup(uuidOfGroupThatContainsExternalGroupAsSubgroup)
+          .create();
+      assertQuery(
+          "ownerin:\"" + nameOfGroupThatContainsExternalGroupAsSubSubgroup + "\"",
+          change3,
+          change2);
+    } finally {
+      testGroupBackend.removeMembershipsOf(user2);
+      testGroupBackend.remove(externalGroup.getGroupUUID());
+    }
   }
 
   @Test
@@ -753,6 +788,37 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     CurrentUser user2CurrentUser = userFactory.create(user2);
     newPatchSet(repo, change1, user2CurrentUser);
     assertQuery("uploaderin:Administrators");
+    assertQuery("uploaderin:\"Registered Users\"", change1);
+
+    GroupDescription.Basic externalGroup = testGroupBackend.create("External Group");
+    try {
+      testGroupBackend.setMembershipsOf(
+          user2, new ListGroupMembership(ImmutableList.of(externalGroup.getGroupUUID())));
+
+      assertQuery("uploaderin:\"" + "testbackend:" + externalGroup.getName() + "\"", change1);
+
+      String nameOfGroupThatContainsExternalGroupAsSubgroup = "test-group-1";
+      AccountGroup.UUID uuidOfGroupThatContainsExternalGroupAsSubgroup =
+          groupOperations
+              .newGroup()
+              .name(nameOfGroupThatContainsExternalGroupAsSubgroup)
+              .addSubgroup(externalGroup.getGroupUUID())
+              .create();
+      assertQuery("uploaderin:\"" + nameOfGroupThatContainsExternalGroupAsSubgroup + "\"", change1);
+
+      String nameOfGroupThatContainsExternalGroupAsSubSubgroup = "test-group-2";
+      groupOperations
+          .newGroup()
+          .name(nameOfGroupThatContainsExternalGroupAsSubSubgroup)
+          .addSubgroup(uuidOfGroupThatContainsExternalGroupAsSubgroup)
+          .create();
+      assertQuery(
+          "uploaderin:\"" + nameOfGroupThatContainsExternalGroupAsSubSubgroup + "\"", change1);
+
+    } finally {
+      testGroupBackend.removeMembershipsOf(user2);
+      testGroupBackend.remove(externalGroup.getGroupUUID());
+    }
   }
 
   @Test

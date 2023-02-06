@@ -15,6 +15,7 @@ java_library(
     runtime_deps = ["//java/com/google/gerrit/index/testing"],
     deps = [
         "//java/com/google/gerrit/acceptance/config",
+        "//java/com/google/gerrit/acceptance/testsuite/group",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/common:annotations",

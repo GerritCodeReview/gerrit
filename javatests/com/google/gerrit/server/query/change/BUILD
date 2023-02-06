@@ -19,6 +19,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/acceptance/config",
+        "//java/com/google/gerrit/acceptance/testsuite/group",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",

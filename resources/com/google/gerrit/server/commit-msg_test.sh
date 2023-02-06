@@ -43,6 +43,31 @@ EOF
   fi
 }
 
+function test_empty_with_cutoff {
+  rm -f input
+  cat << EOF > input
+# Please enter the commit message for your changes.
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+diff --git a/file.txt b/file.txt
+index 625fd613d9..03aeba3b21 100755
+--- a/file.txt
++++ b/file.txt
+@@ -38,6 +38,7 @@
+ context
+ line
+ 
++hello, world
+ 
+ context
+ line
+EOF
+  if ${hook} input ; then
+    fail "must fail on empty message"
+  fi
+}
+
 function test_keep_cutoff_line {
   if ! prereq_modern_git ; then
     echo "old version of Git detected; skipping scissors test."

@@ -588,7 +588,7 @@ export class GrReplyDialog extends LitElement {
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
         margin-top: var(--spacing-m);
-        background-color: var(--assignee-highlight-color);
+        background-color: var(--line-item-highlight-color);
       }
       .attentionTip div gr-icon {
         margin-right: var(--spacing-s);

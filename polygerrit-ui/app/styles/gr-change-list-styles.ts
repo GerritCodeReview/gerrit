@@ -14,11 +14,11 @@ export const changeListStyles = css`
     background-color: var(--selection-background-color);
   }
   gr-change-list-item[highlight] {
-    background-color: var(--assignee-highlight-color);
+    background-color: var(--line-item-highlight-color);
   }
   gr-change-list-item[highlight][selected],
   gr-change-list-item[highlight]:focus {
-    background-color: var(--assignee-highlight-selection-color);
+    background-color: var(--line-item-highlight-selection-color);
   }
   .groupTitle td,
   .cell {

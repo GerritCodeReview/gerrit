@@ -513,7 +513,6 @@ suite('gr-change-list basic tests', () => {
 
   test('obsolete column in preferences not visible', () => {
     assert.isTrue(element.isColumnEnabled('Subject'));
-    assert.isFalse(element.isColumnEnabled('Assignee'));
   });
 
   test('showStar and showNumber', async () => {

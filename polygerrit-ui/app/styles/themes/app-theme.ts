@@ -248,10 +248,13 @@ const appThemeCss = safeStyleSheet`
     --table-subheader-background-color: var(--background-color-tertiary);
     --view-background-color: var(--background-color-primary);
     /* unique background colors */
+    /* TODO: Remove assignee colors once references are migrated */
     --assignee-highlight-color: #fcfad6;
-    /* TODO: Find a nicer way to combine the --assignee-highlight-color and the
-       --selection-background-color than to just invent another unique color. */
     --assignee-highlight-selection-color: #f6f4d0;
+    --line-item-highlight-color: #fcfad6;
+    /* TODO: Find a nicer way to combine the --line-item-highlight-color and the
+       --selection-background-color than to just invent another unique color. */
+    --line-item-highlight-selection-color: #f6f4d0;
     --chip-selected-background-color: var(--blue-50);
     --edit-mode-background-color: #ebf5fb;
     --emphasis-color: #fff9c4;

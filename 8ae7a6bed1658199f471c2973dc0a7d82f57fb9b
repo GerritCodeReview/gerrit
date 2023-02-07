@@ -88,6 +88,24 @@
       "parentUuid": "8e21e2ce_88899951",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "609af017_76750252",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-07T13:54:30Z",
+      "side": 0,
+      "message": "Discussed and it was cleared, that because of proto forward compatibility promises this works as intended without any additional changes.",
+      "parentUuid": "adb43ecd_279a9362",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

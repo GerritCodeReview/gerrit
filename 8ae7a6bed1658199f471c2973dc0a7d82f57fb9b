@@ -70,6 +70,24 @@
       "parentUuid": "4c4d227b_6958695f",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb43ecd_279a9362",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-07T08:41:01Z",
+      "side": 0,
+      "message": "The part which I don\u0027t understand is why you think, that {code_old} will fail for {data_new}\n\nLet\u0027s talk when you get to the office",
+      "parentUuid": "8e21e2ce_88899951",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

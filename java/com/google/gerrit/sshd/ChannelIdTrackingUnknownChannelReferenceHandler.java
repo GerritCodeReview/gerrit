@@ -59,9 +59,47 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
     int channelId = channel.getId();
     Session session = channel.getSession();
     Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
-    logger.atFine().log(
+    logger.atFinest().log(
         "channelInitialized(%s) updated last tracked channel ID %s => %s",
         channel, lastTracked, channelId);
+  }
+
+  @Override
+  public void channelOpenSuccess(Channel channel) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
+    logger.atFinest().log(
+        "channelOpenSuccess(%s) : %s (lastTracked=%s)", channel, channelId, lastTracked);
+  }
+
+  @Override
+  public void channelOpenFailure(Channel channel, Throwable reason) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
+    logger.atFinest().log(
+        "channelOpenFailure(%s) : %s : %s (lastTracked=%s)",
+        channel, channelId, reason, lastTracked);
+  }
+
+  @Override
+  public void channelClosed(Channel channel, Throwable reason) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
+    logger.atFinest().log(
+        "channelClosed(%s) : %s : %s (lastTracked=%s)", channel, channelId, reason, lastTracked);
+  }
+
+  @Override
+  public void channelStateChanged(Channel channel, String hint) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
+    logger.atFinest().log(
+        "channelStateChanged(%s) : %s : %s (lastTracked=%s)",
+        channel, channelId, hint, lastTracked);
   }
 
   @Override
@@ -85,6 +123,8 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
             + channelId
             + " (last assigned="
             + lastTracked
+            + ", session.isOpen="
+            + session.isOpen()
             + ")");
   }
 }

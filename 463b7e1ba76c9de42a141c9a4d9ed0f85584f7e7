@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4637346d_30f3f9c6",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/RegexCommitterEmailPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-07T08:25:58Z",
+      "side": 1,
+      "message": "We do this in other predicates as well, though, I wonder why we remove the anchors.",
+      "revId": "463b7e1ba76c9de42a141c9a4d9ed0f85584f7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f882d0_8290292f",
+        "filename": "Documentation/pgm-CreateAccount.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-07T14:30:53Z",
+      "side": 1,
+      "message": "java -jar bin/gerrit.war -h\n\ndoes not list this command, is this intentional ?",
+      "revId": "20debafb9cae2e19ddd698c767b0fd9a5e5bdcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a37b4d_9afd2059",
+        "filename": "Documentation/pgm-CreateAccount.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-07T14:30:53Z",
+      "side": 1,
+      "message": "Maybe link to Documentation/rest-api-accounts.html#create-account which is the equivalent REST API ?\n\nMention that this command can only run offline ?",
+      "revId": "20debafb9cae2e19ddd698c767b0fd9a5e5bdcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80a8f33e_04b4430b",
+        "filename": "java/com/google/gerrit/pgm/CreateAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-07T14:30:53Z",
+      "side": 1,
+      "message": "HTTP Password:",
+      "range": {
+        "startLine": 191,
+        "startChar": 38,
+        "endLine": 191,
+        "endChar": 46
+      },
+      "revId": "20debafb9cae2e19ddd698c767b0fd9a5e5bdcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd0a3a6_78cb7dfb",
+        "filename": "java/com/google/gerrit/pgm/CreateAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-07T14:30:53Z",
+      "side": 1,
+      "message": "If the passed sshKey is invalid the command shows the error \"fatal: Invalid SSH Key\" and creates the account without a ssh key. I think it would be better to not create the user in that case or prompt the user for a valid ssh key.",
+      "revId": "20debafb9cae2e19ddd698c767b0fd9a5e5bdcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

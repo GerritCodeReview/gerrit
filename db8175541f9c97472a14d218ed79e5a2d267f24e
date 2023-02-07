@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07beab63_b2404e0c",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T17:04:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6814a324_b1f8dc4b",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7e73a98_e15c900e",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-03T13:07:51Z",
       "side": 1,
       "message": "The comment is not clear to me here. The check is about \"is change obsolete\" but the comment is about \"change number has changed\".",
+      "range": {
+        "startLine": 2083,
+        "startChar": 0,
+        "endLine": 2085,
+        "endChar": 68
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5975c6c5_b376f9d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2085,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T17:04:31Z",
+      "side": 1,
+      "message": "I have removed this comment in favor of the long existing comment on `isChangeObsolete()`. I guess that is better than repeating it here.",
+      "parentUuid": "a7e73a98_e15c900e",
       "range": {
         "startLine": 2083,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cd2cb20_c3d7c7fb",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T17:04:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "884520ba_1e1410c5",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73f81cac_9f9def0d",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-02-03T13:07:51Z",
       "side": 1,
       "message": "I can\u0027t understand this comment. In what way would we have used \"undefined\". How exactly setting change number here, facilitates caching?",
+      "range": {
+        "startLine": 247,
+        "startChar": 8,
+        "endLine": 249,
+        "endChar": 34
+      },
+      "revId": "db8175541f9c97472a14d218ed79e5a2d267f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d292cc_ce386283",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T17:04:31Z",
+      "side": 1,
+      "message": "Setting `this.changeNum \u003d undefined` means that the cache (of `keyed()`) is invalidated and thus the views are not re-used when going from change view to settings view and then back to change view (for the same change).\n\nBut thinking about it, this is really a micro-optimization. Let\u0027s make the code simple and remove that. The user will rarely benefit from such a re-use. It might actually be beneficial to load fresh data when the user comes back to a change.",
+      "parentUuid": "73f81cac_9f9def0d",
       "range": {
         "startLine": 247,
         "startChar": 8,

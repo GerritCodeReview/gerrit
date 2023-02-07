@@ -39,6 +39,48 @@
       "message": "Should this be the account ID who made the update?",
       "revId": "a35a8457a79ec2dcb4c62a1de743d7bb43b0f828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd69532f_574e26c4",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-07T18:36:38Z",
+      "side": 1,
+      "message": "I was worried that the updater might not be available, and looking at the usages of #fire, this is a common practice to pass null.\n\nLooks like we can get the uploader, so updated.",
+      "parentUuid": "7adf83bb_fac2a0c7",
+      "revId": "a35a8457a79ec2dcb4c62a1de743d7bb43b0f828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "043f81f7_13275090",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-07T18:36:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "31291e9c_b2deb333",
+      "range": {
+        "startLine": 815,
+        "startChar": 48,
+        "endLine": 815,
+        "endChar": 52
+      },
+      "revId": "a35a8457a79ec2dcb4c62a1de743d7bb43b0f828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

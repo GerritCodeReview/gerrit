@@ -18,8 +18,10 @@ import {
 } from '../../../utils/date-util';
 import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
-import {Timestamp} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
+import {PreferencesInfo, Timestamp} from '../../../types/common';
+import {resolve} from '../../../models/dependency';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -95,7 +97,7 @@ export class GrDateFormatter extends LitElement {
   @state()
   relative = false;
 
-  private readonly restApiService = getAppContext().restApiService;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   static override get styles() {
     return [
@@ -108,17 +110,30 @@ export class GrDateFormatter extends LitElement {
     ];
   }
 
-  override render() {
-    if (!this.withTooltip) {
-      return this.renderDateString();
-    }
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      prefs => this.setPreferences(prefs)
+    );
+  }
 
-    const fullDateStr = this.computeFullDateStr();
-    if (!fullDateStr) {
-      return this.renderDateString();
-    }
+  // private but used by tests
+  setPreferences(prefs: PreferencesInfo) {
+    this.decideDateFormat(prefs.date_format);
+    this.decideTimeFormat(prefs.time_format);
+    this.relative =
+      this.forceRelative || Boolean(prefs?.relative_date_in_change_table);
+  }
+
+  override render() {
+    if (!this.withTooltip) return this.renderDateString();
+    const tooltip = this.computeFullDateStr();
+    if (!tooltip) return this.renderDateString();
+
     return html`
-      <gr-tooltip-content has-tooltip title=${fullDateStr}>
+      <gr-tooltip-content has-tooltip title=${tooltip}>
         ${this.renderDateString()}
       </gr-tooltip-content>
     `;
@@ -128,36 +143,9 @@ export class GrDateFormatter extends LitElement {
     return html` <span>${this.computeDateStr()}</span>`;
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.loadPreferences();
-  }
-
   // private but used by tests
-  _getUtcOffsetString() {
+  getUtcOffsetString() {
     return utcOffsetString();
-  }
-
-  // private but used by tests
-  async loadPreferences() {
-    const loggedIn = await this.restApiService.getLoggedIn();
-    if (!loggedIn) {
-      this.timeFormat = TimeFormats.TIME_24;
-      this.dateFormat = DateFormats.STD;
-      this.relative = this.forceRelative;
-      return;
-    }
-    await Promise.all([this.loadTimeFormat(), this.loadRelative()]);
-  }
-
-  // private but used in gr/file-list_test.ts
-  async loadTimeFormat() {
-    const preferences = await this.restApiService.getPreferences();
-    if (!preferences) {
-      throw Error('Preferences is not set');
-    }
-    this.decideTimeFormat(preferences.time_format);
-    this.decideDateFormat(preferences.date_format);
   }
 
   private decideTimeFormat(timeFormat: TimeFormat) {
@@ -195,12 +183,6 @@ export class GrDateFormatter extends LitElement {
     }
   }
 
-  private async loadRelative() {
-    const prefs = await this.restApiService.getPreferences();
-    this.relative =
-      this.forceRelative || Boolean(prefs?.relative_date_in_change_table);
-  }
-
   private computeDateStr() {
     if (!this.dateStr || !this.timeFormat || !this.dateFormat) {
       return '';
@@ -222,33 +204,24 @@ export class GrDateFormatter extends LitElement {
       if (isWithinHalfYear(now, date)) {
         format = this.dateFormat.short;
       }
-      if (this.showDateAndTime || this.showDateAndTime) {
+      if (this.showDateAndTime) {
         format = `${format} ${this.timeFormat}`;
       }
     }
     return formatDate(date, format);
   }
 
-  private computeFullDateStr() {
-    if (
-      [this.dateStr, this.timeFormat].includes(undefined) ||
-      !this.dateFormat
-    ) {
-      return undefined;
-    }
-
-    if (!this.dateStr) {
-      return '';
-    }
+  private computeFullDateStr(): string {
+    if (!this.dateStr) return '';
+    if (!this.timeFormat) return '';
+    if (!this.dateFormat) return '';
     const date = parseDate(this.dateStr as Timestamp);
-    if (!isValidDate(date)) {
-      return '';
-    }
-    let format = this.dateFormat.full + ', ';
-    format +=
+    if (!isValidDate(date)) return '';
+    const timeFormat =
       this.timeFormat === TimeFormats.TIME_12
         ? TimeFormats.TIME_12_WITH_SEC
         : TimeFormats.TIME_24_WITH_SEC;
-    return formatDate(date, format) + this._getUtcOffsetString();
+    const format = this.dateFormat.full + ', ' + timeFormat;
+    return formatDate(date, format) + this.getUtcOffsetString();
   }
 }

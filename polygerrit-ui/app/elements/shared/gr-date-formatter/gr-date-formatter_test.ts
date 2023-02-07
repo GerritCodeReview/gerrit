@@ -8,16 +8,15 @@ import './gr-date-formatter';
 import {GrDateFormatter} from './gr-date-formatter';
 import {parseDate} from '../../../utils/date-util';
 import {fixture, html, assert} from '@open-wc/testing';
-import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {query, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {Timestamp} from '../../../api/rest-api';
-import {PreferencesInfo} from '../../../types/common';
-import {createPreferences} from '../../../test/test-data-generators';
 import {
   createDefaultPreferences,
   DateFormat,
   TimeFormat,
 } from '../../../constants/constants';
+import {PreferencesInfo} from '../../../types/common';
 
 const basicTemplate = html`
   <gr-date-formatter withTooltip dateStr="2015-09-24 23:30:17.033000000">
@@ -39,6 +38,10 @@ suite('gr-date-formatter tests', () => {
     const d = parseDate(dateStr);
     d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
     return d;
+  }
+
+  function setPrefs(prefs: Partial<PreferencesInfo>) {
+    element.setPreferences({...createDefaultPreferences(), ...prefs});
   }
 
   async function testDates(
@@ -68,23 +71,11 @@ suite('gr-date-formatter tests', () => {
     assert.equal(span.textContent?.trim(), expectedWithDateAndTime);
   }
 
-  function stubRestAPI(preferences?: PreferencesInfo) {
-    stubRestApi('getLoggedIn').resolves(preferences !== undefined);
-    stubRestApi('getPreferences').resolves(preferences);
-  }
-
   suite('STD + 24 hours time format preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_24,
-        date_format: DateFormat.STD,
-        relative_date_in_change_table: false,
-      });
-
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.STD, time_format: TimeFormat.HHMM_24});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -130,15 +121,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('US + 24 hours time format preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_24,
-        date_format: DateFormat.US,
-        relative_date_in_change_table: false,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.US, time_format: TimeFormat.HHMM_24});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -174,16 +159,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('ISO + 24 hours time format preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_24,
-        date_format: DateFormat.ISO,
-        relative_date_in_change_table: false,
-      });
-
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.ISO, time_format: TimeFormat.HHMM_24});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -219,16 +197,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('EURO + 24 hours time format preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_24,
-        date_format: DateFormat.EURO,
-        relative_date_in_change_table: false,
-      });
-
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.EURO, time_format: TimeFormat.HHMM_24});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -264,16 +235,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('UK + 24 hours time format preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_24,
-        date_format: DateFormat.UK,
-        relative_date_in_change_table: false,
-      });
-
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.UK, time_format: TimeFormat.HHMM_24});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -309,15 +273,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('STD + 12 hours time format preference', () => {
     setup(async () => {
-      // relative_date_in_change_table is not set when false.
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
-        date_format: DateFormat.STD,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.STD, time_format: TimeFormat.HHMM_12});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -333,15 +291,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('US + 12 hours time format preference', () => {
     setup(async () => {
-      // relative_date_in_change_table is not set when false.
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
-        date_format: DateFormat.US,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.US, time_format: TimeFormat.HHMM_12});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -357,15 +309,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('ISO + 12 hours time format preference', () => {
     setup(async () => {
-      // relative_date_in_change_table is not set when false.
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
-        date_format: DateFormat.ISO,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.ISO, time_format: TimeFormat.HHMM_12});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -381,15 +327,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('EURO + 12 hours time format preference', () => {
     setup(async () => {
-      // relative_date_in_change_table is not set when false.
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
-        date_format: DateFormat.EURO,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.EURO, time_format: TimeFormat.HHMM_12});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -405,15 +345,9 @@ suite('gr-date-formatter tests', () => {
 
   suite('UK + 12 hours time format preference', () => {
     setup(async () => {
-      // relative_date_in_change_table is not set when false.
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
-        date_format: DateFormat.UK,
-      });
       element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      setPrefs({date_format: DateFormat.UK, time_format: TimeFormat.HHMM_12});
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -429,15 +363,13 @@ suite('gr-date-formatter tests', () => {
 
   suite('relative date preference', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
+      element = await fixture(basicTemplate);
+      setPrefs({
         date_format: DateFormat.STD,
+        time_format: TimeFormat.HHMM_12,
         relative_date_in_change_table: true,
       });
-      element = await fixture(basicTemplate);
-      sinon.stub(element, '_getUtcOffsetString').returns('');
-      await element.loadPreferences();
+      sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
     test('Within 24 hours on same day', async () => {
@@ -463,14 +395,12 @@ suite('gr-date-formatter tests', () => {
 
   suite('logged in', () => {
     setup(async () => {
-      stubRestAPI({
-        ...createPreferences(),
-        time_format: TimeFormat.HHMM_12,
+      element = await fixture(basicTemplate);
+      setPrefs({
         date_format: DateFormat.US,
+        time_format: TimeFormat.HHMM_12,
         relative_date_in_change_table: true,
       });
-      element = await fixture(basicTemplate);
-      await element.loadPreferences();
     });
 
     test('Preferences are respected', () => {
@@ -483,13 +413,12 @@ suite('gr-date-formatter tests', () => {
 
   suite('logged out', () => {
     setup(async () => {
-      stubRestAPI(undefined);
       element = await fixture(basicTemplate);
-      await element.loadPreferences();
+      setPrefs({});
     });
 
     test('Default preferences are respected', () => {
-      assert.equal(element.timeFormat, 'HH:mm');
+      assert.equal(element.timeFormat, 'h:mm A');
       assert.equal(element.dateFormat?.short, 'MMM DD');
       assert.equal(element.dateFormat?.full, 'MMM DD, YYYY');
       assert.isFalse(element.relative);
@@ -498,9 +427,8 @@ suite('gr-date-formatter tests', () => {
 
   suite('with tooltip', () => {
     setup(async () => {
-      stubRestAPI(createDefaultPreferences());
       element = await fixture(basicTemplate);
-      await element.loadPreferences();
+      setPrefs({});
       await element.updateComplete;
     });
 
@@ -515,9 +443,8 @@ suite('gr-date-formatter tests', () => {
 
   suite('without tooltip', () => {
     setup(async () => {
-      stubRestAPI(createDefaultPreferences());
       element = await fixture(lightTemplate);
-      await element.loadPreferences();
+      setPrefs({});
       await element.updateComplete;
     });
 

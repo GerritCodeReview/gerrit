@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3744275a_a486e5ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T13:40:52Z",
+      "side": 1,
+      "message": "We may need some additional work (either as part of this or another change) to fix copy labels too.",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a800094_953bf5ea",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T13:40:52Z",
+      "side": 1,
+      "message": "I changed this to be a single char `,` instead of the string `, `. No test failures, but I\"m not sure why it wasn\u0027t written like that to begin with.",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a36b0fe_0edc4995",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T13:40:52Z",
+      "side": 1,
+      "message": "This fixes the issue but seems a little fragile. I also considered regexes to match the different label types, but that seems like a bigger change and I\u0027m not sure why it was implemented like that in the first place - maybe performance considerations?",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

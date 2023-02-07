@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bdd8cef_b1d53511",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-07T13:27:38Z",
+      "side": 1,
+      "message": "that\u0027s only done when the logger is set to DEBUG, hence maybe better:\n\nEnable tracing memory allocation for indexing a change",
+      "revId": "3bef10e31429670670b5231d3734305689331934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

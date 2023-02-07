@@ -22,6 +22,30 @@
       },
       "revId": "e19583ea8904ee1fa392a8ac4665517ac52e487b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79061bf_fff06b90",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-07T18:33:22Z",
+      "side": 1,
+      "message": "Our plugin clearcut is rounding this number. So data will be in the end rounded. But for us it\u0027s enough first 2 digits.",
+      "parentUuid": "a5ab1d08_1b37cae9",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 19
+      },
+      "revId": "e19583ea8904ee1fa392a8ac4665517ac52e487b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

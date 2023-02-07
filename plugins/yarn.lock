@@ -35,10 +35,10 @@
   dependencies:
     "@types/chai" "^4.2.12"
 
-"@gerritcodereview/typescript-api@3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.7.0.tgz#ae3886b5c4ddc6a02659a11d577e1df0b6158727"
-  integrity sha512-8zeZClN1gur+Isrn02bRXJ0wUjYvK99jQxg36ZbDelrGDglXKddf8QQkZmaH9sYIRcCFDLlh5+ZlRUTcXTuDVA==
+"@gerritcodereview/typescript-api@3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.8.0.tgz#2e418b814d7451c40365b2dc4f88e9965ece0769"
+  integrity sha512-wUkIWUx99Rj1vxRYQISxyzN0nplqu7t5sRDyJ8R3yNNkvALQAMC6Whj63qzCsZsymVFzC5up3y+ZVxaeh7b+xA==
 
 "@lit/reactive-element@^1.0.0", "@lit/reactive-element@^1.3.0", "@lit/reactive-element@^1.4.0":
   version "1.4.1"

@@ -65,6 +65,46 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
   }
 
   @Override
+  public void channelOpenSuccess(Channel channel) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
+    logger.atFine().log(
+       "channelOpenSuccess(%s) : %s (lastTracked=%s)",
+       channel, channelId, lastTracked);
+  }
+
+  @Override
+  public void channelOpenFailure(Channel channel, Throwable reason) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
+    logger.atFine().log(
+      "channelOpenFailure(%s) : %s : %s (lastTracked=%s)",
+      channel, channelId, reason, lastTracked);
+  }
+
+  @Override
+  public void channelClosed(Channel channel, Throwable reason) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
+    logger.atFine().log(
+      "channelClosed(%s) : %s : %s (lastTracked=%s)",
+      channel, channelId, reason, lastTracked);
+  }
+
+  @Override
+  public void channelStateChanged(Channel channel, String hint) {
+    int channelId = channel.getId();
+    Session session = channel.getSession();
+    Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
+    logger.atFine().log(
+      "channelStateChanged(%s) : %s : %s (lastTracked=%s)",
+      channel, channelId, hint, lastTracked);
+  }
+
+  @Override
   public Channel handleUnknownChannelCommand(
       ConnectionService service, byte cmd, int channelId, Buffer buffer) throws IOException {
     Session session = service.getSession();

@@ -70,6 +70,30 @@
       },
       "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "385d44dd_52a417b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-07T15:40:51Z",
+      "side": 1,
+      "message": "Updated change description to clarify, why it\u0027s fine to replace the getter with NO_ASSIGNEE.\n\nIn essence, previous changes in the stack of changes already remove the functionality of querying and writing assignee. The reindexing would only ever write NO_ASSIGNEE anyway, because assignee will no longer be read from the notedb after https://gerrit-review.git.corp.google.com/c/gerrit/+/357459/4 . Therefore we don\u0027t need a separate release for the index migration in this case.",
+      "parentUuid": "308fb016_4ec88d08",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

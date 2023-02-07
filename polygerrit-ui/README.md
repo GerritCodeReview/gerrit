@@ -189,7 +189,7 @@ yarn test:single "**/gr-comment_test.ts"
 Compiling code:
 ```sh
 # Compile frontend once to check for type errors:
-yarn compile:local
+yarn compile
 
 # Watch mode:
 yarn compile:watch

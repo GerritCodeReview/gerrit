@@ -258,6 +258,8 @@ export enum AccountsVisibility {
   NONE = 'NONE',
 }
 
+// These defaults should match the defaults in
+// java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java
 export function createDefaultPreferences(): PreferencesInfo {
   return {
     changes_per_page: 25,
@@ -265,8 +267,8 @@ export function createDefaultPreferences(): PreferencesInfo {
     size_bar_in_change_table: true,
     my: [],
     theme: AppTheme.AUTO,
-    date_format: DateFormat.EURO,
-    time_format: TimeFormat.HHMM_24,
+    date_format: DateFormat.STD,
+    time_format: TimeFormat.HHMM_12,
     change_table: [],
     email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
     default_base_for_merges: DefaultBase.AUTO_MERGE,

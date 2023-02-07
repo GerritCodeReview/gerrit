@@ -399,19 +399,6 @@ module.exports = {
       },
     },
     {
-      files: ['test/functional/**/*.js'],
-      // Settings for functional tests. These scripts are node scripts.
-      // Turn off "no-undef" to allow any global variable
-      env: {
-        browser: false,
-        node: true,
-        es6: false,
-      },
-      rules: {
-        'no-undef': 'off',
-      },
-    },
-    {
       files: ['*_html.js', 'gr-icons.js', '*-theme.js', '*-styles.js'],
       rules: {
         'max-len': 'off',

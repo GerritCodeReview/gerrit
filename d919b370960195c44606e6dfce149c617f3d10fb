@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff7600a_dbdfd556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-07T14:53:40Z",
+      "side": 1,
+      "message": "Bug: Issue 16529",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0350c3_6e83bb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-07T14:53:40Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3744275a_a486e5ca",
@@ -37,6 +77,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1ce6a86_a9e08dc4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-07T14:53:40Z",
+      "side": 1,
+      "message": "Is that relevant to the fix?\nPreviously it was maching the `, ` (with the extra space) but now it matches only the `,`. Was that causing any trouble?",
+      "parentUuid": "6a800094_953bf5ea",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac8bf9f_536b3933",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-07T14:53:40Z",
+      "side": 1,
+      "message": "Can you add some examples here in the comment?\nThe code below is a bit complex to __guess__ what it is trying to do.",
+      "range": {
+        "startLine": 908,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 32
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a36b0fe_0edc4995",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -48,6 +129,24 @@
       "writtenOn": "2023-02-07T13:40:52Z",
       "side": 1,
       "message": "This fixes the issue but seems a little fragile. I also considered regexes to match the different label types, but that seems like a bigger change and I\u0027m not sure why it was implemented like that in the first place - maybe performance considerations?",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e8a937_a1e7c654",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-07T14:53:40Z",
+      "side": 1,
+      "message": "Yeah, I believe so. Regex evaluation is slow.",
+      "parentUuid": "2a36b0fe_0edc4995",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

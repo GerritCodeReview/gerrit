@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72fd7613_77e31063",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-02-07T21:09:13Z",
+      "side": 1,
+      "message": "It is written in the comment above\n\u003e // Footer has the following format in this case: Label: \u003cLABEL\u003e\u003dVOTE, \u003cUUID\u003e \u003cGerrit Account\u003e\n\nIOW the `, ` is expected as a part of the formatted vote on label... IOW so that one could probably distinguish between these two cases?",
+      "parentUuid": "a1ce6a86_a9e08dc4",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dac8bf9f_536b3933",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -147,6 +165,24 @@
       "side": 1,
       "message": "Yeah, I believe so. Regex evaluation is slow.",
       "parentUuid": "2a36b0fe_0edc4995",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a73d70e_1184f9c6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-02-07T21:09:13Z",
+      "side": 1,
+      "message": "What if label is called `Code Review`? Wouldn\u0027t that be recognised as a `firstSpace`? The test example shows the following line:\n`Label: Code-Review\u003d+1 User Name (company_name, department) \u003c2@gerrit\u003e`\nI wonder what is the value of the `firstSpace` as IMHO it looks like the one after `Label:`...",
+      "parentUuid": "82e8a937_a1e7c654",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

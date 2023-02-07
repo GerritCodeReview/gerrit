@@ -70,6 +70,8 @@ function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
 const DETAILS_QUOTA: Map<RunStatus | Category, number> = new Map();
 DETAILS_QUOTA.set(Category.ERROR, 7);
 DETAILS_QUOTA.set(Category.WARNING, 2);
+DETAILS_QUOTA.set(Category.INFO, 2);
+DETAILS_QUOTA.set(Category.SUCCESS, 2);
 DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
 @customElement('gr-change-summary')
@@ -417,8 +419,22 @@ export class GrChangeSummary extends LitElement {
       if (hasResultsOf(run, category)) return true;
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
     });
+    const hasRunning = this.runs.some(isRunningOrScheduled);
+    const hasWarning = this.runs.some(run =>
+      hasResultsOf(run, Category.WARNING)
+    );
+    const hasError = this.runs.some(run => hasResultsOf(run, Category.ERROR));
     const count = (run: CheckRun) => getResultsOf(run, category);
-    if (category === Category.SUCCESS || category === Category.INFO) {
+    if (
+      category === Category.SUCCESS &&
+      (hasRunning || hasError || hasWarning || runs.length > 3)
+    ) {
+      return this.renderChecksChipsCollapsed(runs, category, count);
+    }
+    if (
+      category === Category.INFO &&
+      (hasRunning || hasError || runs.length > 3)
+    ) {
       return this.renderChecksChipsCollapsed(runs, category, count);
     }
     return this.renderChecksChipsExpanded(runs, category);

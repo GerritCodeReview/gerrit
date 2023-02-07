@@ -40,6 +40,7 @@ import com.google.gerrit.server.edit.tree.RenameFileModification;
 import com.google.gerrit.server.edit.tree.RestoreFileModification;
 import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -108,15 +109,15 @@ public class ChangeEditModifier {
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
       PatchSetUtil patchSetUtil,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      GitReferenceUpdated gitReferenceUpdated) {
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.zoneId = gerritIdent.getZoneId();
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;
-
-    noteDbEdits = new NoteDbEdits(zoneId, indexer, currentUser);
+    noteDbEdits = new NoteDbEdits(gitReferenceUpdated, zoneId, indexer, currentUser);
   }
 
   /**
@@ -173,10 +174,14 @@ public class ChangeEditModifier {
               notes.getChangeId(), currentPatchSet.id()));
     }
 
-    rebase(repository, changeEdit, currentPatchSet);
+    rebase(notes.getProjectName(), repository, changeEdit, currentPatchSet);
   }
 
-  private void rebase(Repository repository, ChangeEdit changeEdit, PatchSet currentPatchSet)
+  private void rebase(
+      Project.NameKey project,
+      Repository repository,
+      ChangeEdit changeEdit,
+      PatchSet currentPatchSet)
       throws IOException, MergeConflictException, InvalidChangeOperationException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
@@ -194,7 +199,13 @@ public class ChangeEditModifier {
         createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     noteDbEdits.baseEditOnDifferentPatchset(
-        repository, changeEdit, currentPatchSet, currentEditCommit, newEditCommitId, nowTimestamp);
+        project,
+        repository,
+        changeEdit,
+        currentPatchSet,
+        currentEditCommit,
+        newEditCommitId,
+        nowTimestamp);
   }
 
   /**
@@ -719,11 +730,17 @@ public class ChangeEditModifier {
     private final ZoneId zoneId;
     private final ChangeIndexer indexer;
     private final Provider<CurrentUser> currentUser;
+    private final GitReferenceUpdated gitReferenceUpdated;
 
-    NoteDbEdits(ZoneId zoneId, ChangeIndexer indexer, Provider<CurrentUser> currentUser) {
+    NoteDbEdits(
+        GitReferenceUpdated gitReferenceUpdated,
+        ZoneId zoneId,
+        ChangeIndexer indexer,
+        Provider<CurrentUser> currentUser) {
       this.zoneId = zoneId;
       this.indexer = indexer;
       this.currentUser = currentUser;
+      this.gitReferenceUpdated = gitReferenceUpdated;
     }
 
     ChangeEdit createEdit(
@@ -795,9 +812,11 @@ public class ChangeEditModifier {
           throw new IOException(message);
         }
       }
+      gitReferenceUpdated.fire(projectName, ru, null);
     }
 
     void baseEditOnDifferentPatchset(
+        Project.NameKey project,
         Repository repository,
         ChangeEdit changeEdit,
         PatchSet currentPatchSet,
@@ -807,6 +826,7 @@ public class ChangeEditModifier {
         throws IOException {
       String newEditRefName = getEditRefName(changeEdit.getChange(), currentPatchSet);
       updateReferenceWithNameChange(
+          project,
           repository,
           changeEdit.getRefName(),
           currentEditCommit,
@@ -817,6 +837,7 @@ public class ChangeEditModifier {
     }
 
     private void updateReferenceWithNameChange(
+        Project.NameKey projectName,
         Repository repository,
         String currentRefName,
         ObjectId currentObjectId,
@@ -838,6 +859,7 @@ public class ChangeEditModifier {
           throw new IOException("failed: " + cmd);
         }
       }
+      gitReferenceUpdated.fire(projectName, batchRefUpdate, /* updater= */ null);
     }
 
     static RevCommit lookupCommit(Repository repository, ObjectId commitId) throws IOException {

@@ -32,6 +32,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -70,6 +71,8 @@ public class ChangeEditUtil {
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
 
+  private final GitReferenceUpdated gitReferenceUpdated;
+
   @Inject
   ChangeEditUtil(
       GitRepositoryManager gitManager,
@@ -77,13 +80,15 @@ public class ChangeEditUtil {
       ChangeIndexer indexer,
       Provider<CurrentUser> userProvider,
       ChangeKindCache changeKindCache,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      GitReferenceUpdated gitReferenceUpdated) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.indexer = indexer;
     this.userProvider = userProvider;
     this.changeKindCache = changeKindCache;
     this.psUtil = psUtil;
+    this.gitReferenceUpdated = gitReferenceUpdated;
   }
 
   /**
@@ -237,7 +242,7 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
-  private static void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
+  private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
     String refName = edit.getRefName();
     RefUpdate ru = repo.updateRef(refName, true);
     ru.setExpectedOldObjectId(edit.getEditCommit());
@@ -261,6 +266,7 @@ public class ChangeEditUtil {
       default:
         throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
     }
+    gitReferenceUpdated.fire(edit.getChange().getProject(), ru, /* updater= */ null);
   }
 
   private static RevCommit writeSquashedCommit(

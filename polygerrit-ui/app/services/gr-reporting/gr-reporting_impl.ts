@@ -188,13 +188,22 @@ export function initVisibilityReporter(reportingService: ReportingService) {
 
 export function initWebVitals(reportingService: ReportingService) {
   function reportWebVitalMetric(name: Timing, metric: Metric) {
+    let score = metric.value;
+    // CLS good score is 0.1 and poor score is 0.25. Logging system
+    // prefers integers, so we multiple by 100;
+    if (name === Timing.CLS) {
+      score *= 100;
+    }
     reportingService.reporter(
       TIMING.TYPE,
       TIMING.CATEGORY.UI_LATENCY,
       name,
-      metric.value,
-      JSON.stringify(metric),
-      false
+      score,
+      {
+        navigationType: metric.navigationType,
+        rating: metric.rating,
+        entries: metric.entries,
+      }
     );
   }
 

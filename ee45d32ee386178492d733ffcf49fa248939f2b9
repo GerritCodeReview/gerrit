@@ -22,6 +22,30 @@
       },
       "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06425c9a_d480c463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-07T11:37:06Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t it enough to create the new schema version without the assignee fields?\n\nFrom my understanding\n1) I need to created the new version of schema and mark the field as deleted.\n2) Because of that I have to keep the definition in ChangeField\n3) The definition needs a getter.\n4) The current getter wouldn\u0027t work, because next change is removing Assignee from Change.java\n\nI think this works as intended. If the \"new code\" tries to write \"old schema\" it populates the field that \"old schema\" must have, but since the value no longer makes sense it writes -1.\n\nSo the old schemas can continue to be written in a valid way, if needed\n\nLet me know if I am understanding it wrong? (I don\u0027t really have the best understanding of this part of the code)",
+      "parentUuid": "b901d765_a8e3c0c8",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1488108c_ad61bbde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T22:01:24Z",
+      "side": 1,
+      "message": "Just unresolving for visilibity.",
+      "parentUuid": "3744275a_a486e5ca",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a800094_953bf5ea",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -113,6 +131,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "decad468_7d113a66",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T22:01:24Z",
+      "side": 1,
+      "message": "As far as I can tell the trailing space doesn\u0027t affect its functionality - and no failing tests if I remove it.\n\nI wonder if it was just added because we then do a add 2 to `reviewStart`, so we wanted to match on two characters (just a guess)? It does match a smaller use-case, but I think it wouldn\u0027t matter as we can\u0027t have a comma before the one separating `VOTE` and `UUID`.\n\nRemoving the space does make the naming of the `int` simpler and more meaningful, and as far as I can tell doesn\u0027t break anything.\n\nI thought the comma separated `VOTE` and `UUID` - do you mean it\u0027s part of the vote? But either way the `,` and `, ` (trailing space) should be equivalent as long as we add 2 to when we set `reviewerStart`, because we can\u0027t have a comma before that one.",
+      "parentUuid": "72fd7613_77e31063",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dac8bf9f_536b3933",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -124,6 +160,30 @@
       "writtenOn": "2023-02-07T14:53:40Z",
       "side": 1,
       "message": "Can you add some examples here in the comment?\nThe code below is a bit complex to __guess__ what it is trying to do.",
+      "range": {
+        "startLine": 908,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 32
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8302bc47_53b37c30",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T22:01:24Z",
+      "side": 1,
+      "message": "Yes this needs fleshing out.",
+      "parentUuid": "dac8bf9f_536b3933",
       "range": {
         "startLine": 908,
         "startChar": 0,
@@ -183,6 +243,24 @@
       "side": 1,
       "message": "What if label is called `Code Review`? Wouldn\u0027t that be recognised as a `firstSpace`? The test example shows the following line:\n`Label: Code-Review\u003d+1 User Name (company_name, department) \u003c2@gerrit\u003e`\nI wonder what is the value of the `firstSpace` as IMHO it looks like the one after `Label:`...",
       "parentUuid": "82e8a937_a1e7c654",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5876f4_6c733173",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-07T22:01:24Z",
+      "side": 1,
+      "message": "The docs are clear on the allowed characters [1] for the label, only alphanumeric characters and `-` are allowed. So unless I\u0027m misunderstanding it shouldn\u0027t be a problem.\n\n`Label: ` (with a trailing space) appears to be stripped out of the line passed to the method, so we wouldn\u0027t match on that.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_name",
+      "parentUuid": "8a73d70e_1184f9c6",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

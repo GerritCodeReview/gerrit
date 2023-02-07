@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa13ff1_ab1c3baf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T16:14:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "340d0601_7508b6ae",
+      "revId": "247b511fbd6976e4cd8c83fea20c6e1ff9829b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dfd500b_4f3fad76",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-07T15:13:24Z",
       "side": 1,
       "message": "else if?",
+      "revId": "247b511fbd6976e4cd8c83fea20c6e1ff9829b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3c5c8e_947f3b98",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-07T16:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dfd500b_4f3fad76",
       "revId": "247b511fbd6976e4cd8c83fea20c6e1ff9829b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

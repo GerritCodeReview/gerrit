@@ -106,6 +106,24 @@
       "parentUuid": "adb43ecd_279a9362",
       "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e29959_c89cff0c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-07T16:00:26Z",
+      "side": 0,
+      "message": "Thank you for confirming.\n\nWe discussed offline and concluded that if the new serialized proto byte[] does not contain the field, this won\u0027t make a problem with deserialization with old code. In this case proto.getAssigneeList() would just return an empty list. This should be a no issue then.",
+      "parentUuid": "adb43ecd_279a9362",
+      "revId": "8ae7a6bed1658199f471c2973dc0a7d82f57fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

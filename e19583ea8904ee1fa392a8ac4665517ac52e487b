@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5ab1d08_1b37cae9",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-07T16:23:41Z",
+      "side": 1,
+      "message": "should we round as well? Otherwise `0.022 * 100 \u003d 2.2` may still not be integer. Or CLS cannot report that many digits?",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 19
+      },
+      "revId": "e19583ea8904ee1fa392a8ac4665517ac52e487b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

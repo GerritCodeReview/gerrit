@@ -16,6 +16,23 @@
       "message": "PTAL",
       "revId": "d28408229a47aef761de668e515b7f2ab5aaaa6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ae2101_0ec6aeec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-07T23:21:31Z",
+      "side": 1,
+      "message": "I\u0027m guessing I should pick this back to stable-3.5 given I fixed I0268476f0e6e3 there and I think this would affect that case too. There I was trying to use `isInternalGroup()` to determine if it\u0027s safe to apply the optimization, but this change points out that\u0027s flawed. It seems like there should be a method on the group that tells me if all the members are known or not so that we could apply the optimization correctly. Does adding that make sense to you?",
+      "revId": "d28408229a47aef761de668e515b7f2ab5aaaa6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

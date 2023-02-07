@@ -46,6 +46,30 @@
       },
       "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "308fb016_4ec88d08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-07T12:32:41Z",
+      "side": 1,
+      "message": "We support online upgrades for index schema versions [1,2].\nThis means when you upgrade Gerrit it continues to read from the old schema version, while updates are written to both, the old and new schema version. Then in a background thread it backfills the new schema version with data for old changes (this can take hours or even days). Only after the backfilling is done it switches to reading from the new schema version and the old schema version becomes obsolete.\n\nThis means while the old schema version is still being used, we should not break it. IIUC changing the assignee field as proposed in this change would mean that old changes still have assignees while for newly indexed changes the assignee information is missing (while the old index schema version is still used), which would be inconsistent and may be confusing. I don\u0027t know, maybe this could be acceptable if we document this properly?\n\nUsually we never change getters of existing fields while there is still a schema version that uses the field. E.g. if a getter would need to be changed, we rather add a new field with a new getter that is used from the new schema version, while the old field stays untouched.\n\nThe usual way how we make such a change is:\n1. Add the new schema version\n2. Make a Gerrit release\n3. Note in the release notes that this is a mandatory release if online reindexing is used (i.e. if this is release N, users upgrading from release \u003cN must upgrade to release N, before they can upgrade to release \u003eN, e.g. a direct upgrade from release \u003cN to a release \u003eN is not possible).\n4. Drop all code for the old schema versions in the next release.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/index/OnlineUpgrader.java\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/index/OnlineReindexer.java",
+      "parentUuid": "06425c9a_d480c463",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

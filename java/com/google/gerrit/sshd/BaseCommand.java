@@ -29,6 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -479,7 +480,7 @@ public abstract class BaseCommand implements Command {
         int rc = 0;
         context.getSession().setAccessPath(accessPath);
         final Context old = sshScope.set(context);
-        try {
+        try (PerThreadCache ignored = PerThreadCache.create()) {
           context.start();
           thisThread.setName("SSH " + taskName);
 

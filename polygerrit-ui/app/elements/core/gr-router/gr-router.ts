@@ -1310,15 +1310,17 @@ export class GrRouter implements Finalizable, NavigationService {
     const repo = ctx.params[0] as RepoName;
     const commentId = ctx.params[2] as UrlEncodedCommentId;
 
-    const [comments, robotComments, change] = await Promise.all([
+    const [comments, robotComments, drafts, change] = await Promise.all([
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
+      this.restApiService.getDiffDrafts(changeNum),
       this.restApiService.getChangeDetail(changeNum),
     ]);
 
     const comment =
       findComment(addPath(comments), commentId) ??
-      findComment(addPath(robotComments), commentId);
+      findComment(addPath(robotComments), commentId) ??
+      findComment(addPath(drafts), commentId);
     const path = comment?.path;
     const patchsets = computeAllPatchSets(change);
     const latestPatchNum = computeLatestPatchNum(patchsets);

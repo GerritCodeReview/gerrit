@@ -1488,6 +1488,64 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void robotReviewWithNegativeLabelDoesntAddOwnerIfChangeIsMerged() throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
+
+    PushOneCommit.Result r = createChange();
+
+    // The robot votes with Code-Review-1 on patch set 1.
+    // Without this vote the robot cannot (re-)apply a negative vote on the change after it was
+    // merged change later.
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).revision(1).review(ReviewInput.dislike());
+
+    // Amend the change so that patch set 2 gets created.
+    requestScopeOperations.setApiUser(admin.id());
+    amendChange(r.getChangeId()).assertOkStatus();
+
+    // Approve the change.
+    approve(r.getChangeId());
+
+    // User adds a comment so that the admin user is added to the attention set.
+    // This has to be a comment from a user, since comments from robots do not trigger attention set
+    // updates.
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.message = "A comment";
+    change(r).current().review(reviewInput);
+
+    // Verify that the admin user was added to the attention set.
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
+
+    // Submit the change.
+    requestScopeOperations.setApiUser(admin.id());
+    change(r).current().submit();
+
+    // Verify that the attention set was cleared on submit.
+    attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
+
+    // Re-apply the negative robot vote on patch set 1.
+    // Note it's possible to a apply a negative vote on merged changes if it wasn't already present
+    // since we disallow downgrading votes on merged changes (e.g. downgrade from not present aka 0
+    // to -1 is not allowed).
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).revision(1).review(ReviewInput.dislike());
+
+    // Verify that re-applying the negative robot vote on patch set 1 didn't add the admin user
+    // back to the attention set.
+    attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
+  }
+
+  @Test
   public void robotCommentDoesNotAddOwnerOnClosedChanges() throws Exception {
     TestAccount robot =
         accountCreator.create(

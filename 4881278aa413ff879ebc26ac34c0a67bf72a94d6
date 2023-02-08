@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca6c8f7c_ecba601c",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-08T09:36:51Z",
+      "side": 1,
+      "message": "Why do we decode this to spaces?",
+      "revId": "4881278aa413ff879ebc26ac34c0a67bf72a94d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34aebac6_7df55544",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-08T09:36:51Z",
+      "side": 1,
+      "message": "Maybe these tests should validate that\n```\ndecodeUrl(encodeUrl(foo)) \u003d\u003d foo\n```",
+      "revId": "4881278aa413ff879ebc26ac34c0a67bf72a94d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

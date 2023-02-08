@@ -92,6 +92,9 @@ export function encodeURL(url: string): string {
   // to not double encode *everything* (just for readaiblity and simplicity),
   // but `%` *must* be double encoded.
   let output = url.replaceAll('%', '%25');
+  // `+` also requires double encoding, because `%2B` would be decoded to `+`
+  // and then replaced by ` `.
+  output = output.replaceAll('+', '%2B');
 
   // This escapes ALL characters EXCEPT:
   // A–Z a–z 0–9 - _ . ! ~ * ' ( )
@@ -138,6 +141,10 @@ export function encodeURL(url: string): string {
  * Single decode for URL components. Will decode plus signs ('+') to spaces.
  * Note: because this function decodes once, it is not the inverse of
  * encodeURL.
+ *
+ * This function must only be used for decoding data returned by the REST API.
+ * Don't use it for decoding browser URLs. The only place for decoding browser
+ * URLs must gr-page.ts.
  */
 export function singleDecodeURL(url: string): string {
   const withoutPlus = url.replace(/\+/g, '%20');

@@ -166,6 +166,30 @@
       },
       "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ec0def_9407a0bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T08:58:07Z",
+      "side": 1,
+      "message": "@ekempin@google.com Thank you for the detailed explanation in #comment2.\n\n\"Only after the backfilling is done it switches to reading from the new schema version and the old schema version becomes obsolete.\"\n\nI think this means that:\n1) We should remove the field from the schema, keep the getter and release this with release n.\n2) remove the getter in release n+1\n\n?\n\nWhat if someone upgraded from release n-1 to release n+1? we don\u0027t have guarantees on people upgrading from any version to any other version, or maybe I\u0027m wrong?",
+      "parentUuid": "ebcda7b5_4ee9ab99",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

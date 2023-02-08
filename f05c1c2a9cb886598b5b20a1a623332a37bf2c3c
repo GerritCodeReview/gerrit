@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bfa036f_f9f770d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-08T10:32:08Z",
+      "side": 1,
+      "message": "Why we don\u0027t care about warnings in this section?",
+      "range": {
+        "startLine": 441,
+        "startChar": 7,
+        "endLine": 441,
+        "endChar": 30
+      },
+      "revId": "f05c1c2a9cb886598b5b20a1a623332a37bf2c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

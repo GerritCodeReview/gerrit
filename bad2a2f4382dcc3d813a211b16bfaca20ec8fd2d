@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef2cca1d_81a8421e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-08T09:52:36Z",
+      "side": 1,
+      "message": "this test is now applying a rewrite within a link btw.. a lot of the tests don\u0027t make so much sense now where it says its a link and then it\u0027s not linked. Consider changing the test data to be more clear",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "bad2a2f4382dcc3d813a211b16bfaca20ec8fd2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08572d93_5e6ff40d",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
         "patchSetId": 1

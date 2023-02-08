@@ -211,7 +211,7 @@ public class OutputStreamQuery {
         return;
       }
 
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 

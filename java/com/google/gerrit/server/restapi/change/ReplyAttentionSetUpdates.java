@@ -259,10 +259,13 @@ public class ReplyAttentionSetUpdates {
 
   /**
    * Bots don't process automatic rules, the only attention set change they do is this rule: Add
-   * owner and uploader when a bot votes negatively.
+   * owner and uploader when a bot votes negatively, but only if the change is open.
    */
   private void botsWithNegativeLabelsAddOwnerAndUploader(
       BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
+    if (changeNotes.getChange().isClosed()) {
+      return;
+    }
     if (input.labels != null && input.labels.values().stream().anyMatch(vote -> vote < 0)) {
       Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
       Account.Id owner = changeNotes.getChange().getOwner();

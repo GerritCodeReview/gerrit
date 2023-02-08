@@ -190,6 +190,30 @@
       },
       "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "117483b7_85a48463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-08T09:13:49Z",
+      "side": 1,
+      "message": "We discussed this further offline that led to the clarification in the commit message. This change is OK, since all assignee functionality is removed in predecessor changes. This means the assignee feature is removed no matter which index version is used, hence no code will ever access the assignee field in the old index version even if the old index version is still being used. Hence it is OK to change the getter so that it no longer populates the assignee field for old index versions.\n\nYou are right, at the moment when we drop old index schemas (including the getters for old fields that are then no longer used), we must note in the release notes that upgrading to this release is mandatory if online reindexing is used (i.e. upgrading from n-1 must first upgrade to n before upgrading to n+1). Since this is burden for people upgrading we drop old schema version only when there is a good reason.",
+      "parentUuid": "82ec0def_9407a0bc",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "ee45d32ee386178492d733ffcf49fa248939f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

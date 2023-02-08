@@ -83,21 +83,16 @@ export function isWithinHalfYear(now: Date, date: Date) {
   return diff < 180 * Duration.DAY;
 }
 
-// TODO(dmfilippov): TS-Fix review this type. All fields here must be optional,
-// but this require some changes in the code. During JS->TS migration
-// we want to avoid code changes where possible, so for simplicity we
-// define it with almost all fields mandatory
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts
 interface DateTimeFormatParts {
-  year: string;
-  month: string;
-  day: string;
-  hour: string;
-  minute: string;
-  second: string;
-  dayPeriod: string;
-  dayperiod?: string;
-  // Object can have other properties, but our code doesn't use it
-  [key: string]: string | undefined;
+  year?: string;
+  month?: string;
+  day?: string;
+  hour?: string;
+  minute?: string;
+  second?: string;
+  // AM or PM
+  dayPeriod?: string;
 }
 
 export function formatDate(date: Date, format: string) {
@@ -146,15 +141,35 @@ export function formatDate(date: Date, format: string) {
     locale = 'en-GB';
   }
 
-  const dtf = new Intl.DateTimeFormat(locale, options);
-  const parts = dtf
-    .formatToParts(date)
-    .filter(o => o.type !== 'literal')
-    .reduce((acc, o: Intl.DateTimeFormatPart) => {
-      acc[o.type] = o.value;
-      return acc;
-    }, {} as DateTimeFormatParts);
-  if (format.includes('YY')) {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts
+  const dtfParts = new Intl.DateTimeFormat(locale, options).formatToParts(date);
+  const parts: DateTimeFormatParts = {};
+  for (const entry of dtfParts) {
+    switch (entry.type) {
+      case 'year':
+        parts.year = entry.value;
+        break;
+      case 'month':
+        parts.month = entry.value;
+        break;
+      case 'day':
+        parts.day = entry.value;
+        break;
+      case 'hour':
+        parts.hour = entry.value;
+        break;
+      case 'minute':
+        parts.minute = entry.value;
+        break;
+      case 'second':
+        parts.second = entry.value;
+        break;
+      case 'dayPeriod':
+        parts.dayPeriod = entry.value;
+        break;
+    }
+  }
+  if (parts.year && format.includes('YY')) {
     if (format.includes('YYYY')) {
       format = format.replace('YYYY', parts.year);
     } else {
@@ -162,35 +177,31 @@ export function formatDate(date: Date, format: string) {
     }
   }
 
-  if (format.includes('DD')) {
+  if (parts.day && format.includes('DD')) {
     format = format.replace('DD', parts.day);
   }
 
-  if (format.includes('HH')) {
+  if (parts.hour && format.includes('HH')) {
     format = format.replace('HH', parts.hour);
   }
 
-  if (format.includes('h')) {
+  if (parts.hour && format.includes('h')) {
     format = format.replace('h', parts.hour);
   }
 
-  if (format.includes('mm')) {
+  if (parts.minute && format.includes('mm')) {
     format = format.replace('mm', parts.minute);
   }
 
-  if (format.includes('ss')) {
+  if (parts.second && format.includes('ss')) {
     format = format.replace('ss', parts.second);
   }
 
-  if (format.includes('A')) {
-    if (parts.dayperiod) {
-      // Workaround for chrome 70 and below
-      format = format.replace('A', parts.dayperiod.toUpperCase());
-    } else {
-      format = format.replace('A', parts.dayPeriod.toUpperCase());
-    }
+  if (parts.dayPeriod && format.includes('A')) {
+    format = format.replace('A', parts.dayPeriod.toUpperCase());
   }
-  if (format.includes('MM')) {
+
+  if (parts.month && format.includes('MM')) {
     if (format.includes('MMM')) {
       format = format.replace('MMM', parts.month);
     } else {

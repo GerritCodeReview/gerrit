@@ -149,6 +149,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dedffdbd_6f4ed9db",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-02-08T09:22:37Z",
+      "side": 1,
+      "message": "Lets consider the following example:\n`Label: Label1\u003d0, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 2 \u003c2@gerrit\u003e,Other Account \u003c2@Gerrit\u003e`\n\n1. is this a valid example?\n2. if it is valid then `, ` would cleanly indicate UUID vs accounts delimiter\n\nRegarding the `hasUuid` and its relation to `+ 2` AFAIU the reason for `+ 2` is actually due to the following space. From the readability perspective IMHO it is cleaner to search for 2 chars and take those 2 chars into consideration. Actually I would extract `, ` into a variable and use its length instead of `2` in this `+ 2` part so that the relation is even more explicit...\n\nHaving said that as long as these/any relations are clearly reflected whatever you propose will be fine 😄 WDYT?",
+      "parentUuid": "decad468_7d113a66",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dac8bf9f_536b3933",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -261,6 +279,24 @@
       "side": 1,
       "message": "The docs are clear on the allowed characters [1] for the label, only alphanumeric characters and `-` are allowed. So unless I\u0027m misunderstanding it shouldn\u0027t be a problem.\n\n`Label: ` (with a trailing space) appears to be stripped out of the line passed to the method, so we wouldn\u0027t match on that.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_name",
       "parentUuid": "8a73d70e_1184f9c6",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44e59d98_33ad44ac",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-02-08T09:22:37Z",
+      "side": 1,
+      "message": "Good point! Thanks for explanation.",
+      "parentUuid": "8b5876f4_6c733173",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

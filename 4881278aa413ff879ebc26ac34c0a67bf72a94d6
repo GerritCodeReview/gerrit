@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d45dc542_647e8b0c",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-08T10:08:32Z",
+      "side": 1,
+      "message": "Note that `singleDecodeURL()` does not have anything to do with this change. I was just confused that this even exists and wanted to add a comment that this does not get confused with what the router is doing.\n\nI am not sure if \"why\" refers to the general topic of `+` vs ` ` or to just this location in the code.\n\nFrom https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent:\n```\nFor application/x-www-form-urlencoded, spaces are to be replaced by +, so one may wish to follow a encodeURIComponent() replacement with an additional replacement of %20 with +.\n```",
+      "parentUuid": "ca6c8f7c_ecba601c",
+      "revId": "4881278aa413ff879ebc26ac34c0a67bf72a94d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34aebac6_7df55544",
         "filename": "polygerrit-ui/app/utils/url-util_test.ts",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-08T09:36:51Z",
       "side": 1,
       "message": "Maybe these tests should validate that\n```\ndecodeUrl(encodeUrl(foo)) \u003d\u003d foo\n```",
+      "revId": "4881278aa413ff879ebc26ac34c0a67bf72a94d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d4127fa_71cd09c2",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-08T10:08:32Z",
+      "side": 1,
+      "message": "Yes, I have thought about that and agree that we should be doing that.\n\nBut we don\u0027t have a `decodeUrl()` function, so this is a harder problem. We would have to involve `gr-page.ts`, which is the only place where we are decoding.",
+      "parentUuid": "34aebac6_7df55544",
       "revId": "4881278aa413ff879ebc26ac34c0a67bf72a94d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

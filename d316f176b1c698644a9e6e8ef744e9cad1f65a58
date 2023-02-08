@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7786c315_360f9c9b",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-08T11:54:16Z",
+      "side": 1,
+      "message": "AM or PM. Added comments.",
+      "parentUuid": "567015e4_b8018e77",
+      "revId": "d316f176b1c698644a9e6e8ef744e9cad1f65a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b3f8245_1d4a5519",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-08T08:20:10Z",
       "side": 1,
       "message": "I\u0027m honestly surprised there\u0027s no standard library for this.",
+      "revId": "d316f176b1c698644a9e6e8ef744e9cad1f65a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882d95f4_d856c35a",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-08T11:54:16Z",
+      "side": 1,
+      "message": "Me too. But I did not want to invest the time looking for one ... :-/",
+      "parentUuid": "2b3f8245_1d4a5519",
       "revId": "d316f176b1c698644a9e6e8ef744e9cad1f65a58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

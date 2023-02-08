@@ -3898,14 +3898,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byOwnerInvalidQuery() throws Exception {
-    repo = createAndOpenProject("repo");
-    insert("repo", newChange(repo), userId);
-    String nameEmail = user.asIdentifiedUser().getNameEmail();
-    assertQuery("owner: \"" + nameEmail + "\"\\");
-  }
-
-  @Test
   public void byDeletedChange() throws Exception {
     repo = createAndOpenProject("repo");
     Change change = insert("repo", newChange(repo));

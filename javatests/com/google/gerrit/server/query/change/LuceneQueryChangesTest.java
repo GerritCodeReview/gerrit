@@ -59,16 +59,9 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Test
-  @Override
-  public void byOwnerInvalidQuery() throws Exception {
-    repo = createAndOpenProject("repo");
-    Change change1 = insert("repo", newChange(repo), userId);
-    String nameEmail = user.asIdentifiedUser().getNameEmail();
-
+  public void invalidQuery() throws Exception {
     BadRequestException thrown =
-        assertThrows(
-            BadRequestException.class,
-            () -> assertQuery("owner: \"" + nameEmail + "\"\\", change1));
+        assertThrows(BadRequestException.class, () -> newQuery("\\").get());
     assertThat(thrown).hasMessageThat().contains("Cannot create full-text query with value: \\");
   }
 

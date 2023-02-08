@@ -6,13 +6,15 @@
 import '../../../test/common-test-setup';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrChangeSummary} from './gr-change-summary';
-import {queryAndAssert} from '../../../utils/common-util';
+import {queryAll, queryAndAssert} from '../../../utils/common-util';
 import {fakeRun0} from '../../../models/checks/checks-fakes';
 import {
   createAccountWithEmail,
+  createCheckResult,
   createComment,
   createCommentThread,
   createDraft,
+  createRun,
 } from '../../../test/test-data-generators';
 import {stubFlags} from '../../../test/test-utils';
 import {Timestamp} from '../../../api/rest-api';
@@ -22,6 +24,9 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {GrChecksChip} from './gr-checks-chip';
+import {CheckRun} from '../../../models/checks/checks-model';
+import {Category, RunStatus} from '../../../api/checks';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -115,6 +120,73 @@ suite('gr-change-summary test', () => {
         </div>
       `
     );
+  });
+
+  suite('checks summary', () => {
+    const checkSummary = async (runs: CheckRun[], texts: string[]) => {
+      element.runs = runs;
+      element.showChecksSummary = true;
+      await element.updateComplete;
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip') ?? [];
+      assert.deepEqual(
+        [...chips].map(c => `${c.statusOrCategory} ${c.text}`),
+        texts
+      );
+    };
+
+    test('single success', async () => {
+      checkSummary([createRun()], ['SUCCESS test-name']);
+    });
+
+    test('single running', async () => {
+      checkSummary(
+        [createRun({status: RunStatus.RUNNING})],
+        ['RUNNING test-name']
+      );
+    });
+
+    test('single info', async () => {
+      checkSummary(
+        [
+          createRun({
+            status: RunStatus.COMPLETED,
+            results: [createCheckResult({category: Category.INFO})],
+          }),
+        ],
+        ['INFO test-name']
+      );
+    });
+
+    test('single of each collapses INFO and SUCCESS', async () => {
+      checkSummary(
+        [
+          createRun({status: RunStatus.RUNNING}),
+          createRun({
+            status: RunStatus.COMPLETED,
+            results: [createCheckResult({category: Category.SUCCESS})],
+          }),
+          createRun({
+            status: RunStatus.COMPLETED,
+            results: [createCheckResult({category: Category.INFO})],
+          }),
+          createRun({
+            status: RunStatus.COMPLETED,
+            results: [createCheckResult({category: Category.WARNING})],
+          }),
+          createRun({
+            status: RunStatus.COMPLETED,
+            results: [createCheckResult({category: Category.ERROR})],
+          }),
+        ],
+        [
+          'ERROR test-name',
+          'WARNING test-name',
+          'INFO 1',
+          'SUCCESS 1',
+          'RUNNING test-name',
+        ]
+      );
+    });
   });
 
   test('renders mentions summary', async () => {

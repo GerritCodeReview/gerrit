@@ -110,7 +110,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
-import {CheckResult, RunResult} from '../models/checks/checks-model';
+import {CheckResult, CheckRun, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 import {SearchViewState} from '../models/views/search';
@@ -1103,6 +1103,19 @@ export function createNonApplicableSubmitRequirementResultInfo(): SubmitRequirem
   };
 }
 
+export function createRun(partial: Partial<CheckRun> = {}): CheckRun {
+  return {
+    attemptDetails: [],
+    checkName: 'test-name',
+    internalRunId: 'test-internal-run-id',
+    isLatestAttempt: true,
+    isSingleAttempt: true,
+    pluginName: 'test-plugin-name',
+    status: RunStatus.COMPLETED,
+    ...partial,
+  };
+}
+
 export function createRunResult(): RunResult {
   return {
     attemptDetails: [],
@@ -1119,11 +1132,14 @@ export function createRunResult(): RunResult {
   };
 }
 
-export function createCheckResult(): CheckResult {
+export function createCheckResult(
+  partial: Partial<CheckResult> = {}
+): CheckResult {
   return {
     category: Category.ERROR,
     summary: 'error',
     internalResultId: 'test-internal-result-id',
+    ...partial,
   };
 }
 

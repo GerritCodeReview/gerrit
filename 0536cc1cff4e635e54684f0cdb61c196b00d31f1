@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "33f56f7b_c3037130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T13:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f518024_ce74656c",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "0536cc1cff4e635e54684f0cdb61c196b00d31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2723fa66_bdb97c99",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81ecd7e3_63ec9966",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T13:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9343a269_ce6edac3",
+      "revId": "0536cc1cff4e635e54684f0cdb61c196b00d31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdb2fb33_bb731205",
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1e586fa_5dd54b64",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T13:41:04Z",
+      "side": 1,
+      "message": "Right. I reworked this and the next test to use different committer and author.\n\n(Thanks for your https://gerrit-review.git.corp.google.com/c/gerrit/+/356689 that made it possible)",
+      "parentUuid": "bdb2fb33_bb731205",
+      "range": {
+        "startLine": 350,
+        "startChar": 49,
+        "endLine": 350,
+        "endChar": 64
+      },
+      "revId": "0536cc1cff4e635e54684f0cdb61c196b00d31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a189cb_40cbd9a8",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-01-26T08:56:17Z",
       "side": 1,
       "message": "[OPTIONAL] Instead of passing in the revision, could you just user changeInfo.currentRevisison?\n\nSame for the methods below.",
+      "range": {
+        "startLine": 417,
+        "startChar": 40,
+        "endLine": 417,
+        "endChar": 48
+      },
+      "revId": "0536cc1cff4e635e54684f0cdb61c196b00d31f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cadd2745_6932189e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T13:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a189cb_40cbd9a8",
       "range": {
         "startLine": 417,
         "startChar": 40,

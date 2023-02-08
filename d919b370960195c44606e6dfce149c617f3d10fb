@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10b0cbc8_fd6a2e51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T21:16:39Z",
+      "side": 1,
+      "message": "Why, what\u0027s wrong with this? Gerrit seems to parse it and create the link correctly.",
+      "parentUuid": "bff7600a_dbdfd556",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e0350c3_6e83bb0b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2023-02-07T14:53:40Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34cd2d61_5931df1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T21:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e0350c3_6e83bb0b",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -201,6 +243,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0037d93a_14c2ef9f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T21:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c8d2bc0_37ef0dcb",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dac8bf9f_536b3933",
@@ -238,6 +298,30 @@
       "side": 1,
       "message": "Yes this needs fleshing out.",
       "parentUuid": "dac8bf9f_536b3933",
+      "range": {
+        "startLine": 908,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 32
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf39871f_5b27e208",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T21:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8302bc47_53b37c30",
       "range": {
         "startLine": 908,
         "startChar": 0,

@@ -68,26 +68,6 @@ suite('gr-formatted-text tests', () => {
       await element.updateComplete;
     });
 
-    test('does not apply rewrites within links', async () => {
-      element.content = 'http://google.com/LinkRewriteMe';
-      await element.updateComplete;
-
-      assert.shadowDom.equal(
-        element,
-        /* HTML */ `
-          <pre class="plaintext">
-            http://google.com/<a
-              href="http://google.com/LinkRewriteMe"
-              rel="noopener"
-              target="_blank"
-            >
-              LinkRewriteMe
-            </a>
-          </pre>
-        `
-      );
-    });
-
     test('does not apply rewrites on rewritten text', async () => {
       await setCommentLinks({
         capitalizeFoo: {

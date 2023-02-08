@@ -155,6 +155,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       PredicateResult predicateResult = evaluatePredicateTree(predicate, changeData);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException | SubmitRequirementEvaluationException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to evaluate submit requirement expression: %s", expression.expressionString());
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
   }

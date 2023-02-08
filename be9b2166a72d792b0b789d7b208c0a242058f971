@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf84237d_b05a0d58",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-08T15:54:37Z",
+      "side": 1,
+      "message": "is owner of the change considered a contributor?",
+      "range": {
+        "startLine": 170,
+        "startChar": 33,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "be9b2166a72d792b0b789d7b208c0a242058f971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

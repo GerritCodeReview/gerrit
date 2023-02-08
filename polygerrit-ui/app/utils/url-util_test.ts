@@ -110,6 +110,10 @@ suite('url-util tests', () => {
         assert.equal(encodeURL('abc%def'), 'abc%2525def');
       });
 
+      test('double encodes +', () => {
+        assert.equal(encodeURL('abc+def'), 'abc%252Bdef');
+      });
+
       test('does not encode colon and slash', () => {
         assert.equal(encodeURL(':/'), ':/');
       });

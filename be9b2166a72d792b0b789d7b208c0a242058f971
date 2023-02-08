@@ -22,6 +22,30 @@
       },
       "revId": "be9b2166a72d792b0b789d7b208c0a242058f971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7090dc1c_04af56b2",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T15:58:54Z",
+      "side": 1,
+      "message": "Yes. However I didn\u0027t want to include owner here since if owner and uploader are two different persons and owner vote CR+2, it should be OK not to block change submission (two persons reviewed the code written at the latest patchset). If owner \u003d uploader, then their vote won\u0027t count.\n\nIf we wanted to change this behaviour we can easily adapt the implementation here.",
+      "parentUuid": "cf84237d_b05a0d58",
+      "range": {
+        "startLine": 170,
+        "startChar": 33,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "be9b2166a72d792b0b789d7b208c0a242058f971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

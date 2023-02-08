@@ -78,19 +78,19 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does not apply rewrites within links', async () => {
-      element.content = 'google.com/LinkRewriteMe';
+      element.content = 'http://google.com/LinkRewriteMe';
       await element.updateComplete;
 
       assert.shadowDom.equal(
         element,
         /* HTML */ `
           <pre class="plaintext">
-            <a
+            http://google.com/<a
               href="http://google.com/LinkRewriteMe"
               rel="noopener"
               target="_blank"
             >
-              google.com/LinkRewriteMe
+              LinkRewriteMe
             </a>
           </pre>
         `
@@ -148,21 +148,19 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('renders text with links and rewrites', async () => {
-      element.content = `text with plain link: google.com
-        \ntext with config link: LinkRewriteMe
-        \ntext with complex link: A Link 12
-        \ntext with config html: HTMLRewriteMe`;
+      element.content = `
+        text with plain link: http://google.com
+        text with config link: LinkRewriteMe
+        text with complex link: A Link 12
+        text with config html: HTMLRewriteMe`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
         element,
         /* HTML */ `
           <pre class="plaintext">
-            text with plain link:
-            <a href="http://google.com" rel="noopener" target="_blank">
-              google.com
-            </a>
-            text with config link:
+          text with plain link: http://google.com
+        text with config link:
             <a
               href="http://google.com/LinkRewriteMe"
               rel="noopener"
@@ -214,7 +212,7 @@ suite('gr-formatted-text tests', () => {
     });
     test('renders text with links and rewrites', async () => {
       element.content = `text
-        \ntext with plain link: google.com
+        \ntext with plain link: http://google.com
         \ntext with config link: LinkRewriteMe
         \ntext without a link: NotA Link 15 cats
         \ntext with complex link: A Link 12
@@ -230,7 +228,7 @@ suite('gr-formatted-text tests', () => {
               <p>
                 text with plain link:
                 <a href="http://google.com" rel="noopener" target="_blank">
-                  google.com
+                  http://google.com
                 </a>
               </p>
               <p>
@@ -270,7 +268,7 @@ suite('gr-formatted-text tests', () => {
         \n#### h4-heading
         \n##### h5-heading
         \n###### h6-heading
-        \n# heading with plain link: google.com
+        \n# heading with plain link: http://google.com
         \n# heading with config link: LinkRewriteMe
         \n# heading with config html: HTMLRewriteMe`;
       await element.updateComplete;
@@ -289,7 +287,7 @@ suite('gr-formatted-text tests', () => {
               <h1>
                 heading with plain link:
                 <a href="http://google.com" rel="noopener" target="_blank">
-                  google.com
+                  http://google.com
                 </a>
               </h1>
               <h1>
@@ -495,7 +493,7 @@ suite('gr-formatted-text tests', () => {
 
     test('renders block quotes with links and rewrites', async () => {
       element.content = `> block quote
-        \n> block quote with plain link: google.com
+        \n> block quote with plain link: http://google.com
         \n> block quote with config link: LinkRewriteMe
         \n> block quote with config html: HTMLRewriteMe`;
       await element.updateComplete;
@@ -512,7 +510,7 @@ suite('gr-formatted-text tests', () => {
                 <p>
                   block quote with plain link:
                   <a href="http://google.com" rel="noopener" target="_blank">
-                    google.com
+                    http://google.com
                   </a>
                 </p>
               </blockquote>

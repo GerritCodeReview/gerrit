@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b2c5348_75c3fcbb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-08T09:54:09Z",
+      "side": 1,
+      "message": "I think this was the only test that didn\u0027t make sense anymore.",
+      "parentUuid": "ef2cca1d_81a8421e",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "bad2a2f4382dcc3d813a211b16bfaca20ec8fd2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08572d93_5e6ff40d",

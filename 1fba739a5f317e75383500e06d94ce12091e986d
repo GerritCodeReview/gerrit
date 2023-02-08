@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cce5cfa_c841b040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-08T11:20:45Z",
+      "side": 1,
+      "message": "Thank you @kamilm@google.com for cleaning this up.\n\nOne final note: please modify the commit message and include the deprecation in the Release-Notes footer.",
+      "revId": "1fba739a5f317e75383500e06d94ce12091e986d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

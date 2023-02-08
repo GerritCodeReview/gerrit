@@ -34,6 +34,24 @@
       "parentUuid": "538af3ae_2c21d080",
       "revId": "107834b70c96fd3f353e81e7fea0b33e01fd7e8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f368f630_14388d33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-08T15:16:11Z",
+      "side": 1,
+      "message": "If that\u0027s true, could you add some stats for that to the main body of the commit message?",
+      "parentUuid": "c6aab9f6_faec97ee",
+      "revId": "107834b70c96fd3f353e81e7fea0b33e01fd7e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fcde8f6_e9a8088e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2023-02-08T19:39:14Z",
+      "side": 1,
+      "message": "Certainly worth a try. The Throwable in channelClosed will typically be null.",
+      "revId": "36ec3471d5fb8f8ff76b1f2bb2203164d4b3ba6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

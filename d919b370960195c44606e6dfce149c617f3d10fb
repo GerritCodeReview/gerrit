@@ -167,6 +167,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65603d3f_946452e4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T19:45:13Z",
+      "side": 1,
+      "message": "1. Yes, I believe it is\n2. Does it? I thought it separates the label and its vote from the UUID, no? Or do you mean the second comma in the example? Subsequent commas are why we need to check if the first space or first comma comes earlier, as it\u0027s not safe to assume there\u0027s only one comma in the line.\n\nI tend to prefer to name abstractions as what they are rather than what they do, but I do like your suggestion of abstracting the delimiter and adding its length (this also removes a magic number). I just need to think of a decent name for it (`commaAndSpace` isn\u0027t great I think). Thanks for your thoughts 😊",
+      "parentUuid": "dedffdbd_6f4ed9db",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dac8bf9f_536b3933",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -297,6 +315,24 @@
       "side": 1,
       "message": "Good point! Thanks for explanation.",
       "parentUuid": "8b5876f4_6c733173",
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9aa412c_fe7d8b5e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-08T19:45:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "44e59d98_33ad44ac",
       "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

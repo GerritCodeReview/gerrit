@@ -21,7 +21,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
-import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -78,14 +77,11 @@ import com.google.gerrit.server.restapi.change.ChangeMessages;
 import com.google.gerrit.server.restapi.change.Check;
 import com.google.gerrit.server.restapi.change.CheckSubmitRequirement;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
-import com.google.gerrit.server.restapi.change.DeleteAssignee;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
-import com.google.gerrit.server.restapi.change.GetAssignee;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.GetHashtags;
 import com.google.gerrit.server.restapi.change.GetMetaDiff;
-import com.google.gerrit.server.restapi.change.GetPastAssignees;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
 import com.google.gerrit.server.restapi.change.GetTopic;
 import com.google.gerrit.server.restapi.change.Index;
@@ -97,7 +93,6 @@ import com.google.gerrit.server.restapi.change.Move;
 import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
 import com.google.gerrit.server.restapi.change.PostReviewers;
-import com.google.gerrit.server.restapi.change.PutAssignee;
 import com.google.gerrit.server.restapi.change.PutMessage;
 import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.server.restapi.change.Rebase;
@@ -159,10 +154,6 @@ class ChangeApiImpl implements ChangeApi {
   private final AttentionSet attentionSet;
   private final AttentionSetApiImpl.Factory attentionSetApi;
   private final AddToAttentionSet addToAttentionSet;
-  private final PutAssignee putAssignee;
-  private final GetAssignee getAssignee;
-  private final GetPastAssignees getPastAssignees;
-  private final DeleteAssignee deleteAssignee;
   private final Provider<ListChangeComments> listCommentsProvider;
   private final ListChangeRobotComments listChangeRobotComments;
   private final Provider<ListChangeDrafts> listDraftsProvider;
@@ -213,10 +204,6 @@ class ChangeApiImpl implements ChangeApi {
       AttentionSet attentionSet,
       AttentionSetApiImpl.Factory attentionSetApi,
       AddToAttentionSet addToAttentionSet,
-      PutAssignee putAssignee,
-      GetAssignee getAssignee,
-      GetPastAssignees getPastAssignees,
-      DeleteAssignee deleteAssignee,
       Provider<ListChangeComments> listCommentsProvider,
       ListChangeRobotComments listChangeRobotComments,
       Provider<ListChangeDrafts> listDraftsProvider,
@@ -265,10 +252,6 @@ class ChangeApiImpl implements ChangeApi {
     this.attentionSet = attentionSet;
     this.attentionSetApi = attentionSetApi;
     this.addToAttentionSet = addToAttentionSet;
-    this.putAssignee = putAssignee;
-    this.getAssignee = getAssignee;
-    this.getPastAssignees = getPastAssignees;
-    this.deleteAssignee = deleteAssignee;
     this.listCommentsProvider = listCommentsProvider;
     this.listChangeRobotComments = listChangeRobotComments;
     this.listDraftsProvider = listDraftsProvider;
@@ -599,46 +582,6 @@ class ChangeApiImpl implements ChangeApi {
       return attentionSetApi.create(attentionSet.parse(change, IdString.fromDecoded(id)));
     } catch (Exception e) {
       throw asRestApiException("Cannot parse account", e);
-    }
-  }
-
-  @Override
-  public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
-    try {
-      return putAssignee.apply(change, input).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set assignee", e);
-    }
-  }
-
-  @Nullable
-  @Override
-  public AccountInfo getAssignee() throws RestApiException {
-    try {
-      Response<AccountInfo> r = getAssignee.apply(change);
-      return r.isNone() ? null : r.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get assignee", e);
-    }
-  }
-
-  @Override
-  public List<AccountInfo> getPastAssignees() throws RestApiException {
-    try {
-      return getPastAssignees.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get past assignees", e);
-    }
-  }
-
-  @Nullable
-  @Override
-  public AccountInfo deleteAssignee() throws RestApiException {
-    try {
-      Response<AccountInfo> r = deleteAssignee.apply(change, null);
-      return r.isNone() ? null : r.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete assignee", e);
     }
   }
 

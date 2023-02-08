@@ -22,6 +22,5 @@ public class ChangeConfigInfo {
   public int updateDelay;
   public Boolean submitWholeTopic;
   public String mergeabilityComputationBehavior;
-  public Boolean enableAttentionSet;
   public Boolean enableAssignee;
 }

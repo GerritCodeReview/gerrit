@@ -116,7 +116,7 @@ Accounts in CC receive notifications for the updates on the change, but don't
 need to vote/review. If the CC'ed user votes they are moved to reviewers.
 +
 
-- [[attention-set]]Attention set:
+- [[attention-set]]link:user-attention-set.html[Attention set]:
 +
 Users in attention set are marked by "chevron" symbol (see screenshot above).
 The mark indicates that there are actions their attention is required on the

@@ -181,7 +181,6 @@ of the following values.
 * newpatchset
 * restore
 * revert
-* setassignee
 
 [[Gerrit-Change-Id]]Gerrit-Change-Id::
 

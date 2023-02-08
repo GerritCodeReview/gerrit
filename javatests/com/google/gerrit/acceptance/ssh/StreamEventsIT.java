@@ -65,7 +65,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
         () ->
             pollEventsContaining("ref-updated", refName.substring(0, refName.lastIndexOf('/')))
                     .size()
-                == 2);
+                == 1);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {

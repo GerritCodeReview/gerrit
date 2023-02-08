@@ -46,14 +46,6 @@ public class ChangePredicates {
   }
 
   /**
-   * Returns a predicate that matches changes that are assigned to the provided {@link
-   * com.google.gerrit.entities.Account.Id}.
-   */
-  public static Predicate<ChangeData> assignee(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.ASSIGNEE_SPEC, id.toString());
-  }
-
-  /**
    * Returns a predicate that matches changes that are a revert of the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b494c4e2_56c7bdac",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-08T14:07:20Z",
+      "side": 1,
+      "message": "Why does this need to be sandboxed?\n\nIf it\u0027s needed could we just sandbox the tests that need it, instead of the whole class?",
+      "revId": "6aa15d66100907e363847e1af6de3c89c1d86862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9329e74_15eba0da",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-08T14:07:20Z",
+      "side": 1,
+      "message": "nit: Please use \u0027example.com\u0027 which is a domain reserved for use in documentation and tests. \u0027domain.com\u0027 may actually be a real domain.",
+      "range": {
+        "startLine": 354,
+        "startChar": 41,
+        "endLine": 354,
+        "endChar": 51
+      },
+      "revId": "6aa15d66100907e363847e1af6de3c89c1d86862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

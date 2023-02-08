@@ -1557,21 +1557,6 @@ suite('gr-change-view tests', () => {
     assert.isOk(element.patchRange?.patchNum);
   });
 
-  test('do not handle new change numbers', async () => {
-    const recreateSpy = sinon.spy();
-    element.addEventListener('recreate-change-view', recreateSpy);
-
-    const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
-    await element.updateComplete;
-    assert.isFalse(recreateSpy.calledOnce);
-
-    value.changeNum = 555111333 as NumericChangeId;
-    element.viewState = {...value};
-    await element.updateComplete;
-    assert.isTrue(recreateSpy.calledOnce);
-  });
-
   test('related changes are updated when loadData is called', async () => {
     await element.updateComplete;
     const relatedChanges = element.shadowRoot!.querySelector(

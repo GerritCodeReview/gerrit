@@ -110,7 +110,14 @@ export class GrFormattedText extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().repoCommentLinks$,
-      repoCommentLinks => (this.repoCommentLinks = repoCommentLinks)
+      repoCommentLinks => {
+        console.log(`asdf ${JSON.stringify(repoCommentLinks)}`);
+        repoCommentLinks['linkify urls'] = {
+          match: '(https?:\\/\\/\\S+[\\w/])',
+          link: '$1',
+        };
+        this.repoCommentLinks = repoCommentLinks;
+      }
     );
   }
 

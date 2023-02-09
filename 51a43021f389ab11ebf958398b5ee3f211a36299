@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fea5ab9_a93a710a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-09T09:01:44Z",
+      "side": 1,
+      "message": "NIT:\n```suggestion\n    const format \u003d `dddd, ${this.dateFormat.full}, ${timeFormat};\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 19,
+        "endLine": 224,
+        "endChar": 70
+      },
+      "revId": "51a43021f389ab11ebf958398b5ee3f211a36299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

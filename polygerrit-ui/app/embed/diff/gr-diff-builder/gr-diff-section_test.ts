@@ -9,7 +9,8 @@ import {GrDiffSection} from './gr-diff-section';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {GrDiffLineType} from '../../../api/diff';
+import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
+import {waitQueryAndAssert} from '../../../test/test-utils';
 
 suite('gr-diff-section test', () => {
   let element: GrDiffSection;
@@ -20,6 +21,93 @@ suite('gr-diff-section test', () => {
     );
     element.addTableWrapperForTesting = true;
     await element.updateComplete;
+  });
+
+  suite('move controls', async () => {
+    setup(async () => {
+      const lines = [new GrDiffLine(GrDiffLineType.BOTH, 1, 1)];
+      lines[0].text = 'asdf';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines,
+        moveDetails: {changed: false, range: {start: 1, end: 2}},
+      });
+      element.group = group;
+      await element.updateComplete;
+    });
+
+    test('side-by-side', async () => {
+      const row = await waitQueryAndAssert(element, 'tr.moveControls');
+      // Semantic dom diff has a problem with just comparing table rows or
+      // cells directly. So as a workaround put the row into an empty test
+      // table.
+      const testTable = document.createElement('table');
+      testTable.appendChild(row);
+      assert.dom.equal(
+        testTable,
+        /* HTML */ `
+          <table>
+            <tbody>
+              <tr class="gr-diff moveControls movedOut">
+                <td class="gr-diff moveControlsLineNumCol"></td>
+                <td class="gr-diff sign"></td>
+                <td class="gr-diff moveHeader">
+                  <gr-range-header class="gr-diff" icon="move_item">
+                    <div class="gr-diff">
+                      <span class="gr-diff"> Moved to lines </span>
+                      <a class="gr-diff" href="#1"> 1 </a>
+                      <span class="gr-diff"> - </span>
+                      <a class="gr-diff" href="#2"> 2 </a>
+                    </div>
+                  </gr-range-header>
+                </td>
+                <td class="gr-diff moveControlsLineNumCol"></td>
+                <td class="gr-diff sign"></td>
+                <td class="gr-diff"></td>
+              </tr>
+            </tbody>
+          </table>
+        `,
+        {}
+      );
+    });
+
+    test('unified', async () => {
+      element.renderPrefs = {
+        ...element.renderPrefs,
+        view_mode: DiffViewMode.UNIFIED,
+      };
+      const row = await waitQueryAndAssert(element, 'tr.moveControls');
+      // Semantic dom diff has a problem with just comparing table rows or
+      // cells directly. So as a workaround put the row into an empty test
+      // table.
+      const testTable = document.createElement('table');
+      testTable.appendChild(row);
+      assert.dom.equal(
+        testTable,
+        /* HTML */ `
+          <table>
+            <tbody>
+              <tr class="gr-diff moveControls movedOut">
+                <td class="gr-diff moveControlsLineNumCol"></td>
+                <td class="gr-diff moveControlsLineNumCol"></td>
+                <td class="gr-diff moveHeader">
+                  <gr-range-header class="gr-diff" icon="move_item">
+                    <div class="gr-diff">
+                      <span class="gr-diff"> Moved to lines </span>
+                      <a class="gr-diff" href="#1"> 1 </a>
+                      <span class="gr-diff"> - </span>
+                      <a class="gr-diff" href="#2"> 2 </a>
+                    </div>
+                  </gr-range-header>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        `,
+        {}
+      );
+    });
   });
 
   test('3 normal unchanged rows', async () => {

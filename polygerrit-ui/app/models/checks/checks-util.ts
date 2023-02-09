@@ -121,6 +121,7 @@ export function createFixAction(
   const eventDetail: OpenFixPreviewEventDetail = {
     patchNum: result.patchset as PatchSetNumber,
     fixSuggestions,
+    onCloseFixPreview: [],
   };
   return {
     name: 'Show Fix',

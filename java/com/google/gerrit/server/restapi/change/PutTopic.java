@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -28,6 +30,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,10 +65,12 @@ public class PutTopic
     }
 
     SetTopicOp op = topicOpFactory.create(sanitizedInput.topic);
-    try (BatchUpdate u =
-        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
-      u.addOp(req.getId(), op);
-      u.execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u =
+          updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
+        u.addOp(req.getId(), op);
+        u.execute();
+      }
     }
 
     if (Strings.isNullOrEmpty(sanitizedInput.topic)) {

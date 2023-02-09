@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.BranchNameKey;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefValidationHelper;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -87,130 +89,132 @@ public class CreateBranch
       throws BadRequestException, AuthException, ResourceConflictException,
           UnprocessableEntityException, IOException, PermissionBackendException,
           NoSuchProjectException {
-    String ref = id.get();
-    if (input == null) {
-      input = new BranchInput();
-    }
-    if (input.ref != null && !ref.equals(input.ref)) {
-      throw new BadRequestException("ref must match URL");
-    }
-    if (input.revision != null) {
-      input.revision = input.revision.trim();
-    }
-    if (Strings.isNullOrEmpty(input.revision)) {
-      input.revision = Constants.HEAD;
-    }
-    while (ref.startsWith("/")) {
-      ref = ref.substring(1);
-    }
-    ref = RefNames.fullName(ref);
-    if (!Repository.isValidRefName(ref)) {
-      throw new BadRequestException("invalid branch name \"" + ref + "\"");
-    }
-    if (MagicBranch.isMagicBranch(ref)) {
-      throw new BadRequestException(
-          "not allowed to create branches under \""
-              + MagicBranch.getMagicRefNamePrefix(ref)
-              + "\"");
-    }
-    if (!isBranchAllowed(ref)) {
-      throw new BadRequestException(
-          "Cannot create a branch with name \""
-              + ref
-              + "\". Not allowed to create branches under Gerrit internal or tags refs.");
-    }
-
-    BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
-    try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
-      RevWalk rw = RefUtil.verifyConnected(repo, revid);
-      RevObject object = rw.parseAny(revid);
-
-      if (ref.startsWith(Constants.R_HEADS)) {
-        // Ensure that what we start the branch from is a commit. If we
-        // were given a tag, dereference to the commit instead.
-        //
-        object = rw.parseCommit(object);
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      String ref = id.get();
+      if (input == null) {
+        input = new BranchInput();
+      }
+      if (input.ref != null && !ref.equals(input.ref)) {
+        throw new BadRequestException("ref must match URL");
+      }
+      if (input.revision != null) {
+        input.revision = input.revision.trim();
+      }
+      if (Strings.isNullOrEmpty(input.revision)) {
+        input.revision = Constants.HEAD;
+      }
+      while (ref.startsWith("/")) {
+        ref = ref.substring(1);
+      }
+      ref = RefNames.fullName(ref);
+      if (!Repository.isValidRefName(ref)) {
+        throw new BadRequestException("invalid branch name \"" + ref + "\"");
+      }
+      if (MagicBranch.isMagicBranch(ref)) {
+        throw new BadRequestException(
+            "not allowed to create branches under \""
+                + MagicBranch.getMagicRefNamePrefix(ref)
+                + "\"");
+      }
+      if (!isBranchAllowed(ref)) {
+        throw new BadRequestException(
+            "Cannot create a branch with name \""
+                + ref
+                + "\". Not allowed to create branches under Gerrit internal or tags refs.");
       }
 
-      Ref sourceRef = repo.exactRef(input.revision);
-      if (sourceRef == null) {
-        createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
-      } else {
-        if (sourceRef.isSymbolic()) {
-          sourceRef = sourceRef.getTarget();
+      BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
+      try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
+        ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
+        RevWalk rw = RefUtil.verifyConnected(repo, revid);
+        RevObject object = rw.parseAny(revid);
+
+        if (ref.startsWith(Constants.R_HEADS)) {
+          // Ensure that what we start the branch from is a commit. If we
+          // were given a tag, dereference to the commit instead.
+          //
+          object = rw.parseCommit(object);
         }
-        createRefControl.checkCreateRef(
-            identifiedUser,
-            repo,
-            name,
-            object,
-            /* forPush= */ false,
-            BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
-      }
 
-      RefUpdate u = repo.updateRef(ref);
-      u.setExpectedOldObjectId(ObjectId.zeroId());
-      u.setNewObjectId(object.copy());
-      u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
-      u.setRefLogMessage("created via REST from " + input.revision, false);
-      refCreationValidator.validateRefOperation(
-          rsrc.getName(),
-          identifiedUser.get(),
-          u,
-          ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
-      RefUpdate.Result result = u.update(rw);
-      switch (result) {
-        case FAST_FORWARD:
-        case NEW:
-        case NO_CHANGE:
-          referenceUpdated.fire(
-              name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
-          break;
-        case LOCK_FAILURE:
-          if (repo.getRefDatabase().exactRef(ref) != null) {
-            throw new ResourceConflictException("branch \"" + ref + "\" already exists");
+        Ref sourceRef = repo.exactRef(input.revision);
+        if (sourceRef == null) {
+          createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
+        } else {
+          if (sourceRef.isSymbolic()) {
+            sourceRef = sourceRef.getTarget();
           }
-          String refPrefix = RefUtil.getRefPrefix(ref);
-          while (!Constants.R_HEADS.equals(refPrefix)) {
-            if (repo.getRefDatabase().exactRef(refPrefix) != null) {
-              throw new ResourceConflictException(
-                  "Cannot create branch \""
-                      + ref
-                      + "\" since it conflicts with branch \""
-                      + refPrefix
-                      + "\".");
+          createRefControl.checkCreateRef(
+              identifiedUser,
+              repo,
+              name,
+              object,
+              /* forPush= */ false,
+              BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
+        }
+
+        RefUpdate u = repo.updateRef(ref);
+        u.setExpectedOldObjectId(ObjectId.zeroId());
+        u.setNewObjectId(object.copy());
+        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
+        u.setRefLogMessage("created via REST from " + input.revision, false);
+        refCreationValidator.validateRefOperation(
+            rsrc.getName(),
+            identifiedUser.get(),
+            u,
+            ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
+        RefUpdate.Result result = u.update(rw);
+        switch (result) {
+          case FAST_FORWARD:
+          case NEW:
+          case NO_CHANGE:
+            referenceUpdated.fire(
+                name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+            break;
+          case LOCK_FAILURE:
+            if (repo.getRefDatabase().exactRef(ref) != null) {
+              throw new ResourceConflictException("branch \"" + ref + "\" already exists");
             }
-            refPrefix = RefUtil.getRefPrefix(refPrefix);
-          }
-          throw new LockFailureException(String.format("Failed to create %s", ref), u);
-        case FORCED:
-        case IO_FAILURE:
-        case NOT_ATTEMPTED:
-        case REJECTED:
-        case REJECTED_CURRENT_BRANCH:
-        case RENAMED:
-        case REJECTED_MISSING_OBJECT:
-        case REJECTED_OTHER_REASON:
-        default:
-          throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
-      }
+            String refPrefix = RefUtil.getRefPrefix(ref);
+            while (!Constants.R_HEADS.equals(refPrefix)) {
+              if (repo.getRefDatabase().exactRef(refPrefix) != null) {
+                throw new ResourceConflictException(
+                    "Cannot create branch \""
+                        + ref
+                        + "\" since it conflicts with branch \""
+                        + refPrefix
+                        + "\".");
+              }
+              refPrefix = RefUtil.getRefPrefix(refPrefix);
+            }
+            throw new LockFailureException(String.format("Failed to create %s", ref), u);
+          case FORCED:
+          case IO_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
+          default:
+            throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
+        }
 
-      BranchInfo info = new BranchInfo();
-      info.ref = ref;
-      info.revision = revid.getName();
+        BranchInfo info = new BranchInfo();
+        info.ref = ref;
+        info.revision = revid.getName();
 
-      if (isConfigRef(name.branch())) {
-        // Never allow to delete the meta config branch.
-        info.canDelete = null;
-      } else {
-        info.canDelete =
-            permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                    && rsrc.getProjectState().statePermitsWrite()
-                ? true
-                : null;
+        if (isConfigRef(name.branch())) {
+          // Never allow to delete the meta config branch.
+          info.canDelete = null;
+        } else {
+          info.canDelete =
+              permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+                      && rsrc.getProjectState().statePermitsWrite()
+                  ? true
+                  : null;
+        }
+        return Response.created(info);
       }
-      return Response.created(info);
     }
   }
 

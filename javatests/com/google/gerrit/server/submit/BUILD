@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:jgit",
         "//lib/mockito",
         "//lib/truth",

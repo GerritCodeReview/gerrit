@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -252,20 +253,22 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     try (BatchUpdate u =
         batchUpdateFactory.create(
             project, identifiedUserFactory.create(admin.id()), TimeUtil.now())) {
-      u.addOp(
-              changeId,
-              new BatchUpdateOp() {
-                @Override
-                public boolean updateChange(ChangeContext ctx) {
-                  ctx.getChange().setPrivate(true);
-                  ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-                  ctx.getChange().setPrivate(true);
-                  ctx.getChange().setLastUpdatedOn(ctx.getWhen());
-                  update.setPrivate(true);
-                  return true;
-                }
-              })
-          .execute();
+      testRefAction(
+          () ->
+              u.addOp(
+                      changeId,
+                      new BatchUpdateOp() {
+                        @Override
+                        public boolean updateChange(ChangeContext ctx) {
+                          ctx.getChange().setPrivate(true);
+                          ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+                          ctx.getChange().setPrivate(true);
+                          ctx.getChange().setLastUpdatedOn(ctx.getWhen());
+                          update.setPrivate(true);
+                          return true;
+                        }
+                      })
+                  .execute());
     }
     assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
   }

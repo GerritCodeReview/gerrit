@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.LabelId.VERIFIED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
@@ -90,7 +91,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
       bru.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }
 
-    RefUpdateUtil.executeChecked(bru, repo);
+    testRefAction(() -> RefUpdateUtil.executeChecked(bru, repo));
   }
 
   @Test

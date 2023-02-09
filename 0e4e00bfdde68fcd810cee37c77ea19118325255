@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572fd96e_e8edcbcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-09T09:48:08Z",
+      "side": 1,
+      "message": "I originally though this can\u0027t be tested in integration tests, but have an idea now. Let me see if I can produce a test :-)",
+      "revId": "0e4e00bfdde68fcd810cee37c77ea19118325255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

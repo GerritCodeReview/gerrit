@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//java/com/google/gerrit/git",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/group/db/testing",
         "//java/com/google/gerrit/server/group/testing",

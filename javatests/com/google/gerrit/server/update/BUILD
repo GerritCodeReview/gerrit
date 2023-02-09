@@ -17,6 +17,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:jgit",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:jgit-junit",
         "//lib/guice",
         "//lib/truth",

@@ -5,7 +5,10 @@ java_library(
     testonly = True,
     srcs = glob(
         ["**/*.java"],
-        exclude = ["AssertableExecutorService.java"],
+        exclude = [
+            "AssertableExecutorService.java",
+            "TestActionRefUpdateContext.java",
+        ],
     ),
     visibility = ["//visibility:public"],
     exports = [
@@ -40,6 +43,7 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",
@@ -64,5 +68,16 @@ java_library(
     deps = [
         "//lib:guava",
         "//lib/truth",
+    ],
+)
+
+java_library(
+    name = "test-ref-update-context",
+    testonly = True,
+    srcs = ["TestActionRefUpdateContext.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/server",
+        "//lib/errorprone:annotations",
     ],
 )

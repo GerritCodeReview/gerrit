@@ -8,6 +8,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:jgit",
     ],
 )

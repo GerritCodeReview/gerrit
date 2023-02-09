@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ public class Browser {
     System.err.format("Opening %s ...", url);
     System.err.flush();
     try {
-      org.h2.tools.Server.openBrowser(url);
+      BrowserUtil.openBrowser(url);
       System.err.println("OK");
     } catch (Exception e) {
       System.err.println("FAILED");

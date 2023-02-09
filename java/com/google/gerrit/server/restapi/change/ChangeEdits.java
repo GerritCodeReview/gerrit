@@ -283,6 +283,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   /** Put handler that is activated when PUT request is called on collection element. */
   @Singleton
   public static class Put implements RestModifyView<ChangeEditResource, FileContentInput> {
+
     private static final Pattern BINARY_DATA_PATTERN =
         Pattern.compile("data:([\\w/.-]*);([\\w]+),(.*)");
     private static final String BASE64 = "base64";
@@ -348,7 +349,6 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
                   + ") was invalid: supported values are 0, 644, or 755.");
         }
       }
-
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(
             repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);

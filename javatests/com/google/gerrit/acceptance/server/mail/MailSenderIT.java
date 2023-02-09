@@ -15,15 +15,24 @@
 package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
+import com.google.gerrit.server.config.SitePaths;
 import java.net.URI;
+import java.nio.file.Files;
 import java.util.Map;
+import javax.inject.Inject;
 import org.junit.Test;
 
+@UseLocalDisk
 public class MailSenderIT extends AbstractMailIT {
+
+  @Inject private SitePaths sitePaths;
 
   @Test
   @GerritConfig(name = "sendemail.replyToAddress", value = "custom@gerritcodereview.com")
@@ -61,6 +70,20 @@ public class MailSenderIT extends AbstractMailIT {
     assertThat(headerString(headers, "List-Id")).isEqualTo(listId);
     assertThat(headerString(headers, "List-Unsubscribe")).isEqualTo(unsubscribeLink);
     assertThat(headerString(headers, "In-Reply-To")).isEqualTo(threadId);
+  }
+
+  @Test
+  @Sandboxed
+  public void useCustomTemplates() throws Exception {
+    String customTemplate =
+        "{namespace com.google.gerrit.server.mail.template.ChangeSubject}\n"
+            + "\n"
+            + "{template ChangeSubject kind=\"text\"}CUSTOM-TEMPLATE{/template}\n";
+    Files.write(sitePaths.mail_dir.resolve("ChangeSubject.soy"), customTemplate.getBytes(UTF_8));
+
+    createChangeWithReview(user);
+    String subject = headerString(sender.getMessages().iterator().next().headers(), "Subject");
+    assertThat(subject).isEqualTo("CUSTOM-TEMPLATE");
   }
 
   private String headerString(Map<String, EmailHeader> headers, String name) {

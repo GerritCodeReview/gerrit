@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -385,7 +386,9 @@ public class RepoSequenceTest {
       ins.flush();
       RefUpdate ru = repo.updateRef(refName);
       ru.setNewObjectId(newId);
-      assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED);
+      testRefAction(
+          () ->
+              assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED));
       return newId;
     } catch (IOException e) {
       throw new RuntimeException(e);

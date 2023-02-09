@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -141,16 +143,19 @@ public class AccountIndexerIT {
 
   private void updateAccountWithoutCacheOrIndex(Account.Id accountId, AccountDelta accountDelta)
       throws IOException, ConfigInvalidException {
-    try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
-        MetaDataUpdate md =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo)) {
-      PersonIdent ident = serverIdent.get();
-      md.getCommitBuilder().setAuthor(ident);
-      md.getCommitBuilder().setCommitter(ident);
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
+          MetaDataUpdate md =
+              new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo)) {
+        PersonIdent ident = serverIdent.get();
+        md.getCommitBuilder().setAuthor(ident);
+        md.getCommitBuilder().setCommitter(ident);
 
-      AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
-      accountConfig.setAccountDelta(accountDelta);
-      accountConfig.commit(md);
+        AccountConfig accountConfig =
+            new AccountConfig(accountId, allUsersName, allUsersRepo).load();
+        accountConfig.setAccountDelta(accountDelta);
+        accountConfig.commit(md);
+      }
     }
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -25,6 +27,7 @@ import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -68,24 +71,27 @@ public class BatchAbandon {
       return;
     }
     AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
-    try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.now())) {
-      u.setNotify(notify);
-      for (ChangeData change : changes) {
-        if (!project.equals(change.project())) {
-          throw new ResourceConflictException(
-              String.format(
-                  "Project name \"%s\" doesn't match \"%s\"",
-                  change.project().get(), project.get()));
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u = updateFactory.create(project, user, TimeUtil.now())) {
+        u.setNotify(notify);
+        for (ChangeData change : changes) {
+          if (!project.equals(change.project())) {
+            throw new ResourceConflictException(
+                String.format(
+                    "Project name \"%s\" doesn't match \"%s\"",
+                    change.project().get(), project.get()));
+          }
+          u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
+          u.addOp(
+              change.getId(),
+              storeSubmitRequirementsOpFactory.create(
+                  change.submitRequirements().values(), change));
         }
-        u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
-        u.addOp(
-            change.getId(),
-            storeSubmitRequirementsOpFactory.create(change.submitRequirements().values(), change));
-      }
-      u.execute();
+        u.execute();
 
-      if (cfg.getCleanupAccountPatchReview()) {
-        cleanupAccountPatchReview(changes);
+        if (cfg.getCleanupAccountPatchReview()) {
+          cleanupAccountPatchReview(changes);
+        }
       }
     }
   }

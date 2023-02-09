@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.entities.Account;
@@ -166,7 +167,7 @@ public class DeleteZombieCommentsRefsTest {
           new ReceiveCommand(ObjectId.zeroId(), commitId, refName, ReceiveCommand.Type.CREATE));
       refNames.add(refName);
     }
-    RefUpdateUtil.executeChecked(bru, usersRepo);
+    testRefAction(() -> RefUpdateUtil.executeChecked(bru, usersRepo));
     return refNames;
   }
 
@@ -201,7 +202,7 @@ public class DeleteZombieCommentsRefsTest {
     RefUpdate update = repo.updateRef(refName);
     update.setNewObjectId(commitId);
     update.setForceUpdate(true);
-    update.update();
+    testRefAction(() -> update.update());
     return repo.exactRef(refName);
   }
 

@@ -13,6 +13,7 @@ acceptance_tests(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
     ],
 )
 

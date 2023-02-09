@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -388,7 +389,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(normalProject)) {
       RefUpdate u = repo.updateRef(RefNames.REFS_HEADS + "master");
       u.setForceUpdate(true);
-      assertThat(u.delete()).isEqualTo(Result.FORCED);
+      testRefAction(() -> assertThat(u.delete()).isEqualTo(Result.FORCED));
     }
     AccessCheckInput input = new AccessCheckInput();
     input.account = privilegedUser.email();

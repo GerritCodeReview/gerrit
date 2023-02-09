@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -132,30 +134,32 @@ public class ChangeOperationsImpl implements ChangeOperations {
   }
 
   private Change.Id createChange(TestChangeCreation changeCreation) throws Exception {
-    Change.Id changeId = Change.id(seq.nextChangeId());
-    Project.NameKey project = getTargetProject(changeCreation);
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      Change.Id changeId = Change.id(seq.nextChangeId());
+      Project.NameKey project = getTargetProject(changeCreation);
 
-    try (Repository repository = repositoryManager.openRepository(project);
-        ObjectInserter objectInserter = repository.newObjectInserter();
-        RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-      Instant now = TimeUtil.now();
-      IdentifiedUser changeOwner = getChangeOwner(changeCreation);
-      PersonIdent author = getAuthorIdent(now, changeCreation);
-      PersonIdent committer = getCommitterIdent(now, changeCreation);
-      ObjectId commitId =
-          createCommit(repository, revWalk, objectInserter, changeCreation, author, committer);
+      try (Repository repository = repositoryManager.openRepository(project);
+          ObjectInserter objectInserter = repository.newObjectInserter();
+          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+        Instant now = TimeUtil.now();
+        IdentifiedUser changeOwner = getChangeOwner(changeCreation);
+        PersonIdent author = getAuthorIdent(now, changeCreation);
+        PersonIdent committer = getCommitterIdent(now, changeCreation);
+        ObjectId commitId =
+            createCommit(repository, revWalk, objectInserter, changeCreation, author, committer);
 
-      String refName = RefNames.fullName(changeCreation.branch());
-      ChangeInserter inserter = getChangeInserter(changeId, refName, commitId);
-      changeCreation.topic().ifPresent(t -> inserter.setTopic(t));
-      inserter.setApprovals(changeCreation.approvals());
+        String refName = RefNames.fullName(changeCreation.branch());
+        ChangeInserter inserter = getChangeInserter(changeId, refName, commitId);
+        changeCreation.topic().ifPresent(t -> inserter.setTopic(t));
+        inserter.setApprovals(changeCreation.approvals());
 
-      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
-        batchUpdate.setRepository(repository, revWalk, objectInserter);
-        batchUpdate.insertChange(inserter);
-        batchUpdate.execute();
+        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+          batchUpdate.setRepository(repository, revWalk, objectInserter);
+          batchUpdate.insertChange(inserter);
+          batchUpdate.execute();
+        }
+        return changeId;
       }
-      return changeId;
     }
   }
 
@@ -452,39 +456,41 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
     private PatchSet.Id createPatchset(TestPatchsetCreation patchsetCreation)
         throws IOException, RestApiException, UpdateException {
-      ChangeNotes changeNotes = getChangeNotes();
-      Project.NameKey project = changeNotes.getProjectName();
-      try (Repository repository = repositoryManager.openRepository(project);
-          ObjectInserter objectInserter = repository.newObjectInserter();
-          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-        Instant now = TimeUtil.now();
-        PersonIdent authorIdent = getAuthorIdent(now, patchsetCreation);
-        PersonIdent committerIdent = getCommitterIdent(now, patchsetCreation);
-        ObjectId newPatchsetCommit =
-            createPatchsetCommit(
-                repository,
-                revWalk,
-                objectInserter,
-                changeNotes,
-                patchsetCreation,
-                authorIdent,
-                committerIdent,
-                now);
+      try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+        ChangeNotes changeNotes = getChangeNotes();
+        Project.NameKey project = changeNotes.getProjectName();
+        try (Repository repository = repositoryManager.openRepository(project);
+            ObjectInserter objectInserter = repository.newObjectInserter();
+            RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+          Instant now = TimeUtil.now();
+          PersonIdent authorIdent = getAuthorIdent(now, patchsetCreation);
+          PersonIdent committerIdent = getCommitterIdent(now, patchsetCreation);
+          ObjectId newPatchsetCommit =
+              createPatchsetCommit(
+                  repository,
+                  revWalk,
+                  objectInserter,
+                  changeNotes,
+                  patchsetCreation,
+                  authorIdent,
+                  committerIdent,
+                  now);
 
-        PatchSet.Id patchsetId =
-            ChangeUtil.nextPatchSetId(repository, changeNotes.getCurrentPatchSet().id());
-        PatchSetInserter patchSetInserter =
-            getPatchSetInserter(changeNotes, newPatchsetCommit, patchsetId);
+          PatchSet.Id patchsetId =
+              ChangeUtil.nextPatchSetId(repository, changeNotes.getCurrentPatchSet().id());
+          PatchSetInserter patchSetInserter =
+              getPatchSetInserter(changeNotes, newPatchsetCommit, patchsetId);
 
-        Account.Id uploaderId =
-            patchsetCreation.uploader().orElse(changeNotes.getChange().getOwner());
-        IdentifiedUser uploader = userFactory.create(uploaderId);
-        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, uploader, now)) {
-          batchUpdate.setRepository(repository, revWalk, objectInserter);
-          batchUpdate.addOp(changeId, patchSetInserter);
-          batchUpdate.execute();
+          Account.Id uploaderId =
+              patchsetCreation.uploader().orElse(changeNotes.getChange().getOwner());
+          IdentifiedUser uploader = userFactory.create(uploaderId);
+          try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, uploader, now)) {
+            batchUpdate.setRepository(repository, revWalk, objectInserter);
+            batchUpdate.addOp(changeId, patchSetInserter);
+            batchUpdate.execute();
+          }
+          return patchsetId;
         }
-        return patchsetId;
       }
     }
 

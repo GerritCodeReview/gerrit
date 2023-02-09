@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21772f61_0b908b00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154295
+      },
+      "writtenOn": "2023-02-09T13:26:00Z",
+      "side": 1,
+      "message": "I checked the fix in Critique and all looks good. Thanks!",
+      "revId": "46e84477bf75309c37c831246c02a2f31d1c1e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -335,7 +336,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(repo.resolve(RefNames.REFS_CONFIG));
-      assertThat(u.delete(rw)).isEqualTo(Result.FORCED);
+      testRefAction(() -> assertThat(u.delete(rw)).isEqualTo(Result.FORCED));
     }
 
     RevCommit c =

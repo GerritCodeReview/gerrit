@@ -102,7 +102,7 @@ public class Browser {
     System.err.format("Opening %s ...", url);
     System.err.flush();
     try {
-      org.h2.tools.Server.openBrowser(url);
+      BrowserUtil.openBrowser(url);
       System.err.println("OK");
     } catch (Exception e) {
       System.err.println("FAILED");

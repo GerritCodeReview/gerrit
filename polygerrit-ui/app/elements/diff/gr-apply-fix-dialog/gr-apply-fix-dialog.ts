@@ -20,7 +20,6 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
-import {fireCloseFixPreview} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -38,6 +37,7 @@ import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {changeModelToken} from '../../../models/change/change-model';
+import {fireReload} from '../../../utils/event-util';
 
 interface FilePreview {
   filepath: string;
@@ -93,6 +93,9 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   isOwner = false;
+
+  @state()
+  onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -245,6 +248,7 @@ export class GrApplyFixDialog extends LitElement {
   open(e: OpenFixPreviewEvent) {
     this.patchNum = e.detail.patchNum;
     this.fixSuggestions = e.detail.fixSuggestions;
+    this.onCloseFixPreviewCallbacks = e.detail.onCloseFixPreviewCallbacks;
     assert(this.fixSuggestions.length > 0, 'no fix in the event');
     this.selectedFixIdx = 0;
     this.applyFixModal?.showModal();
@@ -330,8 +334,9 @@ export class GrApplyFixDialog extends LitElement {
     this.currentPreviews = [];
     this.isApplyFixLoading = false;
 
-    fireCloseFixPreview(this, fixApplied);
+    this.onCloseFixPreviewCallbacks.forEach(fn => fn(fixApplied));
     this.applyFixModal?.close();
+    fireReload(this);
   }
 
   private computeTooltip() {

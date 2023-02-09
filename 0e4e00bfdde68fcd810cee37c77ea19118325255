@@ -16,6 +16,24 @@
       "message": "I originally though this can\u0027t be tested in integration tests, but have an idea now. Let me see if I can produce a test :-)",
       "revId": "0e4e00bfdde68fcd810cee37c77ea19118325255",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6abf3d8a_32af63b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-09T12:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "572fd96e_e8edcbcf",
+      "revId": "0e4e00bfdde68fcd810cee37c77ea19118325255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

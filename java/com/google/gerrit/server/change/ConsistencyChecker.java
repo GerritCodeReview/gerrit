@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
@@ -57,6 +58,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -174,29 +176,31 @@ public class ConsistencyChecker {
   public Result check(ChangeNotes notes, @Nullable FixInput f) {
     requireNonNull(notes);
     try {
-      return retryHelper
-          .changeUpdate(
-              "checkChangeConsistency",
-              buf -> {
-                try {
-                  reset();
-                  this.updateFactory = buf;
-                  this.notes = notes;
-                  fix = f;
-                  checkImpl();
-                  return result();
-                } finally {
-                  if (rw != null) {
-                    rw.getObjectReader().close();
-                    rw.close();
-                    oi.close();
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        return retryHelper
+            .changeUpdate(
+                "checkChangeConsistency",
+                buf -> {
+                  try {
+                    reset();
+                    this.updateFactory = buf;
+                    this.notes = notes;
+                    fix = f;
+                    checkImpl();
+                    return result();
+                  } finally {
+                    if (rw != null) {
+                      rw.getObjectReader().close();
+                      rw.close();
+                      oi.close();
+                    }
+                    if (repo != null) {
+                      repo.close();
+                    }
                   }
-                  if (repo != null) {
-                    repo.close();
-                  }
-                }
-              })
-          .call();
+                })
+            .call();
+      }
     } catch (RestApiException e) {
       return logAndReturnOneProblem(e, notes, "Error checking change: " + e.getMessage());
     } catch (UpdateException e) {

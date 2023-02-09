@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f2942af9_09af9cc3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-09T12:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "658fc795_c6e0f3c8",
+      "range": {
+        "startLine": 182,
+        "startChar": 9,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "9172b497881190b8345e14377c164b00204e0733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9d7bd33a_bcacf315",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section_test.ts",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2023-02-09T12:05:20Z",
       "side": 1,
       "message": "Nit: It\u0027s already 2023 😊",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "9172b497881190b8345e14377c164b00204e0733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba526245_44ff880b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-range-header/gr-range-header_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-09T12:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0ce0cc1_b5aa1b04",
       "range": {
         "startLine": 3,
         "startChar": 13,

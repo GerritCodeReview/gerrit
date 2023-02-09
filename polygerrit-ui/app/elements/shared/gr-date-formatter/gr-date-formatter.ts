@@ -221,7 +221,7 @@ export class GrDateFormatter extends LitElement {
       this.timeFormat === TimeFormats.TIME_12
         ? TimeFormats.TIME_12_WITH_SEC
         : TimeFormats.TIME_24_WITH_SEC;
-    const format = this.dateFormat.full + ', ' + timeFormat;
+    const format = `dddd, ${this.dateFormat.full}, ${timeFormat}`;
     return formatDate(date, format) + this.getUtcOffsetString();
   }
 }

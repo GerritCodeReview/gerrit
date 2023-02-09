@@ -93,6 +93,7 @@ interface DateTimeFormatParts {
   second?: string;
   // AM or PM
   dayPeriod?: string;
+  weekday?: string;
 }
 
 export function formatDate(date: Date, format: string) {
@@ -109,6 +110,14 @@ export function formatDate(date: Date, format: string) {
       options.year = 'numeric';
     } else {
       options.year = '2-digit';
+    }
+  }
+
+  if (format.includes('ddd')) {
+    if (format.includes('dddd')) {
+      options.weekday = 'long';
+    } else {
+      options.weekday = 'short';
     }
   }
 
@@ -167,6 +176,9 @@ export function formatDate(date: Date, format: string) {
       case 'dayPeriod':
         parts.dayPeriod = entry.value;
         break;
+      case 'weekday':
+        parts.weekday = entry.value;
+        break;
     }
   }
   if (parts.year && format.includes('YY')) {
@@ -201,6 +213,10 @@ export function formatDate(date: Date, format: string) {
     format = format.replace('A', parts.dayPeriod.toUpperCase());
   }
 
+  // Month and weekday must be last, because they will yield characters that
+  // could be interpreted as format strings, e.g. `h` in `Thursday` would
+  // otherwise be replaced by "hours".
+
   if (parts.month && format.includes('MM')) {
     if (format.includes('MMM')) {
       format = format.replace('MMM', parts.month);
@@ -208,6 +224,15 @@ export function formatDate(date: Date, format: string) {
       format = format.replace('MM', parts.month);
     }
   }
+
+  if (parts.weekday && format.includes('ddd')) {
+    if (format.includes('dddd')) {
+      format = format.replace('dddd', parts.weekday);
+    } else {
+      format = format.replace('ddd', parts.weekday);
+    }
+  }
+
   return format;
 }
 

@@ -90,7 +90,7 @@ class MailSoySauceLoader {
     "RevertedHtml.soy",
   };
 
-  private static final SoySauce DEFAULT = getDefault().build().compileTemplates();
+  private static final SoySauce DEFAULT = getDefault(null).build().compileTemplates();
 
   private final SitePaths site;
   private final PluginSetContext<MailSoyTemplateProvider> templateProviders;
@@ -106,7 +106,7 @@ class MailSoySauceLoader {
       return DEFAULT;
     }
 
-    SoyFileSet.Builder builder = getDefault();
+    SoyFileSet.Builder builder = getDefault(site);
     templateProviders.runEach(
         e -> e.getFileNames().forEach(p -> addTemplate(builder, site, e.getPath(), p)));
     return builder.build().compileTemplates();
@@ -124,10 +124,10 @@ class MailSoySauceLoader {
     }
   }
 
-  private static SoyFileSet.Builder getDefault() {
+  private static SoyFileSet.Builder getDefault(@Nullable SitePaths site) {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     for (String name : TEMPLATES) {
-      addTemplate(builder, null, "com/google/gerrit/server/mail/", name);
+      addTemplate(builder, site, "com/google/gerrit/server/mail/", name);
     }
     return builder;
   }

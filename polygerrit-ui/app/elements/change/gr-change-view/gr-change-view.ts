@@ -590,8 +590,12 @@ export class GrChangeView extends LitElement {
     this.addEventListener('editable-content-cancel', () =>
       this.handleCommitMessageCancel()
     );
-    this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', e => this.onCloseFixPreview(e));
+    this.addEventListener(EventType.OPEN_FIX_PREVIEW, e =>
+      this.onOpenFixPreview(e)
+    );
+    this.addEventListener(EventType.CLOSE_FIX_PREVIEW, e =>
+      this.onCloseFixPreview(e)
+    );
 
     this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
     this.addEventListener('reload', e => {

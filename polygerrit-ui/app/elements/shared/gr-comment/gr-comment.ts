@@ -40,6 +40,7 @@ import {
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
+  EventType,
   OpenFixPreviewEventDetail,
   ReplyToCommentEventDetail,
   ValueChangedEvent,
@@ -258,6 +259,9 @@ export class GrComment extends LitElement {
     // them as well.
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
       preventDefault: false,
+    });
+    this.addEventListener(EventType.CLOSE_FIX_PREVIEW, e => {
+      if (e.detail.fixApplied) this.handleAppliedFix();
     });
     for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
       this.shortcuts.addLocal(
@@ -1053,6 +1057,7 @@ export class GrComment extends LitElement {
           replacement
         ),
         patchNum: this.comment.patch_set,
+        comment: this,
       };
     }
     if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
@@ -1127,6 +1132,18 @@ export class GrComment extends LitElement {
       content: `> ${quoted}\n\nPlease fix.`,
       userWantsToEdit: false,
       unresolved: true,
+    };
+    // Handled by <gr-comment-thread>.
+    fire(this, 'reply-to-comment', eventDetail);
+  }
+
+  private handleAppliedFix() {
+    const message = this.comment?.message;
+    assert(!!message, 'empty message');
+    const eventDetail: ReplyToCommentEventDetail = {
+      content: 'Fix Applied',
+      userWantsToEdit: false,
+      unresolved: false,
     };
     // Handled by <gr-comment-thread>.
     fire(this, 'reply-to-comment', eventDetail);

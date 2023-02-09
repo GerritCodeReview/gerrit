@@ -37,6 +37,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
 
 interface FilePreview {
   filepath: string;
@@ -80,6 +81,9 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   isApplyFixLoading = false;
+
+  @state()
+  comment?: GrComment;
 
   @state()
   selectedFixIdx = 0;
@@ -234,6 +238,7 @@ export class GrApplyFixDialog extends LitElement {
   open(e: OpenFixPreviewEvent) {
     this.patchNum = e.detail.patchNum;
     this.fixSuggestions = e.detail.fixSuggestions;
+    this.comment = e.detail.comment;
     assert(this.fixSuggestions.length > 0, 'no fix in the event');
     this.selectedFixIdx = 0;
     this.applyFixModal?.showModal();
@@ -320,6 +325,7 @@ export class GrApplyFixDialog extends LitElement {
     this.isApplyFixLoading = false;
 
     fireCloseFixPreview(this, fixApplied);
+    if (this.comment) fireCloseFixPreview(this.comment, fixApplied);
     this.applyFixModal?.close();
   }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -83,9 +86,13 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
 
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
-    try (BatchUpdate batchUpdate =
-        updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.now())) {
-      batchUpdate.addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp).execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate batchUpdate =
+          updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.now())) {
+        batchUpdate
+            .addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp)
+            .execute();
+      }
     }
 
     ChangeNotes updatedNotes =

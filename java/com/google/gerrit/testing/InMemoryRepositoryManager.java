@@ -202,10 +202,6 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       }
     }
 
-    // The following line will be uncommented in the upcoming changes, after adding
-    // RefUpdateContext to the code.
-    static final boolean VALIDATE_REF_UPDATE_CONTEXT = false;
-
     @Override
     protected MemRefDatabase createRefDatabase() {
       return new MemRefDatabase() {
@@ -215,10 +211,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
           return new DfsReftableBatchRefUpdate(this, odb) {
             @Override
             public void execute(RevWalk rw, ProgressMonitor pm, List<String> options) {
-              if (VALIDATE_REF_UPDATE_CONTEXT) {
-                getCommands().stream()
-                    .forEach(RefUpdateContextValidator.INSTANCE::validateRefUpdateContext);
-              }
+              getCommands().stream()
+                  .forEach(RefUpdateContextValidator.INSTANCE::validateRefUpdateContext);
               super.execute(rw, pm, options);
             }
           };

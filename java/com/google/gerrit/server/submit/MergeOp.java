@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.MERGE_CHANGE;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -84,6 +85,7 @@ import com.google.gerrit.server.update.SubmissionExecutor;
 import com.google.gerrit.server.update.SubmissionListener;
 import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -605,95 +607,98 @@ public class MergeOp implements AutoCloseable {
   private void integrateIntoHistory(
       ChangeSet cs, SubmissionExecutor submissionExecutor, boolean checkSubmitRules)
       throws RestApiException, UpdateException {
-    checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
-    logger.atFine().log("Beginning merge attempt on %s", cs);
-    Map<BranchNameKey, BranchBatch> toSubmit = new HashMap<>();
+    try (RefUpdateContext ctx = RefUpdateContext.open(MERGE_CHANGE)) {
+      checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
+      logger.atFine().log("Beginning merge attempt on %s", cs);
+      Map<BranchNameKey, BranchBatch> toSubmit = new HashMap<>();
 
-    ListMultimap<BranchNameKey, ChangeData> cbb;
-    try {
-      cbb = cs.changesByBranch();
-    } catch (StorageException e) {
-      throw new StorageException("Error reading changes to submit", e);
-    }
-    Set<BranchNameKey> branches = cbb.keySet();
-
-    for (BranchNameKey branch : branches) {
-      OpenRepo or = openRepo(branch.project());
-      if (or != null) {
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
-      }
-    }
-
-    // Done checks that don't involve running submit strategies.
-    commitStatus.maybeFailVerbose();
-
-    try {
-      SubscriptionGraph subscriptionGraph = subscriptionGraphFactory.compute(branches, orm);
-      SubmoduleCommits submoduleCommits = submoduleCommitsFactory.create(orm);
-      UpdateOrderCalculator updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
-      List<SubmitStrategy> strategies =
-          getSubmitStrategies(
-              toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
-      this.projects = updateOrderCalculator.getProjectsInOrder();
-      List<BatchUpdate> batchUpdates =
-          orm.batchUpdates(
-              projects, /* refLogMessage= */ checkSubmitRules ? "merged" : "forced-merge");
-      // Group batch updates by project
-      Map<Project.NameKey, BatchUpdate> batchUpdatesByProject =
-          batchUpdates.stream().collect(Collectors.toMap(b -> b.getProject(), Function.identity()));
-      for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
-        Project.NameKey project = entry.getValue().project();
-        Change.Id changeId = entry.getKey();
-        ChangeData cd = entry.getValue();
-        batchUpdatesByProject
-            .get(project)
-            .addOp(
-                changeId,
-                storeSubmitRequirementsOpFactory.create(
-                    cd.submitRequirementsIncludingLegacy().values(), cd));
-      }
+      ListMultimap<BranchNameKey, ChangeData> cbb;
       try {
-        submissionExecutor.setAdditionalBatchUpdateListeners(
-            ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)));
-        submissionExecutor.execute(batchUpdates);
-      } finally {
-        // If the BatchUpdate fails it can be that merging some of the changes was actually
-        // successful. This is why we must to collect the updated changes also when an
-        // exception was thrown.
-        strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+        cbb = cs.changesByBranch();
+      } catch (StorageException e) {
+        throw new StorageException("Error reading changes to submit", e);
+      }
+      Set<BranchNameKey> branches = cbb.keySet();
 
-        // Do not leave executed BatchUpdates in the OpenRepos
-        if (!dryrun) {
-          orm.resetUpdates(ImmutableSet.copyOf(this.projects));
+      for (BranchNameKey branch : branches) {
+        OpenRepo or = openRepo(branch.project());
+        if (or != null) {
+          toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
         }
       }
-    } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    } catch (IOException e) {
-      throw new StorageException(e);
-    } catch (SubmoduleConflictException e) {
-      throw new IntegrationConflictException(e.getMessage(), e);
-    } catch (UpdateException e) {
-      if (e.getCause() instanceof LockFailureException) {
-        // Lock failures are a special case: RetryHelper depends on this specific causal chain in
-        // order to trigger a retry. The downside of throwing here is we will not get the nicer
-        // error message constructed below, in the case where this is the final attempt and the
-        // operation is not retried further. This is not a huge downside, and is hopefully so rare
-        // as to be unnoticeable, assuming RetryHelper is retrying sufficiently.
-        throw e;
-      }
 
-      // BatchUpdate may have inadvertently wrapped an IntegrationConflictException
-      // thrown by some legacy SubmitStrategyOp code that intended the error
-      // message to be user-visible. Copy the message from the wrapped
-      // exception.
-      //
-      // If you happen across one of these, the correct fix is to convert the
-      // inner IntegrationConflictException to a ResourceConflictException.
-      if (e.getCause() instanceof IntegrationConflictException) {
-        throw (IntegrationConflictException) e.getCause();
+      // Done checks that don't involve running submit strategies.
+      commitStatus.maybeFailVerbose();
+
+      try {
+        SubscriptionGraph subscriptionGraph = subscriptionGraphFactory.compute(branches, orm);
+        SubmoduleCommits submoduleCommits = submoduleCommitsFactory.create(orm);
+        UpdateOrderCalculator updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
+        List<SubmitStrategy> strategies =
+            getSubmitStrategies(
+                toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
+        this.projects = updateOrderCalculator.getProjectsInOrder();
+        List<BatchUpdate> batchUpdates =
+            orm.batchUpdates(
+                projects, /* refLogMessage= */ checkSubmitRules ? "merged" : "forced-merge");
+        // Group batch updates by project
+        Map<Project.NameKey, BatchUpdate> batchUpdatesByProject =
+            batchUpdates.stream()
+                .collect(Collectors.toMap(b -> b.getProject(), Function.identity()));
+        for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
+          Project.NameKey project = entry.getValue().project();
+          Change.Id changeId = entry.getKey();
+          ChangeData cd = entry.getValue();
+          batchUpdatesByProject
+              .get(project)
+              .addOp(
+                  changeId,
+                  storeSubmitRequirementsOpFactory.create(
+                      cd.submitRequirementsIncludingLegacy().values(), cd));
+        }
+        try {
+          submissionExecutor.setAdditionalBatchUpdateListeners(
+              ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)));
+          submissionExecutor.execute(batchUpdates);
+        } finally {
+          // If the BatchUpdate fails it can be that merging some of the changes was actually
+          // successful. This is why we must to collect the updated changes also when an
+          // exception was thrown.
+          strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+
+          // Do not leave executed BatchUpdates in the OpenRepos
+          if (!dryrun) {
+            orm.resetUpdates(ImmutableSet.copyOf(this.projects));
+          }
+        }
+      } catch (NoSuchProjectException e) {
+        throw new ResourceNotFoundException(e.getMessage());
+      } catch (IOException e) {
+        throw new StorageException(e);
+      } catch (SubmoduleConflictException e) {
+        throw new IntegrationConflictException(e.getMessage(), e);
+      } catch (UpdateException e) {
+        if (e.getCause() instanceof LockFailureException) {
+          // Lock failures are a special case: RetryHelper depends on this specific causal chain in
+          // order to trigger a retry. The downside of throwing here is we will not get the nicer
+          // error message constructed below, in the case where this is the final attempt and the
+          // operation is not retried further. This is not a huge downside, and is hopefully so rare
+          // as to be unnoticeable, assuming RetryHelper is retrying sufficiently.
+          throw e;
+        }
+
+        // BatchUpdate may have inadvertently wrapped an IntegrationConflictException
+        // thrown by some legacy SubmitStrategyOp code that intended the error
+        // message to be user-visible. Copy the message from the wrapped
+        // exception.
+        //
+        // If you happen across one of these, the correct fix is to convert the
+        // inner IntegrationConflictException to a ResourceConflictException.
+        if (e.getCause() instanceof IntegrationConflictException) {
+          throw (IntegrationConflictException) e.getCause();
+        }
+        throw new MergeUpdateException(genericMergeError(cs), e);
       }
-      throw new MergeUpdateException(genericMergeError(cs), e);
     }
   }
 

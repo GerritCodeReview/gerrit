@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.restapi.Response;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,13 +49,14 @@ public class PostHashtags
   public Response<ImmutableSortedSet<String>> apply(ChangeResource req, HashtagsInput input)
       throws RestApiException, UpdateException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_HASHTAGS);
-
-    try (BatchUpdate bu =
-        updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
-      SetHashtagsOp op = hashtagsFactory.create(input);
-      bu.addOp(req.getId(), op);
-      bu.execute();
-      return Response.ok(op.getUpdatedHashtags());
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(req.getChange().getProject(), req.getUser(), TimeUtil.now())) {
+        SetHashtagsOp op = hashtagsFactory.create(input);
+        bu.addOp(req.getId(), op);
+        bu.execute();
+        return Response.ok(op.getUpdatedHashtags());
+      }
     }
   }
 

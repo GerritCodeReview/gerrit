@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.acceptance.SshEnabled;
@@ -88,7 +89,8 @@ public class TestSshKeys {
   private KeyPair createKeyPair(Account.Id accountId, String username, @Nullable String email)
       throws Exception {
     KeyPair keyPair = SshSessionFactory.genSshKey();
-    authorizedKeys.addKey(accountId, publicKey(keyPair, email));
+    testRefAction(() -> authorizedKeys.addKey(accountId, publicKey(keyPair, email)));
+
     sshKeyCache.evict(username);
     return keyPair;
   }

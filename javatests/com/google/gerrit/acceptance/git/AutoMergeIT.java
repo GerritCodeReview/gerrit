@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
@@ -201,7 +202,7 @@ public class AutoMergeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       RefUpdate ru = repo.updateRef(RefNames.refsCacheAutomerge(mergeCommit.name()));
       ru.setForceUpdate(true);
-      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      testRefAction(() -> assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED));
     }
     assertNoAutoMergeCreated(mergeCommit);
   }

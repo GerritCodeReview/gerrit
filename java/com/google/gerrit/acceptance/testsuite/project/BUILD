@@ -4,6 +4,7 @@ package(default_testonly = 1)
 
 java_library(
     name = "project",
+    testonly = True,
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
     deps = [
@@ -13,6 +14,7 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",

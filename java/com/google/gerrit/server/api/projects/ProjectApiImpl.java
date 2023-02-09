@@ -16,6 +16,8 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.HEAD_MODIFICATION;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
@@ -89,6 +91,7 @@ import com.google.gerrit.server.restapi.project.PutDescription;
 import com.google.gerrit.server.restapi.project.SetAccess;
 import com.google.gerrit.server.restapi.project.SetHead;
 import com.google.gerrit.server.restapi.project.SetParent;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -595,7 +598,9 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
     try {
-      deleteBranches.apply(checkExists(), in);
+      try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+        deleteBranches.apply(checkExists(), in);
+      }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branches", e);
     }
@@ -686,7 +691,9 @@ public class ProjectApiImpl implements ProjectApi {
     HeadInput input = new HeadInput();
     input.ref = head;
     try {
-      setHead.apply(checkExists(), input);
+      try (RefUpdateContext ctx = RefUpdateContext.open(HEAD_MODIFICATION)) {
+        setHead.apply(checkExists(), input);
+      }
     } catch (Exception e) {
       throw asRestApiException("Cannot set HEAD", e);
     }

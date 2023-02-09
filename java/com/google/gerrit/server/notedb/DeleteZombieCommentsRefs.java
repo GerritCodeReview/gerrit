@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.RefNames.REFS_DRAFT_COMMENTS;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.auto.value.AutoValue;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -402,17 +404,19 @@ public class DeleteZombieCommentsRefs {
 
   private void deleteBatchZombieRefs(Repository allUsersRepo, List<Ref> refsBatch)
       throws IOException {
-    List<ReceiveCommand> deleteCommands =
-        refsBatch.stream()
-            .map(
-                zombieRef ->
-                    new ReceiveCommand(
-                        zombieRef.getObjectId(), ObjectId.zeroId(), zombieRef.getName()))
-            .collect(toImmutableList());
-    BatchRefUpdate bru = allUsersRepo.getRefDatabase().newBatchUpdate();
-    bru.setAtomic(true);
-    bru.addCommand(deleteCommands);
-    RefUpdateUtil.executeChecked(bru, allUsersRepo);
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      List<ReceiveCommand> deleteCommands =
+          refsBatch.stream()
+              .map(
+                  zombieRef ->
+                      new ReceiveCommand(
+                          zombieRef.getObjectId(), ObjectId.zeroId(), zombieRef.getName()))
+              .collect(toImmutableList());
+      BatchRefUpdate bru = allUsersRepo.getRefDatabase().newBatchUpdate();
+      bru.setAtomic(true);
+      bru.addCommand(deleteCommands);
+      RefUpdateUtil.executeChecked(bru, allUsersRepo);
+    }
   }
 
   private List<Ref> filterZombieRefs(Repository allUsersRepo, List<Ref> allDraftRefs)

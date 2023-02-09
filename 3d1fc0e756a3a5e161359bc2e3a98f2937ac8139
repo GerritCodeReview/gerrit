@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "629acea6_8616524c",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "Nice documentation! Thanks for all Javadocs.",
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c99b3f_a4a94336",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "nit: gerrit",
+      "range": {
+        "startLine": 45,
+        "startChar": 58,
+        "endLine": 45,
+        "endChar": 64
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ecf0d45_e1b11f16",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "Do we need this enum? The BatchRefUpdate should have the ref names, from which we could deduce the update type?",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62f4b774_2fc1a695",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "Why is MERGE_CHANGE type related to group refs? If intended, can we add a comment?",
+      "range": {
+        "startLine": 126,
+        "startChar": 66,
+        "endLine": 126,
+        "endChar": 78
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "775bdc39_bd963d54",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "Is this accurate?",
+      "range": {
+        "startLine": 202,
+        "startChar": 3,
+        "endLine": 203,
+        "endChar": 36
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b6128fc_40ad4b45",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "if always false, we can remove",
+      "range": {
+        "startLine": 204,
+        "startChar": 55,
+        "endLine": 204,
+        "endChar": 60
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56be368_d47e6547",
+        "filename": "javatests/com/google/gerrit/server/update/context/RefUpdateContextTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T16:15:58Z",
+      "side": 1,
+      "message": "If feasible, can we add a test to make sure that different threads don\u0027t interfere? i.e. if thread1 opened a context, thread2 should not see it, etc...",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

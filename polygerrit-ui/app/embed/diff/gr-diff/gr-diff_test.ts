@@ -38,6 +38,11 @@ suite('gr-diff a11y test', () => {
   test('audit', async () => {
     assert.isAccessible(await fixture(html`<gr-diff></gr-diff>`));
   });
+
+  test('I fail', () => {
+    assert.isTrue(false);
+    assert.equal(5, 6);
+  });
 });
 
 suite('gr-diff tests', () => {

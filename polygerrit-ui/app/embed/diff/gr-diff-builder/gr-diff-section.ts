@@ -170,7 +170,7 @@ export class GrDiffSection extends LitElement {
     `;
     const moveCell = html`
       <td class=${diffClasses('moveHeader')}>
-        <gr-range-header class=${diffClasses()} icon="gr-icons:move-item">
+        <gr-range-header class=${diffClasses()} icon="move_item">
           ${this.renderMoveDescription(movedIn)}
         </gr-range-header>
       </td>
@@ -179,8 +179,10 @@ export class GrDiffSection extends LitElement {
       <tr
         class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
       >
-        ${lineNumberCell} ${signCell} ${movedIn ? plainCell : moveCell}
-        ${lineNumberCell} ${signCell} ${movedIn ? moveCell : plainCell}
+        ${this.isUnifiedDiff()
+          ? html`${lineNumberCell} ${lineNumberCell} ${moveCell}`
+          : html`${lineNumberCell} ${signCell} ${movedIn ? plainCell : moveCell}
+            ${lineNumberCell} ${signCell} ${movedIn ? moveCell : plainCell}`}
       </tr>
     `;
   }

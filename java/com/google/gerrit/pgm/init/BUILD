@@ -23,7 +23,6 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//lib:guava",
-        "//lib:h2",
         "//lib:jgit",
         "//lib/commons:validator",
         "//lib/flogger:api",

@@ -207,9 +207,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
           return new DfsReftableBatchRefUpdate(this, odb) {
             @Override
             public void execute(RevWalk rw, ProgressMonitor pm, List<String> options) {
-              // The following line will be uncommented in the upcoming changes, after adding
-              // RefUpdateContext to the code.
-              // getCommands().stream().forEach(RefUpdateContextValidator.INSTANCE::validateRefUpdateContext);
+              getCommands().stream().forEach(RefUpdateContextValidator.INSTANCE::validateRefUpdateContext);
               super.execute(rw, pm, options);
             }
           };

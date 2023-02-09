@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.InputWithMessage;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,8 +64,11 @@ public class DeletePrivate implements RestModifyView<ChangeResource, InputWithMe
     }
 
     SetPrivateOp op = setPrivateOpFactory.create(false, input);
-    try (BatchUpdate u = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      u.addOp(rsrc.getId(), op).execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u =
+          updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
+        u.addOp(rsrc.getId(), op).execute();
+      }
     }
 
     return Response.none();

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.US_ASCII;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;

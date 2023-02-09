@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -124,30 +126,32 @@ public class Rebase
         .checkStatePermitsWrite();
 
     Change change = rsrc.getChange();
-    try (Repository repo = repoManager.openRepository(change.getProject());
-        ObjectInserter oi = repo.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk rw = CodeReviewCommit.newRevWalk(reader);
-        BatchUpdate bu =
-            updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      rebaseUtil.verifyRebasePreconditions(rw, rsrc.getNotes(), rsrc.getPatchSet());
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (Repository repo = repoManager.openRepository(change.getProject());
+          ObjectInserter oi = repo.newObjectInserter();
+          ObjectReader reader = oi.newReader();
+          RevWalk rw = CodeReviewCommit.newRevWalk(reader);
+          BatchUpdate bu =
+              updateFactory.create(change.getProject(), rsrc.getUser(), TimeUtil.now())) {
+        rebaseUtil.verifyRebasePreconditions(rw, rsrc.getNotes(), rsrc.getPatchSet());
 
-      RebaseChangeOp rebaseOp =
-          rebaseUtil.getRebaseOp(
-              rsrc,
-              input,
-              rebaseUtil.parseOrFindBaseRevision(repo, rw, permissionBackend, rsrc, input, true));
+        RebaseChangeOp rebaseOp =
+            rebaseUtil.getRebaseOp(
+                rsrc,
+                input,
+                rebaseUtil.parseOrFindBaseRevision(repo, rw, permissionBackend, rsrc, input, true));
 
-      // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
-      bu.setNotify(NotifyResolver.Result.none());
-      bu.setRepository(repo, rw, oi);
-      bu.addOp(change.getId(), rebaseOp);
-      bu.execute();
+        // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
+        bu.setNotify(NotifyResolver.Result.none());
+        bu.setRepository(repo, rw, oi);
+        bu.addOp(change.getId(), rebaseOp);
+        bu.execute();
 
-      ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
-      changeInfo.containsGitConflicts =
-          !rebaseOp.getRebasedCommit().getFilesWithGitConflicts().isEmpty() ? true : null;
-      return Response.ok(changeInfo);
+        ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
+        changeInfo.containsGitConflicts =
+            !rebaseOp.getRebasedCommit().getFilesWithGitConflicts().isEmpty() ? true : null;
+        return Response.ok(changeInfo);
+      }
     }
   }
 

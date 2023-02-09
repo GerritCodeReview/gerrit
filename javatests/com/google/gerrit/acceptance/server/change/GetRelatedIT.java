@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -55,6 +56,7 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -772,17 +774,19 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   private void clearGroups(PatchSet.Id psId) throws Exception {
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user(user), TimeUtil.now())) {
-      bu.addOp(
-          psId.changeId(),
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              ctx.getUpdate(psId).setGroups(ImmutableList.of());
-              return true;
-            }
-          });
-      bu.execute();
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (BatchUpdate bu = batchUpdateFactory.create(project, user(user), TimeUtil.now())) {
+        bu.addOp(
+            psId.changeId(),
+            new BatchUpdateOp() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) {
+                ctx.getUpdate(psId).setGroups(ImmutableList.of());
+                return true;
+              }
+            });
+        bu.execute();
+      }
     }
   }
 

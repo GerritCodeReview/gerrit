@@ -33,6 +33,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -1707,11 +1708,14 @@ public abstract class AbstractDaemonTest {
     }
 
     public void save() throws Exception {
-      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
-      projectConfig.commit(metaDataUpdate);
-      metaDataUpdate.close();
-      metaDataUpdate = null;
-      projectCache.evictAndReindex(projectConfig.getProject());
+      testRefAction(
+          () -> {
+            metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
+            projectConfig.commit(metaDataUpdate);
+            metaDataUpdate.close();
+            metaDataUpdate = null;
+            projectCache.evictAndReindex(projectConfig.getProject());
+          });
     }
 
     @Override

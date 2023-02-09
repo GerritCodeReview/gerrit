@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f169482_2754ed8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-09T09:58:06Z",
+      "side": 1,
+      "message": "This is because Gerrit doesn\u0027t index footers starting with `Issue:` but it does those that start with `Bug:`.",
+      "parentUuid": "10b0cbc8_fd6a2e51",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "d919b370960195c44606e6dfce149c617f3d10fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e0350c3_6e83bb0b",

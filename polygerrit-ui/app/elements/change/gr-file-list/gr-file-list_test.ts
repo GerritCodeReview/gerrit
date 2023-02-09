@@ -83,9 +83,6 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
-      stubElement('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
-        Promise.resolve()
-      );
       stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
       stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
@@ -2071,9 +2068,6 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-      stubElement('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
-        Promise.resolve()
-      );
       stubRestApi('getDiff').callsFake(() => Promise.resolve(createDiff()));
       stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 

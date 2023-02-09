@@ -73,21 +73,17 @@ import {
 import {
   AccountsVisibility,
   AccountTag,
-  AppTheme,
   AuthType,
   ChangeStatus,
   CommentSide,
-  DateFormat,
-  DefaultBase,
+  createDefaultPreferences,
   DefaultDisplayNameConfig,
-  DiffViewMode,
   EmailStrategy,
   InheritedBooleanInfoConfiguredValue,
   MergeabilityComputationBehavior,
   RequirementStatus,
   RevisionKind,
   SubmitType,
-  TimeFormat,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
@@ -687,18 +683,12 @@ export function createMergeable(): MergeableInfo {
   };
 }
 
-// TODO: Maybe reconcile with createDefaultPreferences() in constants.ts.
+// TODO: Do not change the values of createDefaultPreferences() here.
 export function createPreferences(): PreferencesInfo {
   return {
+    ...createDefaultPreferences(),
     changes_per_page: 10,
-    theme: AppTheme.AUTO,
-    date_format: DateFormat.ISO,
-    time_format: TimeFormat.HHMM_24,
-    diff_view: DiffViewMode.SIDE_BY_SIDE,
-    my: [],
-    change_table: [],
     email_strategy: EmailStrategy.ENABLED,
-    default_base_for_merges: DefaultBase.AUTO_MERGE,
     allow_browser_notifications: true,
   };
 }

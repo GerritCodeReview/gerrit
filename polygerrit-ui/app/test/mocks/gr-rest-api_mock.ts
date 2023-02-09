@@ -362,6 +362,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve({});
   },
   getPreferences(): Promise<PreferencesInfo | undefined> {
+    // TODO: Use createDefaultPreferences() instead.
     return Promise.resolve(createPreferences());
   },
   getProjectConfig(): Promise<ConfigInfo | undefined> {

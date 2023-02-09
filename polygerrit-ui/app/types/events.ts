@@ -8,6 +8,7 @@ import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {GrComment} from '../elements/shared/gr-comment/gr-comment';
 
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
@@ -156,6 +157,7 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 export interface OpenFixPreviewEventDetail {
   patchNum: PatchSetNum;
   fixSuggestions: FixSuggestionInfo[];
+  comment?: GrComment;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 

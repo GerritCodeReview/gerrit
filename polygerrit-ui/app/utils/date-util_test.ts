@@ -194,6 +194,18 @@ suite('date-util tests', () => {
         )
       );
     });
+
+    test('weekday', () => {
+      assert.equal(
+        '2013-07-03 Wed',
+        formatDate(new Date('Jul 03 2013 12:14:00'), 'YYYY-MM-DD ddd')
+      );
+      assert.equal(
+        '2013-07-03 Wednesday',
+        formatDate(new Date('Jul 03 2013 00:15:00'), 'YYYY-MM-DD dddd')
+      );
+    });
+
     test('h:mm:ss A shows correctly midnight and midday', () => {
       const timeFormat = 'h:mm A';
       assert.equal(

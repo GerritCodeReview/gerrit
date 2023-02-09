@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:jgit",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

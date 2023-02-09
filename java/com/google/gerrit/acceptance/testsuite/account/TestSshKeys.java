@@ -88,7 +88,8 @@ public class TestSshKeys {
   private KeyPair createKeyPair(Account.Id accountId, String username, @Nullable String email)
       throws Exception {
     KeyPair keyPair = SshSessionFactory.genSshKey();
-    authorizedKeys.addKey(accountId, publicKey(keyPair, email));
+    testRefAction(() -> authorizedKeys.addKey(accountId, publicKey(keyPair, email)));
+
     sshKeyCache.evict(username);
     return keyPair;
   }

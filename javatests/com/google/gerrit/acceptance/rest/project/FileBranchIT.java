@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -58,7 +59,7 @@ public class FileBranchIT extends AbstractDaemonTest {
   @Test
   public void getFileFromSymbolicRefPointingToAnUnbornBranch() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      repo.updateRef(Constants.HEAD, true).link("refs/heads/non-existing");
+      testRefAction(() -> repo.updateRef(Constants.HEAD, true).link("refs/heads/non-existing"));
     }
     RestResponse response =
         adminRestSession.get(String.format("/projects/%s/branches/HEAD/files/path", project.get()));

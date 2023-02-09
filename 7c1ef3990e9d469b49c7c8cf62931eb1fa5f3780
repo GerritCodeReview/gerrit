@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08fed22e_1d9b1373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T12:54:01Z",
+      "side": 1,
+      "message": "Please add Release-Notes footer",
+      "revId": "7c1ef3990e9d469b49c7c8cf62931eb1fa5f3780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09efb31d_8525d749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T12:54:01Z",
+      "side": 1,
+      "message": "too short to be linkified.",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "7c1ef3990e9d469b49c7c8cf62931eb1fa5f3780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "993a3533_cf27c039",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-09T12:54:01Z",
+      "side": 1,
+      "message": "Thanks for the quick fix!",
+      "revId": "7c1ef3990e9d469b49c7c8cf62931eb1fa5f3780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

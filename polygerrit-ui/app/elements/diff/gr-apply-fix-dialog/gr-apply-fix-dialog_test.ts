@@ -17,11 +17,7 @@ import {
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
-import {
-  CloseFixPreviewEventDetail,
-  EventType,
-  OpenFixPreviewEventDetail,
-} from '../../../types/events';
+import {EventType, OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
@@ -37,11 +33,13 @@ suite('gr-apply-fix-dialog tests', () => {
       createFixSuggestionInfo('fix_1'),
       createFixSuggestionInfo('fix_2'),
     ],
+    onCloseFixPreviewCallbacks: [],
   };
 
   const ONE_FIX: OpenFixPreviewEventDetail = {
     patchNum: 2 as PatchSetNum,
     fixSuggestions: [createFixSuggestionInfo('fix_1')],
+    onCloseFixPreviewCallbacks: [],
   };
 
   function getConfirmButton(): GrButton {
@@ -261,11 +259,7 @@ suite('gr-apply-fix-dialog tests', () => {
     element.currentFix = createFixSuggestionInfo('123');
 
     const closeFixPreviewEventSpy = sinon.spy();
-    // Element is recreated after each test, removeEventListener isn't required
-    element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
-      closeFixPreviewEventSpy
-    );
+    element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
 
     await element.handleApplyFix(new CustomEvent('confirm'));
 
@@ -278,14 +272,7 @@ suite('gr-apply-fix-dialog tests', () => {
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/2..edit');
 
-    sinon.assert.calledOnceWithExactly(
-      closeFixPreviewEventSpy,
-      new CustomEvent<CloseFixPreviewEventDetail>(EventType.CLOSE_FIX_PREVIEW, {
-        detail: {
-          fixApplied: true,
-        },
-      })
-    );
+    sinon.assert.calledOnceWithExactly(closeFixPreviewEventSpy, true);
     // reset gr-apply-fix-dialog and close
     assert.equal(element.currentFix, undefined);
     assert.equal(element.currentPreviews.length, 0);
@@ -326,11 +313,7 @@ suite('gr-apply-fix-dialog tests', () => {
     element.currentFix = createFixSuggestionInfo('fix_123');
 
     const closeFixPreviewEventSpy = sinon.spy();
-    // Element is recreated after each test, removeEventListener isn't required
-    element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
-      closeFixPreviewEventSpy
-    );
+    element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
 
     let expectedError;
     await element.handleApplyFix(new CustomEvent('click')).catch(e => {
@@ -343,19 +326,8 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('onCancel fires close with correct parameters', () => {
     const closeFixPreviewEventSpy = sinon.spy();
-    // Element is recreated after each test, removeEventListener isn't required
-    element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
-      closeFixPreviewEventSpy
-    );
+    element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
     element.onCancel(new CustomEvent('cancel'));
-    sinon.assert.calledOnceWithExactly(
-      closeFixPreviewEventSpy,
-      new CustomEvent<CloseFixPreviewEventDetail>(EventType.CLOSE_FIX_PREVIEW, {
-        detail: {
-          fixApplied: false,
-        },
-      })
-    );
+    sinon.assert.calledOnceWithExactly(closeFixPreviewEventSpy, false);
   });
 });

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -30,6 +32,7 @@ import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -79,16 +82,18 @@ public class RemoveFromAttentionSet
       }
     }
     ChangeResource changeResource = attentionResource.getChangeResource();
-    try (BatchUpdate bu =
-        updateFactory.create(
-            changeResource.getProject(), changeResource.getUser(), TimeUtil.now())) {
-      RemoveFromAttentionSetOp op =
-          opFactory.create(attentionResource.getAccountId(), input.reason, true);
-      bu.addOp(changeResource.getId(), op);
-      NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
-      NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);
-      bu.setNotify(notifyResult);
-      bu.execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(
+              changeResource.getProject(), changeResource.getUser(), TimeUtil.now())) {
+        RemoveFromAttentionSetOp op =
+            opFactory.create(attentionResource.getAccountId(), input.reason, true);
+        bu.addOp(changeResource.getId(), op);
+        NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
+        NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);
+        bu.setNotify(notifyResult);
+        bu.execute();
+      }
     }
     return Response.none();
   }

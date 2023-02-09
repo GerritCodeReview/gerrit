@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -128,66 +130,68 @@ public class RebaseChain
 
     List<Change.Id> upToDateAncestors = new ArrayList<>();
     Map<Change.Id, RebaseChangeOp> rebaseOps = new LinkedHashMap<>();
-    try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter oi = repo.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk rw = CodeReviewCommit.newRevWalk(reader);
-        BatchUpdate bu = updateFactory.create(project, user, TimeUtil.now())) {
-      List<PatchSetData> chain = getChainForCurrentPatchSet(tipRsrc);
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (Repository repo = repoManager.openRepository(project);
+          ObjectInserter oi = repo.newObjectInserter();
+          ObjectReader reader = oi.newReader();
+          RevWalk rw = CodeReviewCommit.newRevWalk(reader);
+          BatchUpdate bu = updateFactory.create(project, user, TimeUtil.now())) {
+        List<PatchSetData> chain = getChainForCurrentPatchSet(tipRsrc);
 
-      boolean ancestorsAreUpToDate = true;
-      for (int i = 0; i < chain.size(); i++) {
-        ChangeData changeData = chain.get(i).data();
-        PatchSet ps = patchSetUtil.current(changeData.notes());
-        if (ps == null) {
-          throw new IllegalStateException(
-              "current revision is missing for change " + changeData.getId());
-        }
+        boolean ancestorsAreUpToDate = true;
+        for (int i = 0; i < chain.size(); i++) {
+          ChangeData changeData = chain.get(i).data();
+          PatchSet ps = patchSetUtil.current(changeData.notes());
+          if (ps == null) {
+            throw new IllegalStateException(
+                "current revision is missing for change " + changeData.getId());
+          }
 
-        RevisionResource revRsrc =
-            new RevisionResource(changeResourceFactory.create(changeData, user), ps);
-        revRsrc.permissions().check(ChangePermission.REBASE);
-        rebaseUtil.verifyRebasePreconditions(rw, changeData.notes(), ps);
+          RevisionResource revRsrc =
+              new RevisionResource(changeResourceFactory.create(changeData, user), ps);
+          revRsrc.permissions().check(ChangePermission.REBASE);
+          rebaseUtil.verifyRebasePreconditions(rw, changeData.notes(), ps);
 
-        boolean isUpToDate = false;
-        RebaseChangeOp rebaseOp = null;
-        if (i == 0) {
-          ObjectId desiredBase =
-              rebaseUtil.parseOrFindBaseRevision(
-                  repo, rw, permissionBackend, revRsrc, input, false);
-          if (currentBase(rw, ps).equals(desiredBase)) {
-            isUpToDate = true;
+          boolean isUpToDate = false;
+          RebaseChangeOp rebaseOp = null;
+          if (i == 0) {
+            ObjectId desiredBase =
+                rebaseUtil.parseOrFindBaseRevision(
+                    repo, rw, permissionBackend, revRsrc, input, false);
+            if (currentBase(rw, ps).equals(desiredBase)) {
+              isUpToDate = true;
+            } else {
+              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, desiredBase);
+            }
           } else {
-            rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, desiredBase);
+            if (ancestorsAreUpToDate) {
+              ObjectId latestCommittedBase =
+                  PatchSetUtil.getCurrentCommittedRevCommit(
+                      project, rw, notesFactory, chain.get(i - 1).id());
+              isUpToDate = currentBase(rw, ps).equals(latestCommittedBase);
+            }
+            if (!isUpToDate) {
+              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, chain.get(i - 1).id());
+            }
           }
-        } else {
-          if (ancestorsAreUpToDate) {
-            ObjectId latestCommittedBase =
-                PatchSetUtil.getCurrentCommittedRevCommit(
-                    project, rw, notesFactory, chain.get(i - 1).id());
-            isUpToDate = currentBase(rw, ps).equals(latestCommittedBase);
+
+          if (isUpToDate) {
+            upToDateAncestors.add(changeData.getId());
+            continue;
           }
-          if (!isUpToDate) {
-            rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, chain.get(i - 1).id());
-          }
+          ancestorsAreUpToDate = false;
+          bu.addOp(revRsrc.getChange().getId(), rebaseOp);
+          rebaseOps.put(revRsrc.getChange().getId(), rebaseOp);
         }
 
-        if (isUpToDate) {
-          upToDateAncestors.add(changeData.getId());
-          continue;
+        if (ancestorsAreUpToDate) {
+          throw new ResourceConflictException("The whole chain is already up to date.");
         }
-        ancestorsAreUpToDate = false;
-        bu.addOp(revRsrc.getChange().getId(), rebaseOp);
-        rebaseOps.put(revRsrc.getChange().getId(), rebaseOp);
-      }
 
-      if (ancestorsAreUpToDate) {
-        throw new ResourceConflictException("The whole chain is already up to date.");
+        bu.setNotify(NotifyResolver.Result.none());
+        bu.setRepository(repo, rw, oi);
+        bu.execute();
       }
-
-      bu.setNotify(NotifyResolver.Result.none());
-      bu.setRepository(repo, rw, oi);
-      bu.execute();
     }
 
     RebaseChainInfo res = new RebaseChainInfo();

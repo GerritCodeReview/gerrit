@@ -15,6 +15,7 @@
 package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TAG_MODIFICATION;
 
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.restapi.project.CreateTag;
 import com.google.gerrit.server.restapi.project.DeleteTag;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.TagsCollection;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -83,7 +85,9 @@ public class TagApiImpl implements TagApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteTag.apply(resource(), new Input());
+      try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
+        deleteTag.apply(resource(), new Input());
+      }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete tag", e);
     }

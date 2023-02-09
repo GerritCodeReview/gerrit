@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.entities.RefNames;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -58,8 +60,9 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
-
-    deleteRef.deleteSingleRef(rsrc.getProjectState(), rsrc.getRef(), R_HEADS);
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      deleteRef.deleteSingleRef(rsrc.getProjectState(), rsrc.getRef(), R_HEADS);
+    }
     return Response.none();
   }
 }

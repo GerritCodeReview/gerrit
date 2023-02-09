@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -27,6 +29,7 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,21 +56,22 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteRe
     if (input == null) {
       input = new DeleteReviewerInput();
     }
-
-    try (BatchUpdate bu =
-        updateFactory.create(
-            rsrc.getChangeResource().getProject(),
-            rsrc.getChangeResource().getUser(),
-            TimeUtil.now())) {
-      bu.setNotify(getNotify(rsrc.getChange(), input));
-      BatchUpdateOp op;
-      if (rsrc.isByEmail()) {
-        op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail());
-      } else {
-        op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().getAccount(), input);
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(
+              rsrc.getChangeResource().getProject(),
+              rsrc.getChangeResource().getUser(),
+              TimeUtil.now())) {
+        bu.setNotify(getNotify(rsrc.getChange(), input));
+        BatchUpdateOp op;
+        if (rsrc.isByEmail()) {
+          op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail());
+        } else {
+          op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().getAccount(), input);
+        }
+        bu.addOp(rsrc.getChange().getId(), op);
+        bu.execute();
       }
-      bu.addOp(rsrc.getChange().getId(), op);
-      bu.execute();
     }
     return Response.none();
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -69,6 +70,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -319,9 +321,11 @@ public class MailProcessor {
       }
 
       Op o = new Op(PatchSet.id(cd.getId(), metadata.patchSet), parsedComments, message.id());
-      BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.now());
-      batchUpdate.addOp(cd.getId(), o);
-      batchUpdate.execute();
+      try (RefUpdateContext updCtx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.now());
+        batchUpdate.addOp(cd.getId(), o);
+        batchUpdate.execute();
+      }
     }
   }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.DescriptionInput;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,10 +59,12 @@ public class PutDescription
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 
     Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().id());
-    try (BatchUpdate u =
-        updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
-      u.addOp(rsrc.getChange().getId(), op);
-      u.execute();
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate u =
+          updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
+        u.addOp(rsrc.getChange().getId(), op);
+        u.execute();
+      }
     }
     return Strings.isNullOrEmpty(op.newDescription)
         ? Response.none()

@@ -1053,6 +1053,11 @@ export class GrComment extends LitElement {
           replacement
         ),
         patchNum: this.comment.patch_set,
+        onCloseFixPreview: [
+          fixApplied => {
+            if (fixApplied) this.handleAppliedFix();
+          },
+        ],
       };
     }
     if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
@@ -1065,6 +1070,7 @@ export class GrComment extends LitElement {
           };
         }),
         patchNum: this.comment.patch_set,
+        onCloseFixPreview: [],
       };
     }
     throw new Error('unable to create preview fix event');
@@ -1127,6 +1133,18 @@ export class GrComment extends LitElement {
       content: `> ${quoted}\n\nPlease fix.`,
       userWantsToEdit: false,
       unresolved: true,
+    };
+    // Handled by <gr-comment-thread>.
+    fire(this, 'reply-to-comment', eventDetail);
+  }
+
+  private handleAppliedFix() {
+    const message = this.comment?.message;
+    assert(!!message, 'empty message');
+    const eventDetail: ReplyToCommentEventDetail = {
+      content: 'Fix Applied',
+      userWantsToEdit: false,
+      unresolved: false,
     };
     // Handled by <gr-comment-thread>.
     fire(this, 'reply-to-comment', eventDetail);

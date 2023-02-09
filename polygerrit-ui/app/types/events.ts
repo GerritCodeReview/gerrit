@@ -26,7 +26,6 @@ export enum EventType {
   MOVED_LINK_CLICKED = 'moved-link-clicked',
   NETWORK_ERROR = 'network-error',
   OPEN_FIX_PREVIEW = 'open-fix-preview',
-  CLOSE_FIX_PREVIEW = 'close-fix-preview',
   PAGE_ERROR = 'page-error',
   RELOAD = 'reload',
   REPLY = 'reply',
@@ -63,7 +62,6 @@ declare global {
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
-    'close-fix-preview': CloseFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
@@ -156,13 +154,10 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 export interface OpenFixPreviewEventDetail {
   patchNum: PatchSetNum;
   fixSuggestions: FixSuggestionInfo[];
+  onCloseFixPreview: ((fixapplied: boolean) => void)[];
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 
-export interface CloseFixPreviewEventDetail {
-  fixApplied: boolean;
-}
-export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
 export interface ReplyToCommentEventDetail {
   content: string;
   userWantsToEdit: boolean;

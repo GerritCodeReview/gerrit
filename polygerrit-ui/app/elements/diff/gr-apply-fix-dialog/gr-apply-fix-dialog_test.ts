@@ -17,11 +17,7 @@ import {
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
-import {
-  CloseFixPreviewEventDetail,
-  EventType,
-  OpenFixPreviewEventDetail,
-} from '../../../types/events';
+import {EventType, OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
@@ -37,11 +33,13 @@ suite('gr-apply-fix-dialog tests', () => {
       createFixSuggestionInfo('fix_1'),
       createFixSuggestionInfo('fix_2'),
     ],
+    onCloseFixPreview: [],
   };
 
   const ONE_FIX: OpenFixPreviewEventDetail = {
     patchNum: 2 as PatchSetNum,
     fixSuggestions: [createFixSuggestionInfo('fix_1')],
+    onCloseFixPreview: [],
   };
 
   function getConfirmButton(): GrButton {

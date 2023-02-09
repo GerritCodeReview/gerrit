@@ -16,6 +16,7 @@ package com.google.gerrit.server.update;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.entities.Project;
@@ -43,8 +44,14 @@ public class RepoViewTest {
     InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
     Project.NameKey project = Project.nameKey("project");
     repo = repoManager.createRepository(project);
-    tr = new TestRepository<>(repo);
-    tr.branch(MASTER).commit().create();
+    tr =
+        testRefAction(
+            () -> {
+              TestRepository<?> testRepo = new TestRepository<>(repo);
+              testRepo.branch(MASTER).commit().create();
+              return testRepo;
+            });
+
     view = new RepoView(repoManager, project);
   }
 
@@ -75,8 +82,11 @@ public class RepoViewTest {
     assertThat(view.getRef(MASTER)).hasValue(oldMaster);
     assertThat(view.getRef(BRANCH)).isEmpty();
 
-    tr.branch(MASTER).commit().create();
-    tr.branch(BRANCH).commit().create();
+    testRefAction(
+        () -> {
+          tr.branch(MASTER).commit().create();
+          tr.branch(BRANCH).commit().create();
+        });
     assertThat(repo.exactRef(MASTER).getObjectId()).isNotEqualTo(oldMaster);
     assertThat(repo.exactRef(BRANCH)).isNotNull();
     assertThat(view.getRef(MASTER)).hasValue(oldMaster);
@@ -88,7 +98,7 @@ public class RepoViewTest {
     ObjectId oldMaster = repo.exactRef(MASTER).getObjectId();
     assertThat(view.getRefs(R_HEADS)).containsExactly("master", oldMaster);
 
-    ObjectId newBranch = tr.branch(BRANCH).commit().create();
+    ObjectId newBranch = testRefAction(() -> tr.branch(BRANCH).commit().create());
     assertThat(view.getRefs(R_HEADS)).containsExactly("master", oldMaster, "branch", newBranch);
   }
 
@@ -99,17 +109,17 @@ public class RepoViewTest {
     assertThat(view.getRef(MASTER)).hasValue(master1);
 
     // Doesn't reflect new value for master.
-    ObjectId master2 = tr.branch(MASTER).commit().create();
+    ObjectId master2 = testRefAction(() -> tr.branch(MASTER).commit().create());
     assertThat(repo.exactRef(MASTER).getObjectId()).isEqualTo(master2);
     assertThat(view.getRefs(R_HEADS)).containsExactly("master", master1);
 
     // Branch wasn't previously cached, so does reflect new value.
-    ObjectId branch1 = tr.branch(BRANCH).commit().create();
+    ObjectId branch1 = testRefAction(() -> tr.branch(BRANCH).commit().create());
     assertThat(view.getRefs(R_HEADS)).containsExactly("master", master1, "branch", branch1);
 
     // Looking up branch causes it to be cached.
     assertThat(view.getRef(BRANCH)).hasValue(branch1);
-    ObjectId branch2 = tr.branch(BRANCH).commit().create();
+    ObjectId branch2 = testRefAction(() -> tr.branch(BRANCH).commit().create());
     assertThat(repo.exactRef(BRANCH).getObjectId()).isEqualTo(branch2);
     assertThat(view.getRefs(R_HEADS)).containsExactly("master", master1, "branch", branch1);
   }

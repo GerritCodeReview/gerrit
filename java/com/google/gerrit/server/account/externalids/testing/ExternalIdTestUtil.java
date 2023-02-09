@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account.externalids.testing;
 
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
@@ -143,7 +144,7 @@ public class ExternalIdTestUtil {
       RefUpdate u = repo.updateRef(RefNames.REFS_EXTERNAL_IDS);
       u.setExpectedOldObjectId(rev);
       u.setNewObjectId(commitId);
-      RefUpdate.Result res = u.update();
+      RefUpdate.Result res = testRefAction(() -> u.update());
       switch (res) {
         case NEW:
         case FAST_FORWARD:

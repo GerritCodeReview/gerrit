@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -247,13 +248,16 @@ public abstract class AbstractChangeNotesTest {
   }
 
   protected Change newChange(Injector injector, boolean workInProgress) throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate u = newUpdate(injector, c, changeOwner, false);
-    u.setChangeId(c.getKey().get());
-    u.setBranch(c.getDest().branch());
-    u.setWorkInProgress(workInProgress);
-    u.commit();
-    return c;
+    return testRefAction(
+        () -> {
+          Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+          ChangeUpdate u = newUpdate(injector, c, changeOwner, false);
+          u.setChangeId(c.getKey().get());
+          u.setBranch(c.getDest().branch());
+          u.setWorkInProgress(workInProgress);
+          u.commit();
+          return c;
+        });
   }
 
   protected Change newWorkInProgressChange() throws Exception {

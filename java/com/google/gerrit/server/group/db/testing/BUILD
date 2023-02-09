@@ -8,6 +8,7 @@ java_library(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",

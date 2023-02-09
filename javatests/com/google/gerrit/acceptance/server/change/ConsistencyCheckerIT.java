@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIXED;
 import static com.google.gerrit.extensions.common.ProblemInfo.Status.FIX_FAILED;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static com.google.gerrit.testing.TestChanges.newPatchSet;
 import static java.util.Objects.requireNonNull;
 
@@ -47,6 +49,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
@@ -297,7 +300,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     serverSideTestRepo.reset(serverSideTestRepo.getRepository().exactRef(ref).getObjectId());
     RefUpdate ru = serverSideTestRepo.getRepository().updateRef(ref);
     ru.setForceUpdate(true);
-    assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    testRefAction(() -> assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED));
 
     assertProblems(notes, null, problem("Destination ref not found (may be new branch): " + ref));
   }
@@ -305,20 +308,21 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void mergedChangeIsNotMerged() throws Exception {
     ChangeNotes notes = insertChange();
-
-    try (BatchUpdate bu = newUpdate(adminId)) {
-      bu.addOp(
-          notes.getChangeId(),
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              ctx.getChange().setStatus(Change.Status.MERGED);
-              ctx.getUpdate(ctx.getChange().currentPatchSetId())
-                  .fixStatusToMerged(new SubmissionId(ctx.getChange()));
-              return true;
-            }
-          });
-      bu.execute();
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (BatchUpdate bu = newUpdate(adminId)) {
+        bu.addOp(
+            notes.getChangeId(),
+            new BatchUpdateOp() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) {
+                ctx.getChange().setStatus(Change.Status.MERGED);
+                ctx.getUpdate(ctx.getChange().currentPatchSetId())
+                    .fixStatusToMerged(new SubmissionId(ctx.getChange()));
+                return true;
+              }
+            });
+        bu.execute();
+      }
     }
     notes = reload(notes);
 
@@ -745,19 +749,22 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   private ChangeNotes insertChange(TestAccount owner, String dest) throws Exception {
     Change.Id id = Change.id(sequences.nextChangeId());
-    ChangeInserter ins;
-    try (BatchUpdate bu = newUpdate(owner.id())) {
-      RevCommit commit = patchSetCommit(PatchSet.id(id, 1));
-      bu.setNotify(NotifyResolver.Result.none());
-      ins =
-          changeInserterFactory
-              .create(id, commit, dest)
-              .setValidate(false)
-              .setFireRevisionCreated(false)
-              .setSendMail(false);
-      bu.insertChange(ins).execute();
-    }
-    return changeNotesFactory.create(project, ins.getChange().getId());
+    return testRefAction(
+        () -> {
+          ChangeInserter ins;
+          try (BatchUpdate bu = newUpdate(owner.id())) {
+            RevCommit commit = patchSetCommit(PatchSet.id(id, 1));
+            bu.setNotify(NotifyResolver.Result.none());
+            ins =
+                changeInserterFactory
+                    .create(id, commit, dest)
+                    .setValidate(false)
+                    .setFireRevisionCreated(false)
+                    .setSendMail(false);
+            bu.insertChange(ins).execute();
+          }
+          return changeNotesFactory.create(project, ins.getChange().getId());
+        });
   }
 
   private PatchSet.Id nextPatchSetId(ChangeNotes notes) throws Exception {
@@ -770,17 +777,20 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes incrementPatchSet(ChangeNotes notes, RevCommit commit) throws Exception {
-    PatchSetInserter ins;
-    try (BatchUpdate bu = newUpdate(notes.getChange().getOwner())) {
-      bu.setNotify(NotifyResolver.Result.none());
-      ins =
-          patchSetInserterFactory
-              .create(notes, nextPatchSetId(notes), commit)
-              .setValidate(false)
-              .setFireRevisionCreated(false);
-      bu.addOp(notes.getChangeId(), ins).execute();
-    }
-    return reload(notes);
+    return testRefAction(
+        () -> {
+          PatchSetInserter ins;
+          try (BatchUpdate bu = newUpdate(notes.getChange().getOwner())) {
+            bu.setNotify(NotifyResolver.Result.none());
+            ins =
+                patchSetInserterFactory
+                    .create(notes, nextPatchSetId(notes), commit)
+                    .setValidate(false)
+                    .setFireRevisionCreated(false);
+            bu.addOp(notes.getChangeId(), ins).execute();
+          }
+          return reload(notes);
+        });
   }
 
   private ChangeNotes reload(ChangeNotes notes) throws Exception {
@@ -822,7 +832,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private void deleteRef(String refName) throws Exception {
     RefUpdate ru = serverSideTestRepo.getRepository().updateRef(refName, true);
     ru.setForceUpdate(true);
-    assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    testRefAction(() -> assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED));
   }
 
   private void addNoteDbCommit(Change.Id id, String commitMessage) throws Exception {
@@ -847,30 +857,33 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes mergeChange(ChangeNotes notes) throws Exception {
-    ObjectId oldId = getDestRef(notes);
-    ObjectId newId = psUtil.current(notes).commitId();
-    String dest = notes.getChange().getDest().branch();
+    return testRefAction(
+        () -> {
+          ObjectId oldId = getDestRef(notes);
+          ObjectId newId = psUtil.current(notes).commitId();
+          String dest = notes.getChange().getDest().branch();
 
-    try (BatchUpdate bu = newUpdate(adminId)) {
-      bu.addOp(
-          notes.getChangeId(),
-          new BatchUpdateOp() {
-            @Override
-            public void updateRepo(RepoContext ctx) throws IOException {
-              ctx.addRefUpdate(oldId, newId, dest);
-            }
+          try (BatchUpdate bu = newUpdate(adminId)) {
+            bu.addOp(
+                notes.getChangeId(),
+                new BatchUpdateOp() {
+                  @Override
+                  public void updateRepo(RepoContext ctx) throws IOException {
+                    ctx.addRefUpdate(oldId, newId, dest);
+                  }
 
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              ctx.getChange().setStatus(Change.Status.MERGED);
-              ctx.getUpdate(ctx.getChange().currentPatchSetId())
-                  .fixStatusToMerged(new SubmissionId(ctx.getChange()));
-              return true;
-            }
-          });
-      bu.execute();
-    }
-    return reload(notes);
+                  @Override
+                  public boolean updateChange(ChangeContext ctx) {
+                    ctx.getChange().setStatus(Change.Status.MERGED);
+                    ctx.getUpdate(ctx.getChange().currentPatchSetId())
+                        .fixStatusToMerged(new SubmissionId(ctx.getChange()));
+                    return true;
+                  }
+                });
+            bu.execute();
+          }
+          return reload(notes);
+        });
   }
 
   private static ProblemInfo problem(String message) {
@@ -911,7 +924,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       ru.setExpectedOldObjectId(ref.getObjectId());
       ru.setNewObjectId(ObjectId.zeroId());
       ru.setForceUpdate(true);
-      Result result = ru.delete();
+      Result result = testRefAction(() -> ru.delete());
       if (result != Result.FORCED) {
         throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
       }

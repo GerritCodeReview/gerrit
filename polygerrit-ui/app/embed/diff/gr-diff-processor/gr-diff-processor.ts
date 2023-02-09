@@ -360,6 +360,7 @@ export class GrDiffProcessor {
       ignoredWhitespaceOnly: !!chunk.common,
       keyLocation: !!chunk.keyLocation,
     };
+    options.moveDetails = {changed: false, range: {start: 1, end: 2}};
     if (chunk.skip !== undefined) {
       return new GrDiffGroup({
         type,

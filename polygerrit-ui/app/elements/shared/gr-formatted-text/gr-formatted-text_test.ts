@@ -90,7 +90,11 @@ suite('gr-formatted-text tests', () => {
               rel="noopener"
               target="_blank"
             >
+<<<<<<< HEAD   (2c4924 Merge branch 'stable-3.6' into 'stable-3.7')
               google.com/LinkRewriteMe
+=======
+            http://google.com/LinkRewriteMe
+>>>>>>> CHANGE (6dd50a Always default linkify regular URLs prefixed with https?://)
             </a>
           </pre>
         `
@@ -158,11 +162,23 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
+<<<<<<< HEAD   (2c4924 Merge branch 'stable-3.6' into 'stable-3.7')
             text with plain link:
             <a href="http://google.com" rel="noopener" target="_blank">
               google.com
             </a>
             text with config link:
+=======
+          text with plain link:
+          <a
+            href="http://google.com"
+            rel="noopener"
+            target="_blank"
+          >
+            http://google.com
+          </a>
+          text with config link:
+>>>>>>> CHANGE (6dd50a Always default linkify regular URLs prefixed with https?://)
             <a
               href="http://google.com/LinkRewriteMe"
               rel="noopener"
@@ -263,6 +279,53 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+<<<<<<< HEAD   (2c4924 Merge branch 'stable-3.6' into 'stable-3.7')
+=======
+    test('does not render if too long', async () => {
+      element.content = `text
+        text with plain link: http://google.com
+        text with config link: LinkRewriteMe
+        text without a link: NotA Link 15 cats
+        text with complex link: A Link 12`;
+      element.MARKDOWN_LIMIT = 10;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <pre class="plaintext">
+          text
+        text with plain link:
+        <a
+          href="http://google.com"
+          rel="noopener"
+          target="_blank"
+        >
+          http://google.com
+        </a>
+        text with config link:
+          <a
+            href="http://google.com/LinkRewriteMe"
+            rel="noopener"
+            target="_blank"
+          >
+            LinkRewriteMe
+          </a>
+        text without a link: NotA Link 15 cats
+        text with complex link: A
+          <a
+            href="http://localhost/page?id=12"
+            rel="noopener"
+            target="_blank"
+          >
+            Link 12
+          </a>
+        </pre>
+        `
+      );
+    });
+
+>>>>>>> CHANGE (6dd50a Always default linkify regular URLs prefixed with https?://)
     test('renders headings with links and rewrites', async () => {
       element.content = `# h1-heading
         \n## h2-heading

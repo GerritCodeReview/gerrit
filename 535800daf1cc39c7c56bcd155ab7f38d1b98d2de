@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a888e7c_05580a1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-10T14:39:29Z",
+      "side": 1,
+      "message": "Rip links without http prefix 🙏😭",
+      "revId": "535800daf1cc39c7c56bcd155ab7f38d1b98d2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

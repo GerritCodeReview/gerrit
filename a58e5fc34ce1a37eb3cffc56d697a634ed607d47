@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d703ae3_b0db27e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-10T08:36:35Z",
+      "side": 1,
+      "message": "I would prefer to not have the dialog depend on GrComment. Can we somehow avoid that?\n\nAn option could be to just put \"state: unknown\" into the event, because the dialog is not really interested in what this contains, but just passes it back in the close event.\n\nBut maybe then a callback approach is better? If the `OpenFixPreviewEvent` gets a `onCloseCallback`, then maybe we don\u0027t even need a `CloseFixPreviewEvent` at all? `fireReload()` is something that the initiator of the `OpenFixPreviewEvent` can do. That does not have to be done by change-view.\n\nWDYT?",
+      "revId": "a58e5fc34ce1a37eb3cffc56d697a634ed607d47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0873d4cb_bf62a14b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-10T08:36:35Z",
+      "side": 1,
+      "message": "Does this fire twice? Will change-view then call reload() twice?",
+      "range": {
+        "startLine": 327,
+        "startChar": 2,
+        "endLine": 328,
+        "endChar": 68
+      },
+      "revId": "a58e5fc34ce1a37eb3cffc56d697a634ed607d47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -112,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff5167fb_59369fb0",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-10T16:59:09Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "cabfc6ab_f231a9b2",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62f4b774_2fc1a695",
@@ -290,6 +314,30 @@
       "side": 1,
       "message": "Writing proper tests for multithreading is too complicated. (i.e. start thread 1 - start thread 2 paused - wait until thread 1 opens context - resume thread 2 - in thread 2 ensure that context is not visible - etc...).\n\nI think the value the test gives is low comparing to the amount of efforts to write it.",
       "parentUuid": "a56be368_d47e6547",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "166f2304_6edda218",
+        "filename": "javatests/com/google/gerrit/server/update/context/RefUpdateContextTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-10T16:59:09Z",
+      "side": 1,
+      "message": "Right. Pointing out since it might lead to incorrect logging.\nMaybe we could test it in our staging env, etc...",
+      "parentUuid": "a2d6357c_3d313533",
       "range": {
         "startLine": 27,
         "startChar": 13,

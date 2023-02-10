@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50842b32_872c69ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-10T16:59:09Z",
+      "side": 1,
+      "message": "You\u0027d need to add the `Forward-Compatible: checked` footer to make the change submittable.",
+      "revId": "ebf7e3465f01c3b16f96029db92fe5242c1e35d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

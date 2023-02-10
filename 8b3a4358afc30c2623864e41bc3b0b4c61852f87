@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56efc6ce_3192706e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-10T00:32:52Z",
+      "side": 1,
+      "message": "Can you reference exactly what you copied from and under which license? Depending on the h2 version there are multiple licenses.",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

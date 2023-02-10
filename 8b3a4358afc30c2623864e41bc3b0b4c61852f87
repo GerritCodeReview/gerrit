@@ -46,6 +46,30 @@
       },
       "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7066a266_85cbc56f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-10T23:21:27Z",
+      "side": 1,
+      "message": "\u003e That\u0027s the link to the h2 license http://h2database.com/html/license.html linked to version 1.3.176 (https://mvnrepository.com/artifact/com.h2database/h2/1.3.176) that we use today [1].\n\nThat page references 2 licenses [2] and those are different than the license referenced on the mvnrepository link (\"The H2 License v1.0\"). Our backend_licenses doc seems to indicate we\u0027re distributing it under the H2 License [3]. If you agree, does that H2 License impose any conditions on us re-using the code?\n\n\u003e \n\u003e I updated the commit message and pointed to the method that I copied.\n\nThanks!\n\n\u003e \n\u003e [1] https://gerrit.googlesource.com/gerrit/+/e90775ff023c885306db3ab9051bd2557f8fa1ca/tools/deps.bzl#585\n\n[2] \"H2 is dual licensed and available under the MPL 2.0 (Mozilla Public License Version 2.0) or under the EPL 1.0 (Eclipse Public License).\"\n\n[3] https://gerrit.googlesource.com/gerrit/+/e90775ff023c885306db3ab9051bd2557f8fa1ca/Documentation/backend_licenses.txt#1179",
+      "parentUuid": "6fc02678_153bfdcb",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

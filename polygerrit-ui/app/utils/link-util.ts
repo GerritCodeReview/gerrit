@@ -33,6 +33,10 @@ function getRewriteResultsFromConfig(
     commentLinkInfo =>
       commentLinkInfo.enabled !== false && commentLinkInfo.link !== undefined
   );
+  enabledRewrites.push({
+    match: '(https?://\\S+[\\w/])',
+    link: '$1',
+  });
   return enabledRewrites.flatMap(rewrite => {
     const regexp = new RegExp(rewrite.match, 'g');
     const partialResults: RewriteResult[] = [];

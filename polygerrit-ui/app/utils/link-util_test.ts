@@ -12,6 +12,17 @@ suite('link-util tests', () => {
   }
 
   suite('link rewrites', () => {
+    test('default linking', () => {
+      assert.equal(
+        linkifyUrlsAndApplyRewrite('http://www.google.com', {}),
+        link('http://www.google.com', 'http://www.google.com')
+      );
+      assert.equal(
+        linkifyUrlsAndApplyRewrite('https://www.google.com', {}),
+        link('https://www.google.com', 'https://www.google.com')
+      );
+    });
+
     test('without text', () => {
       assert.equal(
         linkifyUrlsAndApplyRewrite('foo', {

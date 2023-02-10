@@ -37,6 +37,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {changeModelToken} from '../../../models/change/change-model';
 
 interface FilePreview {
   filepath: string;
@@ -90,11 +91,16 @@ export class GrApplyFixDialog extends LitElement {
   @state()
   diffPrefs?: DiffPreferencesInfo;
 
+  @state()
+  isOwner = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
@@ -103,6 +109,11 @@ export class GrApplyFixDialog extends LitElement {
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
+    );
     subscribe(
       this,
       () => this.getUserModel().preferences$,
@@ -325,6 +336,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
+    if (!this.isOwner) return 'Fix can only be applied by author';
     const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
     return latestPatchNum !== this.patchNum
@@ -334,6 +346,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
+    if (!this.isOwner) return true;
     const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
     return this.patchNum !== latestPatchNum || this.isApplyFixLoading;

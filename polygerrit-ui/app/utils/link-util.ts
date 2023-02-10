@@ -15,6 +15,11 @@ export function linkifyUrlsAndApplyRewrite(
   base: string,
   repoCommentLinks: CommentLinks
 ): string {
+  repoCommentLinks = {...repoCommentLinks};
+  repoCommentLinks['default url linking'] = {
+    match: '(https?://\\S+[\\w/])',
+    link: '$1',
+  };
   const rewriteResults = getRewriteResultsFromConfig(base, repoCommentLinks);
   return applyRewrites(base, rewriteResults);
 }

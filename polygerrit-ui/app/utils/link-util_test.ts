@@ -63,18 +63,6 @@ suite('link-util tests', () => {
         `${link('foo', 'foo.gov')} ${link('foo', 'foo.gov')}`
       );
     });
-
-    test('does not apply within normal links', () => {
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('google.com', {
-          ogle: {
-            match: 'ogle',
-            link: 'gerritcodereview.com',
-          },
-        }),
-        link('google.com', 'http://google.com')
-      );
-    });
   });
 
   test('for overlapping rewrites prefer the latest ending', () => {
@@ -164,46 +152,5 @@ suite('link-util tests', () => {
         'bug/345'
       )}`
     );
-  });
-
-  suite('normal links', () => {
-    test('links urls', () => {
-      const googleLink = link('google.com', 'http://google.com');
-      const mapsLink = link('maps.google.com', 'http://maps.google.com');
-
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('google.com, maps.google.com', {}),
-        `${googleLink}, ${mapsLink}`
-      );
-    });
-
-    test('links emails without including R= prefix', () => {
-      const fooEmail = link('foo@gmail.com', 'mailto:foo@gmail.com');
-      const barEmail = link('bar@gmail.com', 'mailto:bar@gmail.com');
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('R=foo@gmail.com, bar@gmail.com', {}),
-        `R=${fooEmail}, ${barEmail}`
-      );
-    });
-
-    test('links emails without including CC= prefix', () => {
-      const fooEmail = link('foo@gmail.com', 'mailto:foo@gmail.com');
-      const barEmail = link('bar@gmail.com', 'mailto:bar@gmail.com');
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('CC=foo@gmail.com, bar@gmail.com', {}),
-        `CC=${fooEmail}, ${barEmail}`
-      );
-    });
-
-    test('links emails maintains R= and CC= within addresses', () => {
-      const fooBarBazEmail = link(
-        'fooR=barCC=baz@gmail.com',
-        'mailto:fooR=barCC=baz@gmail.com'
-      );
-      assert.equal(
-        linkifyUrlsAndApplyRewrite('fooR=barCC=baz@gmail.com', {}),
-        fooBarBazEmail
-      );
-    });
   });
 });

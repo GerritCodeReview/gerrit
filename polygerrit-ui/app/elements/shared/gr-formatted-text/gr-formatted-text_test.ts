@@ -85,12 +85,12 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
-            http://google.com/<a
+            <a
               href="http://google.com/LinkRewriteMe"
               rel="noopener"
               target="_blank"
             >
-              LinkRewriteMe
+            http://google.com/LinkRewriteMe
             </a>
           </pre>
         `
@@ -159,8 +159,15 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
-          text with plain link: http://google.com
-        text with config link:
+          text with plain link:
+          <a
+            href="http://google.com"
+            rel="noopener"
+            target="_blank"
+          >
+            http://google.com
+          </a>
+          text with config link:
             <a
               href="http://google.com/LinkRewriteMe"
               rel="noopener"

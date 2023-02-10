@@ -106,7 +106,8 @@ any pack files currently in the preserved directory, and also has a
 existing pack files from the `objects/pack` directory into the
 `preserved` directory right before calling the real Git command. This
 approach will then behave similarly to `jgit gc` with respect to
-preserving pack files.
+preserving pack files. An implementation is available
+link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/git-gc-preserve[here].
 
 GERRIT
 ------

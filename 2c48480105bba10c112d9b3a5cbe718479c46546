@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e3f5c6_0446df6c",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-10T16:56:24Z",
+      "side": 1,
+      "message": "What if it\u0027s a symlink to a directory that doesn\u0027t exist yet? Do we want to handle that or is that the admin\u0027s job to solve?",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "2c48480105bba10c112d9b3a5cbe718479c46546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b5b235_c19821f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-10T12:07:16Z",
+      "side": 1,
+      "message": "Great idea. Thanks. I implemented it.",
+      "parentUuid": "3d703ae3_b0db27e4",
+      "revId": "a58e5fc34ce1a37eb3cffc56d697a634ed607d47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0873d4cb_bf62a14b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-10T08:36:35Z",
       "side": 1,
       "message": "Does this fire twice? Will change-view then call reload() twice?",
+      "range": {
+        "startLine": 327,
+        "startChar": 2,
+        "endLine": 328,
+        "endChar": 68
+      },
+      "revId": "a58e5fc34ce1a37eb3cffc56d697a634ed607d47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "068823bd_b241b0f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-10T12:07:16Z",
+      "side": 1,
+      "message": "Yes, good catch.",
+      "parentUuid": "0873d4cb_bf62a14b",
       "range": {
         "startLine": 327,
         "startChar": 2,

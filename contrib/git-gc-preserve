@@ -49,10 +49,10 @@ DESCRIPTION
     [2] https://git.eclipse.org/r/c/jgit/jgit/+/122288
 
 CONFIGURATION
-    "gc.prunepreserved": if set to "true" preserved packs from the last gc run
+    "pack.prunepreserved": if set to "true" preserved packs from the last gc run
       are pruned before current packs are preserved.
 
-    "gc.preserveoldpacks": if set to "true" current packs will be hard linked
+    "pack.preserveoldpacks": if set to "true" current packs will be hard linked
       to objects/pack/preserved before git gc is executed. JGit will
       fallback to the preserved packs in this directory in case it comes
       across missing objects which might be caused by a concurrent run of
@@ -84,9 +84,9 @@ unlock() {
   exec 9>&-
 }
 
-# prune preserved packs if gc.prunepreserved == true
+# prune preserved packs if pack.prunepreserved == true
 prune_preserved() { # repo
-  configured=$(git --git-dir="$1" config --get gc.prunepreserved)
+  configured=$(git --git-dir="$1" config --get pack.prunepreserved)
   if [ "$configured" != "true" ]; then
     return 0
   fi
@@ -99,9 +99,9 @@ prune_preserved() { # repo
   fi
 }
 
-# preserve packs if gc.preserveoldpacks == true
+# preserve packs if pack.preserveoldpacks == true
 preserve_packs() { # repo
-  configured=$(git --git-dir="$1" config --get gc.preserveoldpacks)
+  configured=$(git --git-dir="$1" config --get pack.preserveoldpacks)
   if [ "$configured" != "true" ]; then
     return 0
   fi

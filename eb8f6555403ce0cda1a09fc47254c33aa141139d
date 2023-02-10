@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e90adf16_ffc65015",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-10T14:14:32Z",
+      "side": 1,
+      "message": "n",
+      "revId": "eb8f6555403ce0cda1a09fc47254c33aa141139d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e27140e_49010e12",
@@ -14,6 +31,24 @@
       "writtenOn": "2023-02-10T14:12:59Z",
       "side": 1,
       "message": "Why is this an array? I would prefer to just have one callback here.",
+      "revId": "eb8f6555403ce0cda1a09fc47254c33aa141139d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed0fc55_5ac6d51d",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-10T14:14:32Z",
+      "side": 1,
+      "message": "+1. You can always make a single callback call multiple under the hood with some combinator.",
+      "parentUuid": "6e27140e_49010e12",
       "revId": "eb8f6555403ce0cda1a09fc47254c33aa141139d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

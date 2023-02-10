@@ -115,7 +115,6 @@ import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
-  CloseFixPreviewEvent,
   EditableContentSaveEvent,
   EventType,
   OpenFixPreviewEvent,
@@ -590,8 +589,9 @@ export class GrChangeView extends LitElement {
     this.addEventListener('editable-content-cancel', () =>
       this.handleCommitMessageCancel()
     );
-    this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', e => this.onCloseFixPreview(e));
+    this.addEventListener(EventType.OPEN_FIX_PREVIEW, e =>
+      this.onOpenFixPreview(e)
+    );
 
     this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
@@ -1673,10 +1673,6 @@ export class GrChangeView extends LitElement {
   private onOpenFixPreview(e: OpenFixPreviewEvent) {
     assertIsDefined(this.applyFixDialog);
     this.applyFixDialog.open(e);
-  }
-
-  private onCloseFixPreview(e: CloseFixPreviewEvent) {
-    if (e.detail.fixApplied) fireReload(this);
   }
 
   // Private but used in tests.

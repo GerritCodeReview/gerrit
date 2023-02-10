@@ -213,6 +213,24 @@
       "parentUuid": "2d94d2f7_c50ad286",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210422d9_64b55ac0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-10T07:09:03Z",
+      "side": 1,
+      "message": "Good news on this. Brandon succeed with upgrading us (Google) to 1.72, so we can submit this now.",
+      "parentUuid": "37bdba66_bb9c5fb6",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

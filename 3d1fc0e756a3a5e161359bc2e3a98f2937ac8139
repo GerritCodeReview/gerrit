@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e94907_7f4c29b8",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c99b3f_a4a94336",
+      "range": {
+        "startLine": 45,
+        "startChar": 58,
+        "endLine": 45,
+        "endChar": 64
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ecf0d45_e1b11f16",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-02-09T16:15:58Z",
       "side": 1,
       "message": "Do we need this enum? The BatchRefUpdate should have the ref names, from which we could deduce the update type?",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cabfc6ab_f231a9b2",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "From ref names we can deduce \"what\" is going on, but not \"why\" the ref is updated.\n\nE.g. if refs/users/... is updated, we know that a user account is updated, but we don\u0027t know what triggered it - it can be either direct push or an api call which caused account update.\nOr if refs/head/main is updated - it can be either a direct push, change merge or some api call which directly modified the ref.\n\nIn both examples, the RefUpdateContext#getUpdateType method allows to understand the root-case of the ref update.",
+      "parentUuid": "3ecf0d45_e1b11f16",
       "range": {
         "startLine": 61,
         "startChar": 14,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "816c30ee_4e2400a8",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f4b774_2fc1a695",
+      "range": {
+        "startLine": 126,
+        "startChar": 66,
+        "endLine": 126,
+        "endChar": 78
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "775bdc39_bd963d54",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-02-09T16:15:58Z",
       "side": 1,
       "message": "Is this accurate?",
+      "range": {
+        "startLine": 202,
+        "startChar": 3,
+        "endLine": 203,
+        "endChar": 36
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8da162_8a1c18ea",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "775bdc39_bd963d54",
       "range": {
         "startLine": 202,
         "startChar": 3,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b52df46e_ddbd1a06",
+        "filename": "java/com/google/gerrit/testing/InMemoryRepositoryManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "This is to avoid compiler error about unused nested class; so the class is used, but do nothing in this change.\nThe line is removed here: https://gerrit-review.git.corp.google.com/c/gerrit/+/357956",
+      "parentUuid": "4b6128fc_40ad4b45",
+      "range": {
+        "startLine": 204,
+        "startChar": 55,
+        "endLine": 204,
+        "endChar": 60
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a56be368_d47e6547",
@@ -146,6 +266,30 @@
       "writtenOn": "2023-02-09T16:15:58Z",
       "side": 1,
       "message": "If feasible, can we add a test to make sure that different threads don\u0027t interfere? i.e. if thread1 opened a context, thread2 should not see it, etc...",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "3d1fc0e756a3a5e161359bc2e3a98f2937ac8139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d6357c_3d313533",
+        "filename": "javatests/com/google/gerrit/server/update/context/RefUpdateContextTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-10T15:56:29Z",
+      "side": 1,
+      "message": "Writing proper tests for multithreading is too complicated. (i.e. start thread 1 - start thread 2 paused - wait until thread 1 opens context - resume thread 2 - in thread 2 ensure that context is not visible - etc...).\n\nI think the value the test gives is low comparing to the amount of efforts to write it.",
+      "parentUuid": "a56be368_d47e6547",
       "range": {
         "startLine": 27,
         "startChar": 13,

@@ -51,6 +51,24 @@
       "parentUuid": "6e27140e_49010e12",
       "revId": "eb8f6555403ce0cda1a09fc47254c33aa141139d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56092af4_7d51ec27",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-10T14:54:49Z",
+      "side": 1,
+      "message": "I will do follow up",
+      "parentUuid": "9ed0fc55_5ac6d51d",
+      "revId": "eb8f6555403ce0cda1a09fc47254c33aa141139d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

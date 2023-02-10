@@ -16,6 +16,24 @@
       "message": "Maybe call `fireReload` from there you are firing the `OpenFixPreviewEvent`. Or alternatively add a `reloadOnApply` property to `OpenFixPreviewEvent` and let the dialog call `fireReload()`. Would be nice, if change-view does not have to deal with these events at all.",
       "revId": "c6e353cbbcf215da00da567c1e3cf56c96d8ac45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f5ea9f4_8eac6f92",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1676,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-10T12:28:53Z",
+      "side": 1,
+      "message": "Sure, we can call fireReload from gr-apply-fix-dialog",
+      "parentUuid": "182c8787_4009435a",
+      "revId": "c6e353cbbcf215da00da567c1e3cf56c96d8ac45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

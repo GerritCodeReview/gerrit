@@ -72,13 +72,15 @@ class ServerPluginInfoModule extends AbstractModule {
     if (!ready) {
       synchronized (dataDir) {
         if (!ready) {
-          try {
-            Files.createDirectories(dataDir);
-          } catch (IOException e) {
-            throw new ProvisionException(
-                String.format(
-                    "Cannot create %s for plugin %s", dataDir.toAbsolutePath(), plugin.getName()),
-                e);
+          if (!Files.isDirectory(dataDir)) {
+            try {
+              Files.createDirectories(dataDir);
+            } catch (IOException e) {
+              throw new ProvisionException(
+                  String.format(
+                      "Cannot create %s for plugin %s", dataDir.toAbsolutePath(), plugin.getName()),
+                  e);
+            }
           }
           ready = true;
         }

@@ -280,6 +280,7 @@ function decodeURIComponentString(val: string | undefined | null) {
 export class PageContext {
   /**
    * Includes everything: base, path, query and hash.
+   * NOT decoded.
    */
   canonicalPath = '';
 
@@ -287,18 +288,21 @@ export class PageContext {
    * Does not include base path.
    * Does not include hash.
    * Includes query string.
+   * NOT decoded.
    */
   path = '';
 
-  /** Does not include hash. */
+  /** Decoded. Does not include hash. */
   querystring = '';
 
+  /** Decoded. */
   hash = '';
 
   /**
    * Regular expression matches of capturing groups. The first entry params[0]
    * corresponds to the first capturing group. The entire matched string is not
    * returned in this array.
+   * Each param is double decoded.
    */
   params: string[] = [];
 
@@ -346,17 +350,24 @@ export class PageContext {
   replaceState() {
     window.history.replaceState(this.state, this.title, this.canonicalPath);
   }
+
+  match(re: RegExp) {
+    const qsIndex = this.path.indexOf('?');
+    const pathname = qsIndex !== -1 ? this.path.slice(0, qsIndex) : this.path;
+    const matches = re.exec(decodeURIComponent(pathname));
+    if (matches) {
+      this.params = matches
+        .slice(1)
+        .map(match => decodeURIComponentString(match));
+    }
+    return !!matches;
+  }
 }
 
 function createRoute(re: RegExp, fn: Function) {
   return (ctx: PageContext, next: Function) => {
-    const qsIndex = ctx.path.indexOf('?');
-    const pathname = qsIndex !== -1 ? ctx.path.slice(0, qsIndex) : ctx.path;
-    const matches = re.exec(decodeURIComponent(pathname));
+    const matches = ctx.match(re);
     if (matches) {
-      ctx.params = matches
-        .slice(1)
-        .map(match => decodeURIComponentString(match));
       fn(ctx, next);
     } else {
       next();

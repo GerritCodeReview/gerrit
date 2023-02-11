@@ -3,28 +3,34 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {assert} from '@open-wc/testing';
-import {PageContext} from '../../elements/core/gr-router/gr-page';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {AdminChildView, PLUGIN_LIST_ROUTE} from './admin';
+import {assertRouteFalse, assertRouteState} from '../../test/test-utils';
+import {
+  AdminChildView,
+  AdminViewState,
+  createAdminUrl,
+  PLUGIN_LIST_ROUTE,
+} from './admin';
 
 suite('admin view model', () => {
   suite('routes', () => {
     test('PLUGIN_LIST', () => {
-      const {urlPattern: pattern, createState} = PLUGIN_LIST_ROUTE;
+      assertRouteFalse(PLUGIN_LIST_ROUTE, 'admin/plugins');
+      assertRouteFalse(PLUGIN_LIST_ROUTE, '//admin/plugins');
+      assertRouteFalse(PLUGIN_LIST_ROUTE, '//admin/plugins?');
+      assertRouteFalse(PLUGIN_LIST_ROUTE, '/admin/plugins//');
 
-      assert.isTrue(pattern.test('/admin/plugins'));
-      assert.isTrue(pattern.test('/admin/plugins/'));
-      assert.isFalse(pattern.test('admin/plugins'));
-      assert.isFalse(pattern.test('//admin/plugins'));
-      assert.isFalse(pattern.test('//admin/plugins?'));
-      assert.isFalse(pattern.test('/admin/plugins//'));
-
-      assert.deepEqual(createState(new PageContext('')), {
+      const state: AdminViewState = {
         view: GerritView.ADMIN,
         adminView: AdminChildView.PLUGINS,
-      });
+      };
+      assertRouteState<AdminViewState>(
+        PLUGIN_LIST_ROUTE,
+        '/admin/plugins',
+        state,
+        createAdminUrl
+      );
     });
   });
 });

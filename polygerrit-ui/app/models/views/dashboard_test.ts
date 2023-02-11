@@ -5,11 +5,36 @@
  */
 import {assert} from '@open-wc/testing';
 import {RepoName} from '../../api/rest-api';
+import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
+import {assertRouteFalse, assertRouteState} from '../../test/test-utils';
 import {DashboardId} from '../../types/common';
-import {createDashboardUrl} from './dashboard';
+import {
+  createDashboardUrl,
+  DashboardViewState,
+  PROJECT_DASHBOARD_ROUTE,
+} from './dashboard';
 
 suite('dashboard view state tests', () => {
+  suite('routes', () => {
+    test('PROJECT_DASHBOARD_ROUTE', () => {
+      assertRouteFalse(PROJECT_DASHBOARD_ROUTE, '/p//+/dashboard/qwer');
+      assertRouteFalse(PROJECT_DASHBOARD_ROUTE, '/p/asdf/+/dashboard/');
+
+      const state: DashboardViewState = {
+        view: GerritView.DASHBOARD,
+        project: 'asdf' as RepoName,
+        dashboard: 'qwer' as DashboardId,
+      };
+      assertRouteState(
+        PROJECT_DASHBOARD_ROUTE,
+        '/p/asdf/+/dashboard/qwer',
+        state,
+        createDashboardUrl
+      );
+    });
+  });
+
   suite('createDashboardUrl()', () => {
     test('self dashboard', () => {
       assert.equal(createDashboardUrl({}), '/dashboard/self');

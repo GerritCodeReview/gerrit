@@ -15,14 +15,15 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
-import {provide} from '../../../models/dependency';
+import {provide, resolve} from '../../../models/dependency';
 import {
   bulkActionsModelToken,
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
+import {createSearchUrl} from '../../../models/views/search';
+import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
-import {createSearchUrl} from '../../../models/views/search';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -50,9 +51,6 @@ export function computeLabelShortcut(labelName: string) {
 export class GrChangeListSection extends LitElement {
   @property({type: Array})
   visibleChangeTableColumns?: string[];
-
-  @property({type: Boolean})
-  showStar = false;
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
@@ -103,6 +101,10 @@ export class GrChangeListSection extends LitElement {
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
     getAppContext().restApiService
   );
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  private isLoggedIn = false;
 
   static override get styles() {
     return [
@@ -156,6 +158,11 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.totalChangeCount$,
       totalChangeCount => (this.totalChangeCount = totalChangeCount)
     );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -189,8 +196,8 @@ export class GrChangeListSection extends LitElement {
         <td class="leftPadding" aria-hidden="true"></td>
         <td
           class="star"
-          ?aria-hidden=${!this.showStar}
-          ?hidden=${!this.showStar}
+          ?aria-hidden=${!this.isLoggedIn}
+          ?hidden=${!this.isLoggedIn}
         ></td>
         <td class="cell" colspan=${colSpan}>
           ${this.changeSection.emptyStateSlotName
@@ -213,7 +220,7 @@ export class GrChangeListSection extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
-          <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
+          <td aria-hidden="true" class="star" ?hidden=${!this.isLoggedIn}></td>
           <td class="cell" colspan=${colSpan}>
             <h2 class="heading-3">
               <a
@@ -248,7 +255,7 @@ export class GrChangeListSection extends LitElement {
           : html` <td
                 class="star"
                 aria-label="Star status column"
-                ?hidden=${!this.showStar}
+                ?hidden=${!this.isLoggedIn}
               ></td>
               <td class="number" ?hidden=${!this.showNumber}>#</td>
               ${columns.map(item => this.renderHeaderCell(item))}
@@ -267,7 +274,7 @@ export class GrChangeListSection extends LitElement {
     const indeterminate =
       this.numSelected > 0 && this.numSelected !== this.totalChangeCount;
     return html`
-      <td class="selection">
+      <td class="selection" ?hidden=${!this.isLoggedIn}>
         <!--
           The .checked property must be used rather than the attribute because
           the attribute only controls the default checked state and does not
@@ -322,7 +329,6 @@ export class GrChangeListSection extends LitElement {
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
-        ?showStar=${this.showStar}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         .globalIndex=${this.startIndex + index}

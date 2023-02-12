@@ -210,11 +210,14 @@ export class GrChangeListView extends LitElement {
           .account=${this.account}
           .changes=${this.changes}
           .preferences=${this.preferences}
+<<<<<<< HEAD   (eedb76 Merge branch 'stable-3.6' into stable-3.7)
           .showStar=${this.loggedIn}
           .selectedIndex=${this.selectedIndex}
           @selected-index-changed=${(e: ValueChangedEvent<number>) => {
             this.selectedIndex = e.detail.value;
           }}
+=======
+>>>>>>> CHANGE (8eaddb Fix gr-change-list-action-bar showing to logged out users)
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}

@@ -44,6 +44,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+<<<<<<< HEAD   (eedb76 Merge branch 'stable-3.6' into stable-3.7)
+=======
+import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+>>>>>>> CHANGE (8eaddb Fix gr-change-list-action-bar showing to logged out users)
 
 enum ChangeSize {
   XS = 10,
@@ -95,9 +100,6 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
-  showStar = false;
-
-  @property({type: Boolean})
   showNumber = false;
 
   @property({type: String})
@@ -124,6 +126,10 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  @state() private isLoggedIn = false;
+
   constructor() {
     super();
     subscribe(
@@ -133,6 +139,11 @@ export class GrChangeListItem extends LitElement {
         if (!this.change) return;
         this.checked = selectedChangeNums.includes(this.change._number);
       }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
   }
 
@@ -317,6 +328,8 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSelectionBox() {
+    if (!this.isLoggedIn) return;
+
     return html`
       <td class="cell selection">
         <!--
@@ -337,7 +350,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.showStar) return;
+    if (!this.isLoggedIn) return;
 
     return html`
       <td class="cell star">

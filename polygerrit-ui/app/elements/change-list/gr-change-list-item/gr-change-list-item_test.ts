@@ -105,6 +105,7 @@ suite('gr-change-list-item tests', () => {
     test('bulk actions checkboxes', async () => {
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
+      element.loggedIn = true;
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -134,6 +135,7 @@ suite('gr-change-list-item tests', () => {
       element.globalIndex = 5;
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
+      element.loggedIn = true;
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -147,6 +149,7 @@ suite('gr-change-list-item tests', () => {
     });
 
     test('checkbox state updates with model updates', async () => {
+      element.loggedIn = true;
       element.requestUpdate();
       await element.updateComplete;
 
@@ -168,6 +171,7 @@ suite('gr-change-list-item tests', () => {
     });
 
     test('checkbox state updates with change id update', async () => {
+      element.loggedIn = true;
       element.requestUpdate();
       await element.updateComplete;
 
@@ -361,7 +365,7 @@ suite('gr-change-list-item tests', () => {
     const change = createChange();
     bulkActionsModel.sync([change]);
     bulkActionsModel.addSelectedChangeNum(change._number);
-    element.showStar = true;
+    element.loggedIn = true;
     element.showNumber = true;
     element.account = createAccountWithId(1);
     element.config = createServerInfo();

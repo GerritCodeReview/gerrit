@@ -193,6 +193,7 @@ suite('gr-change-list section', () => {
         ],
         emptyStateSlotName: 'test',
       };
+      element.loggedIn = true;
       await element.updateComplete;
       let rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
@@ -235,6 +236,7 @@ suite('gr-change-list section', () => {
         ],
         emptyStateSlotName: 'test',
       };
+      element.loggedIn = true;
       await element.updateComplete;
       const rows = queryAll(element, 'gr-change-list-item');
 
@@ -271,6 +273,33 @@ suite('gr-change-list section', () => {
         queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
       );
     });
+  });
+
+  test('no checkbox when loggedIn is false', async () => {
+    element.changeSection = {
+      name: 'test',
+      query: 'test',
+      results: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          id: '1' as ChangeInfoId,
+        },
+        {
+          ...createChange(),
+          _number: 2 as NumericChangeId,
+          id: '2' as ChangeInfoId,
+        },
+      ],
+      emptyStateSlotName: 'test',
+    };
+    element.loggedIn = false;
+    await element.updateComplete;
+    let rows = queryAll(element, 'gr-change-list-item');
+    assert.lengthOf(rows, 2);
+    assert.isUndefined(
+      query<HTMLInputElement>(rows[0], 'input')
+    );
   });
 
   test('colspans', async () => {

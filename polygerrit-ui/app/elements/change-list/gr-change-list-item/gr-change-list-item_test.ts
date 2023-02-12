@@ -8,9 +8,11 @@ import {html} from 'lit';
 import {
   SubmitRequirementResultInfo,
   NumericChangeId,
+  Timestamp,
 } from '../../../api/rest-api';
 import '../../../test/common-test-setup';
 import {
+  createAccountWithEmail,
   createAccountWithId,
   createChange,
   createSubmitRequirementExpressionInfo,
@@ -21,7 +23,6 @@ import {
 import {
   query,
   queryAndAssert,
-  stubRestApi,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {
@@ -60,8 +61,6 @@ suite('gr-change-list-item tests', () => {
   let bulkActionsModel: BulkActionsModel;
 
   setup(async () => {
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-
     bulkActionsModel = new BulkActionsModel(
       createTestAppContext().restApiService
     );
@@ -105,6 +104,10 @@ suite('gr-change-list-item tests', () => {
     test('bulk actions checkboxes', async () => {
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
+      element.userModel.setAccount({
+        ...createAccountWithEmail('abc@def.com'),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      });
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -134,6 +137,10 @@ suite('gr-change-list-item tests', () => {
       element.globalIndex = 5;
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
+      element.userModel.setAccount({
+        ...createAccountWithEmail('abc@def.com'),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      });
       await element.updateComplete;
 
       const checkbox = queryAndAssert<HTMLInputElement>(
@@ -147,6 +154,10 @@ suite('gr-change-list-item tests', () => {
     });
 
     test('checkbox state updates with model updates', async () => {
+      element.userModel.setAccount({
+        ...createAccountWithEmail('abc@def.com'),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      });
       element.requestUpdate();
       await element.updateComplete;
 
@@ -341,7 +352,10 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('renders', async () => {
-    element.showStar = true;
+    element.userModel.setAccount({
+      ...createAccountWithEmail('abc@def.com'),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    });
     element.showNumber = true;
     element.account = createAccountWithId(1);
     element.config = createServerInfo();

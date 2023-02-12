@@ -210,7 +210,6 @@ export class GrChangeListView extends LitElement {
           .account=${this.account}
           .changes=${this.changes}
           .preferences=${this.preferences}
-          .showStar=${this.loggedIn}
           .selectedIndex=${this.selectedIndex}
           @selected-index-changed=${(e: ValueChangedEvent<number>) => {
             this.selectedIndex = e.detail.value;

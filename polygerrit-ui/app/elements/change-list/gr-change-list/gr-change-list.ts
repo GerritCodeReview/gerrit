@@ -113,7 +113,7 @@ export class GrChangeList extends LitElement {
   showNumber?: boolean; // No default value to prevent flickering.
 
   @property({type: Boolean})
-  showStar = false;
+  loggedIn = false;
 
   @property({type: Boolean})
   showReviewedState = false;
@@ -270,7 +270,7 @@ export class GrChangeList extends LitElement {
           sectionIndex,
           this.sections
         )}
-        ?showStar=${this.showStar}
+        ?loggedIn=${this.loggedIn}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}

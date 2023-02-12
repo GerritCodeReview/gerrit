@@ -114,9 +114,6 @@ export class GrChangeList extends LitElement {
   showNumber?: boolean; // No default value to prevent flickering.
 
   @property({type: Boolean})
-  showStar = false;
-
-  @property({type: Boolean})
   showReviewedState = false;
 
   @property({type: Array})
@@ -136,6 +133,9 @@ export class GrChangeList extends LitElement {
 
   // private but used in test
   @state() config?: ServerInfo;
+
+  // Private but used in test.
+  userModel = getAppContext().userModel;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -267,7 +267,6 @@ export class GrChangeList extends LitElement {
           sectionIndex,
           this.sections
         )}
-        ?showStar=${this.showStar}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}

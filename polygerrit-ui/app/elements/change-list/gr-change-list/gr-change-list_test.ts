@@ -23,6 +23,7 @@ import {
 } from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
 import {
+  createAccountWithEmail,
   createChange,
   createServerInfo,
   createSubmitRequirementResultInfo,
@@ -32,6 +33,7 @@ import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-sect
 import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
 import {testResolver} from '../../../test/common-test-setup';
+import {Timestamp} from '../../../api/rest-api';
 
 suite('gr-change-list basic tests', () => {
   let element: GrChangeList;
@@ -285,6 +287,12 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('toggle checkbox keyboard shortcut', async () => {
+    element.userModel.setAccount({
+      ...createAccountWithEmail('abc@def.com'),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    });
+    await element.updateComplete;
+
     const getCheckbox = (item: GrChangeListItem) =>
       queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
 
@@ -516,7 +524,7 @@ suite('gr-change-list basic tests', () => {
     assert.isFalse(element.isColumnEnabled('Assignee'));
   });
 
-  test('showStar and showNumber', async () => {
+  test('loggedIn and showNumber', async () => {
     element.sections = [{results: [{...createChange()}], name: 'a'}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {
@@ -535,6 +543,7 @@ suite('gr-change-list basic tests', () => {
       ],
     };
     element.config = createServerInfo();
+    element.userModel.setAccount(undefined);
     await element.updateComplete;
     const section = query<GrChangeListSection>(
       element,
@@ -548,7 +557,10 @@ suite('gr-change-list basic tests', () => {
     assert.isNotOk(query(query(section, 'gr-change-list-item'), '.star'));
     assert.isNotOk(query(query(section, 'gr-change-list-item'), '.number'));
 
-    element.showStar = true;
+    element.userModel.setAccount({
+      ...createAccountWithEmail('abc@def.com'),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    });
     await element.updateComplete;
     await section.updateComplete;
     assert.isOk(query(query(section, 'gr-change-list-item'), '.star'));

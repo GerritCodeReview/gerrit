@@ -95,9 +95,6 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
-  showStar = false;
-
-  @property({type: Boolean})
   showNumber = false;
 
   @property({type: String})
@@ -118,11 +115,17 @@ export class GrChangeListItem extends LitElement {
 
   @state() private dynamicCellEndpoints?: string[];
 
+  // Private but used in test.
   reporting: ReportingService = getAppContext().reportingService;
+
+  // Private but used in test.
+  userModel = getAppContext().userModel;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  @state() private isLoggedIn = false;
 
   constructor() {
     super();
@@ -133,6 +136,11 @@ export class GrChangeListItem extends LitElement {
         if (!this.change) return;
         this.checked = selectedChangeNums.includes(this.change._number);
       }
+    );
+    subscribe(
+      this,
+      () => this.userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
   }
 
@@ -317,6 +325,8 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSelectionBox() {
+    if (!this.isLoggedIn) return;
+
     return html`
       <td class="cell selection">
         <!--
@@ -337,7 +347,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.showStar) return;
+    if (!this.isLoggedIn) return;
 
     return html`
       <td class="cell star">

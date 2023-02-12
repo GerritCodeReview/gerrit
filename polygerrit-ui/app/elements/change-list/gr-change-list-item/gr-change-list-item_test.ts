@@ -361,7 +361,7 @@ suite('gr-change-list-item tests', () => {
     const change = createChange();
     bulkActionsModel.sync([change]);
     bulkActionsModel.addSelectedChangeNum(change._number);
-    element.showStar = true;
+    element.loggedIn = true;
     element.showNumber = true;
     element.account = createAccountWithId(1);
     element.config = createServerInfo();

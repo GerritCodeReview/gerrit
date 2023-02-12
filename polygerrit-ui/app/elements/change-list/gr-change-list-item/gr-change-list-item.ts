@@ -94,7 +94,7 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
-  showStar = false;
+  loggedIn = false;
 
   @property({type: Boolean})
   showNumber = false;
@@ -332,6 +332,8 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSelectionBox() {
+    if (!this.loggedIn) return;
+
     return html`
       <td class="cell selection">
         <!--
@@ -352,7 +354,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.showStar) return;
+    if (!this.loggedIn) return;
 
     return html`
       <td class="cell star">

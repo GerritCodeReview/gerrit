@@ -52,7 +52,7 @@ export class GrChangeListSection extends LitElement {
   visibleChangeTableColumns?: string[];
 
   @property({type: Boolean})
-  showStar = false;
+  loggedIn = false;
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
@@ -189,8 +189,8 @@ export class GrChangeListSection extends LitElement {
         <td class="leftPadding" aria-hidden="true"></td>
         <td
           class="star"
-          ?aria-hidden=${!this.showStar}
-          ?hidden=${!this.showStar}
+          ?aria-hidden=${!this.loggedIn}
+          ?hidden=${!this.loggedIn}
         ></td>
         <td class="cell" colspan=${colSpan}>
           ${this.changeSection.emptyStateSlotName
@@ -213,7 +213,7 @@ export class GrChangeListSection extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
-          <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
+          <td aria-hidden="true" class="star" ?hidden=${!this.loggedIn}></td>
           <td class="cell" colspan=${colSpan}>
             <h2 class="heading-3">
               <a
@@ -248,7 +248,7 @@ export class GrChangeListSection extends LitElement {
           : html` <td
                 class="star"
                 aria-label="Star status column"
-                ?hidden=${!this.showStar}
+                ?hidden=${!this.LoggedIn}
               ></td>
               <td class="number" ?hidden=${!this.showNumber}>#</td>
               ${columns.map(item => this.renderHeaderCell(item))}
@@ -322,7 +322,7 @@ export class GrChangeListSection extends LitElement {
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
-        ?showStar=${this.showStar}
+        ?loggedIn=${this.loggedIn}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         .globalIndex=${this.startIndex + index}

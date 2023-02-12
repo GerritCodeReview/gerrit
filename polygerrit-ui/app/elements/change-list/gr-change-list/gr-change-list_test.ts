@@ -285,6 +285,9 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('toggle checkbox keyboard shortcut', async () => {
+    element.loggedIn = true;
+    await element.updateComplete;
+
     const getCheckbox = (item: GrChangeListItem) =>
       queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
 
@@ -515,7 +518,7 @@ suite('gr-change-list basic tests', () => {
     assert.isTrue(element.isColumnEnabled('Subject'));
   });
 
-  test('showStar and showNumber', async () => {
+  test('loggedIn and showNumber', async () => {
     element.sections = [{results: [{...createChange()}], name: 'a'}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {
@@ -547,7 +550,7 @@ suite('gr-change-list basic tests', () => {
     assert.isNotOk(query(query(section, 'gr-change-list-item'), '.star'));
     assert.isNotOk(query(query(section, 'gr-change-list-item'), '.number'));
 
-    element.showStar = true;
+    element.loggedIn = true;
     await element.updateComplete;
     await section.updateComplete;
     assert.isOk(query(query(section, 'gr-change-list-item'), '.star'));

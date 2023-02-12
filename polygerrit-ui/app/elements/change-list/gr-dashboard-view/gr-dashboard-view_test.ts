@@ -82,7 +82,7 @@ suite('gr-dashboard-view tests', () => {
         <div class="loading" hidden="">Loading...</div>
         <div>
           <h1 class="assistive-tech-only">Dashboard</h1>
-          <gr-change-list showstar="">
+          <gr-change-list loggedin="">
             <div id="emptyOutgoing" slot="outgoing-slot">No changes</div>
             <div id="emptyYourTurn" slot="your-turn-slot">
               <span> No changes need your attention &nbsp🎉 </span>

@@ -284,7 +284,6 @@ export class GrDashboardView extends LitElement {
         ${this.renderUserHeader()}
         <h1 class="assistive-tech-only">Dashboard</h1>
         <gr-change-list
-          ?showStar=${true}
           .account=${this.account}
           .preferences=${this.preferences}
           .sections=${this.results}

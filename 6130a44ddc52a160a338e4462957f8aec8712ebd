@@ -34,6 +34,24 @@
       "parentUuid": "b8ada22d_cf91ba35",
       "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55932068_5cd99eac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-13T10:25:18Z",
+      "side": 1,
+      "message": "I meant a flag for using this model. Diff refactor to model seems risky for me. You should introduce a flag or find a different reviewer for this series of changes",
+      "parentUuid": "8791ee45_0ac18398",
+      "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

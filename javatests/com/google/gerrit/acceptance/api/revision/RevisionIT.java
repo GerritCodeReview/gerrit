@@ -45,6 +45,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -1345,6 +1346,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void setUnsetReviewedFlag() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");

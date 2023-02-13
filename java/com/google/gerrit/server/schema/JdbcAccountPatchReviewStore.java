@@ -53,6 +53,8 @@ public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final String FAKE_IN_MEMORY_URL = "fake";
+
   // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is lost at the moment the
   // last connection is closed. This option keeps the content as long as the VM lives.
   @VisibleForTesting
@@ -77,7 +79,9 @@ public abstract class JdbcAccountPatchReviewStore
     protected void configure() {
       Class<? extends JdbcAccountPatchReviewStore> impl;
       String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
-      if (url == null || url.contains(H2_DB)) {
+      if (url == null || url.equals(FAKE_IN_MEMORY_URL)) {
+        impl = FakeAccountPatchReviewStore.class;
+      } else if (url.contains(H2_DB)) {
         impl = H2AccountPatchReviewStore.class;
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;
@@ -99,7 +103,10 @@ public abstract class JdbcAccountPatchReviewStore
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
-    if (url == null || url.contains(H2_DB)) {
+    if (url == null || url.equals(FAKE_IN_MEMORY_URL)) {
+      return new FakeAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
+    }
+    if (url.contains(H2_DB)) {
       return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     if (url.contains(POSTGRESQL)) {

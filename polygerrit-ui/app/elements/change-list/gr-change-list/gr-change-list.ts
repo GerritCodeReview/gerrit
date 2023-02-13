@@ -29,12 +29,16 @@ import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';
-import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {
+  computeLabelShortcut,
+  GrChangeListSection,
+} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
 import {ValueChangedEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {changeStatuses} from '../../../utils/change-util';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -229,6 +233,145 @@ export class GrChangeList extends LitElement {
     if (!this.sections) return;
     const labelNames = this.computeLabelNames(this.sections);
     const startIndices = this.calculateStartIndices(this.sections);
+    return html`
+      <div style="display: flex; justify-content: center;">
+        <div
+          style=${`display: grid; grid-template-columns: repeat(4, max-content) fit-content(60ch) max-content fit-content(60ch) repeat(3, max-content) repeat(${labelNames.length}, max-content); column-gap: 12px; row-gap: 4px;`}
+        >
+          ${this.sections.map(
+            section =>
+              html`
+                <h1
+                  style="font-size: 20px; padding-top: 40px; padding-bottom: 10px; grid-column: 1 / -1;"
+                >
+                  ${section.name} (${section.results.length} changes)
+                </h1>
+                <div>
+                  <input type="checkbox" />
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Number
+                </div>
+                <div
+                  style="font-size:16px; text-align: center; border-bottom: 1px solid black;"
+                >
+                  Status
+                </div>
+                <div
+                  style="font-size:16px; text-align: center; border-bottom: 1px solid black;"
+                >
+                  Size
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Subject
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Owner
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Reviewers
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Project
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Branch
+                </div>
+                <div style="font-size:16px; border-bottom: 1px solid black;">
+                  Updated
+                </div>
+                ${labelNames.map(
+                  label => html`
+                    <div
+                      style="font-size:16px; border-bottom: 1px solid black;"
+                    >
+                      ${computeLabelShortcut(label)}
+                    </div>
+                  `
+                )}
+                ${section.results.map(
+                  change =>
+                    html`
+                      <div>
+                        <input style="padding-top: 4px;" type="checkbox" />
+                      </div>
+                      <div>${change._number}</div>
+                      <div
+                        style="display: flex; gap: 1px; justify-content: center;"
+                      >
+                        ${changeStatuses(change).length > 0
+                          ? changeStatuses(change).map(
+                              status =>
+                                html`<gr-change-status
+                                  flat
+                                  .status=${status}
+                                ></gr-change-status>`
+                            )
+                          : html`
+                              <gr-change-list-column-requirements-summary
+                                .change=${change}
+                              >
+                              </gr-change-list-column-requirements-summary>
+                            `}
+                      </div>
+                      <div>
+                        <div
+                          title=${`${
+                            change.insertions + change.deletions
+                          } lines changed`}
+                          style="padding: 1px; background-color: #e0e0e0; border-radius: 2px; text-align: center;"
+                        >
+                          ${['XS', 'S', 'M', 'L', 'XL'][
+                            [10, 50, 250, 1000, Infinity].findIndex(
+                              size =>
+                                change.insertions + change.deletions < size
+                            )
+                          ]}
+                        </div>
+                      </div>
+                      <a
+                        href=${createChangeUrl({change})}
+                        style="color: black; text-decoration: none;"
+                        >${change.subject}</a
+                      >
+                      <gr-account-chip
+                        .account=${change.owner}
+                      ></gr-account-chip>
+                      <div style="display: flex; gap: 2px; flex-wrap: wrap">
+                        ${change.reviewers.REVIEWER?.slice(0, 3).map(
+                          reviewer =>
+                            html`<gr-account-chip
+                              .account=${reviewer}
+                            ></gr-account-chip>`
+                        )}
+                        ${(change.reviewers.REVIEWER?.length ?? 0) > 3
+                          ? `and ${change.reviewers.REVIEWER!.length - 3} more`
+                          : ''}
+                      </div>
+                      <div>${change.project}</div>
+                      <div>${change.branch}</div>
+                      <div>
+                        <gr-date-formatter
+                          withTooltip
+                          .dateStr=${change.updated.toString()}
+                        ></gr-date-formatter>
+                      </div>
+                      ${labelNames.map(
+                        label => html`
+                          <gr-change-list-column-requirement
+                            .change=${change}
+                            .labelName=${label}
+                          >
+                          </gr-change-list-column-requirement>
+                        `
+                      )}
+                    `
+                )}
+              `
+          )}
+        </div>
+      </div>
+    `;
     return html`
       <table id="changeList">
         ${this.sections.map((changeSection, sectionIndex) =>

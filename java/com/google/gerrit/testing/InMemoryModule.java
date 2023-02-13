@@ -141,7 +141,7 @@ public class InMemoryModule extends FactoryModule {
 
   public static void setDefaults(Config cfg) {
     cfg.setString(
-        "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
+        "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.FAKE_IN_MEMORY_URL);
     cfg.setEnum("auth", null, "type", AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT);
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("gerrit", null, "basePath", "git");

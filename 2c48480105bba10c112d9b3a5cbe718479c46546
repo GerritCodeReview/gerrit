@@ -46,6 +46,30 @@
       },
       "revId": "2c48480105bba10c112d9b3a5cbe718479c46546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043cddbb_81da2125",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-02-13T15:59:09Z",
+      "side": 1,
+      "message": "we could explicitly handle a symbolic link and try to assist the admin:\n```\nif (!Files.isDirectory(dataDir)) {\n  if (Files.isSymbolicRef(dataDir)) {\n    Path target \u003d Files.readSymbolicLink(dataDir)`\n    Files.createDirectories(target)\n  } else {\n    Files.createDirectories(dataDir);\n  }\n} catch (IOException e) {\n```",
+      "parentUuid": "ff861e75_82986ef2",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "2c48480105bba10c112d9b3a5cbe718479c46546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -372,7 +372,7 @@ export class GrAppElement extends LitElement {
       ${this.renderHeader()}
       <main ?aria-hidden=${this.mainAriaHidden}>
         ${this.renderMobileSearch()} ${this.renderChangeListView()}
-        ${this.renderDashboardView()}
+        ${this.renderDashboardView()}${this.renderProfileView()}
         ${
           // `keyed(this.changeNum, ...)` makes sure that these views are not
           // re-used across changes, which is a precaution, because we have run
@@ -476,6 +476,14 @@ export class GrAppElement extends LitElement {
     return cache(
       this.view === GerritView.DASHBOARD
         ? html`<gr-dashboard-view></gr-dashboard-view>`
+        : nothing
+    );
+  }
+
+  private renderProfileView() {
+    return cache(
+      this.view === GerritView.PROFILE
+        ? html`<gr-profile-view></gr-profile-view>`
         : nothing
     );
   }

@@ -167,6 +167,8 @@ const RoutePattern = {
 
   PLUGINS: /^\/plugins\/(.+)$/,
 
+  PROFILE: /^\/profile\/(.+)$/,
+
   // TODO: The first capturing group in the next 3 patterns works around a bug
   // in page.js that is fixed in version 1.11.6. Remove it when the new version
   // is being used at Google.

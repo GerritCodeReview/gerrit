@@ -70,6 +70,24 @@
       "parentUuid": "55932068_5cd99eac",
       "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d32e4d34_b0d63638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-13T11:16:58Z",
+      "side": 1,
+      "message": "Resolved offline. Let\u0027s submit this change, but re-consider a flag when we are going further.",
+      "parentUuid": "4da0ed1d_180dbc01",
+      "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

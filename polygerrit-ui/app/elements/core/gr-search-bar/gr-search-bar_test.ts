@@ -69,9 +69,9 @@ suite('gr-search-bar tests', () => {
             allow-non-suggested-values=""
             id="searchInput"
             multi=""
-            show-search-icon=""
             tab-complete=""
           >
+            <gr-icon icon="search" class="searchIcon" slot="prefix"></gr-icon>
             <a
               class="help"
               href="https://mydocumentationurl.google.com/user-search.html"

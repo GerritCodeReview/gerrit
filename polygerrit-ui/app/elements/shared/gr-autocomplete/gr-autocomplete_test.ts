@@ -46,7 +46,7 @@ suite('gr-autocomplete tests', () => {
           tabindex="0"
         >
           <div slot="prefix">
-            <gr-icon icon="search" class="searchIcon"></gr-icon>
+            <slot name="prefix"> </slot>
           </div>
           <div slot="suffix">
             <slot name="suffix"> </slot>
@@ -96,7 +96,7 @@ suite('gr-autocomplete tests', () => {
           tabindex="0"
         >
           <div slot="prefix">
-            <gr-icon icon="search" class="searchIcon"></gr-icon>
+            <slot name="prefix"> </slot>
           </div>
           <div slot="suffix">
             <slot name="suffix"> </slot>
@@ -135,7 +135,7 @@ suite('gr-autocomplete tests', () => {
           tabindex="0"
         >
           <div slot="prefix">
-            <gr-icon icon="search" class="searchIcon"></gr-icon>
+            <slot name="prefix"> </slot>
           </div>
           <div slot="suffix">
             <slot name="suffix"> </slot>
@@ -561,20 +561,6 @@ suite('gr-autocomplete tests', () => {
     const input = queryAndAssert<PaperInputElement>(element, 'paper-input');
     input.focus();
     assert.isTrue(element.focused);
-  });
-
-  test('search icon shows with showSearchIcon property', async () => {
-    assert.equal(
-      getComputedStyle(queryAndAssert(element, 'gr-icon')).display,
-      'none'
-    );
-    element.showSearchIcon = true;
-    await element.updateComplete;
-
-    assert.notEqual(
-      getComputedStyle(queryAndAssert(element, 'gr-icon')).display,
-      'none'
-    );
   });
 
   test('vertical offset overridden by param if it exists', async () => {

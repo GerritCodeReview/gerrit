@@ -6,7 +6,6 @@
 import '@polymer/paper-input/paper-input';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
-import '../gr-icon/gr-icon';
 import '../../../styles/shared-styles';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {fire, fireEvent} from '../../../utils/event-util';
@@ -108,9 +107,6 @@ export class GrAutocomplete extends LitElement {
   @property({type: Boolean})
   disabled = false;
 
-  @property({type: Boolean, attribute: 'show-search-icon'})
-  showSearchIcon = false;
-
   /**
    * Vertical offset needed for an element with 20px line-height, 4px
    * padding and 1px border (30px height total). Plus 1px spacing between
@@ -195,15 +191,6 @@ export class GrAutocomplete extends LitElement {
   static override styles = [
     sharedStyles,
     css`
-      .searchIcon {
-        display: none;
-      }
-      .searchIcon.showSearchIcon {
-        display: inline-block;
-      }
-      gr-icon {
-        margin: 0 var(--spacing-xs);
-      }
       paper-input.borderless {
         border: none;
         padding: 0;
@@ -307,12 +294,7 @@ export class GrAutocomplete extends LitElement {
         .label=${this.label}
       >
         <div slot="prefix">
-          <gr-icon
-            icon="search"
-            class="searchIcon ${this.computeShowSearchIconClass(
-              this.showSearchIcon
-            )}"
-          ></gr-icon>
+          <slot name="prefix"></slot>
         </div>
 
         <div slot="suffix">
@@ -681,10 +663,6 @@ export class GrAutocomplete extends LitElement {
         })
       );
     }
-  }
-
-  computeShowSearchIconClass(showSearchIcon: boolean) {
-    return showSearchIcon ? 'showSearchIcon' : '';
   }
 }
 

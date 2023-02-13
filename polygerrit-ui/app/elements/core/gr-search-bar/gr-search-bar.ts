@@ -198,6 +198,9 @@ export class GrSearchBar extends LitElement {
     return [
       sharedStyles,
       css`
+        gr-icon.searchIcon {
+          margin: 0 var(--spacing-xs);
+        }
         form {
           display: flex;
         }
@@ -217,7 +220,6 @@ export class GrSearchBar extends LitElement {
         <gr-autocomplete
           id="searchInput"
           .label=${this.label}
-          show-search-icon
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
@@ -232,6 +234,7 @@ export class GrSearchBar extends LitElement {
             this.handleSearchTextChanged(e);
           }}
         >
+          <gr-icon icon="search" class="searchIcon" slot="prefix"></gr-icon>
           <a
             class="help"
             slot="suffix"

@@ -439,7 +439,7 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getViewModel().patchNum$,
+      () => this.getChangeModel().patchNum$,
       patchNum => (this.patchNum = patchNum)
     );
     subscribe(

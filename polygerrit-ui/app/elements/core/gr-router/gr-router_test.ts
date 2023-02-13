@@ -863,6 +863,18 @@ suite('gr-router tests', () => {
               leftSide: true,
             },
           });
+
+          await checkUrlToState(
+            '/c/test-project/+/42/polygerrit-ui/app/api/diff.ts',
+            {
+              ...createDiffViewState(),
+              basePatchNum: undefined,
+              patchNum: undefined,
+              diffView: {
+                path: 'polygerrit-ui/app/api/diff.ts',
+              },
+            }
+          );
         });
 
         test('COMMENT base..1', async () => {

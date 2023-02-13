@@ -13,6 +13,7 @@ import {PluginViewState} from '../models/views/plugin';
 import {SearchViewState} from '../models/views/search';
 import {DashboardViewState} from '../models/views/dashboard';
 import {ChangeViewState} from '../models/views/change';
+import {ProfileViewState} from '../models/views/profile';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams;
@@ -37,6 +38,7 @@ export type AppElementParams =
   | RepoViewState
   | DocumentationViewState
   | PluginViewState
+  | ProfileViewState
   | SearchViewState
   | SettingsViewState
   | AgreementViewState

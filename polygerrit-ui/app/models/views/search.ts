@@ -250,12 +250,13 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
   // visible for testing
   redirectSingleResult(query: string, changes: ChangeInfo[]): void {
     if (changes.length !== 1) return;
-    for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
-      if (query.match(queryPattern)) {
-        // "Back"/"Forward" buttons work correctly only with replaceUrl()
-        this.getNavigation().replaceUrl(createChangeUrl({change: changes[0]}));
-        return;
-      }
-    }
+    this.getNavigation().replaceUrl(createChangeUrl({change: changes[0]}));
+    // for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
+    //   if (query.match(queryPattern)) {
+    //     // "Back"/"Forward" buttons work correctly only with replaceUrl()
+    //     this.getNavigation().replaceUrl(createChangeUrl({change: changes[0]}));
+    //     return;
+    //   }
+    // }
   }
 }

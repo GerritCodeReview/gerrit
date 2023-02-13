@@ -27,7 +27,12 @@ import {
   computeTruncatedPath,
   isMagicPath,
 } from '../../../utils/path-list-util';
-import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
+import {
+  changeBaseURL,
+  changeIsOpen,
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {
   DropdownItem,
@@ -84,6 +89,7 @@ import {
   createDiffUrl,
   ChangeChildView,
   changeViewModelToken,
+  createChangeViewUrl,
 } from '../../../models/views/change';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
@@ -94,6 +100,7 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
+import {GerritView} from '../../../services/router/router-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -256,6 +263,8 @@ export class GrDiffView extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
+
+  private readonly restApiService = getAppContext().restApiService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -900,6 +909,45 @@ export class GrDiffView extends LitElement {
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
     return html` <div class="rightControls">
       <span class="blameLoader ${blameLoaderClass}">
+        <gr-button
+          link=""
+          title="Open last merged change for this file"
+          style="padding-right: 10px"
+          @click=${async () => {
+            if (this.change === undefined) {
+              console.error('no current change');
+              return;
+            }
+            const change = (
+              await this.restApiService.getChanges(
+                1,
+                `status:MERGED file:${this.path}${
+                  this.change.submitted
+                    ? ` mergedbefore:${this.change?.submitted}`
+                    : ''
+                }`,
+                undefined,
+                listChangesOptionsToHex(ListChangesOption.CURRENT_REVISION)
+              )
+            )?.[0];
+            if (change?.revisions === undefined) {
+              console.error('no change found');
+              return;
+            }
+            const url = createChangeViewUrl({
+              view: GerritView.CHANGE,
+              childView: ChangeChildView.DIFF,
+              patchNum: Object.values(change.revisions)[0]._number,
+              changeNum: change._number,
+              repo: change.project,
+              diffView: {
+                path: this.path,
+              },
+            });
+            location.href = url;
+          }}
+          >open last merged change</gr-button
+        >
         <gr-button
           link=""
           id="toggleBlame"

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e0e771_3af4ca2c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-page.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-13T10:46:13Z",
+      "side": 1,
+      "message": "I disagree that this is something private from the point of view of a `Route` such as `PROJECT_DASHBOARD_ROUTE`. A `Route` is concerned about matching a URL and creating state from it. This `match()` method here is rather a utility.\n\nThe entire design could benefit from further refactorings such as (1) splitting this method up into its first 2.5 lines and the rest, or (2) let the method return the matches instead of stuffing it into context as params.\n\nSo what I am doing here is just a tiny step in the right direction. `createRoute()` was using too much `ctx.something`. It was obvious that the code rather belongs to `PageContext`.\n\nFor moving routes into view models it is vital that we can test just with a path, a regular expressions and a state object. We don\u0027t really want to depend on something like `createRoute()` and the concept of calling `next()`.",
+      "parentUuid": "a3aa6eab_33ecf92e",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "4237f29c674b1b9e9efd88460f27f74685efc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e0148fb_52439317",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-02-13T09:19:48Z",
       "side": 1,
       "message": "Can this TODO be addressed?",
+      "revId": "4237f29c674b1b9e9efd88460f27f74685efc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b62e35_e97916d0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-13T10:46:13Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/358181",
+      "parentUuid": "5e0148fb_52439317",
       "revId": "4237f29c674b1b9e9efd88460f27f74685efc165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -357,6 +357,22 @@ gerrit-documentation,role=external,window=_blank] storage bucket.
 
 Submit any previously uploaded notes change on the homepage project.
 
+[[update-supported-releases]]
+=== Update list of supported releases
+
+If you created a new stable release update the list of supported releases
+in the link:https://www.gerritcodereview.com/support.html[support page].
+
+Gerrit releases are also listed on the
+link:https://endoflife.date/gerrit[endoflife website].
+Push a PR to
+link:https://github.com/endoflife-date/endoflife.date.git[endoflife.date repository]
+to update supported releases in `products/gerrit.md`. New release tags
+should be updated automatically by the site's automation job which uses
+Dependabot to
+link:https://github.com/endoflife-date/endoflife.date/wiki/Automation[auto-create PRs]
+for new release tags.
+
 [[finalize-issues]]
 ==== Update the Issues
 

@@ -52,6 +52,7 @@ public class IndexPreloadingUtilTest {
   @Test
   public void preloadOnlyForSelfDashboard() throws Exception {
     assertThat(parseRequestedPage("/dashboard/self")).isEqualTo(RequestedPage.DASHBOARD);
+    assertThat(parseRequestedPage("/profile/self")).isEqualTo(RequestedPage.PROFILE);
     assertThat(parseRequestedPage("/dashboard/1085901"))
         .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
     assertThat(parseRequestedPage("/dashboard/gerrit"))

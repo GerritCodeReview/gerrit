@@ -42,6 +42,7 @@ public class IndexPreloadingUtil {
     CHANGE,
     DIFF,
     DASHBOARD,
+    PROFILE,
     PAGE_WITHOUT_PRELOADING,
   }
 
@@ -52,6 +53,7 @@ public class IndexPreloadingUtil {
   public static final Pattern DIFF_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
   public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
+  public static final Pattern PROFILE_PATTERN = Pattern.compile("/profile/self$");
   public static final String ROOT_PATH = "/";
 
   // These queries should be kept in sync with PolyGerrit:
@@ -132,7 +134,12 @@ public class IndexPreloadingUtil {
       return RequestedPage.DASHBOARD;
     }
 
-    if (ROOT_PATH.equals(requestedPath)) {
+    Matcher profileMatcher = IndexPreloadingUtil.PROFILE_PATTERN.matcher(requestedPath);
+    if (profileMatcher.matches()) {
+      return RequestedPage.PROFILE;
+    }
+
+    if (coe.equals(requestedPath)) {
       return RequestedPage.DASHBOARD;
     }
 
@@ -150,6 +157,7 @@ public class IndexPreloadingUtil {
         matcher = DIFF_URL_PATTERN.matcher(requestedURL);
         break;
       case DASHBOARD:
+      case PROFILE:
       case PAGE_WITHOUT_PRELOADING:
       default:
         return Optional.empty();
@@ -174,6 +182,7 @@ public class IndexPreloadingUtil {
         matcher = DIFF_URL_PATTERN.matcher(requestedURL);
         break;
       case DASHBOARD:
+      case PROFILE:
       case PAGE_WITHOUT_PRELOADING:
       default:
         return Optional.empty();

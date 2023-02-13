@@ -22,6 +22,30 @@
       },
       "revId": "2c48480105bba10c112d9b3a5cbe718479c46546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff861e75_82986ef2",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-13T14:47:02Z",
+      "side": 1,
+      "message": "\u003e What if it\u0027s a symlink to a directory that doesn\u0027t exist yet?\n\nIn that case it is a symlink to a non-existing target. The isDirectory check will return false and the code will reach createDirectories which will try to create a directory named the same as the symlink and this will fail with the FileAlreadyExists exception.\n\n\u003e Do we want to handle that or is that the admin\u0027s job to solve?\n\nI believe that this is the admin\u0027s job... assuming the admin is replacing plugins\u0027 dataDir with a symlink we shall assume that he knows what he is doing.",
+      "parentUuid": "40e3f5c6_0446df6c",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "2c48480105bba10c112d9b3a5cbe718479c46546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

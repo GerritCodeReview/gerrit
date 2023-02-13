@@ -223,7 +223,7 @@ const RoutePattern = {
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
   // compatibility for change-only.
   // eslint-disable-next-line max-len
-  DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
+  DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/(-?\d+|edit)(\.\.(\d+|edit))?)?(\/([^\d].*))\/?$/,
 
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit[#lineNum]
   DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(#\d+)?$/,
@@ -1375,11 +1375,11 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[3]) as BasePatchSetNum,
+      patchNum: convertToPatchSetNum(ctx.params[5]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.DIFF,
-      diffView: {path: ctx.params[8]},
+      diffView: {path: ctx.params[7]},
     };
     const address = this.parseLineAddress(ctx.hash);
     if (address) {

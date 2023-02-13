@@ -66,7 +66,7 @@ const slotNameBySectionName = new Map<string, string>([
   [OUTGOING.name, 'outgoing-slot'],
 ]);
 
-@customElement('gr-dashboard-view')
+@customElement('gr-dashboard-view-old')
 export class GrDashboardView extends LitElement {
   /**
    * Fired when the title of the page should change.

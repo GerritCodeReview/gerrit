@@ -16,6 +16,7 @@ export enum GerritView {
   DOCUMENTATION_SEARCH = 'documentation-search',
   GROUP = 'group',
   PLUGIN_SCREEN = 'plugin-screen',
+  PROFILE = 'profile',
   REPO = 'repo',
   SEARCH = 'search',
   SETTINGS = 'settings',

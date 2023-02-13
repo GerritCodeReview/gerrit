@@ -68,6 +68,7 @@ import {
   ServiceWorkerInstaller,
   serviceWorkerInstallerToken,
 } from './service-worker-installer';
+import {ProfileViewModel, profileViewModelToken} from '../models/views/profile';
 
 /**
  * The AppContext lazy initializator for all services
@@ -113,6 +114,7 @@ export function createAppDependencies(
     [documentationViewModelToken, () => new DocumentationViewModel()],
     [groupViewModelToken, () => new GroupViewModel()],
     [pluginViewModelToken, () => new PluginViewModel()],
+    [profileViewModelToken, () => new ProfileViewModel()],
     [repoViewModelToken, () => new RepoViewModel()],
     [
       searchViewModelToken,
@@ -138,6 +140,7 @@ export function createAppDependencies(
           resolver(documentationViewModelToken),
           resolver(groupViewModelToken),
           resolver(pluginViewModelToken),
+          resolver(profileViewModelToken),
           resolver(repoViewModelToken),
           resolver(searchViewModelToken),
           resolver(settingsViewModelToken)

@@ -16,6 +16,29 @@
       "message": "Thanks!\n\nNote that we would generally like to move to model subscriptions instead of handing down properties through the hierarchy chain. For example like this: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts;l\u003d638?q\u003dusermodel.*loggedin\n\nBut just FYI. :-)",
       "revId": "102955ef8590e2fb9a5c05fbb9845060aa924774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f5c9c3_f431e7b9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-13T08:30:30Z",
+      "side": 1,
+      "message": "TIL that links like https://gerrit-review.googlesource.com/dashboard/1029953\nare not shown to guests. It will automatically redirect to https://gerrit-review.googlesource.com/q/owner:1029953\n\nSo dashboard-view is shown only to logged users thanks to gr-router.",
+      "range": {
+        "startLine": 287,
+        "startChar": 10,
+        "endLine": 287,
+        "endChar": 27
+      },
+      "revId": "102955ef8590e2fb9a5c05fbb9845060aa924774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -166,17 +166,12 @@ const RoutePattern = {
 
   PLUGINS: /^\/plugins\/(.+)$/,
 
-  // TODO: The first capturing group in the next 3 patterns works around a bug
-  // in page.js that is fixed in version 1.11.6. Remove it when the new version
-  // is being used at Google.
-  // https://github.com/visionmedia/page.js/commit/60f764b0ca9ad55133bc373914e97a8927a8f2d5
-
   // Matches /admin/plugins with optional filter and offset.
-  PLUGIN_LIST: /^(\/admin\/plugins)\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+  PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/groups with optional filter and offset.
-  GROUP_LIST: /^(\/admin\/groups)\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+  GROUP_LIST: /^\/admin\/groups\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/repos with optional filter and offset.
-  REPO_LIST: /^(\/admin\/repos)\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+  REPO_LIST: /^\/admin\/repos\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/repos/$REPO,branches with optional filter and offset.
   BRANCH_LIST:
     /^\/admin\/repos\/(.+),branches\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
@@ -1056,10 +1051,10 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: ctx.params[2] || '0',
-      filter: ctx.params[1] ?? null,
+      offset: ctx.params[1] || '0',
+      filter: ctx.params[0] ?? null,
       openCreateModal:
-        !ctx.params[1] && !ctx.params[2] && ctx.hash === 'create',
+        !ctx.params[0] && !ctx.params[1] && ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1178,10 +1173,10 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: ctx.params[2] || '0',
-      filter: ctx.params[1] ?? null,
+      offset: ctx.params[1] || '0',
+      filter: ctx.params[0] ?? null,
       openCreateModal:
-        !ctx.params[1] && !ctx.params[2] && ctx.hash === 'create',
+        !ctx.params[0] && !ctx.params[1] && ctx.hash === 'create',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1208,8 +1203,8 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: ctx.params[2] || '0',
-      filter: ctx.params[1] ?? null,
+      offset: ctx.params[1] || '0',
+      filter: ctx.params[0] ?? null,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

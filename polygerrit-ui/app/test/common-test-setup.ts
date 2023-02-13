@@ -6,7 +6,7 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
-import {AppContext} from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
 import {
   createTestAppContext,
@@ -60,7 +60,6 @@ installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
 });
 
 let testSetupTimestampMs = 0;
-let appContext: AppContext & Finalizable;
 
 const injectedDependencies: Map<
   DependencyToken<unknown>,
@@ -101,11 +100,10 @@ setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(getCleanupsCount(), 0);
-  appContext = createTestAppContext();
-  initGlobalVariables(appContext);
+  initGlobalVariables(createTestAppContext(), false);
 
-  finalizers.push(appContext);
-  const dependencies = createTestDependencies(appContext, testResolver);
+  finalizers.push(getAppContext());
+  const dependencies = createTestDependencies(getAppContext(), testResolver);
   for (const [token, provider] of dependencies) {
     injectDependency(token, provider);
   }
@@ -124,7 +122,7 @@ setup(() => {
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
   testResolver(pluginLoaderToken).loadPlugins([]);
-  testOnlyResetGrRestApiSharedObjects(appContext.authService);
+  testOnlyResetGrRestApiSharedObjects(getAppContext().authService);
 });
 
 export function removeRequestDependencyListener() {

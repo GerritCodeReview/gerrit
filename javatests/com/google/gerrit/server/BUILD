@@ -71,6 +71,7 @@ junit_tests(
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:assertable-executor",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/truth",
         "//lib:gson",
         "//lib:guava",

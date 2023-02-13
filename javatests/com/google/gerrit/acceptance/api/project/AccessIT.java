@@ -22,6 +22,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.Arrays.asList;
@@ -240,7 +241,7 @@ public class AccessIT extends AbstractDaemonTest {
         Registration registration = newFileHistoryWebLink()) {
       RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
       u.setForceUpdate(true);
-      assertThat(u.delete()).isEqualTo(Result.FORCED);
+      testRefAction(() -> assertThat(u.delete()).isEqualTo(Result.FORCED));
 
       // This should not crash.
       pApi().access();
@@ -442,7 +443,7 @@ public class AccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       RefUpdate ru = repo.updateRef(RefNames.REFS_CONFIG);
       ru.setForceUpdate(true);
-      assertThat(ru.delete()).isEqualTo(Result.FORCED);
+      testRefAction(() -> assertThat(ru.delete()).isEqualTo(Result.FORCED));
 
       ProjectAccessInput accessInput = newProjectAccessInput();
       AccessSectionInfo accessSection = newAccessSectionInfo();

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.testsuite.group;
 
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -106,7 +108,7 @@ public abstract class TestGroupCreation {
      */
     public AccountGroup.UUID create() {
       TestGroupCreation groupCreation = autoBuild();
-      return groupCreation.groupCreator().applyAndThrowSilently(groupCreation);
+      return testRefAction(() -> groupCreation.groupCreator().applyAndThrowSilently(groupCreation));
     }
   }
 }

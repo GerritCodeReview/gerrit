@@ -61,7 +61,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
-import {Key} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -459,15 +458,6 @@ suite('gr-diff-view tests', () => {
         element.diffHost.diffElement.viewMode,
         DiffViewMode.SIDE_BY_SIDE
       );
-      assert.isTrue(element.diffHost.diffElement.displayLine);
-
-      pressKey(element, Key.ESC);
-      await element.updateComplete;
-      assert.equal(
-        element.diffHost.diffElement.viewMode,
-        DiffViewMode.SIDE_BY_SIDE
-      );
-      assert.isFalse(element.diffHost.diffElement.displayLine);
 
       const setReviewedStub = sinon.stub(element, 'setReviewed');
       const handleToggleSpy = sinon.spy(element, 'handleToggleFileReviewed');

@@ -171,9 +171,6 @@ export class GrDiffHost extends LitElement {
   @property({type: String})
   projectName?: RepoName;
 
-  @property({type: Boolean})
-  displayLine = false;
-
   @state()
   private _isImageDiff = false;
 
@@ -522,7 +519,6 @@ export class GrDiffHost extends LitElement {
       .noAutoRender=${this.noAutoRender}
       .path=${this.path}
       .prefs=${this.prefs}
-      .displayLine=${this.displayLine}
       .isImageDiff=${this.isImageDiff}
       .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
       .renderPrefs=${this.renderPrefs}

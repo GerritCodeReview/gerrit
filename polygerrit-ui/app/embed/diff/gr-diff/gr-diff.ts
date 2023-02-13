@@ -141,9 +141,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   renderPrefs?: RenderPreferences;
 
   @property({type: Boolean})
-  displayLine = false;
-
-  @property({type: Boolean})
   isImageDiff?: boolean;
 
   @property({type: Boolean, reflect: true})
@@ -1081,7 +1078,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       unified: this.viewMode === DiffViewMode.UNIFIED,
       sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
       canComment: this.loggedIn,
-      displayLine: this.displayLine,
     };
     return html`
       <div class=${classMap(cssClasses)} @click=${this.handleTap}>

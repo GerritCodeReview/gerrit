@@ -774,14 +774,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(element.diffElement.prefs, value);
   });
 
-  test('passes in displayLine', async () => {
-    const value = true;
-    element.displayLine = value;
-    await element.updateComplete;
-    assertIsDefined(element.diffElement);
-    assert.equal(element.diffElement.displayLine, value);
-  });
-
   test('passes in hidden', async () => {
     const value = true;
     element.hidden = value;

@@ -56,7 +56,7 @@ import {CommentMap} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {Key, toggleClass, whenVisible} from '../../../utils/dom-util';
+import {toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
@@ -344,10 +344,6 @@ export class GrDiffView extends LitElement {
     );
     listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}); // docOnly
     listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}); // docOnly
-    this.shortcutsController.addGlobal({key: Key.ESC}, _ => {
-      assertIsDefined(this.diffHost, 'diffHost');
-      this.diffHost.displayLine = false;
-    });
   }
 
   private setupSubscriptions() {
@@ -1067,7 +1063,6 @@ export class GrDiffView extends LitElement {
 
   private handlePrevLine() {
     assertIsDefined(this.diffHost, 'diffHost');
-    this.diffHost.displayLine = true;
     this.cursor?.moveUp();
   }
 
@@ -1102,7 +1097,6 @@ export class GrDiffView extends LitElement {
 
   private handleNextLine() {
     assertIsDefined(this.diffHost, 'diffHost');
-    this.diffHost.displayLine = true;
     this.cursor?.moveDown();
   }
 

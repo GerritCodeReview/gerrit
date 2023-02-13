@@ -2299,22 +2299,6 @@ suite('gr-file-list tests', () => {
       assert.isTrue(setUrlStub.calledOnce);
     });
 
-    test('displayLine', () => {
-      element.filesExpanded = FilesExpandedState.ALL;
-
-      element.displayLine = false;
-      element.handleCursorNext(new KeyboardEvent('keydown'));
-      assert.isTrue(element.displayLine);
-
-      element.displayLine = false;
-      element.handleCursorPrev(new KeyboardEvent('keydown'));
-      assert.isTrue(element.displayLine);
-
-      element.displayLine = true;
-      element.handleEscKey();
-      assert.isFalse(element.displayLine);
-    });
-
     suite('editMode behavior', () => {
       test('reviewed checkbox', async () => {
         reviewFileStub.restore();

@@ -3141,18 +3141,6 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.classList.contains('no-left'));
     });
 
-    test('view does not start with displayLine classList', () => {
-      const container = queryAndAssert(element, '.diffContainer');
-      assert.isFalse(container.classList.contains('displayLine'));
-    });
-
-    test('displayLine class added when displayLine is true', async () => {
-      element.displayLine = true;
-      await element.updateComplete;
-      const container = queryAndAssert(element, '.diffContainer');
-      assert.isTrue(container.classList.contains('displayLine'));
-    });
-
     suite('binary diffs', () => {
       test('render binary diff', async () => {
         element.prefs = {

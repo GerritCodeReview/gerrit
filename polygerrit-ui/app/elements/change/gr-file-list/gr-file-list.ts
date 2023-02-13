@@ -258,10 +258,6 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   @state()
-  displayLine?: boolean;
-
-  // Private but used in tests.
-  @state()
   showSizeBars = true;
 
   // For merge commits vs Auto Merge, an extra file row is shown detailing the
@@ -733,9 +729,6 @@ export class GrFileList extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_LEFT_PANE, _ =>
       this.handleToggleLeftPane()
     );
-    this.shortcutsController.addGlobal({key: Key.ESC}, _ =>
-      this.handleEscKey()
-    );
     this.shortcutsController.addAbstract(
       Shortcut.EXPAND_ALL_COMMENT_THREADS,
       _ => {}
@@ -1079,7 +1072,6 @@ export class GrFileList extends LitElement {
           <gr-diff-host
             ?noAutoRender=${true}
             ?showLoadFailure=${true}
-            .displayLine=${this.displayLine}
             .changeNum=${this.changeNum}
             .change=${this.change}
             .patchRange=${this.patchRange}
@@ -2032,7 +2024,6 @@ export class GrFileList extends LitElement {
     e.stopPropagation();
     if (this.filesExpanded === FilesExpandedState.ALL) {
       this.diffCursor?.moveDown();
-      this.displayLine = true;
     } else {
       this.fileCursor.next({circular: true});
       this.selectedIndex = this.fileCursor.index;
@@ -2052,7 +2043,6 @@ export class GrFileList extends LitElement {
     e.stopPropagation();
     if (this.filesExpanded === FilesExpandedState.ALL) {
       this.diffCursor?.moveUp();
-      this.displayLine = true;
     } else {
       this.fileCursor.previous({circular: true});
       this.selectedIndex = this.fileCursor.index;
@@ -2502,11 +2492,6 @@ export class GrFileList extends LitElement {
       }
     }
     return undefined;
-  }
-
-  // Private but used in tests.
-  handleEscKey() {
-    this.displayLine = false;
   }
 
   /**

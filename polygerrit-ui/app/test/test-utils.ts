@@ -14,6 +14,8 @@ import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {assert} from '@open-wc/testing';
+import {Route, ViewState} from '../models/views/base';
+import {PageContext} from '../elements/core/gr-router/gr-page';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -327,4 +329,27 @@ export function logProxy<T extends object>(obj: T, name?: string): T {
     },
   };
   return new Proxy(obj, handler) as unknown as T;
+}
+
+export function assertRouteState<T extends ViewState>(
+  route: Route<T>,
+  path: string,
+  state: T,
+  createUrl: (state: T) => string
+) {
+  const {urlPattern, createState} = route;
+  const ctx = new PageContext(path);
+  const matches = ctx.match(urlPattern);
+  assert.isTrue(matches);
+  assert.deepEqual(createState(ctx), state);
+  assert.equal(path, createUrl(state));
+}
+
+export function assertRouteFalse<T extends ViewState>(
+  route: Route<T>,
+  path: string
+) {
+  const ctx = new PageContext(path);
+  const matches = ctx.match(route.urlPattern);
+  assert.isFalse(matches);
 }

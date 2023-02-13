@@ -14,7 +14,6 @@ import {
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
-  DashboardId,
   GroupId,
   NumericChangeId,
   RevisionPatchSetNum,
@@ -73,6 +72,7 @@ import {
 import {
   DashboardViewModel,
   DashboardViewState,
+  PROJECT_DASHBOARD_ROUTE,
 } from '../../../models/views/dashboard';
 import {
   SettingsViewModel,
@@ -107,7 +107,6 @@ const RoutePattern = {
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
-  PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
   LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
 
   AGREEMENTS: /^\/settings\/agreements\/?/,
@@ -635,10 +634,10 @@ export class GrRouter implements Finalizable, NavigationService {
       ctx => this.handleCustomDashboardRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.PROJECT_DASHBOARD,
-      'handleProjectDashboardRoute',
-      ctx => this.handleProjectDashboardRoute(ctx)
+    this.mapRouteState(
+      PROJECT_DASHBOARD_ROUTE,
+      this.dashboardViewModel,
+      'handleProjectDashboardRoute'
     );
 
     this.mapRoute(
@@ -1006,19 +1005,6 @@ export class GrRouter implements Finalizable, NavigationService {
     this.setState(state);
     this.dashboardViewModel.setState(state);
     return Promise.resolve();
-  }
-
-  handleProjectDashboardRoute(ctx: PageContext) {
-    const project = ctx.params[0] as RepoName;
-    const state: DashboardViewState = {
-      view: GerritView.DASHBOARD,
-      project,
-      dashboard: decodeURIComponent(ctx.params[1]) as DashboardId,
-    };
-    // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.dashboardViewModel.setState(state);
-    this.reporting.setRepoName(project);
   }
 
   handleLegacyProjectDashboardRoute(ctx: PageContext) {

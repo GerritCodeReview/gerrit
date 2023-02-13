@@ -10,7 +10,21 @@ import {DashboardSection} from '../../utils/dashboard-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
-import {ViewState} from './base';
+import {Route, ViewState} from './base';
+
+export const PROJECT_DASHBOARD_ROUTE: Route<DashboardViewState> = {
+  urlPattern: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
+  createState: ctx => {
+    const project = (ctx.params[0] ?? '') as RepoName;
+    const dashboard = (ctx.params[1] ?? '') as DashboardId;
+    const state: DashboardViewState = {
+      view: GerritView.DASHBOARD,
+      project,
+      dashboard,
+    };
+    return state;
+  },
+};
 
 export interface DashboardViewState extends ViewState {
   view: GerritView.DASHBOARD;

@@ -118,6 +118,30 @@
       },
       "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60244552_ba59dcb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-13T20:39:03Z",
+      "side": 1,
+      "message": "That works for me. I agree that it\u0027s trivial for an admin/dev to open the URL. Licenses get complicated fast and I wouldn\u0027t trust my interpretation of one, so it\u0027s great to just avoid that issue completely 😊",
+      "parentUuid": "b30c3f5f_c28da3b8",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

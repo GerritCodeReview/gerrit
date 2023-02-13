@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4dbf75_6bfd723a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-13T11:45:43Z",
+      "side": 1,
+      "message": "\u003e  I meant how did we locate all places in test code that we need to wrap?\n\nAdded more information.\n\n\u003e An unrelated note: I reverted the change in AccountIT and the test still passes. Is this expected?\nYes.\n\nIn this change tests are disabled. Initially, I had only one change, but then I split it for review into 3 separate changes; only the last change in the chain enables ref update context validation (https://gerrit-review.git.corp.google.com/c/gerrit/+/357956/10/java/com/google/gerrit/testing/InMemoryRepositoryManager.java);",
+      "parentUuid": "887713aa_b93894a7",
+      "revId": "665ffecf07c32c215e88263d4ce093044fa7498f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deac4d97_6ebe653a",

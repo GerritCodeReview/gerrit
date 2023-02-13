@@ -99,6 +99,7 @@ import {
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
+import {ProfileViewModel, ProfileViewState} from '../../../models/views/profile';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.
@@ -165,6 +166,8 @@ const RoutePattern = {
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
   PLUGINS: /^\/plugins\/(.+)$/,
+
+  PROFILE: /^\/profile\/(.+)$/,
 
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
@@ -304,6 +307,7 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly documentationViewModel: DocumentationViewModel,
     private readonly groupViewModel: GroupViewModel,
     private readonly pluginViewModel: PluginViewModel,
+    private readonly profileViewModel: ProfileViewModel,
     private readonly repoViewModel: RepoViewModel,
     private readonly searchViewModel: SearchViewModel,
     private readonly settingsViewModel: SettingsViewModel
@@ -621,6 +625,10 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.mapRoute(RoutePattern.DASHBOARD, 'handleDashboardRoute', ctx =>
       this.handleDashboardRoute(ctx)
+    );
+
+    this.mapRoute(RoutePattern.PROFILE, 'handleProfileRoute', ctx =>
+      this.handleProfileRoute(ctx)
     );
 
     this.mapRoute(
@@ -965,6 +973,32 @@ export class GrRouter implements Finalizable, NavigationService {
       }
     });
   }
+
+  /**
+   * Handle dashboard routes. These may be user, or project dashboards.
+   */
+    handleProfileRoute(ctx: PageContext) {
+      // User profile. We require viewing user to be logged in, else we
+      // redirect to login for self dashboard or simple owner search for
+      // other user dashboard.
+      return this.restApiService.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          if (ctx.params[0].toLowerCase() === 'self') {
+            this.redirectToLogin(ctx.canonicalPath);
+          } else {
+            this.redirect('/q/owner:' + encodeURL(ctx.params[0]));
+          }
+        } else {
+          const state: ProfileViewState = {
+            view: GerritView.PROFILE,
+            user: ctx.params[0],
+          };
+          // Note that router model view must be updated before view models.
+          this.setState(state);
+          this.profileViewModel.setState(state);
+        }
+      });
+    }
 
   handleCustomDashboardRoute(ctx: PageContext) {
     const queryParams = new URLSearchParams(ctx.querystring);

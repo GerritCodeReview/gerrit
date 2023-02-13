@@ -13,6 +13,7 @@ import './admin/gr-admin-view/gr-admin-view';
 import './documentation/gr-documentation-search/gr-documentation-search';
 import './change-list/gr-change-list-view/gr-change-list-view';
 import './change-list/gr-dashboard-view/gr-dashboard-view';
+import './change-list/gr-profile-view/gr-profile-view';
 import './change/gr-change-view/gr-change-view';
 import './core/gr-error-manager/gr-error-manager';
 import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
@@ -372,7 +373,7 @@ export class GrAppElement extends LitElement {
       ${this.renderHeader()}
       <main ?aria-hidden=${this.mainAriaHidden}>
         ${this.renderMobileSearch()} ${this.renderChangeListView()}
-        ${this.renderDashboardView()}
+        ${this.renderDashboardView()}${this.renderProfileView()}
         ${
           // `keyed(this.changeNum, ...)` makes sure that these views are not
           // re-used across changes, which is a precaution, because we have run
@@ -476,6 +477,14 @@ export class GrAppElement extends LitElement {
     return cache(
       this.view === GerritView.DASHBOARD
         ? html`<gr-dashboard-view></gr-dashboard-view>`
+        : nothing
+    );
+  }
+
+  private renderProfileView() {
+    return cache(
+      this.view === GerritView.PROFILE
+        ? html`<gr-profile-view></gr-profile-view>`
         : nothing
     );
   }

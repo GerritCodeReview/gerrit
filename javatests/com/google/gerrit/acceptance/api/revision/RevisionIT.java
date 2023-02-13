@@ -45,6 +45,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -101,8 +102,10 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.AccountTemplateUtil;
+import com.google.gerrit.testing.FakeAccountPatchReviewStore.FakeAccountPatchReviewStoreModule;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -128,6 +131,11 @@ public class RevisionIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  @Override
+  public Module createModule() {
+    return new FakeAccountPatchReviewStoreModule();
+  }
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -1345,6 +1353,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void setUnsetReviewedFlag() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");

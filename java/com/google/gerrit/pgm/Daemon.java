@@ -442,7 +442,9 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueueModule());
     modules.add(new StreamEventsApiListenerModule());
     modules.add(new EventBrokerModule());
-    modules.add(new JdbcAccountPatchReviewStoreModule(config));
+    if (!inMemoryTest) {
+      modules.add(new JdbcAccountPatchReviewStoreModule(config));
+    }
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

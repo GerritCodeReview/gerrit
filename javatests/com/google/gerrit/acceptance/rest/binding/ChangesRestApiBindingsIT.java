@@ -36,6 +36,8 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.testing.FakeAccountPatchReviewStore.FakeAccountPatchReviewStoreModule;
+import com.google.inject.Module;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -270,6 +272,11 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.delete("/changes/%s/attention/%s"));
 
   private static final String FILENAME = "test.txt";
+
+  @Override
+  public Module createModule() {
+    return new FakeAccountPatchReviewStoreModule();
+  }
 
   @Test
   public void changeEndpoints() throws Exception {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f594239_b0dad096",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11d25e65_085dff2a",
+      "range": {
+        "startLine": 388,
+        "startChar": 11,
+        "endLine": 388,
+        "endChar": 14
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d9608bb_ab09b49f",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-02T08:35:05Z",
       "side": 1,
       "message": "must",
+      "range": {
+        "startLine": 389,
+        "startChar": 40,
+        "endLine": 389,
+        "endChar": 46
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2bdd7e6_4d523c96",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9608bb_ab09b49f",
       "range": {
         "startLine": 389,
         "startChar": 40,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dc49222_57eac10e",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "This cost is only incurred the first time logging in, I \u0027m not sure this is such a performance hit that would warrant extra configuration.",
+      "parentUuid": "b085b559_78c32263",
+      "range": {
+        "startLine": 187,
+        "startChar": 64,
+        "endLine": 187,
+        "endChar": 89
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "635f7376_fb28321a",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 19
@@ -83,6 +155,30 @@
       "writtenOn": "2023-02-02T08:35:05Z",
       "side": 1,
       "message": "This shouldn\u0027t happen since we check for that before calling this method.",
+      "range": {
+        "startLine": 207,
+        "startChar": 8,
+        "endLine": 207,
+        "endChar": 35
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd53f2a7_6f6be3b3",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "635f7376_fb28321a",
       "range": {
         "startLine": 207,
         "startChar": 8,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "366d092c_33cc1cf5",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752a6fae_3bc0f980",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 39
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71f8b314_6122e8e4",
@@ -129,6 +249,24 @@
       "writtenOn": "2023-02-02T08:35:05Z",
       "side": 1,
       "message": "Since we know that it has to exist, we ca directly get the value instead of storing an Optional first.",
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7efe02e_23127bf2",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f8b314_6122e8e4",
       "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "591532a9_d6118a60",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "gotcha, thanks!",
+      "parentUuid": "88edb01a_81ea2233",
+      "range": {
+        "startLine": 221,
+        "startChar": 3,
+        "endLine": 221,
+        "endChar": 15
+      },
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "374e6293_64631df2",
@@ -169,6 +331,24 @@
       "writtenOn": "2023-02-02T08:35:05Z",
       "side": 1,
       "message": "According to your comment, there might not be a username, which the oauth plugin docs confirm [1]. Thus, this would not work.\nI guess, this should look for the email.\n\n[1] https://gerrit.googlesource.com/plugins/oauth/+/refs/heads/master/src/main/resources/Documentation/config.md",
+      "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b16430_0ae8af82",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-13T12:55:45Z",
+      "side": 1,
+      "message": "ah good find, changed to email",
+      "parentUuid": "374e6293_64631df2",
       "revId": "1fbef662e317db7cf54aa7dc02f6bb87c79206da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

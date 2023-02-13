@@ -14,11 +14,21 @@
 import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {AppContext, injectAppContext} from '../services/app-context';
-import {Finalizable} from '../services/registry';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  initVisibilityReporter,
+  initPerformanceReporter,
+  initErrorReporter,
+  initWebVitals,
+} from '../services/gr-reporting/gr-reporting_impl';
 
-export function initGlobalVariables(appContext: AppContext & Finalizable) {
+export function initGlobalVariables(appContext: AppContext) {
   injectAppContext(appContext);
+  const reportingService = appContext.reportingService;
+  initVisibilityReporter(reportingService);
+  initPerformanceReporter(reportingService);
+  initWebVitals(reportingService);
+  initErrorReporter(reportingService);
   window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
 }

@@ -119,6 +119,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff879751_43555d42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-13T11:53:41Z",
+      "side": 1,
+      "message": "OK makes sense. Thanks for clarifying.",
+      "parentUuid": "aa4dbf75_6bfd723a",
+      "revId": "665ffecf07c32c215e88263d4ce093044fa7498f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deac4d97_6ebe653a",

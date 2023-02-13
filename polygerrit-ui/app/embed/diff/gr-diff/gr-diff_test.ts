@@ -3956,6 +3956,7 @@ suite('gr-diff tests', () => {
 
     setup(async () => {
       element.prefs = {...MINIMAL_PREFS};
+      element.diff = createDiff();
       renderStub = sinon.stub(element.diffBuilder, 'render');
       await element.updateComplete;
     });

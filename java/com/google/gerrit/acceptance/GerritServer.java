@@ -67,6 +67,7 @@ import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.gerrit.testing.FakeAccountPatchReviewStore.FakeAccountPatchReviewStoreModule;
 import com.google.gerrit.testing.FakeEmailSender.FakeEmailSenderModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
@@ -448,6 +449,7 @@ public class GerritServer implements AutoCloseable {
                 .setBinding()
                 .toInstance(testTicker);
             bind(TestTicker.class).toInstance(testTicker);
+            install(new FakeAccountPatchReviewStoreModule());
           }
         });
 

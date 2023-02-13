@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -142,24 +144,26 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       md.setMessage("Review access change");
       md.setInsertChangeId(true);
       Change.Id changeId = Change.id(seq.nextChangeId());
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        RevCommit commit =
+            config.commitToNewRef(
+                md, PatchSet.id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
 
-      RevCommit commit =
-          config.commitToNewRef(md, PatchSet.id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
+        if (commit.name().equals(oldCommitSha1)) {
+          throw new BadRequestException("no change");
+        }
 
-      if (commit.name().equals(oldCommitSha1)) {
-        throw new BadRequestException("no change");
-      }
-
-      try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
-          ObjectReader objReader = objInserter.newReader();
-          RevWalk rw = new RevWalk(objReader);
-          BatchUpdate bu =
-              updateFactory.create(rsrc.getNameKey(), rsrc.getUser(), TimeUtil.now())) {
-        bu.setRepository(md.getRepository(), rw, objInserter);
-        ChangeInserter ins = newInserter(changeId, commit);
-        bu.insertChange(ins);
-        bu.execute();
-        return Response.created(jsonFactory.noOptions().format(ins.getChange()));
+        try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
+            ObjectReader objReader = objInserter.newReader();
+            RevWalk rw = new RevWalk(objReader);
+            BatchUpdate bu =
+                updateFactory.create(rsrc.getNameKey(), rsrc.getUser(), TimeUtil.now())) {
+          bu.setRepository(md.getRepository(), rw, objInserter);
+          ChangeInserter ins = newInserter(changeId, commit);
+          bu.insertChange(ins);
+          bu.execute();
+          return Response.created(jsonFactory.noOptions().format(ins.getChange()));
+        }
       }
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());

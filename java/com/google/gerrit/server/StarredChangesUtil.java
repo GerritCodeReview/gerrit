@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -388,27 +390,29 @@ public class StarredChangesUtil {
       u.setNewObjectId(writeLabels(repo, labels));
       u.setRefLogIdent(serverIdent.get());
       u.setRefLogMessage("Update star labels", true);
-      RefUpdate.Result result = u.update(rw);
-      switch (result) {
-        case NEW:
-        case FORCED:
-        case NO_CHANGE:
-        case FAST_FORWARD:
-          gitRefUpdated.fire(allUsers, u, null);
-          return;
-        case LOCK_FAILURE:
-          throw new LockFailureException(
-              String.format("Update star labels on ref %s failed", refName), u);
-        case IO_FAILURE:
-        case NOT_ATTEMPTED:
-        case REJECTED:
-        case REJECTED_CURRENT_BRANCH:
-        case RENAMED:
-        case REJECTED_MISSING_OBJECT:
-        case REJECTED_OTHER_REASON:
-        default:
-          throw new StorageException(
-              String.format("Update star labels on ref %s failed: %s", refName, result.name()));
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        RefUpdate.Result result = u.update(rw);
+        switch (result) {
+          case NEW:
+          case FORCED:
+          case NO_CHANGE:
+          case FAST_FORWARD:
+            gitRefUpdated.fire(allUsers, u, null);
+            return;
+          case LOCK_FAILURE:
+            throw new LockFailureException(
+                String.format("Update star labels on ref %s failed", refName), u);
+          case IO_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
+          default:
+            throw new StorageException(
+                String.format("Update star labels on ref %s failed: %s", refName, result.name()));
+        }
       }
     }
   }
@@ -427,26 +431,28 @@ public class StarredChangesUtil {
       u.setExpectedOldObjectId(oldObjectId);
       u.setRefLogIdent(serverIdent.get());
       u.setRefLogMessage("Unstar change", true);
-      RefUpdate.Result result = u.delete();
-      switch (result) {
-        case FORCED:
-          gitRefUpdated.fire(allUsers, u, null);
-          return;
-        case LOCK_FAILURE:
-          throw new LockFailureException(String.format("Delete star ref %s failed", refName), u);
-        case NEW:
-        case NO_CHANGE:
-        case FAST_FORWARD:
-        case IO_FAILURE:
-        case NOT_ATTEMPTED:
-        case REJECTED:
-        case REJECTED_CURRENT_BRANCH:
-        case RENAMED:
-        case REJECTED_MISSING_OBJECT:
-        case REJECTED_OTHER_REASON:
-        default:
-          throw new StorageException(
-              String.format("Delete star ref %s failed: %s", refName, result.name()));
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        RefUpdate.Result result = u.delete();
+        switch (result) {
+          case FORCED:
+            gitRefUpdated.fire(allUsers, u, null);
+            return;
+          case LOCK_FAILURE:
+            throw new LockFailureException(String.format("Delete star ref %s failed", refName), u);
+          case NEW:
+          case NO_CHANGE:
+          case FAST_FORWARD:
+          case IO_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
+          default:
+            throw new StorageException(
+                String.format("Delete star ref %s failed: %s", refName, result.name()));
+        }
       }
     }
   }

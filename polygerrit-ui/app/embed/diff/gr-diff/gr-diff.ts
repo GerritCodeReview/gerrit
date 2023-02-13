@@ -69,6 +69,8 @@ import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-commen
 import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {expandFileMode} from '../../../utils/file-util';
+import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {provide} from '../../../models/dependency';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -138,7 +140,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   prefs?: DiffPreferencesInfo;
 
   @property({type: Object})
-  renderPrefs?: RenderPreferences;
+  renderPrefs: RenderPreferences = {};
 
   @property({type: Boolean})
   isImageDiff?: boolean;
@@ -264,6 +266,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // Private but used in tests.
   diffBuilder = new GrDiffBuilderElement();
+
+  private diffModel = new DiffModel(undefined);
 
   static override get styles() {
     return [
@@ -984,6 +988,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   constructor() {
     super();
+    provide(this, diffModelToken, () => this.diffModel);
     this.addEventListener('create-range-comment', (e: Event) =>
       this.handleCreateRangeComment(e as CustomEvent)
     );
@@ -1440,6 +1445,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private prefsChanged() {
     if (!this.prefs) return;
+    this.diffModel.updateState({diffPrefs: this.prefs});
 
     this.blame = null;
     this.updatePreferenceStyles();
@@ -1510,7 +1516,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private renderPrefsChanged() {
-    if (!this.renderPrefs) return;
+    this.diffModel.updateState({renderPrefs: this.renderPrefs});
     if (this.renderPrefs.hide_left_side) {
       this.classList.add('no-left');
     }
@@ -1577,7 +1583,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   async renderDiffTable() {
     this.unobserveNodes();
-    if (!this.prefs) {
+    if (!this.diff || !this.prefs) {
       fireEvent(this, 'render');
       return;
     }
@@ -1596,8 +1602,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
     const keyLocations = this.computeKeyLocations();
 
+    this.diffModel.setState({
+      diff: this.diff,
+      path: this.path,
+      renderPrefs: this.renderPrefs,
+      diffPrefs: this.prefs,
+    });
+
     // TODO: Setting tons of public properties like this is obviously a code
-    // smell. We are planning to introduce a diff model for managing all this
+    // smell. We are introducing a diff model for managing all this
     // data. Then diff builder will only need access to that model.
     this.diffBuilder.prefs = this.getBypassPrefs();
     this.diffBuilder.renderPrefs = this.renderPrefs;

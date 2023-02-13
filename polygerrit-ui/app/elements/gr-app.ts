@@ -37,12 +37,6 @@ import {
   createAppDependencies,
   Creator,
 } from '../services/app-context-init';
-import {
-  initVisibilityReporter,
-  initPerformanceReporter,
-  initErrorReporter,
-  initWebVitals,
-} from '../services/gr-reporting/gr-reporting_impl';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {
@@ -50,14 +44,9 @@ import {
   serviceWorkerInstallerToken,
 } from '../services/service-worker-installer';
 import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {getAppContext} from '../services/app-context';
 
-const appContext = createAppContext();
-initGlobalVariables(appContext);
-const reportingService = appContext.reportingService;
-initVisibilityReporter(reportingService);
-initPerformanceReporter(reportingService);
-initWebVitals(reportingService);
-initErrorReporter(reportingService);
+initGlobalVariables(createAppContext(), true);
 
 installPolymerResin(safeTypesBridge);
 
@@ -97,7 +86,7 @@ export class GrApp extends LitElement {
     };
 
     for (const [token, creator] of createAppDependencies(
-      appContext,
+      getAppContext(),
       resolver
     )) {
       injectDependency(token, creator);

@@ -102,7 +102,7 @@ setup(() => {
   // overwritten by some other code.
   assert.equal(getCleanupsCount(), 0);
   appContext = createTestAppContext();
-  initGlobalVariables(appContext);
+  initGlobalVariables(appContext, false);
 
   finalizers.push(appContext);
   const dependencies = createTestDependencies(appContext, testResolver);

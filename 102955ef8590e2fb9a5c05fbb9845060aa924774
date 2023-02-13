@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc570a19_28dc390a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-13T07:07:12Z",
+      "side": 1,
+      "message": "Thanks!\n\nNote that we would generally like to move to model subscriptions instead of handing down properties through the hierarchy chain. For example like this: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts;l\u003d638?q\u003dusermodel.*loggedin\n\nBut just FYI. :-)",
+      "revId": "102955ef8590e2fb9a5c05fbb9845060aa924774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

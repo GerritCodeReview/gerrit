@@ -70,6 +70,30 @@
       },
       "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3071a6f_aeb1ffe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-13T08:53:48Z",
+      "side": 1,
+      "message": "Nasser has a point here. I would avoid this whole License question by just printing the URL. This is a program, so runs on the CLI, so we can print a URL for admins to copy I believe.\n\nIt will also reduce complexity.",
+      "parentUuid": "7066a266_85cbc56f",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "8b3a4358afc30c2623864e41bc3b0b4c61852f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

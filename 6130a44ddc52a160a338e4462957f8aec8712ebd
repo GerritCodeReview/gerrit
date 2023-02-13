@@ -16,6 +16,24 @@
       "message": "will you consider a flag for this work? Previous migrations have always had issues on landing and it would be great not to have situations where we can\u0027t roll back",
       "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8791ee45_0ac18398",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-13T10:20:29Z",
+      "side": 1,
+      "message": "I will definitely add a flag for the Hackathon work.\n\nOtherwise I think it depends on the individual change and how risky it is, and how difficult it is to use a flag.\n\nThis change does not make use of the model at all, so I don\u0027t anticipate issues and would prefer to not add a flag in this change.\n\nSwitching one property of one diff component to listen to the model instead of using a property could potentially be hard to flag protect, but maybe let\u0027s discuss that in those changes.",
+      "parentUuid": "b8ada22d_cf91ba35",
+      "revId": "6130a44ddc52a160a338e4462957f8aec8712ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

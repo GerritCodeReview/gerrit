@@ -8,11 +8,16 @@ import {AccountDetailInfo, AccountInfo} from '../../api/rest-api';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {UserId} from '../../types/common';
 import {getUserId, isDetailedAccount} from '../../utils/account-util';
+import {hasOwnProperty} from '../../utils/common-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 
+// To avoid sync issues and running multiple API requests, we
+// cache promises in state.
 export interface AccountsState {
-  accounts: {[id: UserId]: AccountDetailInfo};
+  accounts: {
+    [id: UserId]: Promise<AccountDetailInfo | AccountInfo | undefined>;
+  };
 }
 
 export const accountsModelToken = define<AccountsModel>('accounts-model');
@@ -24,7 +29,10 @@ export class AccountsModel extends Model<AccountsState> {
     });
   }
 
-  private updateStateAccount(id: UserId, account?: AccountDetailInfo) {
+  private updateStateAccount(
+    id: UserId,
+    account: Promise<AccountDetailInfo | AccountInfo | undefined>
+  ) {
     if (!account) return;
     const current = {...this.getState()};
     current.accounts = {...current.accounts, [id]: account};
@@ -34,16 +42,16 @@ export class AccountsModel extends Model<AccountsState> {
   async getAccount(partialAccount: AccountInfo) {
     const current = this.getState();
     const id = getUserId(partialAccount);
-    if (current.accounts[id]) return current.accounts[id];
+    if (hasOwnProperty(current.accounts, id)) return current.accounts[id];
     // It is possible to add emails to CC when they don't have a Gerrit
     // account. In this case getAccountDetails will return a 404 error hence
     // pass an empty error function to handle that.
-    const account = await this.restApiService.getAccountDetails(id, () => {
-      this.updateStateAccount(id, partialAccount as AccountDetailInfo);
+    const accountPromise = this.restApiService.getAccountDetails(id, () => {
+      this.updateStateAccount(id, Promise.resolve(partialAccount));
       return;
     });
-    if (account) this.updateStateAccount(id, account);
-    return account;
+    this.updateStateAccount(id, accountPromise);
+    return accountPromise;
   }
 
   async fillDetails(account: AccountInfo) {

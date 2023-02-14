@@ -24,7 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.eclipse.jgit.lib.Config;
 
-/** Opens the user's web browser to the web UI. */
+/** Points the user to a web browser URL. */
 public class Browser {
   private final Config cfg;
 
@@ -57,7 +57,7 @@ public class Browser {
       return;
     }
     waitForServer(uri);
-    openBrowser(uri, link);
+    printBrowserUrl(uri, link);
   }
 
   private void waitForServer(URI uri) throws IOException {
@@ -97,17 +97,9 @@ public class Browser {
     return url;
   }
 
-  private void openBrowser(URI uri, String link) {
+  private void printBrowserUrl(URI uri, String link) {
     String url = resolveUrl(uri, link);
-    System.err.format("Opening %s ...", url);
+    System.err.format("Please open the following URL in the browser: %s", url);
     System.err.flush();
-    try {
-      org.h2.tools.Server.openBrowser(url);
-      System.err.println("OK");
-    } catch (Exception e) {
-      System.err.println("FAILED");
-      System.err.println("Open Gerrit with a JavaScript capable browser:");
-      System.err.println("  " + url);
-    }
   }
 }

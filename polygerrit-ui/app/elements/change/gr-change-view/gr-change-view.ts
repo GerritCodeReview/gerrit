@@ -1222,6 +1222,9 @@ export class GrChangeView extends LitElement {
           `
         )}
       </dialog>
+      <dialog id="commandsModal" tabindex="-1">
+        <gr-commands-pallete-dialog></gr-commands-pallete-dialog>
+      </dialog>
     `;
   }
 

@@ -7,6 +7,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-icon/gr-icon';
 import {ServerInfo} from '../../../types/common';
 import {
+  AutocompleteCommitEvent,
   AutocompleteQuery,
   AutocompleteSuggestion,
   GrAutocomplete,
@@ -227,7 +228,7 @@ export class GrSearchBar extends LitElement {
           .threshold=${this.threshold}
           tab-complete
           .verticalOffset=${30}
-          @commit=${(e: Event) => {
+          @commit=${(e: AutocompleteCommitEvent) => {
             this.handleInputCommit(e);
           }}
           @text-changed=${(e: CustomEvent) => {
@@ -285,7 +286,11 @@ export class GrSearchBar extends LitElement {
     return `${baseUrl}/user-search.html`;
   }
 
-  private handleInputCommit(e: Event) {
+  private handleInputCommit(e: AutocompleteCommitEvent) {
+    if (e.detail.callback) {
+      e.detail.callback();
+      return;
+    }
     this.preventDefaultAndNavigateToInputVal(e);
   }
 

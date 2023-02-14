@@ -41,10 +41,12 @@ export interface AutocompleteSuggestion<T = string> {
   label?: string;
   value?: T;
   text?: string;
+  callback?: () => void;
 }
 
 export interface AutocompleteCommitEventDetail {
   value: string;
+  callback?: () => void;
 }
 
 export type AutocompleteCommitEvent =
@@ -320,7 +322,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   override focus() {
-    this.nativeInput.focus();
+    this.nativeInput?.focus();
   }
 
   private focusWithoutDisplayingSuggestions() {
@@ -423,7 +425,20 @@ export class GrAutocomplete extends LitElement {
       return;
     }
 
-    const query = this.query;
+    let query: AutocompleteQuery | undefined = this.query;
+    if (this.text.startsWith('>')) {
+      query = () =>
+        Promise.resolve([
+          {
+            name: '> Expand All Diffs',
+            value: 'Expand All Diffs',
+            text: 'text',
+            callback: () => {
+              fireEvent(this, 'expand-diffs');
+            },
+          },
+        ]);
+    }
     if (!query) {
       return;
     }
@@ -438,7 +453,7 @@ export class GrAutocomplete extends LitElement {
     }
 
     const update = () => {
-      query(this.text)
+      query!(this.text)
         .then(suggestions => {
           if (this.text !== this.text) {
             // Late response.
@@ -649,6 +664,11 @@ export class GrAutocomplete extends LitElement {
       }
     }
 
+    const index = Number(this.selected!.dataset['index']!);
+    if (isNaN(index)) return;
+
+    const callback = this.suggestions[index]?.callback;
+
     this.suggestions = [];
     this.queryErrorMessage = undefined;
     // we need willUpdate to send text-changed event before we can send the
@@ -657,7 +677,7 @@ export class GrAutocomplete extends LitElement {
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
-          detail: {value} as AutocompleteCommitEventDetail,
+          detail: {value, callback} as AutocompleteCommitEventDetail,
           composed: true,
           bubbles: true,
         })

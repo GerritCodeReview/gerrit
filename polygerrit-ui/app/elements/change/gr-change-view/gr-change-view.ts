@@ -582,6 +582,7 @@ export class GrChangeView extends LitElement {
 
   private setupListeners() {
     this.addEventListener('open-reply-dialog', () => this.openReplyDialog());
+    document.addEventListener('expand-diffs', () => this.expandAllDiffs());
     this.addEventListener('change-message-deleted', () => fireReload(this));
     this.addEventListener('editable-content-save', e =>
       this.handleCommitMessageSave(e)

@@ -52,34 +52,53 @@ export const _testOnly_allTasks = new Map<number, DelayedTask>();
  * It is just nicer to have an object for this instead of a number as a handle.
  */
 export class DelayedTask {
-  private timer?: number;
+  private timerId?: number;
+
+  // Promise that is resolved after the callback is run.
+  // If the task is cancelled the promise is rejected instead.
+  public readonly promise: Promise<void>;
+
+  private rejectPromise?: () => void;
+
+  private resolvePromise?: () => void;
 
   constructor(private callback: () => void, waitMs = 0) {
-    this.timer = window.setTimeout(() => {
-      if (this.timer) _testOnly_allTasks.delete(this.timer);
-      this.timer = undefined;
-      if (this.callback) this.callback();
-    }, waitMs);
-    _testOnly_allTasks.set(this.timer, this);
+    this.promise = new Promise((resolve, reject) => {
+      this.rejectPromise = reject;
+      this.resolvePromise = resolve;
+      this.timerId = window.setTimeout(() => {
+        if (this.timerId) _testOnly_allTasks.delete(this.timerId);
+        this.timerId = undefined;
+        if (this.callback) this.callback();
+        resolve();
+      }, waitMs);
+      _testOnly_allTasks.set(this.timerId, this);
+    });
+  }
+
+  private cancelTimer() {
+    window.clearTimeout(this.timerId);
+    if (this.timerId) _testOnly_allTasks.delete(this.timerId);
+    this.timerId = undefined;
   }
 
   cancel() {
     if (this.isActive()) {
-      window.clearTimeout(this.timer);
-      if (this.timer) _testOnly_allTasks.delete(this.timer);
-      this.timer = undefined;
+      this.cancelTimer();
+      this.rejectPromise?.();
     }
   }
 
   flush() {
     if (this.isActive()) {
-      this.cancel();
+      this.cancelTimer();
       if (this.callback) this.callback();
+      this.resolvePromise?.();
     }
   }
 
   isActive() {
-    return this.timer !== undefined;
+    return this.timerId !== undefined;
   }
 }
 

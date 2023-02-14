@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fed6a4f_41dda182",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-14T16:11:27Z",
+      "side": 1,
+      "message": "\u003e I\u0027m confused by this comment.\n\u003e `commitExternalIdUpdates()`, which is called by the current flow, already adds the commit to the given batch-update [1]. The same batch-update is also used for the rest of the updates by `commitAccountConfig()`. Why isn\u0027t it transactional?\n\nAh, I missed that those methods already add the commits to batchRefUpdate. Then using these methods it should be transactional.\nBut commitExternalIdUpdates doesn\u0027t seem to allow empty commits yet? \n\n\u003e Also, IIUC, the race condition for external-ids also applies to starred-changes and draft-comments.\n\nYes, but here it\u0027s less critical.\n\n\u003e Should I add empty commits to all of those data pieces in case of no original data?\n\nI\u0027m not sure this possible. For external IDs we can cause a LOCK_FAILURE by adding an empty commit because all external IDs are stored in the same ref. Starred changes and draft comments are stored in a ref per change, so for many changes these refs do not exist and I think then you can\u0027t prevent the race (if there is no ref yet you cannot add an empty commit to it, so a racing request may create this ref while you are deleting the account).",
+      "parentUuid": "d6a43f4a_b254600d",
+      "range": {
+        "startLine": 397,
+        "startChar": 37,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b026818c_a53290f8",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
         "patchSetId": 7

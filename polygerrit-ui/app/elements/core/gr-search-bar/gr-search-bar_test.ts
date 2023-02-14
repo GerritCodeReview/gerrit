@@ -319,7 +319,7 @@ suite('gr-search-bar tests', () => {
       await element.updateComplete;
       assert.equal(
         element.computeHelpDocLink(),
-        'https://gerrit-review.googlesource.com/documentation/' +
+        'https://gerrit-review.googlesource.com/Documentation/' +
           'user-search.html'
       );
     });

@@ -278,7 +278,7 @@ export class GrSearchBar extends LitElement {
     // fallback to gerrit's official doc
     let baseUrl =
       this.docsBaseUrl ||
-      'https://gerrit-review.googlesource.com/documentation/';
+      'https://gerrit-review.googlesource.com/Documentation/';
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }

@@ -245,6 +245,9 @@ public class RebaseChain
     try (Repository repo = repoManager.openRepository(tipRsrc.getProject());
         RevWalk rw = new RevWalk(repo)) {
       List<PatchSetData> chain = getChainForCurrentPatchSet(tipRsrc);
+      if(chain.size() <= 1) {
+        return description;
+      }
       PatchSetData oldestAncestor = chain.get(0);
       if (rebaseUtil.canRebase(
           oldestAncestor.patchSet(), oldestAncestor.data().change().getDest(), repo, rw)) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02ceb69_97a449d6",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-14T13:56:16Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "042bd59d_b79a3660",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 64
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28dd2dfd_51732f63",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f16100_d9574d2d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-14T13:56:16Z",
+      "side": 1,
+      "message": "\u003e label.account !\u003d laber.real_account\n\nThis would be impersonated votes that are not relevant for rebase on behalf of uploader, so it still needs to be label.account vs realUploader\n\n\u003e ... for Code-Review? Then we do not need to re-evaluate the SR.\n\nThanks, this comment made me come up with a simpler check, just increase the metric if the patch set was created by rebase on behalf of uploader and there is a Code-Review approval from the real uploader that would have been ignored if it was a normal rebase. Maybe that\u0027s what you meant?\n\nPTAL",
+      "parentUuid": "28dd2dfd_51732f63",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 43
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57faa1e8_13f72e38",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-02-01T12:51:57Z",
       "side": 1,
       "message": "Should it be an extension that we can implement internally?\nE.g. we have  OnStoreSubmitRequirementResultModifier extension, where we could add a metric not actually modifying the SR result.\nUnless you think the metric is useful for upstream as well.",
+      "range": {
+        "startLine": 447,
+        "startChar": 10,
+        "endLine": 447,
+        "endChar": 63
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07200ff_44effeeb",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-14T13:56:16Z",
+      "side": 1,
+      "message": "Possibly. This would allows us to not have a metric with a \"hacky\" implementation in upstream, but on the other hand we would need to add a quite specific extension point. Since the new implementation of the metric is not that bad, I think it\u0027s fine keeping it in upstream. Semantically I think it makes sense to have it in upstream since we are measuring the usage of an upstream feature. So in principle this metric could be interesting for upstream as well.",
+      "parentUuid": "57faa1e8_13f72e38",
       "range": {
         "startLine": 447,
         "startChar": 10,

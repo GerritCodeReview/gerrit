@@ -70,6 +70,24 @@
       "parentUuid": "a7a96a28_406cfea9",
       "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37512a31_beb634f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-14T13:56:16Z",
+      "side": 1,
+      "message": "Yeah, from the export it would be difficult to know which submit requirements apply since they can be inherited.",
+      "parentUuid": "d91b2c3f_1afa50e7",
+      "revId": "773ecf36c1b138b314b6bbc696d7cad0fb2c0141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

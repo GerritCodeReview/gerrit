@@ -52,6 +52,24 @@
       "parentUuid": "2b25765c_c285287d",
       "revId": "b3387104c72f6370164fcc95d91d289fa176be59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa5d8a1_bafdb66f",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-14T11:44:35Z",
+      "side": 1,
+      "message": "Moved shared logic to the common function",
+      "parentUuid": "d713c707_24967b23",
+      "revId": "b3387104c72f6370164fcc95d91d289fa176be59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

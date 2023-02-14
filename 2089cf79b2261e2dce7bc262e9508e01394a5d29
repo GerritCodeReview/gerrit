@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e123a0_9051e889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2023-02-14T19:59:34Z",
+      "side": 1,
+      "message": "I think that finding an issue with the initial channel tracking in https://gerrit-review.googlesource.com/c/gerrit/+/358314/ means that we don\u0027t really need to add these debug points at this time.\n\nI think there is still something a bit unexplained about why the channel errors are raised, but we should try running with the workaround actually applied first to see what happens.",
+      "revId": "2089cf79b2261e2dce7bc262e9508e01394a5d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -769,7 +769,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     userId: AccountId | EmailAddress,
     errFn?: ErrorCallback
   ): Promise<AccountDetailInfo | undefined> {
-    return this._restApiHelper.fetchJSON({
+    return this._fetchSharedCacheURL({
       url: `/accounts/${encodeURIComponent(userId)}/detail`,
       anonymizedUrl: '/accounts/*/detail',
       errFn,

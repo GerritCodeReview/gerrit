@@ -82,6 +82,9 @@ export class GrEditorView extends LitElement {
   @state() saving = false;
 
   // private but used in test
+  @state() path?: string;
+
+  // private but used in test
   @state() successfulSave = false;
 
   @state() private editPrefs?: EditPreferencesInfo;
@@ -321,6 +324,12 @@ export class GrEditorView extends LitElement {
       )}`;
       fireTitleChange(this, title);
     });
+
+    if (this.path !== this.viewState?.editView?.path) {
+      this.newContent = '';
+      this.content = '';
+    }
+    this.path = this.viewState?.editView?.path;
 
     const promises = [];
     promises.push(this.getChangeDetail());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aef1781_a3f1e3a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2023-02-14T03:43:52Z",
+      "side": 1,
+      "message": "Here is an example of the log message from init showing up in tracing logs in our CI\n\nhttps://zuul.opendev.org/t/openstack/build/19b18b787b5a46c4a6fd2a6e00c66882/log/review99.opendev.org/logs/error_log#86",
+      "revId": "eeb1410e0baaa71e2ade8a8c3162e296ccc7c7f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

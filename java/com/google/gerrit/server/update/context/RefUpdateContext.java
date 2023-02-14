@@ -88,7 +88,7 @@ public class RefUpdateContext implements AutoCloseable {
     ACCOUNTS_UPDATE,
     /** A ref is updated as a part of direct push. */
     DIRECT_PUSH,
-    /** A ref is updated as a part of explicit branch update operation. */
+    /** A ref is updated as a part of explicit branch or ref update operation. */
     BRANCH_MODIFICATION,
     /** A ref is updated as a part of explicit tag update operation. */
     TAG_MODIFICATION,
@@ -106,7 +106,13 @@ public class RefUpdateContext implements AutoCloseable {
     /** A ref is updated as a part of versioned meta data change. */
     VERSIONED_META_DATA_CHANGE,
     /** A ref is updated as a part of commit-ban operation. */
-    BAN_COMMIT
+    BAN_COMMIT,
+    /**
+     * A ref is updated inside a plugin.
+     *
+     * <p>If a plugin updates one of a special refs - it must also open a nested context.
+     */
+    PLUGIN,
   }
 
   /** Opens a provided context. */

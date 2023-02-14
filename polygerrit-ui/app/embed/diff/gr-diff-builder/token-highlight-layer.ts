@@ -249,11 +249,11 @@ export class TokenHighlightLayer implements DiffLayer {
     return document.getSelection()?.type === 'Range';
   }
 
-  findTokenAncestor(el?: EventTarget | Element | null): {
-    token?: string;
-    line: number;
-    element?: Element;
-  } {
+  findTokenAncestor(
+    el?: EventTarget | Element | null
+  ):
+    | {token: undefined; line: 0; element: undefined}
+    | {token: string; line: number; element: Element} {
     if (!(el instanceof Element))
       return {line: 0, token: undefined, element: undefined};
     if (el.classList.contains(CSS_TOKEN)) {

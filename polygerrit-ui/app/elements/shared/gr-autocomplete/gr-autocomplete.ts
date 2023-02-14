@@ -41,10 +41,12 @@ export interface AutocompleteSuggestion<T = string> {
   label?: string;
   value?: T;
   text?: string;
+  callback?: () => void;
 }
 
 export interface AutocompleteCommitEventDetail {
   value: string;
+  callback?: () => void;
 }
 
 export type AutocompleteCommitEvent =

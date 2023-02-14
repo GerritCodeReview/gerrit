@@ -161,6 +161,7 @@ export class ShortcutsService implements Finalizable {
     const optPreventDefault = options?.preventDefault ?? true;
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
+      console.log(e, shortcut);
       if (!eventMatchesShortcut(e, shortcut)) return;
       if (shortcut.combo) {
         if (!this.isInSpecificComboKeyMode(shortcut.combo)) return;

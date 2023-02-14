@@ -34,7 +34,7 @@ import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {whenVisible, windowLocationReload} from '../../../utils/dom-util';
+import {Key, Modifier, whenVisible, windowLocationReload} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
@@ -235,6 +235,8 @@ export class GrChangeView extends LitElement {
   @query('#commitMessageEditor') commitMessageEditor?: GrEditableContent;
 
   @query('#includedInModal') includedInModal?: HTMLDialogElement;
+
+  @query('#commandsPalleteModal') commandsPalleteModal?: HTMLDialogElement;
 
   @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
 
@@ -593,6 +595,9 @@ export class GrChangeView extends LitElement {
       this.onOpenFixPreview(e)
     );
 
+    // Command pallete listeners
+    this.addEventListener('expand-diffs', () => this.expandAllDiffs());
+
     this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
       this.loadData(
@@ -665,6 +670,10 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(
       Shortcut.OPEN_COPY_LINKS_DROPDOWN,
       () => this.copyLinksDropdown?.openDropdown()
+    );
+    this.shortcutsController.addLocal(
+      {key: 'k', modifiers: [Modifier.CTRL_KEY, Modifier.META_KEY]},
+      () => this.commandsPalleteModal?.showModal()
     );
   }
 
@@ -1221,6 +1230,9 @@ export class GrChangeView extends LitElement {
             </gr-reply-dialog>
           `
         )}
+      </dialog>
+      <dialog id="commandsPalleteModal" tabindex="-1">
+        <gr-commands-pallete-dialog></gr-commands-pallete-dialog>
       </dialog>
     `;
   }

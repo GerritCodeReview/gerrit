@@ -37,6 +37,11 @@ export function asyncForeach<T>(
 
 export const _testOnly_allTasks = new Map<number, DelayedTask>();
 
+export enum ResolvedDelayedTaskStatus {
+  CALLBACK_EXECUTED = 'CALLBACK_EXECUTED',
+  TASK_CANCELLED = 'TASK_CANCELLED',
+}
+
 /**
  * This is just a very simple and small wrapper around setTimeout(). Instead of
  * the usual:
@@ -58,21 +63,20 @@ export class DelayedTask {
    * Promise that is resolved after the callback is run.
    * If the task is cancelled the promise is rejected instead.
    */
-  public readonly promise: Promise<void>;
+  public readonly promise: Promise<ResolvedDelayedTaskStatus>;
 
-  private rejectPromise?: () => void;
-
-  private resolvePromise?: () => void;
+  private resolvePromise?: (
+    value: ResolvedDelayedTaskStatus | PromiseLike<ResolvedDelayedTaskStatus>
+  ) => void;
 
   constructor(private callback: () => void, waitMs = 0) {
-    this.promise = new Promise((resolve, reject) => {
-      this.rejectPromise = reject;
+    this.promise = new Promise(resolve => {
       this.resolvePromise = resolve;
       this.timerId = window.setTimeout(() => {
         if (this.timerId) _testOnly_allTasks.delete(this.timerId);
         this.timerId = undefined;
         if (this.callback) this.callback();
-        resolve();
+        resolve(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
       }, waitMs);
       _testOnly_allTasks.set(this.timerId, this);
     });
@@ -87,7 +91,7 @@ export class DelayedTask {
   cancel() {
     if (this.isActive()) {
       this.cancelTimer();
-      this.rejectPromise?.();
+      this.resolvePromise?.(ResolvedDelayedTaskStatus.TASK_CANCELLED);
     }
   }
 
@@ -95,7 +99,7 @@ export class DelayedTask {
     if (this.isActive()) {
       this.cancelTimer();
       if (this.callback) this.callback();
-      this.resolvePromise?.();
+      this.resolvePromise?.(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
     }
   }
 

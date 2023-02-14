@@ -593,6 +593,9 @@ export class GrChangeView extends LitElement {
       this.onOpenFixPreview(e)
     );
 
+    // Command pallete listeners
+    this.addEventListener('expand-diffs', () => this.expandAllDiffs());
+
     this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
       this.loadData(
@@ -1221,6 +1224,9 @@ export class GrChangeView extends LitElement {
             </gr-reply-dialog>
           `
         )}
+      </dialog>
+      <dialog id="commandsModal" tabindex="-1">
+        <gr-commands-pallete-dialog></gr-commands-pallete-dialog>
       </dialog>
     `;
   }

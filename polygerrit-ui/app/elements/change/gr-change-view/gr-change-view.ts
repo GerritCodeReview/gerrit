@@ -22,6 +22,7 @@ import '../gr-change-summary/gr-change-summary';
 import '../gr-change-metadata/gr-change-metadata';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';
+import '../gr-commands-pallete-dialog/gr-commands-pallete-dialog';
 import '../gr-file-list-header/gr-file-list-header';
 import '../gr-file-list/gr-file-list';
 import '../gr-included-in-dialog/gr-included-in-dialog';
@@ -34,7 +35,7 @@ import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {whenVisible, windowLocationReload} from '../../../utils/dom-util';
+import {Key, Modifier, whenVisible, windowLocationReload} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
@@ -235,6 +236,8 @@ export class GrChangeView extends LitElement {
   @query('#commitMessageEditor') commitMessageEditor?: GrEditableContent;
 
   @query('#includedInModal') includedInModal?: HTMLDialogElement;
+
+  @query('#commandsPalleteModal') commandsPalleteModal?: HTMLDialogElement;
 
   @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
 
@@ -593,6 +596,9 @@ export class GrChangeView extends LitElement {
       this.onOpenFixPreview(e)
     );
 
+    // Command pallete listeners
+    document.addEventListener('expand-diffs', () => this.expandAllDiffs());
+
     this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
       this.loadData(
@@ -665,6 +671,10 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(
       Shortcut.OPEN_COPY_LINKS_DROPDOWN,
       () => this.copyLinksDropdown?.openDropdown()
+    );
+    this.shortcutsController.addAbstract(
+      Shortcut.OPEN_COMMANDS_PALLETE,
+      () => this.commandsPalleteModal?.showModal()
     );
   }
 
@@ -1221,6 +1231,9 @@ export class GrChangeView extends LitElement {
             </gr-reply-dialog>
           `
         )}
+      </dialog>
+      <dialog id="commandsPalleteModal" tabindex="-1">
+        <gr-commands-pallete-dialog></gr-commands-pallete-dialog>
       </dialog>
     `;
   }

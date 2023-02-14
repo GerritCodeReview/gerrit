@@ -651,6 +651,11 @@ export class GrAutocomplete extends LitElement {
       }
     }
 
+    const index = Number(this.selected!.dataset['index']);
+    if (isNaN(index)) return;
+
+    const callback = this.suggestions[index]?.callback;
+
     this.suggestions = [];
     this.queryErrorMessage = undefined;
     // we need willUpdate to send text-changed event before we can send the
@@ -659,7 +664,7 @@ export class GrAutocomplete extends LitElement {
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
-          detail: {value} as AutocompleteCommitEventDetail,
+          detail: {value, callback} as AutocompleteCommitEventDetail,
           composed: true,
           bubbles: true,
         })

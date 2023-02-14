@@ -51,6 +51,7 @@ export enum Shortcut {
   OPEN_REPLY_DIALOG = 'OPEN_REPLY_DIALOG',
   OPEN_DOWNLOAD_DIALOG = 'OPEN_DOWNLOAD_DIALOG',
   OPEN_COPY_LINKS_DROPDOWN = 'OPEN_COPY_LINKS_DROPDOWN',
+  OPEN_COMMANDS_PALLETE = 'OPEN_COMMANDS_PALETTE',
   EXPAND_ALL_MESSAGES = 'EXPAND_ALL_MESSAGES',
   COLLAPSE_ALL_MESSAGES = 'COLLAPSE_ALL_MESSAGES',
   UP_TO_DASHBOARD = 'UP_TO_DASHBOARD',
@@ -233,6 +234,12 @@ export function createShortcutConfig() {
     ShortcutSection.ACTIONS,
     'Open link dialog',
     {key: 'l'}
+  );
+  describe(
+    Shortcut.OPEN_COMMANDS_PALLETE,
+    ShortcutSection.ACTIONS,
+    'Open commands pallete',
+    {key: 'e'}
   );
   describe(
     Shortcut.EXPAND_ALL_MESSAGES,

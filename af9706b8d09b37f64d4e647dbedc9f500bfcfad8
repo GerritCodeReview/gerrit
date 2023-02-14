@@ -52,6 +52,24 @@
       "parentUuid": "77683cb2_dfe2d2fa",
       "revId": "af9706b8d09b37f64d4e647dbedc9f500bfcfad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee3ca30_4ca65655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-14T18:19:59Z",
+      "side": 1,
+      "message": "2 weeks have passed and our 3.5 stress testing has good results with this JGit bump.",
+      "parentUuid": "c2cd38a3_1d106bb7",
+      "revId": "af9706b8d09b37f64d4e647dbedc9f500bfcfad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

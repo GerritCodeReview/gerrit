@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 import static java.lang.String.format;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -102,56 +104,58 @@ public class DeleteRef {
    */
   public void deleteSingleRef(ProjectState projectState, String ref, @Nullable String prefix)
       throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
-    if (prefix != null && !ref.startsWith(R_REFS)) {
-      ref = prefix + ref;
-    }
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      if (prefix != null && !ref.startsWith(R_REFS)) {
+        ref = prefix + ref;
+      }
 
-    projectState.checkStatePermitsWrite();
-    permissionBackend
-        .currentUser()
-        .project(projectState.getNameKey())
-        .ref(ref)
-        .check(RefPermission.DELETE);
+      projectState.checkStatePermitsWrite();
+      permissionBackend
+          .currentUser()
+          .project(projectState.getNameKey())
+          .ref(ref)
+          .check(RefPermission.DELETE);
 
-    try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
-      RefUpdate.Result result;
-      RefUpdate u = repository.updateRef(ref);
-      u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
-      u.setNewObjectId(ObjectId.zeroId());
-      u.setForceUpdate(true);
-      refDeletionValidator.validateRefOperation(
-          projectState.getName(),
-          identifiedUser.get(),
-          u,
-          /* pushOptions */ ImmutableListMultimap.of());
-      result = u.delete();
+      try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
+        RefUpdate.Result result;
+        RefUpdate u = repository.updateRef(ref);
+        u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
+        u.setNewObjectId(ObjectId.zeroId());
+        u.setForceUpdate(true);
+        refDeletionValidator.validateRefOperation(
+            projectState.getName(),
+            identifiedUser.get(),
+            u,
+            /* pushOptions */ ImmutableListMultimap.of());
+        result = u.delete();
 
-      switch (result) {
-        case NEW:
-        case NO_CHANGE:
-        case FAST_FORWARD:
-        case FORCED:
-          referenceUpdated.fire(
-              projectState.getNameKey(),
-              u,
-              ReceiveCommand.Type.DELETE,
-              identifiedUser.get().state());
-          break;
+        switch (result) {
+          case NEW:
+          case NO_CHANGE:
+          case FAST_FORWARD:
+          case FORCED:
+            referenceUpdated.fire(
+                projectState.getNameKey(),
+                u,
+                ReceiveCommand.Type.DELETE,
+                identifiedUser.get().state());
+            break;
 
-        case REJECTED_CURRENT_BRANCH:
-          logger.atFine().log("Cannot delete current branch %s: %s", ref, result.name());
-          throw new ResourceConflictException("cannot delete current branch");
+          case REJECTED_CURRENT_BRANCH:
+            logger.atFine().log("Cannot delete current branch %s: %s", ref, result.name());
+            throw new ResourceConflictException("cannot delete current branch");
 
-        case LOCK_FAILURE:
-          throw new LockFailureException(String.format("Cannot delete %s", ref), u);
-        case IO_FAILURE:
-        case NOT_ATTEMPTED:
-        case REJECTED:
-        case RENAMED:
-        case REJECTED_MISSING_OBJECT:
-        case REJECTED_OTHER_REASON:
-        default:
-          throw new StorageException(String.format("Cannot delete %s: %s", ref, result.name()));
+          case LOCK_FAILURE:
+            throw new LockFailureException(String.format("Cannot delete %s", ref), u);
+          case IO_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
+          default:
+            throw new StorageException(String.format("Cannot delete %s: %s", ref, result.name()));
+        }
       }
     }
   }

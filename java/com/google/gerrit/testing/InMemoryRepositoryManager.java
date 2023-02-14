@@ -26,6 +26,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.MERGE_CHANGE;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.OFFLINE_OPERATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.PLUGIN;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.REPO_SEQ;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TAG_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.VERSIONED_META_DATA_CHANGE;
@@ -160,6 +161,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
             RefUpdateContext.hasOpen(MERGE_CHANGE)
                 || RefUpdateContext.hasOpen(RefUpdateType.BRANCH_MODIFICATION)
                 || RefUpdateContext.hasOpen(RefUpdateType.UPDATE_SUPERPROJECT)
+                // Plugin can update any ref
+                || RefUpdateContext.hasOpen(PLUGIN)
                 || isTestRepoCall(),
             "Ordinary ref '%s' is updated outside of the expected operation. Wrap code in the correct RefUpdateContext or add the ref as a special ref.",
             refName);

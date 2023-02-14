@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e6803df_dcef27dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-14T15:51:47Z",
+      "side": 1,
+      "message": "what about \n```\nget updateTaskComplete() {\n  return this.updateSuggestionsTask?.promise;\n}\n```\n\nSo it reads as `await autocomplete.updateTaskComplete`",
+      "revId": "c797e8adf153610b310a413cdd0ccac0739ac84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

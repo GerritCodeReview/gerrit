@@ -87,6 +87,8 @@ suite('gr-diff-row test', () => {
                 </div>
               </td>
             </tr>
+            <slot name="post-left-line-1"></slot>
+            <slot name="post-right-line-1"></slot>
           </tbody>
         </table>
       `
@@ -147,6 +149,8 @@ suite('gr-diff-row test', () => {
                 </div>
               </td>
             </tr>
+            <slot name="post-left-line-1"></slot>
+            <slot name="post-right-line-1"></slot>
           </tbody>
         </table>
       `
@@ -201,6 +205,7 @@ suite('gr-diff-row test', () => {
                   <slot name="right-1"> </slot>
                 </div>
               </td>
+              <slot name="post-right-line-1"></slot>
             </tr>
           </tbody>
         </table>
@@ -257,6 +262,7 @@ suite('gr-diff-row test', () => {
                 <div class="contentText gr-diff" data-side="right"></div>
               </td>
             </tr>
+            <slot name="post-left-line-1"></slot>
           </tbody>
         </table>
       `

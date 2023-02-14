@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7063cf8e_346ea0df",
+        "filename": "java/com/google/gerrit/server/schema/FakeAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-14T08:10:09Z",
+      "side": 1,
+      "message": "Ideally, this is not contained in the prod package, so users can never bind or configure it incorrectly.\n\nWe usually put things like that in a sub-package called `testing`. This is hard given that you subclass JdbcAccPRs.\n\nI think you should subclass AccountPatchReviewStore instead, put the `FakeAPRS` in a `testing` package (or in the acceptance package) and swap out the JdbcAccountPatchReviewStoreModule binding for a fake in tests.\n\nYou\u0027ll need to do something similar for H2CacheModule anyway I believe.",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb7d57d_d1cca5a5",
+        "filename": "java/com/google/gerrit/server/schema/FakeAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-14T08:10:09Z",
+      "side": 1,
+      "message": "return store.add(entity);",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645a0488_0e01ac5d",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-14T08:10:09Z",
+      "side": 1,
+      "message": "The default should remain H2 in case we have no URL (here and above).",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 22
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d89c86ed_621e3bb0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-14T08:10:09Z",
+      "side": 1,
+      "message": "Why does this have to be sandboxed?\n\nAren\u0027t the reviewed flags per (addId, cID, file)? So tests should not influence each other?",
+      "range": {
+        "startLine": 1349,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 12
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

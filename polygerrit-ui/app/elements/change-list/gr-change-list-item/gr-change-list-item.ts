@@ -42,6 +42,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 enum ChangeSize {
@@ -94,9 +95,6 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
-  showStar = false;
-
-  @property({type: Boolean})
   showNumber = false;
 
   @property({type: String})
@@ -125,6 +123,10 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  @state() private isLoggedIn = false;
+
   constructor() {
     super();
     subscribe(
@@ -133,6 +135,11 @@ export class GrChangeListItem extends LitElement {
       selectedChangeNums => {
         this.updateCheckedState(selectedChangeNums);
       }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
   }
 
@@ -332,6 +339,8 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSelectionBox() {
+    if (!this.isLoggedIn) return;
+
     return html`
       <td class="cell selection">
         <!--
@@ -352,7 +361,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.showStar) return;
+    if (!this.isLoggedIn) return;
 
     return html`
       <td class="cell star">

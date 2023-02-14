@@ -13,9 +13,10 @@ import '../gr-change-list-item/gr-change-list-item';
 import {
   createChange,
   createAccountDetailWithId,
+  createAccountWithEmail,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {NumericChangeId, ChangeInfoId} from '../../../api/rest-api';
+import {ChangeInfoId, NumericChangeId, Timestamp} from '../../../api/rest-api';
 import {
   queryAll,
   query,
@@ -27,11 +28,15 @@ import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {fixture, html, assert} from '@open-wc/testing';
 import {ColumnNames} from '../../../constants/constants';
+import {testResolver} from '../../../test/common-test-setup';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
 
 suite('gr-change-list section', () => {
   let element: GrChangeListSection;
+  let userModel: UserModel;
 
   setup(async () => {
+    userModel = testResolver(userModelToken);
     const changeSection: ChangeListSection = {
       name: 'test',
       query: 'test',
@@ -193,6 +198,10 @@ suite('gr-change-list section', () => {
         ],
         emptyStateSlotName: 'test',
       };
+      userModel.setAccount({
+        ...createAccountWithEmail('abc@def.com'),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      });
       await element.updateComplete;
       let rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
@@ -235,6 +244,10 @@ suite('gr-change-list section', () => {
         ],
         emptyStateSlotName: 'test',
       };
+      userModel.setAccount({
+        ...createAccountWithEmail('abc@def.com'),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      });
       await element.updateComplete;
       const rows = queryAll(element, 'gr-change-list-item');
 
@@ -271,6 +284,31 @@ suite('gr-change-list section', () => {
         queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
       );
     });
+  });
+
+  test('no checkbox when logged out', async () => {
+    element.changeSection = {
+      name: 'test',
+      query: 'test',
+      results: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          id: '1' as ChangeInfoId,
+        },
+        {
+          ...createChange(),
+          _number: 2 as NumericChangeId,
+          id: '2' as ChangeInfoId,
+        },
+      ],
+      emptyStateSlotName: 'test',
+    };
+    userModel.setAccount(undefined);
+    await element.updateComplete;
+    const rows = queryAll(element, 'gr-change-list-item');
+    assert.lengthOf(rows, 2);
+    assert.isUndefined(query<HTMLInputElement>(rows[0], 'input'));
   });
 
   test('colspans', async () => {

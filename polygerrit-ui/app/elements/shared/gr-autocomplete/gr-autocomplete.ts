@@ -9,7 +9,7 @@ import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {fire, fireEvent} from '../../../utils/event-util';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {debounce, DelayedTask, ResolvedDelayedTaskStatus} from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -150,12 +150,6 @@ export class GrAutocomplete extends LitElement {
   @property({type: Boolean, attribute: 'warn-uncommitted'})
   warnUncommitted = false;
 
-  /**
-   * When true, querying for suggestions is not debounced w/r/t keypresses
-   */
-  @property({type: Boolean, attribute: 'no-debounce'})
-  noDebounce = false;
-
   @property({type: Boolean, attribute: 'show-blue-focus-border'})
   showBlueFocusBorder = false;
 
@@ -182,6 +176,13 @@ export class GrAutocomplete extends LitElement {
   @state() selected: HTMLElement | null = null;
 
   private updateSuggestionsTask?: DelayedTask;
+
+  /**
+   * @returns Promise that resolves when suggestions are update.
+   */
+  public getLatestSuggestionsUpdatePromise(): Promise<ResolvedDelayedTaskStatus> | undefined {
+    return this.updateSuggestionsTask?.promise;
+  }
 
   get nativeInput() {
     return (this.input!.inputElement as IronInputElement)
@@ -256,8 +257,7 @@ export class GrAutocomplete extends LitElement {
   override willUpdate(changedProperties: PropertyValues) {
     if (
       changedProperties.has('text') ||
-      changedProperties.has('threshold') ||
-      changedProperties.has('noDebounce')
+      changedProperties.has('threshold')
     ) {
       this.updateSuggestions();
     }
@@ -406,8 +406,7 @@ export class GrAutocomplete extends LitElement {
   updateSuggestions() {
     if (
       this.text === undefined ||
-      this.threshold === undefined ||
-      this.noDebounce === undefined
+      this.threshold === undefined
     )
       return;
 
@@ -462,15 +461,11 @@ export class GrAutocomplete extends LitElement {
         });
     };
 
-    if (this.noDebounce) {
-      update();
-    } else {
-      this.updateSuggestionsTask = debounce(
-        this.updateSuggestionsTask,
-        update,
-        DEBOUNCE_WAIT_MS
-      );
-    }
+    this.updateSuggestionsTask = debounce(
+      this.updateSuggestionsTask,
+      update,
+      DEBOUNCE_WAIT_MS
+    );
   }
 
   setFocus(focused: boolean) {

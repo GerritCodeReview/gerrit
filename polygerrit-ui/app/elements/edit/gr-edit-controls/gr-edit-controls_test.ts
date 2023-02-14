@@ -217,16 +217,20 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(hideDialogStub.called);
       queryAndAssert<GrButton>(element, '#open').click();
       element.patchNum = 1 as RevisionPatchSetNum;
-      await waitUntilVisible(element.modal!);
+      await showDialogSpy.lastCall.returnValue;
       assert.isTrue(hideDialogStub.called);
       assert.isTrue(element.openDialog!.disabled);
       assert.isFalse(queryStub.called);
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
       openAutoComplete.focused = true;
-      openAutoComplete.noDebounce = true;
       openAutoComplete.text = 'src/test.cpp';
+      // Focus happens after updateComplete, so we first wait for it explicitly.
+      await new Promise<void>(resolve => {
+        openAutoComplete.addEventListener('focus', () => resolve());
+      });
       await element.updateComplete;
+      await openAutoComplete.getLatestSuggestionsUpdatePromise();
       assert.isTrue(queryStub.called);
       await waitUntil(() => !element.openDialog!.disabled);
       queryAndAssert<GrButton>(
@@ -242,7 +246,6 @@ suite('gr-edit-controls tests', () => {
       queryAndAssert<GrButton>(element, '#open').click();
       await waitUntilVisible(element.modal!);
       assert.isTrue(element.openDialog!.disabled);
-      openAutoComplete.noDebounce = true;
       openAutoComplete.text = 'src/test.cpp';
       await element.updateComplete;
       await waitUntil(() => !element.openDialog!.disabled);
@@ -277,9 +280,14 @@ suite('gr-edit-controls tests', () => {
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
       deleteAutocomplete.focused = true;
-      deleteAutocomplete.noDebounce = true;
       deleteAutocomplete.text = 'src/test.cpp';
+      // Focus happens after updateComplete, so we first wait for it explicitly.
+      await new Promise<void>(resolve => {
+        deleteAutocomplete.addEventListener('focus', () => resolve());
+      });
       await element.updateComplete;
+      await deleteAutocomplete.getLatestSuggestionsUpdatePromise();
+      console.log('Awaits are done');
       assert.isTrue(queryStub.called);
       await waitUntil(() => !element.deleteDialog!.disabled);
       queryAndAssert<GrButton>(
@@ -304,9 +312,13 @@ suite('gr-edit-controls tests', () => {
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
       deleteAutocomplete.focused = true;
-      deleteAutocomplete.noDebounce = true;
       deleteAutocomplete.text = 'src/test.cpp';
+      // Focus happens after updateComplete, so we first wait for it explicitly.
+      await new Promise<void>(resolve => {
+        deleteAutocomplete.addEventListener('focus', () => resolve());
+      });
       await element.updateComplete;
+      await deleteAutocomplete.getLatestSuggestionsUpdatePromise();
       assert.isTrue(queryStub.called);
       await waitUntil(() => !element.deleteDialog!.disabled);
       queryAndAssert<GrButton>(
@@ -363,9 +375,13 @@ suite('gr-edit-controls tests', () => {
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
       renameAutocomplete.focused = true;
-      renameAutocomplete.noDebounce = true;
       renameAutocomplete.text = 'src/test.cpp';
+      // Focus happens after updateComplete, so we first wait for it explicitly.
+      await new Promise<void>(resolve => {
+        renameAutocomplete.addEventListener('focus', () => resolve());
+      });
       await element.updateComplete;
+      await renameAutocomplete.getLatestSuggestionsUpdatePromise();
       assert.isTrue(queryStub.called);
       assert.isTrue(element.renameDialog!.disabled);
 
@@ -395,9 +411,13 @@ suite('gr-edit-controls tests', () => {
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
       renameAutocomplete.focused = true;
-      renameAutocomplete.noDebounce = true;
       renameAutocomplete.text = 'src/test.cpp';
+      // Focus happens after updateComplete, so we first wait for it explicitly.
+      await new Promise<void>(resolve => {
+        renameAutocomplete.addEventListener('focus', () => resolve());
+      });
       await element.updateComplete;
+      await renameAutocomplete.getLatestSuggestionsUpdatePromise();
       assert.isTrue(queryStub.called);
       assert.isTrue(element.renameDialog!.disabled);
 

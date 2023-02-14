@@ -699,10 +699,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initUnknownChannelReferenceHandler(boolean enableChannelIdTracking) {
-    setUnknownChannelReferenceHandler(
-        enableChannelIdTracking
-            ? ChannelIdTrackingUnknownChannelReferenceHandler.TRACKER
-            : DefaultUnknownChannelReferenceHandler.INSTANCE);
+    if (enableChannelIdTracking) {
+      setUnknownChannelReferenceHandler(ChannelIdTrackingUnknownChannelReferenceHandler.TRACKER);
+      addChannelListener(ChannelIdTrackingUnknownChannelReferenceHandler.TRACKER);
+    } else {
+      setUnknownChannelReferenceHandler(DefaultUnknownChannelReferenceHandler.INSTANCE);
+    }
   }
 
   private void initSubsystems() {

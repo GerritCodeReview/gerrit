@@ -218,7 +218,6 @@ export class GrConfirmRebaseDialog
             <gr-autocomplete
               id="parentInput"
               .query=${this.query}
-              no-debounce
               .text=${this.text}
               @text-changed=${(e: ValueChangedEvent) =>
                 (this.text = e.detail.value)}

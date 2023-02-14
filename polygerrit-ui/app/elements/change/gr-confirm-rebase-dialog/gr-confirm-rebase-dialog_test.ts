@@ -74,7 +74,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <gr-autocomplete
               allow-non-suggested-values=""
               id="parentInput"
-              no-debounce=""
               placeholder="Change number, ref, or commit hash"
             >
             </gr-autocomplete>
@@ -305,7 +304,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
 
     test('input text change triggers function', async () => {
       const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
-      element.parentInput.noDebounce = true;
       pressKey(
         queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
         Key.ENTER

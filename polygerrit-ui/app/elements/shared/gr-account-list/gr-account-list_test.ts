@@ -401,8 +401,8 @@ suite('gr-account-list tests', () => {
     );
     input.text = 'newTest';
     input.input!.focus();
-    input.noDebounce = true;
     await element.updateComplete;
+    await input.latestSuggestionUpdateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
     await waitUntil(() => makeSuggestionItemSpy.getCalls().length === 2);

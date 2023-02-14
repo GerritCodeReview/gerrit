@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bcdb6d5_4edcf350",
+        "filename": "java/com/google/gerrit/server/schema/FakeAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-14T16:12:41Z",
+      "side": 1,
+      "message": "Done. PTAL.",
+      "parentUuid": "7063cf8e_346ea0df",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fb7d57d_d1cca5a5",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-14T08:10:09Z",
       "side": 1,
       "message": "return store.add(entity);",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "274cc140_3c8c7714",
+        "filename": "java/com/google/gerrit/server/schema/FakeAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-14T16:12:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fb7d57d_d1cca5a5",
       "range": {
         "startLine": 71,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32eacedb_142affef",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-14T16:12:41Z",
+      "side": 1,
+      "message": "obsoleted.",
+      "parentUuid": "645a0488_0e01ac5d",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 22
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d89c86ed_621e3bb0",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-02-14T08:10:09Z",
       "side": 1,
       "message": "Why does this have to be sandboxed?\n\nAren\u0027t the reviewed flags per (addId, cID, file)? So tests should not influence each other?",
+      "range": {
+        "startLine": 1349,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 12
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5571b84_b7ec0464",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-14T16:12:41Z",
+      "side": 1,
+      "message": "Key is {psId, accountId, path}. Unfortunately this test interfered with others.",
+      "parentUuid": "d89c86ed_621e3bb0",
       "range": {
         "startLine": 1349,
         "startChar": 3,

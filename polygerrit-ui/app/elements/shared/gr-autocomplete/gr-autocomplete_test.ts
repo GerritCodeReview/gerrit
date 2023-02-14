@@ -391,7 +391,6 @@ suite('gr-autocomplete tests', () => {
 
     element.query = queryStub;
     await element.updateComplete;
-    element.noDebounce = false;
     focusOnInput();
     element.text = 'a';
 
@@ -413,7 +412,6 @@ suite('gr-autocomplete tests', () => {
   test('empty text results in no suggestions', async () => {
     element.text = '';
     element.threshold = 0;
-    element.noDebounce = false;
     await element.updateComplete;
     assert.equal(element.suggestions.length, 0);
   });
@@ -475,7 +473,6 @@ suite('gr-autocomplete tests', () => {
       assert.equal(element.suggestions.length, 1);
       element.text = '';
       element.threshold = 0;
-      element.noDebounce = false;
       await element.updateComplete;
       assert.equal(element.suggestions.length, 0);
     });
@@ -494,7 +491,6 @@ suite('gr-autocomplete tests', () => {
       await waitUntil(() => element.queryErrorMessage === 'Test error');
       element.text = '';
       element.threshold = 0;
-      element.noDebounce = false;
       await element.updateComplete;
       assert.isUndefined(element.queryErrorMessage);
     });

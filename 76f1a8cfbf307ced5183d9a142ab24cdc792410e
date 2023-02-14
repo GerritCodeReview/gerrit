@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6a43f4a_b254600d",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-14T15:45:04Z",
+      "side": 1,
+      "message": "I\u0027m confused by this comment.\n`commitExternalIdUpdates()`, which is called by the current flow, already adds the commit to the given batch-update [1]. The same batch-update is also used for the rest of the updates by `commitAccountConfig()`. Why isn\u0027t it transactional?\n\nAlso, IIUC, the race condition for external-ids also applies to starred-changes and draft-comments. Given the ref prefix is \u003ctype\u003e/\u003cchange\u003e/\u003cuid\u003e (and not \u003ctype\u003e/\u003cuid\u003e/\u003cchange\u003e, we should have the same issue with detecting new data.\nShould I add empty commits to all of those data pieces in case of no original data?\n\n[1] Underlining call:\nhttps://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/git/meta/MetaDataUpdate.java#128",
+      "parentUuid": "1c38b78f_f9278624",
+      "range": {
+        "startLine": 397,
+        "startChar": 37,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b026818c_a53290f8",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
         "patchSetId": 7

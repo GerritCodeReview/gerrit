@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2382722_556de588",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-15T09:00:50Z",
+      "side": 1,
+      "message": "Can we add return type here. It\u0027s not obvious without reading code carefully.\n\nAdditionally let\u0027s add a docstring. In particular it should explain when \"undefined\" is returned by the promise (if request failed)",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa534162_464fcc66",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-15T09:00:50Z",
+      "side": 1,
+      "message": "Can we reword this comment. We don\u0027t really pass an empty error function. Instead we pass a function, that updates state with the input, instead of request result.",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

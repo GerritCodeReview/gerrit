@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -89,6 +90,7 @@ public class RebaseIT {
     @Inject protected RequestScopeOperations requestScopeOperations;
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
+    @Inject protected TestMetricMaker testMetricMaker;
 
     @FunctionalInterface
     protected interface RebaseCall {
@@ -771,6 +773,28 @@ public class RebaseIT {
 
       assertThat(gApi.changes().id(id3.get()).revision(ri3._number).related().changes).isEmpty();
     }
+
+    @Test
+    public void testCountRebasesMetric() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result r = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Rebase the second change
+      testMetricMaker.reset();
+      rebaseCallWithInput.call(r2.getChangeId(), new RebaseInput());
+      // field1 is on_behalf_of_uploader, field2 is rebase_chain
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(1);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(0);
+    }
   }
 
   public static class RebaseViaRevisionApi extends Rebase {
@@ -1123,6 +1147,36 @@ public class RebaseIT {
               ResourceConflictException.class,
               () -> rebaseCallWithInput.call(r4.getChangeId(), ri));
       assertThat(thrown).hasMessageThat().contains("recursion not allowed");
+    }
+
+    @Test
+    public void testCountRebasesMetric() throws Exception {
+      // Create changes with the following hierarchy:
+      // * HEAD
+      //   * r1
+      //   * r2
+      //     * r3
+      //       * r4
+      PushOneCommit.Result r = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+      PushOneCommit.Result r3 = createChange();
+      PushOneCommit.Result r4 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Rebase the chain.
+      testMetricMaker.reset();
+      verifyRebaseChainResponse(
+          gApi.changes().id(r4.getChangeId()).rebaseChain(), false, r2, r3, r4);
+      // field1 is on_behalf_of_uploader, field2 is rebase_chain
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(1);
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(0);
     }
 
     private void verifyRebaseChainResponse(

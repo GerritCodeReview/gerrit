@@ -20,6 +20,9 @@ import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
+import {resolve} from '../../../models/dependency';
+import {magicModelToken} from '../gr-diff-model/magic-model';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 @customElement('gr-diff-row')
 export class GrDiffRow extends LitElement {
@@ -90,6 +93,26 @@ export class GrDiffRow extends LitElement {
    */
   private layersApplied = false;
 
+  private readonly getMagic = resolve(this, magicModelToken);
+
+  @state() hideBoth = false;
+
+  @state() search = '';
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getMagic().hideBoth$,
+      x => (this.hideBoth = x)
+    );
+    subscribe(
+      this,
+      () => this.getMagic().search$,
+      x => (this.search = x)
+    );
+  }
+
   /**
    * The browser API for handling selection does not (yet) work for selection
    * across multiple shadow DOM elements. So we are rendering gr-diff components
@@ -143,6 +166,20 @@ export class GrDiffRow extends LitElement {
 
   override render() {
     if (!this.left || !this.right) return;
+    if (
+      this.hideBoth &&
+      this.left.type === GrDiffLineType.BOTH &&
+      this.right.type === GrDiffLineType.BOTH &&
+      this.left.beforeNumber !== 'LOST'
+    ) {
+      return;
+    }
+    if (this.search && this.left.beforeNumber !== 'LOST') {
+      const re = new RegExp(this.search, 'i');
+      const leftMatches = this.left.text.match(re);
+      const rightMatches = this.right.text.match(re);
+      if (!leftMatches && !rightMatches) return;
+    }
     const classes = this.unifiedDiff ? ['unified'] : ['side-by-side'];
     const unifiedType = this.unifiedType();
     if (this.unifiedDiff && unifiedType) classes.push(unifiedType);

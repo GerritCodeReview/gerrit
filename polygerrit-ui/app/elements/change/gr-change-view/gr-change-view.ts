@@ -23,6 +23,7 @@ import '../gr-change-metadata/gr-change-metadata';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';
 import '../gr-file-list-header/gr-file-list-header';
+import '../gr-file-list-header/gr-file-list-magic';
 import '../gr-file-list/gr-file-list';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
@@ -154,7 +155,7 @@ import {
 } from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve} from '../../../models/dependency';
+import {provide, resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
@@ -181,6 +182,10 @@ import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {
+  MagicModel,
+  magicModelToken,
+} from '../../../embed/diff/gr-diff-model/magic-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -573,8 +578,11 @@ export class GrChangeView extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly magicModel = new MagicModel();
+
   constructor() {
     super();
+    provide(this, magicModelToken, () => this.magicModel);
     this.setupListeners();
     this.setupShortcuts();
     this.setupSubscriptions();
@@ -1544,6 +1552,8 @@ export class GrChangeView extends LitElement {
           @collapse-diffs=${this.collapseAllDiffs}
         >
         </gr-file-list-header>
+        <gr-file-list-magic></gr-file-list-magic>
+        </gr-file-list-magic>
         <gr-file-list
           id="fileList"
           .change=${this.change}

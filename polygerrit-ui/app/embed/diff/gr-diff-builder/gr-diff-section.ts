@@ -27,6 +27,9 @@ import '../gr-context-controls/gr-context-controls';
 import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
+import {subscribe} from '../../../elements/lit/subscription-controller';
+import {magicModelToken} from '../gr-diff-model/magic-model';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-diff-section')
 export class GrDiffSection extends LitElement {
@@ -52,6 +55,26 @@ export class GrDiffSection extends LitElement {
    */
   @state()
   addTableWrapperForTesting = false;
+
+  @state() search = '';
+
+  @state() hideControls = false;
+
+  private readonly getMagic = resolve(this, magicModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getMagic().search$,
+      x => (this.search = x)
+    );
+    subscribe(
+      this,
+      () => this.getMagic().hideControls$,
+      x => (this.hideControls = x)
+    );
+  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -97,6 +120,7 @@ export class GrDiffSection extends LitElement {
               .unifiedDiff=${this.isUnifiedDiff()}
               .responsiveMode=${responsiveMode}
               .hideFileCommentButton=${hideFileCommentButton}
+              .search=${this.search}
             >
             </gr-diff-row>
           `;
@@ -130,6 +154,7 @@ export class GrDiffSection extends LitElement {
 
   private renderContextControls() {
     if (this.group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
+    if (this.hideControls) return;
 
     const leftStart = this.group.lineRange.left.start_line;
     const leftEnd = this.group.lineRange.left.end_line;

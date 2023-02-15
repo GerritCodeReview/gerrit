@@ -1450,9 +1450,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.blame = null;
     this.updatePreferenceStyles();
 
-    if (this.diff && !this.noRenderOnPrefsChange) {
-      this.debounceRenderDiffTable();
-    }
+    // if (this.diff && !this.noRenderOnPrefsChange) {
+    //   this.debounceRenderDiffTable();
+    // }
   }
 
   private updatePreferenceStyles() {

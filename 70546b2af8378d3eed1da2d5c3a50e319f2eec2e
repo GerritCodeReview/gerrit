@@ -211,6 +211,30 @@
       },
       "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "010c3363_2f448019",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-15T10:09:55Z",
+      "side": 1,
+      "message": "Ah wow. You\u0027re right.\n\nDone. (and removed @Sandboxed)",
+      "parentUuid": "89751149_eca4e43f",
+      "range": {
+        "startLine": 1349,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 12
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

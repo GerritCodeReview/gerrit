@@ -435,10 +435,11 @@ export class GrAutocomplete extends LitElement {
       return;
     }
 
+    const requestText = this.text;
     const update = () => {
       query(this.text)
         .then(suggestions => {
-          if (this.text !== this.text) {
+          if (requestText !== this.text) {
             // Late response.
             return;
           }

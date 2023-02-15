@@ -34,6 +34,29 @@
       "parentUuid": "5fd5b517_d4cb741e",
       "revId": "3206d7f33da9dfe37b51742ff41f98368f2b05bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de4c957_338ab092",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-15T01:04:19Z",
+      "side": 1,
+      "message": "delete \"a\"",
+      "range": {
+        "startLine": 106,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 14
+      },
+      "revId": "3206d7f33da9dfe37b51742ff41f98368f2b05bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

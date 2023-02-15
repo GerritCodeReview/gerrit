@@ -22,7 +22,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Passes additional information about an operation to the {@link BatchRefUpdate#execute} method.
+ * Passes additional information about an operation to the {@code BatchRefUpdate#execute} method.
  *
  * <p>To pass the additional information {@link RefUpdateContext}, wraps a code into an open
  * RefUpdateContext, e.g.:
@@ -34,7 +34,7 @@ import java.util.Deque;
  * }
  * }</pre>
  *
- * When the {@link BatchRefUpdate#execute} method is executed, it can get all opened contexts and
+ * When the {@code BatchRefUpdate#execute} method is executed, it can get all opened contexts and
  * use it for an additional actions, e.g. it can put it in the reflog.
  *
  * <p>The information provided by this class is used internally in google.
@@ -42,7 +42,7 @@ import java.util.Deque;
  * <p>The InMemoryRepositoryManager file makes some validation to ensure that RefUpdateContext is
  * used correctly within the code (see thee validateRefUpdateContext method).
  *
- * <p>The class includes only operations from open-source gerrit and can be extended (see {@link
+ * <p>The class includes only operations from open-source gerrit and can be extended (see {@code
  * TestActionRefUpdateContext} for example how to extend it).
  */
 public class RefUpdateContext implements AutoCloseable {

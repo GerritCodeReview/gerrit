@@ -22,9 +22,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
-import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.Url;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -188,7 +186,7 @@ public class IndexPreloadingUtil {
     return Optional.empty();
   }
 
-  public static List<String> computeDashboardQueryList(Server serverApi) throws RestApiException {
+  public static List<String> computeDashboardQueryList() {
     List<String> queryList = new ArrayList<>();
     queryList.add(SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);
     queryList.add(SELF_YOUR_TURN);

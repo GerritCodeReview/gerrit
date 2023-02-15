@@ -94,6 +94,16 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
+import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
+import {Schema, DOMParser} from 'prosemirror-model';
+import {schema} from 'prosemirror-schema-basic';
+import {addListNodes} from 'prosemirror-schema-list';
+import {exampleSetup} from 'prosemirror-example-setup';
+import {
+  defaultMarkdownParser,
+  defaultMarkdownSerializer,
+} from 'prosemirror-markdown';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -270,7 +280,7 @@ export class GrDiffView extends LitElement {
 
   constructor() {
     super();
-    this.setupKeyboardShortcuts();
+    // this.setupKeyboardShortcuts();
     this.setupSubscriptions();
     subscribe(
       this,
@@ -705,6 +715,7 @@ export class GrDiffView extends LitElement {
 
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
+    this.asdf();
     if (
       changedProperties.has('change') ||
       changedProperties.has('path') ||
@@ -749,6 +760,50 @@ export class GrDiffView extends LitElement {
     }
   }
 
+  private asdf() {
+    const data = `
+    An h1 header
+    ============
+    
+    Paragraphs are separated by a blank line.
+    
+    2nd paragraph. *Italic*, **bold**, and \`monospace\`. Itemized lists
+    look like:
+    
+      * this one
+      * that one
+      * the other one
+    
+    Note that --- not considering the asterisk --- the actual text
+    content starts at 4-columns in.
+    
+    > Block quotes are
+    > written like so.
+    >
+    > They can span multiple paragraphs,
+    > if you like.
+    
+    Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
+    in chapters 12--14"). Three dots ... will be converted to an ellipsis.
+    Unicode is supported. ☺
+    `;
+    // const mySchema = new Schema({
+    //   nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+    //   marks: schema.spec.marks,
+    // });
+
+    const view = new EditorView(this.renderRoot.querySelector('#editor'), {
+      state: EditorState.create({
+        doc: defaultMarkdownParser.parse(data) ?? undefined,
+        // plugins: exampleSetup({schema: mySchema}),
+      }),
+    });
+    console.log(
+      'content:',
+      defaultMarkdownSerializer.serialize(view.state.doc)
+    );
+  }
+
   override render() {
     if (!this.isActiveChildView) return nothing;
     if (!this.patchNum || !this.changeNum || !this.change || !this.path) {
@@ -758,7 +813,27 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
+      <div id="editor" style="margin-bottom: 23px"></div>
+      <div style="display: none" id="content">
+        <h3>Hello ProseMirror</h3>
+        <p>This is editable text. You can focus it and start typing.</p>
+        <p>
+          To apply styling, you can select a piece of text and manipulate its
+          styling from the menu. The basic schema supports <em>emphasis</em>,
+          <strong>strong text</strong>,
+        </p>
+        <p>
+          Block-level structure can be manipulated with key bindings (try
+          ctrl-shift-2 to create a level 2 heading, or enter in an empty
+          textblock to exit the parent block), or through the menu.
+        </p>
+        <p>
+          Try using the “list” item in the menu to wrap this paragraph in a
+          numbered list.
+        </p>
+      </div>
       <gr-diff-host
+        style="display:none"
         id="diffHost"
         .changeNum=${this.changeNum}
         .change=${this.change}

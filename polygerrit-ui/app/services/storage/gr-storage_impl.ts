@@ -3,9 +3,14 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {StorageObject, StorageService} from './gr-storage';
+import {
+  StoredContentItem,
+  StorageService,
+  LatestPatchsetNumberSeenItem,
+  StorageItem,
+} from './gr-storage';
 import {Finalizable} from '../registry';
-import {NumericChangeId} from '../../types/common';
+import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {define} from '../../models/dependency';
 
 export const DURATION_DAY = 24 * 60 * 60 * 1000;
@@ -30,16 +35,17 @@ export class GrStorageService implements StorageService, Finalizable {
 
   finalize() {}
 
-  getEditableContentItem(key: string): StorageObject | null {
+  getEditableContentItem(key: string): StoredContentItem | null {
     this.cleanupItems();
     return this.getObject(this.getEditableContentKey(key));
   }
 
   setEditableContentItem(key: string, message: string) {
-    this.setObject(this.getEditableContentKey(key), {
-      message,
+    const item: StoredContentItem = {
       updated: Date.now(),
-    });
+      message,
+    };
+    this.setObject(this.getEditableContentKey(key), item);
   }
 
   eraseEditableContentItem(key: string) {
@@ -66,9 +72,51 @@ export class GrStorageService implements StorageService, Finalizable {
     }
   }
 
+  getLatestPatchsetNumberSeen(
+    changeId: NumericChangeId
+  ): LatestPatchsetNumberSeenItem | null {
+    console.log('getting changeId', changeId);
+    this.cleanupItems();
+    const result: LatestPatchsetNumberSeenItem | null = this.getObject(
+      this.getLastPatchsetSeenKey(changeId)
+    );
+    console.log('stored', result);
+    return result;
+  }
+
+  setLatestPatchsetNumberSeen(
+    changeId: NumericChangeId,
+    patchsetNumber: PatchSetNumber
+  ): void {
+    console.log(
+      'setting changeId',
+      changeId,
+      'to patchsetNumber',
+      patchsetNumber
+    );
+    const currentStoredItem = this.getLatestPatchsetNumberSeen(changeId);
+    if (
+      currentStoredItem?.patchsetNumber &&
+      currentStoredItem.patchsetNumber >= patchsetNumber
+    ) {
+      console.log('ignoring set request');
+      return;
+    }
+    const item: LatestPatchsetNumberSeenItem = {
+      updated: Date.now(),
+      changeId,
+      patchsetNumber,
+    };
+    this.setObject(this.getLastPatchsetSeenKey(changeId), item);
+  }
+
   // visible for testing
   getEditableContentKey(key: string): string {
     return `editablecontent:${key}`;
+  }
+
+  getLastPatchsetSeenKey(changeId: NumericChangeId): string {
+    return `lastpatchsetseen:${changeId}`;
   }
 
   // visible for testing
@@ -95,19 +143,20 @@ export class GrStorageService implements StorageService, Finalizable {
     });
   }
 
-  private getObject(key: string): StorageObject | null {
+  private getObject<T extends StorageItem>(key: string): T | null {
     const serial = this.storage.getItem(key);
     if (!serial) {
       return null;
     }
-    return JSON.parse(serial) as StorageObject;
+    return JSON.parse(serial) as T;
   }
 
-  private setObject(key: string, obj: StorageObject) {
+  private setObject(key: string, obj: StorageItem) {
     if (this.exceededQuota) {
       return;
     }
     try {
+      console.log('setObject', key, JSON.stringify(obj));
       this.storage.setItem(key, JSON.stringify(obj));
     } catch (exc: unknown) {
       if (exc instanceof DOMException) {

@@ -45,6 +45,7 @@ import {
   createEditUrl,
 } from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {StorageService} from '../../services/storage/gr-storage';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -114,13 +115,31 @@ function computeBase(
   viewModelBasePatchNum: BasePatchSetNum | undefined,
   patchNum: RevisionPatchSetNum | undefined,
   change: ParsedChangeInfo | undefined,
-  preferences: PreferencesInfo
+  preferences: PreferencesInfo,
+  latestPatchsetNumberSeen: PatchSetNumber | undefined
 ): BasePatchSetNum {
+  console.log(
+    'computing base from data',
+    viewModelBasePatchNum,
+    patchNum,
+    change,
+    preferences,
+    latestPatchsetNumberSeen
+  );
   if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
+    console.log('choosing', viewModelBasePatchNum);
     return viewModelBasePatchNum;
   }
-  if (!change || !patchNum) return PARENT;
+  if (!change || !patchNum) {
+    console.log('choosing PARENT');
+    return PARENT;
+  }
 
+  console.log(
+    'choosing from storage or PARENT',
+    latestPatchsetNumberSeen || PARENT
+  );
+  return latestPatchsetNumberSeen || PARENT;
   const preferFirst =
     preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
   if (!preferFirst) return PARENT;
@@ -191,6 +210,13 @@ export class ChangeModel extends Model<ChangeState> {
     computeLatestPatchNum(patchsets)
   );
 
+  public readonly latestPatchsetNumberSeen$ = select(this.change$, change =>
+    change !== undefined
+      ? this.storageService.getLatestPatchsetNumberSeen(change._number)
+          ?.patchsetNumber ?? undefined
+      : undefined
+  );
+
   /**
    * Emits the current patchset number. If the route does not define the current
    * patchset num, then this selector waits for the change to be defined and
@@ -247,11 +273,25 @@ export class ChangeModel extends Model<ChangeState> {
           this.viewModel.basePatchNum$,
           this.patchNum$,
           this.change$,
-          this.userModel.preferences$
+          this.userModel.preferences$,
+          this.latestPatchsetNumberSeen$
         )
       ),
-      ([_, viewModelBasePatchNum, patchNum, change, preferences]) =>
-        computeBase(viewModelBasePatchNum, patchNum, change, preferences)
+      ([
+        _,
+        viewModelBasePatchNum,
+        patchNum,
+        change,
+        preferences,
+        latestPatchsetNumberSeen,
+      ]) =>
+        computeBase(
+          viewModelBasePatchNum,
+          patchNum,
+          change,
+          preferences,
+          latestPatchsetNumberSeen
+        )
     );
 
   public readonly isOwner$: Observable<boolean> = select(
@@ -269,7 +309,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
-    private readonly userModel: UserModel
+    private readonly userModel: UserModel,
+    private readonly storageService: StorageService
   ) {
     super(initialState);
     this.subscriptions = [

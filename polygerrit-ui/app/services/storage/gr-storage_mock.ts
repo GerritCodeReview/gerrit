@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {NumericChangeId} from '../../types/common';
-import {StorageObject, StorageService} from './gr-storage';
+import {StoredContentItem, StorageService} from './gr-storage';
 
-const storage = new Map<string, StorageObject>();
+const storage = new Map<string, StoredContentItem>();
 
 const getEditableContentKey = (key: string): string => `editablecontent:${key}`;
 
@@ -17,7 +17,7 @@ export function cleanUpStorage() {
 export const grStorageMock: StorageService = {
   finalize(): void {},
 
-  getEditableContentItem(key: string): StorageObject | null {
+  getEditableContentItem(key: string): StoredContentItem | null {
     return storage.get(getEditableContentKey(key)) ?? null;
   },
 

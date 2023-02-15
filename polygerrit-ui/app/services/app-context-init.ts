@@ -144,6 +144,7 @@ export function createAppDependencies(
         ),
     ],
     [navigationToken, () => resolver(routerToken)],
+    [storageServiceToken, () => new GrStorageService()],
     [
       changeModelToken,
       () =>
@@ -151,7 +152,8 @@ export function createAppDependencies(
           resolver(navigationToken),
           resolver(changeViewModelToken),
           appContext.restApiService,
-          resolver(userModelToken)
+          resolver(userModelToken),
+          resolver(storageServiceToken)
         ),
     ],
     [
@@ -205,7 +207,6 @@ export function createAppDependencies(
           appContext.reportingService
         ),
     ],
-    [storageServiceToken, () => new GrStorageService()],
     [
       highlightServiceToken,
       () => new HighlightService(appContext.reportingService),

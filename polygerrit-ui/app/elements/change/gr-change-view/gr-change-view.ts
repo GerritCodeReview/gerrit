@@ -181,6 +181,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -528,6 +529,8 @@ export class GrChangeView extends LitElement {
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   readonly restApiService = getAppContext().restApiService;
+
+  private readonly storageService = resolve(this, storageServiceToken);
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -2087,6 +2090,21 @@ export class GrChangeView extends LitElement {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
     };
+    console.log('rendering', this.patchRange);
+    if (this.change && this.viewState.patchNum) {
+      console.log(
+        'saving latest',
+        this.viewState.patchNum,
+        'for',
+        this.change._number
+      );
+      this.storageService().setLatestPatchsetNumberSeen(
+        this.change._number,
+        this.viewState.patchNum! === EDIT
+          ? (1 as PatchSetNumber)
+          : (this.viewState.patchNum! as PatchSetNumber)
+      );
+    }
     this.scrollCommentId = this.viewState.commentId;
 
     const patchKnown =
@@ -2105,6 +2123,21 @@ export class GrChangeView extends LitElement {
           ...this.patchRange,
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
+        console.log('rendering', this.patchRange);
+        if (this.change && this.patchRange.patchNum) {
+          console.log(
+            'saving latest',
+            this.patchRange.patchNum,
+            'for',
+            this.change._number
+          );
+          this.storageService().setLatestPatchsetNumberSeen(
+            this.change._number,
+            this.patchRange.patchNum! === EDIT
+              ? (1 as PatchSetNumber)
+              : (this.patchRange.patchNum! as PatchSetNumber)
+          );
+        }
       }
       if (patchChanged) {
         // We need to collapse all diffs when viewState changes so that a non

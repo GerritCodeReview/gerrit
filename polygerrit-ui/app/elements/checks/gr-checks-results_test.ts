@@ -117,6 +117,7 @@ suite('gr-result-row test', () => {
           aria-checked="false"
           aria-label="Expand result row"
           class="show-hide"
+          hidden
           role="switch"
           tabindex="0"
         >
@@ -261,7 +262,6 @@ suite('gr-checks-results test', () => {
             </h3>
             <gr-result-row
               class="FAKEErrorFinderFinderFinderFinderFinderFinderFinder"
-              isexpandable
             >
             </gr-result-row>
             <gr-result-row

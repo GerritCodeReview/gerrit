@@ -1079,6 +1079,39 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(1);
   }
 
+  @Test
+  public void testCountRebasesMetric() throws Exception {
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    Account.Id uploader = accountOperations.newAccount().create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    // Create two changes both with the same parent
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Rebase it on behalf of the uploader
+    testMetricMaker.reset();
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    // field1 is on_behalf_of_uploader, field2 is rebase_chain
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(1);
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(0);
+  }
+
   private void allowPermissionToAllUsers(String permission) {
     allowPermission(permission, REGISTERED_USERS);
   }

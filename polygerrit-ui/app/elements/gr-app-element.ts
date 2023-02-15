@@ -500,11 +500,12 @@ export class GrAppElement extends LitElement {
   }
 
   private renderEditorView() {
-    // The `cache()` is required for re-using the editor view when switching
-    // back and forth between change, diff and editor views.
-    return cache(
-      this.isEditorView() ? html`<gr-editor-view></gr-editor-view>` : nothing
-    );
+    // For some reason caching the editor view caused an issue (b/269308770).
+    // We did not bother to root cause that issue, but instead let's forgo
+    // caching of the editor view. It does not help much anyway.
+    return this.isEditorView()
+      ? html`<gr-editor-view></gr-editor-view>`
+      : nothing;
   }
 
   private isEditorView() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad004705_503ceeca",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-15T10:59:52Z",
+      "side": 1,
+      "message": "I wonder whether it should be simplified to:\n\n`undefined | {token: string; line: number; element: Element}`",
+      "revId": "eb9e2b7bab957d4cc4c9eddb2499dea05c5d8d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

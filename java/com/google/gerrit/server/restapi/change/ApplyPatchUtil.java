@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,8 +52,12 @@ public final class ApplyPatchUtil {
       throws IOException, RestApiException {
     checkNotNull(mergeTip);
     RevTree tip = mergeTip.getTree();
-    InputStream patchStream =
-        new ByteArrayInputStream(input.patch.getBytes(StandardCharsets.UTF_8));
+    InputStream patchStream;
+    if (Base64.isBase64(input.patch)) {
+      patchStream = new ByteArrayInputStream(org.eclipse.jgit.util.Base64.decode(input.patch));
+    } else {
+      patchStream = new ByteArrayInputStream(input.patch.getBytes(StandardCharsets.UTF_8));
+    }
     try {
       PatchApplier applier = new PatchApplier(repo, tip, oi);
       PatchApplier.Result applyResult = applier.applyPatch(patchStream);

@@ -34,6 +34,7 @@ java_library(
         "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:lang3",
         "//lib/errorprone:annotations",

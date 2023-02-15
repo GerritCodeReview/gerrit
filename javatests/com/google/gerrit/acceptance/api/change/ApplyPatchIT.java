@@ -213,6 +213,29 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyGerritBasedPatchUsingRestWithEncodedPatch_success() throws Exception {
+    String head = getHead(repo(), HEAD).name();
+    createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
+    PushOneCommit.Result baseCommit = createChange("Add file", ADDED_FILE_NAME, ADDED_FILE_CONTENT);
+    baseCommit.assertOkStatus();
+    createBranchWithRevision(BranchNameKey.create(project, DESTINATION_BRANCH), head);
+    RestResponse patchResp =
+        userRestSession.get("/changes/" + baseCommit.getChangeId() + "/revisions/current/patch");
+    patchResp.assertOK();
+    String originalEncodedPatch = patchResp.getEntityContent();
+    String originalDecodedPatch = new String(Base64.decode(patchResp.getEntityContent()), UTF_8);
+    ApplyPatchPatchSetInput in = buildInput(originalEncodedPatch);
+    PushOneCommit.Result destChange = createChange();
+
+    RestResponse resp =
+        adminRestSession.post("/changes/" + destChange.getChangeId() + "/patch:apply", in);
+
+    resp.assertOK();
+    BinaryResult resultPatch = gApi.changes().id(destChange.getChangeId()).current().patch();
+    assertThat(removeHeader(resultPatch)).isEqualTo(removeHeader(originalDecodedPatch));
+  }
+
+  @Test
   public void applyPatchWithConflict_fails() throws Exception {
     initBaseWithFile(MODIFIED_FILE_NAME, "Unexpected base content");
     ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
@@ -404,6 +427,6 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   private String removeHeader(String s) {
-    return s.substring(s.indexOf("\ndiff --git"), s.length() - 1);
+    return s.substring(s.lastIndexOf("\ndiff --git"), s.length() - 1);
   }
 }

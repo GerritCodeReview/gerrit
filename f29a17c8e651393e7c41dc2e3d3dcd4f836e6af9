@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dcd9d4_b88b1767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-15T21:32:21Z",
+      "side": 1,
+      "message": "Much better. Thanks!",
+      "revId": "f29a17c8e651393e7c41dc2e3d3dcd4f836e6af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703ffc07_c0b17401",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-15T21:32:21Z",
+      "side": 1,
+      "message": "Not your change, but this entire model is obsolete. The only used method is `fillDetails()`, and instead of calling that you can as well just call `restApiService.getAccountDetails()`. Then we can delete this model.\n\nFeel free to not do this in this change, but maybe add TODOs and comments.",
+      "revId": "f29a17c8e651393e7c41dc2e3d3dcd4f836e6af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

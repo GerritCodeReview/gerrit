@@ -445,7 +445,9 @@ export class GrAutocomplete extends LitElement {
       return;
     }
 
+    const requestText = this.text;
     const update = () => {
+<<<<<<< HEAD   (dd833d PostReviewOp: check all comments for stream events, includin)
       query(this.text).then(suggestions => {
         if (this.text !== this.text) {
           // Late response.
@@ -456,6 +458,23 @@ export class GrAutocomplete extends LitElement {
         }
         this.suggestions = suggestions;
         if (this.index === -1) {
+=======
+      query(this.text)
+        .then(suggestions => {
+          if (requestText !== this.text) {
+            // Late response.
+            return;
+          }
+          for (const suggestion of suggestions) {
+            suggestion.text = suggestion?.name ?? '';
+          }
+          this.suggestions = suggestions;
+          if (this.index === -1) {
+            this.value = '';
+          }
+        })
+        .catch(e => {
+>>>>>>> CHANGE (d2db74 Fix the bug with wrong outdated suggestions validation.)
           this.value = '';
         }
       });

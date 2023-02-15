@@ -70,7 +70,9 @@ import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {expandFileMode} from '../../../utils/file-util';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
-import {provide} from '../../../models/dependency';
+import {provide, resolve} from '../../../models/dependency';
+import {subscribe} from '../../../elements/lit/subscription-controller';
+import {magicModelToken} from '../gr-diff-model/magic-model';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -586,6 +588,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
         .sign.add {
           background-color: var(--light-add-highlight-color);
         }
+        .fadedDiff .content.remove .contentText,
+        .fadedDiff .content.add .contentText {
+          background-color: white;
+        }
+        .fadedDiff .content.remove .contentText hl.gr-syntax,
+        .fadedDiff .content.add .contentText hl.gr-syntax,
+        .fadedDiff .content.remove .contentText,
+        .fadedDiff .content.add .contentText {
+          color: var(--deemphasized-text-color);
+        }
         .content.remove .contentText .intraline,
           /* If there are no intraline info, consider everything changed */
           .content.remove.no-intraline-info .contentText,
@@ -986,8 +998,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
     ];
   }
 
+  private readonly getMagic = resolve(this, magicModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getMagic().fadedDiff$,
+      x => this.diffTable?.classList.toggle('fadedDiff', x)
+    );
     provide(this, diffModelToken, () => this.diffModel);
     this.addEventListener('create-range-comment', (e: Event) =>
       this.handleCreateRangeComment(e as CustomEvent)
@@ -1450,9 +1469,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.blame = null;
     this.updatePreferenceStyles();
 
-    if (this.diff && !this.noRenderOnPrefsChange) {
-      this.debounceRenderDiffTable();
-    }
+    // if (this.diff && !this.noRenderOnPrefsChange) {
+    //   this.debounceRenderDiffTable();
+    // }
   }
 
   private updatePreferenceStyles() {

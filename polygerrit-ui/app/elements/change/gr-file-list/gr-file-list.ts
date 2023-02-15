@@ -86,6 +86,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {magicModelToken} from '../../../embed/diff/gr-diff-model/magic-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -205,6 +206,12 @@ export class GrFileList extends LitElement {
   editMode?: boolean;
 
   private _filesExpanded = FilesExpandedState.NONE;
+
+  @state()
+  hideHeaderRow = false;
+
+  @state()
+  hideFileNameRow = false;
 
   get filesExpanded() {
     return this._filesExpanded;
@@ -656,8 +663,20 @@ export class GrFileList extends LitElement {
     ];
   }
 
+  private readonly getMagic = resolve(this, magicModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getMagic().hideHeaderRow$,
+      x => (this.hideHeaderRow = x)
+    );
+    subscribe(
+      this,
+      () => this.getMagic().hideFileNameRow$,
+      x => (this.hideFileNameRow = x)
+    );
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
@@ -938,6 +957,7 @@ export class GrFileList extends LitElement {
   }
 
   private renderHeaderRow() {
+    if (this.hideHeaderRow) return;
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const showDynamicColumns = this.computeShowDynamicColumns();
@@ -1044,28 +1064,34 @@ export class GrFileList extends LitElement {
     const previousFileName = this.shownFiles[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
     return html` <div class="stickyArea">
-      <div
-        class=${`file-row row ${this.computePathClass(file.__path)}`}
-        data-file=${JSON.stringify(patchSetFile)}
-        tabindex="-1"
-        role="row"
-        aria-label=${file.__path}
-      >
-        <!-- endpoint: change-view-file-list-content-prepend -->
-        ${when(showPrependedDynamicColumns, () =>
-          this.renderPrependedContentEndpointsForFile(file)
-        )}
-        ${this.renderFileStatus(file)}
-        ${this.renderFilePath(file, previousFileName)}
-        ${this.renderFileComments(file)}
-        ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
-        ${when(showDynamicColumns, () =>
-          this.renderDynamicContentEndpointsForFile(file)
-        )}
-        <!-- endpoint: change-view-file-list-content -->
-        ${this.renderReviewed(file)} ${this.renderFileControls(file)}
-        ${this.renderShowHide(file)}
-      </div>
+      ${when(
+        !this.hideFileNameRow,
+        () => html`
+          <div
+            class=${`file-row row ${this.computePathClass(file.__path)}`}
+            data-file=${JSON.stringify(patchSetFile)}
+            tabindex="-1"
+            role="row"
+            aria-label=${file.__path}
+          >
+            <!-- endpoint: change-view-file-list-content-prepend -->
+            ${when(showPrependedDynamicColumns, () =>
+              this.renderPrependedContentEndpointsForFile(file)
+            )}
+            ${this.renderFileStatus(file)}
+            ${this.renderFilePath(file, previousFileName)}
+            ${this.renderFileComments(file)}
+            ${this.renderSizeBar(file, sizeBarLayout)}
+            ${this.renderFileStats(file)}
+            ${when(showDynamicColumns, () =>
+              this.renderDynamicContentEndpointsForFile(file)
+            )}
+            <!-- endpoint: change-view-file-list-content -->
+            ${this.renderReviewed(file)} ${this.renderFileControls(file)}
+            ${this.renderShowHide(file)}
+          </div>
+        `
+      )}
       ${when(
         this.isFileExpanded(file.__path),
         () => this.patched.html`
@@ -1776,7 +1802,7 @@ export class GrFileList extends LitElement {
     );
 
     // Re-render all expanded diffs sequentially.
-    this.renderInOrder(this.expandedFiles, this.diffs);
+    // this.renderInOrder(this.expandedFiles, this.diffs);
   }
 
   private forEachDiff(fn: (host: GrDiffHost) => void) {

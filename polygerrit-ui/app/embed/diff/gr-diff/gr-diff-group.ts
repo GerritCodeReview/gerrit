@@ -338,6 +338,10 @@ export class GrDiffGroup {
 
   readonly moveDetails?: GrMoveDetails;
 
+  getKey() {
+    return `${this.lineRange.left.start_line}-${this.lineRange.right.start_line}`;
+  }
+
   /**
    * Creates a new group with the same properties but different lines.
    *

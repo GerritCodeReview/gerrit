@@ -21,7 +21,7 @@ import {fire} from '../../../utils/event-util';
 import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 
 import {
@@ -32,6 +32,8 @@ import {
 } from '../../../api/diff';
 
 import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
+import {resolve} from '../../../models/dependency';
+import {magicModelToken} from '../gr-diff-model/magic-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -202,8 +204,17 @@ export class GrContextControls extends LitElement {
     }
   `;
 
+  private readonly getMagic = resolve(this, magicModelToken);
+
+  @state() hideControls = false;
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getMagic().hideControls$,
+      x => (this.hideControls = x)
+    );
     this.setupButtonHoverHandler();
   }
 
@@ -493,6 +504,7 @@ export class GrContextControls extends LitElement {
   }
 
   override render() {
+    if (this.hideControls) return;
     if (!this.hasValidProperties()) {
       console.error('Invalid properties for gr-context-controls!');
       return html`<p>invalid properties</p>`;

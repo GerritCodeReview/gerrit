@@ -36,6 +36,28 @@ export class GrDiffLine implements GrDiffLineApi {
   static readonly Type = GrDiffLineType;
 
   static readonly File = FILE;
+
+  getIntraStart() {
+    if (this.highlights.length === 0) return this.text.length;
+    return this.highlights[0].startIndex;
+  }
+
+  getIntraEnd() {
+    if (this.highlights.length === 0) return 0 - this.text.length;
+    return (
+      (this.highlights[this.highlights.length - 1].endIndex ??
+        this.text.length) - this.text.length
+    );
+  }
+
+  innerText() {
+    if (!this.hasIntralineInfo) return this.text;
+    if (this.highlights.length === 0) return '';
+    const start = this.highlights[0].startIndex;
+    const end =
+      this.highlights[this.highlights.length - 1].endIndex ?? this.text.length;
+    return this.text.substring(start, Math.min(end, this.text.length));
+  }
 }
 
 /**

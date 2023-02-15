@@ -240,6 +240,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Remove assignee field. */
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V82 =
       new Schema.Builder<ChangeData>()
           .add(V81)

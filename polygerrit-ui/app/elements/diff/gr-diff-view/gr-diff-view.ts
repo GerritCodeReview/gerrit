@@ -808,11 +808,18 @@ export class GrDiffView extends LitElement {
     const formattedFiles = this.formatFilesForDropdown();
     const fileNum = this.computeFileNum(formattedFiles);
     const fileNumClass = this.computeFileNumClass(fileNum, formattedFiles);
+    const draftsByPath = this.changeComments?.getAllDrafts() ?? {};
+    const draftCount = Object.values(draftsByPath).flatMap(
+      draftsInPath => draftsInPath
+    ).length;
     return html` <div>
         <a href=${ifDefined(this.getChangeModel().changeUrl())}
           >${this.changeNum}</a
         ><span class="changeNumberColon">:</span>
         <span class="headerSubject">${this.change?.subject}</span>
+        <gr-button primary @click=${this.handleOpenReplyDialog}
+          >REPLY${draftCount > 0 ? ` (${draftCount})` : ''}</gr-button
+        >
         <input
           id="reviewed"
           class="reviewed hideOnEdit"

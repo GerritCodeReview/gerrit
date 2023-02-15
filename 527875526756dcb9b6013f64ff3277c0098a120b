@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ca146aa_d6333cc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-15T09:20:30Z",
+      "side": 1,
+      "message": "isn\u0027t the API request cached at the Rest API level?\nWhy are we caching it again at the model level?",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "642e7131_66472dad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-15T09:20:30Z",
+      "side": 1,
+      "message": "what is the sync issue?",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2168d3ae_9c84efc2",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-15T09:20:30Z",
+      "side": 1,
+      "message": "can you describe the sync issues here as well?",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f2382722_556de588",
         "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
         "patchSetId": 1

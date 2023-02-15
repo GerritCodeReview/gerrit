@@ -16,6 +16,24 @@
       "message": "I don\u0027t really get why the slots are rendered outside of the gr-diff-row here. Any idea what is going on here?",
       "revId": "95afd5379b818204978dadd22abf62cf638b49d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c703efc_4cee9dd7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-15T09:32:23Z",
+      "side": 1,
+      "message": "The semantic dom diff testing just has major issues with table rows and cells outside of a table. Don\u0027t worry.",
+      "parentUuid": "ac83837b_cfa144d4",
+      "revId": "95afd5379b818204978dadd22abf62cf638b49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

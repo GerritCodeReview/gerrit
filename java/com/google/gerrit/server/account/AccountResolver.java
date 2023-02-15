@@ -704,6 +704,18 @@ public class AccountResolver {
         input, searchers, self.get(), this::allVisiblePredicate, AccountResolver::isActive);
   }
 
+  public Result resolveAsUserIgnoreVisibility(CurrentUser asUser, String input)
+      throws ConfigInvalidException, IOException {
+    return resolveAsUserIgnoreVisibility(asUser, input, AccountResolver::isActive);
+  }
+
+  public Result resolveAsUserIgnoreVisibility(
+      CurrentUser asUser, String input, Predicate<AccountState> accountActivityPredicate)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input, searchers, asUser, this::allVisiblePredicate, accountActivityPredicate);
+  }
+
   /**
    * Resolves all accounts matching the input string by name or email.
    *

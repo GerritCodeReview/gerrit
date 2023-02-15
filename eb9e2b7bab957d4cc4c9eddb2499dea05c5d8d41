@@ -16,6 +16,24 @@
       "message": "I wonder whether it should be simplified to:\n\n`undefined | {token: string; line: number; element: Element}`",
       "revId": "eb9e2b7bab957d4cc4c9eddb2499dea05c5d8d41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5d7e41_6aca691e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1154295
+      },
+      "writtenOn": "2023-02-15T11:48:21Z",
+      "side": 1,
+      "message": "I agree this would be nicer. I played around with a few options for refactoring this and I personally would go even further with a return type of `Element | undefined`. However, both that and your suggestion are incompatible to the current return type and would require us to also change call sites.\n\nSince this method is also public (and I don\u0027t fully understand to whom) I decided to go with narrowing the existing type in a compatible fashion.\n\nHowever, right now I\u0027m not even sure if I\u0027ll need this for an upcoming implementation. That\u0027s why I did not yet request review.",
+      "parentUuid": "ad004705_503ceeca",
+      "revId": "eb9e2b7bab957d4cc4c9eddb2499dea05c5d8d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

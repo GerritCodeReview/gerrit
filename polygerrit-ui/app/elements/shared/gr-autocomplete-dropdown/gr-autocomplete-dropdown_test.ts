@@ -5,7 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-autocomplete-dropdown';
-import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
+import {
+  AutocompleteQueryStatusType,
+  GrAutocompleteDropdown,
+} from './gr-autocomplete-dropdown';
 import {
   pressKey,
   queryAll,
@@ -177,7 +180,7 @@ suite('gr-autocomplete-dropdown', () => {
     });
   });
 
-  suite('error tests', () => {
+  suite('status tests', () => {
     let element: GrAutocompleteDropdown;
 
     setup(async () => {
@@ -185,7 +188,10 @@ suite('gr-autocomplete-dropdown', () => {
         html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`
       );
       element.open();
-      element.errorMessage = 'Failed query error';
+      element.queryStatus = {
+        type: AutocompleteQueryStatusType.ERROR,
+        message: 'Failed query error',
+      };
       await waitEventLoop();
     });
 
@@ -200,12 +206,37 @@ suite('gr-autocomplete-dropdown', () => {
           <div class="dropdown-content" id="suggestions" role="listbox">
             <ul>
               <li
-                aria-label="autocomplete query error"
-                class="query-error"
+                aria-label="autocomplete query status"
+                class="query-status error"
                 tabindex="-1"
               >
                 <span>Failed query error</span>
                 <span class="label">ERROR</span>
+              </li>
+            </ul>
+          </div>
+        `
+      );
+    });
+
+    test('renders loading', async () => {
+      element.queryStatus = {
+        type: AutocompleteQueryStatusType.LOADING,
+        message: 'Loading...',
+      };
+      await waitEventLoop();
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div class="dropdown-content" id="suggestions" role="listbox">
+            <ul>
+              <li
+                aria-label="autocomplete query status"
+                class="query-status loading"
+                tabindex="-1"
+              >
+                <span>Loading...</span>
+                <span class="label"></span>
               </li>
             </ul>
           </div>

@@ -295,7 +295,10 @@ suite('gr-editable-label tests', () => {
       suggestions = [{name: 'value text 1'}, {name: 'value text 2'}];
       await element.open();
 
+      // Waiting until dropdown not hidden, will ensure dialog is open and input
+      // is focused, but not that the suggestion has loaded.
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
+      await autocomplete.latestSuggestionUpdateComplete;
 
       pressKey(autocomplete.input!, Key.ENTER);
 
@@ -312,7 +315,11 @@ suite('gr-editable-label tests', () => {
     test('autocomplete suggestions closed enter saves suggestion', async () => {
       suggestions = [{name: 'value text 1'}, {name: 'value text 2'}];
       await element.open();
+      // Waiting until dropdown not hidden, will ensure dialog is open and input
+      // is focused, but not that the suggestion has loaded.
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
+      await autocomplete.latestSuggestionUpdateComplete;
+
       // Press enter to close suggestions.
       pressKey(autocomplete.input!, Key.ENTER);
 

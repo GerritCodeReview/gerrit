@@ -160,6 +160,8 @@ export class GrDiffRow extends LitElement {
         ${this.renderLineNumberCell(Side.RIGHT)}
         ${this.renderSignCell(Side.RIGHT)} ${this.renderContentCell(Side.RIGHT)}
       </tr>
+      ${this.renderPostLineSlot(Side.LEFT)}
+      ${this.renderPostLineSlot(Side.RIGHT)}
     `;
     if (this.addTableWrapperForTesting) {
       return html`<table>
@@ -455,6 +457,13 @@ export class GrDiffRow extends LitElement {
         data-side=${ifDefined(side)}
         id=${this.contentId(side)}
       >${textElement}</div>`;
+  }
+
+  private renderPostLineSlot(side: Side) {
+    const lineNumber = this.lineNumber(side);
+    return lineNumber && Number.isInteger(lineNumber)
+      ? html`<slot name="post-${side}-line-${lineNumber}"></slot>`
+      : nothing;
   }
 }
 

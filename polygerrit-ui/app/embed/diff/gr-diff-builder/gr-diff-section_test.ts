@@ -126,8 +126,14 @@ suite('gr-diff-section test', () => {
       element,
       /* HTML */ `
         <gr-diff-row class="left-1 right-1"> </gr-diff-row>
+        <slot name="post-left-line-1"></slot>
+        <slot name="post-right-line-1"></slot>
         <gr-diff-row class="left-1 right-1"> </gr-diff-row>
+        <slot name="post-left-line-1"></slot>
+        <slot name="post-right-line-1"></slot>
         <gr-diff-row class="left-1 right-1"> </gr-diff-row>
+        <slot name="post-left-line-1"></slot>
+        <slot name="post-right-line-1"></slot>
         <table>
           <tbody class="both gr-diff section">
             <tr

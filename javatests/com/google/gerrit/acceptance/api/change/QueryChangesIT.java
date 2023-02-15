@@ -372,8 +372,132 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThat(result3).hasSize(1);
   }
 
+  /**
+   * This test verifies that querying by a non-visible account doesn't fail.
+   *
+   * <p>Change queries only return changes that are visible to the calling user. If a non-visible
+   * account participated in such a change the existence of this account is known to everyone who
+   * can see the change. Hence it's OK to that the account visibility check is skipped when querying
+   * changes by non-visible accounts. If the account is visible through any visible change these
+   * changes are returned, otherwise the result is empty (see
+   * emptyResultWhenQueryingByNonVisibleAccountAndMatchingChangesAreNotVisible()), same as for
+   * non-existing accounts (see test emptyResultWhenQueryingByNonExistingAccount()).
+   */
   @Test
-  public void accountNotFoundWhenQueryingByNonVisibleSecondaryEmail() throws Exception {
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void changesCanBeQueriesByNonVisibleAccounts() throws Exception {
+    String ownerEmail = "owner@example.com";
+    Account.Id nonVisibleOwner = accountOperations.newAccount().preferredEmail(ownerEmail).create();
+
+    String reviewerEmail = "reviewer@example.com";
+    Account.Id nonVisibleReviewer =
+        accountOperations.newAccount().preferredEmail(reviewerEmail).create();
+
+    // Create the change.
+    Change.Id changeId = changeOperations.newChange().owner(nonVisibleOwner).create();
+
+    // Add a review.
+    requestScopeOperations.setApiUser(nonVisibleReviewer);
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // Verify that user can see the change.
+    assertThat(gApi.changes().query("change:" + changeId).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+
+    // Verify that user cannot see the other accounts.
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(nonVisibleOwner.get()).get());
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(nonVisibleReviewer.get()).get());
+
+    // Verify that the change is also found if user queries for changes owned/uploaded by
+    // nonVisibleOwner.
+    assertThat(gApi.changes().query("owner:" + ownerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("uploader:" + ownerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+
+    // Verify that the change is also found if user queries for changes reviewed by
+    // nonVisibleReviewer.
+    assertThat(gApi.changes().query("reviewer:" + reviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("label:Code-Review+1,user=" + reviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+  }
+
+  /**
+   * This test verifies that an empty result is returned for a query by a non-existing account.
+   *
+   * <p>Such queries must not return an error so that users cannot probe whether an account exists.
+   * Since we return an empty result for non-visible accounts if there are no matched changes or non
+   * of the matched changes is visible, users could conclude the existence of a account if we would
+   * return an error for non-existing accounts.
+   */
+  @Test
+  public void emptyResultWhenQueryingByNonExistingAccount() throws Exception {
+    assertThat(gApi.changes().query("owner:non-existing@example.com").get()).isEmpty();
+    assertThat(gApi.changes().query("uploader:non-existing@example.com").get()).isEmpty();
+    assertThat(gApi.changes().query("reviewer:non-existing@example.com").get()).isEmpty();
+    assertThat(gApi.changes().query("label:Code-Review+1,user=non-existing@example.com").get())
+        .isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void emptyResultWhenQueryingByNonVisibleAccountAndMatchingChangesAreNotVisible()
+      throws Exception {
+    String ownerEmail = "owner@example.com";
+    Account.Id nonVisibleOwner = accountOperations.newAccount().preferredEmail(ownerEmail).create();
+
+    String reviewerEmail = "reviewer@example.com";
+    Account.Id nonVisibleReviewer =
+        accountOperations.newAccount().preferredEmail(reviewerEmail).create();
+
+    // Create the change.
+    Change.Id changeId = changeOperations.newChange().owner(nonVisibleOwner).create();
+
+    // Add a review.
+    requestScopeOperations.setApiUser(nonVisibleReviewer);
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+
+    // Block read permission so that the change is not visible.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // Verify that user cannot see the change.
+    assertThat(gApi.changes().query("change:" + changeId).get()).isEmpty();
+
+    // Verify that user cannot see the other accounts.
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(nonVisibleOwner.get()).get());
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(nonVisibleReviewer.get()).get());
+
+    // Verify that the change is also found if user queries for changes owned/uploaded by
+    // nonVisibleOwner.
+    assertThat(gApi.changes().query("owner:" + ownerEmail).get()).isEmpty();
+    assertThat(gApi.changes().query("uploader:" + ownerEmail).get()).isEmpty();
+
+    // Verify that the change is also found if user queries for changes reviewed by
+    // nonVisibleReviewer.
+    assertThat(gApi.changes().query("reviewer:" + reviewerEmail).get()).isEmpty();
+    assertThat(gApi.changes().query("label:Code-Review+1,user=" + reviewerEmail).get()).isEmpty();
+  }
+
+  @Test
+  public void emptyResultWhenQueryingByNonVisibleSecondaryEmail() throws Exception {
     String secondaryOwnerEmail = "owner-secondary@example.com";
     Account.Id owner =
         accountOperations
@@ -410,38 +534,16 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class, () -> gApi.accounts().id(secondaryReviewerEmail).get());
 
-    // Verify that querying for changes owned/uploaded by the secondary email of the owner that is
-    // not visible to user fails.
-    assertThat(
-            assertThrows(
-                BadRequestException.class,
-                () -> gApi.changes().query("owner:" + secondaryOwnerEmail).get()))
-        .hasMessageThat()
-        .isEqualTo(String.format("Account '%s' not found", secondaryOwnerEmail));
-    assertThat(
-            assertThrows(
-                BadRequestException.class,
-                () -> gApi.changes().query("uploader:" + secondaryOwnerEmail).get()))
-        .hasMessageThat()
-        .isEqualTo(String.format("Account '%s' not found", secondaryOwnerEmail));
+    // Verify that the change is not found if user queries for changes owned/uploaded by the
+    // secondary email of the owner that is not visible to user.
+    assertThat(gApi.changes().query("owner:" + secondaryOwnerEmail).get()).isEmpty();
+    assertThat(gApi.changes().query("uploader:" + secondaryOwnerEmail).get()).isEmpty();
 
-    // Verify that querying for changes reviewed by the secondary email of the reviewer doesn't
-    // match the change. Note this is not failing if the specified account doesn't exist or is not
-    // visible because it falls back to searching with the reviewerByEmailPredicate in this case
-    // which is for matching reviewers by email that have no account.
+    // Verify that the change is not found if user queries for changes reviewed by the secondary
+    // email of the reviewer that is not visible to user.
     assertThat(gApi.changes().query("reviewer:" + secondaryReviewerEmail).get()).isEmpty();
-
-    // Verify that querying for changes by label + user with the secondary email of the reviewer
-    // that is not visible to user fails.
-    assertThat(
-            assertThrows(
-                BadRequestException.class,
-                () ->
-                    gApi.changes()
-                        .query("label:Code-Review+1,user=" + secondaryReviewerEmail)
-                        .get()))
-        .hasMessageThat()
-        .isEqualTo(String.format("Account '%s' not found", secondaryReviewerEmail));
+    assertThat(gApi.changes().query("label:Code-Review+1,user=" + secondaryReviewerEmail).get())
+        .isEmpty();
   }
 
   @Test

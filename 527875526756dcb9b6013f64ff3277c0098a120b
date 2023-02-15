@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9711ff1_3e1b144a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "Yeah, I cached it in rest api in new patchset.",
+      "parentUuid": "0ca146aa_d6333cc6",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "642e7131_66472dad",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f88a271c_14446024",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "Actually it was not sync issue, it was just fillDetails removing data from account. I fixed it. I don\u0027t understand why it was working on some page loads and not on some others.",
+      "parentUuid": "642e7131_66472dad",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2168d3ae_9c84efc2",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-02-15T09:20:30Z",
       "side": 1,
       "message": "can you describe the sync issues here as well?",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78cfdf51_6a7bbd99",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2168d3ae_9c84efc2",
       "range": {
         "startLine": 15,
         "startChar": 12,
@@ -146,6 +218,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a33d3ad_bfa00436",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "I will leave it for follow-up. I am not sure how to properly use map in state.",
+      "parentUuid": "96d63da8_89d7dee0",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5192e3c4_a114845c",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "You are right. rest-api is better place.",
+      "parentUuid": "ed2e328f_2984bde6",
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2382722_556de588",
@@ -169,6 +283,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ec0e96_2481a39c",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2382722_556de588",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa534162_464fcc66",
@@ -182,6 +320,30 @@
       "writtenOn": "2023-02-15T09:00:50Z",
       "side": 1,
       "message": "Can we reword this comment. We don\u0027t really pass an empty error function. Instead we pass a function, that updates state with the input, instead of request result.",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "527875526756dcb9b6013f64ff3277c0098a120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e397451_0ad2e6d1",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-15T20:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa534162_464fcc66",
       "range": {
         "startLine": 47,
         "startChar": 70,

@@ -187,6 +187,30 @@
       },
       "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89751149_eca4e43f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-15T09:37:39Z",
+      "side": 1,
+      "message": "Hm, I don\u0027t quite understand: PatchSet.Id contains Change.Id (it\u0027s two integers, cID and psId).\n\nI think that is hinting at a bug in that you don\u0027t always respect the cId in your fake store (see other comment).",
+      "parentUuid": "f5571b84_b7ec0464",
+      "range": {
+        "startLine": 1349,
+        "startChar": 3,
+        "endLine": 1349,
+        "endChar": 12
+      },
+      "revId": "70546b2af8378d3eed1da2d5c3a50e319f2eec2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

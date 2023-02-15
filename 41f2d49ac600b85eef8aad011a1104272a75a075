@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6535db82_9f3ed91d",
+        "filename": "java/com/google/gerrit/testing/FakeAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-15T09:37:39Z",
+      "side": 1,
+      "message": "|| !entity.ps().changeId().equals(psId.equals()))\n\n(see my other comment)",
+      "range": {
+        "startLine": 123,
+        "startChar": 43,
+        "endLine": 123,
+        "endChar": 45
+      },
+      "revId": "41f2d49ac600b85eef8aad011a1104272a75a075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226aef9f_e399da86",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-15T09:37:39Z",
+      "side": 1,
+      "message": "can we put this in GerritServer around l.421 instead, so it works for all tests?\n\nmight be surprising that it does not otherwise",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "41f2d49ac600b85eef8aad011a1104272a75a075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

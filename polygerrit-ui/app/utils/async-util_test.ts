@@ -6,8 +6,8 @@
 import {assert} from '@open-wc/testing';
 import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup';
-import {waitEventLoop} from '../test/test-utils';
-import {asyncForeach, debounceP} from './async-util';
+import {mockPromise, waitEventLoop, waitUntil} from '../test/test-utils';
+import {asyncForeach, debounceP, DelayedTask} from './async-util';
 
 suite('async-util tests', () => {
   suite('asyncForeach', () => {
@@ -204,5 +204,17 @@ suite('async-util tests', () => {
       promise1.cancel();
       await waitEventLoop();
     });
+  });
+
+  test('DelayedTask promise resolved when callback is done', async () => {
+    const callbackPromise = mockPromise<void>();
+    const task = new DelayedTask(() => callbackPromise);
+    let completed = false;
+    task.promise.then(() => (completed = true));
+    await waitUntil(() => !task.isActive());
+
+    assert.isFalse(completed);
+    callbackPromise.resolve();
+    await waitUntil(() => completed);
   });
 });

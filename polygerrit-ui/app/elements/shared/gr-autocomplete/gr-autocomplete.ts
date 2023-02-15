@@ -271,6 +271,7 @@ export class GrAutocomplete extends LitElement {
       changedProperties.has('suggestions') ||
       changedProperties.has('queryStatus')
     ) {
+      console.log('Dropdown Visibility Update');
       this.updateDropdownVisibility();
     }
     if (changedProperties.has('text')) {
@@ -282,6 +283,9 @@ export class GrAutocomplete extends LitElement {
   }
 
   override render() {
+    if (this.queryStatus) {
+      console.log(`Rendering dropdown with status: ${this.queryStatus.message}`);
+    }
     return html`
       <paper-input
         .noLabelFloat=${true}
@@ -439,30 +443,32 @@ export class GrAutocomplete extends LitElement {
     }
 
     const requestText = this.text;
-    const update = () => {
-      query(this.text)
-        .then(suggestions => {
-          // Query is cancelled or replaced by a newer one.
-          if (this.queryStatus == undefined || requestText !== this.text) {
-            return;
-          }
-          for (const suggestion of suggestions) {
-            suggestion.text = suggestion.name ?? '';
-          }
-          this.queryStatus = undefined;
-          this.suggestions = suggestions;
-          if (this.index === -1) {
-            this.value = '';
-          }
-        })
-        .catch(e => {
-          this.value = '';
-          if (typeof e === 'string') {
-            this.queryStatus = {category: 'ERROR', message: e};
-          } else if (e instanceof Error) {
-            this.queryStatus = {category: 'ERROR', message: e.message};
-          }
-        });
+    const update = async () => {
+      let suggestions;
+      try {
+        suggestions = await query(this.text);
+      } catch (e) {
+        this.value = '';
+        if (typeof e === 'string') {
+          this.queryStatus = {category: 'ERROR', message: e};
+        } else if (e instanceof Error) {
+          this.queryStatus = {category: 'ERROR', message: e.message};
+        }
+        return;
+      }
+
+      // Query was cancelled or replaced by a newer one.
+      if (this.queryStatus == undefined || requestText !== this.text) {
+        return;
+      }
+      for (const suggestion of suggestions) {
+        suggestion.text = suggestion.name ?? '';
+      }
+      this.queryStatus = undefined;
+      this.suggestions = suggestions;
+      if (this.index === -1) {
+        this.value = '';
+      }
     };
 
     this.queryStatus = {message: 'Loading...'};
@@ -529,12 +535,26 @@ export class GrAutocomplete extends LitElement {
         if (modifierPressed(e)) {
           break;
         }
+
+        // DO NOT SUBMIT: Rewrite this section properly
+        // dropdown needs a slot
+        // queryStatus should just be an enum and optional message.
         if (this.suggestions.length > 0) {
           // If suggestions are shown, act as if the keypress is in dropdown.
           // suggestions length is 0 if error is shown.
           this.handleItemSelectEnter(e);
-        } else {
+        } else if (this.queryStatus?.message === 'Loading...') {
           e.preventDefault();
+          this.queryStatus = {message: 'Loading... (Handle Enter on load)'};
+          let requestText = this.text;
+          this.updateSuggestionsTask?.promise.then(() => {
+            if (this.suggestions.length > 0 && requestText === this.text) {
+              this.handleItemSelectEnter(e);
+            }
+          });
+        } else if (this.queryStatus?.category === 'ERROR') {
+          e.preventDefault();
+        } else {
           this.handleInputCommit();
         }
         break;

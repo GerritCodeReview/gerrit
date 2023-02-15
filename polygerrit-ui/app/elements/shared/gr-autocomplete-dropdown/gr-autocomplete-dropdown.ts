@@ -179,7 +179,8 @@ export class GrAutocompleteDropdown extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (
       changedProperties.has('suggestions') ||
-      changedProperties.has('isHidden')
+      changedProperties.has('isHidden') ||
+      changedProperties.has('queryStatus')
     ) {
       if (!this.isHidden) {
         this.computeCursorStopsAndRefit();

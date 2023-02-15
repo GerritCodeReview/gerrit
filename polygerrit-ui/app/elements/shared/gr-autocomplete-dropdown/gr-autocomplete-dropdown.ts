@@ -35,6 +35,11 @@ export interface ItemSelectedEvent {
   selected: HTMLElement | null;
 }
 
+export interface AutocompleteQueryStatus {
+  category?: string;
+  message: string;
+}
+
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends LitElement {
   /**
@@ -58,8 +63,8 @@ export class GrAutocompleteDropdown extends LitElement {
   /** If specified a single non-interactable line is shown instead of
    * suggestions.
    */
-  @property({type: String})
-  errorMessage?: String;
+  @property({type: Object})
+  queryStatus?: AutocompleteQueryStatus;
 
   @property({type: Number})
   verticalOffset = 0;
@@ -117,10 +122,12 @@ export class GrAutocompleteDropdown extends LitElement {
         li.selected {
           background-color: var(--hover-background-color);
         }
-        li.query-error {
+        li.query-status {
           background-color: var(--disabled-background);
-          color: var(--error-foreground);
           cursor: default;
+        }
+        li.query-status.error {
+          color: var(--error-foreground);
           white-space: pre-wrap;
         }
         @media only screen and (max-height: 35em) {
@@ -140,7 +147,7 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   private isSuggestionListInteractible() {
-    return !this.isHidden && !this.errorMessage;
+    return !this.isHidden && !this.queryStatus;
   }
 
   constructor() {
@@ -180,15 +187,15 @@ export class GrAutocompleteDropdown extends LitElement {
     }
   }
 
-  private renderError() {
+  private renderStatus() {
     return html`
       <li
         tabindex="-1"
         aria-label="autocomplete query error"
-        class="query-error"
+        class="query-status ${this.queryStatus?.category === 'ERROR' ? 'error' : ''}"
       >
-        <span>${this.errorMessage}</span>
-        <span class="label">ERROR</span>
+        <span>${this.queryStatus?.message}</span>
+        <span class="label">${this.queryStatus?.category}</span>
       </li>
     `;
   }
@@ -198,8 +205,8 @@ export class GrAutocompleteDropdown extends LitElement {
       <div class="dropdown-content" id="suggestions" role="listbox">
         <ul>
           ${when(
-            this.errorMessage,
-            () => this.renderError(),
+            this.queryStatus,
+            () => this.renderStatus(),
             () => html`
               ${repeat(
                 this.suggestions,
@@ -236,7 +243,7 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   getCurrentText() {
-    if (!this.errorMessage) {
+    if (!this.queryStatus) {
       return this.getCursorTarget()?.dataset['value'] || '';
     }
     return '';

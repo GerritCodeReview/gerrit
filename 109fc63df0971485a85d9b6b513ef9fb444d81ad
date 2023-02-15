@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6c17a72_f1581412",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-15T12:07:47Z",
+      "side": 0,
+      "message": "woops!\nHow did the linter not catch this? 😮",
+      "range": {
+        "startLine": 441,
+        "startChar": 14,
+        "endLine": 441,
+        "endChar": 37
+      },
+      "revId": "109fc63df0971485a85d9b6b513ef9fb444d81ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

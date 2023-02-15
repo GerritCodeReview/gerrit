@@ -6709,6 +6709,7 @@ A new commit will be created from the patch, and saved as a new patch set.
 |`patch`             |required|
 The patch to be applied. Must be compatible with `git diff` output.
 For example, link:#get-patch[Get Patch] output.
+The patch can be provided as either a UTF8 plain-text or a base64-encoded text.
 |=================================
 
 [[applypatchpatchset-input]]

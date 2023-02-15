@@ -195,7 +195,7 @@ public class RefNames {
     return ref.startsWith(REFS_TAGS);
   }
 
-  /** True if the provided ref is {@link REFS_EXTERNAL_IDS}. */
+  /** True if the provided ref is {@link #REFS_EXTERNAL_IDS}. */
   public static boolean isExternalIdRef(String ref) {
     return REFS_EXTERNAL_IDS.equals(ref);
   }

@@ -171,7 +171,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       private RefUpdateContextValidator addSpecialRef(
           Predicate<String> refNamePredicate, RefUpdateType... validRefUpdateTypes) {
         specialRefs.add(
-            new SimpleImmutableEntry<Predicate<String>, ImmutableList<RefUpdateType>>(
+            new SimpleImmutableEntry<>(
                 refNamePredicate, ImmutableList.copyOf(validRefUpdateTypes)));
         return this;
       }

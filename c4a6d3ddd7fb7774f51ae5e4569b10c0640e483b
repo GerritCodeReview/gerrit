@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd185b35_f0fd8895",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-16T18:57:06Z",
+      "side": 0,
+      "message": "I combined them, because TS was not able to track 2 values, that one of them would be defined.",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 272,
+        "endChar": 14
+      },
+      "revId": "c4a6d3ddd7fb7774f51ae5e4569b10c0640e483b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

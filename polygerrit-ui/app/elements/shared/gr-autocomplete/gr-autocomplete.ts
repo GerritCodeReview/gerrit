@@ -542,9 +542,22 @@ export class GrAutocomplete extends LitElement {
         this.cancel();
         break;
       case 'Tab':
-        if (this.suggestions.length > 0 && this.tabComplete) {
+        if (this.queryStatus?.type === AutocompleteQueryStatusType.LOADING) {
           e.preventDefault();
-          this.handleInputCommit(true);
+          // Queue tab on load.
+          this.queryStatus = {
+            type: AutocompleteQueryStatusType.LOADING,
+            message: 'Loading... (Handle Tab on load)',
+          };
+          const queryId = this.activeQueryId;
+          this.latestSuggestionUpdateComplete?.then(() => {
+            if (queryId === this.activeQueryId) {
+              this.handleInputCommit(/* _tabComplete=*/ true);
+            }
+          });
+        } else if (this.suggestions.length > 0 && this.tabComplete) {
+          e.preventDefault();
+          this.handleInputCommit(/* _tabComplete=*/ true);
           this.focus();
         } else {
           this.setFocus(false);
@@ -554,12 +567,24 @@ export class GrAutocomplete extends LitElement {
         if (modifierPressed(e)) {
           break;
         }
-        if (this.suggestions.length > 0) {
+        e.preventDefault();
+        if (this.queryStatus?.type === AutocompleteQueryStatusType.LOADING) {
+          // Queue enter on load.
+          this.queryStatus = {
+            type: AutocompleteQueryStatusType.LOADING,
+            message: 'Loading... (Handle Enter on load)',
+          };
+          const queryId = this.activeQueryId;
+          this.latestSuggestionUpdateComplete?.then(() => {
+            if (queryId === this.activeQueryId) {
+              this.handleItemSelectEnter(e);
+            }
+          });
+        } else if (this.suggestions.length > 0) {
           // If suggestions are shown, act as if the keypress is in dropdown.
           // suggestions length is 0 if error is shown.
           this.handleItemSelectEnter(e);
         } else {
-          e.preventDefault();
           this.handleInputCommit();
         }
         break;

@@ -215,6 +215,7 @@ public class Daemon extends SiteProgram {
   private Path runFile;
   private boolean inMemoryTest;
   private AbstractModule indexModule;
+  private Module accountPatchReviewStoreModule;
   private Module emailModule;
   private List<Module> testSysModules = new ArrayList<>();
   private List<Module> testSshModules = new ArrayList<>();
@@ -333,6 +334,11 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setAccountPatchReviewStoreModuleForTesting(Module module) {
+    accountPatchReviewStoreModule = module;
+  }
+
+  @VisibleForTesting
   public void setEmailModuleForTesting(Module module) {
     emailModule = module;
   }
@@ -442,7 +448,11 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueueModule());
     modules.add(new StreamEventsApiListenerModule());
     modules.add(new EventBrokerModule());
-    modules.add(new JdbcAccountPatchReviewStoreModule(config));
+    if (accountPatchReviewStoreModule != null) {
+      modules.add(accountPatchReviewStoreModule);
+    } else {
+      modules.add(new JdbcAccountPatchReviewStoreModule(config));
+    }
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

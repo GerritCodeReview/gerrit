@@ -775,6 +775,141 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(cancelHandler.called);
   });
 
+  test('while loading queue enter commits', async () => {
+    const commitHandler = sinon.stub();
+    element.addEventListener('commit', commitHandler);
+    let resolvePromise: (value: AutocompleteSuggestion[]) => void;
+    const blockingPromise = new Promise<AutocompleteSuggestion[]>(resolve => {
+      resolvePromise = resolve;
+    });
+    element.query = (_: string) => blockingPromise;
+
+    element.setFocus(true);
+    element.text = 'blah';
+    await element.updateComplete;
+    await waitUntil(() => !suggestionsEl().isHidden);
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading...',
+    });
+
+    pressKey(inputEl(), Key.ENTER);
+    await element.updateComplete;
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading... (Handle Enter on load)',
+    });
+
+    resolvePromise!([{name: 'suggestion 1'}] as AutocompleteSuggestion[]);
+    await element.latestSuggestionUpdateComplete;
+    await element.updateComplete;
+
+    assert.equal(element.suggestions.length, 0);
+    assert.isUndefined(element.queryStatus);
+    assert.isTrue(commitHandler.called);
+  });
+
+  test('while loading queue tab completes', async () => {
+    const commitHandler = sinon.stub();
+    element.addEventListener('commit', commitHandler);
+    const queryPromise = mockPromise<AutocompleteSuggestion[]>();
+    element.query = (_: string) => queryPromise;
+
+    element.setFocus(true);
+    element.text = 'blah';
+    await element.updateComplete;
+    await waitUntil(() => !suggestionsEl().isHidden);
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading...',
+    });
+
+    pressKey(inputEl(), Key.TAB);
+    await element.updateComplete;
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading... (Handle Tab on load)',
+    });
+
+    queryPromise.resolve([{name: 'suggestion 1'}] as AutocompleteSuggestion[]);
+    await element.latestSuggestionUpdateComplete;
+    await element.updateComplete;
+
+    assert.equal(element.suggestions.length, 0);
+    assert.isUndefined(element.queryStatus);
+    assert.isFalse(commitHandler.called);
+    assert.equal(element.text, 'suggestion 1');
+  });
+
+  test('while loading and queued update text cancels', async () => {
+    const commitHandler = sinon.stub();
+    element.addEventListener('commit', commitHandler);
+    const queryPromise = mockPromise<AutocompleteSuggestion[]>();
+    element.query = (_: string) => queryPromise;
+
+    element.setFocus(true);
+    element.text = 'blah';
+    await element.updateComplete;
+    await waitUntil(() => !suggestionsEl().isHidden);
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading...',
+    });
+
+    pressKey(inputEl(), Key.ENTER);
+    await element.updateComplete;
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading... (Handle Enter on load)',
+    });
+
+    element.text = 'more blah';
+    await element.updateComplete;
+
+    queryPromise.resolve([{name: 'suggestion 1'}] as AutocompleteSuggestion[]);
+    await element.latestSuggestionUpdateComplete;
+    await element.updateComplete;
+
+    // Commit for stale request is not called.
+    assert.isFalse(commitHandler.called);
+  });
+
+  test('while loading and queued esc cancels', async () => {
+    const commitHandler = sinon.stub();
+    element.addEventListener('commit', commitHandler);
+    const queryPromise = mockPromise<AutocompleteSuggestion[]>();
+    element.query = (_: string) => queryPromise;
+
+    element.setFocus(true);
+    element.text = 'blah';
+    await element.updateComplete;
+    await waitUntil(() => !suggestionsEl().isHidden);
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading...',
+    });
+
+    pressKey(inputEl(), Key.ENTER);
+    await element.updateComplete;
+    assert.deepEqual(element.queryStatus, {
+      type: AutocompleteQueryStatusType.LOADING,
+      message: 'Loading... (Handle Enter on load)',
+    });
+
+    pressKey(inputEl(), Key.ESC);
+    await element.updateComplete;
+
+    queryPromise.resolve([{name: 'suggestion 1'}] as AutocompleteSuggestion[]);
+    await element.latestSuggestionUpdateComplete;
+    await element.updateComplete;
+
+    // Commit for stale request is not called.
+    assert.isFalse(commitHandler.called);
+    // Query results and status are cleared
+    assert.equal(element.suggestions.length, 0);
+    assert.isUndefined(element.queryStatus);
+  });
+
   suite('focus', () => {
     let commitSpy: sinon.SinonSpy;
     let focusSpy: sinon.SinonSpy;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca0df2b_f81f591c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6712,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-16T12:09:08Z",
+      "side": 1,
+      "message": ".. must be provided as UTF-8 text, either directly or base64-encoded.\n\n(inside the base64, you also have to have utf-8)",
+      "range": {
+        "startLine": 6712,
+        "startChar": 23,
+        "endLine": 6712,
+        "endChar": 79
+      },
+      "revId": "e9d089b6fbf4589b1e7844bcd7f0bfe10ee89707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

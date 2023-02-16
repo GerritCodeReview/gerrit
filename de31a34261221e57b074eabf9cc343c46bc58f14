@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a8d995c_d510dc0e",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-16T08:59:38Z",
+      "side": 1,
+      "message": "nit: \n\nObject... field1Value\n\nthen you\u0027ll just need one such method I think\n\nor even accept a list in the first place\n\nIn prod code we don\u0027t do that because array generation is more expensive compared to dedicated params, but this is test code, so could spare the boiler plate.",
+      "range": {
+        "startLine": 147,
+        "startChar": 42,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "de31a34261221e57b074eabf9cc343c46bc58f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a9b25d_652f5855",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-16T16:29:43Z",
+      "side": 1,
+      "message": "PS6 was failing for tests with the @UseLocalDisk annotation because the binding was only on the path of the GerritServer#startInMemory.\n\nI changed the binding so that it works with the fake implementation for all tests (in-memory, on-disk) in a way similar to what we provide other fake bindings in \"GerritServer.java\"",
+      "revId": "d5b2dd25326e99c16cccbfd89564172b352eaee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

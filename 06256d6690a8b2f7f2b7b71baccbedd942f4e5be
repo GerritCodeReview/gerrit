@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba02cf0b_4eb2ba11",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-16T07:33:51Z",
+      "side": 1,
+      "message": "nit: why is this differently formatted than at https://gerrit-review.git.corp.google.com/c/gerrit/+/357460/3/java/com/google/gerrit/server/group/testing/TestGroupBackend.java#106 ?",
+      "revId": "06256d6690a8b2f7f2b7b71baccbedd942f4e5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

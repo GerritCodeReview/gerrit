@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eece3a2_9fe450bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-16T17:22:25Z",
+      "side": 1,
+      "message": "I check past changes and change was used here to get revertedChange. But it probably is now calculated somewhere else.",
+      "range": {
+        "startLine": 200,
+        "startChar": 13,
+        "endLine": 200,
+        "endChar": 28
+      },
+      "revId": "2fc32587d2ebc78d0380e39e5923b2a88e39841b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

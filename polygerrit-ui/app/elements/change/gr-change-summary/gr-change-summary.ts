@@ -9,7 +9,7 @@ import '../../shared/gr-avatar/gr-avatar-stack';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
@@ -57,6 +57,7 @@ import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when.js';
 import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
+import {PatchSet} from '../../../utils/patch-set-util';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -76,6 +77,9 @@ DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends LitElement {
+  @property({type: Object})
+  patchset?: PatchSet;
+
   @state()
   commentThreads?: CommentThread[];
 
@@ -546,9 +550,14 @@ export class GrChangeSummary extends LitElement {
   }
 
   override render() {
-    const commentThreads =
+    const ct =
       this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
       [];
+    let commentThreads = ct;
+    const patchnum = this.patchset?.num;
+    if (patchnum) {
+      commentThreads = ct.filter(t => t.patchNum === patchnum);
+    }
     const countResolvedComments = commentThreads.filter(isResolved).length;
     const unresolvedThreads = commentThreads.filter(isUnresolved);
     const countUnresolvedComments = unresolvedThreads.length;
@@ -648,6 +657,10 @@ export class GrChangeSummary extends LitElement {
   }
 
   private renderChecksSummary() {
+    const patchnum = this.patchset?.num;
+    if (patchnum) {
+      return;
+    }
     const hasNonRunningChip = this.runs.some(
       run => hasCompletedWithoutResults(run) || hasResults(run)
     );

@@ -33,6 +33,126 @@
       "message": "is there any additional test cases you would like to see to add confidence in this feature? Ideally i\u0027d like to get this merged soon enough so happy to sink some hours into it this week if it gets it across the line",
       "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20280d46_0aba561d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "Except for some small nits, this looks good for me now.",
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc49656_72aef4ff",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0373d1e4_82650df2",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "nit: consider using javadoc. It is a private method, but if we comment on it, we might still make use of javadoc\u0027s funtionality.",
+      "range": {
+        "startLine": 182,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 13
+      },
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbbde3e_68f49ebc",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "As mentioned earlier, it would be nice to have a way to add new migration paths in the future without cluttering AccountManager. As long as we only have a single migration path I personally am fine with leaving it here, but please add a TODO, that we should use an extension point to bind some AccountMigrator-class.",
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f9291b_ca406297",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "The email will be more reliant in this case, since the username might be null, maybe log both.",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 25
+      },
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3dd1a17_9fa9bd56",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-16T09:34:24Z",
+      "side": 1,
+      "message": "nit: This sounds like, it would be an ExternalId with scheme \"USERNAME:\" not \"GERRIT:\". `ldapExternalId` would be a better fit.",
+      "range": {
+        "startLine": 317,
+        "startChar": 25,
+        "endLine": 317,
+        "endChar": 38
+      },
+      "revId": "e2b7400984c2441c93f56ab36d670c325968cc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

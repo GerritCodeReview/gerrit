@@ -7,6 +7,7 @@ import {
   PatchSetNumber,
   BasePatchSetNum,
   RevisionPatchSetNum,
+  ChangeMessageInfo,
 } from '../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {assert} from './common-util';
@@ -33,6 +34,7 @@ export interface PatchSet {
   desc: string | undefined;
   sha: string;
   wip?: boolean;
+  messages?: ChangeMessageInfo[];
 }
 
 interface PatchRange {
@@ -203,6 +205,7 @@ export function computeAllPatchSets(
         num: e._number,
         desc: e.description,
         sha: e.sha,
+        messages: [],
       };
     });
   }
@@ -232,9 +235,17 @@ function computeWipForPatchSets(
     const msg = change.messages[i];
     if (msg.tag && WIP_TAGS.includes(msg.tag)) {
       wip = true;
-    } else if (msg.tag && READY_TAGS.includes(msg.tag)) {
+      // READY_TAGS are not generated :(
+    } else if (
+      msg.message.includes('This change is ready for review') ||
+      (msg.tag && READY_TAGS.includes(msg.tag))
+    ) {
       wip = false;
     }
+    if (msg._revision_number) {
+      patchNums.find(p => p.num === msg._revision_number)?.messages?.push(msg);
+    }
+
     if (
       msg._revision_number &&
       psWip.get(`${msg._revision_number}`) !== false

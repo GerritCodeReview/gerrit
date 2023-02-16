@@ -1,0 +1,74 @@
+/usr/bin/setsid --wait bazel test --tool_tag=ijwb:IDEA:ultimate --curses=no --color=yes --progress_in_terminal_title=no --javacopt=-g --build_event_binary_file=/tmp/intellij-bep-5403a223-f2d3-451c-834f-4bfb84937ee2 --nobuild_event_binary_file_path_conversion --test_sharding_strategy=disabled --test_filter=com.google.gerrit.acceptance.api.change.ApplyPatchAndroidIT#testAndroidPatches_success$ -- //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT
+Testing started at 4:07 PM ...
+INFO: Invocation ID: 1e012951-2d72-4d8b-9567-da2f6211205c
+INFO: Options provided by the client:
+  Inherited 'common' options: --isatty=0 --terminal_columns=80
+INFO: Reading rc options for 'test' from /home/nitzan/gerrit/gerrit/.bazelrc:
+  Inherited 'build' options: --workspace_status_command=python3 ./tools/workspace_status.py --repository_cache=~/.gerritcodereview/bazel-cache/repository --action_env=PATH --disk_cache=~/.gerritcodereview/bazel-cache/cas --java_language_version=11 --java_runtime_version=remotejdk_11 --tool_java_language_version=11 --tool_java_runtime_version=remotejdk_11 --incompatible_strict_action_env --announce_rc
+INFO: Reading rc options for 'test' from /home/nitzan/gerrit/gerrit/.bazelrc:
+  'test' options: --build_tests_only --test_output=all
+Loading:
+Loading: 0 packages loaded
+Analyzing: target //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT (0 packages loaded, 0 targets configured)
+INFO: Analyzed target //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT (0 packages loaded, 0 targets configured).
+INFO: Found 1 test target...
+[0 / 3] [Prepa] BazelWorkspaceStatusAction stable-status.txt
+[144 / 145] Testing //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT; 1s remote-cache, linux-sandbox
+[144 / 145] Testing //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT; 11s remote-cache, linux-sandbox
+FAIL: //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT (see /home/nitzan/.cache/bazel/_bazel_nitzan/394fc74c4f1aac058e06eb0ede4880ba/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/api/change/ApplyPatchAndroidIT/test.log)
+[144 / 145] 1 / 1 tests, 1 failed; Testing //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT; 14s remote-cache, linux-sandbox
+INFO: From Testing //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT:
+==================== Test output for //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT:
+JUnit4 Test Runner
+.log4j:WARN No appenders could be found for logger (org.eclipse.jgit.internal.storage.file.FileSnapshot).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+E
+Time: 14.414
+There was 1 failure:
+1) testAndroidPatches_success(com.google.gerrit.acceptance.api.change.ApplyPatchAndroidIT)
+expected to be empty
+but was:
+    [change 1941313, commit AnyObjectId[6bbbfd4ff2c416816942849d0cb7b71bd93d8a20]
+    commit message:
+    Edit Repo Config
+
+    Change-Id: I09d13f2d483d3b6ac268349444c2cf6cd2bf3668
+    ]
+	at com.google.gerrit.acceptance.api.change.ApplyPatchAndroidIT.testAndroidPatches_success(ApplyPatchAndroidIT.java:139)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1
+
+
+BazelTestRunner exiting with a return value of 1
+JVM shutdown hooks (if any) will run now.
+The JVM will exit once they complete.
+
+-- JVM shutdown starting at 2023-02-16 15:07:45 --
+
+================================================================================
+Target //javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT up-to-date:
+  bazel-bin/javatests/com/google/gerrit/acceptance/api/change/ApplyPatchAndroidIT.jar
+  bazel-bin/javatests/com/google/gerrit/acceptance/api/change/ApplyPatchAndroidIT
+INFO: Elapsed time: 14.965s, Critical Path: 14.85s
+INFO: 2 processes: 1 internal, 1 linux-sandbox.
+INFO: Build completed, 1 test FAILED, 2 total actions
+//javatests/com/google/gerrit/acceptance/api/change:ApplyPatchAndroidIT  FAILED in 14.7s
+  /home/nitzan/.cache/bazel/_bazel_nitzan/394fc74c4f1aac058e06eb0ede4880ba/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/api/change/ApplyPatchAndroidIT/test.log
+
+Executed 1 out of 1 test: 1 fails locally.
+INFO: Build completed, 1 test FAILED, 2 total actions
+INFO: Build Event Protocol files produced successfully.
+INFO: Build completed, 1 test FAILED, 2 total actions
+
+expected to be empty
+but was:
+    [change 1941313, commit AnyObjectId[6bbbfd4ff2c416816942849d0cb7b71bd93d8a20]
+    commit message:
+    Edit Repo Config
+
+    Change-Id: I09d13f2d483d3b6ac268349444c2cf6cd2bf3668
+    ]
+
+	at com.google.gerrit.acceptance.api.change.ApplyPatchAndroidIT.testAndroidPatches_success(ApplyPatchAndroidIT.java:139)

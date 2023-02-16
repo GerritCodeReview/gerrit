@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -61,12 +62,18 @@ public class GetPatch implements RestReadView<RevisionResource> {
   public Response<BinaryResult> apply(RevisionResource rsrc)
       throws ResourceConflictException, IOException, ResourceNotFoundException {
     final Repository repo = repoManager.openRepository(rsrc.getProject());
+    return apply(repo, rsrc.getPatchSet().commitId(), zip, download, path);
+  }
+
+  public static Response<BinaryResult> apply(
+      Repository repo, ObjectId commitId, boolean zip, boolean download, String path)
+      throws ResourceConflictException, IOException, ResourceNotFoundException {
     boolean close = true;
     try {
       final RevWalk rw = new RevWalk(repo);
       BinaryResult bin = null;
       try {
-        final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
+        final RevCommit commit = rw.parseCommit(commitId);
         RevCommit[] parents = commit.getParents();
         if (parents.length > 1) {
           throw new ResourceConflictException("Revision has more than 1 parent.");

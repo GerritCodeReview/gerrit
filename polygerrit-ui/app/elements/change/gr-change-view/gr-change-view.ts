@@ -1244,7 +1244,6 @@ export class GrChangeView extends LitElement {
       <div class="changeStatuses">
         ${this.changeStatuses.map(
           status => html` <gr-change-status
-            .change=${this.change}
             .revertedChange=${this.revertedChange}
             .status=${status}
             .resolveWeblinks=${resolveWeblinks}

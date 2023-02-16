@@ -7,7 +7,6 @@ import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {ChangeInfo} from '../../../types/common';
-import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -49,9 +48,6 @@ const PRIVATE_TOOLTIP =
 export class GrChangeStatus extends LitElement {
   @property({type: Boolean, reflect: true})
   flat = false;
-
-  @property({type: Object})
-  change?: ChangeInfo | ParsedChangeInfo;
 
   @property({type: String})
   status?: ChangeStates;

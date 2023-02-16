@@ -38,17 +38,16 @@ import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
+const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
 
 declare global {
   interface HTMLElementEventMap {
     'accounts-changed': ValueChangedEvent<(AccountInfo | GroupInfo)[]>;
     'pending-confirmation-changed': ValueChangedEvent<SuggestedReviewerGroupInfo | null>;
+    'account-added': CustomEvent<{account: AccountInfo | GroupInfo}>;
   }
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
-  }
-  interface HTMLElementEventMap {
-    'account-added': CustomEvent<AccountInputDetail>;
   }
 }
 export interface AccountInputDetail {
@@ -268,8 +267,7 @@ export class GrAccountList extends LitElement {
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
-    let account;
-    let group;
+    let account: AccountInfo | GroupInfo | undefined;
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
       account = {...item.account};
@@ -280,8 +278,8 @@ export class GrAccountList extends LitElement {
         this.pendingConfirmation = item;
         return;
       }
-      group = {...item.group};
-      this.accounts.push(group);
+      account = {...item.group};
+      this.accounts.push(account);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
@@ -296,8 +294,12 @@ export class GrAccountList extends LitElement {
         itemTypeAdded = 'email';
       }
     }
+    if (!account) {
+      fireAlert(this, VALID_USER_GROUP_ALERT);
+      return false;
+    }
     fire(this, 'accounts-changed', {value: this.accounts.slice()});
-    fire(this, 'account-added', {account: (account ?? group)! as AccountInput});
+    fire(this, 'account-added', {account});
     this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
     this.pendingConfirmation = null;
     this.requestUpdate();

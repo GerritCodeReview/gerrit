@@ -31,6 +31,7 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.account.AccountAttributeLoader;
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -58,6 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -83,6 +85,7 @@ public class OutputStreamQuery {
 
   public static final Gson GSON = new Gson();
 
+  private final Config config;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
@@ -109,6 +112,7 @@ public class OutputStreamQuery {
 
   @Inject
   OutputStreamQuery(
+      @GerritServerConfig Config config,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
@@ -116,6 +120,7 @@ public class OutputStreamQuery {
       TrackingFooters trackingFooters,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       AccountAttributeLoader.Factory accountAttributeLoaderFactory) {
+    this.config = config;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
@@ -211,7 +216,7 @@ public class OutputStreamQuery {
         return;
       }
 
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try (PerThreadCache ignored = PerThreadCache.create(config)) {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 

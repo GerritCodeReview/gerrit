@@ -223,6 +223,7 @@ public class AsyncReceiveCommits {
     }
   }
 
+  private final Config config;
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final Metrics metrics;
   private final ReceiveCommits receiveCommits;
@@ -241,6 +242,7 @@ public class AsyncReceiveCommits {
 
   @Inject
   AsyncReceiveCommits(
+      @GerritServerConfig Config config,
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
       ReceiveCommits.Factory factory,
       PermissionBackend permissionBackend,
@@ -262,6 +264,7 @@ public class AsyncReceiveCommits {
       @Assisted Repository repo,
       @Assisted @Nullable MessageSender messageSender)
       throws PermissionBackendException {
+    this.config = config;
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.executor = executor;
     this.scopePropagator = scopePropagator;
@@ -388,7 +391,7 @@ public class AsyncReceiveCommits {
         () -> {
           String oldName = Thread.currentThread().getName();
           Thread.currentThread().setName(oldName + "-for-" + currentThreadName);
-          try (PerThreadCache threadLocalCache = PerThreadCache.create()) {
+          try (PerThreadCache threadLocalCache = PerThreadCache.create(config)) {
             return receiveCommits.processCommands(commands, monitor);
           } finally {
             Thread.currentThread().setName(oldName);

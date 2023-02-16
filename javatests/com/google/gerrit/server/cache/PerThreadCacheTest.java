@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import java.util.function.Supplier;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class PerThreadCacheTest {
@@ -44,7 +45,7 @@ public class PerThreadCacheTest {
 
   @Test
   public void endToEndCache() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(new Config())) {
       PerThreadCache cache = PerThreadCache.get();
       PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class);
 
@@ -62,7 +63,7 @@ public class PerThreadCacheTest {
   @Test
   public void cleanUp() {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(new Config())) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value1");
       assertThat(value1).isEqualTo("value1");
@@ -70,7 +71,7 @@ public class PerThreadCacheTest {
 
     // Create a second cache and assert that it is not connected to the first one.
     // This ensures that the cleanup is actually working.
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(new Config())) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value2");
       assertThat(value1).isEqualTo("value2");
@@ -79,16 +80,16 @@ public class PerThreadCacheTest {
 
   @Test
   public void doubleInstantiationFails() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(new Config())) {
       IllegalStateException thrown =
-          assertThrows(IllegalStateException.class, () -> PerThreadCache.create());
+          assertThrows(IllegalStateException.class, () -> PerThreadCache.create(new Config()));
       assertThat(thrown).hasMessageThat().contains("called create() twice on the same request");
     }
   }
 
   @Test
   public void enforceMaxSize() {
-    try (PerThreadCache cache = PerThreadCache.create()) {
+    try (PerThreadCache cache = PerThreadCache.create(new Config())) {
       // Fill the cache
       for (int i = 0; i < 50; i++) {
         PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);

@@ -2550,6 +2550,11 @@ NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
 used to create the NoteDb will show in the resulting exception message in case
 the value differs.
 
+[[gerrit.perThreadCacheSize]]gerrit.perThreadCacheSize::
++
+Used by PerThreadCache, which caches at max `gerrit.perThreadCacheSize` values per thread.
+By default, set to 25.
+
 [[gitweb]]
 === Section gitweb
 

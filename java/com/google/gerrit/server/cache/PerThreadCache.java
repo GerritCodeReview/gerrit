@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Caches object instances for a request as {@link ThreadLocal} in the serving thread.
@@ -51,11 +52,12 @@ import java.util.function.Supplier;
 public class PerThreadCache implements AutoCloseable {
   private static final ThreadLocal<PerThreadCache> CACHE = new ThreadLocal<>();
   /**
-   * Cache at maximum 25 values per thread. This value was chosen arbitrarily. Some endpoints (like
-   * ListProjects) break the assumption that the data cached in a request is limited. To prevent
-   * this class from accumulating an unbound number of objects, we enforce this limit.
+   * By default, cache at maximum 25 values per thread. This value was chosen arbitrarily. Some
+   * endpoints (like ListProjects) break the assumption that the data cached in a request is
+   * limited. To prevent this class from accumulating an unbound number of objects, we enforce this
+   * limit. This limit can be controlled through `gerrit.perThreadCacheSize` gerrit config.
    */
-  private static final int PER_THREAD_CACHE_SIZE = 25;
+  private static final int DEFAULT_PER_THREAD_CACHE_SIZE = 25;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -102,9 +104,9 @@ public class PerThreadCache implements AutoCloseable {
     }
   }
 
-  public static PerThreadCache create() {
+  public static PerThreadCache create(Config cfg) {
     checkState(CACHE.get() == null, "called create() twice on the same request");
-    PerThreadCache cache = new PerThreadCache();
+    PerThreadCache cache = new PerThreadCache(cfg);
     CACHE.set(cache);
     return cache;
   }
@@ -119,9 +121,13 @@ public class PerThreadCache implements AutoCloseable {
     return cache != null ? cache.get(key, loader) : loader.get();
   }
 
-  private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
+  private final int cacheSize;
+  private final Map<Key<?>, Object> cache;
 
-  private PerThreadCache() {}
+  private PerThreadCache(Config cfg) {
+    cacheSize = cfg.getInt("gerrit", null, "perThreadCacheSize", DEFAULT_PER_THREAD_CACHE_SIZE);
+    cache = Maps.newHashMapWithExpectedSize(cacheSize);
+  }
 
   /**
    * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
@@ -132,7 +138,7 @@ public class PerThreadCache implements AutoCloseable {
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();
-      if (cache.size() < PER_THREAD_CACHE_SIZE) {
+      if (cache.size() < cacheSize) {
         cache.put(key, value);
       }
     }

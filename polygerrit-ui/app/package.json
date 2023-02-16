@@ -40,6 +40,7 @@
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
     "immer": "^9.0.5",
     "lit": "^2.2.3",
+    "monaco-editor": "^0.35.0",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^4.0.0",

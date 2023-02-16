@@ -6,6 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff/gr-diff/gr-monaco-diff';
 import {
   anyLineTooLong,
   getDiffLength,
@@ -513,7 +514,7 @@ export class GrDiffHost extends LitElement {
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
 
-    return html` <gr-diff
+    return html` <gr-monaco-diff
       id="diff"
       ?hidden=${this.hidden}
       .noAutoRender=${this.noAutoRender}

@@ -35,6 +35,20 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
     )
 
     rollup_bundle(
+        name = "mocacoe-worker",
+        srcs = [app_name + "-full-src"],
+        config_file = ":rollup.config.js",
+        entry_point = "_pg_ts_out/workers/monaco-worker.js",
+        rollup_bin = "//tools/node_tools:rollup-bin",
+        silent = True,
+        sourcemap = "hidden",
+        deps = [
+            "@tools_npm//rollup-plugin-define",
+            "@tools_npm//rollup-plugin-node-resolve",
+        ],
+    )
+
+    rollup_bundle(
         name = "syntax-worker",
         srcs = [app_name + "-full-src"],
         config_file = ":rollup.config.js",
@@ -77,6 +91,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
     native.filegroup(
         name = name + "_worker_sources",
         srcs = [
+            "monaco-worker.js",
             "syntax-worker.js",
             "service-worker.js",
         ],

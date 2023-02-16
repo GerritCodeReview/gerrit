@@ -34,6 +34,24 @@
       "parentUuid": "ba02cf0b_4eb2ba11",
       "revId": "06256d6690a8b2f7f2b7b71baccbedd942f4e5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8970a37_fa85c6ef",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-16T15:27:37Z",
+      "side": 1,
+      "message": "Yes, when I ran the formatter after removing that extra word it reformatted like this. I thought about fixing that in a follow-up just to track it better, but it seemed too trivial to bother with.",
+      "parentUuid": "65ebdfc1_a15acf9b",
+      "revId": "06256d6690a8b2f7f2b7b71baccbedd942f4e5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

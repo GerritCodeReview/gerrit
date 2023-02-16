@@ -2899,8 +2899,12 @@ public class AccountIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
     assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("secondary"));
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id("secondary@example.com"));
     requestScopeOperations.setApiUser(admin.id());
     assertThat(gApi.accounts().id("secondary").get()._accountId).isEqualTo(foo.id().get());
+    assertThat(gApi.accounts().id("secondary@example.com").get()._accountId)
+        .isEqualTo(foo.id().get());
   }
 
   @Test

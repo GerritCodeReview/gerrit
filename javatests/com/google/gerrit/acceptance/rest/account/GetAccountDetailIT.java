@@ -91,15 +91,25 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     Account.Id id =
         accountOperations
             .newAccount()
-            .preferredEmail("preferred@email")
-            .addSecondaryEmail("secondary@email")
+            .preferredEmail("preferred@eexample.com")
+            .addSecondaryEmail("secondary@example.com")
             .create();
+
     RestResponse r = userRestSession.get("/accounts/secondary/detail/");
     r.assertStatus(404);
+
+    r = userRestSession.get("/accounts/secondary@example.com/detail/");
+    r.assertStatus(404);
+
     // The admin has MODIFY_ACCOUNT permission and can see the user.
     r = adminRestSession.get("/accounts/secondary/detail/");
     r.assertStatus(200);
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
+    assertThat(info._accountId).isEqualTo(id.get());
+
+    r = adminRestSession.get("/accounts/secondary@example.com/detail/");
+    r.assertStatus(200);
+    info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertThat(info._accountId).isEqualTo(id.get());
   }
 

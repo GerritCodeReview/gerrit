@@ -33,6 +33,24 @@
       "message": "Not your change, but this entire model is obsolete. The only used method is `fillDetails()`, and instead of calling that you can as well just call `restApiService.getAccountDetails()`. Then we can delete this model.\n\nFeel free to not do this in this change, but maybe add TODOs and comments.",
       "revId": "f29a17c8e651393e7c41dc2e3d3dcd4f836e6af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9e8908_0e474e41",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-16T11:01:09Z",
+      "side": 1,
+      "message": "I think it is ok to have such model. I don\u0027t think we should put too much business logic into getAccountDetails() like if it returns 404 we are ok with partialAccount. Tracking b/269576308",
+      "parentUuid": "703ffc07_c0b17401",
+      "revId": "f29a17c8e651393e7c41dc2e3d3dcd4f836e6af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

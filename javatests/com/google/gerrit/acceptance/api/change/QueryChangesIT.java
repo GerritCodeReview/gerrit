@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -23,16 +24,20 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -40,9 +45,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.restapi.change.QueryChanges;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Arrays;
@@ -53,6 +60,7 @@ import org.junit.Test;
 
 public class QueryChangesIT extends AbstractDaemonTest {
   @Inject private AccountOperations accountOperations;
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<QueryChanges> queryChangesProvider;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -364,6 +372,180 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThat(result3).hasSize(1);
   }
 
+  @Test
+  public void accountNotFoundWhenQueryingByNonVisibleSecondaryEmail() throws Exception {
+    String secondaryOwnerEmail = "owner-secondary@example.com";
+    Account.Id owner =
+        accountOperations
+            .newAccount()
+            .preferredEmail("owner@example.com")
+            .addSecondaryEmail(secondaryOwnerEmail)
+            .create();
+
+    String secondaryReviewerEmail = "reviewer-secondary@example.com";
+    Account.Id reviewer =
+        accountOperations
+            .newAccount()
+            .preferredEmail("reviewer@example.com")
+            .addSecondaryEmail(secondaryReviewerEmail)
+            .create();
+
+    // Create the change.
+    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+
+    // Add a review.
+    requestScopeOperations.setApiUser(reviewer);
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // Verify that user can see the change.
+    assertThat(gApi.changes().query("change:" + changeId).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+
+    // Verify that user cannot see the other accounts by their secondary email.
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(secondaryOwnerEmail).get());
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(secondaryReviewerEmail).get());
+
+    // Verify that querying for changes owned/uploaded by the secondary email of the owner that is
+    // not visible to user fails.
+    assertThat(
+            assertThrows(
+                BadRequestException.class,
+                () -> gApi.changes().query("owner:" + secondaryOwnerEmail).get()))
+        .hasMessageThat()
+        .isEqualTo(String.format("Account '%s' not found", secondaryOwnerEmail));
+    assertThat(
+            assertThrows(
+                BadRequestException.class,
+                () -> gApi.changes().query("uploader:" + secondaryOwnerEmail).get()))
+        .hasMessageThat()
+        .isEqualTo(String.format("Account '%s' not found", secondaryOwnerEmail));
+
+    // Verify that querying for changes reviewed by the secondary email of the reviewer doesn't
+    // match the change. Note this is not failing if the specified account doesn't exist or is not
+    // visible because it falls back to searching with the reviewerByEmailPredicate in this case
+    // which is for matching reviewers by email that have no account.
+    assertThat(gApi.changes().query("reviewer:" + secondaryReviewerEmail).get()).isEmpty();
+
+    // Verify that querying for changes by label + user with the secondary email of the reviewer
+    // that is not visible to user fails.
+    assertThat(
+            assertThrows(
+                BadRequestException.class,
+                () ->
+                    gApi.changes()
+                        .query("label:Code-Review+1,user=" + secondaryReviewerEmail)
+                        .get()))
+        .hasMessageThat()
+        .isEqualTo(String.format("Account '%s' not found", secondaryReviewerEmail));
+  }
+
+  @Test
+  public void changesFoundWhenQueryingBySecondaryEmailWithModifyAccountCapability()
+      throws Exception {
+    String secondaryOwnerEmail = "owner-secondary@example.com";
+    Account.Id owner =
+        accountOperations
+            .newAccount()
+            .preferredEmail("owner@example.com")
+            .addSecondaryEmail(secondaryOwnerEmail)
+            .create();
+
+    String secondaryReviewerEmail = "reviewer-secondary@example.com";
+    Account.Id reviewer =
+        accountOperations
+            .newAccount()
+            .preferredEmail("reviewer@example.com")
+            .addSecondaryEmail(secondaryReviewerEmail)
+            .create();
+
+    // Create the change.
+    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+
+    // Add a review.
+    requestScopeOperations.setApiUser(reviewer);
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // Verify that user can see the other accounts by their secondary email.
+    assertThat(gApi.accounts().id(secondaryOwnerEmail).get()._accountId).isEqualTo(owner.get());
+    assertThat(gApi.accounts().id(secondaryReviewerEmail).get()._accountId)
+        .isEqualTo(reviewer.get());
+
+    // Verify that the change is found if user queries for changes owned/uploaded by the secondary
+    // email.
+    assertThat(gApi.changes().query("owner:" + secondaryOwnerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("uploader:" + secondaryOwnerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+
+    // Verify that the change is found if user queries for changes reviewed by the secondary email.
+    assertThat(gApi.changes().query("reviewer:" + secondaryReviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("label:Code-Review+1,user=" + secondaryReviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+  }
+
+  @Test
+  public void changesFoundWhenQueryingByOwnSecondaryEmail() throws Exception {
+    String secondaryOwnerEmail = "owner-secondary@example.com";
+    Account.Id owner =
+        accountOperations
+            .newAccount()
+            .preferredEmail("owner@example.com")
+            .addSecondaryEmail(secondaryOwnerEmail)
+            .create();
+
+    String secondaryReviewerEmail = "reviewer-secondary@example.com";
+    Account.Id reviewer =
+        accountOperations
+            .newAccount()
+            .preferredEmail("reviewer@example.com")
+            .addSecondaryEmail(secondaryReviewerEmail)
+            .create();
+
+    // Create the change.
+    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+
+    // Add a review.
+    requestScopeOperations.setApiUser(reviewer);
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+
+    // Verify that the change is found if owner queries for changes owned/uploaded by their
+    // secondary email.
+    requestScopeOperations.setApiUser(owner);
+    assertThat(gApi.changes().query("owner:" + secondaryOwnerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("uploader:" + secondaryOwnerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+
+    // Verify that the change is found if reviewer queries for changes reviewed by their secondary
+    // email.
+    requestScopeOperations.setApiUser(reviewer);
+    assertThat(gApi.changes().query("reviewer:" + secondaryReviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+    assertThat(gApi.changes().query("label:Code-Review+1,user=" + secondaryReviewerEmail).get())
+        .comparingElementsUsing(hasChangeId())
+        .containsExactly(changeId);
+  }
+
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {
     for (ChangeInfo info : results) {
       assertThat(info._moreChanges).isNull();
@@ -382,5 +564,10 @@ public class QueryChangesIT extends AbstractDaemonTest {
             });
       }
     }
+  }
+
+  private static Correspondence<ChangeInfo, Change.Id> hasChangeId() {
+    return NullAwareCorrespondence.transforming(
+        changeInfo -> Change.id(changeInfo._number), "hasChangeId");
   }
 }

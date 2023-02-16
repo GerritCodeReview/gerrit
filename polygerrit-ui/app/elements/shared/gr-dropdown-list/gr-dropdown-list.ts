@@ -11,6 +11,7 @@ import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
 import '../gr-file-status/gr-file-status';
+import '../../change/gr-patchset-hovercard/gr-patchset-hovercard';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
@@ -23,6 +24,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {when} from 'lit/directives/when.js';
 import {isMagicPath} from '../../../utils/path-list-util';
+import {PatchSet} from '../../../utils/patch-set-util';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -42,6 +44,7 @@ export interface DropdownItem {
   date?: Timestamp;
   disabled?: boolean;
   file?: NormalizedFileInfo;
+  patchset?: PatchSet;
 }
 
 declare global {
@@ -249,6 +252,7 @@ export class GrDropdownList extends LitElement {
   private renderPaperItem(item: DropdownItem) {
     return html`
       <paper-item ?disabled=${item.disabled} data-value=${item.value}>
+        <gr-patchset-hovercard .item=${item}></gr-patchset-hovercard>
         <div class="topContent">
           <div>${item.text}</div>
           ${when(

@@ -307,7 +307,8 @@ export class GrPatchRangeSelect extends LitElement {
       const entry = this.createDropdownEntry(
         patchNum,
         patchNum === EDIT ? '' : 'Patchset ',
-        getShaForPatch(patch)
+        getShaForPatch(patch),
+        patch
       );
       dropdownContent.push({
         ...entry,
@@ -328,7 +329,8 @@ export class GrPatchRangeSelect extends LitElement {
   private createDropdownEntry(
     patchNum: PatchSetNum,
     prefix: string,
-    sha: string
+    sha: string,
+    patchset?: PatchSet
   ) {
     const entry: DropdownItem = {
       triggerText: `${prefix}${patchNum}`,
@@ -336,6 +338,7 @@ export class GrPatchRangeSelect extends LitElement {
       mobileText: this.computeMobileText(patchNum),
       bottomText: `${this.computePatchSetDescription(patchNum)}`,
       value: patchNum,
+      patchset,
     };
     const date = this.computePatchSetDate(patchNum);
     if (date) {

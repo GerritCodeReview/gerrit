@@ -19,8 +19,11 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Config;
 
@@ -50,6 +53,7 @@ import org.eclipse.jgit.lib.Config;
  * invoking the {@code Supplier} after that.
  */
 public class PerThreadCache implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final ThreadLocal<PerThreadCache> CACHE = new ThreadLocal<>();
   /**
    * By default, cache at maximum 25 values per thread. This value was chosen arbitrarily. Some
@@ -123,10 +127,18 @@ public class PerThreadCache implements AutoCloseable {
 
   private final int cacheSize;
   private final Map<Key<?>, Object> cache;
+  private final Set<Key<?>> alwaysCachableKeys = new HashSet<>();
 
   private PerThreadCache(Config cfg) {
     cacheSize = cfg.getInt("gerrit", null, "perThreadCacheSize", DEFAULT_PER_THREAD_CACHE_SIZE);
-    cache = Maps.newHashMapWithExpectedSize(cacheSize);
+    for (String key : cfg.getStringList("gerrit", null, "alwaysCacheInPerThreadCache")) {
+      try {
+        alwaysCachableKeys.add(Key.create(Class.forName(key)));
+      } catch (ClassNotFoundException e) {
+        logger.atSevere().log("Class not found: " + key);
+      }
+    }
+    cache = Maps.newHashMapWithExpectedSize(cacheSize + alwaysCachableKeys.size());
   }
 
   /**
@@ -138,7 +150,7 @@ public class PerThreadCache implements AutoCloseable {
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();
-      if (cache.size() < cacheSize) {
+      if (cache.size() < cacheSize || alwaysCachableKeys.contains(key)) {
         cache.put(key, value);
       }
     }

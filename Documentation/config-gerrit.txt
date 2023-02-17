@@ -2555,6 +2555,12 @@ the value differs.
 Used by PerThreadCache, which caches at max `gerrit.perThreadCacheSize` values per thread.
 By default, set to 25.
 
+[[gerrit.alwaysCacheInPerThreadCache]]gerrit.alwaysCacheInPerThreadCache::
++
+Used by PerThreadCache, which always allows a fixed slot(s) in the PerThreadCache for
+the specified cache keys. The config can be repeated to configure a list of cache keys.
+Eg: alwaysCacheInPerThreadCache = com.google.gerrit.server.cache.PerThreadRefCache
+
 [[gitweb]]
 === Section gitweb
 

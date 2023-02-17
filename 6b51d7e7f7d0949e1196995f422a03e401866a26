@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5687acd_767531c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-17T08:46:09Z",
+      "side": 1,
+      "message": "Could you add docstring, especially what is the value returned from the function",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 16
+      },
+      "revId": "6b51d7e7f7d0949e1196995f422a03e401866a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ef367ed_8302df33",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
         "patchSetId": 2

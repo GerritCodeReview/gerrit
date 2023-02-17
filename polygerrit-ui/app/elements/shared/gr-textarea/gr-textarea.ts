@@ -12,7 +12,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-
 import {
   GrAutocompleteDropdown,
   Item,
-  ItemSelectedEvent,
+  ItemSelectedEventDetail,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {Key} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
@@ -67,7 +67,7 @@ function isEmojiSuggestion(x: EmojiSuggestion | Item): x is EmojiSuggestion {
 
 declare global {
   interface HTMLElementEventMap {
-    'item-selected': CustomEvent<ItemSelectedEvent>;
+    'item-selected': CustomEvent<ItemSelectedEventDetail>;
   }
 }
 
@@ -375,7 +375,7 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  handleDropdownItemSelect(e: CustomEvent<ItemSelectedEvent>) {
+  handleDropdownItemSelect(e: CustomEvent<ItemSelectedEventDetail>) {
     if (e.detail.selected?.dataset['value']) {
       this.setValue(e.detail.selected?.dataset['value']);
     }

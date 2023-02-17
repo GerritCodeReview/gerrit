@@ -242,7 +242,8 @@ export class GrDropdown extends LitElement {
         allowOutsideScroll
         .horizontalAlign=${this.horizontalAlign}
         @click=${() => this.close()}
-        @opened-changed=${(e: CustomEvent) => (this.opened = e.detail.value)}
+        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
+          (this.opened = e.detail.value)}
       >
         ${this.renderDropdownContent()}
       </iron-dropdown>`;

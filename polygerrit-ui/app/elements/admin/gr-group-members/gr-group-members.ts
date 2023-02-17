@@ -43,6 +43,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {ValueChangedEvent} from '../../../types/events';
 
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
@@ -546,22 +547,22 @@ export class GrGroupMembers extends LitElement {
       });
   }
 
-  private handleGroupMemberTextChanged(e: CustomEvent) {
+  private handleGroupMemberTextChanged(e: ValueChangedEvent) {
     if (this.loading) return;
     this.groupMemberSearchName = e.detail.value;
   }
 
-  private handleGroupMemberValueChanged(e: CustomEvent) {
+  private handleGroupMemberValueChanged(e: ValueChangedEvent<number>) {
     if (this.loading) return;
     this.groupMemberSearchId = e.detail.value;
   }
 
-  private handleIncludedGroupTextChanged(e: CustomEvent) {
+  private handleIncludedGroupTextChanged(e: ValueChangedEvent) {
     if (this.loading) return;
     this.includedGroupSearchName = e.detail.value;
   }
 
-  private handleIncludedGroupValueChanged(e: CustomEvent) {
+  private handleIncludedGroupValueChanged(e: ValueChangedEvent) {
     if (this.loading) return;
     this.includedGroupSearchId = e.detail.value;
   }

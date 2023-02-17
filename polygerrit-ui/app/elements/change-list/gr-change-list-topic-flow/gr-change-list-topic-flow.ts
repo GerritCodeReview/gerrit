@@ -159,7 +159,7 @@ export class GrChangeListTopicFlow extends LitElement {
         .horizontalAlign=${'auto'}
         .verticalAlign=${'auto'}
         .verticalOffset=${24}
-        @opened-changed=${(e: CustomEvent) =>
+        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
           (this.isDropdownOpen = e.detail.value)}
       >
         ${when(

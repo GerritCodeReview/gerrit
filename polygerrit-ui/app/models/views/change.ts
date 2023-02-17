@@ -79,6 +79,7 @@ export interface ChangeViewState extends ViewState {
   /** These properties apply to the DIFF child view only. */
   diffView?: {
     path?: string;
+    // TODO: Use LineNumber as a type, i.e. accept FILE and LOST.
     lineNum?: number;
     leftSide?: boolean;
   };

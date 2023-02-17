@@ -7,7 +7,10 @@ import '@polymer/paper-input/paper-input';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
-import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {
+  GrAutocompleteDropdown,
+  ItemSelectedEventDetail,
+} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {fire, fireEvent} from '../../../utils/event-util';
 import {
   debounce,
@@ -286,7 +289,7 @@ export class GrAutocomplete extends LitElement {
         class=${this.computeClass()}
         ?disabled=${this.disabled}
         .value=${this.text}
-        @value-changed=${(e: CustomEvent) => {
+        @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
         .placeholder=${this.placeholder}
@@ -347,14 +350,16 @@ export class GrAutocomplete extends LitElement {
     this.text = '';
   }
 
-  private handleItemSelectEnter(e: CustomEvent | KeyboardEvent) {
+  private handleItemSelectEnter(
+    e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent
+  ) {
     this.handleInputCommit();
     e.stopPropagation();
     e.preventDefault();
     this.focusWithoutDisplayingSuggestions();
   }
 
-  handleItemSelect(e: CustomEvent) {
+  handleItemSelect(e: CustomEvent<ItemSelectedEventDetail>) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
       this._commit();

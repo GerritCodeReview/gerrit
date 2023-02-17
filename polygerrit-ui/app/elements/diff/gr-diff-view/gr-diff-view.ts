@@ -33,6 +33,7 @@ import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {CommentAnchorTapEventDetail} from '../../shared/gr-comment/gr-comment';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   BasePatchSetNum,
@@ -48,7 +49,10 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {FileRange, ParsedChangeInfo} from '../../../types/types';
-import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
+import {
+  FilesWebLinks,
+  PatchRangeChangeEvent,
+} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -66,7 +70,7 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {DisplayLine} from '../../../api/diff';
+import {DisplayLine, LineSelectedEventDetail} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -768,7 +772,7 @@ export class GrDiffView extends LitElement {
         .path=${this.path}
         .projectName=${this.change?.project}
         @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onLineSelected}
+        @comment-anchor-tap=${this.onCommentAnchorTap}
         @line-selected=${this.onLineSelected}
         @diff-changed=${this.onDiffChanged}
         @edit-weblinks-changed=${this.onEditWeblinksChanged}
@@ -1443,7 +1447,7 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  handlePatchChange(e: CustomEvent) {
+  handlePatchChange(e: PatchRangeChangeEvent) {
     if (!this.path) return;
     if (!this.patchNum) return;
 
@@ -1466,13 +1470,20 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  onLineSelected(e: CustomEvent) {
-    // for on-comment-anchor-tap side can be PARENT/REVISIONS
-    // for on-line-selected side can be left/right
+  onCommentAnchorTap(e: CustomEvent<CommentAnchorTapEventDetail>) {
+    const lineNumber = e.detail.number;
+    if (!Number.isInteger(lineNumber)) return;
     this.updateUrlToDiffUrl(
-      e.detail.number,
-      e.detail.side === Side.LEFT || e.detail.side === CommentSide.PARENT
+      lineNumber as number,
+      e.detail.side === CommentSide.PARENT
     );
+  }
+
+  // Private but used in tests.
+  onLineSelected(e: CustomEvent<LineSelectedEventDetail>) {
+    const lineNumber = e.detail.number;
+    if (!Number.isInteger(lineNumber)) return;
+    this.updateUrlToDiffUrl(lineNumber as number, e.detail.side === Side.LEFT);
   }
 
   // Private but used in tests.

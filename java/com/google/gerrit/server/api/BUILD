@@ -23,3 +23,13 @@ java_library(
         "//lib/guice:guice-assistedinject",
     ],
 )
+
+java_library(
+    name = "api_util",
+    srcs = ["ApiUtil.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/extensions:api",
+        "//lib:guava",
+    ],
+)

@@ -11,7 +11,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/api",
+        "//java/com/google/gerrit/server/api:api_util",
         "//lib:guava",
         "//lib:jgit",
         "//lib/auto:auto-factory",

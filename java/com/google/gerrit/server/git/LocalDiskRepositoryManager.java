@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.Workspace;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -39,14 +40,18 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -175,6 +180,38 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       return repo;
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
+    }
+  }
+
+  @Override
+  public Repository openWorkspace(Workspace.Id workspace)
+      throws RepositoryNotFoundException, IOException {
+    try {
+      FileRepository mainline = (FileRepository) openRepository(workspace.project());
+      File file = getBasePath(workspace.project()).resolve(workspace.accountId().get() + "/" + workspace.name() + ".git").toFile();
+      file.mkdirs();
+      file.toPath().resolve("objects").toFile().mkdir(); // hack - should be created by internals of FileRepo
+      // Open a FileRepo with mainline object storage as alternate
+      FileRepositoryBuilder repoBuilder =
+          new FileRepositoryBuilder()
+              .setGitDir(file)
+              .addAlternateObjectDirectory(mainline.getObjectsDirectory()).setup();
+      FileRepository workspaceRepo = new FileRepository(repoBuilder);
+      return new DelegateRepository(workspaceRepo) {
+        @Override
+        public RefDatabase getRefDatabase() {
+          // Hack in lieu of "alternates" for RefDatabase
+          return new MainlineReadOnlyRefDatabase(mainline);
+        }
+
+        @Override
+        public void close() {
+          super.close();
+          mainline.close();
+        }
+      };
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Workspace;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -57,6 +58,11 @@ public interface GitRepositoryManager {
    * @throws IOException the name cannot be read as a repository.
    */
   Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException, IOException;
+
+  default Repository openWorkspace(Workspace.Id id)
+      throws RepositoryNotFoundException, IOException {
+    throw new UnsupportedOperationException("");
+  }
 
   /**
    * Create (and open) a repository by name.

@@ -2714,7 +2714,6 @@ export class GrChangeView extends LitElement {
     }
     const latestRevisionSha = this.getLatestRevisionSHA(this.change);
     if (!latestRevisionSha)
-      throw new Error('Could not find latest Revision Sha');
     const currentRevision = this.change.revisions[latestRevisionSha];
     if (currentRevision.commit && currentRevision.commit.message) {
       this.latestCommitMessage = this.prepareCommitMsgForLinkify(

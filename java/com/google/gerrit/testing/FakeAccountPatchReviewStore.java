@@ -16,6 +16,7 @@ package com.google.gerrit.testing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -69,6 +70,7 @@ public class FakeAccountPatchReviewStore implements AccountPatchReviewStore, Lif
   }
 
   @Override
+  @CanIgnoreReturnValue
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
     synchronized (store) {
       Entity entity = Entity.create(psId, accountId, path);

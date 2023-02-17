@@ -1247,7 +1247,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     AccountGroup.UUID groupId = g.getUUID();
     GroupDescription.Basic groupDescription = args.groupBackend.get(groupId);
     if (!(groupDescription instanceof GroupDescription.Internal)
-        || containsExernalSubGroups((GroupDescription.Internal) groupDescription)) {
+        || containsExternalSubGroups((GroupDescription.Internal) groupDescription)) {
       return new OwnerinPredicate(args.userFactory, groupId);
     }
 
@@ -1273,7 +1273,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     AccountGroup.UUID groupId = g.getUUID();
     GroupDescription.Basic groupDescription = args.groupBackend.get(groupId);
     if (!(groupDescription instanceof GroupDescription.Internal)
-        || containsExernalSubGroups((GroupDescription.Internal) groupDescription)) {
+        || containsExternalSubGroups((GroupDescription.Internal) groupDescription)) {
       return new UploaderinPredicate(args.userFactory, groupId);
     }
 
@@ -1647,16 +1647,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return Predicate.and(predicates);
   }
 
-  private boolean containsExernalSubGroups(GroupDescription.Internal internalGroup)
-      throws IOException {
+  private boolean containsExternalSubGroups(GroupDescription.Internal internalGroup) {
     for (AccountGroup.UUID subGroupUuid : internalGroup.getSubgroups()) {
       GroupDescription.Basic subGroupDescription = args.groupBackend.get(subGroupUuid);
       if (!(subGroupDescription instanceof GroupDescription.Internal)) {
         return true;
       }
-      boolean containsExernalSubGroups =
-          containsExernalSubGroups((GroupDescription.Internal) subGroupDescription);
-      if (containsExernalSubGroups) {
+      if (containsExternalSubGroups((GroupDescription.Internal) subGroupDescription)) {
         return true;
       }
     }

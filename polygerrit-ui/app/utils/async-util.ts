@@ -62,6 +62,8 @@ export class DelayedTask {
   /**
    * Promise that is resolved after the callback is run or the task is
    * cancelled.
+   *
+   * If callback returns a Promise this resolves after the promise is settled.
    */
   public readonly promise: Promise<ResolvedDelayedTaskStatus>;
 
@@ -69,14 +71,25 @@ export class DelayedTask {
     value: ResolvedDelayedTaskStatus | PromiseLike<ResolvedDelayedTaskStatus>
   ) => void;
 
-  constructor(private callback: () => void, waitMs = 0) {
+  private callCallbackAndResolveOnCompletion() {
+    let callbackResult;
+    if (this.callback) callbackResult = this.callback();
+    if (callbackResult instanceof Promise) {
+      callbackResult.finally(() =>
+        this.resolvePromise!(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED)
+      );
+    } else {
+      this.resolvePromise!(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
+    }
+  }
+
+  constructor(private callback: () => void | Promise<void>, waitMs = 0) {
     this.promise = new Promise(resolve => {
       this.resolvePromise = resolve;
       this.timerId = window.setTimeout(() => {
         if (this.timerId) _testOnly_allTasks.delete(this.timerId);
         this.timerId = undefined;
-        if (this.callback) this.callback();
-        resolve(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
+        this.callCallbackAndResolveOnCompletion();
       }, waitMs);
       _testOnly_allTasks.set(this.timerId, this);
     });
@@ -98,8 +111,7 @@ export class DelayedTask {
   flush() {
     if (this.isActive()) {
       this.cancelTimer();
-      if (this.callback) this.callback();
-      this.resolvePromise?.(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
+      this.callCallbackAndResolveOnCompletion();
     }
   }
 

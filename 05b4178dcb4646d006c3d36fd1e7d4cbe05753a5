@@ -140,6 +140,30 @@
       },
       "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cef468b_216240a3",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-17T15:35:52Z",
+      "side": 1,
+      "message": "Even if we keep this upstream, I would still move it to a separate file.\n\nExtension or not, the metric does not measure anything related to the MergeOp, so having it in this file makes it harder to follow MergeOp logic.",
+      "parentUuid": "a07200ff_44effeeb",
+      "range": {
+        "startLine": 447,
+        "startChar": 10,
+        "endLine": 447,
+        "endChar": 63
+      },
+      "revId": "05b4178dcb4646d006c3d36fd1e7d4cbe05753a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

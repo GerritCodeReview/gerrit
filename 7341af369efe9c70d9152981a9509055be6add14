@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d487a1_43d82deb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-17T17:17:25Z",
+      "side": 1,
+      "message": "This seems like a useful change, however I think it is not quite the right solution currently. This cache seems designed to be generic, but the limit enforcing seems to be something specific to one specific user of this cache, the projectCaches? I think a limit for projectCaches solves a real issue, and should be maintained (and potentially be configurable), but I don\u0027t think tha limit should apply to other things in here. If other types of things are being put in here require a limit, they should have their own limit, independent of other types of things in here, and that should likely be evaluated on a case by case basis.",
+      "revId": "7341af369efe9c70d9152981a9509055be6add14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

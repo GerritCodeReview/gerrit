@@ -22,6 +22,30 @@
       },
       "revId": "de31a34261221e57b074eabf9cc343c46bc58f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cabadf71_da335231",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-17T11:38:54Z",
+      "side": 1,
+      "message": "Good idea, \u0027Object... field1Value\u0027 works here and also for the getCount method above.\n\nDone",
+      "parentUuid": "2a8d995c_d510dc0e",
+      "range": {
+        "startLine": 147,
+        "startChar": 42,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "de31a34261221e57b074eabf9cc343c46bc58f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

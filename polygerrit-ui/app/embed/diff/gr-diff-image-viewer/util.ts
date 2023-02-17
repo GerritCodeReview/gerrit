@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ImageDiffAction} from '../../../api/diff';
 
 export interface Point {
   x: number;
@@ -223,14 +222,4 @@ export class FrameConstrainer {
       y: this.scaledFrame.origin.y + this.scaledFrame.dimensions.height / 2,
     };
   }
-}
-
-export function createEvent(
-  detail: ImageDiffAction
-): CustomEvent<ImageDiffAction> {
-  return new CustomEvent('image-diff-action', {
-    detail,
-    bubbles: true,
-    composed: true,
-  });
 }

@@ -47,6 +47,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -496,8 +497,6 @@ export class GrPatchRangeSelect extends LitElement {
       detail.basePatchNum = patchSetValue as BasePatchSetNum;
     }
 
-    this.dispatchEvent(
-      new CustomEvent('patch-range-change', {detail, bubbles: false})
-    );
+    fireNoBubbleNoCompose(this, 'patch-range-change', detail);
   }
 }

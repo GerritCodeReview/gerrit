@@ -54,7 +54,6 @@ import {
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
-  LineSelectedEventDetail,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -1349,17 +1348,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private dispatchSelectedLine(number: LineNumber, side: Side) {
-    this.dispatchEvent(
-      new CustomEvent<LineSelectedEventDetail>('line-selected', {
-        detail: {
-          number,
-          side,
-          path: this.path,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'line-selected', {
+      number,
+      side,
+      path: this.path,
+    });
   }
 
   addDraftAtLine(el: Element) {
@@ -1411,18 +1404,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
     assertIsDefined(this.path, 'path');
-    this.dispatchEvent(
-      new CustomEvent<CreateCommentEventDetail>('create-comment', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          path: this.path,
-          side,
-          lineNum,
-          range,
-        },
-      })
-    );
+    fire(this, 'create-comment', {
+      path: this.path,
+      side,
+      lineNum,
+      range,
+    });
   }
 
   private getCommentSideByLineAndContent(

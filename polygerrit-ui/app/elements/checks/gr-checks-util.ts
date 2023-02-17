@@ -9,6 +9,7 @@ import {
   AttemptChoice,
   LATEST_ATTEMPT,
 } from '../../models/checks/checks-util';
+import {fire} from '../../utils/event-util';
 
 export interface RunSelectedEventDetail {
   checkName?: string;
@@ -23,13 +24,7 @@ declare global {
 }
 
 export function fireRunSelected(target: EventTarget, checkName: string) {
-  target.dispatchEvent(
-    new CustomEvent('run-selected', {
-      detail: {reset: false, checkName},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire(target, 'run-selected', {checkName});
 }
 
 export function isAttemptSelected(

@@ -1772,7 +1772,7 @@ suite('gr-change-view tests', () => {
     const openStub = sinon.stub(element, 'openReplyDialog');
 
     const e = new CustomEvent('show-reply-dialog', {
-      detail: {value: {ccsOnly: false}},
+      detail: {value: {reviewersOnly: true, ccsOnly: false}},
     });
     element.handleShowReplyDialog(e);
     assert(
@@ -1781,7 +1781,7 @@ suite('gr-change-view tests', () => {
     );
     assert.equal(openStub.callCount, 1);
 
-    e.detail.value = {ccsOnly: true};
+    e.detail.value = {reviewersOnly: false, ccsOnly: true};
     element.handleShowReplyDialog(e);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.CCS),

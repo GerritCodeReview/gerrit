@@ -12,6 +12,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
+import {fireEventNoBubble} from '../../../utils/event-util';
 
 interface DisplayGroup {
   title: string;
@@ -197,12 +198,7 @@ export class GrIncludedInDialog extends LitElement {
   private handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('close', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'close');
   }
 }
 

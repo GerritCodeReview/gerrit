@@ -17,6 +17,8 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ClassInfo, classMap} from 'lit/directives/class-map.js';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
+import {fire} from '../../../utils/event-util';
+import {RemoveAccountEvent} from '../../../types/events';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends LitElement {
@@ -196,13 +198,8 @@ export class GrAccountChip extends LitElement {
 
   private handleRemoveTap(e: MouseEvent) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('remove', {
-        detail: {account: this.account},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    if (!this.account) return;
+    fire(this, 'remove', {account: this.account});
   }
 
   private getHasAvatars() {
@@ -231,5 +228,9 @@ export class GrAccountChip extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-account-chip': GrAccountChip;
+  }
+  interface HTMLElementEventMap {
+    /* prettier-ignore */
+    'remove': RemoveAccountEvent;
   }
 }

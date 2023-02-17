@@ -7,6 +7,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {fireEventNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -68,22 +69,12 @@ export class GrConfirmDeleteItemDialog extends LitElement {
   _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'confirm');
   }
 
   _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'cancel');
   }
 }

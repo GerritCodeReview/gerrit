@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {fire} from '../../utils/event-util';
 import {
   AuthRequestInit,
   AuthService,
@@ -28,14 +29,10 @@ export class GrAuthMock implements AuthService {
   private _setStatus(status: AuthStatus) {
     if (this._status === status) return;
     if (this._status === AuthStatus.AUTHED) {
-      document.dispatchEvent(
-        new CustomEvent('auth-error', {
-          detail: {
-            message: Auth.CREDS_EXPIRED_MSG,
-            action: 'Refresh credentials',
-          },
-        })
-      );
+      fire(document, 'auth-error', {
+        message: Auth.CREDS_EXPIRED_MSG,
+        action: 'Refresh credentials',
+      });
     }
     this._status = status;
   }

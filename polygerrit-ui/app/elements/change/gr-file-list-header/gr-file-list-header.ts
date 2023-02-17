@@ -25,7 +25,7 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fireEvent} from '../../../utils/event-util';
+import {fireEvent, fireEventNoBubbleNoCompose} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -425,9 +425,7 @@ export class GrFileListHeader extends LitElement {
   private handleDownloadTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('open-download-dialog', {bubbles: false})
-    );
+    fireEventNoBubbleNoCompose(this, 'open-download-dialog');
   }
 
   private computeEditModeClass(editMode?: boolean) {

@@ -20,6 +20,7 @@ import {
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {fire} from '../../../utils/event-util';
 
 interface SidedRange {
   side: Side;
@@ -458,13 +459,9 @@ export class GrDiffHighlight {
   }
 
   private fireCreateRangeComment(side: Side, range: CommentRange) {
-    this.diffTable?.dispatchEvent(
-      new CustomEvent<CreateRangeCommentEventDetail>('create-range-comment', {
-        detail: {side, range},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    if (this.diffTable) {
+      fire(this.diffTable, 'create-range-comment', {side, range});
+    }
     this.removeActionBox();
   }
 

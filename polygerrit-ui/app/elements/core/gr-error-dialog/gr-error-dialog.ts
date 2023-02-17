@@ -7,6 +7,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {fireEventNoBubbleNoCompose} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -83,6 +84,6 @@ export class GrErrorDialog extends LitElement {
   }
 
   private handleConfirm() {
-    this.dispatchEvent(new CustomEvent('dismiss'));
+    fireEventNoBubbleNoCompose(this, 'dismiss');
   }
 }

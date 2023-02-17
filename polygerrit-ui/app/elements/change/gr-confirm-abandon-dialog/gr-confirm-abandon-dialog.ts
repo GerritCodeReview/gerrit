@@ -14,6 +14,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ChangeActionDialog} from '../../../types/common';
+import {fireEventNoBubble, fireNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -132,25 +133,14 @@ export class GrConfirmAbandonDialog
 
   // private but used in test
   confirm() {
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        detail: {reason: this.message},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireNoBubble(this, 'confirm', {reason: this.message});
   }
 
   // private but used in test
   handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'cancel');
   }
 
   private handleBindValueChanged(e: BindValueChangeEvent) {

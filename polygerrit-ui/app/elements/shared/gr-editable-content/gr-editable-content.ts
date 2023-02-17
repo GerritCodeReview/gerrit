@@ -386,13 +386,7 @@ export class GrEditableContent extends LitElement {
 
   handleSave(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('editable-content-save', {
-        detail: {content: this.newContent},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'editable-content-save', {content: this.newContent});
     // It would be nice, if we would set this.newContent = undefined here,
     // but we can only do that when we are sure that the save operation has
     // succeeded.

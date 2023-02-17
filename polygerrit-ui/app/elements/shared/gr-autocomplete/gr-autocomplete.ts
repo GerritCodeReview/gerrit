@@ -74,13 +74,6 @@ export class GrAutocomplete extends LitElement {
    */
 
   /**
-   * Fired on keydown to allow for custom hooks into autocomplete textbox
-   * behavior.
-   *
-   * @event input-keydown
-   */
-
-  /**
    * Query for requesting autocomplete suggestions. The function should
    * accept the input as a string parameter and return a promise. The
    * promise yields an array of suggestion objects with "name", "label",
@@ -611,13 +604,6 @@ export class GrAutocomplete extends LitElement {
         this.resetQueryOutput();
         this.activeQueryId = 0;
     }
-    this.dispatchEvent(
-      new CustomEvent('input-keydown', {
-        detail: {key: e.key, input: this.input},
-        composed: true,
-        bubbles: true,
-      })
-    );
   }
 
   cancel() {
@@ -720,13 +706,7 @@ export class GrAutocomplete extends LitElement {
     // 'commit' event
     await this.updateComplete;
     if (!silent) {
-      this.dispatchEvent(
-        new CustomEvent('commit', {
-          detail: {value} as AutocompleteCommitEventDetail,
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, 'commit', {value});
     }
   }
 

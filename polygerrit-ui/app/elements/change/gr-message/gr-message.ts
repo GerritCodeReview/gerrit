@@ -48,12 +48,23 @@ import {when} from 'lit/directives/when.js';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
+import {fire} from '../../../utils/event-util';
+import {
+  ChangeMessageDeletedEventDetail,
+  ReplyEvent,
+} from '../../../types/events';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
 declare global {
   interface HTMLElementTagNameMap {
     'gr-message': GrMessage;
+  }
+  interface HTMLElementEventMap {
+    'message-anchor-tap': CustomEvent<MessageAnchorTapDetail>;
+    'change-message-deleted': CustomEvent<ChangeMessageDeletedEventDetail>;
+    /* prettier-ignore */
+    'reply': ReplyEvent;
   }
 }
 
@@ -67,12 +78,6 @@ export class GrMessage extends LitElement {
    * Fired when this message's reply link is tapped.
    *
    * @event reply
-   */
-
-  /**
-   * Fired when the message's timestamp is tapped.
-   *
-   * @event message-anchor-tap
    */
 
   /**
@@ -751,24 +756,13 @@ export class GrMessage extends LitElement {
     const detail: MessageAnchorTapDetail = {
       id: this.message!.id,
     };
-    this.dispatchEvent(
-      new CustomEvent('message-anchor-tap', {
-        bubbles: true,
-        composed: true,
-        detail,
-      })
-    );
+    fire(this, 'message-anchor-tap', detail);
   }
 
   private handleReplyTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('reply', {
-        detail: {message: this.message},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    // TODO: Fix the type casting. Might actually be a bug.
+    fire(this, 'reply', {message: this.message as ChangeMessage});
   }
 
   private handleDeleteMessage(e: Event) {
@@ -779,13 +773,10 @@ export class GrMessage extends LitElement {
       .deleteChangeCommitMessage(this.changeNum, this.message.id)
       .then(() => {
         this.isDeletingChangeMsg = false;
-        this.dispatchEvent(
-          new CustomEvent('change-message-deleted', {
-            detail: {message: this.message},
-            composed: true,
-            bubbles: true,
-          })
-        );
+        // TODO: Fix the type casting. Might actually be a bug.
+        fire(this, 'change-message-deleted', {
+          message: this.message as ChangeMessage,
+        });
       });
   }
 

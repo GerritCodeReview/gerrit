@@ -23,6 +23,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {when} from 'lit/directives/when.js';
 import {isMagicPath} from '../../../utils/path-list-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -303,12 +304,7 @@ export class GrDropdownList extends LitElement {
     this.text = selectedObj.triggerText
       ? selectedObj.triggerText
       : selectedObj.text;
-    this.dispatchEvent(
-      new CustomEvent('value-change', {
-        detail: {value: this.value},
-        bubbles: false,
-      })
-    );
+    fireNoBubble(this, 'value-change', {value: this.value});
   }
 
   /**

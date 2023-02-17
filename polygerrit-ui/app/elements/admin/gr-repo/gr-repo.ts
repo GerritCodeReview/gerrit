@@ -19,6 +19,9 @@ import {
   ConfigInput,
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
+  ProjectInfo,
+  BranchName,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
@@ -26,7 +29,11 @@ import {
   SubmitType,
 } from '../../../constants/constants';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  firePageError,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {ErrorCallback} from '../../../api/rest';
@@ -34,6 +41,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/deep-util';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
@@ -43,6 +51,15 @@ import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {createEditUrl} from '../../../models/views/change';
+
+const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
+const CONFIG_PATH = 'project.config';
+const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
+const INITIAL_PATCHSET = 1 as RevisionPatchSetNum;
+const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
+const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -97,6 +114,8 @@ export class GrRepo extends LitElement {
   // private but used in test
   @state() repoConfig?: ConfigInfo;
 
+  @state() parentInfos: ProjectInfo[] = [];
+
   // private but used in test
   @state() readOnly = true;
 
@@ -114,6 +133,8 @@ export class GrRepo extends LitElement {
   @state() private pluginConfigChanged = false;
 
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -143,6 +164,7 @@ export class GrRepo extends LitElement {
       formStyles,
       subpageStyles,
       sharedStyles,
+      spinnerStyles,
       css`
         .info {
           margin-bottom: var(--spacing-xl);
@@ -156,6 +178,42 @@ export class GrRepo extends LitElement {
         }
         #options .repositorySettings.showConfig {
           display: block;
+        }
+        div#inheritance table {
+          width: unset;
+          margin-top: var(--spacing-m);
+        }
+        div#inheritance table th:first-child,
+        div#inheritance table td:first-child {
+          width: unset;
+          color: var(--deemphasized-text-color);
+        }
+        div#inheritance table td {
+          padding-right: var(--spacing-l);
+        }
+        div#inheritance table td.config {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+        }
+        div#inheritance table td a {
+          padding-left: var(--spacing-s);
+        }
+        div#inheritance table td.config gr-icon {
+          color: var(--link-color);
+        }
+        div#inheritance table td.config gr-button {
+          --gr-button-padding: var(--spacing-s);
+          --margin: calc(0px - var(--spacing-s));
+          width: 20px;
+          vertical-align: top;
+        }
+        div#inheritance table {
+          white-space: nowrap;
+        }
+        span.loadingSpin {
+          display: inline-block;
+          margin-left: var(--spacing-m);
         }
       `,
     ];
@@ -182,7 +240,7 @@ export class GrRepo extends LitElement {
           this.loading || !this.repoConfig,
           () => html`<div id="loading">Loading...</div>`,
           () => html`<div id="loadedContent">
-            ${this.renderDownloadCommands()}
+            ${this.renderInheritance()} ${this.renderDownloadCommands()}
             <h2
               id="configurations"
               class="heading-2 ${configChanged ? 'edited' : ''}"
@@ -214,6 +272,86 @@ export class GrRepo extends LitElement {
         )}
       </div>
     `;
+  }
+
+  private renderInheritance() {
+    return html`
+      <div id="inheritance">
+        <h2 id="inheritance-header" class="heading-2">
+          Config Files and Hierarchy
+        </h2>
+        <fieldset>
+          <table>
+            <tr>
+              <th></th>
+              <th>Repo</th>
+              <th>Links</th>
+            </tr>
+            ${this.parentInfos.map(info => this.renderRepoInfo(info))}
+          </table>
+        </fieldset>
+      </div>
+    `;
+  }
+
+  private renderRepoInfo(info: ProjectInfo) {
+    const url = `${info.web_links?.[0]?.url}+/refs/meta/config`;
+    return html`<tr>
+      <td>${when(info.name !== this.repo, () => html`inherits from`)}</td>
+      <td>${info.name}</td>
+      <td class="config">
+        project.config
+        <a href=${url} target="_blank"><gr-icon icon="visibility"></gr-icon></a>
+        ${when(
+          this.editRepoConfigInProgress,
+          () => html`<span class="loadingSpin"></span>`,
+          () => html`
+            <gr-button
+              link
+              flatten
+              ?disabled=${this.editRepoConfigInProgress}
+              id="editRepoConfig"
+              @click=${() => this.handleEditRepoConfig(info.name)}
+            >
+              <gr-icon icon="edit"></gr-icon>
+            </gr-button>
+          `
+        )}
+      </td>
+    </tr>`;
+  }
+
+  @state() editRepoConfigInProgress = false;
+
+  handleEditRepoConfig(repo?: RepoName) {
+    if (!repo) return;
+    this.editRepoConfigInProgress = true;
+    return this.restApiService
+      .createChange(
+        repo,
+        CONFIG_BRANCH,
+        EDIT_CONFIG_SUBJECT,
+        undefined,
+        false,
+        true
+      )
+      .then(change => {
+        const message = change
+          ? CREATE_CHANGE_SUCCEEDED_MESSAGE
+          : CREATE_CHANGE_FAILED_MESSAGE;
+        fireAlert(this, message);
+        if (!change) return;
+
+        this.getNavigation().setUrl(
+          createEditUrl({
+            changeNum: change._number,
+            repo: change.project,
+            patchNum: INITIAL_PATCHSET,
+            editView: {path: CONFIG_PATH},
+          })
+        );
+      })
+      .finally(() => (this.editRepoConfigInProgress = false));
   }
 
   private renderDownloadCommands() {
@@ -773,6 +911,9 @@ export class GrRepo extends LitElement {
           const repo = this.repo;
           if (!repo) throw new Error('undefined repo');
           this.restApiService.getRepo(repo).then(repo => {
+            if (!repo) return;
+            this.parentInfos = [repo];
+            this.loadParent(repo);
             if (!repo?.web_links) return;
             this.weblinks = repo.web_links;
           });
@@ -831,6 +972,15 @@ export class GrRepo extends LitElement {
     promises.push(configHelper());
 
     await Promise.all(promises);
+  }
+
+  private async loadParent(repoInfo: ProjectInfo) {
+    const parent = repoInfo.parent;
+    if (!parent) return;
+    const info = await this.restApiService.getRepo(parent);
+    if (!info) return;
+    this.parentInfos = [...this.parentInfos, info];
+    this.loadParent(info);
   }
 
   // private but used in test

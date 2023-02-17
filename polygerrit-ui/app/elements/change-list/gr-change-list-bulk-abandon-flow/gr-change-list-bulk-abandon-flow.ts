@@ -56,7 +56,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
       <dialog id="actionModal" tabindex="-1">
         <gr-dialog
           .disableCancel=${!this.isCancelEnabled()}
-          .disabled=${!this.isConfirmEnabled()}
+          .disabled=${this.isDisabled()}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.handleClose()}
           .cancelLabel=${'Close'}
@@ -104,7 +104,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     );
   }
 
-  private isConfirmEnabled() {
+  private isDisabled() {
     // Action is allowed if none of the changes have any bulk action performed
     // on them. In case an error happens then we keep the button disabled.
     for (const status of this.progress.values()) {

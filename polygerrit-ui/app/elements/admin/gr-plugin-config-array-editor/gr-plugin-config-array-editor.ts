@@ -15,21 +15,19 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-plugin-config-array-editor': GrPluginConfigArrayEditor;
   }
+  interface HTMLElementEventMap {
+    'plugin-config-option-changed': CustomEvent<PluginConfigOptionsChangedEventDetail>;
+  }
 }
 
 @customElement('gr-plugin-config-array-editor')
 export class GrPluginConfigArrayEditor extends LitElement {
-  /**
-   * Fired when the plugin config option changes.
-   *
-   * @event plugin-config-option-changed
-   */
-
   // private but used in test
   @state() newValue = '';
 
@@ -175,9 +173,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
       info: {...info, values},
       notifyPath: `${_key}.values`,
     };
-    this.dispatchEvent(
-      new CustomEvent('plugin-config-option-changed', {detail})
-    );
+    fireNoBubbleNoCompose(this, 'plugin-config-option-changed', detail);
   }
 
   private handleBindValueChangedNewValue(e: BindValueChangeEvent) {

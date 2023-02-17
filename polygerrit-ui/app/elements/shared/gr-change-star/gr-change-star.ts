@@ -14,6 +14,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {assertIsDefined} from '../../../utils/common-util';
+import {fire} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -93,12 +94,6 @@ export class GrChangeStar extends LitElement {
       change: this.change,
       starred: newVal,
     };
-    this.dispatchEvent(
-      new CustomEvent('toggle-star', {
-        bubbles: true,
-        composed: true,
-        detail,
-      })
-    );
+    fire(this, 'toggle-star', detail);
   }
 }

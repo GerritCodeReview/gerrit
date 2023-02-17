@@ -12,6 +12,7 @@ import {customElement, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {fireNoBubble} from '../../../utils/event-util';
 
 export interface CreateDestinationConfirmDetail {
   repo?: RepoName;
@@ -88,7 +89,7 @@ export class GrCreateDestinationDialog extends LitElement {
     // 'confirm' event here, so let's stop propagation of the bare event.
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
+    fireNoBubble(this, 'confirm', detail);
   };
 }
 

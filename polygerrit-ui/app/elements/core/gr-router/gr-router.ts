@@ -26,7 +26,7 @@ import {
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, RouterModel} from '../../../services/router/router-model';
-import {fireAlert, firePageError} from '../../../utils/event-util';
+import {fire, fireAlert, firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
   encodeURL,
@@ -555,13 +555,7 @@ export class GrRouter implements Finalizable, NavigationService {
       hash: window.location.hash,
       pathname: window.location.pathname,
     };
-    document.dispatchEvent(
-      new CustomEvent('location-change', {
-        detail,
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(document, 'location-change', detail);
   }
 
   _testOnly_startRouter() {

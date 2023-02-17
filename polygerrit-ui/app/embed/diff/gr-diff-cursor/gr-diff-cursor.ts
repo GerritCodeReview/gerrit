@@ -9,7 +9,6 @@ import {
   DiffViewMode,
   GrDiffCursor as GrDiffCursorApi,
   LineNumber,
-  LineNumberEventDetail,
   LineSelectedEventDetail,
 } from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
@@ -21,6 +20,7 @@ import {
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
+import {fire} from '../../../utils/event-util';
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
@@ -484,16 +484,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
     const address = this.getAddressFor(row, side);
     if (address) {
       const {leftSide, number} = address;
-      row.dispatchEvent(
-        new CustomEvent<LineNumberEventDetail>(event, {
-          detail: {
-            lineNum: number,
-            side: leftSide ? Side.LEFT : Side.RIGHT,
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(row, event, {
+        lineNum: number,
+        side: leftSide ? Side.LEFT : Side.RIGHT,
+      });
     }
   }
 

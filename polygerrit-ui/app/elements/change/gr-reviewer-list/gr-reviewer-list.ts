@@ -23,6 +23,7 @@ import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
+import {fireEvent} from '../../../utils/event-util';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
@@ -212,13 +213,7 @@ export class GrReviewerList extends LitElement {
     if (this.ccsOnly) {
       value.ccsOnly = true;
     }
-    this.dispatchEvent(
-      new CustomEvent('show-reply-dialog', {
-        detail: {value},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fireEvent(this, 'show-reply-dialog');
   }
 }
 

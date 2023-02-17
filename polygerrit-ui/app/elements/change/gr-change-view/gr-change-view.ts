@@ -119,7 +119,6 @@ import {
   EventType,
   FileActionTapEvent,
   OpenFixPreviewEvent,
-  ShowAlertEventDetail,
   SwitchTabEvent,
   TabState,
   ValueChangedEvent,
@@ -128,6 +127,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
+  fire,
   fireAlert,
   fireDialogChange,
   fireEvent,
@@ -3059,20 +3059,14 @@ export class GrChangeView extends LitElement {
           }
 
           this.cancelUpdateCheckTimer();
-          this.dispatchEvent(
-            new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
-              detail: {
-                message: toastMessage,
-                // Persist this alert.
-                dismissOnNavigation: true,
-                showDismiss: true,
-                action: 'Reload',
-                callback: () => fireReload(this, true),
-              },
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fire(this, EventType.SHOW_ALERT, {
+            message: toastMessage,
+            // Persist this alert.
+            dismissOnNavigation: true,
+            showDismiss: true,
+            action: 'Reload',
+            callback: () => fireReload(this, true),
+          });
         });
     }, this.serverConfig.change.update_delay * 1000);
   }

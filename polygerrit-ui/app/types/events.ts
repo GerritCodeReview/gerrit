@@ -15,7 +15,6 @@ export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
   CHANGE = 'change',
   CHANGED = 'changed',
-  CHANGE_MESSAGE_DELETED = 'change-message-deleted',
   COMMIT = 'commit',
   DIALOG_CHANGE = 'dialog-change',
   DROP = 'drop',
@@ -49,7 +48,6 @@ declare global {
     'change': ChangeEvent;
     /* prettier-ignore */
     'changed': ChangedEvent;
-    'change-message-deleted': ChangeMessageDeletedEvent;
     /* prettier-ignore */
     'commit': AutocompleteCommitEvent;
     'dialog-change': DialogChangeEvent;
@@ -68,8 +66,6 @@ declare global {
     /* prettier-ignore */
     'reload': ReloadEvent;
     'remove-reviewer': RemoveReviewerEvent;
-    /* prettier-ignore */
-    'reply': ReplyEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
     'show-tab': SwitchTabEvent;
@@ -93,6 +89,11 @@ declare global {
   }
 }
 
+export interface AddAccountEventDetail {
+  value: string;
+}
+export type AddAccountEvent = CustomEvent<AddAccountEventDetail>;
+
 export interface AddReviewerEventDetail {
   reviewer: AccountInfo;
 }
@@ -110,7 +111,8 @@ export type BindValueChangeEvent = CustomEvent<BindValueChangeEventDetail>;
 
 export type ChangeEvent = InputEvent;
 
-export type ChangedEvent = CustomEvent<string>;
+// TODO: This event seems to be unused (no listener). Remove?
+export type ChangedEvent = CustomEvent<string | undefined>;
 
 export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;
@@ -192,6 +194,11 @@ export interface ReloadEventDetail {
   clearPatchset: boolean;
 }
 export type ReloadEvent = CustomEvent<ReloadEventDetail>;
+
+export interface RemoveAccountEventDetail {
+  account: AccountInfo;
+}
+export type RemoveAccountEvent = CustomEvent<RemoveAccountEventDetail>;
 
 export interface ReplyEventDetail {
   message: ChangeMessage;

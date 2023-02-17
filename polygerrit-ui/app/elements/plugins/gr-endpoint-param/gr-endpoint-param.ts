@@ -5,6 +5,7 @@
  */
 import {LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,9 +23,7 @@ export class GrEndpointParam extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('value')) {
-      this.dispatchEvent(
-        new CustomEvent('value-changed', {detail: {value: this.value}})
-      );
+      fireNoBubbleNoCompose(this, 'value-changed', {value: this.value});
     }
   }
 }

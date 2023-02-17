@@ -17,7 +17,11 @@ import {
 } from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
 import {RpcLogEventDetail} from '../../../../types/events';
-import {fireNetworkError, fireServerError} from '../../../../utils/event-util';
+import {
+  fire,
+  fireNetworkError,
+  fireServerError,
+} from '../../../../utils/event-util';
 import {FetchRequest} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
@@ -337,13 +341,7 @@ s   */
         elapsed,
         anonymizedUrl: req.anonymizedUrl,
       };
-      document.dispatchEvent(
-        new CustomEvent('gr-rpc-log', {
-          detail,
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(document, 'gr-rpc-log', detail);
     }
   }
 

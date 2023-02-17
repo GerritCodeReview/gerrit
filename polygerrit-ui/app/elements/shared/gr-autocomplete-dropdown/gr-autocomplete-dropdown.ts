@@ -6,7 +6,7 @@
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {Key} from '../../../utils/dom-util';
 import {FitController} from '../../lit/fit-controller';
 import {css, html, LitElement, PropertyValues} from 'lit';
@@ -274,32 +274,20 @@ export class GrAutocompleteDropdown extends LitElement {
   // private but used in tests
   handleTab() {
     if (this.isSuggestionListInteractible()) {
-      this.dispatchEvent(
-        new CustomEvent<ItemSelectedEventDetail>('item-selected', {
-          detail: {
-            trigger: 'tab',
-            selected: this.cursor.target,
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, 'item-selected', {
+        trigger: 'tab',
+        selected: this.cursor.target,
+      });
     }
   }
 
   // private but used in tests
   handleEnter() {
     if (this.isSuggestionListInteractible()) {
-      this.dispatchEvent(
-        new CustomEvent<ItemSelectedEventDetail>('item-selected', {
-          detail: {
-            trigger: 'enter',
-            selected: this.cursor.target,
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, 'item-selected', {
+        trigger: 'enter',
+        selected: this.cursor.target,
+      });
     }
   }
 
@@ -318,16 +306,10 @@ export class GrAutocompleteDropdown extends LitElement {
       }
       selected = selected.parentElement!;
     }
-    this.dispatchEvent(
-      new CustomEvent<ItemSelectedEventDetail>('item-selected', {
-        detail: {
-          trigger: 'click',
-          selected,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'item-selected', {
+      trigger: 'click',
+      selected,
+    });
   }
 
   private fireClose() {

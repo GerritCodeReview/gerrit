@@ -5,6 +5,7 @@
  */
 import '../gr-autocomplete/gr-autocomplete';
 import {
+  AutocompleteCommitEvent,
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
@@ -110,7 +111,7 @@ export class GrAccountEntry extends LitElement {
     return this.input!.text;
   }
 
-  private handleInputCommit(e: CustomEvent) {
+  private handleInputCommit(e: AutocompleteCommitEvent) {
     this.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: e.detail.value},

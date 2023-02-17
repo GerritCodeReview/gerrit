@@ -20,6 +20,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {
+  AutocompleteCommitEvent,
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
@@ -194,7 +195,7 @@ export class GrRepoAccess extends LitElement {
               id="editInheritFromInput"
               .text=${this.inheritFromFilter}
               .query=${this.query}
-              @commit=${(e: ValueChangedEvent) => {
+              @commit=${(e: AutocompleteCommitEvent) => {
                 this.handleUpdateInheritFrom(e);
               }}
               @bind-value-changed=${(e: ValueChangedEvent) => {
@@ -388,7 +389,7 @@ export class GrRepoAccess extends LitElement {
   }
 
   // private but used in test
-  handleUpdateInheritFrom(e: ValueChangedEvent) {
+  handleUpdateInheritFrom(e: AutocompleteCommitEvent) {
     this.inheritsFrom = {
       ...(this.inheritsFrom ?? {}),
       id: e.detail.value as UrlEncodedRepoName,

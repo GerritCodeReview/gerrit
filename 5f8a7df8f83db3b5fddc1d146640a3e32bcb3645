@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75af2948_946297c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-17T13:42:12Z",
+      "side": 1,
+      "message": "nit: btw you can do `stub.resolves([])` instead of `stub.returns(Promise.resolve([]))` everywhere",
+      "range": {
+        "startLine": 480,
+        "startChar": 6,
+        "endLine": 480,
+        "endChar": 39
+      },
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5fec23a_bc3a7a4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-17T13:42:12Z",
+      "side": 1,
+      "message": "we have a mockPromise util you can use to make a controllable promise rather than managing it yourself in each test. Should shorten a lot of your new tests and in other file.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/test-utils.ts;l\u003d26;drc\u003d4237f29c674b1b9e9efd88460f27f74685efc165",
+      "range": {
+        "startLine": 711,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 0
+      },
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

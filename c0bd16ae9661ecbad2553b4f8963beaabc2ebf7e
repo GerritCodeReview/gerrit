@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6d89cc_ecb2f462",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-17T13:22:48Z",
+      "side": 1,
+      "message": "CI fails due to flaky SSH tests. I verified this manually.",
+      "revId": "c0bd16ae9661ecbad2553b4f8963beaabc2ebf7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

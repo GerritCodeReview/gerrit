@@ -117,6 +117,7 @@ import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
   EditableContentSaveEvent,
   EventType,
+  FileActionTapEvent,
   OpenFixPreviewEvent,
   ShowAlertEventDetail,
   SwitchTabEvent,
@@ -3097,7 +3098,7 @@ export class GrChangeView extends LitElement {
     return classes.join(' ');
   }
 
-  private handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
+  private handleFileActionTap(e: FileActionTapEvent) {
     e.preventDefault();
     assertIsDefined(this.fileListHeader);
     const controls =

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
-import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {ItemSelectedEventDetail} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {pressKey, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
@@ -482,7 +482,7 @@ suite('gr-textarea tests', () => {
     element.specialCharIndex = 10;
     await element.updateComplete;
     const selectedItem = {dataset: {value: '😂'}} as unknown as HTMLElement;
-    const event = new CustomEvent<ItemSelectedEvent>('item-selected', {
+    const event = new CustomEvent<ItemSelectedEventDetail>('item-selected', {
       detail: {trigger: 'click', selected: selectedItem},
     });
     element.handleDropdownItemSelect(event);

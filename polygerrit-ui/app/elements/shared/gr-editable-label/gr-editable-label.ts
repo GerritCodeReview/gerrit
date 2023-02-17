@@ -21,6 +21,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {ValueChangedEvent} from '../../../types/events';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -207,7 +208,7 @@ export class GrEditableLabel extends LitElement {
         .text=${this.inputText}
         .query=${this.query}
         @cancel=${this.cancel}
-        @text-changed=${(e: CustomEvent) => {
+        @text-changed=${(e: ValueChangedEvent) => {
           this.inputText = e.detail.value;
         }}
       >

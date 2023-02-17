@@ -30,7 +30,7 @@ export interface Item {
   value?: string;
 }
 
-export interface ItemSelectedEvent {
+export interface ItemSelectedEventDetail {
   trigger: string;
   selected: HTMLElement | null;
 }
@@ -275,7 +275,7 @@ export class GrAutocompleteDropdown extends LitElement {
   handleTab() {
     if (this.isSuggestionListInteractible()) {
       this.dispatchEvent(
-        new CustomEvent<ItemSelectedEvent>('item-selected', {
+        new CustomEvent<ItemSelectedEventDetail>('item-selected', {
           detail: {
             trigger: 'tab',
             selected: this.cursor.target,
@@ -291,7 +291,7 @@ export class GrAutocompleteDropdown extends LitElement {
   handleEnter() {
     if (this.isSuggestionListInteractible()) {
       this.dispatchEvent(
-        new CustomEvent<ItemSelectedEvent>('item-selected', {
+        new CustomEvent<ItemSelectedEventDetail>('item-selected', {
           detail: {
             trigger: 'enter',
             selected: this.cursor.target,
@@ -319,7 +319,7 @@ export class GrAutocompleteDropdown extends LitElement {
       selected = selected.parentElement!;
     }
     this.dispatchEvent(
-      new CustomEvent<ItemSelectedEvent>('item-selected', {
+      new CustomEvent<ItemSelectedEventDetail>('item-selected', {
         detail: {
           trigger: 'click',
           selected,

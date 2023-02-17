@@ -68,7 +68,11 @@ import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-hig
 import {Timing, Interaction} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
-import {DisplayLine, RenderPreferences} from '../../../api/diff';
+import {
+  DisplayLine,
+  LineSelectedEventDetail,
+  RenderPreferences,
+} from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -120,7 +124,7 @@ export interface LineInfo {
 declare global {
   interface HTMLElementEventMap {
     /* prettier-ignore */
-    'render': CustomEvent;
+    'render': CustomEvent<void>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
@@ -129,7 +133,7 @@ declare global {
     'files-weblinks-changed': ValueChangedEvent<FilesWebLinks | undefined>;
     'is-image-diff-changed': ValueChangedEvent<boolean>;
     // Fired when the user selects a line (See gr-diff).
-    'line-selected': CustomEvent;
+    'line-selected': CustomEvent<LineSelectedEventDetail>;
     // Fired if being logged in is required.
     'show-auth-required': void;
   }

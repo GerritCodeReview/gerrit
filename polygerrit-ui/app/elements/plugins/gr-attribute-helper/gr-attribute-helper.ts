@@ -6,6 +6,7 @@
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {ValueChangedEvent} from '../../../types/events';
 
 export class GrAttributeHelper implements AttributeHelperPluginApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,7 +52,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
   bind(name: string, callback: (value: any) => void) {
     this.reporting.trackApi(this.plugin, 'attribute', 'bind');
     const attributeChangedEventName = this._getChangedEventName(name);
-    const changedHandler = (e: CustomEvent) =>
+    const changedHandler = (e: ValueChangedEvent) =>
       this._reportValue(callback, e.detail.value);
     const unbind = () =>
       this.element.removeEventListener(

@@ -6,8 +6,10 @@
 import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {FileActionTapEventDetail} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 
 interface EditAction {
   label: string;
@@ -64,15 +66,18 @@ export class GrEditFileControls extends LitElement {
     >`;
   }
 
-  _handleActionTap(e: CustomEvent) {
+  _handleActionTap(e: CustomEvent<DropdownLink>) {
     e.preventDefault();
     e.stopPropagation();
-    this._dispatchFileAction(e.detail.id, this.filePath);
+    const actionId = e.detail.id;
+    if (!actionId) return;
+    if (!this.filePath) return;
+    this._dispatchFileAction(actionId, this.filePath);
   }
 
-  _dispatchFileAction(action: EditAction, path?: string) {
+  _dispatchFileAction(action: string, path: string) {
     this.dispatchEvent(
-      new CustomEvent('file-action-tap', {
+      new CustomEvent<FileActionTapEventDetail>('file-action-tap', {
         detail: {action, path},
         bubbles: true,
         composed: true,
@@ -80,7 +85,7 @@ export class GrEditFileControls extends LitElement {
     );
   }
 
-  _computeFileActions(actions: EditAction[]) {
+  _computeFileActions(actions: EditAction[]): DropdownLink[] {
     // TODO(kaspern): conditionally disable some actions based on file status.
     return actions.map(action => {
       return {

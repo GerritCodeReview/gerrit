@@ -3,11 +3,13 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {FixSuggestionInfo, PatchSetNum} from './common';
+import {AccountInfo, FixSuggestionInfo, PatchSetNum} from './common';
 import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {DropdownLink} from '../elements/shared/gr-dropdown/gr-dropdown';
+import {AutocompleteCommitEvent} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
@@ -41,7 +43,7 @@ export enum EventType {
 
 declare global {
   interface HTMLElementEventMap {
-    /* prettier-ignore */
+    'add-reviewer': AddReviewerEvent;
     'bind-value-changed': BindValueChangeEvent;
     /* prettier-ignore */
     'change': ChangeEvent;
@@ -49,7 +51,7 @@ declare global {
     'changed': ChangedEvent;
     'change-message-deleted': ChangeMessageDeletedEvent;
     /* prettier-ignore */
-    'commit': CommitEvent;
+    'commit': AutocompleteCommitEvent;
     'dialog-change': DialogChangeEvent;
     /* prettier-ignore */
     'drop': DropEvent;
@@ -65,6 +67,7 @@ declare global {
     'reply-to-comment': ReplyToCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
+    'remove-reviewer': RemoveReviewerEvent;
     /* prettier-ignore */
     'reply': ReplyEvent;
     'show-alert': ShowAlertEvent;
@@ -90,6 +93,16 @@ declare global {
   }
 }
 
+export interface AddReviewerEventDetail {
+  reviewer: AccountInfo;
+}
+export type AddReviewerEvent = CustomEvent<AddReviewerEventDetail>;
+
+export interface RemoveReviewerEventDetail {
+  reviewer: AccountInfo;
+}
+export type RemoveReviewerEvent = CustomEvent<RemoveReviewerEventDetail>;
+
 export interface BindValueChangeEventDetail {
   value: string | undefined;
 }
@@ -104,8 +117,6 @@ export interface ChangeMessageDeletedEventDetail {
 }
 export type ChangeMessageDeletedEvent =
   CustomEvent<ChangeMessageDeletedEventDetail>;
-
-export type CommitEvent = CustomEvent;
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
 // This informs gr-app-element to remove footer, header from a11y tree
@@ -122,6 +133,13 @@ export interface EditableContentSaveEventDetail {
 }
 export type EditableContentSaveEvent =
   CustomEvent<EditableContentSaveEventDetail>;
+
+export interface FileActionTapEventDetail {
+  path: string;
+  action: string;
+}
+
+export type FileActionTapEvent = CustomEvent<FileActionTapEventDetail>;
 
 export interface RpcLogEventDetail {
   status: number | null;
@@ -231,7 +249,7 @@ export interface ChecksTabState {
 }
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;
 
-export type TapItemEvent = CustomEvent;
+export type TapItemEvent = CustomEvent<DropdownLink>;
 
 export interface TitleChangeEventDetail {
   title: string;

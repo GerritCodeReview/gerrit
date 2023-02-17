@@ -29,7 +29,10 @@ import {
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
+import {
+  CreateRangeCommentEventDetail,
+  GrDiffHighlight,
+} from '../gr-diff-highlight/gr-diff-highlight';
 import {
   GrDiffBuilderElement,
   getLineNumberCellWidth,
@@ -51,6 +54,7 @@ import {
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
+  LineSelectedEventDetail,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -989,8 +993,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   constructor() {
     super();
     provide(this, diffModelToken, () => this.diffModel);
-    this.addEventListener('create-range-comment', (e: Event) =>
-      this.handleCreateRangeComment(e as CustomEvent)
+    this.addEventListener(
+      'create-range-comment',
+      (e: CustomEvent<CreateRangeCommentEventDetail>) =>
+        this.handleCreateRangeComment(e)
     );
     this.addEventListener('render-content', () => this.handleRenderContent());
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
@@ -1344,7 +1350,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private dispatchSelectedLine(number: LineNumber, side: Side) {
     this.dispatchEvent(
-      new CustomEvent('line-selected', {
+      new CustomEvent<LineSelectedEventDetail>('line-selected', {
         detail: {
           number,
           side,
@@ -1386,7 +1392,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
   }
 
-  private handleCreateRangeComment(e: CustomEvent) {
+  private handleCreateRangeComment(
+    e: CustomEvent<CreateRangeCommentEventDetail>
+  ) {
     const range = e.detail.range;
     const side = e.detail.side;
     this.createCommentForSelection(side, range);

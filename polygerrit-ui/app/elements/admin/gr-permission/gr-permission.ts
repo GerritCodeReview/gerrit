@@ -565,6 +565,11 @@ export class GrPermission extends LitElement {
     e.preventDefault();
   }
 
+  // TODO: Do not use generic `CustomEvent`.
+  // There is something fishy going on here though.
+  // `e.detail.value` is of type `Rule`, but `splice()` expects a `number`.
+  // Did not look closer, but this seems to be broken. Should `e.detail.value`
+  // be replaced by `1` maybe??
   private handleRuleChanged(e: CustomEvent, index: number) {
     this.rules!.splice(index, e.detail.value);
     this.handleRulesChanged();

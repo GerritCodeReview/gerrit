@@ -116,7 +116,11 @@ import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {ValueChangedEvent} from '../../../types/events';
+import {
+  AddReviewerEvent,
+  RemoveReviewerEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -723,17 +727,19 @@ export class GrReplyDialog extends LitElement {
     // Plugins on reply-reviewers endpoint can take advantage of these
     // events to add / remove reviewers
 
-    this.addEventListener('add-reviewer', e => {
+    this.addEventListener('add-reviewer', (e: AddReviewerEvent) => {
+      const reviewer = e.detail.reviewer;
       // Only support account type, see more from:
       // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
       this.reviewersList?.addAccountItem({
-        account: (e as CustomEvent).detail.reviewer,
+        account: reviewer,
         count: 1,
       });
     });
 
-    this.addEventListener('remove-reviewer', e => {
-      this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
+    this.addEventListener('remove-reviewer', (e: RemoveReviewerEvent) => {
+      const reviewer = e.detail.reviewer;
+      this.reviewersList?.removeAccount(reviewer);
     });
   }
 

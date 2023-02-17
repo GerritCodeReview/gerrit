@@ -32,6 +32,7 @@ import {
   Point,
   Rect,
 } from './util';
+import {ValueChangedEvent} from '../../../types/events';
 
 const DRAG_DEAD_ZONE_PIXELS = 5;
 
@@ -760,7 +761,7 @@ export class GrImageViewer extends LitElement {
     );
   }
 
-  zoomControlChanged(event: CustomEvent) {
+  zoomControlChanged(event: ValueChangedEvent<'fit' | number>) {
     const value = event.detail.value;
     if (!value) return;
     if (value === 'fit') {
@@ -769,7 +770,7 @@ export class GrImageViewer extends LitElement {
         createEvent({type: 'zoom-level-changed', scale: 'fit'})
       );
     }
-    if (value > 0) {
+    if (typeof value === 'number' && value > 0) {
       this.scaledSelected = false;
       this.scale = value;
       this.dispatchEvent(
@@ -901,10 +902,10 @@ export class GrImageViewer extends LitElement {
     event.preventDefault();
   }
 
-  onOverviewCenterUpdated(event: CustomEvent) {
+  onOverviewCenterUpdated(event: CustomEvent<Point>) {
     this.frameConstrainer.requestCenter({
-      x: event.detail.x as number,
-      y: event.detail.y as number,
+      x: event.detail.x,
+      y: event.detail.y,
     });
     this.updateFrames();
   }

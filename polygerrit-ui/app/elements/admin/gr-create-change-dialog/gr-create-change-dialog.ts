@@ -23,7 +23,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -125,7 +125,7 @@ export class GrCreateChangeDialog extends LitElement {
               .text=${this.branch}
               .query=${this.query}
               placeholder="Destination branch"
-              @text-changed=${(e: CustomEvent) => {
+              @text-changed=${(e: ValueChangedEvent<BranchName>) => {
                 this.branch = e.detail.value;
               }}
             >

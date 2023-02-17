@@ -34,6 +34,8 @@ import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
 public class ProcMetricModule extends MetricModule {
+  private static final ThreadMXBeanInterface threadMxBean = ThreadMXBeanFactory.create();
+
   @Override
   protected void configure(MetricMaker metrics) {
     buildLabel(metrics);
@@ -167,6 +169,14 @@ public class ProcMetricModule extends MetricModule {
 
           objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
         });
+
+    if (threadMxBean.supportsAllocatedBytes()) {
+      metrics.newCallbackMetric(
+          "proc/jvm/memory/allocated",
+          Long.class,
+          new Description("Allocated memory").setCumulative().setUnit(Units.BYTES),
+          () -> getTotalAllocatedBytes());
+    }
   }
 
   private void procJvmMemoryPool(MetricMaker metrics) {
@@ -311,5 +321,20 @@ public class ProcMetricModule extends MetricModule {
             return deadlocked.length;
           });
     }
+  }
+
+  private static long getTotalAllocatedBytes() {
+    if (!threadMxBean.supportsAllocatedBytes()) {
+      return -1;
+    }
+
+    long[] ids = threadMxBean.getAllThreadIds();
+    long[] allocatedBytes = threadMxBean.getAllThreadsAllocatedBytes(ids);
+    long total = 0;
+
+    for (long a : allocatedBytes) {
+      total += a;
+    }
+    return total;
   }
 }

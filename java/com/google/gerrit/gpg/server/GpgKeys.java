@@ -14,13 +14,10 @@
 
 package com.google.gerrit.gpg.server;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
-import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -39,7 +36,6 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -48,35 +44,34 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
-import org.eclipse.jgit.util.NB;
 
 @Singleton
 public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<CurrentUser> self;
+  private final GpgKeysUtil gpgKeysUtil;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
-  private final ExternalIds externalIds;
 
   @Inject
   GpgKeys(
       DynamicMap<RestView<GpgKey>> views,
       Provider<CurrentUser> self,
+      GpgKeysUtil gpgKeysUtil,
       Provider<PublicKeyStore> storeProvider,
-      GerritPublicKeyChecker.Factory checkerFactory,
-      ExternalIds externalIds) {
+      GerritPublicKeyChecker.Factory checkerFactory) {
     this.views = views;
     this.self = self;
+    this.gpgKeysUtil = gpgKeysUtil;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
-    this.externalIds = externalIds;
   }
 
   @Override
@@ -89,10 +84,11 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       throws ResourceNotFoundException, PGPException, IOException {
     checkVisible(self, parent);
 
-    ExternalId gpgKeyExtId = findGpgKey(id.get(), getGpgExtIds(parent));
-    byte[] fp = parseFingerprint(gpgKeyExtId);
+    ExternalId gpgKeyExtId =
+        findGpgKey(id.get(), gpgKeysUtil.getGpgExtIds(parent.getUser().getAccountId()));
+    byte[] fp = GpgKeysUtil.parseFingerprint(gpgKeyExtId);
     try (PublicKeyStore store = storeProvider.get()) {
-      long keyId = keyId(fp);
+      long keyId = GpgKeysUtil.keyIdFromFingerprint(fp);
       for (PGPPublicKeyRing keyRing : store.get(keyId)) {
         PGPPublicKey key = keyRing.getPublicKey();
         if (Arrays.equals(key.getFingerprint(), fp)) {
@@ -130,10 +126,6 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     return gpgKeyExtId;
   }
 
-  static byte[] parseFingerprint(ExternalId gpgKeyExtId) {
-    return BaseEncoding.base16().decode(gpgKeyExtId.key().id());
-  }
-
   @Override
   public DynamicMap<RestView<GpgKey>> views() {
     return views;
@@ -144,29 +136,16 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     public Response<Map<String, GpgKeyInfo>> apply(AccountResource rsrc)
         throws PGPException, IOException, ResourceNotFoundException {
       checkVisible(self, rsrc);
-      Map<String, GpgKeyInfo> keys = new HashMap<>();
+      List<PGPPublicKey> keys = gpgKeysUtil.listGpgKeysForUser(rsrc.getUser().getAccountId());
+      Map<String, GpgKeyInfo> res = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
-        for (ExternalId extId : getGpgExtIds(rsrc)) {
-          byte[] fp = parseFingerprint(extId);
-          boolean found = false;
-          for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
-            if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
-              found = true;
-              GpgKeyInfo info =
-                  toJson(
-                      keyRing.getPublicKey(), checkerFactory.create(rsrc.getUser(), store), store);
-              keys.put(info.id, info);
-              info.id = null;
-              break;
-            }
-          }
-          if (!found) {
-            logger.atWarning().log(
-                "No public key stored for fingerprint %s", Fingerprint.toString(fp));
-          }
+        for (PGPPublicKey key : keys) {
+          GpgKeyInfo info = toJson(key, checkerFactory.create(rsrc.getUser(), store), store);
+          res.put(info.id, info);
+          info.id = null;
         }
       }
-      return Response.ok(keys);
+      return Response.ok(res);
     }
   }
 
@@ -191,14 +170,6 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
                 store));
       }
     }
-  }
-
-  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws IOException {
-    return externalIds.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
-  }
-
-  private static long keyId(byte[] fp) {
-    return NB.decodeInt64(fp, fp.length - 8);
   }
 
   static void checkVisible(Provider<CurrentUser> self, AccountResource rsrc)

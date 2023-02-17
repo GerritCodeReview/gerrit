@@ -175,7 +175,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     for (String id : input.delete) {
       try {
         ExternalId gpgKeyExtId = GpgKeys.findGpgKey(id, existingExtIds);
-        fingerprints.put(gpgKeyExtId, new Fingerprint(GpgKeys.parseFingerprint(gpgKeyExtId)));
+        fingerprints.put(gpgKeyExtId, new Fingerprint(GpgKeysUtil.parseFingerprint(gpgKeyExtId)));
       } catch (ResourceNotFoundException e) {
         // Skip removal.
       }

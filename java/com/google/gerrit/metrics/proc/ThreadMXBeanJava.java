@@ -37,4 +37,19 @@ class ThreadMXBeanJava implements ThreadMXBeanInterface {
   public long getCurrentThreadAllocatedBytes() {
     return -1;
   }
+
+  @Override
+  public boolean supportsAllocatedBytes() {
+    return false;
+  }
+
+  @Override
+  public long getThreadAllocatedBytes(long threadId) {
+    return -1;
+  }
+
+  @Override
+  public long[] getAllThreadIds() {
+    return sys.getAllThreadIds();
+  }
 }

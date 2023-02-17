@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf7d438a_4463cd0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-17T11:01:55Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s kind of tech debt, that I don\u0027t want to touch much. I tried to clean it up. There is still todo on line 251 to stop hacking ts type.",
+      "parentUuid": "b5687acd_767531c3",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 16
+      },
+      "revId": "6b51d7e7f7d0949e1196995f422a03e401866a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ef367ed_8302df33",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-02-16T19:11:09Z",
       "side": 1,
       "message": "Maybe we should use a different name to not confuse?\n\nSomething like accountOrGroup or detail?",
+      "revId": "6b51d7e7f7d0949e1196995f422a03e401866a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a820fe_2ac0083f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-17T11:01:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef367ed_8302df33",
       "revId": "6b51d7e7f7d0949e1196995f422a03e401866a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

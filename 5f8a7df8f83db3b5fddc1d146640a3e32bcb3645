@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f866e01_928c3e88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-17T14:58:10Z",
+      "side": 1,
+      "message": "There\u0027s alternative solutions with interfaces that\u0027s a bit shorter.\n```\ntype LoadingSuggestions \u003d {\n  status: \u0027loading\u0027\n}\n  \ntype LoadedSuggestions \u003d {\n  status: \u0027loaded\u0027\n  suggestions: AutocompleteSuggestion[]\n}\n\n\ntype ErrorLoading \u003d {\n  status: \u0027error\u0027\n  error: string\n}\n\ntype QueryState \u003d LoadingSuggestions | LoadedSuggestions | ErrorLoading\n```\n\nUp to you, the current solution isn\u0027t terrible.",
+      "parentUuid": "305da54b_7e4d341b",
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75af2948_946297c3",

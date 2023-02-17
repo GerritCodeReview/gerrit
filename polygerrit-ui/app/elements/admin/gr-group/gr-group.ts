@@ -13,7 +13,7 @@ import {
   AutocompleteQuery,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
@@ -48,16 +48,13 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-group': GrGroup;
   }
+  interface HTMLElementEventMap {
+    'name-changed': CustomEvent<GroupNameChangedDetail>;
+  }
 }
 
 @customElement('gr-group')
 export class GrGroup extends LitElement {
-  /**
-   * Fired when the group name changes.
-   *
-   * @event name-changed
-   */
-
   private readonly query: AutocompleteQuery;
 
   @property({type: String})
@@ -373,13 +370,7 @@ export class GrGroup extends LitElement {
         name: groupName,
         external: !this.groupIsInternal,
       };
-      this.dispatchEvent(
-        new CustomEvent('name-changed', {
-          detail,
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(this, 'name-changed', detail);
       this.requestUpdate();
     }
 

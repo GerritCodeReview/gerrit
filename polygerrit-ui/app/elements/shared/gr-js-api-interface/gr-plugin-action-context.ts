@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
-import {EventType, ShowAlertEventDetail} from '../../../types/events';
 import {PluginApi} from '../../../api/plugin';
 import {UIActionInfo} from './gr-change-actions-js-api';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {PopupPluginApi} from '../../../api/popup';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
 import {getAppContext} from '../../../services/app-context';
+import {fireAlert} from '../../../utils/event-util';
 
 interface ButtonCallBacks {
   onclick: (event: Event) => boolean;
@@ -110,13 +110,7 @@ export class GrPluginActionContext {
       .send(this.action.method, this.action.__url, payload)
       .then(onSuccess)
       .catch((error: unknown) => {
-        document.dispatchEvent(
-          new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
-            detail: {
-              message: `Plugin network error: ${error}`,
-            },
-          })
-        );
+        fireAlert(document, `Plugin network error: ${error}`);
       });
   }
 }

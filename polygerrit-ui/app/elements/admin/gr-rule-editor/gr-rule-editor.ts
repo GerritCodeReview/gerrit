@@ -8,12 +8,12 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
@@ -80,6 +80,9 @@ interface RuleLabelValue {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-rule-editor': GrRuleEditor;
+  }
+  interface HTMLElementEventMap {
+    'rule-changed': ValueChangedEvent<Rule | undefined>;
   }
 }
 
@@ -537,13 +540,6 @@ export class GrRuleEditor extends LitElement {
 
   private handleRuleChange() {
     this.requestUpdate('rule');
-
-    this.dispatchEvent(
-      new CustomEvent('rule-changed', {
-        detail: {value: this.rule},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'rule-changed', {value: this.rule});
   }
 }

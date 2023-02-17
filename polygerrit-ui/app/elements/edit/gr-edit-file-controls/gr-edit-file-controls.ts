@@ -6,10 +6,11 @@
 import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {FileActionTapEventDetail} from '../../../types/events';
+import {FileActionTapEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
+import {fire} from '../../../utils/event-util';
 
 interface EditAction {
   label: string;
@@ -18,12 +19,6 @@ interface EditAction {
 
 @customElement('gr-edit-file-controls')
 export class GrEditFileControls extends LitElement {
-  /**
-   * Fired when an action in the overflow menu is tapped.
-   *
-   * @event file-action-tap
-   */
-
   @property({type: String})
   filePath?: string;
 
@@ -76,13 +71,7 @@ export class GrEditFileControls extends LitElement {
   }
 
   _dispatchFileAction(action: string, path: string) {
-    this.dispatchEvent(
-      new CustomEvent<FileActionTapEventDetail>('file-action-tap', {
-        detail: {action, path},
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fire(this, 'file-action-tap', {action, path});
   }
 
   _computeFileActions(actions: EditAction[]): DropdownLink[] {
@@ -99,5 +88,8 @@ export class GrEditFileControls extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-edit-file-controls': GrEditFileControls;
+  }
+  interface HTMLElementEventMap {
+    'file-action-tap': FileActionTapEvent;
   }
 }

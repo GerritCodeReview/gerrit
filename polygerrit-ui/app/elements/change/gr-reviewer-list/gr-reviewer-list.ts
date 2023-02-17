@@ -23,15 +23,11 @@ import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
+import {fire} from '../../../utils/event-util';
+import {ShowReplyDialogEvent} from '../../../types/events';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
-  /**
-   * Fired when the "Add reviewer..." button is tapped.
-   *
-   * @event show-reply-dialog
-   */
-
   @property({type: Object}) change?: ChangeInfo;
 
   @property({type: Object}) account?: AccountDetailInfo;
@@ -203,27 +199,19 @@ export class GrReviewerList extends LitElement {
   handleAddTap(e: Event) {
     e.preventDefault();
     const value = {
-      reviewersOnly: false,
-      ccsOnly: false,
+      reviewersOnly: this.reviewersOnly,
+      ccsOnly: this.ccsOnly,
     };
-    if (this.reviewersOnly) {
-      value.reviewersOnly = true;
-    }
-    if (this.ccsOnly) {
-      value.ccsOnly = true;
-    }
-    this.dispatchEvent(
-      new CustomEvent('show-reply-dialog', {
-        detail: {value},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'show-reply-dialog', {value});
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-reviewer-list': GrReviewerList;
+  }
+  interface HTMLElementEventMap {
+    /** Fired when the "Add reviewer..." button is tapped. */
+    'show-reply-dialog': ShowReplyDialogEvent;
   }
 }

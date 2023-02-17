@@ -26,6 +26,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {ValueChangedEvent} from '../../../types/events';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -310,11 +311,7 @@ export class GrSearchBar extends LitElement {
       const detail: SearchBarHandleSearchDetail = {
         inputVal: this.inputVal,
       };
-      this.dispatchEvent(
-        new CustomEvent('handle-search', {
-          detail,
-        })
-      );
+      fireNoBubbleNoCompose(this, 'handle-search', detail);
     }
   }
 

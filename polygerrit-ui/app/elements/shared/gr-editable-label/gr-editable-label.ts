@@ -22,6 +22,7 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -309,13 +310,8 @@ export class GrEditableLabel extends LitElement {
       this.value = this.inputText || '';
     }
     this.editing = false;
-    this.dispatchEvent(
-      new CustomEvent('changed', {
-        detail: this.value,
-        composed: true,
-        bubbles: true,
-      })
-    );
+    // TODO: This event seems to be unused (no listener). Remove?
+    fire(this, 'changed', this.value);
   }
 
   private cancel() {

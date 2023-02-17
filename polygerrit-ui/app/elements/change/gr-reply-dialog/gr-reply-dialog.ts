@@ -92,7 +92,10 @@ import {
 import {pluralize} from '../../../utils/string-util';
 import {
   fireAlert,
+  fireError,
   fireEvent,
+  fireEventNoBubble,
+  fireEventNoBubbleNoCompose,
   fireIronAnnounce,
   fireReload,
   fireServerError,
@@ -1482,12 +1485,7 @@ export class GrReplyDialog extends LitElement {
 
         this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
-        this.dispatchEvent(
-          new CustomEvent('send', {
-            composed: true,
-            bubbles: false,
-          })
-        );
+        fireEventNoBubble(this, 'send');
         fireIronAnnounce(this, 'Reply sent');
         return;
       })
@@ -1870,12 +1868,7 @@ export class GrReplyDialog extends LitElement {
   async cancel() {
     assertIsDefined(this.change, 'change');
     if (!this.change?.owner) throw new Error('missing required owner property');
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'cancel');
     await this.patchsetLevelGrComment?.save();
     this.rebuildReviewerArrays();
   }
@@ -1906,13 +1899,7 @@ export class GrReplyDialog extends LitElement {
       return;
     }
     return this.send(this.includeComments, this.canBeStarted).catch(err => {
-      this.dispatchEvent(
-        new CustomEvent('show-error', {
-          bubbles: true,
-          composed: true,
-          detail: {message: `Error submitting review ${err}`},
-        })
-      );
+      fireError(this, `Error submitting review ${err}`);
     });
   }
 
@@ -2089,7 +2076,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   sendDisabledChanged() {
-    this.dispatchEvent(new CustomEvent('send-disabled-changed'));
+    fireEventNoBubbleNoCompose(this, 'send-disabled-changed');
   }
 
   getReviewerSuggestionsProvider(change?: ChangeInfo | ParsedChangeInfo) {

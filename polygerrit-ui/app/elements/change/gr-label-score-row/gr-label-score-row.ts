@@ -18,21 +18,20 @@ import {
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {Label} from '../../../utils/label-util';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {fire} from '../../../utils/event-util';
+import {LabelsChangedDetail} from '../../../api/change-reply';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-label-score-row': GrLabelScoreRow;
   }
+  interface HTMLElementEventMap {
+    'labels-changed': CustomEvent<LabelsChangedDetail>;
+  }
 }
 
 @customElement('gr-label-score-row')
 export class GrLabelScoreRow extends LitElement {
-  /**
-   * Fired when any label is changed.
-   *
-   * @event labels-changed
-   */
-
   @query('#labelSelector')
   labelSelector?: IronSelectorElement;
 
@@ -365,13 +364,7 @@ export class GrLabelScoreRow extends LitElement {
     this.selectedValueText = selectedItem.getAttribute('title') || '';
     const name = selectedItem.dataset['name'];
     const value = selectedItem.dataset['value'];
-    this.dispatchEvent(
-      new CustomEvent('labels-changed', {
-        detail: {name, value},
-        bubbles: true,
-        composed: true,
-      })
-    );
+    if (name && value) fire(this, 'labels-changed', {name, value});
   };
 
   private computePermittedLabelValues() {

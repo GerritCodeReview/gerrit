@@ -20,6 +20,24 @@ export function fireEvent(target: EventTarget, type: string) {
   );
 }
 
+export function fireEventNoBubble(target: EventTarget, type: string) {
+  target.dispatchEvent(
+    new CustomEvent(type, {
+      composed: true,
+      bubbles: false,
+    })
+  );
+}
+
+export function fireEventNoBubbleNoCompose(target: EventTarget, type: string) {
+  target.dispatchEvent(
+    new CustomEvent(type, {
+      composed: false,
+      bubbles: false,
+    })
+  );
+}
+
 export type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
   HTMLElementEventMap[K] extends CustomEvent<infer DT>
     ? unknown extends DT
@@ -56,8 +74,40 @@ export function fire<T>(target: EventTarget, type: string, detail: T) {
   );
 }
 
+export function fireNoBubble<K extends keyof HTMLElementEventMap, T>(
+  target: EventTarget,
+  type: K,
+  detail: T
+) {
+  target.dispatchEvent(
+    new CustomEvent<T>(type, {
+      detail,
+      composed: true,
+      bubbles: false,
+    })
+  );
+}
+
+export function fireNoBubbleNoCompose<K extends keyof HTMLElementEventMap, T>(
+  target: EventTarget,
+  type: K,
+  detail: T
+) {
+  target.dispatchEvent(
+    new CustomEvent<T>(type, {
+      detail,
+      composed: false,
+      bubbles: false,
+    })
+  );
+}
+
 export function fireAlert(target: EventTarget, message: string) {
   fire(target, EventType.SHOW_ALERT, {message, showDismiss: true});
+}
+
+export function fireError(target: EventTarget, message: string) {
+  fire(target, EventType.SHOW_ERROR, {message});
 }
 
 export function firePageError(response?: Response | null) {

@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6287d00_7bb65aa2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-17T14:05:54Z",
+      "side": 1,
+      "message": "Make this global, no need to save it on the specific object?",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 0
+      },
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0384f11b_594f71fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-17T14:05:54Z",
+      "side": 1,
+      "message": "This could benefit from being a method that takes queryId as parameter.",
+      "range": {
+        "startLine": 457,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 6
+      },
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8f6b16_b1d311e9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-17T14:05:54Z",
+      "side": 1,
+      "message": "Could this be done by using a single varaible that\u0027s a disjoint union of the two types?\n\nE.g using something like https://gcanti.github.io/fp-ts/modules/Either.ts.html",
+      "revId": "5f8a7df8f83db3b5fddc1d146640a3e32bcb3645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75af2948_946297c3",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
         "patchSetId": 6

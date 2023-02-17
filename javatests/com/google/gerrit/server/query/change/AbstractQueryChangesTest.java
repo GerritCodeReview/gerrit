@@ -1356,12 +1356,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // create group and add users
     AccountGroup.UUID external_group1 = AccountGroup.uuid("testbackend:group1");
     AccountGroup.UUID external_group2 = AccountGroup.uuid("testbackend:group2");
+    String nameOfGroupThatContainsExternalGroupAsSubgroup = "test-group-1";
+    String nameOfGroupThatContainsExternalGroupAsSubSubgroup = "test-group-2";
     testGroupBackend.create(external_group1);
     testGroupBackend.create(external_group2);
     testGroupBackend.setMembershipsOf(
         user1, new ListGroupMembership(ImmutableList.of(external_group1)));
     testGroupBackend.setMembershipsOf(
         user2, new ListGroupMembership(ImmutableList.of(external_group2)));
+    AccountGroup.UUID uuidOfGroupThatContainsExternalGroupAsSubgroup =
+        groupOperations
+            .newGroup()
+            .name(nameOfGroupThatContainsExternalGroupAsSubgroup)
+            .addSubgroup(external_group1)
+            .create();
+    groupOperations
+        .newGroup()
+        .name(nameOfGroupThatContainsExternalGroupAsSubSubgroup)
+        .addSubgroup(uuidOfGroupThatContainsExternalGroupAsSubgroup)
+        .create();
 
     Change change1 = insert(repo, newChange(repo), user1);
     Change change2 = insert(repo, newChange(repo), user1);
@@ -1380,6 +1393,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("label:Code-Review=+1," + external_group1.get(), change1);
     assertQuery("label:Code-Review=+1,group=" + external_group1.get(), change1);
+    assertQuery(
+        "label:Code-Review=+1,group=" + nameOfGroupThatContainsExternalGroupAsSubgroup, change1);
+    assertQuery(
+        "label:Code-Review=+1,group=" + nameOfGroupThatContainsExternalGroupAsSubSubgroup, change1);
     assertQuery("label:Code-Review=+1,user=user1", change1);
     assertQuery("label:Code-Review=+1,user=user2");
     assertQuery("label:Code-Review=+1,group=" + external_group2.get());
@@ -1387,6 +1404,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Negated operator tests
     assertQuery("-label:Code-Review=+1," + external_group1.get(), change2);
     assertQuery("-label:Code-Review=+1,group=" + external_group1.get(), change2);
+    assertQuery(
+        "-label:Code-Review=+1,group=" + nameOfGroupThatContainsExternalGroupAsSubgroup, change2);
+    assertQuery(
+        "-label:Code-Review=+1,group=" + nameOfGroupThatContainsExternalGroupAsSubSubgroup,
+        change2);
     assertQuery("-label:Code-Review=+1,user=user1", change2);
     assertQuery("-label:Code-Review=+1,group=" + external_group2.get(), change2, change1);
     assertQuery("-label:Code-Review=+1,user=user2", change2, change1);

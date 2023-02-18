@@ -54,7 +54,6 @@ import {GrConfirmRebaseDialog} from '../gr-confirm-rebase-dialog/gr-confirm-reba
 import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dialog';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
-import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -2440,7 +2439,7 @@ suite('gr-change-actions tests', () => {
         onShowError = sinon.stub();
         element.addEventListener('show-error', onShowError);
         onShowAlert = sinon.stub();
-        element.addEventListener(EventType.SHOW_ALERT, onShowAlert);
+        element.addEventListener('show-alert', onShowAlert);
       });
 
       suite('happy path', () => {

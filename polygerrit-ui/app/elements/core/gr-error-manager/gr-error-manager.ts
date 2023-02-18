@@ -14,7 +14,6 @@ import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {
   AuthErrorEvent,
-  EventType,
   NetworkErrorEvent,
   ServerErrorEvent,
   ShowAlertEventDetail,
@@ -124,9 +123,9 @@ export class GrErrorManager extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    document.addEventListener(EventType.SERVER_ERROR, this.handleServerError);
-    document.addEventListener(EventType.NETWORK_ERROR, this.handleNetworkError);
-    document.addEventListener(EventType.SHOW_ALERT, this.handleShowAlert);
+    document.addEventListener('server-error', this.handleServerError);
+    document.addEventListener('network-error', this.handleNetworkError);
+    document.addEventListener('show-alert', this.handleShowAlert);
     document.addEventListener('hide-alert', this.hideAlert);
     document.addEventListener('show-error', this.handleShowErrorDialog);
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -140,15 +139,9 @@ export class GrErrorManager extends LitElement {
 
   override disconnectedCallback() {
     this.clearHideAlertHandle();
-    document.removeEventListener(
-      EventType.SERVER_ERROR,
-      this.handleServerError
-    );
-    document.removeEventListener(
-      EventType.NETWORK_ERROR,
-      this.handleNetworkError
-    );
-    document.removeEventListener(EventType.SHOW_ALERT, this.handleShowAlert);
+    document.removeEventListener('server-error', this.handleServerError);
+    document.removeEventListener('network-error', this.handleNetworkError);
+    document.removeEventListener('show-alert', this.handleShowAlert);
     document.removeEventListener('hide-alert', this.hideAlert);
     document.removeEventListener('show-error', this.handleShowErrorDialog);
     document.removeEventListener(
@@ -358,7 +351,7 @@ export class GrErrorManager extends LitElement {
     el.show(text, actionText, actionCallback);
     this.alertElement = el;
     fireIronAnnounce(this, `Alert: ${text}`);
-    this.reporting.reportInteraction(EventType.SHOW_ALERT, {text});
+    this.reporting.reportInteraction('show-alert', {text});
   }
 
   private readonly hideAlert = () => {

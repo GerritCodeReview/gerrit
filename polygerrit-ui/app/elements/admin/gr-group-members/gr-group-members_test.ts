@@ -25,7 +25,7 @@ import {
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {EventType, PageErrorEvent} from '../../../types/events';
+import {PageErrorEvent} from '../../../types/events';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -446,7 +446,7 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'bad-name';
     const alertStub = sinon.stub();
-    element.addEventListener(EventType.SHOW_ALERT, alertStub);
+    element.addEventListener('show-alert', alertStub);
     const errorResponse = {...new Response(), status: 404, ok: false};
     stubRestApi('saveIncludedGroup').callsFake((_, _non, errFn) => {
       if (errFn !== undefined) {

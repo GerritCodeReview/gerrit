@@ -38,7 +38,6 @@ import {
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {fixture, html, assert} from '@open-wc/testing';
-import {EventType} from '../../../types/events';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;
@@ -915,7 +914,7 @@ suite('gr-settings-view tests', () => {
       await element._testOnly_loadingPromise;
       assert.equal(
         (dispatchEventSpy.lastCall.args[0] as CustomEvent).type,
-        EventType.SHOW_ALERT
+        'show-alert'
       );
       assert.deepEqual(
         (dispatchEventSpy.lastCall.args[0] as CustomEvent).detail,

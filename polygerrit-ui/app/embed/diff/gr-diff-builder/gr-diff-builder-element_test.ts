@@ -30,7 +30,6 @@ import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {BlameInfo} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
-import {EventType} from '../../../types/events';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
@@ -134,7 +133,7 @@ suite('gr-diff-builder tests', () => {
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
     const errorStub = sinon.stub();
-    diffTable.addEventListener(EventType.SHOW_ALERT, errorStub);
+    diffTable.addEventListener('show-alert', errorStub);
     assert.throws(() => element.handlePreferenceError('tab size'));
     assert.equal(
       errorStub.lastCall.args[0].detail.message,

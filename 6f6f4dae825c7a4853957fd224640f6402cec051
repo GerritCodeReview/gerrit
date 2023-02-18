@@ -16,6 +16,23 @@
       "message": "Comment removed by: Chris Poucet; Reason: Spam",
       "revId": "6f6f4dae825c7a4853957fd224640f6402cec051",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e18991_84780085",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155595
+      },
+      "writtenOn": "2023-02-18T00:12:29Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: Spam",
+      "revId": "6f6f4dae825c7a4853957fd224640f6402cec051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

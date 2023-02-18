@@ -11,7 +11,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
-import {fireEventNoBubble, fireNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -115,6 +115,6 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubble(this, 'cancel');
+    fireNoBubble(this, 'cancel', {});
   }
 }

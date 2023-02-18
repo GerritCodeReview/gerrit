@@ -25,7 +25,7 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
@@ -644,6 +644,6 @@ export class GrMainHeader extends LitElement {
   private onMobileSearchTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEvent(this, 'mobile-search');
+    fire(this, 'mobile-search', {});
   }
 }

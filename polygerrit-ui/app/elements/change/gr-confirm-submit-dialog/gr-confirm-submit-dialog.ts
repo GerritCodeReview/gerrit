@@ -21,7 +21,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
-import {fireEventNoBubbleNoCompose} from '../../../utils/event-util';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog
@@ -194,13 +194,13 @@ export class GrConfirmSubmitDialog
   private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubbleNoCompose(this, 'confirm');
+    fireNoBubbleNoCompose(this, 'confirm', {});
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubbleNoCompose(this, 'cancel');
+    fireNoBubbleNoCompose(this, 'cancel', {});
   }
 }
 

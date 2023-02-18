@@ -44,7 +44,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDashboardUrl} from '../../../models/views/dashboard';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-hovercard-account-contents')
@@ -251,10 +251,10 @@ export class GrHovercardAccountContents extends LitElement {
       <a
         href=${ifDefined(this.computeOwnerChangesLink())}
         @click=${() => {
-          fireEvent(this, 'link-clicked');
+          fire(this, 'link-clicked', {});
         }}
         @enter=${() => {
-          fireEvent(this, 'link-clicked');
+          fire(this, 'link-clicked', {});
         }}
       >
         Changes
@@ -263,10 +263,10 @@ export class GrHovercardAccountContents extends LitElement {
       <a
         href=${ifDefined(this.computeOwnerDashboardLink())}
         @click=${() => {
-          fireEvent(this, 'link-clicked');
+          fire(this, 'link-clicked', {});
         }}
         @enter=${() => {
-          fireEvent(this, 'link-clicked');
+          fire(this, 'link-clicked', {});
         }}
       >
         Dashboard
@@ -501,7 +501,7 @@ export class GrHovercardAccountContents extends LitElement {
       reason,
       reason_account: this.selfAccount,
     };
-    fireEvent(this, 'attention-set-updated');
+    fire(this, 'attention-set-updated', {});
 
     this.reporting.reportInteraction(
       'attention-hovercard-add',
@@ -510,9 +510,9 @@ export class GrHovercardAccountContents extends LitElement {
     this.restApiService
       .addToAttentionSet(this.change._number, this.account._account_id, reason)
       .then(() => {
-        fireEvent(this, 'hide-alert');
+        fire(this, 'hide-alert', {});
       });
-    fireEvent(this, 'action-taken');
+    fire(this, 'action-taken', {});
   }
 
   private handleClickRemoveFromAttentionSet() {
@@ -528,7 +528,7 @@ export class GrHovercardAccountContents extends LitElement {
     const reason = getRemovedByReason(this.selfAccount, this.serverConfig);
     if (this.change.attention_set)
       delete this.change.attention_set[this.account._account_id];
-    fireEvent(this, 'attention-set-updated');
+    fire(this, 'attention-set-updated', {});
 
     this.reporting.reportInteraction(
       'attention-hovercard-remove',
@@ -541,9 +541,9 @@ export class GrHovercardAccountContents extends LitElement {
         reason
       )
       .then(() => {
-        fireEvent(this, 'hide-alert');
+        fire(this, 'hide-alert', {});
       });
-    fireEvent(this, 'action-taken');
+    fire(this, 'action-taken', {});
   }
 
   private reportingDetails() {

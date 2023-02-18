@@ -9,7 +9,7 @@ import {ChangeInfo, DownloadInfo, PatchSetNum} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {copyToClipbard, hasOwnProperty} from '../../../utils/common-util';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
@@ -224,7 +224,7 @@ export class GrDownloadDialog extends LitElement {
       commands[index].command,
       `${commands[index].title} command`
     );
-    fireEvent(this, 'close');
+    fire(this, 'close', {});
   }
 
   override focus() {
@@ -314,7 +314,7 @@ export class GrDownloadDialog extends LitElement {
   private handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEvent(this, 'close');
+    fire(this, 'close', {});
   }
 
   private schemesChanged() {

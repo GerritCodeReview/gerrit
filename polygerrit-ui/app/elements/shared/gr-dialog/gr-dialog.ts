@@ -10,7 +10,7 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {when} from 'lit/directives/when.js';
-import {fireEventNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -200,13 +200,13 @@ export class GrDialog extends LitElement {
 
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubble(this, 'confirm');
+    fireNoBubble(this, 'confirm', {});
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubble(this, 'cancel');
+    fireNoBubble(this, 'cancel', {});
   }
 
   _handleKeydown(e: KeyboardEvent) {

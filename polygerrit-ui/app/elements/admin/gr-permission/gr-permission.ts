@@ -34,7 +34,7 @@ import {
   EditableRepoAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {getAppContext} from '../../../services/app-context';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -351,7 +351,7 @@ export class GrPermission extends LitElement {
     this.permission.value.modified = true;
     this.permission.value.exclusive = (e.target as HTMLInputElement).checked;
     // Allows overall access page to know a change has been made.
-    fireEvent(this, 'access-modified');
+    fire(this, 'access-modified', {});
   }
 
   handleRemovePermission() {
@@ -359,11 +359,11 @@ export class GrPermission extends LitElement {
       return;
     }
     if (this.permission.value.added) {
-      fireEvent(this, 'added-permission-removed');
+      fire(this, 'added-permission-removed', {});
     }
     this.deleted = true;
     this.permission.value.deleted = true;
-    fireEvent(this, 'access-modified');
+    fire(this, 'access-modified', {});
   }
 
   private handleRulesChanged() {
@@ -532,7 +532,7 @@ export class GrPermission extends LitElement {
     const value = this.rules[this.rules.length - 1].value;
     value!.added = true;
     this.permission.value.rules[groupId] = value!;
-    fireEvent(this, 'access-modified');
+    fire(this, 'access-modified', {});
     this.requestUpdate();
   }
 

@@ -43,7 +43,6 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers, getUserId} from '../../utils/account-util';
-import {EventType} from '../../types/events';
 import {SpecialFilePath} from '../../constants/constants';
 import {AccountsModel} from '../accounts-model/accounts-model';
 import {
@@ -643,7 +642,7 @@ export class CommentsModel extends Model<CommentState> {
     this.modifyState(s => deleteDraft(s, draft));
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
-      fire(document, EventType.SHOW_ALERT, {
+      fire(document, 'show-alert', {
         message: 'Draft Discarded',
         action: 'Undo',
         callback: () => this.restoreDraft(draft.id),

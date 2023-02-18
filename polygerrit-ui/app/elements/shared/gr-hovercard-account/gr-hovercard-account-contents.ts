@@ -38,7 +38,6 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {EventType} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -423,7 +422,7 @@ export class GrHovercardAccountContents extends LitElement {
     // accountKey() throws an error if _account_id & email is not found, which
     // we want to check before showing reloading toast
     const _accountKey = accountKey(this.account);
-    fire(this, EventType.SHOW_ALERT, {
+    fire(this, 'show-alert', {
       message: 'Reloading page...',
     });
     const reviewInput: Partial<ReviewInput> = {};
@@ -453,7 +452,7 @@ export class GrHovercardAccountContents extends LitElement {
   private handleRemoveReviewerOrCC() {
     if (!this.change || !(this.account?._account_id || this.account?.email))
       throw new Error('Missing change or account.');
-    fire(this, EventType.SHOW_ALERT, {
+    fire(this, 'show-alert', {
       message: 'Reloading page...',
     });
     this.restApiService
@@ -486,7 +485,7 @@ export class GrHovercardAccountContents extends LitElement {
 
   private handleClickAddToAttentionSet() {
     if (!this.change || !this.account._account_id) return;
-    fire(this, EventType.SHOW_ALERT, {
+    fire(this, 'show-alert', {
       message: 'Reloading page...',
       dismissOnNavigation: true,
     });
@@ -517,7 +516,7 @@ export class GrHovercardAccountContents extends LitElement {
 
   private handleClickRemoveFromAttentionSet() {
     if (!this.change || !this.account._account_id) return;
-    fire(this, EventType.SHOW_ALERT, {
+    fire(this, 'show-alert', {
       message: 'Saving attention set update ...',
       dismissOnNavigation: true,
     });

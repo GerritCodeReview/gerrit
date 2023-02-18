@@ -17,7 +17,7 @@ import {
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
-import {EventType, OpenFixPreviewEventDetail} from '../../../types/events';
+import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
@@ -51,7 +51,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   async function open(detail: OpenFixPreviewEventDetail) {
     element.open(
-      new CustomEvent<OpenFixPreviewEventDetail>(EventType.OPEN_FIX_PREVIEW, {
+      new CustomEvent<OpenFixPreviewEventDetail>('open-fix-preview', {
         detail,
       })
     );

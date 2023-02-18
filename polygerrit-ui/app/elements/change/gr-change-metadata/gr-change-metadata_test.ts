@@ -54,7 +54,6 @@ import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {nothing} from 'lit';
 import {fixture, html, assert} from '@open-wc/testing';
-import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
@@ -871,7 +870,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newTopic)
       );
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
 
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
 
@@ -892,7 +891,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newTopic)
       );
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const remove = queryAndAssert<GrButton>(chip, '#remove');
@@ -916,7 +915,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newHashtag)
       );
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
       element.handleHashtagChanged(
         new CustomEvent('test', {detail: 'new hashtag'})
       );

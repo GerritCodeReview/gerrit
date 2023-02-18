@@ -85,7 +85,6 @@ import {
   getVotingRange,
   StandardLabels,
 } from '../../../utils/label-util';
-import {EventType} from '../../../types/events';
 import {
   ActionPriority,
   ActionType,
@@ -1950,7 +1949,7 @@ export class GrChangeActions
       .fetchChangeUpdates(change)
       .then(result => {
         if (!result.isLatest) {
-          fire(this, EventType.SHOW_ALERT, {
+          fire(this, 'show-alert', {
             message:
               'Cannot set label: a newer patch has been ' +
               'uploaded to this change.',

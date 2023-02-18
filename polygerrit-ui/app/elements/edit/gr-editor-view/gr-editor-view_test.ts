@@ -28,7 +28,6 @@ import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoi
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
-import {EventType} from '../../../types/events';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
@@ -446,7 +445,7 @@ suite('gr-editor-view tests', () => {
 
   test('showAlert', async () => {
     const promise = mockPromise();
-    element.addEventListener(EventType.SHOW_ALERT, e => {
+    element.addEventListener('show-alert', e => {
       assert.deepEqual(e.detail, {message: 'test message', showDismiss: true});
       assert.isTrue(e.bubbles);
       promise.resolve();
@@ -534,7 +533,7 @@ suite('gr-editor-view tests', () => {
       };
 
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
 
       return element.getFileData().then(async () => {
         await element.updateComplete;
@@ -566,7 +565,7 @@ suite('gr-editor-view tests', () => {
       };
 
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
 
       return element.getFileData().then(async () => {
         await element.updateComplete;

@@ -116,7 +116,6 @@ import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
   EditableContentSaveEvent,
-  EventType,
   FileActionTapEvent,
   OpenFixPreviewEvent,
   ShowReplyDialogEvent,
@@ -590,11 +589,9 @@ export class GrChangeView extends LitElement {
     this.addEventListener('editable-content-cancel', () =>
       this.handleCommitMessageCancel()
     );
-    this.addEventListener(EventType.OPEN_FIX_PREVIEW, e =>
-      this.onOpenFixPreview(e)
-    );
+    this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
 
-    this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
+    this.addEventListener('show-tab', e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
       this.loadData(
         /* isLocationChange= */ false,
@@ -2168,7 +2165,7 @@ export class GrChangeView extends LitElement {
     } else if (this.viewState?.commentId) {
       tab = Tab.COMMENT_THREADS;
     }
-    this.setActiveTab(new CustomEvent(EventType.SHOW_TAB, {detail: {tab}}));
+    this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
   }
 
   // Private but used in tests.
@@ -3059,7 +3056,7 @@ export class GrChangeView extends LitElement {
           }
 
           this.cancelUpdateCheckTimer();
-          fire(this, EventType.SHOW_ALERT, {
+          fire(this, 'show-alert', {
             message: toastMessage,
             // Persist this alert.
             dismissOnNavigation: true,

@@ -29,7 +29,6 @@ import {
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, Hashtag} from '../../../types/common';
-import {EventType} from '../../../types/events';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-hashtag-flow';
@@ -303,7 +302,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
     test('add hashtag from selected change', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
@@ -377,7 +376,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
     test('add multiple hashtag from selected change', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
@@ -425,7 +424,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
     test('add existing hashtag not on selected changes', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
 
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
@@ -481,7 +480,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
     test('add new hashtag', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
 
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
@@ -586,7 +585,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
     test('cannot add existing hashtag already on selected changes', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
       // selects "sharedHashtag"
       queryAll<HTMLButtonElement>(element, 'button.chip')[1].click();
       await element.updateComplete;

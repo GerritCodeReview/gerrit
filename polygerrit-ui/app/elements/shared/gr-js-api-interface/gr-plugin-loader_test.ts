@@ -11,7 +11,6 @@ import {addListenerForTest, stubRestApi} from '../../../test/test-utils';
 import {PluginApi} from '../../../api/plugin';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
-import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 
@@ -144,7 +143,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
       pluginLoader.install(
@@ -178,7 +177,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
       pluginLoader.install(
@@ -217,7 +216,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
       pluginLoader.install(
@@ -249,7 +248,7 @@ suite('gr-plugin-loader tests', () => {
     ];
 
     const alertStub = sinon.stub();
-    addListenerForTest(document, EventType.SHOW_ALERT, alertStub);
+    addListenerForTest(document, 'show-alert', alertStub);
 
     sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(url => {
       pluginLoader.install(() => {}, url === plugins[0] ? '' : 'alpha', url);

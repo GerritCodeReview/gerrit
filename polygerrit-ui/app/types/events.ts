@@ -11,39 +11,6 @@ import {Category, RunStatus} from '../api/checks';
 import {DropdownLink} from '../elements/shared/gr-dropdown/gr-dropdown';
 import {AutocompleteCommitEvent} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
-// TODO: Remove this enum and just use the strings directly.
-// The fire() util functions provide full type safety, and there is nothing to
-// be gained by collecting all event names in one global enum.
-// It is much more convenient to search for an event name and to rely on finding
-// all listeners and dispatchers in on search.
-export enum EventType {
-  BIND_VALUE_CHANGED = 'bind-value-changed',
-  CHANGE = 'change',
-  CHANGED = 'changed',
-  COMMIT = 'commit',
-  DIALOG_CHANGE = 'dialog-change',
-  DROP = 'drop',
-  GR_RPC_LOG = 'gr-rpc-log',
-  IRON_ANNOUNCE = 'iron-announce',
-  KEYDOWN = 'keydown',
-  KEYPRESS = 'keypress',
-  LOCATION_CHANGE = 'location-change',
-  MOVED_LINK_CLICKED = 'moved-link-clicked',
-  NETWORK_ERROR = 'network-error',
-  OPEN_FIX_PREVIEW = 'open-fix-preview',
-  PAGE_ERROR = 'page-error',
-  RELOAD = 'reload',
-  REPLY = 'reply',
-  SERVER_ERROR = 'server-error',
-  SHORTCUT_TRIGGERERD = 'shortcut-triggered',
-  SHOW_ALERT = 'show-alert',
-  SHOW_ERROR = 'show-error',
-  SHOW_TAB = 'show-tab',
-  SHOW_SECONDARY_TAB = 'show-secondary-tab',
-  TAP_ITEM = 'tap-item',
-  TITLE_CHANGE = 'title-change',
-}
-
 // TODO: Local events that are only fired by one component should also be
 // declared and documented in that component. Don't collect ALL the events here.
 // 'show-alert' for example is fine to keep, because it is fired all over the

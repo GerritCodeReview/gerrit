@@ -13,6 +13,10 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-error-dialog': GrErrorDialog;
   }
+  interface HTMLElementEventMap {
+    // prettier-ignore
+    'dismiss': CustomEvent<{}>;
+  }
 }
 
 @customElement('gr-error-dialog')

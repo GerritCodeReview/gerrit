@@ -2223,7 +2223,11 @@ export class GrChangeActions
 
 declare global {
   interface HTMLElementEventMap {
+    'download-tap': CustomEvent<{}>;
+    'edit-tap': CustomEvent<{}>;
+    'included-tap': CustomEvent<{}>;
     'revision-actions-changed': CustomEvent<{value: ActionNameToActionInfoMap}>;
+    'stop-edit-tap': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-actions': GrChangeActions;

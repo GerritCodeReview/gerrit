@@ -27,12 +27,6 @@ declare global {
 @customElement('gr-registration-dialog')
 export class GrRegistrationDialog extends LitElement {
   /**
-   * Fired when account details are changed.
-   *
-   * @event account-detail-update
-   */
-
-  /**
    * Fired when the close button is pressed.
    *
    * @event close

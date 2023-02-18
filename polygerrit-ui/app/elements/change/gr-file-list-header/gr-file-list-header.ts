@@ -44,22 +44,6 @@ import {PatchRangeChangeEvent} from '../../diff/gr-patch-range-select/gr-patch-r
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
-  /**
-   * @event expand-diffs
-   */
-
-  /**
-   * @event collapse-diffs
-   */
-
-  /**
-   * @event open-diff-prefs
-   */
-
-  /**
-   * @event open-download-dialog
-   */
-
   @property({type: Object})
   account: AccountInfo | undefined;
 
@@ -437,5 +421,11 @@ export class GrFileListHeader extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-file-list-header': GrFileListHeader;
+  }
+  interface HTMLElementEventMap {
+    'collapse-diffs': CustomEvent<{}>;
+    'expand-diffs': CustomEvent<{}>;
+    'open-diff-prefs': CustomEvent<{}>;
+    'open-download-dialog': CustomEvent<{}>;
   }
 }

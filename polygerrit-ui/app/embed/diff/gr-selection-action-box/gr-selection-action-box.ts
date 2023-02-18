@@ -14,16 +14,14 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-selection-action-box': GrSelectionActionBox;
   }
+  interface HTMLElementEventMap {
+    /** Fired when the comment creation action was taken (click). */
+    'create-comment-requested': CustomEvent<{}>;
+  }
 }
 
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
-  /**
-   * Fired when the comment creation action was taken (click).
-   *
-   * @event create-comment-requested
-   */
-
   @query('#tooltip')
   tooltip?: GrTooltip;
 

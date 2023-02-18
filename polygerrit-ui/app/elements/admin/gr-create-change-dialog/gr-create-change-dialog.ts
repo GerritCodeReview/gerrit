@@ -38,6 +38,9 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-change-dialog': GrCreateChangeDialog;
   }
+  interface HTMLElementEventMap {
+    'can-create-change': CustomEvent<{}>;
+  }
 }
 
 @customElement('gr-create-change-dialog')

@@ -34,18 +34,6 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 
-/**
- * Fired when the section has been modified or removed.
- *
- * @event access-modified
- */
-
-/**
- * Fired when a section that was previously added was removed.
- *
- * @event added-section-removed
- */
-
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
 // The name that gets automatically input when a new reference is added.
@@ -533,6 +521,10 @@ export class GrAccessSection extends LitElement {
 
 declare global {
   interface HTMLElementEventMap {
+    /** Fired when the section has been modified or removed. */
+    'access-modified': CustomEvent<{}>;
+    /** Fired when a section that was previously added was removed. */
+    'added-section-removed': CustomEvent<{}>;
     'section-changed': ValueChangedEvent<PermissionAccessSection>;
   }
   interface HTMLElementTagNameMap {

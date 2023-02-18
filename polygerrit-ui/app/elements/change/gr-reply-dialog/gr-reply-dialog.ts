@@ -175,43 +175,6 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
 @customElement('gr-reply-dialog')
 export class GrReplyDialog extends LitElement {
-  /**
-   * Fired when a reply is successfully sent.
-   *
-   * @event send
-   */
-
-  /**
-   * Fired when the user presses the cancel button.
-   *
-   * @event cancel
-   */
-
-  /**
-   * Fires to show an alert when a send is attempted on the non-latest patch.
-   *
-   * @event show-alert
-   */
-
-  /**
-   * Fires when the reply dialog believes that the server side diff drafts
-   * have been updated and need to be refreshed.
-   *
-   * @event comment-refresh
-   */
-
-  /**
-   * Fires when the state of the send button (enabled/disabled) changes.
-   *
-   * @event send-disabled-changed
-   */
-
-  /**
-   * Fired to reload the change page.
-   *
-   * @event reload
-   */
-
   FocusTarget = FocusTarget;
 
   private readonly reporting = getAppContext().reportingService;
@@ -2131,5 +2094,20 @@ export class GrReplyDialog extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-reply-dialog': GrReplyDialog;
+  }
+  interface HTMLElementEventMap {
+    /** Fired when the user presses the cancel button. */
+    /* prettier-ignore */
+    'cancel': CustomEvent<{}>;
+    /**
+     * Fires when the reply dialog believes that the server side diff drafts
+     * have been updated and need to be refreshed.
+     */
+    'comment-refresh': CustomEvent<{}>;
+    /** Fired when a reply is successfully sent. */
+    /* prettier-ignore */
+    'send': CustomEvent<{}>;
+    /** Fires when the state of the send button (enabled/disabled) changes. */
+    'send-disabled-changed': CustomEvent<{}>;
   }
 }

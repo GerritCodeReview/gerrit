@@ -1826,6 +1826,9 @@ declare global {
     'gr-diff': GrDiff;
   }
   interface HTMLElementEventMap {
+    'comment-thread-mouseenter': CustomEvent<{}>;
+    'comment-thread-mouseleave': CustomEvent<{}>;
     'loading-changed': ValueChangedEvent<boolean>;
+    'render-required': CustomEvent<{}>;
   }
 }

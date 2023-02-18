@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4cd2a88_0b3b79cf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-18T00:38:57Z",
+      "side": 1,
+      "message": "This variable name is now stale. According to the comments at L826 and L827, this can be either the start of UUID or part of the username.",
+      "range": {
+        "startLine": 824,
+        "startChar": 8,
+        "endLine": 824,
+        "endChar": 17
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a6acf6_475b7972",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-18T00:38:57Z",
+      "side": 1,
+      "message": "Basically, here we are saying that *IF* the uuidStart was not the first char after the score, then it means there is no uuid.\n\nWhy don\u0027t we do that instead at L824?\n- We look for the \u0027\u003d\u0027 and then the numbers after that\n- If the next char is a ` ` \u003d\u003e no UUID\n- If the next char is a `,` \u003d\u003e UUID",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

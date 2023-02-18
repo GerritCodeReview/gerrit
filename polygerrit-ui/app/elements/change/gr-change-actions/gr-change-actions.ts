@@ -77,8 +77,7 @@ import {
   fire,
   fireAlert,
   fireError,
-  fireEvent,
-  fireEventNoBubbleNoCompose,
+  fireNoBubbleNoCompose,
   fireReload,
 } from '../../../utils/event-util';
 import {
@@ -2019,12 +2018,12 @@ export class GrChangeActions
 
   // private but used in test
   handleDownloadTap() {
-    fireEvent(this, 'download-tap');
+    fire(this, 'download-tap', {});
   }
 
   // private but used in test
   handleIncludedInTap() {
-    fireEvent(this, 'included-tap');
+    fire(this, 'included-tap', {});
   }
 
   // private but used in test
@@ -2213,11 +2212,11 @@ export class GrChangeActions
   }
 
   private handleEditTap() {
-    fireEventNoBubbleNoCompose(this, 'edit-tap');
+    fireNoBubbleNoCompose(this, 'edit-tap', {});
   }
 
   private handleStopEditTap() {
-    fireEventNoBubbleNoCompose(this, 'stop-edit-tap');
+    fireNoBubbleNoCompose(this, 'stop-edit-tap', {});
   }
 }
 

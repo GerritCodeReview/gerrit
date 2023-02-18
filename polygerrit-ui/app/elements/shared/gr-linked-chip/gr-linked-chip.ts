@@ -6,7 +6,7 @@
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import '../gr-limited-text/gr-limited-text';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
@@ -14,6 +14,11 @@ import {customElement, property} from 'lit/decorators.js';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-linked-chip': GrLinkedChip;
+  }
+  interface HTMLElementEventMap {
+    /** Fired when the 'remove' button was clicked. */
+    // prettier-ignore
+    'remove': CustomEvent<{}>;
   }
 }
 
@@ -101,6 +106,6 @@ export class GrLinkedChip extends LitElement {
 
   private handleRemoveTap(e: Event) {
     e.preventDefault();
-    fireEvent(this, 'remove');
+    fire(this, 'remove', {});
   }
 }

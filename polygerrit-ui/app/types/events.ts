@@ -58,6 +58,8 @@ declare global {
     /* prettier-ignore */
     'changed': ChangedEvent;
     /* prettier-ignore */
+    'close': CustomEvent<{}>;
+    /* prettier-ignore */
     'commit': AutocompleteCommitEvent;
     'dialog-change': DialogChangeEvent;
     /* prettier-ignore */

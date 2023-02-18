@@ -20,7 +20,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {createRepoUrl} from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
@@ -250,7 +250,7 @@ export class GrCreateRepoDialog extends LitElement {
     // because when the event is fired, gr-repo-list gets
     // the nameChanged value.
     this.nameChanged = !!e.detail.value;
-    fireEvent(this, 'new-repo-name');
+    fire(this, 'new-repo-name', {});
     this.requestUpdate();
   }
 

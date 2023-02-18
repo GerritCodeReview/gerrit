@@ -31,7 +31,7 @@ import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
-import {fire, fireAlert, fireEvent} from '../../utils/event-util';
+import {fire, fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
@@ -693,7 +693,7 @@ export class CommentsModel extends Model<CommentState> {
 
   private updateRequestToast(requestFailed?: boolean) {
     if (this.numPendingDraftRequests === 0 && !requestFailed) {
-      fireEvent(document, 'hide-alert');
+      fire(document, 'hide-alert', {});
       return;
     }
     const message = getSavingMessage(

@@ -16,7 +16,7 @@ import {
   ShortcutViewListener,
 } from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
-import {fireEventNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -163,7 +163,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   private handleCloseTap(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubble(this, 'close');
+    fireNoBubble(this, 'close', {});
   }
 
   onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {

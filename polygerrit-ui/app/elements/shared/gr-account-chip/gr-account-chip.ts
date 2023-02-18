@@ -199,7 +199,7 @@ export class GrAccountChip extends LitElement {
   private handleRemoveTap(e: MouseEvent) {
     e.preventDefault();
     if (!this.account) return;
-    fire(this, 'remove', {account: this.account});
+    fire(this, 'remove-account', {account: this.account});
   }
 
   private getHasAvatars() {
@@ -230,7 +230,6 @@ declare global {
     'gr-account-chip': GrAccountChip;
   }
   interface HTMLElementEventMap {
-    /* prettier-ignore */
-    'remove': RemoveAccountEvent;
+    'remove-account': RemoveAccountEvent;
   }
 }

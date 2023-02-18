@@ -23,10 +23,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {
-  fireEventNoBubbleNoCompose,
-  fireNoBubbleNoCompose,
-} from '../../../utils/event-util';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 export interface RebaseChange {
   name: string;
@@ -366,7 +363,7 @@ export class GrConfirmRebaseDialog
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubbleNoCompose(this, 'cancel');
+    fireNoBubbleNoCompose(this, 'cancel', {});
     this.text = '';
   }
 

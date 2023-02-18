@@ -9,7 +9,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {ChangeActionDialog, ChangeInfo, CommitId} from '../../../types/common';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
@@ -297,7 +297,7 @@ export class GrConfirmRevertDialog
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEvent(this, 'cancel');
+    fire(this, 'cancel', {});
   }
 }
 

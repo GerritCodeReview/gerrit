@@ -8,7 +8,7 @@ import '../../shared/gr-avatar/gr-avatar';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {
   DropdownContent,
   DropdownLink,
@@ -139,7 +139,7 @@ export class GrAccountDropdown extends LitElement {
   }
 
   _handleShortcutsTap() {
-    fireEvent(this, 'show-keyboard-shortcuts');
+    fire(this, 'show-keyboard-shortcuts', {});
   }
 
   private readonly handleLocationChange = () => {

@@ -355,7 +355,7 @@ export class GrConfirmRebaseDialog
       allowConflicts: this.rebaseAllowConflicts.checked,
       rebaseChain: !!this.rebaseChain?.checked,
     };
-    fireNoBubbleNoCompose(this, 'confirm', detail);
+    fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
     this.text = '';
   }
 
@@ -397,5 +397,8 @@ export class GrConfirmRebaseDialog
 declare global {
   interface HTMLElementTagNameMap {
     'gr-confirm-rebase-dialog': GrConfirmRebaseDialog;
+  }
+  interface HTMLElementEventMap {
+    'confirm-rebase': CustomEvent<ConfirmRebaseEventDetail>;
   }
 }

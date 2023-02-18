@@ -23,6 +23,9 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-account-dropdown': GrAccountDropdown;
   }
+  interface HTMLElementEventMap {
+    'show-keyboard-shortcuts': CustomEvent<{}>;
+  }
 }
 
 @customElement('gr-account-dropdown')

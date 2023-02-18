@@ -1456,7 +1456,7 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         };
         queryAndAssert(element, 'gr-confirm-revert-dialog').dispatchEvent(
-          new CustomEvent('confirm', {
+          new CustomEvent('confirm-revert', {
             detail: {
               message: 'foo message',
               revertType: 1,

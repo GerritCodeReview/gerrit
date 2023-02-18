@@ -133,7 +133,7 @@ export class GrConfirmAbandonDialog
 
   // private but used in test
   confirm() {
-    fireNoBubble(this, 'confirm', {reason: this.message});
+    fireNoBubble(this, 'confirm', {});
   }
 
   // private but used in test

@@ -34,7 +34,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -1241,7 +1240,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> ownerin(String group) throws QueryParseException, IOException {
     GroupReference g = parseGroup(group);
     AccountGroup.UUID groupId = g.getUUID();
-    if (isOrContainsExternalGroup(args.groupBackend, groupId)) {
+    if (args.groupBackend.isOrContainsExternalGroup(groupId)) {
       return new OwnerinPredicate(args.userFactory, groupId);
     }
 
@@ -1261,7 +1260,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     GroupReference g = parseGroup(group);
     AccountGroup.UUID groupId = g.getUUID();
-    if (isOrContainsExternalGroup(args.groupBackend, groupId)) {
+    if (args.groupBackend.isOrContainsExternalGroup(groupId)) {
       return new UploaderinPredicate(args.userFactory, groupId);
     }
 
@@ -1630,34 +1629,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     List<Predicate<ChangeData>> predicates =
         parts.stream().map(fullPredicateFunc).collect(toList());
     return Predicate.and(predicates);
-  }
-
-  protected static boolean isOrContainsExternalGroup(
-      GroupBackend groupBackend, AccountGroup.UUID groupId) {
-    if (groupId != null) {
-      GroupDescription.Basic groupDescription = groupBackend.get(groupId);
-      if (!(groupDescription instanceof GroupDescription.Internal)
-          || containsExternalSubGroups(
-              groupBackend, (GroupDescription.Internal) groupDescription)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  protected static boolean containsExternalSubGroups(
-      GroupBackend groupBackend, GroupDescription.Internal internalGroup) {
-    for (AccountGroup.UUID subGroupUuid : internalGroup.getSubgroups()) {
-      GroupDescription.Basic subGroupDescription = groupBackend.get(subGroupUuid);
-      if (!(subGroupDescription instanceof GroupDescription.Internal)) {
-        return true;
-      }
-      if (containsExternalSubGroups(
-          groupBackend, (GroupDescription.Internal) subGroupDescription)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private Set<Account.Id> getMembers(AccountGroup.UUID g) throws IOException {

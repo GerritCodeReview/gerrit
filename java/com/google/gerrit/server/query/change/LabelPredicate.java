@@ -158,7 +158,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   }
 
   protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
-    if (ChangeQueryBuilder.isOrContainsExternalGroup(args.groupBackend, args.group)) {
+    if (args.groupBackend.isOrContainsExternalGroup(args.group)) {
       // We can only get members of internal groups and negating an index search that doesn't
       // include the external group information leads to incorrect query results. Use a
       // PostFilterPredicate in this case instead.
@@ -175,7 +175,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   }
 
   protected static Predicate<ChangeData> magicLabelPredicate(Args args, MagicLabelVote mlv) {
-    if (ChangeQueryBuilder.isOrContainsExternalGroup(args.groupBackend, args.group)) {
+    if (args.groupBackend.isOrContainsExternalGroup(args.group)) {
       // We can only get members of internal groups and negating an index search that doesn't
       // include the external group information leads to incorrect query results. Use a
       // PostFilterPredicate in this case instead.

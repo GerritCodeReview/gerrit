@@ -46,4 +46,28 @@ public interface GroupBackend {
 
   /** Returns {@code true} if the group with the given UUID is visible to all registered users. */
   boolean isVisibleToAll(AccountGroup.UUID uuid);
+
+  default boolean isOrContainsExternalGroup(AccountGroup.UUID groupId) {
+    if (groupId != null) {
+      GroupDescription.Basic groupDescription = get(groupId);
+      if (!(groupDescription instanceof GroupDescription.Internal)
+          || containsExternalSubGroups((GroupDescription.Internal) groupDescription)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean containsExternalSubGroups(GroupDescription.Internal internalGroup) {
+    for (AccountGroup.UUID subGroupUuid : internalGroup.getSubgroups()) {
+      GroupDescription.Basic subGroupDescription = get(subGroupUuid);
+      if (!(subGroupDescription instanceof GroupDescription.Internal)) {
+        return true;
+      }
+      if (containsExternalSubGroups((GroupDescription.Internal) subGroupDescription)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

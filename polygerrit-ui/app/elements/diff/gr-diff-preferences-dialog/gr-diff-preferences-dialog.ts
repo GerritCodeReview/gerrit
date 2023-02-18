@@ -12,7 +12,7 @@ import {LitElement, html, css} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {fireEventNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 @customElement('gr-diff-preferences-dialog')
 export class GrDiffPreferencesDialog extends LitElement {
@@ -121,7 +121,7 @@ export class GrDiffPreferencesDialog extends LitElement {
     assertIsDefined(this.diffPreferences, 'diffPreferences');
     assertIsDefined(this.diffPrefsModal, 'diffPrefsModal');
     await this.diffPreferences.save();
-    fireEventNoBubble(this, 'reload-diff-preference');
+    fireNoBubble(this, 'reload-diff-preference', {});
     this.diffPrefsModal.close();
   }
 

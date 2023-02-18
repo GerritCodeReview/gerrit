@@ -10,7 +10,7 @@ import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
@@ -391,7 +391,7 @@ export class GrEditableContent extends LitElement {
   handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
-    fireEvent(this, 'editable-content-cancel');
+    fire(this, 'editable-content-cancel', {});
   }
 
   toggleCommitCollapsed() {

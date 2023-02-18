@@ -44,7 +44,7 @@ import {
   ReplyToCommentEventDetail,
   ValueChangedEvent,
 } from '../../../types/events';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {assertIsDefined, assert} from '../../../utils/common-util';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -1015,7 +1015,7 @@ export class GrComment extends LitElement {
   }
 
   private handleCopyLink() {
-    fireEvent(this, 'copy-comment-link');
+    fire(this, 'copy-comment-link', {});
   }
 
   /** Enter editing mode. */

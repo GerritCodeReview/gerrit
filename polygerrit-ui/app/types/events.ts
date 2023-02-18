@@ -61,6 +61,8 @@ declare global {
     /* prettier-ignore */
     'changed': ChangedEvent;
     /* prettier-ignore */
+    'close': CustomEvent<{}>;
+    /* prettier-ignore */
     'commit': AutocompleteCommitEvent;
     /** Fired when a 'confirm' button in a dialog was pressed. */
     // prettier-ignore

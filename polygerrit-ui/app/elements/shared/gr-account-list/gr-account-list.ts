@@ -152,7 +152,7 @@ export class GrAccountList extends LitElement {
   constructor() {
     super();
     this.querySuggestions = input => this.getSuggestions(input);
-    this.addEventListener('remove', e =>
+    this.addEventListener('remove-account', e =>
       this.handleRemove(e as CustomEvent<{account: AccountInput}>)
     );
   }

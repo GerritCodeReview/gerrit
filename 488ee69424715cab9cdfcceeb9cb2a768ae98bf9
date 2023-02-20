@@ -34,6 +34,24 @@
       "parentUuid": "34ca3661_96aeee22",
       "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36dde6d6_7be69de0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T15:31:42Z",
+      "side": 1,
+      "message": "I don\u0027t like the existing design at all, but Chris has introduced it in https://gerrit-review.git.corp.google.com/c/gerrit/+/346394: Replace mentions with gr-account-labels, so I guess he is fine with it. :-)\n\n`querySelectorAll()` will likely slow rendering down. And breaking up the rendering into two passes (render() and post-processing in updated()) makes it overly complicated.\n\nAnd the problem comes from `sanitizeHtml()`? If that is the case, then can we solve the problem more locally? Either fix sanitizeHtml() or \"patch\" it by replacing  `gr-user-suggestion-fix` with `mark`, then call `sanitize`, then replace back.\n\nLeaving this to you and @poucet@google.com.\n\n(After clicking \"SAVE\" I actually realized that these two rendering passes are user visible, so this yields an inferior UX.",
+      "parentUuid": "7d07b4c5_58576022",
+      "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

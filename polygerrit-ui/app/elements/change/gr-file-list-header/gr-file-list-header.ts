@@ -40,6 +40,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
+import { changeModelToken } from '../../../models/change/change-model';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -119,6 +120,8 @@ export class GrFileListHeader extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   constructor() {
     super();
     subscribe(
@@ -135,6 +138,11 @@ export class GrFileListHeader extends LitElement {
       config => {
         this.serverConfig = config;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
     );
   }
 

@@ -1534,7 +1534,6 @@ export class GrChangeView extends LitElement {
           .editMode=${this.getEditMode()}
           .loggedIn=${this.loggedIn}
           .shownFileCount=${this.shownFileCount}
-          .patchNum=${this.patchRange?.patchNum}
           .basePatchNum=${this.patchRange?.basePatchNum}
           .filesExpanded=${this.fileList?.filesExpanded}
           @open-diff-prefs=${this.handleOpenDiffPrefs}

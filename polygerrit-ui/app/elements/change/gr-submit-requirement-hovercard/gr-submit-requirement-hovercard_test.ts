@@ -253,6 +253,9 @@ suite('gr-submit-requirement-hovercard tests', () => {
     const change: ParsedChangeInfo = {
       ...createParsedChange(),
       status: ChangeStatus.NEW,
+      permitted_labels: {
+        Verified: ['-1', ' 0', '+1', '+2'],
+      },
       labels: {
         Verified: {
           ...createDetailedLabelInfo(),
@@ -351,6 +354,9 @@ suite('gr-submit-requirement-hovercard tests', () => {
       const change: ParsedChangeInfo = {
         ...createParsedChange(),
         status: ChangeStatus.NEW,
+        permitted_labels: {
+          'Build-Cop': ['-1', ' 0', '+1', '+2'],
+        },
         labels: {
           'Build-Cop': {
             ...createDetailedLabelInfo(),

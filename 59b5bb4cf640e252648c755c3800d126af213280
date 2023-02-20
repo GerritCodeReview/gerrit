@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d375d4b3_d9bb97d3",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-20T17:42:52Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "30b8d7e5_b58467a7",
+      "revId": "59b5bb4cf640e252648c755c3800d126af213280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57a648b5_ca1b3f01",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-20T17:23:38Z",
       "side": 1,
       "message": "Casting this to `` means casting to `number`, which you cannot do.\n\nThis function should return `RevisionPatchSetNum | undefined`, not `PatchSetNumber | undefined`.",
+      "range": {
+        "startLine": 275,
+        "startChar": 32,
+        "endLine": 275,
+        "endChar": 46
+      },
+      "revId": "59b5bb4cf640e252648c755c3800d126af213280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf3666c_f8abc635",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-20T17:42:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "57a648b5_ca1b3f01",
       "range": {
         "startLine": 275,
         "startChar": 32,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1383d1b4_d1c3ec9d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:27:57Z",
+      "side": 1,
+      "message": "NoBubleNoCompose?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 16
+      },
+      "revId": "08afdd799fdcd36c80c8ecc92fc666a700425703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4af1fce_7f3e05df",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:27:57Z",
+      "side": 1,
+      "message": "Should this be \"NoBubbleNoCompose\"?",
+      "range": {
+        "startLine": 686,
+        "startChar": 4,
+        "endLine": 686,
+        "endChar": 8
+      },
+      "revId": "08afdd799fdcd36c80c8ecc92fc666a700425703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47152395_054342cb",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:27:57Z",
+      "side": 1,
+      "message": "I feel like we don\u0027t really need this convenience methods",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 1
+      },
+      "revId": "08afdd799fdcd36c80c8ecc92fc666a700425703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

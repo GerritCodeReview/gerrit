@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a259d6c_2b3f1646",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-20T18:26:12Z",
+      "side": 1,
+      "message": "shouldn\u0027t you exclude ApiUtil here? We\u0027d otherwise have the same class in two places.",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 22
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9393dd3a_a75afb3b",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-20T18:26:12Z",
+      "side": 1,
+      "message": "have you tried moving this class into a different package? Maybe it can be simply inside java/com/google/gerrit/extensions:api",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

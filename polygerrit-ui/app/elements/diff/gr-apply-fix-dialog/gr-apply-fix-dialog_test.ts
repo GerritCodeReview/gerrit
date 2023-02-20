@@ -71,7 +71,6 @@ suite('gr-apply-fix-dialog tests', () => {
     element.changeNum = change._number;
     element.patchNum = change.revisions[change.current_revision]._number;
     element.change = change;
-    element.isOwner = true;
     element.diffPrefs = {
       ...createDefaultDiffPrefs(),
       font_size: 12,
@@ -161,22 +160,8 @@ suite('gr-apply-fix-dialog tests', () => {
       assert.equal(button.getAttribute('title'), '');
     });
 
-    test('apply fix button is disabled for non-author', async () => {
-      element.isOwner = false;
-      await element.updateComplete;
-      await open(TWO_FIXES);
-      assert.equal(element.currentFix!.fix_id, 'fix_1');
-      assert.equal(element.currentPreviews.length, 2);
-      const button = getConfirmButton();
-      assert.isTrue(button.hasAttribute('disabled'));
-      assert.equal(
-        button.getAttribute('title'),
-        'Fix can only be applied by author'
-      );
-    });
-
     test('apply fix button is disabled on older patchset', async () => {
-      element.change = {
+      element.change = element.change = {
         ...createParsedChange(),
         revisions: createRevisions(2),
         current_revision: getCurrentRevision(0),

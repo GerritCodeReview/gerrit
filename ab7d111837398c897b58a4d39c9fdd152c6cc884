@@ -16,6 +16,24 @@
       "message": "Please leave a comment why we must not throw an exception here and return NO_ACCOUNTS instead.",
       "revId": "ab7d111837398c897b58a4d39c9fdd152c6cc884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "956fd975_e68e8d66",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1749,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-20T11:37:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f0601df_21a2b0f9",
+      "revId": "ab7d111837398c897b58a4d39c9fdd152c6cc884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

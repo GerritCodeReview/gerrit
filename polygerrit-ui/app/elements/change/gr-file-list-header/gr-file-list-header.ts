@@ -42,6 +42,11 @@ import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {createChangeUrl} from '../../../models/views/change';
+<<<<<<< HEAD   (431bbc Fix the bug with wrong outdated suggestions validation.)
+=======
+import {userModelToken} from '../../../models/user/user-model';
+import {changeModelToken} from '../../../models/change/change-model';
+>>>>>>> CHANGE (69060b Fix current patchset not updated after Edit Publish)
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -89,16 +94,16 @@ export class GrFileListHeader extends LitElement {
   shownFileCount = 0;
 
   @property({type: String})
-  patchNum?: PatchSetNum;
-
-  @property({type: String})
-  basePatchNum?: BasePatchSetNum;
-
-  @property({type: String})
   filesExpanded?: FilesExpandedState;
 
+<<<<<<< HEAD   (431bbc Fix the bug with wrong outdated suggestions validation.)
   @property({type: Object})
   revisionInfo?: RevisionInfo;
+=======
+  @state() patchNum?: PatchSetNum;
+
+  @state() basePatchNum?: BasePatchSetNum;
+>>>>>>> CHANGE (69060b Fix current patchset not updated after Edit Publish)
 
   @state()
   diffPrefs?: DiffPreferencesInfo;
@@ -127,6 +132,8 @@ export class GrFileListHeader extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   constructor() {
     super();
     subscribe(
@@ -143,6 +150,16 @@ export class GrFileListHeader extends LitElement {
       config => {
         this.serverConfig = config;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().basePatchNum$,
+      x => (this.basePatchNum = x)
     );
   }
 

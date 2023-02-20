@@ -22,6 +22,30 @@
       },
       "revId": "304d13859cc1ccb451b40e903028809017e8c7c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "683ef03f_41a69bd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T08:40:02Z",
+      "side": 0,
+      "message": "Yeah, it was not covered by test :(",
+      "parentUuid": "1af2c9a5_0baaffff",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 64
+      },
+      "revId": "304d13859cc1ccb451b40e903028809017e8c7c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

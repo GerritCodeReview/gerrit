@@ -22,6 +22,30 @@
       },
       "revId": "08afdd799fdcd36c80c8ecc92fc666a700425703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063742f3_9c925468",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T21:33:39Z",
+      "side": 0,
+      "message": "Yes, `HtmlElementEventMap` is a global. gr-access-section.ts contains the relevant entry:\n```\n\u0027access-modified\u0027: CustomEvent\u003c{}\u003e;\n```\nThat said, I think we should clean this up further and move all event declarations of events that are fired in more than one component into `events.ts`. I might run out of energy this time around before getting to it though.",
+      "parentUuid": "3248bb4a_95fba6d9",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "08afdd799fdcd36c80c8ecc92fc666a700425703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

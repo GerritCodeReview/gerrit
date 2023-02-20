@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a68224b6_907bc707",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "The main benefit of Chris\u0027 suggestion is that you don\u0027t have to do the `mark` replacement at all, or am I misunderstanding it?",
+      "parentUuid": "6a0834a3_2985b2e7",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94bf5cd4_a1572598",
         "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
         "patchSetId": 8

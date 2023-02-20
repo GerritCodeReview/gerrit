@@ -38,6 +38,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71ec4878_6031232e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Maybe fix the paddings, even if this is not final.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa08df2_5c93c434",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "```suggestion\n    const suggestEditsEnable \u003d this.flagsService.isEnabled(\n```",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 29
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41313f6b_a513613e",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 9
@@ -49,6 +89,188 @@
       "writtenOn": "2023-02-20T13:34:32Z",
       "side": 1,
       "message": "Tests?",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b39fb293_c3599386",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Maybe use `1px` for borders instead of xxs. Also below.",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24abce7e_a0a1094e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Maybe use `align-items` instead for `.header`.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f280ff1f_d8b2b9a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "You are passing a `-color` for an `-icon`. Is that intended?",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b379ff1_d7b6fdf7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "What is the benefit of using a `\u003cpre\u003e` wrapper around `\u003ccode\u003e` then?",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee17262_d48f612e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "`\u003cdiv class\u003d\"header\"\u003e` is `display:flex`. Direct children of such elements may not have `display:inline*`. Please wrap in divs.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d36c9d_cb81112b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "I think you can remove this comment.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3041eba4_91b16e01",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Maybe gray-100?",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "425fda51_b45046c6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "These colors also need to be added to dark-theme.",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 42
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "152ae5c0_8ac945d1",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Do not use this enum. Just use a string.\n\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/359294: Remove `EventType` enum",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d10c14ec_ebb179aa",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:10:41Z",
+      "side": 1,
+      "message": "Maybe consider moving this line and the two types below into `gr-user-suggestion`, because that is the only place where this is fired.",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

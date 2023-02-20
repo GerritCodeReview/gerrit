@@ -22,7 +22,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {
-  canVote,
+  canReviewerVote,
   getApprovalInfo,
   hasNeutralStatus,
   hasVoted,
@@ -143,7 +143,7 @@ export class GrLabelInfo extends LitElement {
       .filter(reviewer => {
         if (this.showAllReviewers) {
           if (isDetailedLabelInfo(labelInfo)) {
-            return canVote(labelInfo, reviewer);
+            return canReviewerVote(labelInfo, reviewer);
           } else {
             // isQuickLabelInfo
             return hasVoted(labelInfo, reviewer);

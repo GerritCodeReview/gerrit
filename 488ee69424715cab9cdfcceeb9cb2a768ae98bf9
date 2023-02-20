@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34ca3661_96aeee22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T14:46:21Z",
+      "side": 1,
+      "message": "This comment confuses me, maybe you can expand this a bit.\nWhere is `sanitizeHtml` called?\nWhat do you mean by `class` here?\nWhy are we using `\u003cmark\u003e`?\nCan we somehow override what `sanitizeHtml` allows?\n\nIf this is impossible to get working, then I think we should rather split up `this.content` as a first step and then render these separately:\n```\n\u003cmarked-element\u003e\u003c/marked-element\u003e\n\u003cgr-user-suggestion-fix\u003e\u003c/gr-user-suggestion-fix\u003e\n\u003cmarked-element\u003e\u003c/marked-element\u003e\n```",
+      "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import {
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  computeLatestPatchNumWithEdit,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -191,6 +192,10 @@ export class ChangeModel extends Model<ChangeState> {
     computeLatestPatchNum(patchsets)
   );
 
+  public readonly latestPatchNumWithEdit$ = select(this.patchsets$, patchsets =>
+    computeLatestPatchNumWithEdit(patchsets)
+  );
+
   /**
    * Emits the current patchset number. If the route does not define the current
    * patchset num, then this selector waits for the change to be defined and
@@ -203,7 +208,7 @@ export class ChangeModel extends Model<ChangeState> {
       combineLatest([
         this.viewModel.state$,
         this.state$,
-        this.latestPatchNum$,
+        this.latestPatchNumWithEdit$,
       ]).pipe(
         /**
          * If you depend on both, view model and change state, then you want to

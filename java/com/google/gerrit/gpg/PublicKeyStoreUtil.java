@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
@@ -30,6 +31,9 @@ import java.util.List;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.util.NB;
 
 public class PublicKeyStoreUtil {
@@ -76,5 +80,30 @@ public class PublicKeyStoreUtil {
 
   public Iterable<ExternalId> getGpgExtIds(Account.Id id) throws IOException {
     return externalIds.byAccount(id, SCHEME_GPGKEY);
+  }
+
+  public RefUpdate.Result deletePgpKey(PGPPublicKey key, PersonIdent committer, PersonIdent author)
+      throws PGPException, IOException {
+    return deletePgpKeys(ImmutableList.of(key), committer, author).get(0);
+  }
+
+  public List<RefUpdate.Result> deletePgpKeys(
+      List<PGPPublicKey> keys, PersonIdent committer, PersonIdent author)
+      throws IOException, PGPException {
+    List<RefUpdate.Result> res = new ArrayList<>();
+    try (PublicKeyStore store = storeProvider.get()) {
+      for (PGPPublicKey key : keys) {
+        store.remove(key.getFingerprint());
+
+        CommitBuilder cb = new CommitBuilder();
+        cb.setAuthor(author);
+        cb.setCommitter(committer);
+        cb.setMessage("Delete public key " + key.getKeyID());
+
+        RefUpdate.Result saveResult = store.save(cb);
+        res.add(saveResult);
+      }
+    }
+    return res;
   }
 }

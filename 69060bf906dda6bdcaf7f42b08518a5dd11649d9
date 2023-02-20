@@ -105,6 +105,24 @@
       "parentUuid": "77d0a9b5_ad27cfd1",
       "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae658a2_2d69649f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-20T15:08:57Z",
+      "side": 1,
+      "message": "https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16545",
+      "parentUuid": "5084bb1d_1871814d",
+      "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1613,7 +1613,6 @@ export class GrChangeView extends LitElement {
           class="hideOnMobileOverlay"
           .change=${this.change}
           .changeNum=${this.changeNum}
-          .patchRange=${this.patchRange}
           .editMode=${this.getEditMode()}
           @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
             this.shownFileCount = e.detail.length;

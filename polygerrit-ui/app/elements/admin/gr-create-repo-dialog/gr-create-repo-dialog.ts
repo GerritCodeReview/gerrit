@@ -25,6 +25,7 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {createRepoUrl} from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {ValueChangedEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -232,20 +233,20 @@ export class GrCreateRepoDialog extends LitElement {
     return groups;
   }
 
-  private handleRightsTextChanged(e: CustomEvent) {
+  private handleRightsTextChanged(e: ValueChangedEvent) {
     this.repoConfig.parent = e.detail.value as RepoName;
     this.requestUpdate();
   }
 
-  private handleOwnerTextChanged(e: CustomEvent) {
+  private handleOwnerTextChanged(e: ValueChangedEvent) {
     this.repoOwner = e.detail.value;
   }
 
-  private handleOwnerValueChanged(e: CustomEvent) {
+  private handleOwnerValueChanged(e: ValueChangedEvent) {
     this.repoOwnerId = e.detail.value as GroupId;
   }
 
-  private handleNameBindValueChanged(e: CustomEvent) {
+  private handleNameBindValueChanged(e: ValueChangedEvent) {
     this.repoConfig.name = e.detail.value as RepoName;
     // nameChanged needs to be set before the event is fired,
     // because when the event is fired, gr-repo-list gets
@@ -255,16 +256,18 @@ export class GrCreateRepoDialog extends LitElement {
     this.requestUpdate();
   }
 
-  private handleBranchNameBindValueChanged(e: CustomEvent) {
+  private handleBranchNameBindValueChanged(e: ValueChangedEvent) {
     this.defaultBranch = e.detail.value as BranchName;
   }
 
-  private handleCreateEmptyCommitBindValueChanged(e: CustomEvent) {
+  private handleCreateEmptyCommitBindValueChanged(
+    e: ValueChangedEvent<boolean>
+  ) {
     this.repoConfig.create_empty_commit = e.detail.value;
     this.requestUpdate();
   }
 
-  private handlePermissionsOnlyBindValueChanged(e: CustomEvent) {
+  private handlePermissionsOnlyBindValueChanged(e: ValueChangedEvent<boolean>) {
     this.repoConfig.permissions_only = e.detail.value;
     this.requestUpdate();
   }

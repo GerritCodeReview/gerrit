@@ -8,7 +8,9 @@ import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';
 import {
   DiffViewMode,
   GrDiffCursor as GrDiffCursorApi,
+  LineNumber,
   LineNumberEventDetail,
+  LineSelectedEventDetail,
 } from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
 import {toggleClass} from '../../../utils/dom-util';
@@ -237,7 +239,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   moveToLineNumber(
-    number: number,
+    number: LineNumber,
     side: Side,
     path?: string,
     intentionalMove?: boolean
@@ -352,13 +354,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
     this.preventAutoScrollOnManualScroll = false;
   };
 
-  private _boundHandleDiffLineSelected = (event: Event) => {
-    const customEvent = event as CustomEvent;
-    this.moveToLineNumber(
-      customEvent.detail.number,
-      customEvent.detail.side,
-      customEvent.detail.path
-    );
+  private _boundHandleDiffLineSelected = (
+    e: CustomEvent<LineSelectedEventDetail>
+  ) => {
+    this.moveToLineNumber(e.detail.number, e.detail.side, e.detail.path);
   };
 
   createCommentInPlace() {
@@ -580,7 +579,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   _findRowByNumberAndFile(
-    targetNumber: number,
+    targetNumber: LineNumber,
     side: Side,
     path?: string
   ): HTMLElement | undefined {

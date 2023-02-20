@@ -26,6 +26,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {ValueChangedEvent} from '../../../types/events';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -231,7 +232,7 @@ export class GrSearchBar extends LitElement {
           @commit=${(e: AutocompleteCommitEvent) => {
             this.handleInputCommit(e);
           }}
-          @text-changed=${(e: CustomEvent) => {
+          @text-changed=${(e: ValueChangedEvent) => {
             this.handleSearchTextChanged(e);
           }}
         >
@@ -426,7 +427,7 @@ export class GrSearchBar extends LitElement {
     this.searchInput.selectAll();
   }
 
-  private handleSearchTextChanged(e: CustomEvent) {
+  private handleSearchTextChanged(e: ValueChangedEvent) {
     this.inputVal = e.detail.value;
   }
 }

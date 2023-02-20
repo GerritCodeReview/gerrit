@@ -336,6 +336,12 @@ export declare interface LineNumberEventDetail {
   lineNum: LineNumber;
 }
 
+export declare interface LineSelectedEventDetail {
+  number: LineNumber;
+  side: Side;
+  path?: string;
+}
+
 // TODO: Currently unused and not fired.
 export declare interface RenderProgressEventDetail {
   linesRendered: number;

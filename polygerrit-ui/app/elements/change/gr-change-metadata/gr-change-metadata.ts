@@ -947,7 +947,7 @@ export class GrChangeMetadata extends LitElement {
     return createSearchUrl({hashtag, statuses: ['open', 'merged']});
   }
 
-  private async handleTopicRemoved(e: CustomEvent) {
+  private async handleTopicRemoved(e: Event) {
     assertIsDefined(this.change, 'change');
     const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
@@ -962,7 +962,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   // private but used in test
-  async handleHashtagRemoved(e: CustomEvent) {
+  async handleHashtagRemoved(e: Event) {
     e.preventDefault();
     assertIsDefined(this.change, 'change');
     const target = e.target as GrLinkedChip;

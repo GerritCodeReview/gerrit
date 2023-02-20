@@ -56,7 +56,7 @@ function getShaForPatch(patch: PatchSet) {
 }
 
 export interface PatchRangeChangeDetail {
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
 }
 
@@ -70,6 +70,12 @@ export interface FilesWebLinks {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-patch-range-select': GrPatchRangeSelect;
+  }
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'patch-range-change': PatchRangeChangeEvent;
   }
 }
 
@@ -463,7 +469,9 @@ export class GrPatchRangeSelect extends LitElement {
       basePatchNum: this.basePatchNum,
     };
     const target = e.target;
-    const patchSetValue = convertToPatchSetNum(e.detail.value)!;
+    const patchSetValue = convertToPatchSetNum(
+      e.detail.value
+    ) as RevisionPatchSetNum;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.patchNumDropdown) {
       if (detail.patchNum === patchSetValue) return;

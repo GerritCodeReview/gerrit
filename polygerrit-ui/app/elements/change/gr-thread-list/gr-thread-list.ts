@@ -28,7 +28,11 @@ import {
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {CommentTabState, TabState} from '../../../types/events';
+import {
+  CommentTabState,
+  TabState,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {css, html, LitElement, PropertyValues} from 'lit';
@@ -365,7 +369,7 @@ export class GrThreadList extends LitElement {
         <gr-dropdown-list
           id="sortDropdown"
           .value=${this.sortDropdownValue}
-          @value-change=${(e: CustomEvent) =>
+          @value-change=${(e: ValueChangedEvent<SortDropdownState>) =>
             (this.sortDropdownValue = e.detail.value)}
           .items=${this.getSortDropdownEntries()}
         >
@@ -521,7 +525,7 @@ export class GrThreadList extends LitElement {
   }
 
   // private, but visible for testing
-  handleCommentsDropdownValueChange(e: CustomEvent) {
+  handleCommentsDropdownValueChange(e: ValueChangedEvent<CommentTabState>) {
     const value = e.detail.value;
     switch (value) {
       case CommentTabState.UNRESOLVED:

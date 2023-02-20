@@ -459,7 +459,7 @@ export class GrDiffHighlight {
 
   private fireCreateRangeComment(side: Side, range: CommentRange) {
     this.diffTable?.dispatchEvent(
-      new CustomEvent('create-range-comment', {
+      new CustomEvent<CreateRangeCommentEventDetail>('create-range-comment', {
         detail: {side, range},
         composed: true,
         bubbles: true,

@@ -17,7 +17,7 @@ import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
-import {BindValueChangeEvent} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -455,25 +455,25 @@ export class GrGroup extends LitElement {
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
   }
 
-  private handleNameTextChanged(e: CustomEvent) {
+  private handleNameTextChanged(e: ValueChangedEvent) {
     if (!this.groupConfig || this.loading) return;
     this.groupConfig.name = e.detail.value as GroupName;
     this.requestUpdate();
   }
 
-  private handleOwnerTextChanged(e: CustomEvent) {
+  private handleOwnerTextChanged(e: ValueChangedEvent) {
     if (!this.groupConfig || this.loading) return;
     this.groupConfig.owner = e.detail.value;
     this.requestUpdate();
   }
 
-  private handleOwnerValueChanged(e: CustomEvent) {
+  private handleOwnerValueChanged(e: ValueChangedEvent) {
     if (this.loading) return;
     this.groupConfigOwner = e.detail.value;
     this.requestUpdate();
   }
 
-  private handleDescriptionTextChanged(e: CustomEvent) {
+  private handleDescriptionTextChanged(e: ValueChangedEvent) {
     if (!this.groupConfig || this.loading) return;
     this.groupConfig.description = e.detail.value;
     this.requestUpdate();

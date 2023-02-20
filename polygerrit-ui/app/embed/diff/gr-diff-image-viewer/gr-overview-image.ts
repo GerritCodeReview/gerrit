@@ -298,7 +298,7 @@ export class GrOverviewImage extends LitElement {
 
   private notifyNewCenter(center: Point) {
     this.dispatchEvent(
-      new CustomEvent('center-updated', {
+      new CustomEvent<Point>('center-updated', {
         detail: {...center},
         bubbles: true,
         composed: true,

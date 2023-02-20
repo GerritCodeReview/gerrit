@@ -41,6 +41,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {PatchRangeChangeEvent} from '../../diff/gr-patch-range-select/gr-patch-range-select';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -403,7 +404,7 @@ export class GrFileListHeader extends LitElement {
     return shownFileCount <= maxFilesForBulkActions;
   }
 
-  handlePatchChange(e: CustomEvent) {
+  handlePatchChange(e: PatchRangeChangeEvent) {
     const {basePatchNum, patchNum} = e.detail;
     if (
       (basePatchNum === this.basePatchNum && patchNum === this.patchNum) ||

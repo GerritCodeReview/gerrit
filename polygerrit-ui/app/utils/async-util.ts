@@ -75,15 +75,18 @@ export class DelayedTask {
     let callbackResult;
     if (this.callback) callbackResult = this.callback();
     if (callbackResult instanceof Promise) {
-      callbackResult.finally(() =>
-        this.resolvePromise!(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED)
-      );
+      callbackResult.finally(() => {
+        this.resolvePromise!(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
+      });
     } else {
       this.resolvePromise!(ResolvedDelayedTaskStatus.CALLBACK_EXECUTED);
     }
   }
 
-  constructor(private callback: () => void | Promise<void>, waitMs = 0) {
+  constructor(
+    private readonly callback: () => void | Promise<void>,
+    waitMs = 0
+  ) {
     this.promise = new Promise(resolve => {
       this.resolvePromise = resolve;
       this.timerId = window.setTimeout(() => {

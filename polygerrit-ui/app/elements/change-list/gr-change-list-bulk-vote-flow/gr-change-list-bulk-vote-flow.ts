@@ -161,7 +161,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       <dialog id="actionModal" tabindex="-1">
         <gr-dialog
           .disableCancel=${!this.isCancelEnabled()}
-          .disabled=${!this.isConfirmEnabled()}
+          .disabled=${this.isDisabled(
+            triggerLabels.length + nonTriggerLabels.length
+          )}
           ?loading=${this.isLoading()}
           .loadingLabel=${'Voting in progress...'}
           @confirm=${() => this.handleConfirm()}
@@ -289,11 +291,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return getOverallStatus(this.progressByChange) === ProgressStatus.RUNNING;
   }
 
-  private isConfirmEnabled() {
+  private isDisabled(permittedLabelsCount: number) {
     // Action is allowed if none of the changes have any bulk action performed
     // on them. In case an error happens then we keep the button disabled.
-    return (
-      getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED
+    return !(
+      getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED &&
+      permittedLabelsCount > 0
     );
   }
 

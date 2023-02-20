@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a0aa891_320a22e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:37:04Z",
+      "side": 1,
+      "message": "Should this contain \u0027cancel\u0027?",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 312,
+        "endChar": 3
+      },
+      "revId": "feecda7c02200f748117822094e64612c3ce8ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e538e6_6139798e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2101,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:37:04Z",
+      "side": 1,
+      "message": "Sorry if a ts noob question. How does this work exactly?\n\nWe are adding things to the HTMLElementEventMap that is in the global scope. But aren\u0027t we adding entries that have the same name?",
+      "range": {
+        "startLine": 2099,
+        "startChar": 4,
+        "endLine": 2101,
+        "endChar": 30
+      },
+      "revId": "feecda7c02200f748117822094e64612c3ce8ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

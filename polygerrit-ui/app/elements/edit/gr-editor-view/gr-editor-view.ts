@@ -14,6 +14,7 @@ import {
   EditPreferencesInfo,
   Base64FileContent,
   PatchSetNumber,
+  EDIT,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -39,6 +40,7 @@ import {
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {hasEditBasedOnCurrentPatchSet} from '../../../utils/patch-set-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -89,6 +91,9 @@ export class GrEditorView extends LitElement {
   // private but used in test
   @state() latestPatchsetNumber?: PatchSetNumber;
 
+  @state()
+  private editBasedOnCurrentPatchSet = true;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -132,6 +137,11 @@ export class GrEditorView extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchsets$,
+      x => (this.editBasedOnCurrentPatchSet = hasEditBasedOnCurrentPatchSet(x ?? []))
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
       this.handleSaveShortcut()
@@ -375,8 +385,11 @@ export class GrEditorView extends LitElement {
   // private but used in test
   viewEditInChangeView() {
     if (!this.change) return;
+    console.log(this.editBasedOnCurrentPatchSet + EDIT)
+    // If a change edit exists then we want to be taken to /edit not ,edit.
+    //const editExists = this.editBasedOnCurrentPatchSet ? {patchNum: EDIT} : {edit: true}
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, edit: true, forceReload: true})
+      createChangeUrl({change: this.change, edit:true, forceReload: true})
     );
   }
 
@@ -444,6 +457,10 @@ export class GrEditorView extends LitElement {
 
         this.content = this.newContent;
         this.successfulSave = true;
+        // We manually set this to true apon a save as it means a
+        // change edit now exists so we want to navigate to /edit
+        // not ,edit.
+        this.editBasedOnCurrentPatchSet = true;
         return res;
       });
   }

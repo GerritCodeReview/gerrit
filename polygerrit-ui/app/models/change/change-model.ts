@@ -26,6 +26,7 @@ import {
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  computeLatestPatchNumWithEdit
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -188,7 +189,7 @@ export class ChangeModel extends Model<ChangeState> {
   );
 
   public readonly latestPatchNum$ = select(this.patchsets$, patchsets =>
-    computeLatestPatchNum(patchsets)
+    computeLatestPatchNumWithEdit(patchsets)
   );
 
   /**
@@ -216,8 +217,8 @@ export class ChangeModel extends Model<ChangeState> {
           return changeNum === undefined || changeNum === viewModelChangeNum;
         })
       ),
-      ([viewModelState, _changeState, latestPatchN]) =>
-        viewModelState?.patchNum || latestPatchN
+      ([viewModelState, _changeState, latestPatchN]) =>{
+        return viewModelState?.patchNum || latestPatchN}
     );
 
   /**

@@ -265,6 +265,16 @@ export function computeLatestPatchNum(
   return latest;
 }
 
+// Basically is computeLatestPatchNum but allows "edits".
+export function computeLatestPatchNumWithEdit(
+  allPatchSets?: PatchSet[]
+): PatchSetNumber | undefined {
+  if (!allPatchSets || !allPatchSets.length) {
+    return undefined;
+  }
+  return allPatchSets[0].num as PatchSetNumber;
+}
+
 export function computePredecessor(
   patchset?: PatchSetNum
 ): BasePatchSetNum | undefined {

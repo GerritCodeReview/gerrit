@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22b42db8_d1d1e764",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T13:57:10Z",
+      "side": 1,
+      "message": "Why do you think the property code is cleaner?\n\nYou don\u0027t need a slot, actually for this to work. The main benefit I see is that it makes it easier to use the component in tests:\n\n```\n\u003cgr-user-suggestion\u003e\n Some\n Multi\n Line\n Code\n With Quotes \"\"\n\u003cgr-user-suggestion\u003e\n```\n\nVs\n\n```\n\u003cgr-user-suggestion .code\u003d\"Some\\n Multi\\n Line\\n Code\\ With Quotes \\\"\\\"\"\u003e\u003c/gr-user-suggestion\u003e\n```",
+      "parentUuid": "5cd51be4_613aa4e8",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94bf5cd4_a1572598",
         "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
         "patchSetId": 8

@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a0834a3_2985b2e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T13:34:32Z",
+      "side": 1,
+      "message": "Your current approach presusposes the following api for gr-user-suggestion:\n\n```\n\u003cgr-user-suggestion .code\u003d\"ABC\"\u003e\u003c/gr-user-suggestion\u003e\n```\n\nI\u0027m proposing that you make the innerText of \u003cgr-user-suggestion\u003e the actual code:\n```\n\u003cgr-user-suggestion\u003e\nABC\n\u003c/gr-user-suggestion\u003e\n```\n\nThen the gr-user-suggestion would have to not access its `code` property but rather its textContent.",
+      "parentUuid": "d2e35808_1009cb77",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94bf5cd4_a1572598",
         "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
         "patchSetId": 8

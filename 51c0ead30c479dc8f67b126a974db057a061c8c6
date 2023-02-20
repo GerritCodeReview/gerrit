@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaffc35d_adbe1141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-20T09:08:01Z",
+      "side": 1,
+      "message": "This is not related to this change:\n\nI think using the word: account \"visibility\" is a misnomer. It should rather be called \"discoverability\" since I can see the account when I can see at least one change it interacted with. It\u0027s not discoverable, however, since I can\u0027t search for it.",
+      "range": {
+        "startLine": 21,
+        "startChar": 53,
+        "endLine": 21,
+        "endChar": 60
+      },
+      "revId": "51c0ead30c479dc8f67b126a974db057a061c8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

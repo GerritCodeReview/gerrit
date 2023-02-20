@@ -87,6 +87,24 @@
       "parentUuid": "bdb0c81d_99191ebc",
       "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5084bb1d_1871814d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-20T15:00:39Z",
+      "side": 1,
+      "message": "Thanks for the investigation.\nCan you instead move this into a monorail bug?\nThat seems like a better place to investigate.",
+      "parentUuid": "77d0a9b5_ad27cfd1",
+      "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

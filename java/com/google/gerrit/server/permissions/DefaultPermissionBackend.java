@@ -124,7 +124,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     public ForProject project(Project.NameKey project) {
       try {
         ProjectControl control =
-            PerThreadCache.getOrCompute(
+            PerThreadProjectCache.getOrCompute(
                 PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
                 () ->
                     projectControlFactory.create(

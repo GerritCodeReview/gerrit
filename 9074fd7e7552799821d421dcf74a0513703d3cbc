@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5094c565_4923eebb",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-20T15:38:44Z",
+      "side": 1,
+      "message": "Can we make this a default argument value?",
+      "range": {
+        "startLine": 696,
+        "startChar": 33,
+        "endLine": 696,
+        "endChar": 37
+      },
+      "revId": "9074fd7e7552799821d421dcf74a0513703d3cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

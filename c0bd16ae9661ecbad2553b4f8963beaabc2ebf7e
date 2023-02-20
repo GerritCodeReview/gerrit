@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "830cbeeb_0617fad9",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-20T10:38:06Z",
+      "side": 1,
+      "message": "Makes sense. Done.",
+      "parentUuid": "c0a8f296_9688a9ba",
+      "range": {
+        "startLine": 311,
+        "startChar": 9,
+        "endLine": 311,
+        "endChar": 57
+      },
+      "revId": "c0bd16ae9661ecbad2553b4f8963beaabc2ebf7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "182529fc_35b52b3b",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-02-17T15:35:52Z",
       "side": 1,
       "message": "what is this predicate?\nnit: could you, please, add a comment about that?",
+      "range": {
+        "startLine": 384,
+        "startChar": 8,
+        "endLine": 384,
+        "endChar": 72
+      },
+      "revId": "c0bd16ae9661ecbad2553b4f8963beaabc2ebf7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f1a9841_ec17396a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-20T10:38:06Z",
+      "side": 1,
+      "message": "Oh yes, this deserves a comment. Done.",
+      "parentUuid": "182529fc_35b52b3b",
       "range": {
         "startLine": 384,
         "startChar": 8,

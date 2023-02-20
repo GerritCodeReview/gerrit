@@ -122,7 +122,7 @@ export interface LineInfo {
 
 declare global {
   interface HTMLElementEventMap {
-    /* prettier-ignore */
+    // prettier-ignore
     'render': CustomEvent<{}>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;

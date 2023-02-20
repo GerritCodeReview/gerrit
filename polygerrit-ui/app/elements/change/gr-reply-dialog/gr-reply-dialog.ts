@@ -2097,7 +2097,7 @@ declare global {
   }
   interface HTMLElementEventMap {
     /** Fired when the user presses the cancel button. */
-    /* prettier-ignore */
+    // prettier-ignore
     'cancel': CustomEvent<{}>;
     /**
      * Fires when the reply dialog believes that the server side diff drafts
@@ -2105,7 +2105,7 @@ declare global {
      */
     'comment-refresh': CustomEvent<{}>;
     /** Fired when a reply is successfully sent. */
-    /* prettier-ignore */
+    // prettier-ignore
     'send': CustomEvent<{}>;
     /** Fires when the state of the send button (enabled/disabled) changes. */
     'send-disabled-changed': CustomEvent<{}>;

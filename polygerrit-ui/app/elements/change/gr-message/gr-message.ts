@@ -63,7 +63,7 @@ declare global {
   interface HTMLElementEventMap {
     'message-anchor-tap': CustomEvent<MessageAnchorTapDetail>;
     'change-message-deleted': CustomEvent<ChangeMessageDeletedEventDetail>;
-    /* prettier-ignore */
+    // prettier-ignore
     'reply': ReplyEvent;
   }
 }

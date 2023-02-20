@@ -289,6 +289,15 @@ suite('gr-account-list tests', () => {
     assert.isFalse(element.computeRemovable(newAccount));
   });
 
+  test('addAccountItem with invalid item', () => {
+    const toastHandler = sinon.stub();
+    element.allowAnyInput = false;
+    element.addEventListener(EventType.SHOW_ALERT, toastHandler);
+    const result = element.addAccountItem('test');
+    assert.isFalse(result);
+    assert.isTrue(toastHandler.called);
+  });
+
   test('submitEntryText', async () => {
     element.allowAnyInput = true;
     await element.updateComplete;

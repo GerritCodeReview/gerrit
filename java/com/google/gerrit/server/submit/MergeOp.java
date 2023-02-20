@@ -246,6 +246,7 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
+  private final MergeMetrics mergeMetrics;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -280,7 +281,8 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
+      MergeMetrics mergeMetrics) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -298,6 +300,7 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
+    this.mergeMetrics = mergeMetrics;
   }
 
   @Override
@@ -376,6 +379,7 @@ public class MergeOp implements AutoCloseable {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
           checkSubmitRequirements(cd);
+          mergeMetrics.countChangesThatWereSubmittedWithRebaserApproval(cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());

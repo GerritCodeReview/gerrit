@@ -86,6 +86,7 @@ public class RebaseChain
   private final ProjectCache projectCache;
   private final PatchSetUtil patchSetUtil;
   private final ChangeJson.Factory json;
+  private final RebaseMetrics rebaseMetrics;
 
   @Inject
   RebaseChain(
@@ -99,7 +100,8 @@ public class RebaseChain
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil,
-      ChangeJson.Factory json) {
+      ChangeJson.Factory json,
+      RebaseMetrics rebaseMetrics) {
     this.repoManager = repoManager;
     this.getRelatedChangesUtil = getRelatedChangesUtil;
     this.changeDataFactory = changeDataFactory;
@@ -111,6 +113,7 @@ public class RebaseChain
     this.projectCache = projectCache;
     this.patchSetUtil = patchSetUtil;
     this.json = json;
+    this.rebaseMetrics = rebaseMetrics;
   }
 
   @Override
@@ -193,6 +196,8 @@ public class RebaseChain
         bu.execute();
       }
     }
+
+    rebaseMetrics.countRebaseChain(input.onBehalfOfUploader);
 
     RebaseChainInfo res = new RebaseChainInfo();
     res.rebasedChanges = new ArrayList<>();

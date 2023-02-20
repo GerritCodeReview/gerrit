@@ -84,6 +84,7 @@ public class Rebase
   private final PatchSetUtil patchSetUtil;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeResource.Factory changeResourceFactory;
+  private final RebaseMetrics rebaseMetrics;
 
   @Inject
   public Rebase(
@@ -96,7 +97,8 @@ public class Rebase
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeResource.Factory changeResourceFactory) {
+      ChangeResource.Factory changeResourceFactory,
+      RebaseMetrics rebaseMetrics) {
     this.serverIdent = serverIdent;
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
@@ -107,6 +109,7 @@ public class Rebase
     this.patchSetUtil = patchSetUtil;
     this.userFactory = userFactory;
     this.changeResourceFactory = changeResourceFactory;
+    this.rebaseMetrics = rebaseMetrics;
   }
 
   @Override
@@ -146,6 +149,8 @@ public class Rebase
         bu.setRepository(repo, rw, oi);
         bu.addOp(change.getId(), rebaseOp);
         bu.execute();
+
+        rebaseMetrics.countRebase(input.onBehalfOfUploader);
 
         ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
         changeInfo.containsGitConflicts =

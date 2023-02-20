@@ -5,7 +5,7 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ChangeInfo,
@@ -107,8 +107,7 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-4">Trigger Votes</h3>
-        <div class="permissionMessage">You don't have permission to vote</div>`;
+      return nothing;
     }
     return html`<h3 class="heading-4">Trigger Votes</h3>
       ${this.renderLabels(labels)}`;

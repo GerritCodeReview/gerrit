@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3e36d5_958408d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-20T17:23:38Z",
+      "side": 1,
+      "message": "Remove `@state()`. I think this does not really have a meaning on getters. The return value is based on two states, so Lit will know already when it changes.",
+      "revId": "080e6701c1c19b866d61528039e57a718164e27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

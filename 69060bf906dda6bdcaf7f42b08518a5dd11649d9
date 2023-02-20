@@ -51,6 +51,24 @@
       "message": "Tested this locally and this fixes the issue although another issue (although i guess it\u0027s minor so feel free to do it in another change) is caused which when you go to a file to edit, save it and go back the yellow banner is gone to indicate either old or change edit.",
       "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb0c81d_99191ebc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-20T13:42:43Z",
+      "side": 1,
+      "message": "Oh i guess the yellow banner was for \"old\" and not for \"edit\".",
+      "parentUuid": "36af1086_dfa0fd75",
+      "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

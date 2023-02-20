@@ -16,6 +16,24 @@
       "message": "Could you explain what this endpoint is good for (e.g. do we need to add it)?",
       "revId": "6fc11049de28f3b4aa4002edfa08e3dd1711bea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4dd8a3_c2acbebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T10:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aedda041_b6f9e86c",
+      "revId": "6fc11049de28f3b4aa4002edfa08e3dd1711bea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

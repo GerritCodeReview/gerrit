@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa9fcf7_faf51693",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T09:16:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we only do this if the flag is set and if not render it as regular `\u003cpre\u003e\u003ccode\u003e`?",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b1c42b_790c513a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T09:16:20Z",
+      "side": 1,
+      "message": "What about \u003cgr-user-suggestion\u003e${text}\u003c/gr-user-suggestion?",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5e9c16_cc458bab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T09:16:20Z",
+      "side": 1,
+      "message": "Rather than rely on .code, it would be cleaner if you could just rely on the slot:\n\n```\n\u003cgr-user-suggestion\u003e\n Some code\n\u003c/gr-user-suggestion\u003e\n```",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94bf5cd4_a1572598",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T09:16:20Z",
+      "side": 1,
+      "message": "tests?",
+      "revId": "aae5c8126b47d8bf167264f33049c9fa1da49b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

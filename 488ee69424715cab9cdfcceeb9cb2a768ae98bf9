@@ -16,6 +16,24 @@
       "message": "This comment confuses me, maybe you can expand this a bit.\nWhere is `sanitizeHtml` called?\nWhat do you mean by `class` here?\nWhy are we using `\u003cmark\u003e`?\nCan we somehow override what `sanitizeHtml` allows?\n\nIf this is impossible to get working, then I think we should rather split up `this.content` as a first step and then render these separately:\n```\n\u003cmarked-element\u003e\u003c/marked-element\u003e\n\u003cgr-user-suggestion-fix\u003e\u003c/gr-user-suggestion-fix\u003e\n\u003cmarked-element\u003e\u003c/marked-element\u003e\n```",
       "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d07b4c5_58576022",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:53:41Z",
+      "side": 1,
+      "message": "I will extend comment, but we already do conversion for gr-account-chip\nfor mentions, here it was just impossible for identifying which \u003cpre\u003e\u003ccode\u003e is suggestions. \n\nIs it blocker for you if I will not split up but continue using this pattern of conversion?",
+      "parentUuid": "34ca3661_96aeee22",
+      "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

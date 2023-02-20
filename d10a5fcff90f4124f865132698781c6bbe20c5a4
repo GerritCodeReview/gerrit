@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53eceff1_2c840f1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efa08df2_5c93c434",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 29
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41313f6b_a513613e",
@@ -168,6 +192,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3948eccd_c4d3643f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:28:33Z",
+      "side": 1,
+      "message": "Renamed to --gr-copy-clipboard-icon-color",
+      "parentUuid": "f280ff1f_d8b2b9a2",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b379ff1_d7b6fdf7",
@@ -215,6 +257,24 @@
       "writtenOn": "2023-02-20T14:10:41Z",
       "side": 1,
       "message": "I think you can remove this comment.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab90b40_4b6e27c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7d36c9d_cb81112b",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -276,6 +336,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6292b3f_a64f786c",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "152ae5c0_8ac945d1",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d10c14ec_ebb179aa",
@@ -289,6 +367,24 @@
       "writtenOn": "2023-02-20T14:10:41Z",
       "side": 1,
       "message": "Maybe consider moving this line and the two types below into `gr-user-suggestion`, because that is the only place where this is fired.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0726c8ce_f0d1e240",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T14:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d10c14ec_ebb179aa",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

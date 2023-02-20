@@ -22,6 +22,30 @@
       },
       "revId": "605530848b51446f13e30a87a7026cf9ad4ed848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ea5d7c_f72d09d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-20T10:38:01Z",
+      "side": 1,
+      "message": "I agree that this info should be contained in the commit messages. Added it now.\n\nDone.",
+      "parentUuid": "8440b894_2c2cabc7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "605530848b51446f13e30a87a7026cf9ad4ed848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

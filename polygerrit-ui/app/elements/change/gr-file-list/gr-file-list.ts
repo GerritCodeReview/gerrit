@@ -42,6 +42,7 @@ import {
   NumericChangeId,
   PARENT,
   PatchRange,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
@@ -181,11 +182,22 @@ export class GrFileList extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 
-  @property({type: Object})
-  patchRange?: PatchRange;
+  @state()
+  get patchRange(): PatchRange | undefined {
+    if (!this.patchNum) return undefined;
+    return {
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
+    };
+  }
 
-  @property({type: String})
-  patchNum?: string;
+  // Private but used in tests.
+  @state()
+  patchNum?: RevisionPatchSetNum;
+
+  // Private but used in tests.
+  @state()
+  basePatchNum: BasePatchSetNum = PARENT;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -811,6 +823,16 @@ export class GrFileList extends LitElement {
         this.reviewed = reviewedFiles ?? [];
       }
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().basePatchNum$,
+      x => (this.basePatchNum = x)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
@@ -1136,7 +1158,7 @@ export class GrFileList extends LitElement {
     const hasExtendedStatus = this.filesLeftBase.length > 0;
     // no file means "header row"
     if (!file) {
-      const psNum = this.patchRange?.patchNum;
+      const psNum = this.patchNum;
       return hasExtendedStatus
         ? this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)
         : nothing;
@@ -1154,8 +1176,8 @@ export class GrFileList extends LitElement {
     const status = fileIsReverted
       ? FileInfoStatus.REVERTED
       : file?.status ?? FileInfoStatus.MODIFIED;
-    const left = `patchset ${this.patchRange?.basePatchNum}`;
-    const right = `patchset ${this.patchRange?.patchNum}`;
+    const left = `patchset ${this.basePatchNum}`;
+    const right = `patchset ${this.patchNum}`;
     const postfix = ` between ${left} and ${right}`;
 
     return html`<gr-file-status
@@ -1175,7 +1197,7 @@ export class GrFileList extends LitElement {
       ></gr-icon>
     `;
     // no path means "header row"
-    const psNum = this.patchRange?.basePatchNum;
+    const psNum = this.basePatchNum;
     if (!path) {
       return html`
         ${this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)} ${arrow}
@@ -1187,7 +1209,7 @@ export class GrFileList extends LitElement {
 
     const status = file.status ?? FileInfoStatus.MODIFIED;
     const left = 'base';
-    const right = `patchset ${this.patchRange?.basePatchNum}`;
+    const right = `patchset ${this.basePatchNum}`;
     const postfix = ` between ${left} and ${right}`;
 
     return html`
@@ -1664,16 +1686,16 @@ export class GrFileList extends LitElement {
     if (
       this.change &&
       this.changeNum &&
-      this.patchRange?.patchNum &&
-      new RevisionInfo(this.change).isMergeCommit(this.patchRange.patchNum) &&
-      this.patchRange.basePatchNum === PARENT &&
-      this.patchRange.patchNum !== EDIT
+      this.patchNum &&
+      new RevisionInfo(this.change).isMergeCommit(this.patchNum) &&
+      this.basePatchNum === PARENT &&
+      this.patchNum !== EDIT
     ) {
       const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
         this.changeNum,
         {
           basePatchNum: -1 as BasePatchSetNum, // -1 is first (target) parent
-          patchNum: this.patchRange.patchNum,
+          patchNum: this.patchNum,
         }
       );
       if (!allFilesByPath) return;

@@ -23,6 +23,9 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {
@@ -44,15 +47,21 @@ export class GrDownloadDialog extends LitElement {
   @property({type: Object})
   config?: DownloadInfo;
 
-  @property({type: String})
-  patchNum: PatchSetNum | undefined;
+  @state() patchNum?: PatchSetNum;
 
   @state() private selectedScheme?: string;
 
   private readonly shortcuts = new ShortcutController(this);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
+    );
     for (const key of ['1', '2', '3', '4', '5']) {
       this.shortcuts.addLocal({key}, e => this.handleNumberKey(e));
     }

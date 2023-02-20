@@ -70,6 +70,24 @@
       "parentUuid": "36dde6d6_7be69de0",
       "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c27a4b0_09ef82ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Added todo. It looks, we can implement own sanitizer, so it is doable.",
+      "parentUuid": "b420465b_34deef29",
+      "revId": "488ee69424715cab9cdfcceeb9cb2a768ae98bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "015d43de_9337f583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "I fixed little bit paddings.",
+      "parentUuid": "71ec4878_6031232e",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efa08df2_5c93c434",
@@ -158,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37f800d_72bac9ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b39fb293_c3599386",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24abce7e_a0a1094e",
@@ -171,6 +213,24 @@
       "writtenOn": "2023-02-20T14:10:41Z",
       "side": 1,
       "message": "Maybe use `align-items` instead for `.header`.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cbb3dc2_dfa32c7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24abce7e_a0a1094e",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -227,6 +287,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97a95e31_1a68a038",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b379ff1_d7b6fdf7",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fee17262_d48f612e",
@@ -240,6 +318,24 @@
       "writtenOn": "2023-02-20T14:10:41Z",
       "side": 1,
       "message": "`\u003cdiv class\u003d\"header\"\u003e` is `display:flex`. Direct children of such elements may not have `display:inline*`. Please wrap in divs.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31bf7f9e_f3322527",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion/gr-user-suggestion.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fee17262_d48f612e",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -315,6 +411,48 @@
         "endLine": 284,
         "endChar": 42
       },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c045f574_2bd50825",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Added but I don\u0027t know what colors should I use in dark-theme. I will refine later, it looks ok now.",
+      "parentUuid": "425fda51_b45046c6",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 42
+      },
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "277dbd7a_b831ed42",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-20T17:34:07Z",
+      "side": 1,
+      "message": "Based on mocks from delphine - it is white.",
+      "parentUuid": "3041eba4_91b16e01",
       "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

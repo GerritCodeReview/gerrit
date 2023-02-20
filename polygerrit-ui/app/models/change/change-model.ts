@@ -26,6 +26,7 @@ import {RouterModel} from '../../services/router/router-model';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  computeLatestPatchNumWithEdit,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -183,6 +184,10 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     computeLatestPatchNum(computeAllPatchSets(change))
   );
 
+  public readonly latestPatchNumWithEdit$ = select(this.change$, change =>
+    computeLatestPatchNumWithEdit(computeAllPatchSets(change))
+  );
+
   /**
    * Emits the current patchset number. If the route does not define the current
    * patchset num, then this selector waits for the change to be defined and
@@ -195,7 +200,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       combineLatest([
         this.routerModel.state$,
         this.state$,
-        this.latestPatchNum$,
+        this.latestPatchNumWithEdit$,
       ]).pipe(
         /**
          * If you depend on both, router and change state, then you want to

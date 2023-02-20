@@ -104,10 +104,8 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       element.numFilesShown = 200;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       saveStub = sinon
         .stub(element, '_saveReviewedState')
         .callsFake(() => Promise.resolve());
@@ -321,7 +319,7 @@ suite('gr-file-list tests', () => {
     test('renders file status column header', async () => {
       element.files = createFiles(1, {lines_inserted: 9});
       element.filesLeftBase = createFiles(1, {lines_inserted: 9});
-      element.patchRange!.basePatchNum = 1 as PatchSetNumber;
+      element.basePatchNum = 1 as PatchSetNumber;
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.header-row');
       const statusCol = queryAndAssert(fileRows?.[0], '.status');
@@ -647,22 +645,9 @@ suite('gr-file-list tests', () => {
 
     test('comment filtering', () => {
       element.changeComments = createChangeComments();
-      const parentTo1 = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
 
-      const parentTo2 = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
-
-      const _1To2 = {
-        basePatchNum: 1 as BasePatchSetNum,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
-
-      element.patchRange = parentTo1;
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: '/COMMIT_MSG',
@@ -671,7 +656,9 @@ suite('gr-file-list tests', () => {
         }),
         '2c'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: '/COMMIT_MSG',
@@ -680,7 +667,9 @@ suite('gr-file-list tests', () => {
         }),
         '3c'
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: 'unresolved.file',
@@ -689,7 +678,9 @@ suite('gr-file-list tests', () => {
         }),
         '1 draft'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: 'unresolved.file',
@@ -698,7 +689,9 @@ suite('gr-file-list tests', () => {
         }),
         '1 draft'
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'unresolved.file',
@@ -707,7 +700,9 @@ suite('gr-file-list tests', () => {
         }),
         '1d'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'unresolved.file',
@@ -716,7 +711,9 @@ suite('gr-file-list tests', () => {
         }),
         '1d'
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'myfile.txt',
@@ -725,7 +722,9 @@ suite('gr-file-list tests', () => {
         }),
         '1c'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'myfile.txt',
@@ -734,16 +733,9 @@ suite('gr-file-list tests', () => {
         }),
         '3c'
       );
-      element.patchRange = parentTo1;
-      assert.equal(
-        element.computeDraftsString({
-          __path: 'myfile.txt',
-          size: 0,
-          size_delta: 0,
-        }),
-        ''
-      );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: 'myfile.txt',
@@ -753,7 +745,19 @@ suite('gr-file-list tests', () => {
         ''
       );
 
-      element.patchRange = parentTo1;
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
+      assert.equal(
+        element.computeDraftsString({
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'myfile.txt',
@@ -762,7 +766,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'myfile.txt',
@@ -771,7 +777,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'file_added_in_rev2.txt',
@@ -780,7 +788,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'file_added_in_rev2.txt',
@@ -789,7 +799,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: 'file_added_in_rev2.txt',
@@ -798,7 +810,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: 'file_added_in_rev2.txt',
@@ -807,7 +821,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'file_added_in_rev2.txt',
@@ -816,7 +832,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'file_added_in_rev2.txt',
@@ -825,7 +843,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = parentTo2;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: '/COMMIT_MSG',
@@ -834,7 +854,9 @@ suite('gr-file-list tests', () => {
         }),
         '1c'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: '/COMMIT_MSG',
@@ -843,7 +865,9 @@ suite('gr-file-list tests', () => {
         }),
         '3c'
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: '/COMMIT_MSG',
@@ -852,7 +876,9 @@ suite('gr-file-list tests', () => {
         }),
         '2 drafts'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsString({
           __path: '/COMMIT_MSG',
@@ -861,7 +887,9 @@ suite('gr-file-list tests', () => {
         }),
         '2 drafts'
       );
-      element.patchRange = parentTo1;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: '/COMMIT_MSG',
@@ -870,7 +898,9 @@ suite('gr-file-list tests', () => {
         }),
         '2d'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: '/COMMIT_MSG',
@@ -879,7 +909,9 @@ suite('gr-file-list tests', () => {
         }),
         '2d'
       );
-      element.patchRange = parentTo2;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'myfile.txt',
@@ -888,7 +920,9 @@ suite('gr-file-list tests', () => {
         }),
         '2c'
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
           __path: 'myfile.txt',
@@ -897,7 +931,9 @@ suite('gr-file-list tests', () => {
         }),
         '3c'
       );
-      element.patchRange = parentTo2;
+
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'myfile.txt',
@@ -906,7 +942,9 @@ suite('gr-file-list tests', () => {
         }),
         ''
       );
-      element.patchRange = _1To2;
+
+      element.basePatchNum = 1 as BasePatchSetNum;
+      element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeDraftsStringMobile({
           __path: 'myfile.txt',
@@ -925,10 +963,8 @@ suite('gr-file-list tests', () => {
           normalize({}, 'myfile.txt'),
         ];
         element.changeNum = 42 as NumericChangeId;
-        element.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: 2 as RevisionPatchSetNum,
-        };
+        element.basePatchNum = PARENT;
+        element.patchNum = 2 as RevisionPatchSetNum;
         element.change = {
           _number: 42 as NumericChangeId,
           project: 'test-project',
@@ -1149,10 +1185,8 @@ suite('gr-file-list tests', () => {
         normalize({}, 'myfile.txt'),
       ];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       element.fileCursor.setCursorAtIndex(0);
 
       const reviewSpy = sinon.spy(element, 'reviewFile');
@@ -1215,10 +1249,8 @@ suite('gr-file-list tests', () => {
         normalize({}, 'f2.txt'),
       ];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       await element.updateComplete;
 
       const clickSpy = sinon.spy(element, 'handleFileListClick');
@@ -1255,10 +1287,8 @@ suite('gr-file-list tests', () => {
         normalize({}, 'f2.txt'),
       ];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       element.editMode = true;
       await element.updateComplete;
 
@@ -1276,10 +1306,8 @@ suite('gr-file-list tests', () => {
     test('checkbox shows/hides diff inline', async () => {
       element.files = [normalize({}, 'myfile.txt')];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       element.fileCursor.setCursorAtIndex(0);
       sinon.stub(element, 'expandedFilesChanged');
       await element.updateComplete;
@@ -1305,10 +1333,8 @@ suite('gr-file-list tests', () => {
     test('diff mode correctly toggles the diffs', async () => {
       element.files = [normalize({}, 'myfile.txt')];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       const updateDiffPrefSpy = sinon.spy(element, 'updateDiffPreferences');
       element.fileCursor.setCursorAtIndex(0);
       await element.updateComplete;
@@ -1335,10 +1361,8 @@ suite('gr-file-list tests', () => {
     test('tapping row ignores links', async () => {
       element.files = [normalize({}, '/COMMIT_MSG')];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       sinon.stub(element, 'expandedFilesChanged');
       await element.updateComplete;
       const commitMsgFile = queryAll<HTMLAnchorElement>(
@@ -1632,10 +1656,8 @@ suite('gr-file-list tests', () => {
         };
         element.changeNum = changeWithMultipleParents._number;
         element.change = changeWithMultipleParents;
-        element.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: 1 as RevisionPatchSetNum,
-        };
+        element.basePatchNum = PARENT;
+        element.patchNum = 1 as RevisionPatchSetNum;
         await element.updateComplete;
         await waitEventLoop();
       });
@@ -1696,10 +1718,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown for non-Auto Merge base parents', async () => {
-        element.patchRange = {
-          basePatchNum: 1 as BasePatchSetNum,
-          patchNum: 2 as RevisionPatchSetNum,
-        };
+        element.basePatchNum = 1 as BasePatchSetNum;
+        element.patchNum = 2 as RevisionPatchSetNum;
         await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
@@ -1708,10 +1728,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown in edit mode', async () => {
-        element.patchRange = {
-          basePatchNum: 1 as BasePatchSetNum,
-          patchNum: EDIT,
-        };
+        element.basePatchNum = 1 as BasePatchSetNum;
+        element.patchNum = EDIT;
         await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
@@ -1728,10 +1746,8 @@ suite('gr-file-list tests', () => {
         _number: 1 as NumericChangeId,
         project: 'gerrit' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       const path = 'index.php';
       element.editMode = false;
       assert.equal(element.computeDiffURL(path), '/c/gerrit/+/1/1/index.php');
@@ -1743,10 +1759,8 @@ suite('gr-file-list tests', () => {
         _number: 1 as NumericChangeId,
         project: 'gerrit' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       element.editMode = false;
       const path = '/COMMIT_MSG';
       assert.equal(element.computeDiffURL(path), '/c/gerrit/+/1/1//COMMIT_MSG');
@@ -1758,10 +1772,8 @@ suite('gr-file-list tests', () => {
         _number: 1 as NumericChangeId,
         project: 'gerrit' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       element.editMode = true;
       const path = 'index.php';
       assert.equal(
@@ -1776,10 +1788,8 @@ suite('gr-file-list tests', () => {
         _number: 1 as NumericChangeId,
         project: 'gerrit' as RepoName,
       };
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       element.editMode = true;
       const path = '/COMMIT_MSG';
       assert.equal(
@@ -2068,10 +2078,8 @@ suite('gr-file-list tests', () => {
       ];
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = 42 as NumericChangeId;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 2 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
       sinon
         .stub(window, 'fetch')
         .callsFake(() => Promise.resolve(new Response()));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c9da35_e865f6a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-20T14:18:20Z",
+      "side": 1,
+      "message": "With the new syntax, can this be directly made into:\n\n`\u003cgr-user-suggestion-fix\u003e${text}\u003c/gr-user-suggestion-fix\u003e`?\n\nOr does sanitizeHTML not work with custom-elements?",
+      "revId": "ce258e0e8cd0bf7b788e8a5e666c205dae68892b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

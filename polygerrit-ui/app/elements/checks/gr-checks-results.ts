@@ -329,9 +329,9 @@ export class GrResultRow extends LitElement {
   private computeIsExpandable() {
     const hasSummary = !!this.result?.summary;
     const hasMessage = !!this.result?.message;
-    const hasLinks = (this.result?.links ?? []).length > 0;
+    const hasMultipleLinks = (this.result?.links ?? []).length > 1;
     const hasPointers = (this.result?.codePointers ?? []).length > 0;
-    return hasSummary && (hasMessage || hasLinks || hasPointers);
+    return hasSummary && (hasMessage || hasMultipleLinks || hasPointers);
   }
 
   override focus() {

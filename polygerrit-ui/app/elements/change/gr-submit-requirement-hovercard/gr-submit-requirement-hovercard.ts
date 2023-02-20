@@ -10,13 +10,13 @@ import {customElement, property} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeStatus,
-  isDetailedLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
 import {
-  canVote,
+  canReviewerVote,
+  canUserVote,
   extractAssociatedLabels,
   getApprovalInfo,
   hasVotes,
@@ -204,7 +204,7 @@ export class GrSubmitRequirementHovercard extends base {
       if (requirementLabels.includes(label)) {
         const labelInfo = allLabels[label];
         const canSomeoneVote = (this.change?.reviewers['REVIEWER'] ?? []).some(
-          reviewer => canVote(labelInfo, reviewer)
+          reviewer => canReviewerVote(labelInfo, reviewer)
         );
         if (hasVotes(labelInfo) || canSomeoneVote) {
           labels.push(label);
@@ -280,15 +280,18 @@ export class GrSubmitRequirementHovercard extends base {
     labelName: string,
     type: 'override' | 'submittability'
   ) {
+    if (!this.account || !canUserVote(labelName, this.change?.permitted_labels))
+      return;
+    const votes = this.change?.permitted_labels?.[labelName];
+    if (!votes || votes.length < 1) return;
+    const maxVote = Number(votes[votes.length - 1]);
+    if (maxVote <= 0) return;
+
     const labels = this.change?.labels ?? {};
     const labelInfo = labels[labelName];
-    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
-    if (!this.account || !canVote(labelInfo, this.account)) return;
-
     const approvalInfo = getApprovalInfo(labelInfo, this.account);
-    const maxVote = approvalInfo?.permitted_voting_range?.max;
-    if (!maxVote || maxVote <= 0) return;
     if (approvalInfo?.value === maxVote) return; // Already voted maxVote
+
     return html` <div class="button quickApprove">
       <gr-button
         link=""

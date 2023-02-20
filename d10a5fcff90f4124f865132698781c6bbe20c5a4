@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "968b9dcb_ae101f87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-20T13:34:55Z",
+      "side": 1,
+      "message": "Maybe call it gr-user-suggested-fix or gr-user-suggestion-fix?\n\nOtherwise some may presume this has to do with searching.",
+      "revId": "d10a5fcff90f4124f865132698781c6bbe20c5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41313f6b_a513613e",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 9

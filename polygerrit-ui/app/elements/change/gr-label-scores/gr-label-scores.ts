@@ -20,6 +20,7 @@ import {
   computeOrderedLabelValues,
   getDefaultValue,
   getApplicableLabels,
+  canUserVote,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -86,7 +87,8 @@ export class GrLabelScores extends LitElement {
     if (!labels.length) return;
     if (
       labels.filter(
-        label => !this.permittedLabels || this.permittedLabels[label.name]
+        label =>
+          !this.permittedLabels || canUserVote(label.name, this.permittedLabels)
       ).length === 0
     ) {
       return html`<h3 class="heading-4">Submit requirements votes</h3>
@@ -104,7 +106,8 @@ export class GrLabelScores extends LitElement {
     if (!labels.length) return;
     if (
       labels.filter(
-        label => !this.permittedLabels || this.permittedLabels[label.name]
+        label =>
+          !this.permittedLabels || canUserVote(label.name, this.permittedLabels)
       ).length === 0
     ) {
       return nothing;
@@ -116,11 +119,7 @@ export class GrLabelScores extends LitElement {
   private renderLabels(labels: Label[]) {
     return html`<div class="scoresTable">
       ${labels
-        .filter(
-          label =>
-            this.permittedLabels?.[label.name] &&
-            this.permittedLabels?.[label.name].length > 0
-        )
+        .filter(label => canUserVote(label.name, this.permittedLabels))
         .map(
           label => html`<gr-label-score-row
             .label=${label}

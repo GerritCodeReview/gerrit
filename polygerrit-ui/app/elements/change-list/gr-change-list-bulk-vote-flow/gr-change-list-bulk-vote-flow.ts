@@ -17,6 +17,7 @@ import {
   mergeLabelMaps,
   Label,
   StandardLabels,
+  canUserVote,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -261,11 +262,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       <h3 class="heading-4 vote-type">${labels.length ? heading : nothing}</h3>
       ${showCodeReviewWarning ? this.renderCodeReviewMessage() : nothing}
       ${labels
-        .filter(
-          label =>
-            permittedLabels?.[label.name] &&
-            permittedLabels?.[label.name].length > 0
-        )
+        .filter(label => canUserVote(label.name, permittedLabels))
         .map(
           label => html`<gr-label-score-row
             .label=${label}

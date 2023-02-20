@@ -153,7 +153,11 @@ export function hasVoted(label: LabelInfo, account: AccountInfo) {
   return false;
 }
 
-export function canVote(label: DetailedLabelInfo, account: AccountInfo) {
+// This doesn't work for owner, only reviewers
+export function canReviewerVote(
+  label: DetailedLabelInfo,
+  account: AccountInfo
+) {
   const approvalInfo = getApprovalInfo(label, account);
   if (!approvalInfo) return false;
   if (approvalInfo.permitted_voting_range) {
@@ -161,6 +165,15 @@ export function canVote(label: DetailedLabelInfo, account: AccountInfo) {
   }
   // If value present, user can vote on the label.
   return approvalInfo.value !== undefined;
+}
+
+export function canUserVote(
+  labelName: string,
+  permittedLabels?: LabelNameToValuesMap
+) {
+  return (
+    permittedLabels?.[labelName] && permittedLabels?.[labelName].length > 0
+  );
 }
 
 export function getAllUniqueApprovals(labelInfo?: LabelInfo) {

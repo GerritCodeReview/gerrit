@@ -1193,7 +1193,6 @@ export class GrChangeView extends LitElement {
         <gr-download-dialog
           id="downloadDialog"
           .change=${this.change}
-          .patchNum=${this.patchRange?.patchNum}
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
@@ -1534,8 +1533,6 @@ export class GrChangeView extends LitElement {
           .editMode=${this.getEditMode()}
           .loggedIn=${this.loggedIn}
           .shownFileCount=${this.shownFileCount}
-          .patchNum=${this.patchRange?.patchNum}
-          .basePatchNum=${this.patchRange?.basePatchNum}
           .filesExpanded=${this.fileList?.filesExpanded}
           @open-diff-prefs=${this.handleOpenDiffPrefs}
           @open-download-dialog=${this.handleOpenDownloadDialog}

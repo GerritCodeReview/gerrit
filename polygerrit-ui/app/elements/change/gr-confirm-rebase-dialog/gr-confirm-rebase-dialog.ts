@@ -22,7 +22,6 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export interface RebaseChange {
   name: string;
@@ -98,8 +97,6 @@ export class GrConfirmRebaseDialog
   parentInput!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -234,8 +231,7 @@ export class GrConfirmRebaseDialog
             >
           </div>
           ${when(
-            this.flagsService.isEnabled(KnownExperimentId.REBASE_CHAIN) &&
-              this.hasParent,
+            this.hasParent,
             () =>
               html`<div>
                 <input

@@ -19,5 +19,4 @@ export enum KnownExperimentId {
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   SUGGEST_EDIT = 'UiFeature__suggest_edit',
-  REBASE_CHAIN = 'UiFeature__rebase_chain',
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c705e6_9d9b4e5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-02-20T13:12:26Z",
+      "side": 1,
+      "message": "This is a problem since v3.6. Can we fix this on stable-3.6 instead?",
+      "revId": "69060bf906dda6bdcaf7f42b08518a5dd11649d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

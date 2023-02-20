@@ -43,19 +43,9 @@ import java.util.function.Supplier;
  * <p>Lastly, this class offers a cache, that requires callers to also provide a {@code Supplier} in
  * case the object is not present in the cache, while {@code CurrentUser} provides a storage where
  * just retrieving stored values is a valid operation.
- *
- * <p>To prevent OOM errors on requests that would cache a lot of objects, this class enforces an
- * internal limit after which no new elements are cached. All {@code get} calls are served by
- * invoking the {@code Supplier} after that.
  */
 public class PerThreadCache implements AutoCloseable {
   private static final ThreadLocal<PerThreadCache> CACHE = new ThreadLocal<>();
-  /**
-   * Cache at maximum 25 values per thread. This value was chosen arbitrarily. Some endpoints (like
-   * ListProjects) break the assumption that the data cached in a request is limited. To prevent
-   * this class from accumulating an unbound number of objects, we enforce this limit.
-   */
-  private static final int PER_THREAD_CACHE_SIZE = 25;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -119,7 +109,7 @@ public class PerThreadCache implements AutoCloseable {
     return cache != null ? cache.get(key, loader) : loader.get();
   }
 
-  private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
+  private final Map<Key<?>, Object> cache = Maps.newHashMap();
 
   private PerThreadCache() {}
 
@@ -132,9 +122,7 @@ public class PerThreadCache implements AutoCloseable {
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();
-      if (cache.size() < PER_THREAD_CACHE_SIZE) {
-        cache.put(key, value);
-      }
+      cache.put(key, value);
     }
     return value;
   }

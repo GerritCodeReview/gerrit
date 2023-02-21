@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -58,6 +59,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -169,8 +171,11 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       } catch (NoSuchChangeException | RepositoryNotFoundException e) {
         throw new ResourceConflictException(e.getMessage());
       }
-      ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);
-      ChangeInfo changeInfo = json.format(resultChange);
+      List<ListChangesOption> opts = input.response_format_options;
+      if (opts == null) {
+        opts = ImmutableList.of();
+      }
+      ChangeInfo changeInfo = jsonFactory.create(opts).format(resultChange);
       return Response.ok(changeInfo);
     }
   }

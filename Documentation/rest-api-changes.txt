@@ -6735,6 +6735,8 @@ the `name` and `email` fields set.
 The caller needs "Forge Author" permission when using this field, unless specifies their own details.
 This field does not affect the owner of the change, which will continue to use the identity of the
 caller.
+|`response_format_options`     |optional|
+List of link:#query-options[query options] to format the response.
 |=================================
 
 
@@ -7125,6 +7127,8 @@ If not set, the default is `ALL`.
 Additional information about whom to notify about the change creation
 as a map of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
+|`response_format_options`     |optional|
+List of link:#query-options[query options] to format the response.
 |==================================
 
 [[change-message-info]]

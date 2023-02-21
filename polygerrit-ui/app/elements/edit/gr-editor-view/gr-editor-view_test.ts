@@ -80,7 +80,7 @@ suite('gr-editor-view tests', () => {
                 role="button"
                 tabindex="0"
               >
-                Cancel
+                Close
               </gr-button>
               <gr-button
                 aria-disabled="true"

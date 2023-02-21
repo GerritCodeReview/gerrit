@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.CurrentUser;
+
 /**
  * Base interface for operations performed as part of a {@link BatchUpdate}.
  *
@@ -36,4 +39,9 @@ public interface RepoOnlyOp {
    */
   // TODO(dborowitz): Support async operations?
   default void postUpdate(PostUpdateContext ctx) throws Exception {}
+
+  @Nullable
+  default CurrentUser getContextUser() {
+    return null;
+  }
 }

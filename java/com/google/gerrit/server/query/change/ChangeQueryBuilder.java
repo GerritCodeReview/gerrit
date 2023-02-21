@@ -35,7 +35,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -1295,14 +1294,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> ownerin(String group) throws QueryParseException, IOException {
-    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
-    if (g == null) {
-      throw error("Group " + group + " not found");
-    }
-
+    GroupReference g = parseGroup(group);
     AccountGroup.UUID groupId = g.getUUID();
-    GroupDescription.Basic groupDescription = args.groupBackend.get(groupId);
-    if (!(groupDescription instanceof GroupDescription.Internal)) {
+    if (args.groupBackend.isOrContainsExternalGroup(groupId)) {
       return new OwnerinPredicate(args.userFactory, groupId);
     }
 
@@ -1318,14 +1312,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> uploaderin(String group) throws QueryParseException, IOException {
     checkFieldAvailable(ChangeField.UPLOADER, "uploaderin");
 
-    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
-    if (g == null) {
-      throw error("Group " + group + " not found");
-    }
-
+    GroupReference g = parseGroup(group);
     AccountGroup.UUID groupId = g.getUUID();
-    GroupDescription.Basic groupDescription = args.groupBackend.get(groupId);
-    if (!(groupDescription instanceof GroupDescription.Internal)) {
+    if (args.groupBackend.isOrContainsExternalGroup(groupId)) {
       return new UploaderinPredicate(args.userFactory, groupId);
     }
 
@@ -1372,10 +1361,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> reviewerin(String group) throws QueryParseException {
-    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
-    if (g == null) {
-      throw error("Group " + group + " not found");
-    }
+    GroupReference g = parseGroup(group);
     return new ReviewerinPredicate(args.userFactory, g.getUUID());
   }
 

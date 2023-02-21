@@ -191,3 +191,18 @@ Part of link:index.html[Gerrit Code Review]
 
 SEARCHBOX
 ---------
+
+=== Auto readd owner [[auto-readd-owner]]
+
+This job automatically readds the change owner to the attention-set for open non-WIP/private
+changes that have been inactive for a defined time. Gerrit administrators may configure
+link:config-gerrit.html#auto-readd[this]
+
+Readding the owner to the attention-set of an inactive change has the advantages:
+
+* It signals the change owner that the review is not progressing and that the owner
+may need to adjust the attention-set or indicate a need for a priority review.
+* It may prevent changes where no one is in the attention-set from getting forgotten.
+* It makes people set changes in WIP or private for changes that should not
+be actively reviewed.
+

@@ -13,7 +13,7 @@ import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {
   EditPreferencesInfo,
   Base64FileContent,
-  PatchSetNumber,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -26,7 +26,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -63,8 +63,7 @@ export class GrEditorView extends LitElement {
    * @event show-alert
    */
 
-  @property({type: Object})
-  viewState?: ChangeViewState;
+  @state() viewState?: ChangeViewState;
 
   // private but used in test
   @state() change?: ParsedChangeInfo;
@@ -87,7 +86,7 @@ export class GrEditorView extends LitElement {
   @state() private editPrefs?: EditPreferencesInfo;
 
   // private but used in test
-  @state() latestPatchsetNumber?: PatchSetNumber;
+  @state() latestPatchsetNumber?: RevisionPatchSetNum;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -130,7 +129,7 @@ export class GrEditorView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNumWithEdit$,
       x => (this.latestPatchsetNumber = x)
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>

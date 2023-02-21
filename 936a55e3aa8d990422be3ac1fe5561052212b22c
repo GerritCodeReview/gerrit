@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8452818c_c04af6b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1147792
+      },
+      "writtenOn": "2023-02-21T19:51:17Z",
+      "side": 1,
+      "message": "Looks good to me.\nJust to double check if we should provide commit message of what is being done in present simple:\nIn [1], the ProjectSimulation file had an extra bracket removed.\nFixed with this change.",
+      "revId": "936a55e3aa8d990422be3ac1fe5561052212b22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

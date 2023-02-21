@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
+import java.util.List;
 
 /** Information for creating a new patch set from a given patch. */
 public class ApplyPatchPatchSetInput {
@@ -40,4 +42,6 @@ public class ApplyPatchPatchSetInput {
    * AccountInput#email} fields.
    */
   @Nullable public AccountInput author;
+
+  @Nullable public List<ListChangesOption> response_format_options;
 }

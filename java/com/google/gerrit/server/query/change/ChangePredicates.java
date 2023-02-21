@@ -118,8 +118,12 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Change.Id}.
    */
   public static Predicate<ChangeData> idStr(Change.Id id) {
+    return idStr(id.toString());
+  }
+
+  public static Predicate<ChangeData> idStr(String id) {
     return new ChangeIndexCardinalPredicate(
-        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
+        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
   }
 
   /**

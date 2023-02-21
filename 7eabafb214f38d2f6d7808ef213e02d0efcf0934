@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d65bbc8_4cfc60e6",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-21T10:58:13Z",
+      "side": 1,
+      "message": "I think we do want it to get binded both with the full API and as a standalone rule.\nI can exclude the src file here then add `api_util` as a dependency, but this is quite messy IMO.",
+      "parentUuid": "7a259d6c_2b3f1646",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 22
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9393dd3a_a75afb3b",
         "filename": "java/com/google/gerrit/server/api/BUILD",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-20T18:26:12Z",
       "side": 1,
       "message": "have you tried moving this class into a different package? Maybe it can be simply inside java/com/google/gerrit/extensions:api",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b84839aa_95c66477",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-21T10:58:13Z",
+      "side": 1,
+      "message": "The refactoring change for that will be quite large, there are a lot of dependencies on this class within the server/api package.\nThat being said, renaming this single-static-method-class to something less generic, e.g. RestApiExceptionWrapper would be nice. So if you prefer moving the class, I\u0027d rather couple the two.",
+      "parentUuid": "9393dd3a_a75afb3b",
       "range": {
         "startLine": 29,
         "startChar": 13,

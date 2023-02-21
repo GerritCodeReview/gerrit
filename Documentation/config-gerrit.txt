@@ -1722,6 +1722,54 @@ change cleanups.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[attentionSet]]
+=== Section attentionSet
+
+This section allows to configure readding of change owners and schedules them to
+run periodically.
+
+[[attentionSet.readdAfter]]attentionSet.readdAfter::
++
+Period of inactivity after which open no-WIP/private changes should have change owner
+added to attention-set automatically (if they are not already).
++
+By default `0`, never readd change owner.
++
+[WARNING] Auto-readding change owners may confuse/annoy users. When
+enabling this, make sure to choose a reasonably large grace period and
+inform users in advance.
++
+The following suffixes are supported to define the time unit:
++
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
+
+[[attentionSet.readdMessage]]attentionSet.readdMessage::
++
+Attention-set message that should be shown as reason when an change owner is readded.
++
+'${URL}' can be used as a placeholder for the Gerrit web URL.
++
+By default "Owner readded to attention-set due to inactivity, see
+${URL}Documentation/user-attention-set.html#auto-readd-owner\n\n
+If you do not want to be readded to the attention-set when the timer has counted down.
+Set this change as WIP or private.".
+
+[[attentionSet.startTime]]attentionSet.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+readd owner to attention-set.
+
+[[attentionSet.interval]]attentionSet.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+readd owner to attention-set.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 [[commentlink]]
 === Section commentlink
 

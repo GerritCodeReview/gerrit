@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -35,6 +36,7 @@ import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -441,7 +443,11 @@ public class CreateChange
           bu.insertChange(ins);
           bu.execute();
         }
-        ChangeInfo changeInfo = jsonFactory.noOptions().format(ins.getChange());
+        List<ListChangesOption> opts = input.responseFormatOptions;
+        if (opts == null) {
+          opts = ImmutableList.of();
+        }
+        ChangeInfo changeInfo = jsonFactory.create(opts).format(ins.getChange());
         changeInfo.containsGitConflicts = !c.getFilesWithGitConflicts().isEmpty() ? true : null;
         return changeInfo;
       } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {

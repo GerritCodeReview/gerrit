@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d83efb7_941ab01a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T09:53:49Z",
+      "side": 1,
+      "message": "you are also fixing it for Bulk Vote flow(thanks)\nAdd that to the commit message as well? 😊",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304dbe0d_bbf6062b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T09:53:49Z",
+      "side": 1,
+      "message": "can you describe the issue and what the fix does in more detail?\nReading this I am not sure what exactly was broken and what the fix is doing.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adca1fee_583f5106",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T09:53:49Z",
+      "side": 1,
+      "message": "I would expect this somewhere in one of these methods.\n\nWhat is the difference between `permitted_label` and `canUserVote`?\nI would assume any label that is permitted is something the user can vote on?\n\nDoes this mean BE does not check if the label can actually be voted upon when it returns permitted_label?\n\n```\n    const permittedLabels \u003d this.computePermittedLabels();\n    const triggerLabels \u003d this.computeCommonTriggerLabels(permittedLabels);\n    const nonTriggerLabels \u003d this.computeCommonPermittedLabels(\n      permittedLabels\n    ).filter(label \u003d\u003e !triggerLabels.some(l \u003d\u003e l.name \u003d\u003d\u003d label.name));\n```",
+      "range": {
+        "startLine": 265,
+        "startChar": 25,
+        "endLine": 265,
+        "endChar": 36
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abdbe8df_104a019f",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T09:53:49Z",
+      "side": 1,
+      "message": "why does it not work for owners?\nCan you write exactly what is wrong and what needs to be done to fix it?",
+      "range": {
+        "startLine": 156,
+        "startChar": 3,
+        "endLine": 156,
+        "endChar": 46
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfaf5d9e_c4ec8983",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T09:53:49Z",
+      "side": 1,
+      "message": "this method name makes it seem like it\u0027s doing a check related to the user but is instead simply checking if permittedLabels contains labelName.\n\nI don\u0027t see why this needs to be a method. I would prefer it inlined everywhere.\nOtherwise write a name that makes it clear what it\u0027s doing(Ideally one that does not involve the word \"user\" at all).",
+      "range": {
+        "startLine": 170,
+        "startChar": 16,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

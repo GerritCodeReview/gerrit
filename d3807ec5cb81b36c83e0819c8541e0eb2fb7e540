@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a86eca4a_62eaec50",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T12:26:39Z",
+      "side": 0,
+      "message": "I would prefer keeping this function and extending it so that it works for `account \u003d\u003d\u003d owner` as well instead of remembering which method to use.\nIs that possible?",
+      "range": {
+        "startLine": 156,
+        "startChar": 16,
+        "endLine": 156,
+        "endChar": 23
+      },
+      "revId": "d3807ec5cb81b36c83e0819c8541e0eb2fb7e540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

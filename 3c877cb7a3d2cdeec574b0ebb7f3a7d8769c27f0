@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f17b30_10c891ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-21T12:26:39Z",
+      "side": 1,
+      "message": "can we have a method `getUserVotes` instead?\nFor me it is quite tricky to remember for reviewers/CC I can rely on label.all but for owner I need change.permitted_labels.\n\nBetter to move this complexity into the util, so the callers can simply ask for votes for a user and the util handles those cases.",
+      "range": {
+        "startLine": 283,
+        "startChar": 18,
+        "endLine": 283,
+        "endChar": 47
+      },
+      "revId": "3c877cb7a3d2cdeec574b0ebb7f3a7d8769c27f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

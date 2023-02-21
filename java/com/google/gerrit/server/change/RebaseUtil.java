@@ -18,29 +18,38 @@ import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -50,6 +59,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class RebaseUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Provider<PersonIdent> serverIdent;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final PermissionBackend permissionBackend;
+  private final ChangeResource.Factory changeResourceFactory;
+  private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final PatchSetUtil psUtil;
@@ -57,14 +71,161 @@ public class RebaseUtil {
 
   @Inject
   RebaseUtil(
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      IdentifiedUser.GenericFactory userFactory,
+      PermissionBackend permissionBackend,
+      ChangeResource.Factory changeResourceFactory,
+      GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       PatchSetUtil psUtil,
       RebaseChangeOp.Factory rebaseFactory) {
+    this.serverIdent = serverIdent;
+    this.userFactory = userFactory;
+    this.permissionBackend = permissionBackend;
+    this.changeResourceFactory = changeResourceFactory;
+    this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
     this.rebaseFactory = rebaseFactory;
+  }
+
+  /**
+   * Checks that the uploader has permissions to create a new patch set and creates a new {@link
+   * RevisionResource} that contains the uploader (aka the impersonated user) as the current user
+   * which can be used for {@link BatchUpdate} to do the rebase on behalf of the uploader.
+   *
+   * <p>The following permissions are required for the uploader:
+   *
+   * <ul>
+   *   <li>The {@code Read} permission that allows to see the change.
+   *   <li>The {@code Push} permission that allows upload.
+   *   <li>The {@code Add Patch Set} permission, required if the change is owned by another user
+   *       (change owners implicitly have this permission).
+   *   <li>The {@code Forge Author} permission if the patch set that is rebased has a forged author
+   *       (author != uploader).
+   *   <li>The {@code Forge Server} permission if the patch set that is rebased has the server
+   *       identity as the author.
+   * </ul>
+   *
+   * <p>Usually the uploader should have all these permission since they were already required for
+   * the original upload, but there is the edge case that the uploader had the permission when doing
+   * the original upload and then the permission was revoked.
+   *
+   * <p>Note that patch sets with a forged committer (committer != uploader) can be rebased on
+   * behalf of the uploader, even if the uploader doesn't have the {@code Forge Committer}
+   * permission. This is because on rebase on behalf of the uploader the uploader will become the
+   * committer of the new rebased patch set, hence for the rebased patch set the committer is no
+   * longer forged (committer == uploader) and hence the {@code Forge Committer} permission is not
+   * required.
+   *
+   * <p>Note that the {@code Rebase} permission is not required for the uploader since the {@code
+   * Rebase} permission is specifically about allowing a user to do a rebase via the web UI by
+   * clicking on the {@code REBASE} button and the uploader is not clicking on this button.
+   *
+   * <p>The permissions of the uploader are checked explicitly here so that we can return a {@code
+   * 409 Conflict} response with a proper error message if they are missing (the error message says
+   * that the permission is missing for the uploader). The normal code path also checks these
+   * permission but the exception thrown there would result in a {@code 403 Forbidden} response and
+   * the error message would wrongly look like the caller (i.e. the rebaser) is missing the
+   * permission.
+   *
+   * <p>Note that this method doesn't check permissions for the rebaser (aka the impersonating user
+   * aka the calling user). Callers should check the permissions for the rebaser before calling this
+   * method.
+   *
+   * @param rsrc the revision resource that should be rebased
+   * @param rebaseInput the request input containing options for the rebase
+   * @return revision resource that contains the uploader (aka the impersonated user) as the current
+   *     user which can be used for {@link BatchUpdate} to do the rebase on behalf of the uploader
+   */
+  public RevisionResource onBehalfOf(RevisionResource rsrc, RebaseInput rebaseInput)
+      throws IOException, PermissionBackendException, BadRequestException,
+          ResourceConflictException {
+    if (rsrc.getPatchSet().id().get() != rsrc.getChange().currentPatchSetId().get()) {
+      throw new BadRequestException(
+          "non-current patch set cannot be rebased on behalf of the uploader");
+    }
+    if (rebaseInput.allowConflicts) {
+      throw new BadRequestException(
+          "allow_conflicts and on_behalf_of_uploader are mutually exclusive");
+    }
+
+    CurrentUser caller = rsrc.getUser();
+    Account.Id uploaderId = rsrc.getPatchSet().uploader();
+    IdentifiedUser uploader = userFactory.runAs(/*remotePeer= */ null, uploaderId, caller);
+    logger.atFine().log(
+        "%s is rebasing patch set %s of project %s on behalf of uploader %s",
+        caller.getLoggableName(),
+        rsrc.getPatchSet().id(),
+        rsrc.getProject(),
+        uploader.getLoggableName());
+
+    checkPermissionForUploader(
+        uploader,
+        rsrc.getNotes(),
+        ChangePermission.READ,
+        String.format("uploader %s cannot read change", uploader.getLoggableName()));
+    checkPermissionForUploader(
+        uploader,
+        rsrc.getNotes(),
+        ChangePermission.ADD_PATCH_SET,
+        String.format("uploader %s cannot add patch set", uploader.getLoggableName()));
+
+    try (Repository repo = repoManager.openRepository(rsrc.getProject())) {
+      RevCommit commit = repo.parseCommit(rsrc.getPatchSet().commitId());
+
+      if (!uploader.hasEmailAddress(commit.getAuthorIdent().getEmailAddress())) {
+        checkPermissionForUploader(
+            uploader,
+            rsrc.getNotes(),
+            RefPermission.FORGE_AUTHOR,
+            String.format(
+                "author of patch set %d is forged and the uploader %s cannot forge author",
+                rsrc.getPatchSet().id().get(), uploader.getLoggableName()));
+
+        if (serverIdent.get().getEmailAddress().equals(commit.getAuthorIdent().getEmailAddress())) {
+          checkPermissionForUploader(
+              uploader,
+              rsrc.getNotes(),
+              RefPermission.FORGE_SERVER,
+              String.format(
+                  "author of patch set %d is the server identity and the uploader %s cannot forge"
+                      + " the server identity",
+                  rsrc.getPatchSet().id().get(), uploader.getLoggableName()));
+        }
+      }
+    }
+
+    return new RevisionResource(
+        changeResourceFactory.create(rsrc.getNotes(), uploader), rsrc.getPatchSet());
+  }
+
+  private void checkPermissionForUploader(
+      IdentifiedUser uploader,
+      ChangeNotes changeNotes,
+      ChangePermission changePermission,
+      String errorMessage)
+      throws PermissionBackendException, ResourceConflictException {
+    try {
+      permissionBackend.user(uploader).change(changeNotes).check(changePermission);
+    } catch (AuthException e) {
+      throw new ResourceConflictException(errorMessage, e);
+    }
+  }
+
+  private void checkPermissionForUploader(
+      IdentifiedUser uploader,
+      ChangeNotes changeNotes,
+      RefPermission refPermission,
+      String errorMessage)
+      throws PermissionBackendException, ResourceConflictException {
+    try {
+      permissionBackend.user(uploader).ref(changeNotes.getChange().getDest()).check(refPermission);
+    } catch (AuthException e) {
+      throw new ResourceConflictException(errorMessage, e);
+    }
   }
 
   /**

@@ -13,7 +13,7 @@ import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {
   EditPreferencesInfo,
   Base64FileContent,
-  PatchSetNumber,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -87,7 +87,7 @@ export class GrEditorView extends LitElement {
   @state() private editPrefs?: EditPreferencesInfo;
 
   // private but used in test
-  @state() latestPatchsetNumber?: PatchSetNumber;
+  @state() latestPatchsetNumber?: RevisionPatchSetNum;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -130,7 +130,7 @@ export class GrEditorView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNumWithEdit$,
       x => (this.latestPatchsetNumber = x)
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>

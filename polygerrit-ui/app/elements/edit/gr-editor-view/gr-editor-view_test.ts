@@ -17,7 +17,6 @@ import {
 import {
   EDIT,
   NumericChangeId,
-  PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {
@@ -51,9 +50,9 @@ suite('gr-editor-view tests', () => {
     navigateStub = sinon.stub(element, 'viewEditInChangeView');
     element.viewState = {
       ...createEditViewState(),
-      patchNum: 1 as PatchSetNumber,
+      patchNum: 1 as RevisionPatchSetNum,
     };
-    element.latestPatchsetNumber = 1 as PatchSetNumber;
+    element.latestPatchsetNumber = 1 as RevisionPatchSetNum;
     await element.updateComplete;
     storageService = testResolver(storageServiceToken);
   });

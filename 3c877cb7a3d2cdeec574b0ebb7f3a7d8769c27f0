@@ -22,6 +22,30 @@
       },
       "revId": "3c877cb7a3d2cdeec574b0ebb7f3a7d8769c27f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "678ac3ea_b9787046",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T12:31:17Z",
+      "side": 1,
+      "message": "Unfortunately not. We don\u0027t have a way how to get permitted labels for owner.\n\nHere actually we want to have permitted users for logged user, so we know what logged user can vote on and show button. It\u0027s same logic as in reply dialog for label scoring.",
+      "parentUuid": "43f17b30_10c891ba",
+      "range": {
+        "startLine": 283,
+        "startChar": 18,
+        "endLine": 283,
+        "endChar": 47
+      },
+      "revId": "3c877cb7a3d2cdeec574b0ebb7f3a7d8769c27f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

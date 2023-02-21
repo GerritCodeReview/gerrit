@@ -22,6 +22,30 @@
       },
       "revId": "d3807ec5cb81b36c83e0819c8541e0eb2fb7e540",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "947af1de_ea738352",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T12:31:17Z",
+      "side": 0,
+      "message": "It\u0027s not possible. We don\u0027t have way how to get permitted_labels for owners. Backend is not returning it. We can ask for feature request.\n\npermitted_labels are for current logged user, not for owner.",
+      "parentUuid": "a86eca4a_62eaec50",
+      "range": {
+        "startLine": 156,
+        "startChar": 16,
+        "endLine": 156,
+        "endChar": 23
+      },
+      "revId": "d3807ec5cb81b36c83e0819c8541e0eb2fb7e540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

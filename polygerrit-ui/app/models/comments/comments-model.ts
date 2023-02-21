@@ -31,7 +31,7 @@ import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
-import {fire, fireAlert, fireEvent} from '../../utils/event-util';
+import {fire, fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
@@ -43,7 +43,6 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers, getUserId} from '../../utils/account-util';
-import {EventType} from '../../types/events';
 import {SpecialFilePath} from '../../constants/constants';
 import {AccountsModel} from '../accounts-model/accounts-model';
 import {
@@ -643,7 +642,7 @@ export class CommentsModel extends Model<CommentState> {
     this.modifyState(s => deleteDraft(s, draft));
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
-      fire(document, EventType.SHOW_ALERT, {
+      fire(document, 'show-alert', {
         message: 'Draft Discarded',
         action: 'Undo',
         callback: () => this.restoreDraft(draft.id),
@@ -693,7 +692,7 @@ export class CommentsModel extends Model<CommentState> {
 
   private updateRequestToast(requestFailed?: boolean) {
     if (this.numPendingDraftRequests === 0 && !requestFailed) {
-      fireEvent(document, 'hide-alert');
+      fire(document, 'hide-alert', {});
       return;
     }
     const message = getSavingMessage(

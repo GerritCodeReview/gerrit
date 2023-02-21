@@ -13,7 +13,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {createGroupUrl} from '../../../models/views/group';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -21,6 +21,9 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-group-dialog': GrCreateGroupDialog;
+  }
+  interface HTMLElementEventMap {
+    'has-new-group-name': CustomEvent<{}>;
   }
 }
 
@@ -75,7 +78,7 @@ export class GrCreateGroupDialog extends LitElement {
   }
 
   private updateGroupName() {
-    fireEvent(this, 'has-new-group-name');
+    fire(this, 'has-new-group-name', {});
   }
 
   override focus() {

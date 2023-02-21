@@ -6,65 +6,34 @@
 import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
-  EventType,
   SwitchTabEventDetail,
   TabState,
 } from '../types/events';
 
-export function fireEvent(target: EventTarget, type: string) {
-  target.dispatchEvent(
-    new CustomEvent(type, {
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
-
-export function fireEventNoBubble(target: EventTarget, type: string) {
-  target.dispatchEvent(
-    new CustomEvent(type, {
-      composed: true,
-      bubbles: false,
-    })
-  );
-}
-
-export function fireEventNoBubbleNoCompose(target: EventTarget, type: string) {
-  target.dispatchEvent(
-    new CustomEvent(type, {
-      composed: false,
-      bubbles: false,
-    })
-  );
-}
-
 export type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
-  HTMLElementEventMap[K] extends CustomEvent<infer DT>
-    ? unknown extends DT
-      ? never
-      : DT
-    : never;
+  HTMLElementEventMap[K] extends CustomEvent<infer DT> ? DT : never;
 
 type DocumentEventDetailType<K extends keyof DocumentEventMap> =
-  DocumentEventMap[K] extends CustomEvent<infer DT>
-    ? unknown extends DT
-      ? never
-      : DT
-    : never;
+  DocumentEventMap[K] extends CustomEvent<infer DT> ? DT : never;
 
 export function fire<K extends keyof DocumentEventMap>(
-  target: Document,
+  target: Document | undefined,
   type: K,
   detail: DocumentEventDetailType<K>
 ): void;
 
 export function fire<K extends keyof HTMLElementEventMap>(
-  target: EventTarget,
+  target: EventTarget | undefined,
   type: K,
   detail: HTMLElementEventDetailType<K>
 ): void;
 
-export function fire<T>(target: EventTarget, type: string, detail: T) {
+export function fire<T>(
+  target: EventTarget | undefined,
+  type: string,
+  detail: T
+) {
+  if (!target) return;
   target.dispatchEvent(
     new CustomEvent<T>(type, {
       detail,
@@ -103,31 +72,31 @@ export function fireNoBubbleNoCompose<K extends keyof HTMLElementEventMap, T>(
 }
 
 export function fireAlert(target: EventTarget, message: string) {
-  fire(target, EventType.SHOW_ALERT, {message, showDismiss: true});
+  fire(target, 'show-alert', {message, showDismiss: true});
 }
 
 export function fireError(target: EventTarget, message: string) {
-  fire(target, EventType.SHOW_ERROR, {message});
+  fire(target, 'show-error', {message});
 }
 
 export function firePageError(response?: Response | null) {
   if (response === null) response = undefined;
-  fire(document, EventType.PAGE_ERROR, {response});
+  fire(document, 'page-error', {response});
 }
 
 export function fireServerError(response: Response, request?: FetchRequest) {
-  fire(document, EventType.SERVER_ERROR, {
+  fire(document, 'server-error', {
     response,
     request,
   });
 }
 
 export function fireNetworkError(error: Error) {
-  fire(document, EventType.NETWORK_ERROR, {error});
+  fire(document, 'network-error', {error});
 }
 
 export function fireTitleChange(target: EventTarget, title: string) {
-  fire(target, EventType.TITLE_CHANGE, {title});
+  fire(target, 'title-change', {title});
 }
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
@@ -136,11 +105,11 @@ export function fireDialogChange(
   target: EventTarget,
   detail: DialogChangeEventDetail
 ) {
-  fire(target, EventType.DIALOG_CHANGE, detail);
+  fire(target, 'dialog-change', detail);
 }
 
 export function fireIronAnnounce(target: EventTarget, text: string) {
-  fire(target, EventType.IRON_ANNOUNCE, {text});
+  fire(target, 'iron-announce', {text});
 }
 
 export function fireShowTab(
@@ -150,11 +119,11 @@ export function fireShowTab(
   tabState?: TabState
 ) {
   const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
-  fire(target, EventType.SHOW_TAB, detail);
+  fire(target, 'show-tab', detail);
 }
 
 export function fireReload(target: EventTarget, clearPatchset?: boolean) {
-  fire(target, EventType.RELOAD, {clearPatchset: !!clearPatchset});
+  fire(target, 'reload', {clearPatchset: !!clearPatchset});
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

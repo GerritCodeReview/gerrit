@@ -89,12 +89,15 @@ export class GrCreateDestinationDialog extends LitElement {
     // 'confirm' event here, so let's stop propagation of the bare event.
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubbleNoCompose(this, 'confirm', detail);
+    fireNoBubbleNoCompose(this, 'confirm-destination', detail);
   };
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-destination-dialog': GrCreateDestinationDialog;
+  }
+  interface HTMLElementEventMap {
+    'confirm-destination': CustomEvent<CreateDestinationConfirmDetail>;
   }
 }

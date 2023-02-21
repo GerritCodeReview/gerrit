@@ -30,21 +30,6 @@ export interface ConfirmRevertEventDetail {
   message?: string;
 }
 
-export interface CancelRevertEventDetail {
-  revertType: RevertType;
-}
-
-declare global {
-  interface HTMLElementEventMap {
-    /** Fired when the confirm button is pressed. */
-    // prettier-ignore
-    'confirm': CustomEvent<ConfirmRevertEventDetail>;
-    /** Fired when the cancel button is pressed. */
-    // prettier-ignore
-    'cancel': CustomEvent<CancelRevertEventDetail>;
-  }
-}
-
 @customElement('gr-confirm-revert-dialog')
 export class GrConfirmRevertDialog
   extends LitElement
@@ -302,21 +287,21 @@ export class GrConfirmRevertDialog
       revertType: this.revertType,
       message: this.message,
     };
-    fire(this, 'confirm', detail);
+    fire(this, 'confirm-revert', detail);
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    const detail: ConfirmRevertEventDetail = {
-      revertType: this.revertType,
-    };
-    fire(this, 'cancel', detail);
+    fire(this, 'cancel', {});
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-confirm-revert-dialog': GrConfirmRevertDialog;
+  }
+  interface HTMLElementEventMap {
+    'confirm-revert': CustomEvent<ConfirmRevertEventDetail>;
   }
 }

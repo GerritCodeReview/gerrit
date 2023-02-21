@@ -17,7 +17,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {fire, fireEvent, fireReload} from '../../../utils/event-util';
+import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {Key} from '../../../utils/dom-util';
@@ -76,18 +76,6 @@ export function computeRelativeIndex(
 
 @customElement('gr-change-list')
 export class GrChangeList extends LitElement {
-  /**
-   * Fired when next page key shortcut was pressed.
-   *
-   * @event next-page
-   */
-
-  /**
-   * Fired when previous page key shortcut was pressed.
-   *
-   * @event previous-page
-   */
-
   /**
    * The logged-in user's account, or an empty object if no user is logged
    * in.
@@ -415,11 +403,11 @@ export class GrChangeList extends LitElement {
   }
 
   private nextPage() {
-    fireEvent(this, 'next-page');
+    fire(this, 'next-page', {});
   }
 
   private prevPage() {
-    fireEvent(this, 'previous-page');
+    fire(this, 'previous-page', {});
   }
 
   private refreshChangeList() {
@@ -484,5 +472,9 @@ declare global {
   }
   interface HTMLElementEventMap {
     'selected-index-changed': ValueChangedEvent<number>;
+    /** Fired when next page key shortcut was pressed. */
+    'next-page': CustomEvent<{}>;
+    /** Fired when previous page key shortcut was pressed. */
+    'previous-page': CustomEvent<{}>;
   }
 }

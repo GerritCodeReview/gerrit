@@ -13,7 +13,7 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {EventType, PageErrorEvent} from '../../../types/events';
+import {PageErrorEvent} from '../../../types/events';
 import {RepoName} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -147,7 +147,7 @@ suite('gr-repo-commands tests', () => {
       handleSpy = sinon.spy(element, 'handleEditRepoConfig');
       alertStub = sinon.stub();
       element.repo = 'test' as RepoName;
-      element.addEventListener(EventType.SHOW_ALERT, alertStub);
+      element.addEventListener('show-alert', alertStub);
     });
 
     test('successful creation of change', async () => {

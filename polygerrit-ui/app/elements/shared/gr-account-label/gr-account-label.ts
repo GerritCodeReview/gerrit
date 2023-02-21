@@ -13,9 +13,8 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
-import {EventType} from '../../../types/events';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -364,7 +363,7 @@ export class GrAccountLabel extends LitElement {
     e.stopPropagation();
     if (!this.account._account_id) return;
 
-    fire(this, EventType.SHOW_ALERT, {
+    fire(this, 'show-alert', {
       message: 'Saving attention set update ...',
       dismissOnNavigation: true,
     });
@@ -388,7 +387,7 @@ export class GrAccountLabel extends LitElement {
         reason
       )
       .then(() => {
-        fireEvent(this, 'hide-alert');
+        fire(this, 'hide-alert', {});
       });
   }
 

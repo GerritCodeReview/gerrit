@@ -93,9 +93,9 @@ import {pluralize} from '../../../utils/string-util';
 import {
   fireAlert,
   fireError,
-  fireEvent,
-  fireEventNoBubble,
-  fireEventNoBubbleNoCompose,
+  fire,
+  fireNoBubble,
+  fireNoBubbleNoCompose,
   fireIronAnnounce,
   fireReload,
   fireServerError,
@@ -175,43 +175,6 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
 @customElement('gr-reply-dialog')
 export class GrReplyDialog extends LitElement {
-  /**
-   * Fired when a reply is successfully sent.
-   *
-   * @event send
-   */
-
-  /**
-   * Fired when the user presses the cancel button.
-   *
-   * @event cancel
-   */
-
-  /**
-   * Fires to show an alert when a send is attempted on the non-latest patch.
-   *
-   * @event show-alert
-   */
-
-  /**
-   * Fires when the reply dialog believes that the server side diff drafts
-   * have been updated and need to be refreshed.
-   *
-   * @event comment-refresh
-   */
-
-  /**
-   * Fires when the state of the send button (enabled/disabled) changes.
-   *
-   * @event send-disabled-changed
-   */
-
-  /**
-   * Fired to reload the change page.
-   *
-   * @event reload
-   */
-
   FocusTarget = FocusTarget;
 
   private readonly reporting = getAppContext().reportingService;
@@ -1295,7 +1258,7 @@ export class GrReplyDialog extends LitElement {
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {
-        fireEvent(this, 'comment-refresh');
+        fire(this, 'comment-refresh', {});
         this.savingComments = false;
       });
     }
@@ -1485,7 +1448,7 @@ export class GrReplyDialog extends LitElement {
 
         this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
-        fireEventNoBubble(this, 'send');
+        fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
         return;
       })
@@ -1599,7 +1562,7 @@ export class GrReplyDialog extends LitElement {
   onAttentionExpandedChange() {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
-    fireEvent(this, 'iron-resize');
+    fire(this, 'iron-resize', {});
   }
 
   computeAttentionButtonTitle(sendDisabled?: boolean) {
@@ -1868,7 +1831,7 @@ export class GrReplyDialog extends LitElement {
   async cancel() {
     assertIsDefined(this.change, 'change');
     if (!this.change?.owner) throw new Error('missing required owner property');
-    fireEventNoBubble(this, 'cancel');
+    fireNoBubble(this, 'cancel', {});
     await this.patchsetLevelGrComment?.save();
     this.rebuildReviewerArrays();
   }
@@ -2076,7 +2039,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   sendDisabledChanged() {
-    fireEventNoBubbleNoCompose(this, 'send-disabled-changed');
+    fireNoBubbleNoCompose(this, 'send-disabled-changed', {});
   }
 
   getReviewerSuggestionsProvider(change?: ChangeInfo | ParsedChangeInfo) {
@@ -2131,5 +2094,20 @@ export class GrReplyDialog extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-reply-dialog': GrReplyDialog;
+  }
+  interface HTMLElementEventMap {
+    /** Fired when the user presses the cancel button. */
+    // prettier-ignore
+    'cancel': CustomEvent<{}>;
+    /**
+     * Fires when the reply dialog believes that the server side diff drafts
+     * have been updated and need to be refreshed.
+     */
+    'comment-refresh': CustomEvent<{}>;
+    /** Fired when a reply is successfully sent. */
+    // prettier-ignore
+    'send': CustomEvent<{}>;
+    /** Fires when the state of the send button (enabled/disabled) changes. */
+    'send-disabled-changed': CustomEvent<{}>;
   }
 }

@@ -6,7 +6,7 @@
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {Key} from '../../../utils/dom-util';
 import {FitController} from '../../lit/fit-controller';
 import {css, html, LitElement, PropertyValues} from 'lit';
@@ -19,6 +19,9 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete-dropdown': GrAutocompleteDropdown;
+  }
+  interface HTMLElementEventMap {
+    'dropdown-closed': CustomEvent<{}>;
   }
 }
 
@@ -313,7 +316,7 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   private fireClose() {
-    fireEvent(this, 'dropdown-closed');
+    fire(this, 'dropdown-closed', {});
   }
 
   getCursorTarget() {

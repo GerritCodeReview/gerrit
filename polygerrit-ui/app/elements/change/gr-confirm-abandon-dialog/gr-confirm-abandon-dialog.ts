@@ -14,7 +14,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ChangeActionDialog} from '../../../types/common';
-import {fireEventNoBubble, fireNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -133,14 +133,14 @@ export class GrConfirmAbandonDialog
 
   // private but used in test
   confirm() {
-    fireNoBubble(this, 'confirm', {reason: this.message});
+    fireNoBubble(this, 'confirm', {});
   }
 
   // private but used in test
   handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubble(this, 'cancel');
+    fireNoBubble(this, 'cancel', {});
   }
 
   private handleBindValueChanged(e: BindValueChangeEvent) {

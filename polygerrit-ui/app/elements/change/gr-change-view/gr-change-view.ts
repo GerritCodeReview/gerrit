@@ -116,7 +116,6 @@ import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
   EditableContentSaveEvent,
-  EventType,
   FileActionTapEvent,
   OpenFixPreviewEvent,
   ShowReplyDialogEvent,
@@ -128,10 +127,9 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
-  fire,
   fireAlert,
   fireDialogChange,
-  fireEvent,
+  fire,
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
@@ -591,11 +589,9 @@ export class GrChangeView extends LitElement {
     this.addEventListener('editable-content-cancel', () =>
       this.handleCommitMessageCancel()
     );
-    this.addEventListener(EventType.OPEN_FIX_PREVIEW, e =>
-      this.onOpenFixPreview(e)
-    );
+    this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
 
-    this.addEventListener(EventType.SHOW_TAB, e => this.setActiveTab(e));
+    this.addEventListener('show-tab', e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
       this.loadData(
         /* isLocationChange= */ false,
@@ -2165,7 +2161,7 @@ export class GrChangeView extends LitElement {
     } else if (this.viewState?.commentId) {
       tab = Tab.COMMENT_THREADS;
     }
-    this.setActiveTab(new CustomEvent(EventType.SHOW_TAB, {detail: {tab}}));
+    this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
   }
 
   // Private but used in tests.
@@ -2356,7 +2352,7 @@ export class GrChangeView extends LitElement {
 
   private handleOpenReplyDialog() {
     if (!this.loggedIn) {
-      fireEvent(this, 'show-auth-required');
+      fire(this, 'show-auth-required', {});
       return;
     }
     this.openReplyDialog(FocusTarget.ANY);
@@ -2386,7 +2382,7 @@ export class GrChangeView extends LitElement {
           reason
         )
         .then(() => {
-          fireEvent(this, 'hide-alert');
+          fire(this, 'hide-alert', {});
         });
     } else {
       const reason = getAddedByReason(this.account, this.serverConfig);
@@ -2403,7 +2399,7 @@ export class GrChangeView extends LitElement {
           reason
         )
         .then(() => {
-          fireEvent(this, 'hide-alert');
+          fire(this, 'hide-alert', {});
         });
     }
     this.change = newChange;
@@ -2871,7 +2867,7 @@ export class GrChangeView extends LitElement {
     allDataPromises.push(mergeabilityLoaded);
 
     coreDataPromise.then(() => {
-      fireEvent(this, 'change-details-loaded');
+      fire(this, 'change-details-loaded', {});
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);
       if (isLocationChange) {
         this.reporting.changeDisplayed(roleDetails(this.change, this.account));
@@ -3056,7 +3052,7 @@ export class GrChangeView extends LitElement {
           }
 
           this.cancelUpdateCheckTimer();
-          fire(this, EventType.SHOW_ALERT, {
+          fire(this, 'show-alert', {
             message: toastMessage,
             // Persist this alert.
             dismissOnNavigation: true,
@@ -3212,7 +3208,7 @@ export class GrChangeView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-    fireEvent(this, 'hide-alert');
+    fire(this, 'hide-alert', {});
   }
 
   private getRevisionInfo(): RevisionInfoClass | undefined {
@@ -3240,6 +3236,7 @@ export class GrChangeView extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
+    'change-details-loaded': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

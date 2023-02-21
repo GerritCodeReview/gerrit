@@ -11,51 +11,36 @@ import {Category, RunStatus} from '../api/checks';
 import {DropdownLink} from '../elements/shared/gr-dropdown/gr-dropdown';
 import {AutocompleteCommitEvent} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
-export enum EventType {
-  BIND_VALUE_CHANGED = 'bind-value-changed',
-  CHANGE = 'change',
-  CHANGED = 'changed',
-  COMMIT = 'commit',
-  DIALOG_CHANGE = 'dialog-change',
-  DROP = 'drop',
-  EDITABLE_CONTENT_SAVE = 'editable-content-save',
-  GR_RPC_LOG = 'gr-rpc-log',
-  IRON_ANNOUNCE = 'iron-announce',
-  KEYDOWN = 'keydown',
-  KEYPRESS = 'keypress',
-  LOCATION_CHANGE = 'location-change',
-  MOVED_LINK_CLICKED = 'moved-link-clicked',
-  NETWORK_ERROR = 'network-error',
-  OPEN_FIX_PREVIEW = 'open-fix-preview',
-  PAGE_ERROR = 'page-error',
-  RELOAD = 'reload',
-  REPLY = 'reply',
-  SERVER_ERROR = 'server-error',
-  SHORTCUT_TRIGGERERD = 'shortcut-triggered',
-  SHOW_ALERT = 'show-alert',
-  SHOW_ERROR = 'show-error',
-  SHOW_TAB = 'show-tab',
-  SHOW_SECONDARY_TAB = 'show-secondary-tab',
-  TAP_ITEM = 'tap-item',
-  TITLE_CHANGE = 'title-change',
-}
-
+// TODO: Local events that are only fired by one component should also be
+// declared and documented in that component. Don't collect ALL the events here.
+// 'show-alert' for example is fine to keep, because it is fired all over the
+// place. But 'line-cursor-moved-in' is only fired by <gr-diff-cursor>, so let's
+// move it there.
 declare global {
   interface HTMLElementEventMap {
     'add-reviewer': AddReviewerEvent;
     'bind-value-changed': BindValueChangeEvent;
-    /* prettier-ignore */
+    /** Fired when a 'cancel' button in a dialog was pressed. */
+    // prettier-ignore
+    'cancel': CustomEvent<{}>;
+    // prettier-ignore
     'change': ChangeEvent;
-    /* prettier-ignore */
+    // prettier-ignore
     'changed': ChangedEvent;
-    /* prettier-ignore */
+    // prettier-ignore
+    'close': CustomEvent<{}>;
+    // prettier-ignore
     'commit': AutocompleteCommitEvent;
+    /** Fired when a 'confirm' button in a dialog was pressed. */
+    // prettier-ignore
+    'confirm': CustomEvent<{}>;
     'dialog-change': DialogChangeEvent;
-    /* prettier-ignore */
+    // prettier-ignore
     'drop': DropEvent;
-    'editable-content-save': EditableContentSaveEvent;
+    'hide-alert': CustomEvent<{}>;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
+    'iron-resize': CustomEvent<{}>;
     'line-mouse-enter': LineNumberEvent;
     'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;
@@ -63,7 +48,7 @@ declare global {
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
-    /* prettier-ignore */
+    // prettier-ignore
     'reload': ReloadEvent;
     'remove-reviewer': RemoveReviewerEvent;
     'show-alert': ShowAlertEvent;
@@ -80,7 +65,7 @@ declare global {
     'gr-rpc-log': RpcLogEvent;
     'network-error': NetworkErrorEvent;
     'page-error': PageErrorEvent;
-    /* prettier-ignore */
+    // prettier-ignore
     'reload': ReloadEvent;
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;

@@ -15,7 +15,7 @@ import '../../shared/gr-hovercard-account/gr-hovercard-account-contents';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {LitElement, css, html, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -25,12 +25,6 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
-  /**
-   * Fired when account details are changed.
-   *
-   * @event account-detail-update
-   */
-
   // private but used in test
   @state() nameMutable?: boolean;
 
@@ -341,7 +335,7 @@ export class GrAccountInfo extends LitElement {
         this.hasDisplayNameChange = false;
         this.hasStatusChange = false;
         this.saving = false;
-        fireEvent(this, 'account-detail-update');
+        fire(this, 'account-detail-update', {});
       });
   }
 
@@ -410,6 +404,8 @@ export class GrAccountInfo extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'unsaved-changes-changed': ValueChangedEvent<boolean>;
+    /** Fired when account details are changed. */
+    'account-detail-update': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-account-info': GrAccountInfo;

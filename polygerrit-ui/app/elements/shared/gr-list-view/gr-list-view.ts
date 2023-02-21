@@ -7,7 +7,7 @@ import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -21,6 +21,9 @@ const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 declare global {
   interface HTMLElementTagNameMap {
     'gr-list-view': GrListView;
+  }
+  interface HTMLElementEventMap {
+    'create-clicked': CustomEvent<{}>;
   }
 }
 
@@ -180,7 +183,7 @@ export class GrListView extends LitElement {
   }
 
   private createNewItem() {
-    fireEvent(this, 'create-clicked');
+    fire(this, 'create-clicked', {});
   }
 
   // private but used in test

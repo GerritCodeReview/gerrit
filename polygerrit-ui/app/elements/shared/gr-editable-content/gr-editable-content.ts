@@ -10,7 +10,7 @@ import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
@@ -21,7 +21,11 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {
+  BindValueChangeEvent,
+  EditableContentSaveEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
@@ -39,23 +43,15 @@ declare global {
   interface HTMLElementEventMap {
     'content-changed': ValueChangedEvent<string>;
     'editing-changed': ValueChangedEvent<boolean>;
+    /** Fired when the 'cancel' button is pressed. */
+    'editable-content-cancel': CustomEvent<{}>;
+    /** Fired when the 'save' button is pressed. */
+    'editable-content-save': EditableContentSaveEvent;
   }
 }
 
 @customElement('gr-editable-content')
 export class GrEditableContent extends LitElement {
-  /**
-   * Fired when the save button is pressed.
-   *
-   * @event editable-content-save
-   */
-
-  /**
-   * Fired when the cancel button is pressed.
-   *
-   * @event editable-content-cancel
-   */
-
   /**
    * Fired when content is restored from storage.
    *
@@ -395,7 +391,7 @@ export class GrEditableContent extends LitElement {
   handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
-    fireEvent(this, 'editable-content-cancel');
+    fire(this, 'editable-content-cancel', {});
   }
 
   toggleCommitCollapsed() {

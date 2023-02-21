@@ -60,7 +60,6 @@ import {
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
-import {EventType} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -1698,10 +1697,7 @@ suite('gr-diff-view tests', () => {
         pressKey(element, 'n');
 
         assert.isTrue(moveToNextChunkStub.called);
-        assert.equal(
-          dispatchEventStub.lastCall.args[0].type,
-          EventType.SHOW_ALERT
-        );
+        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
         assert.isFalse(navToFileStub.called);
       });
 
@@ -1741,10 +1737,7 @@ suite('gr-diff-view tests', () => {
         pressKey(element, 'p');
 
         assert.isTrue(moveToPreviousChunkStub.called);
-        assert.equal(
-          dispatchEventStub.lastCall.args[0].type,
-          EventType.SHOW_ALERT
-        );
+        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
         assert.isFalse(navToFileStub.called);
       });
 

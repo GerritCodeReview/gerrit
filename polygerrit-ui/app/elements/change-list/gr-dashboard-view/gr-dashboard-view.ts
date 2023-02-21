@@ -29,7 +29,7 @@ import {
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {
   fireAlert,
-  fireEvent,
+  fire,
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
@@ -241,7 +241,9 @@ export class GrDashboardView extends LitElement {
       </dialog>
       <gr-create-destination-dialog
         id="destinationDialog"
-        @confirm=${(e: CustomEvent<CreateDestinationConfirmDetail>) => {
+        @confirm-destination=${(
+          e: CustomEvent<CreateDestinationConfirmDetail>
+        ) => {
           this.handleDestinationConfirm(e);
         }}
       ></gr-create-destination-dialog>
@@ -537,7 +539,7 @@ export class GrDashboardView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-    fireEvent(this, 'hide-alert');
+    fire(this, 'hide-alert', {});
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-dashboard');
     }

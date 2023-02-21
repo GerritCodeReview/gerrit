@@ -7,11 +7,15 @@ import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {fireEventNoBubbleNoCompose} from '../../../utils/event-util';
+import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-error-dialog': GrErrorDialog;
+  }
+  interface HTMLElementEventMap {
+    // prettier-ignore
+    'dismiss': CustomEvent<{}>;
   }
 }
 
@@ -84,6 +88,6 @@ export class GrErrorDialog extends LitElement {
   }
 
   private handleConfirm() {
-    fireEventNoBubbleNoCompose(this, 'dismiss');
+    fireNoBubbleNoCompose(this, 'dismiss', {});
   }
 }

@@ -77,8 +77,7 @@ import {
   fire,
   fireAlert,
   fireError,
-  fireEvent,
-  fireEventNoBubbleNoCompose,
+  fireNoBubbleNoCompose,
   fireReload,
 } from '../../../utils/event-util';
 import {
@@ -86,7 +85,6 @@ import {
   getVotingRange,
   StandardLabels,
 } from '../../../utils/label-util';
-import {EventType} from '../../../types/events';
 import {
   ActionPriority,
   ActionType,
@@ -661,7 +659,7 @@ export class GrChangeActions
           id="confirmRebase"
           class="confirmDialog"
           .changeNumber=${this.change?._number}
-          @confirm=${this.handleRebaseConfirm}
+          @confirm-rebase=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
           .disableActions=${this.inProgressActionKeys.has(
             RevisionActions.REBASE
@@ -698,7 +696,7 @@ export class GrChangeActions
         <gr-confirm-revert-dialog
           id="confirmRevertDialog"
           class="confirmDialog"
-          @confirm=${this.handleRevertDialogConfirm}
+          @confirm-revert=${this.handleRevertDialogConfirm}
           @cancel=${this.handleConfirmDialogCancel}
         ></gr-confirm-revert-dialog>
         <gr-confirm-abandon-dialog
@@ -1951,7 +1949,7 @@ export class GrChangeActions
       .fetchChangeUpdates(change)
       .then(result => {
         if (!result.isLatest) {
-          fire(this, EventType.SHOW_ALERT, {
+          fire(this, 'show-alert', {
             message:
               'Cannot set label: a newer patch has been ' +
               'uploaded to this change.',
@@ -2019,12 +2017,12 @@ export class GrChangeActions
 
   // private but used in test
   handleDownloadTap() {
-    fireEvent(this, 'download-tap');
+    fire(this, 'download-tap', {});
   }
 
   // private but used in test
   handleIncludedInTap() {
-    fireEvent(this, 'included-tap');
+    fire(this, 'included-tap', {});
   }
 
   // private but used in test
@@ -2213,17 +2211,21 @@ export class GrChangeActions
   }
 
   private handleEditTap() {
-    fireEventNoBubbleNoCompose(this, 'edit-tap');
+    fireNoBubbleNoCompose(this, 'edit-tap', {});
   }
 
   private handleStopEditTap() {
-    fireEventNoBubbleNoCompose(this, 'stop-edit-tap');
+    fireNoBubbleNoCompose(this, 'stop-edit-tap', {});
   }
 }
 
 declare global {
   interface HTMLElementEventMap {
+    'download-tap': CustomEvent<{}>;
+    'edit-tap': CustomEvent<{}>;
+    'included-tap': CustomEvent<{}>;
     'revision-actions-changed': CustomEvent<{value: ActionNameToActionInfoMap}>;
+    'stop-edit-tap': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-actions': GrChangeActions;

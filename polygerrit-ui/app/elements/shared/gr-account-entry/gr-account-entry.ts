@@ -15,7 +15,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {AddAccountEvent, BindValueChangeEvent} from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 
 /**
  * gr-account-entry is an element for entering account
@@ -105,7 +105,7 @@ export class GrAccountEntry extends LitElement {
 
   private inputTextChanged() {
     if (this.inputText.length && this.allowAnyInput) {
-      fireEvent(this, 'account-text-changed');
+      fire(this, 'account-text-changed', {});
     }
   }
 
@@ -119,16 +119,14 @@ declare global {
     'gr-account-entry': GrAccountEntry;
   }
   interface HTMLElementEventMap {
-    /**
-     * Fired when an account is entered.
-     */
-    /* prettier-ignore */
+    /** Fired when an account is entered. */
+    // prettier-ignore
     'add': AddAccountEvent;
     /**
      * When allowAnyInput is true, account-text-changed is fired when input text
      * changed. This is needed so that the reply dialog's save button can be
      * enabled for arbitrary cc's, which don't need a 'commit'.
      */
-    'account-text-changed': CustomEvent<void>;
+    'account-text-changed': CustomEvent<{}>;
   }
 }

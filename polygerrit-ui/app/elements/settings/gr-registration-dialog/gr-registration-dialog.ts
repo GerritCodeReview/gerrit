@@ -9,7 +9,7 @@ import '../../shared/gr-button/gr-button';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -26,12 +26,6 @@ declare global {
 
 @customElement('gr-registration-dialog')
 export class GrRegistrationDialog extends LitElement {
-  /**
-   * Fired when account details are changed.
-   *
-   * @event account-detail-update
-   */
-
   /**
    * Fired when the close button is pressed.
    *
@@ -293,7 +287,7 @@ export class GrRegistrationDialog extends LitElement {
 
     return Promise.all(promises).then(() => {
       this.saving = false;
-      fireEvent(this, 'account-detail-update');
+      fire(this, 'account-detail-update', {});
     });
   }
 
@@ -309,7 +303,7 @@ export class GrRegistrationDialog extends LitElement {
 
   private close() {
     this.saving = true; // disable buttons indefinitely
-    fireEvent(this, 'close');
+    fire(this, 'close', {});
   }
 
   // private but used in test

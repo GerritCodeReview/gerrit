@@ -13,12 +13,15 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
-import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
+import {fireAlert, fire, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-pointer-dialog': GrCreatePointerDialog;
+  }
+  interface HTMLElementEventMap {
+    'update-item-name': CustomEvent<{}>;
   }
 }
 
@@ -113,7 +116,7 @@ export class GrCreatePointerDialog extends LitElement {
   }
 
   private updateItemName() {
-    fireEvent(this, 'update-item-name');
+    fire(this, 'update-item-name', {});
   }
 
   handleCreateItem() {

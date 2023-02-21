@@ -25,7 +25,7 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fireEvent, fireEventNoBubbleNoCompose} from '../../../utils/event-util';
+import {fire, fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -45,22 +45,6 @@ import {PatchRangeChangeEvent} from '../../diff/gr-patch-range-select/gr-patch-r
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
-  /**
-   * @event expand-diffs
-   */
-
-  /**
-   * @event collapse-diffs
-   */
-
-  /**
-   * @event open-diff-prefs
-   */
-
-  /**
-   * @event open-download-dialog
-   */
-
   @property({type: Object})
   account: AccountInfo | undefined;
 
@@ -378,11 +362,11 @@ export class GrFileListHeader extends LitElement {
   }
 
   private expandAllDiffs() {
-    fireEvent(this, 'expand-diffs');
+    fire(this, 'expand-diffs', {});
   }
 
   private collapseAllDiffs() {
-    fireEvent(this, 'collapse-diffs');
+    fire(this, 'collapse-diffs', {});
   }
 
   private computeExpandedClass(filesExpanded?: FilesExpandedState) {
@@ -419,13 +403,13 @@ export class GrFileListHeader extends LitElement {
 
   private handlePrefsTap(e: Event) {
     e.preventDefault();
-    fireEvent(this, 'open-diff-prefs');
+    fire(this, 'open-diff-prefs', {});
   }
 
   private handleDownloadTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEventNoBubbleNoCompose(this, 'open-download-dialog');
+    fireNoBubbleNoCompose(this, 'open-download-dialog', {});
   }
 
   private computeEditModeClass(editMode?: boolean) {
@@ -448,5 +432,11 @@ export class GrFileListHeader extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-file-list-header': GrFileListHeader;
+  }
+  interface HTMLElementEventMap {
+    'collapse-diffs': CustomEvent<{}>;
+    'expand-diffs': CustomEvent<{}>;
+    'open-diff-prefs': CustomEvent<{}>;
+    'open-download-dialog': CustomEvent<{}>;
   }
 }

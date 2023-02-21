@@ -5,7 +5,7 @@
  */
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -14,16 +14,14 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-selection-action-box': GrSelectionActionBox;
   }
+  interface HTMLElementEventMap {
+    /** Fired when the comment creation action was taken (click). */
+    'create-comment-requested': CustomEvent<{}>;
+  }
 }
 
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
-  /**
-   * Fired when the comment creation action was taken (click).
-   *
-   * @event create-comment-requested
-   */
-
   @query('#tooltip')
   tooltip?: GrTooltip;
 
@@ -133,6 +131,6 @@ export class GrSelectionActionBox extends LitElement {
     } // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    fireEvent(this, 'create-comment-requested');
+    fire(this, 'create-comment-requested', {});
   }
 }

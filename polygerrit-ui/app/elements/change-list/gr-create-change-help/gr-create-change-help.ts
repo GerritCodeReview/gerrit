@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
@@ -13,6 +13,10 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-change-help': GrCreateChangeHelp;
+  }
+  interface HTMLElementEventMap {
+    /** Fired when the "Create change" button is tapped. */
+    'create-tap': CustomEvent<{}>;
   }
 }
 
@@ -87,11 +91,8 @@ export class GrCreateChangeHelp extends LitElement {
     `;
   }
 
-  /**
-   * Fired when the "Create change" button is tapped.
-   */
   _handleCreateTap(e: Event) {
     e.preventDefault();
-    fireEvent(this, 'create-tap');
+    fire(this, 'create-tap', {});
   }
 }

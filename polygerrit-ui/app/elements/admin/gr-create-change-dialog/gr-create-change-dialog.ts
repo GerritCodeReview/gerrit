@@ -24,7 +24,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
-import {fireEvent} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
@@ -37,6 +37,9 @@ const REF_PREFIX = 'refs/heads/';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-create-change-dialog': GrCreateChangeDialog;
+  }
+  interface HTMLElementEventMap {
+    'can-create-change': CustomEvent<{}>;
   }
 }
 
@@ -207,7 +210,7 @@ export class GrCreateChangeDialog extends LitElement {
   }
 
   private allowCreate() {
-    fireEvent(this, 'can-create-change');
+    fire(this, 'can-create-change', {});
   }
 
   handleCreateChange(): Promise<void> {

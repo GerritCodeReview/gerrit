@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e714b00d_a104d219",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T09:24:09Z",
+      "side": 1,
+      "message": "We do this only for documents.",
+      "parentUuid": "93073078_169ead72",
+      "revId": "1ebae37caf6f744142529d2c14f306f6a6c5db3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a865b61_31898aec",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-20T20:54:43Z",
       "side": 1,
       "message": "Isn\u0027t it our own sanitizer in line 205 that is doing wrong here?\n\nWould something like this work do you think?\n\nInstead of:\n```\nsanitizeHtml(contents)\n```\nWrite this:\n```\nreplaceReverse(sanitizeHtml(replaceForward(contents)))\n```",
+      "revId": "1ebae37caf6f744142529d2c14f306f6a6c5db3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e749d91_b78a2730",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T09:24:09Z",
+      "side": 1,
+      "message": "Yes, I have followup b/270097100",
+      "parentUuid": "8a865b61_31898aec",
       "revId": "1ebae37caf6f744142529d2c14f306f6a6c5db3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

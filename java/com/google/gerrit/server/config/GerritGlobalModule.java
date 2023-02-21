@@ -333,6 +333,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GerritConfigListener.class);
 
     bind(ChangeCleanupConfig.class);
+    bind(AttentionSetConfig.class);
     bind(AccountDeactivator.class);
 
     bind(ApprovalsUtil.class);

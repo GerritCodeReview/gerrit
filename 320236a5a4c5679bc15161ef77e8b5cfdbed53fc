@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f25760_896647ae",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-21T14:40:05Z",
+      "side": 1,
+      "message": "Are there any known users left of this cache? If not, you probably need to provide a justification for leaving this around, maybe something like \"there could be plugin users of this cache\", \"this is now used by ... on the master branch\" (if that is true), and, of course, your intended use case for this one this branch?",
+      "revId": "320236a5a4c5679bc15161ef77e8b5cfdbed53fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b5f795_69ed9012",
+        "filename": "java/com/google/gerrit/server/permissions/PerThreadProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-02-21T14:40:05Z",
+      "side": 1,
+      "message": "Maybe call this computeIfAbsent() or computeIfAbsentWithinLimit()?",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 30
+      },
+      "revId": "320236a5a4c5679bc15161ef77e8b5cfdbed53fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

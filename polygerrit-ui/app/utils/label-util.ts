@@ -153,7 +153,14 @@ export function hasVoted(label: LabelInfo, account: AccountInfo) {
   return false;
 }
 
-export function canVote(label: DetailedLabelInfo, account: AccountInfo) {
+// This method is checking labels.all from change detail,
+// that shows only permitted voting for reviewers or CC.
+// It doesn't have permitted votes for owner. You
+// can see permitted labels for logged in user in change.permitted_labels
+export function canReviewerVote(
+  label: DetailedLabelInfo,
+  account: AccountInfo
+) {
   const approvalInfo = getApprovalInfo(label, account);
   if (!approvalInfo) return false;
   if (approvalInfo.permitted_voting_range) {

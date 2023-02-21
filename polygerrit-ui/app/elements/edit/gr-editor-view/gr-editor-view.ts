@@ -26,7 +26,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -57,8 +57,12 @@ export class GrEditorView extends LitElement {
    * @event show-alert
    */
 
+<<<<<<< HEAD   (dc6e49 Fix “Old Patchset” being displayed on current edits)
   @property({type: Object})
   viewState?: EditViewState;
+=======
+  @state() viewState?: ChangeViewState;
+>>>>>>> CHANGE (22540f Make a viewState a state in gr-editor-view)
 
   // private but used in test
   @state() change?: ParsedChangeInfo;

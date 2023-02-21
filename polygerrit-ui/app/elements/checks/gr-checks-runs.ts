@@ -634,7 +634,7 @@ export class GrChecksRuns extends LitElement {
     return Object.entries(this.errorMessages).map(([plugin, message]) => {
       const msg = this.collapsed
         ? 'Error'
-        : `Error while fetching results for ${plugin}:<br />${message}`;
+        : html`Error while fetching results for ${plugin}:<br />${message}`;
       return html`
         <div class="error">
           <div class="left">

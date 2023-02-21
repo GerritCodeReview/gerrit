@@ -22,6 +22,7 @@ suite('gr-checks-runs test', () => {
     );
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());
+    element.errorMessages = {'test-plugin-name': 'test-error-message'};
     await element.updateComplete;
   });
 
@@ -57,6 +58,17 @@ suite('gr-checks-runs test', () => {
             </gr-button>
           </gr-tooltip-content>
         </h2>
+        <div class="error">
+          <div class="left">
+            <gr-icon filled="" icon="error"> </gr-icon>
+          </div>
+          <div class="right">
+            <div class="message">
+              Error while fetching results for test-plugin-name: <br />
+              test-error-message
+            </div>
+          </div>
+        </div>
         <input
           id="filterInput"
           placeholder="Filter runs by regular expression"
@@ -121,6 +133,14 @@ suite('gr-checks-runs test', () => {
             </gr-button>
           </gr-tooltip-content>
         </h2>
+        <div class="error">
+          <div class="left">
+            <gr-icon filled="" icon="error"> </gr-icon>
+          </div>
+          <div class="right">
+            <div class="message">Error</div>
+          </div>
+        </div>
         <input
           hidden
           id="filterInput"

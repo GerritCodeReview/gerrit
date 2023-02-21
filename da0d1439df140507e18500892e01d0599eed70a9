@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0105413_4651228c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T11:51:43Z",
+      "side": 1,
+      "message": "I am not fixing bulk vote flow. It was just part of refactoring. But since you recommend to leave it inlined, I will restore bulk vote flow.",
+      "parentUuid": "4d83efb7_941ab01a",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "304dbe0d_bbf6062b",
@@ -70,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35bdd1e_8a22d603",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T11:51:43Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "adca1fee_583f5106",
+      "range": {
+        "startLine": 265,
+        "startChar": 25,
+        "endLine": 265,
+        "endChar": 36
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abdbe8df_104a019f",
@@ -93,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5334a6e0_fe7c445b",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T11:51:43Z",
+      "side": 1,
+      "message": "Added more info.",
+      "parentUuid": "abdbe8df_104a019f",
+      "range": {
+        "startLine": 156,
+        "startChar": 3,
+        "endLine": 156,
+        "endChar": 46
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfaf5d9e_c4ec8983",
@@ -106,6 +178,30 @@
       "writtenOn": "2023-02-21T09:53:49Z",
       "side": 1,
       "message": "this method name makes it seem like it\u0027s doing a check related to the user but is instead simply checking if permittedLabels contains labelName.\n\nI don\u0027t see why this needs to be a method. I would prefer it inlined everywhere.\nOtherwise write a name that makes it clear what it\u0027s doing(Ideally one that does not involve the word \"user\" at all).",
+      "range": {
+        "startLine": 170,
+        "startChar": 16,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "da0d1439df140507e18500892e01d0599eed70a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc64bac9_f7d4d160",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-21T11:51:43Z",
+      "side": 1,
+      "message": "Remove method.",
+      "parentUuid": "bfaf5d9e_c4ec8983",
       "range": {
         "startLine": 170,
         "startChar": 16,

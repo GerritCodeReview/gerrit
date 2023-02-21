@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a9e8a40_08d2cc7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-21T23:33:09Z",
+      "side": 1,
+      "message": "It looks the Gerrit-CI isn\u0027t able to verify this change because it hasn\u0027t been replicated :-(\n\n```\nrefs/changes/31/253131/20:refs/remotes/origin/31/253131/20 refs/changes/44/335044/2:refs/remotes/origin/44/335044/2\" returned status code 128:\nstdout: \nstderr: fatal: couldn\u0027t find remote ref refs/changes/74/360174/1```\n\nCan you verify this manually @Nasser?",
+      "revId": "faa31d53c17d40e8d3673ce54479415d7aeb7c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

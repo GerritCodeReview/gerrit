@@ -183,6 +183,7 @@ export interface ReplyToCommentEventDetail {
   userWantsToEdit: boolean;
   unresolved: boolean;
 }
+
 export type ReplyToCommentEvent = CustomEvent<ReplyToCommentEventDetail>;
 
 export interface PageErrorEventDetail {

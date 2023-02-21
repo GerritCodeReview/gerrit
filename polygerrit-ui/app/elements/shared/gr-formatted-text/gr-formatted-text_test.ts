@@ -587,5 +587,25 @@ suite('gr-formatted-text tests', () => {
         `
       );
     });
+
+    suite('user suggest fix', () => {
+      setup(async () => {
+        const flagsService = getAppContext().flagsService;
+        sinon.stub(flagsService, 'isEnabled').returns(true);
+      });
+
+      test('renders', async () => {
+        element.content = '```suggestion\nHello World```';
+        await element.updateComplete;
+        assert.shadowDom.equal(
+          element,
+          /* HTML */ `<marked-element>
+            <div class="markdown-html" slot="markdown-html">
+              <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
+            </div>
+          </marked-element>`
+        );
+      });
+    });
   });
 });

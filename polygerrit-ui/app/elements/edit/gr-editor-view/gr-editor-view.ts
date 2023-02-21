@@ -233,7 +233,7 @@ export class GrEditorView extends LitElement {
           </span>
           <span class="controlGroup rightControls">
             <gr-button id="close" link="" @click=${this.handleCloseTap}
-              >Cancel</gr-button
+              >Close</gr-button
             >
             <gr-button
               id="save"

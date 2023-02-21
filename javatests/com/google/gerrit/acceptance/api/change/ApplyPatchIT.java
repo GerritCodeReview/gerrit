@@ -22,6 +22,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -413,6 +415,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo applyPatch(ApplyPatchPatchSetInput input) throws RestApiException {
+    input.responseFormatOptions = ImmutableList.of(ListChangesOption.CURRENT_REVISION);
     return gApi.changes()
         .create(new ChangeInput(project.get(), DESTINATION_BRANCH, COMMIT_MESSAGE))
         .applyPatch(input);

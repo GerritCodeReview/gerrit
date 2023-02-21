@@ -161,6 +161,10 @@ export class GrContextControls extends LitElement {
       /* same as defined in gr-button */
       background: rgba(0, 0, 0, 0.12);
     }
+    paper-button:focus-visible {
+      /* paper-button sets this to 0, thus preventing focus-based styling. */
+      outline-width: 1px;
+    }
 
     .aboveBelowButtons {
       display: flex;

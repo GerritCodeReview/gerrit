@@ -984,7 +984,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master");
     assertThat(sender)
         .sent("newchange", spc)
-        .title(String.format("[S] Change in %s[master]: test commit", project));
+        .title(String.format("[XS] Change in %s[master]: test commit", project));
     assertThat(sender).didNotSend();
   }
 

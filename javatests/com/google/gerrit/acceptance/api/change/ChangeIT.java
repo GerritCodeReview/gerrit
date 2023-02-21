@@ -101,6 +101,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -196,6 +197,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -4549,6 +4551,47 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
         .contains(String.format("%s has removed %s", admin.fullName(), reviewerInput.reviewer));
+  }
+
+  @Test
+  public void emailSubjectContainsChangeSizeBucket() throws Exception {
+    testEmailSubjectContainsChangeSizeBucket(0, "NoOp");
+    testEmailSubjectContainsChangeSizeBucket(1, "XS");
+    testEmailSubjectContainsChangeSizeBucket(9, "XS");
+    testEmailSubjectContainsChangeSizeBucket(10, "S");
+    testEmailSubjectContainsChangeSizeBucket(49, "S");
+    testEmailSubjectContainsChangeSizeBucket(50, "M");
+    testEmailSubjectContainsChangeSizeBucket(249, "M");
+    testEmailSubjectContainsChangeSizeBucket(250, "L");
+    testEmailSubjectContainsChangeSizeBucket(999, "L");
+    testEmailSubjectContainsChangeSizeBucket(1000, "XL");
+  }
+
+  private void testEmailSubjectContainsChangeSizeBucket(
+      int numberOfLines, String expectedSizeBucket) throws Exception {
+    String change;
+    if (numberOfLines == 0) {
+      // create empty change
+      ChangeInput in = new ChangeInput();
+      in.branch = Constants.MASTER;
+      in.subject = "Create a change from the API";
+      in.project = project.get();
+      ChangeInfo info = gApi.changes().create(in).get();
+      change = info.changeId;
+    } else {
+      change =
+          createChange(
+                  "subject",
+                  expectedSizeBucket + "-file-with-" + numberOfLines + "lines.txt",
+                  Collections.nCopies(numberOfLines, "line").stream().collect(joining("\n")))
+              .getChangeId();
+    }
+    sender.clear();
+    gApi.changes().id(change).addReviewer(user.email());
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(((StringEmailHeader) messages.get(0).headers().get("Subject")).getString())
+        .contains("[" + expectedSizeBucket + "]");
   }
 
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {

@@ -242,7 +242,9 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   private int getInsertionsCount() {
-    return listModifiedFiles().values().stream()
+    return listModifiedFiles().entrySet().stream()
+        .filter(e -> !Patch.COMMIT_MSG.equals(e.getKey()))
+        .map(Map.Entry::getValue)
         .map(FileDiffOutput::insertions)
         .reduce(0, Integer::sum);
   }
@@ -323,8 +325,8 @@ public abstract class ChangeEmail extends NotificationEmail {
                     + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
                     + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
                     + "\n",
-                modifiedFiles.size() - 1, //
-                getInsertionsCount(), //
+                modifiedFiles.size() - 1, // -1 to account for the commit message
+                getInsertionsCount(),
                 getDeletionsCount()));
         detail.append("\n");
       }

@@ -174,11 +174,6 @@ declare global {
 }
 @customElement('gr-file-list')
 export class GrFileList extends LitElement {
-  /**
-   * @event files-expanded-changed
-   * @event files-shown-changed
-   * @event diff-prefs-changed
-   */
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 
@@ -2273,13 +2268,7 @@ export class GrFileList extends LitElement {
     const previousNumFilesShown = this.shownFiles ? this.shownFiles.length : 0;
 
     const filesShown = this.files.slice(0, this.numFilesShown);
-    this.dispatchEvent(
-      new CustomEvent('files-shown-changed', {
-        detail: {length: filesShown.length},
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, 'files-shown-changed', {length: filesShown.length});
 
     // Start the timer for the rendering work here because this is where the
     // shownFiles property is being set, and shownFiles is used in the

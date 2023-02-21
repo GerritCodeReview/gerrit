@@ -76,7 +76,9 @@ import {
 import {
   fire,
   fireAlert,
+  fireError,
   fireEvent,
+  fireEventNoBubbleNoCompose,
   fireReload,
 } from '../../../utils/event-util';
 import {
@@ -84,7 +86,7 @@ import {
   getVotingRange,
   StandardLabels,
 } from '../../../utils/label-util';
-import {EventType, ShowAlertEventDetail} from '../../../types/events';
+import {EventType} from '../../../types/events';
 import {
   ActionPriority,
   ActionType,
@@ -332,18 +334,6 @@ export class GrChangeActions
    * Fired when an action is tapped.
    *
    * @event custom-tap - naming pattern: <action key>-tap
-   */
-
-  /**
-   * Fires to show an alert when a send is attempted on the non-latest patch.
-   *
-   * @event show-alert
-   */
-
-  /**
-   * Fires when a change action fails.
-   *
-   * @event show-error
    */
 
   @query('#mainContent') mainContent?: Element;
@@ -1912,13 +1902,7 @@ export class GrChangeActions
   ) {
     if (!response) {
       return Promise.resolve(() => {
-        this.dispatchEvent(
-          new CustomEvent('show-error', {
-            detail: {message: `Could not perform action '${action.__key}'`},
-            composed: true,
-            bubbles: true,
-          })
-        );
+        fireError(this, `Could not perform action '${action.__key}'`);
       });
     }
     if (action && action.__key === RevisionActions.CHERRYPICK) {
@@ -1936,13 +1920,7 @@ export class GrChangeActions
       }
     }
     return response.text().then(errText => {
-      this.dispatchEvent(
-        new CustomEvent('show-error', {
-          detail: {message: `Could not perform action: ${errText}`},
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fireError(this, `Could not perform action: ${errText}`);
       if (!errText.startsWith('Change is already up to date')) {
         throw Error(errText);
       }
@@ -1973,19 +1951,13 @@ export class GrChangeActions
       .fetchChangeUpdates(change)
       .then(result => {
         if (!result.isLatest) {
-          this.dispatchEvent(
-            new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
-              detail: {
-                message:
-                  'Cannot set label: a newer patch has been ' +
-                  'uploaded to this change.',
-                action: 'Reload',
-                callback: () => fireReload(this, true),
-              },
-              composed: true,
-              bubbles: true,
-            })
-          );
+          fire(this, EventType.SHOW_ALERT, {
+            message:
+              'Cannot set label: a newer patch has been ' +
+              'uploaded to this change.',
+            action: 'Reload',
+            callback: () => fireReload(this, true),
+          });
 
           // Because this is not a network error, call the cleanup function
           // but not the error handler.
@@ -2241,11 +2213,11 @@ export class GrChangeActions
   }
 
   private handleEditTap() {
-    this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
+    fireEventNoBubbleNoCompose(this, 'edit-tap');
   }
 
   private handleStopEditTap() {
-    this.dispatchEvent(new CustomEvent('stop-edit-tap', {bubbles: false}));
+    fireEventNoBubbleNoCompose(this, 'stop-edit-tap');
   }
 }
 

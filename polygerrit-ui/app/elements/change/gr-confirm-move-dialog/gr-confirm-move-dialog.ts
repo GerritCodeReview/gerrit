@@ -15,6 +15,7 @@ import {Key, Modifier} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {fireEventNoBubble} from '../../../utils/event-util';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -142,23 +143,13 @@ export class GrConfirmMoveDialog
   private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'confirm');
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'cancel');
   }
 
   private getProjectBranchesSuggestions(input: string) {

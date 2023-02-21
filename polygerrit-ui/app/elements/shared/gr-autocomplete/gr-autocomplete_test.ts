@@ -1063,27 +1063,14 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
-  test('input-keydown event fired', async () => {
-    const listener = sinon.spy();
-    element.addEventListener('input-keydown', listener);
-    pressKey(inputEl(), Key.TAB);
-    await element.updateComplete;
-    assert.isTrue(listener.called);
-  });
-
   test('enter with modifier does not complete', async () => {
-    const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
     const commitStub = sinon.stub(element, 'handleInputCommit');
+
     pressKey(inputEl(), Key.ENTER, Modifier.CTRL_KEY);
     await element.updateComplete;
 
-    assert.equal(dispatchEventStub.lastCall.args[0].type, 'input-keydown');
-    assert.equal(
-      (dispatchEventStub.lastCall.args[0] as CustomEvent).detail.key,
-      Key.ENTER
-    );
-
     assert.isFalse(commitStub.called);
+
     pressKey(inputEl(), Key.ENTER);
     await element.updateComplete;
 

@@ -7,8 +7,9 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 import {ImageDiffAction} from '../../../api/diff';
+import {fire} from '../../../utils/event-util';
 
-import {createEvent, Dimensions, fitToFrame, Point, Rect} from './util';
+import {Dimensions, fitToFrame, Point, Rect} from './util';
 
 /**
  * Displays a scaled-down version of an image with a draggable frame for
@@ -243,7 +244,7 @@ export class GrOverviewImage extends LitElement {
     const detail: ImageDiffAction = {
       type: this.dragging ? 'overview-frame-dragged' : 'overview-image-clicked',
     };
-    this.dispatchEvent(createEvent(detail));
+    fire(this, 'image-diff-action', detail);
 
     this.dragging = false;
     this.closeOverlay();
@@ -297,18 +298,15 @@ export class GrOverviewImage extends LitElement {
   }
 
   private notifyNewCenter(center: Point) {
-    this.dispatchEvent(
-      new CustomEvent<Point>('center-updated', {
-        detail: {...center},
-        bubbles: true,
-        composed: true,
-      })
-    );
+    fire(this, 'center-updated', {...center});
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-overview-image': GrOverviewImage;
+  }
+  interface HTMLElementEventMap {
+    'center-updated': CustomEvent<Point>;
   }
 }

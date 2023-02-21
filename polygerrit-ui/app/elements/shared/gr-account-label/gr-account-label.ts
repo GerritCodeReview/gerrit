@@ -13,9 +13,9 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
-import {EventType, ShowAlertEventDetail} from '../../../types/events';
+import {EventType} from '../../../types/events';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -364,16 +364,10 @@ export class GrAccountLabel extends LitElement {
     e.stopPropagation();
     if (!this.account._account_id) return;
 
-    this.dispatchEvent(
-      new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
-        detail: {
-          message: 'Saving attention set update ...',
-          dismissOnNavigation: true,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    fire(this, EventType.SHOW_ALERT, {
+      message: 'Saving attention set update ...',
+      dismissOnNavigation: true,
+    });
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.

@@ -9,7 +9,6 @@ import {
   DiffInfo,
   DiffLayer,
   DiffViewMode,
-  MovedLinkClickedEventDetail,
   RenderPreferences,
   Side,
   LineNumber,
@@ -27,6 +26,7 @@ import '../gr-context-controls/gr-context-controls';
 import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
+import {fire} from '../../../utils/event-util';
 
 @customElement('gr-diff-section')
 export class GrDiffSection extends LitElement {
@@ -235,16 +235,11 @@ export class GrDiffSection extends LitElement {
     side: Side,
     line: number
   ) {
-    anchor?.dispatchEvent(
-      new CustomEvent<MovedLinkClickedEventDetail>('moved-link-clicked', {
-        detail: {
-          lineNum: line,
-          side,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    if (!anchor) return;
+    fire(anchor, 'moved-link-clicked', {
+      lineNum: line,
+      side,
+    });
   }
 }
 

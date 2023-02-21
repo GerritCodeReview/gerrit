@@ -3,10 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  MovedLinkClickedEventDetail,
-  RenderPreferences,
-} from '../../../api/diff';
+import {RenderPreferences} from '../../../api/diff';
 import {fire} from '../../../utils/event-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
@@ -430,16 +427,10 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     anchor.setAttribute('href', `#${line}`);
     anchor.addEventListener('click', e => {
       e.preventDefault();
-      anchor.dispatchEvent(
-        new CustomEvent<MovedLinkClickedEventDetail>('moved-link-clicked', {
-          detail: {
-            lineNum: line,
-            side,
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
+      fire(anchor, 'moved-link-clicked', {
+        lineNum: line,
+        side,
+      });
     });
     return anchor;
   }

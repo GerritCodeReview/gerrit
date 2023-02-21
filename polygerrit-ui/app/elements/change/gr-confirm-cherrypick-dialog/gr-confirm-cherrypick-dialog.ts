@@ -30,7 +30,7 @@ import {
   ChangeStatus,
   ProgressStatus,
 } from '../../../constants/constants';
-import {fireEvent} from '../../../utils/event-util';
+import {fireEvent, fireEventNoBubble} from '../../../utils/event-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {choose} from 'lit/directives/choose.js';
@@ -605,23 +605,13 @@ export class GrConfirmCherrypickDialog
       return;
     }
     // Cherry pick single change
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'confirm');
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEventNoBubble(this, 'cancel');
   }
 
   resetFocus() {

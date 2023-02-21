@@ -130,7 +130,7 @@ export class GrEditorView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNumWithEdit$,
       x => (this.latestPatchsetNumber = x)
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>

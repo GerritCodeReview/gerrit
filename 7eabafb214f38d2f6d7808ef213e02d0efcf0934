@@ -117,6 +117,30 @@
       },
       "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc07062d_3feaa5a4",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-22T07:01:49Z",
+      "side": 1,
+      "message": "or more simply, just add RestApiException::wrap to do the wrapping, and call from ApiUtil. Then you can use \"inline function\" to automatically fix up the callsites in a follow-up change.",
+      "parentUuid": "8a244b58_eb16d25f",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

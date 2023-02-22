@@ -30,7 +30,7 @@ import {
   ChangeInfo,
   CommitId,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   SubmittedTogetherInfo,
@@ -192,7 +192,7 @@ suite('gr-related-changes-list', () => {
 
     setup(() => {
       element.change = createParsedChange();
-      element.patchNum = 1 as PatchSetNum;
+      element.latestPatchNum = 1 as PatchSetNumber;
     });
 
     test('render', async () => {
@@ -378,7 +378,7 @@ suite('gr-related-changes-list', () => {
     });
 
     test('request conflicts if open and mergeable', () => {
-      element.patchNum = 7 as PatchSetNum;
+      element.latestPatchNum = 7 as PatchSetNumber;
       element.change = {
         ...createParsedChange(),
         change_id: '123' as ChangeId,
@@ -390,7 +390,7 @@ suite('gr-related-changes-list', () => {
     });
 
     test('does not request conflicts if closed and mergeable', () => {
-      element.patchNum = 7 as PatchSetNum;
+      element.latestPatchNum = 7 as PatchSetNumber;
       element.change = {
         ...createParsedChange(),
         change_id: '123' as ChangeId,
@@ -401,7 +401,7 @@ suite('gr-related-changes-list', () => {
     });
 
     test('does not request conflicts if open and not mergeable', () => {
-      element.patchNum = 7 as PatchSetNum;
+      element.latestPatchNum = 7 as PatchSetNumber;
       element.change = {
         ...createParsedChange(),
         change_id: '123' as ChangeId,
@@ -413,7 +413,7 @@ suite('gr-related-changes-list', () => {
     });
 
     test('doesnt request conflicts if closed and not mergeable', () => {
-      element.patchNum = 7 as PatchSetNum;
+      element.latestPatchNum = 7 as PatchSetNumber;
       element.change = {
         ...createParsedChange(),
         change_id: '123' as ChangeId,
@@ -438,7 +438,7 @@ suite('gr-related-changes-list', () => {
         '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6': createRevision(4),
       },
     };
-    let patchNum = 7 as PatchSetNum;
+    let latestPatchNum = 7 as PatchSetNumber;
     let relatedChanges: RelatedChangeAndCommitInfo[] = [
       {
         ...createRelatedChangeAndCommitInfo(),
@@ -528,7 +528,7 @@ suite('gr-related-changes-list', () => {
 
     let connectedChanges = element._computeConnectedRevisions(
       change,
-      patchNum,
+      latestPatchNum,
       relatedChanges
     );
     assert.deepEqual(connectedChanges, [
@@ -541,7 +541,7 @@ suite('gr-related-changes-list', () => {
       '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
     ]);
 
-    patchNum = 4 as PatchSetNum;
+    latestPatchNum = 4 as PatchSetNumber;
     relatedChanges = [
       {
         ...createRelatedChangeAndCommitInfo(),
@@ -631,7 +631,7 @@ suite('gr-related-changes-list', () => {
 
     connectedChanges = element._computeConnectedRevisions(
       change,
-      patchNum,
+      latestPatchNum,
       relatedChanges
     );
     assert.deepEqual(connectedChanges, [

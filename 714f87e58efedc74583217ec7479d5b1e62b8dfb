@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c67692ee_02947c87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-22T07:10:40Z",
+      "side": 1,
+      "message": "I\u0027m not clear about the scope of this change.\nIf you want it to affect new changes formatting - creating a change based on patch-applying is done as part of CreateChange[1].\nIf you want it to affect new patch sets as well - there are a lot more API methods which create them.\nCan you please clarify?\n\n[1] https://gerrit.googlesource.com/gerrit/+/c329159ca8dc4ef06b1b2cc137ac9661f8979fa4/java/com/google/gerrit/server/restapi/change/CreateChange.java#406",
+      "revId": "714f87e58efedc74583217ec7479d5b1e62b8dfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -23,6 +24,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -137,10 +139,27 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
-      RevCommit baseCommit =
-          CommitUtil.getBaseCommit(
-              project.get(), queryProvider.get(), revWalk, destRef, input.base);
-      ObjectId treeId = ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
+      // When no explicit base is provided, the patch should be applied on top of the latest
+      // patch-set. However, the result patch-set should be based on top of the latest patch-set
+      // -parent-.
+      RevCommit patchsetBaseCommit;
+      RevCommit changeBaseCommit;
+      if (!Strings.isNullOrEmpty(input.base)) {
+        patchsetBaseCommit =
+            CommitUtil.getBaseCommit(
+                project.get(), queryProvider.get(), revWalk, destRef, input.base);
+        changeBaseCommit = patchsetBaseCommit;
+      } else {
+        patchsetBaseCommit = revWalk.parseCommit(destChange.currentPatchSet().commitId());
+        if (patchsetBaseCommit.getParentCount() != 1) {
+          throw new BadRequestException(
+              String.format(
+                  "Cannot parse base commit for a change with none or multiple parents. Change ID: %s.",
+                  destChange.getId()));
+        }
+        changeBaseCommit = revWalk.parseCommit(patchsetBaseCommit.getParent(0));
+      }
+      ObjectId treeId = ApplyPatchUtil.applyPatch(repo, oi, input.patch, patchsetBaseCommit);
 
       Instant now = TimeUtil.now();
       PersonIdent committerIdent = user.get().newCommitterIdent(now, serverZoneId);
@@ -157,7 +176,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
 
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
-              oi, authorIdent, committerIdent, baseCommit, commitMessage, treeId);
+              oi, authorIdent, committerIdent, changeBaseCommit, commitMessage, treeId);
       CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
       oi.flush();
 

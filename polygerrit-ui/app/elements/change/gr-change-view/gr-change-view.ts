@@ -1442,7 +1442,6 @@ export class GrChangeView extends LitElement {
               id="relatedChanges"
               .change=${this.change}
               .mergeable=${this.mergeable}
-              .patchNum=${computeLatestPatchNum(this.allPatchSets)}
             ></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>

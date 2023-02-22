@@ -60,6 +60,8 @@ interface RuleLabel {
   values: RuleLabelValue[];
 }
 
+// TODO
+// TODO2
 interface RuleLabelValue {
   value: number;
   text: string;
@@ -522,6 +524,7 @@ export class GrRuleEditor extends LitElement {
       e.detail.value === undefined ||
       this.rule.value.force === forceValue
     )
+    asdf;
       return;
     this.rule.value.force = forceValue;
 

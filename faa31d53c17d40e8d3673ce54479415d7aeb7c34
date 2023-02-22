@@ -122,6 +122,24 @@
       "parentUuid": "bc2a1af7_6ef079dd",
       "revId": "faa31d53c17d40e8d3673ce54479415d7aeb7c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41927c04_163211d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-22T16:11:44Z",
+      "side": 1,
+      "message": "\u003e Do you believe it safe to release it on v3.6.5? (once we get the green light from Edwin and Youssef)\n\nYes, I think this is good now to include in 3.6.5.",
+      "parentUuid": "45638e84_972e1b08",
+      "revId": "faa31d53c17d40e8d3673ce54479415d7aeb7c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

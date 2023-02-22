@@ -29,6 +29,7 @@ import {
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, TopicName} from '../../../types/common';
+import {EventType} from '../../../types/events';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-topic-flow';
@@ -325,7 +326,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     test('remove single topic', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
@@ -386,7 +387,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     test('shows error when remove topic fails', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
@@ -434,7 +435,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     test('applies topic to all changes', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
 
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
@@ -588,7 +589,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     test('create new topic', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
         []
       );
@@ -638,7 +639,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     test('shows error when create topic fails', async () => {
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
         []
       );
@@ -681,7 +682,7 @@ suite('gr-change-list-topic-flow tests', () => {
         {...createChange(), topic: 'foo' as TopicName},
       ]);
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
         'gr-autocomplete'
@@ -731,7 +732,7 @@ suite('gr-change-list-topic-flow tests', () => {
         {...createChange(), topic: 'foo' as TopicName},
       ]);
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
         'gr-autocomplete'

@@ -26,6 +26,7 @@ import {
   createDetailedLabelInfo,
 } from '../../../test/test-data-generators';
 import {GrButton} from '../gr-button/gr-button';
+import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken} from '../../../models/user/user-model';
 
@@ -307,7 +308,7 @@ suite('gr-hovercard-account-contents tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element.addEventListener('show-alert', showAlertListener);
+    element.addEventListener(EventType.SHOW_ALERT, showAlertListener);
     element.addEventListener('hide-alert', hideAlertListener);
     element.addEventListener('attention-set-updated', updatedListener);
 
@@ -358,7 +359,7 @@ suite('gr-hovercard-account-contents tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element.addEventListener('show-alert', showAlertListener);
+    element.addEventListener(EventType.SHOW_ALERT, showAlertListener);
     element.addEventListener('hide-alert', hideAlertListener);
     element.addEventListener('attention-set-updated', updatedListener);
 

@@ -47,6 +47,7 @@ import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
   DialogChangeEventDetail,
+  EventType,
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
@@ -174,19 +175,19 @@ export class GrAppElement extends LitElement {
   constructor() {
     super();
 
-    document.addEventListener('page-error', e => {
+    document.addEventListener(EventType.PAGE_ERROR, e => {
       this.handlePageError(e);
     });
-    this.addEventListener('title-change', e => {
+    this.addEventListener(EventType.TITLE_CHANGE, e => {
       this.handleTitleChange(e);
     });
-    this.addEventListener('dialog-change', e => {
+    this.addEventListener(EventType.DIALOG_CHANGE, e => {
       this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
-    document.addEventListener('location-change', () =>
+    document.addEventListener(EventType.LOCATION_CHANGE, () =>
       this.handleLocationChange()
     );
-    document.addEventListener('gr-rpc-log', e => this.handleRpcLog(e));
+    document.addEventListener(EventType.GR_RPC_LOG, e => this.handleRpcLog(e));
     this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
       this.showKeyboardShortcuts()
     );

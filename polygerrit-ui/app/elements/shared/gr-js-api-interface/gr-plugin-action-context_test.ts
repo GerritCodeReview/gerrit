@@ -7,6 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-js-api-interface';
 import {GrPluginActionContext} from './gr-plugin-action-context';
 import {addListenerForTest, waitEventLoop} from '../../../test/test-utils';
+import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {SinonStub, stub, spy} from 'sinon';
@@ -146,7 +147,7 @@ suite('gr-plugin-action-context tests', () => {
     } as unknown as RestPluginApi;
     stub(plugin, 'restApi').returns(fakeRestApi);
     const errorStub = stub();
-    addListenerForTest(document, 'show-alert', errorStub);
+    addListenerForTest(document, EventType.SHOW_ALERT, errorStub);
 
     instance.call({}, () => {});
     await waitEventLoop();

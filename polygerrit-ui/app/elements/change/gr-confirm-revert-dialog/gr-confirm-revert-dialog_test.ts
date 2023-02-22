@@ -7,6 +7,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import '../../../test/common-test-setup';
 import {createChange} from '../../../test/test-data-generators';
 import {ChangeSubmissionId, CommitId} from '../../../types/common';
+import {EventType} from '../../../types/events';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
 
@@ -46,7 +47,7 @@ suite('gr-confirm-revert-dialog tests', () => {
   test('no match', () => {
     assert.isNotOk(element.message);
     const alertStub = sinon.stub();
-    element.addEventListener('show-alert', alertStub);
+    element.addEventListener(EventType.SHOW_ALERT, alertStub);
     element.populateRevertSingleChangeMessage(
       createChange(),
       'not a commitHash in sight',

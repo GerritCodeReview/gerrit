@@ -6,6 +6,7 @@
 import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
+  EventType,
   SwitchTabEventDetail,
   TabState,
 } from '../types/events';
@@ -72,31 +73,31 @@ export function fireNoBubbleNoCompose<K extends keyof HTMLElementEventMap, T>(
 }
 
 export function fireAlert(target: EventTarget, message: string) {
-  fire(target, 'show-alert', {message, showDismiss: true});
+  fire(target, EventType.SHOW_ALERT, {message, showDismiss: true});
 }
 
 export function fireError(target: EventTarget, message: string) {
-  fire(target, 'show-error', {message});
+  fire(target, EventType.SHOW_ERROR, {message});
 }
 
 export function firePageError(response?: Response | null) {
   if (response === null) response = undefined;
-  fire(document, 'page-error', {response});
+  fire(document, EventType.PAGE_ERROR, {response});
 }
 
 export function fireServerError(response: Response, request?: FetchRequest) {
-  fire(document, 'server-error', {
+  fire(document, EventType.SERVER_ERROR, {
     response,
     request,
   });
 }
 
 export function fireNetworkError(error: Error) {
-  fire(document, 'network-error', {error});
+  fire(document, EventType.NETWORK_ERROR, {error});
 }
 
 export function fireTitleChange(target: EventTarget, title: string) {
-  fire(target, 'title-change', {title});
+  fire(target, EventType.TITLE_CHANGE, {title});
 }
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
@@ -105,11 +106,11 @@ export function fireDialogChange(
   target: EventTarget,
   detail: DialogChangeEventDetail
 ) {
-  fire(target, 'dialog-change', detail);
+  fire(target, EventType.DIALOG_CHANGE, detail);
 }
 
 export function fireIronAnnounce(target: EventTarget, text: string) {
-  fire(target, 'iron-announce', {text});
+  fire(target, EventType.IRON_ANNOUNCE, {text});
 }
 
 export function fireShowTab(
@@ -119,11 +120,11 @@ export function fireShowTab(
   tabState?: TabState
 ) {
   const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
-  fire(target, 'show-tab', detail);
+  fire(target, EventType.SHOW_TAB, detail);
 }
 
 export function fireReload(target: EventTarget, clearPatchset?: boolean) {
-  fire(target, 'reload', {clearPatchset: !!clearPatchset});
+  fire(target, EventType.RELOAD, {clearPatchset: !!clearPatchset});
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

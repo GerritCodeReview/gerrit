@@ -35,6 +35,7 @@ import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {createChange} from '../../../test/test-data-generators';
 import {ReviewerState} from '../../../api/rest-api';
 import {fixture, html, assert} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}
@@ -291,7 +292,7 @@ suite('gr-account-list tests', () => {
   test('addAccountItem with invalid item', () => {
     const toastHandler = sinon.stub();
     element.allowAnyInput = false;
-    element.addEventListener('show-alert', toastHandler);
+    element.addEventListener(EventType.SHOW_ALERT, toastHandler);
     const result = element.addAccountItem('test');
     assert.isFalse(result);
     assert.isTrue(toastHandler.called);
@@ -433,7 +434,7 @@ suite('gr-account-list tests', () => {
 
     test('toasts on invalid email', () => {
       const toastHandler = sinon.stub();
-      element.addEventListener('show-alert', toastHandler);
+      element.addEventListener(EventType.SHOW_ALERT, toastHandler);
       handleAdd('test');
       assert.isTrue(toastHandler.called);
     });

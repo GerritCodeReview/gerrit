@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
@@ -37,7 +38,8 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
   private String pluginName = PluginName.GERRIT;
 
   @Inject
-  ForwardingRemovalListener(
+  @VisibleForTesting
+  protected ForwardingRemovalListener(
       PluginSetContext<CacheRemovalListener> listeners, @Assisted String cacheName) {
     this.listeners = listeners;
     this.cacheName = cacheName;

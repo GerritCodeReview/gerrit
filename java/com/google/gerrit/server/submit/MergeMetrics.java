@@ -21,7 +21,7 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.MagicLabelPredicate;
+import com.google.gerrit.server.query.change.MagicLabelPredicates;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -114,8 +114,16 @@ public class MergeMetrics {
       // the uploader are ignored, we must check if there is any MagicLabelPredicate for the
       // Code-Review label that ignores approvals of the uploader (aka has user set to non_uploader
       // or non_contributor).
-      if (predicate instanceof MagicLabelPredicate) {
-        MagicLabelPredicate magicLabelPredicate = (MagicLabelPredicate) predicate;
+      if (predicate instanceof MagicLabelPredicates.PostFilterMagicLabelPredicate) {
+        MagicLabelPredicates.PostFilterMagicLabelPredicate magicLabelPredicate =
+            (MagicLabelPredicates.PostFilterMagicLabelPredicate) predicate;
+        if (magicLabelPredicate.getLabel().equalsIgnoreCase("Code-Review")
+            && magicLabelPredicate.ignoresUploaderApprovals()) {
+          return true;
+        }
+      } else if (predicate instanceof MagicLabelPredicates.IndexMagicLabelPredicate) {
+        MagicLabelPredicates.IndexMagicLabelPredicate magicLabelPredicate =
+            (MagicLabelPredicates.IndexMagicLabelPredicate) predicate;
         if (magicLabelPredicate.getLabel().equalsIgnoreCase("Code-Review")
             && magicLabelPredicate.ignoresUploaderApprovals()) {
           return true;

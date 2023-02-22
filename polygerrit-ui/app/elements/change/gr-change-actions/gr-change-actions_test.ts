@@ -34,7 +34,6 @@ import {
   ChangeSubmissionId,
   CommitId,
   NumericChangeId,
-  PatchSetNum,
   PatchSetNumber,
   RepoName,
   ReviewInput,
@@ -135,7 +134,7 @@ suite('gr-change-actions tests', () => {
         },
       };
       element.changeNum = 42 as NumericChangeId;
-      element.latestPatchNum = 2 as PatchSetNum;
+      element.latestPatchNum = 2 as PatchSetNumber;
       element.account = {
         _account_id: 123 as AccountId,
       };
@@ -514,7 +513,7 @@ suite('gr-change-actions tests', () => {
           rev2: {...createRevision(), _number: 2 as PatchSetNumber},
         },
       };
-      element.latestPatchNum = 2 as PatchSetNum;
+      element.latestPatchNum = 2 as PatchSetNumber;
 
       queryAndAssert<GrButton>(
         element,
@@ -1808,7 +1807,7 @@ suite('gr-change-actions tests', () => {
         element.change!.is_private = false;
 
         element.changeNum = 2 as NumericChangeId;
-        element.latestPatchNum = 2 as PatchSetNum;
+        element.latestPatchNum = 2 as PatchSetNumber;
 
         await element.updateComplete;
         await element.reload();
@@ -1862,7 +1861,7 @@ suite('gr-change-actions tests', () => {
         element.change!.is_private = true;
 
         element.changeNum = 2 as NumericChangeId;
-        element.latestPatchNum = 2 as PatchSetNum;
+        element.latestPatchNum = 2 as PatchSetNumber;
 
         await element.updateComplete;
         await element.reload();
@@ -2331,7 +2330,7 @@ suite('gr-change-actions tests', () => {
       const reloadStub = sinon.stub(element, 'reload');
       element.changeNum = 123 as NumericChangeId;
       assert.isFalse(reloadStub.called);
-      element.latestPatchNum = 456 as PatchSetNum;
+      element.latestPatchNum = 456 as PatchSetNumber;
       assert.isFalse(reloadStub.called);
     });
 
@@ -2427,7 +2426,7 @@ suite('gr-change-actions tests', () => {
       setup(async () => {
         cleanup = sinon.stub();
         element.changeNum = 42 as NumericChangeId;
-        element.latestPatchNum = 12 as PatchSetNum;
+        element.latestPatchNum = 12 as PatchSetNumber;
         element.change = {
           ...createChangeViewChange(),
           revisions: createRevisions(element.latestPatchNum as number),
@@ -2695,7 +2694,7 @@ suite('gr-change-actions tests', () => {
       // set the following properties
       element.change = createChangeViewChange();
       element.changeNum = 42 as NumericChangeId;
-      element.latestPatchNum = 2 as PatchSetNum;
+      element.latestPatchNum = 2 as PatchSetNumber;
 
       stubRestApi('getRepoBranches').returns(Promise.resolve([]));
       await element.updateComplete;

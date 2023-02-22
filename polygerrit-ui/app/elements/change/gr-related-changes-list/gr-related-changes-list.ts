@@ -16,7 +16,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
   CommitId,
-  PatchSetNum,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   RevisionPatchSetNum,
@@ -33,6 +32,9 @@ import {
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -54,11 +56,11 @@ export class GrRelatedChangesList extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 
-  @property({type: String})
-  patchNum?: PatchSetNum;
-
   @property({type: Boolean})
   mergeable?: boolean;
+
+  @state()
+  patchNum?: RevisionPatchSetNum;
 
   @state()
   submittedTogether?: SubmittedTogetherInfo = {
@@ -79,6 +81,17 @@ export class GrRelatedChangesList extends LitElement {
   sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNumWithEdit$,
+      x => (this.patchNum = x)
+    );
+  }
 
   static override get styles() {
     return [
@@ -652,7 +665,7 @@ export class GrRelatedChangesList extends LitElement {
    */
   _computeConnectedRevisions(
     change?: ParsedChangeInfo,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     relatedChanges?: RelatedChangeAndCommitInfo[]
   ) {
     if (!patchNum || !relatedChanges || !change) {

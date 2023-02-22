@@ -16,7 +16,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {
   AccountId,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   Timestamp,
 } from '../../../types/common';
 import {createChange} from '../../../test/test-data-generators';
@@ -27,7 +27,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
   let changeNum: NumericChangeId;
-  let patchNum: PatchSetNum;
+  let patchNum: PatchSetNumber;
 
   const setupElement = (element: GrReplyDialog) => {
     element.change = {
@@ -64,7 +64,7 @@ suite('gr-reply-dialog-it tests', () => {
 
   setup(async () => {
     changeNum = 42 as NumericChangeId;
-    patchNum = 1 as PatchSetNum;
+    patchNum = 1 as PatchSetNumber;
 
     stubRestApi('getAccount').returns(
       Promise.resolve({

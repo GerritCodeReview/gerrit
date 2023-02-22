@@ -2233,7 +2233,7 @@ The patch must be provided in the request body, inside a
 link:#applypatchpatchset-input[ApplyPatchPatchSetInput] entity.
 
 If a base commit is given, the patch is applied on top of it. Otherwise, the
-patch is applied on top of the target change's branch tip.
+patch is applied on top of the target change's original parent.
 
 Applying the patch will fail if the destination change is closed, or in case of any conflicts.
 

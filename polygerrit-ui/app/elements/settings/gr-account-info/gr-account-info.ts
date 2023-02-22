@@ -25,6 +25,12 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
+  /**
+   * Fired when account details are changed.
+   *
+   * @event account-detail-update
+   */
+
   // private but used in test
   @state() nameMutable?: boolean;
 
@@ -404,8 +410,6 @@ export class GrAccountInfo extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'unsaved-changes-changed': ValueChangedEvent<boolean>;
-    /** Fired when account details are changed. */
-    'account-detail-update': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-account-info': GrAccountInfo;

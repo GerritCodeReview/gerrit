@@ -20,9 +20,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete-dropdown': GrAutocompleteDropdown;
   }
-  interface HTMLElementEventMap {
-    'dropdown-closed': CustomEvent<{}>;
-  }
 }
 
 export interface Item {

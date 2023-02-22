@@ -31,14 +31,16 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-repo-dialog': GrCreateRepoDialog;
   }
-  interface HTMLElementEventMap {
-    /** Fired when repostiory name is entered. */
-    'new-repo-name': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-create-repo-dialog')
 export class GrCreateRepoDialog extends LitElement {
+  /**
+   * Fired when repostiory name is entered.
+   *
+   * @event new-repo-name
+   */
+
   @query('input')
   input?: HTMLInputElement;
 

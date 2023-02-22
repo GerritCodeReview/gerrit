@@ -9,7 +9,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {ChangeActionDialog, ChangeInfo, CommitId} from '../../../types/common';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
@@ -28,6 +28,21 @@ export enum RevertType {
 export interface ConfirmRevertEventDetail {
   revertType: RevertType;
   message?: string;
+}
+
+export interface CancelRevertEventDetail {
+  revertType: RevertType;
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    /** Fired when the confirm button is pressed. */
+    // prettier-ignore
+    'confirm': CustomEvent<ConfirmRevertEventDetail>;
+    /** Fired when the cancel button is pressed. */
+    // prettier-ignore
+    'cancel': CustomEvent<CancelRevertEventDetail>;
+  }
 }
 
 @customElement('gr-confirm-revert-dialog')
@@ -287,21 +302,21 @@ export class GrConfirmRevertDialog
       revertType: this.revertType,
       message: this.message,
     };
-    fire(this, 'confirm-revert', detail);
+    fire(this, 'confirm', detail);
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireEvent(this, 'cancel');
+    const detail: ConfirmRevertEventDetail = {
+      revertType: this.revertType,
+    };
+    fire(this, 'cancel', detail);
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-confirm-revert-dialog': GrConfirmRevertDialog;
-  }
-  interface HTMLElementEventMap {
-    'confirm-revert': CustomEvent<ConfirmRevertEventDetail>;
   }
 }

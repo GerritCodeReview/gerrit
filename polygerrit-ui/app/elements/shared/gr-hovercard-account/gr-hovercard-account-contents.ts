@@ -572,9 +572,4 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-hovercard-account-contents': GrHovercardAccountContents;
   }
-  interface HTMLElementEventMap {
-    'action-taken': CustomEvent<{}>;
-    'attention-set-updated': CustomEvent<{}>;
-    'link-clicked': CustomEvent<{}>;
-  }
 }

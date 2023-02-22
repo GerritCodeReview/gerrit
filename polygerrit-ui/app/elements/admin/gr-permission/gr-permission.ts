@@ -64,6 +64,16 @@ interface GroupSuggestion {
   value: GroupInfo;
 }
 
+/**
+ * Fired when the permission has been modified or removed.
+ *
+ * @event access-modified
+ */
+/**
+ * Fired when a permission that was previously added was removed.
+ *
+ * @event added-permission-removed
+ */
 @customElement('gr-permission')
 export class GrPermission extends LitElement {
   @property({type: String})
@@ -569,8 +579,6 @@ export class GrPermission extends LitElement {
 
 declare global {
   interface HTMLElementEventMap {
-    /** Fired when a permission that was previously added was removed. */
-    'added-permission-removed': CustomEvent<{}>;
     'permission-changed': ValueChangedEvent<
       PermissionArrayItem<EditablePermissionInfo>
     >;

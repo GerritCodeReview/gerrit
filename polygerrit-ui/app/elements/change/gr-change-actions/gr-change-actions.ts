@@ -661,7 +661,7 @@ export class GrChangeActions
           id="confirmRebase"
           class="confirmDialog"
           .changeNumber=${this.change?._number}
-          @confirm-rebase=${this.handleRebaseConfirm}
+          @confirm=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
           .disableActions=${this.inProgressActionKeys.has(
             RevisionActions.REBASE
@@ -698,7 +698,7 @@ export class GrChangeActions
         <gr-confirm-revert-dialog
           id="confirmRevertDialog"
           class="confirmDialog"
-          @confirm-revert=${this.handleRevertDialogConfirm}
+          @confirm=${this.handleRevertDialogConfirm}
           @cancel=${this.handleConfirmDialogCancel}
         ></gr-confirm-revert-dialog>
         <gr-confirm-abandon-dialog
@@ -2223,11 +2223,7 @@ export class GrChangeActions
 
 declare global {
   interface HTMLElementEventMap {
-    'download-tap': CustomEvent<{}>;
-    'edit-tap': CustomEvent<{}>;
-    'included-tap': CustomEvent<{}>;
     'revision-actions-changed': CustomEvent<{value: ActionNameToActionInfoMap}>;
-    'stop-edit-tap': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-actions': GrChangeActions;

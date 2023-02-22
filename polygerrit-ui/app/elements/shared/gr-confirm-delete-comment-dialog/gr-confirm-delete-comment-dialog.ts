@@ -109,7 +109,7 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
   private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubble(this, 'confirm', {});
+    fireNoBubble(this, 'confirm', {reason: this.message});
   }
 
   private handleCancelTap(e: Event) {

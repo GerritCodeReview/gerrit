@@ -11,10 +11,7 @@ import {
   TabState,
 } from '../types/events';
 
-export function fireEvent<K extends keyof HTMLElementEventMap>(
-  target: EventTarget,
-  type: K
-) {
+export function fireEvent(target: EventTarget, type: string) {
   target.dispatchEvent(
     new CustomEvent(type, {
       composed: true,
@@ -23,10 +20,7 @@ export function fireEvent<K extends keyof HTMLElementEventMap>(
   );
 }
 
-export function fireEventNoBubble<K extends keyof HTMLElementEventMap>(
-  target: EventTarget,
-  type: K
-) {
+export function fireEventNoBubble(target: EventTarget, type: string) {
   target.dispatchEvent(
     new CustomEvent(type, {
       composed: true,
@@ -35,10 +29,7 @@ export function fireEventNoBubble<K extends keyof HTMLElementEventMap>(
   );
 }
 
-export function fireEventNoBubbleNoCompose<K extends keyof HTMLElementEventMap>(
-  target: EventTarget,
-  type: K
-) {
+export function fireEventNoBubbleNoCompose(target: EventTarget, type: string) {
   target.dispatchEvent(
     new CustomEvent(type, {
       composed: false,
@@ -48,10 +39,18 @@ export function fireEventNoBubbleNoCompose<K extends keyof HTMLElementEventMap>(
 }
 
 export type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
-  HTMLElementEventMap[K] extends CustomEvent<infer DT> ? DT : never;
+  HTMLElementEventMap[K] extends CustomEvent<infer DT>
+    ? unknown extends DT
+      ? never
+      : DT
+    : never;
 
 type DocumentEventDetailType<K extends keyof DocumentEventMap> =
-  DocumentEventMap[K] extends CustomEvent<infer DT> ? DT : never;
+  DocumentEventMap[K] extends CustomEvent<infer DT>
+    ? unknown extends DT
+      ? never
+      : DT
+    : never;
 
 export function fire<K extends keyof DocumentEventMap>(
   target: Document,

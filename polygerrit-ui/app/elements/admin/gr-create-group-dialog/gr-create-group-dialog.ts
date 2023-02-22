@@ -22,9 +22,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-group-dialog': GrCreateGroupDialog;
   }
-  interface HTMLElementEventMap {
-    'has-new-group-name': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-create-group-dialog')

@@ -241,9 +241,7 @@ export class GrDashboardView extends LitElement {
       </dialog>
       <gr-create-destination-dialog
         id="destinationDialog"
-        @confirm-destination=${(
-          e: CustomEvent<CreateDestinationConfirmDetail>
-        ) => {
+        @confirm=${(e: CustomEvent<CreateDestinationConfirmDetail>) => {
           this.handleDestinationConfirm(e);
         }}
       ></gr-create-destination-dialog>

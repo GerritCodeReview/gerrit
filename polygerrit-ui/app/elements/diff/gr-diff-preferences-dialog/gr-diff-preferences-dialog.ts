@@ -136,7 +136,4 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-diff-preferences-dialog': GrDiffPreferencesDialog;
   }
-  interface HTMLElementEventMap {
-    'reload-diff-preference': CustomEvent<{}>;
-  }
 }

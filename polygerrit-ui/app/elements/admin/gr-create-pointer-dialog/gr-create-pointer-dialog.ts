@@ -20,9 +20,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-pointer-dialog': GrCreatePointerDialog;
   }
-  interface HTMLElementEventMap {
-    'update-item-name': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-create-pointer-dialog')

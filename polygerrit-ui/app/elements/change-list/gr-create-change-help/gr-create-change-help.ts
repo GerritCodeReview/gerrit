@@ -14,10 +14,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-change-help': GrCreateChangeHelp;
   }
-  interface HTMLElementEventMap {
-    /** Fired when the "Create change" button is tapped. */
-    'create-tap': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-create-change-help')
@@ -91,6 +87,9 @@ export class GrCreateChangeHelp extends LitElement {
     `;
   }
 
+  /**
+   * Fired when the "Create change" button is tapped.
+   */
   _handleCreateTap(e: Event) {
     e.preventDefault();
     fireEvent(this, 'create-tap');

@@ -18,6 +18,18 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
 
+/**
+ * Fired when the rule has been modified or removed.
+ *
+ * @event access-modified
+ */
+
+/**
+ * Fired when a rule that was previously added was removed.
+ *
+ * @event added-rule-removed
+ */
+
 const PRIORITY_OPTIONS = [PermissionAction.BATCH, PermissionAction.INTERACTIVE];
 
 const Action = {
@@ -70,8 +82,6 @@ declare global {
     'gr-rule-editor': GrRuleEditor;
   }
   interface HTMLElementEventMap {
-    /** Fired when a rule that was previously added was removed. */
-    'added-rule-removed': CustomEvent<{}>;
     'rule-changed': ValueChangedEvent<Rule | undefined>;
   }
 }

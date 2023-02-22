@@ -21,11 +21,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
-import {
-  BindValueChangeEvent,
-  EditableContentSaveEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
@@ -43,15 +39,23 @@ declare global {
   interface HTMLElementEventMap {
     'content-changed': ValueChangedEvent<string>;
     'editing-changed': ValueChangedEvent<boolean>;
-    /** Fired when the 'cancel' button is pressed. */
-    'editable-content-cancel': CustomEvent<{}>;
-    /** Fired when the 'save' button is pressed. */
-    'editable-content-save': EditableContentSaveEvent;
   }
 }
 
 @customElement('gr-editable-content')
 export class GrEditableContent extends LitElement {
+  /**
+   * Fired when the save button is pressed.
+   *
+   * @event editable-content-save
+   */
+
+  /**
+   * Fired when the cancel button is pressed.
+   *
+   * @event editable-content-cancel
+   */
+
   /**
    * Fired when content is restored from storage.
    *

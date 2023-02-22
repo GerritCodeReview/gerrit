@@ -97,9 +97,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-main-header': GrMainHeader;
   }
-  interface HTMLElementEventMap {
-    'mobile-search': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-main-header')

@@ -11,11 +11,6 @@ import {Category, RunStatus} from '../api/checks';
 import {DropdownLink} from '../elements/shared/gr-dropdown/gr-dropdown';
 import {AutocompleteCommitEvent} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
-// TODO: Remove this enum and just use the strings directly.
-// The fire() util functions provide full type safety, and there is nothing to
-// be gained by collecting all event names in one global enum.
-// It is much more convenient to search for an event name and to rely on finding
-// all listeners and dispatchers in on search.
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
   CHANGE = 'change',
@@ -23,6 +18,7 @@ export enum EventType {
   COMMIT = 'commit',
   DIALOG_CHANGE = 'dialog-change',
   DROP = 'drop',
+  EDITABLE_CONTENT_SAVE = 'editable-content-save',
   GR_RPC_LOG = 'gr-rpc-log',
   IRON_ANNOUNCE = 'iron-announce',
   KEYDOWN = 'keydown',
@@ -44,34 +40,22 @@ export enum EventType {
   TITLE_CHANGE = 'title-change',
 }
 
-// TODO: Local events that are only fired by one component should also be
-// declared and documented in that component. Don't collect ALL the events here.
-// 'show-alert' for example is fine to keep, because it is fired all over the
-// place. But 'line-cursor-moved-in' is only fired by <gr-diff-cursor>, so let's
-// move it there.
 declare global {
   interface HTMLElementEventMap {
     'add-reviewer': AddReviewerEvent;
     'bind-value-changed': BindValueChangeEvent;
-    /** Fired when a 'cancel' button in a dialog was pressed. */
-    // prettier-ignore
-    'cancel': CustomEvent<{}>;
     /* prettier-ignore */
     'change': ChangeEvent;
     /* prettier-ignore */
     'changed': ChangedEvent;
     /* prettier-ignore */
     'commit': AutocompleteCommitEvent;
-    /** Fired when a 'confirm' button in a dialog was pressed. */
-    // prettier-ignore
-    'confirm': CustomEvent<{}>;
     'dialog-change': DialogChangeEvent;
     /* prettier-ignore */
     'drop': DropEvent;
-    'hide-alert': CustomEvent<{}>;
+    'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
-    'iron-resize': CustomEvent<{}>;
     'line-mouse-enter': LineNumberEvent;
     'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;

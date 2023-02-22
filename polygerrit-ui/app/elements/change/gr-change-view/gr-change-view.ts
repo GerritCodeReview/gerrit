@@ -3241,7 +3241,6 @@ export class GrChangeView extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
-    'change-details-loaded': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

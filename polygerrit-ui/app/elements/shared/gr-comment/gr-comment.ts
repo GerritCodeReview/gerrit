@@ -1316,7 +1316,4 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-comment': GrComment;
   }
-  interface HTMLElementEventMap {
-    'copy-comment-link': CustomEvent<{}>;
-  }
 }

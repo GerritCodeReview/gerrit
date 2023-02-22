@@ -77,6 +77,18 @@ export function computeRelativeIndex(
 @customElement('gr-change-list')
 export class GrChangeList extends LitElement {
   /**
+   * Fired when next page key shortcut was pressed.
+   *
+   * @event next-page
+   */
+
+  /**
+   * Fired when previous page key shortcut was pressed.
+   *
+   * @event previous-page
+   */
+
+  /**
    * The logged-in user's account, or an empty object if no user is logged
    * in.
    */
@@ -472,9 +484,5 @@ declare global {
   }
   interface HTMLElementEventMap {
     'selected-index-changed': ValueChangedEvent<number>;
-    /** Fired when next page key shortcut was pressed. */
-    'next-page': CustomEvent<{}>;
-    /** Fired when previous page key shortcut was pressed. */
-    'previous-page': CustomEvent<{}>;
   }
 }

@@ -22,9 +22,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-list-view': GrListView;
   }
-  interface HTMLElementEventMap {
-    'create-clicked': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-list-view')

@@ -25,6 +25,7 @@ import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -54,6 +55,7 @@ public class MailSoySauceModuleTest {
                 bind(SitePaths.class).toInstance(sitePaths);
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(new Config());
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
+                install(new WorkQueue.WorkQueueModule());
                 install(new DefaultMemoryCacheModule());
               }
             });

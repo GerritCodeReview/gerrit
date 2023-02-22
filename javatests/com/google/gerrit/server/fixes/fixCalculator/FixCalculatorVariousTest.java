@@ -41,7 +41,7 @@ public class FixCalculatorVariousTest {
         new FixReplacement(
             "AnyPath", new Range(startLine, startChar, endLine, endChar), replacement);
     return FixCalculator.calculateFix(
-        new Text(content.getBytes(UTF_8)), ImmutableList.of(fixReplacement));
+        new Text(content.getBytes(UTF_8)), ImmutableList.of(fixReplacement), false);
   }
 
   @Test
@@ -117,7 +117,8 @@ public class FixCalculatorVariousTest {
     FixReplacement insert = new FixReplacement("path", new Range(2, 5, 2, 5), "DEFG");
     FixReplacement delete = new FixReplacement("path", new Range(2, 7, 2, 9), "");
     FixResult result =
-        FixCalculator.calculateFix(multilineContent, ImmutableList.of(replace, delete, insert));
+        FixCalculator.calculateFix(
+            multilineContent, ImmutableList.of(replace, delete, insert), false);
     assertThat(result)
         .text()
         .isEqualTo("First line\nSABConDEFGd ne\nThird line\nFourth line\nFifth line\n");
@@ -136,7 +137,8 @@ public class FixCalculatorVariousTest {
     FixReplacement insert = new FixReplacement("path", new Range(3, 5, 3, 5), "DEFG");
     FixReplacement delete = new FixReplacement("path", new Range(4, 7, 4, 9), "");
     FixResult result =
-        FixCalculator.calculateFix(multilineContent, ImmutableList.of(replace, insert, delete));
+        FixCalculator.calculateFix(
+            multilineContent, ImmutableList.of(replace, insert, delete), false);
     assertThat(result)
         .text()
         .isEqualTo("First line\nSABCond line\nThirdDEFG line\nFourth ne\nFifth line\n");
@@ -155,7 +157,8 @@ public class FixCalculatorVariousTest {
     FixReplacement insert = new FixReplacement("path", new Range(3, 5, 3, 5), "DEFG");
     FixReplacement delete = new FixReplacement("path", new Range(5, 9, 6, 0), "");
     FixResult result =
-        FixCalculator.calculateFix(multilineContent, ImmutableList.of(replace, insert, delete));
+        FixCalculator.calculateFix(
+            multilineContent, ImmutableList.of(replace, insert, delete), false);
     assertThat(result)
         .text()
         .isEqualTo("FABCst line\nSecond line\nThirdDEFG line\nFourth line\nFifth lin");
@@ -195,7 +198,8 @@ public class FixCalculatorVariousTest {
                 singleLineInsert,
                 singleLineReplace,
                 multiLineInsert,
-                singleLineDelete));
+                singleLineDelete),
+            false);
     assertThat(result)
         .text()
         .isEqualTo(
@@ -237,7 +241,7 @@ public class FixCalculatorVariousTest {
         new FixReplacement("path", new Range(2, 7, 3, 5), "content");
     FixResult result =
         FixCalculator.calculateFix(
-            multilineContent, ImmutableList.of(firstReplace, consecutiveReplace));
+            multilineContent, ImmutableList.of(firstReplace, consecutiveReplace), false);
     assertThat(result).text().isEqualTo("First modified content line\nFourth line\nFifth line\n");
     assertThat(result).edits().hasSize(1);
     Edit edit = result.edits.get(0);
@@ -259,7 +263,7 @@ public class FixCalculatorVariousTest {
         ResourceConflictException.class,
         () ->
             FixCalculator.calculateFix(
-                multilineContent, ImmutableList.of(firstReplace, secondReplace)));
+                multilineContent, ImmutableList.of(firstReplace, secondReplace), false));
   }
 
   @Test
@@ -272,6 +276,6 @@ public class FixCalculatorVariousTest {
         ResourceConflictException.class,
         () ->
             FixCalculator.calculateFix(
-                multilineContent, ImmutableList.of(firstReplace, secondReplace)));
+                multilineContent, ImmutableList.of(firstReplace, secondReplace), false));
   }
 }

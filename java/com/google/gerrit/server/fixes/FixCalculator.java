@@ -17,10 +17,12 @@ package com.google.gerrit.server.fixes;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
+import com.google.gerrit.server.patch.IntraLineLoader;
 import com.google.gerrit.server.patch.Text;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,7 +49,8 @@ public class FixCalculator {
   public static String getNewFileContent(
       String originalContent, List<FixReplacement> fixReplacements)
       throws ResourceConflictException {
-    FixResult fixResult = calculateFix(new Text(originalContent.getBytes(UTF_8)), fixReplacements);
+    FixResult fixResult =
+        calculateFix(new Text(originalContent.getBytes(UTF_8)), fixReplacements, false);
     return fixResult.text.getString(0, fixResult.text.size(), false);
   }
 
@@ -60,7 +63,8 @@ public class FixCalculator {
    * @throws ResourceConflictException if the fixReplacements contains invalid data (for example, if
    *     an item points to an invalid range or if some ranges are intersected).
    */
-  public static FixResult calculateFix(Text originalText, List<FixReplacement> fixReplacements)
+  public static FixResult calculateFix(
+      Text originalText, List<FixReplacement> fixReplacements, boolean intraline)
       throws ResourceConflictException {
     List<FixReplacement> sortedReplacements = new ArrayList<>(fixReplacements);
     sortedReplacements.sort(ASC_RANGE_FIX_REPLACEMENT_COMPARATOR);
@@ -70,7 +74,7 @@ public class FixCalculator {
               "Cannot calculate fix replacement for range %s",
               toString(sortedReplacements.get(0).range)));
     }
-    ContentBuilder builder = new ContentBuilder(originalText);
+    ContentBuilder builder = new ContentBuilder(originalText, intraline);
     for (FixReplacement fixReplacement : sortedReplacements) {
       try {
         builder.addReplacement(fixReplacement);
@@ -164,12 +168,16 @@ public class FixCalculator {
     }
 
     private final ContentProcessor contentProcessor;
+    private final Text src;
+    private final boolean intraline;
     final ImmutableList.Builder<Edit> edits;
     FixRegion currentRegion;
 
-    ContentBuilder(Text src) {
+    ContentBuilder(Text src, boolean intraline) {
       this.contentProcessor = new ContentProcessor(src);
+      this.src = src;
       this.edits = new ImmutableList.Builder<>();
+      this.intraline = intraline;
     }
 
     void addReplacement(FixReplacement replacement) {
@@ -193,9 +201,19 @@ public class FixCalculator {
       }
     }
 
+    private ImmutableList<Edit> buildEdits() {
+      if (this.intraline) {
+        return IntraLineLoader.compute(
+                this.src, this.getNewText(), edits.build(), ImmutableSet.of())
+            .getEdits();
+      } else {
+        return edits.build();
+      }
+    }
+
     public FixResult build() {
       finish();
-      return new FixResult(edits.build(), this.getNewText());
+      return new FixResult(this.buildEdits(), this.getNewText());
     }
 
     private void finishExistingEdit() {

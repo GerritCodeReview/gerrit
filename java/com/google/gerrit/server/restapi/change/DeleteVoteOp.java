@@ -153,10 +153,12 @@ public class DeleteVoteOp implements BatchUpdateOp {
       }
       // Set the approval to 0 if vote is being removed.
       newApprovals.put(a.label(), (short) 0);
-      found = true;
-
-      // Set old value, as required by VoteDeleted.
-      oldApprovals.put(a.label(), a.value());
+      // If the value is 0, we treat it as already deleted, so no additional actions is required
+      if (a.value() != 0) {
+        found = true;
+        // Set old value, as required by VoteDeleted.
+        oldApprovals.put(a.label(), a.value());
+      }
       break;
     }
     if (!found) {

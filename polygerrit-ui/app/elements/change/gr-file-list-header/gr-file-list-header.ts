@@ -12,7 +12,6 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
 import {property, customElement, query, state} from 'lit/decorators.js';
 import {
   AccountInfo,
@@ -21,6 +20,7 @@ import {
   CommitInfo,
   ServerInfo,
   BasePatchSetNum,
+  PatchSetNumber,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
@@ -63,9 +63,6 @@ export class GrFileListHeader extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined;
 
-  @property({type: Array})
-  allPatchSets?: PatchSet[];
-
   @property({type: Object})
   change: ChangeInfo | undefined;
 
@@ -86,6 +83,8 @@ export class GrFileListHeader extends LitElement {
 
   @property({type: String})
   filesExpanded?: FilesExpandedState;
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   @state() patchNum?: PatchSetNum;
 
@@ -146,6 +145,11 @@ export class GrFileListHeader extends LitElement {
       this,
       () => this.getChangeModel().basePatchNum$,
       x => (this.basePatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
   }
 
@@ -266,10 +270,7 @@ export class GrFileListHeader extends LitElement {
       return;
     }
     const editModeClass = this.computeEditModeClass(this.editMode);
-    const patchInfoClass = this.computePatchInfoClass(
-      this.patchNum,
-      this.allPatchSets
-    );
+    const patchInfoClass = this.computePatchInfoClass();
     const expandedClass = this.computeExpandedClass(this.filesExpanded);
     const prefsButtonHidden = this.computePrefsButtonHidden(
       this.diffPrefs,
@@ -443,9 +444,8 @@ export class GrFileListHeader extends LitElement {
     return editMode ? 'editMode' : '';
   }
 
-  computePatchInfoClass(patchNum?: PatchSetNum, allPatchSets?: PatchSet[]) {
-    const latestNum = computeLatestPatchNum(allPatchSets);
-    if (patchNum === latestNum) {
+  computePatchInfoClass() {
+    if (this.patchNum === this.latestPatchNum) {
       return '';
     }
     return 'patchInfoOldPatchSet';

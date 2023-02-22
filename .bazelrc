@@ -37,6 +37,6 @@ build --incompatible_strict_action_env
 build --announce_rc
 
 test --build_tests_only
-test --test_output=all
+test --test_output=errors
 
 import %workspace%/tools/remote-bazelrc

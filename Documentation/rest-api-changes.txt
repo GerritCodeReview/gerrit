@@ -3278,19 +3278,11 @@ returned.
   {
   "web_links": [
     {
-      "show_on_side_by_side_diff_view": true,
-      "name": "side-by-side preview diff",
+      "name": "preview",
       "image_url": "plugins/xdocs/static/sideBySideDiffPreview.png",
       "url": "#/x/xdocs/c/42/1..0/README.md",
       "target": "_self"
     },
-    {
-      "show_on_unified_diff_view": true,
-      "name": "unified preview diff",
-      "image_url": "plugins/xdocs/static/unifiedDiffPreview.png",
-      "url": "#/x/xdocs/c/42/1..0/README.md,unified",
-      "target": "_self"
-    }
   ]}
 ----
 
@@ -7576,7 +7568,7 @@ Intraline status (`OK`, `ERROR`, `TIMEOUT`).
 link:#diff-content[DiffContent] entities.
 |`web_links`       |optional|
 Links to the file diff in external sites as a list of
-link:rest-api-changes.html#diff-web-link-info[DiffWebLinkInfo] entries.
+link:rest-api-changes.html#diff-web-link-info[WebLinkInfo] entries.
 |`edit_web_links`   |optional|
 Links to edit the file in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
@@ -7597,23 +7589,6 @@ as unedited.
 
 Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.
-
-[[diff-web-link-info]]
-=== DiffWebLinkInfo
-The `DiffWebLinkInfo` entity describes a link on a diff screen to an
-external site.
-
-[options="header",cols="1,6"]
-|=======================
-|Field Name|Description
-|`name`     |The link name.
-|`url`      |The link URL.
-|`image_url`|URL to the icon of the link.
-|show_on_side_by_side_diff_view|
-Whether the web link should be shown on the side-by-side diff screen.
-|show_on_unified_diff_view|
-Whether the web link should be shown on the unified diff screen.
-|=======================
 
 [[apply-provided-fix-input]]
 === ApplyProvidedFixInput

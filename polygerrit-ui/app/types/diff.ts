@@ -42,34 +42,16 @@ export interface DiffInfo extends DiffInfoApi {
   meta_b?: DiffFileMetaInfo;
 
   /**
-   * Links to the file diff in external sites as a list of DiffWebLinkInfo
+   * Links to the file diff in external sites as a list of WebLinkInfo
    * entries.
    */
-  web_links?: DiffWebLinkInfo[];
+  web_links?: WebLinkInfo[];
 
   /**
    * Links to edit the file in external sites as a list of WebLinkInfo
    * entries.
    */
   edit_web_links?: WebLinkInfo[];
-}
-
-/**
- * The DiffWebLinkInfo entity describes a link on a diff screen to an external
- * site.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-web-link-info
- */
-export declare interface DiffWebLinkInfo {
-  /** The link name. */
-  name: string;
-  /** The link URL. */
-  url: string;
-  /** URL to the icon of the link. */
-  image_url: string;
-  // TODO: Are these really of type string? Not able to trigger them, but the
-  // docs sound more like boolean.
-  show_on_side_by_side_diff_view: string;
-  show_on_unified_diff_view: string;
 }
 
 export interface DiffFileMetaInfo extends DiffFileMetaInfoApi {

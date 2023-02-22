@@ -567,7 +567,7 @@ export class GrChangeView extends LitElement {
 
   /** Simply reflects the router-model value. */
   // visible for testing
-  viewModelPatchNum?: PatchSetNum;
+  viewModelPatchNum?: RevisionPatchSetNum;
 
   private readonly shortcutsController = new ShortcutController(this);
 
@@ -3158,12 +3158,11 @@ export class GrChangeView extends LitElement {
 
     // Avoid putting patch set in the URL unless a non-latest patch set is
     // selected.
-    assertIsDefined(this.patchRange, 'patchRange');
     let patchNum;
     if (
-      !(this.patchRange.patchNum === computeLatestPatchNum(this.allPatchSets))
+      !(this.viewModelPatchNum === computeLatestPatchNum(this.allPatchSets))
     ) {
-      patchNum = this.patchRange.patchNum;
+      patchNum = this.viewModelPatchNum;
     }
     this.getNavigation().setUrl(
       createChangeUrl({

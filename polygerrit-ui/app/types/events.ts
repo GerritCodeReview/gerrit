@@ -23,19 +23,19 @@ declare global {
     /** Fired when a 'cancel' button in a dialog was pressed. */
     // prettier-ignore
     'cancel': CustomEvent<{}>;
-    // prettier-ignore
+    /* prettier-ignore */
     'change': ChangeEvent;
-    // prettier-ignore
+    /* prettier-ignore */
     'changed': ChangedEvent;
-    // prettier-ignore
+    /* prettier-ignore */
     'close': CustomEvent<{}>;
-    // prettier-ignore
+    /* prettier-ignore */
     'commit': AutocompleteCommitEvent;
     /** Fired when a 'confirm' button in a dialog was pressed. */
     // prettier-ignore
     'confirm': CustomEvent<{}>;
     'dialog-change': DialogChangeEvent;
-    // prettier-ignore
+    /* prettier-ignore */
     'drop': DropEvent;
     'hide-alert': CustomEvent<{}>;
     'location-change': LocationChangeEvent;
@@ -48,7 +48,7 @@ declare global {
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
-    // prettier-ignore
+    /* prettier-ignore */
     'reload': ReloadEvent;
     'remove-reviewer': RemoveReviewerEvent;
     'show-alert': ShowAlertEvent;
@@ -65,7 +65,7 @@ declare global {
     'gr-rpc-log': RpcLogEvent;
     'network-error': NetworkErrorEvent;
     'page-error': PageErrorEvent;
-    // prettier-ignore
+    /* prettier-ignore */
     'reload': ReloadEvent;
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;

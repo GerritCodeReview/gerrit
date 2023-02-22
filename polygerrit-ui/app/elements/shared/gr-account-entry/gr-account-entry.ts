@@ -119,8 +119,10 @@ declare global {
     'gr-account-entry': GrAccountEntry;
   }
   interface HTMLElementEventMap {
-    /** Fired when an account is entered. */
-    // prettier-ignore
+    /**
+     * Fired when an account is entered.
+     */
+    /* prettier-ignore */
     'add': AddAccountEvent;
     /**
      * When allowAnyInput is true, account-text-changed is fired when input text

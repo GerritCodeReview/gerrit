@@ -54,7 +54,6 @@ import {
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   ParsedJSON,
-  PatchSetNum,
   ReviewerInput,
   ReviewInput,
   ReviewResult,
@@ -187,9 +186,6 @@ export class GrReplyDialog extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo | ChangeInfo;
 
-  @property({type: String})
-  patchNum?: PatchSetNum;
-
   @property({type: Boolean})
   canBeStarted = false;
 
@@ -219,6 +215,8 @@ export class GrReplyDialog extends LitElement {
 
   @query('#reviewerConfirmationModal')
   reviewerConfirmationModal?: HTMLDialogElement;
+
+  @state() patchNum?: PatchSetNumber;
 
   @state() serverConfig?: ServerInfo;
 
@@ -360,8 +358,6 @@ export class GrReplyDialog extends LitElement {
   private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
-
-  private latestPatchNum?: PatchSetNumber;
 
   storeTask?: DelayedTask;
 
@@ -623,7 +619,7 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.patchNum = x)
     );
     subscribe(
       this,
@@ -910,7 +906,7 @@ export class GrReplyDialog extends LitElement {
   private renderPatchsetLevelComment() {
     if (!this.patchsetLevelComment)
       this.patchsetLevelComment = createPatchsetLevelUnsavedDraft(
-        this.latestPatchNum,
+        this.patchNum,
         this.patchsetLevelDraftMessage,
         !this.patchsetLevelDraftIsResolved
       );

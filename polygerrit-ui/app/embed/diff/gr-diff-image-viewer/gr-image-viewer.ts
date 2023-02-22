@@ -26,7 +26,7 @@ import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 
 import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
 import {ValueChangedEvent} from '../../../types/events';
-import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {ImageDiffAction} from '../../../api/diff';
 
 const DRAG_DEAD_ZONE_PIXELS = 5;
@@ -683,7 +683,7 @@ export class GrImageViewer extends LitElement {
   }
 
   fireAction(detail: ImageDiffAction) {
-    fireNoBubbleNoCompose(this, 'image-diff-action', detail);
+    fire(this, 'image-diff-action', detail);
   }
 
   selectBase() {

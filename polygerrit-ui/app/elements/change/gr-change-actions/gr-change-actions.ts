@@ -48,7 +48,7 @@ import {
   isQuickLabelInfo,
   LabelInfo,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
@@ -107,6 +107,15 @@ import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
+=======
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-api-types';
+import {whenVisible} from '../../../utils/dom-util';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {subscribe} from '../../lit/subscription-controller';
+>>>>>>> CHANGE (f4ddee gr-change-actions: use change-model for latestPatchNum)
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -431,8 +440,7 @@ export class GrChangeActions
   @property({type: Boolean})
   hasParent?: boolean;
 
-  @property({type: String})
-  latestPatchNum?: PatchSetNum;
+  @state() latestPatchNum?: PatchSetNumber;
 
   @property({type: String})
   commitMessage = '';
@@ -546,11 +554,18 @@ export class GrChangeActions
 
   constructor() {
     super();
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
     this.addEventListener('fullscreen-overlay-opened', () =>
       this.handleHideBackgroundContent()
     );
     this.addEventListener('fullscreen-overlay-closed', () =>
       this.handleShowBackgroundContent()
+=======
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+>>>>>>> CHANGE (f4ddee gr-change-actions: use change-model for latestPatchNum)
     );
   }
 
@@ -1342,7 +1357,7 @@ export class GrChangeActions
   }
 
   // private but used in test
-  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
+  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNumber) {
     for (const rev of Object.values(change.revisions)) {
       if (rev._number === patchNum) {
         return rev;

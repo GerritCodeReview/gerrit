@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2206adb_79b85d2e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-22T19:56:23Z",
+      "side": 1,
+      "message": "Correct - it\u0027s stale until L831. I agree it\u0027s not great, but it\u0027s literally the next thing we do. One way to do this without compromising on stale variable names might be to abstract the code to derive `uuidStart` into its own method? I think that may also help with not increasing the size of an already bloated method (`parseCopiedApproval`) as well as keeping the code at the right level of abstraction.\n\nWDYT?\n\nI\u0027ll submit a patchset as soon as I get a chance.",
+      "parentUuid": "e4cd2a88_0b3b79cf",
+      "range": {
+        "startLine": 824,
+        "startChar": 8,
+        "endLine": 824,
+        "endChar": 17
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61a6acf6_475b7972",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5
@@ -71,6 +95,30 @@
       "writtenOn": "2023-02-18T00:38:57Z",
       "side": 1,
       "message": "Basically, here we are saying that *IF* the uuidStart was not the first char after the score, then it means there is no uuid.\n\nWhy don\u0027t we do that instead at L824?\n- We look for the \u0027\u003d\u0027 and then the numbers after that\n- If the next char is a ` ` \u003d\u003e no UUID\n- If the next char is a `,` \u003d\u003e UUID",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e915d791_3c38f95b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-22T19:56:23Z",
+      "side": 1,
+      "message": "Do you mean to use a regex? I was under the impression we wanted to keep using `indexOf` instead of regexes for performance reasons.",
+      "parentUuid": "61a6acf6_475b7972",
       "range": {
         "startLine": 830,
         "startChar": 9,

@@ -48,7 +48,7 @@ import {
   isQuickLabelInfo,
   LabelInfo,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
@@ -107,6 +107,7 @@ import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {subscribe} from '../../lit/subscription-controller';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -431,8 +432,7 @@ export class GrChangeActions
   @property({type: Boolean})
   hasParent?: boolean;
 
-  @property({type: String})
-  latestPatchNum?: PatchSetNum;
+  @state() latestPatchNum?: PatchSetNumber;
 
   @property({type: String})
   commitMessage = '';
@@ -551,6 +551,11 @@ export class GrChangeActions
     );
     this.addEventListener('fullscreen-overlay-closed', () =>
       this.handleShowBackgroundContent()
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
   }
 
@@ -1342,7 +1347,7 @@ export class GrChangeActions
   }
 
   // private but used in test
-  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
+  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNumber) {
     for (const rev of Object.values(change.revisions)) {
       if (rev._number === patchNum) {
         return rev;

@@ -46,6 +46,57 @@
       },
       "revId": "30d648680b54e420a07a716307c6ad9dce4076bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9933488f_40d08801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-22T08:30:24Z",
+      "side": 1,
+      "message": "Would be nice to have a high-level design doc as first change in the stack.  (E.g. calling out refs/origin/... and how those work).",
+      "revId": "30d648680b54e420a07a716307c6ad9dce4076bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fdc65a3_3ea54a62",
+        "filename": "java/com/google/gerrit/server/git/MainlineReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-22T08:30:24Z",
+      "side": 1,
+      "message": "Should there be a ReadonlyDelegateRefDatabase that is a subclass that only has read-only methods?\n\nRight now everything\u0027s resolved at runtime instead of compiletime through UnsupportedOperationException",
+      "revId": "30d648680b54e420a07a716307c6ad9dce4076bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f19cf16a_c2c0252a",
+        "filename": "java/com/google/gerrit/server/git/MainlineReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-22T08:30:24Z",
+      "side": 1,
+      "message": "Where is ALL defined?",
+      "revId": "30d648680b54e420a07a716307c6ad9dce4076bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

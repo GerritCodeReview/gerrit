@@ -2400,7 +2400,7 @@ suite('gr-change-view tests', () => {
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
-      element.patchRange = {patchNum: 1 as RevisionPatchSetNum};
+      element.routerPatchNum = 1 as RevisionPatchSetNum;
       await element.updateComplete;
 
       fireEdit();

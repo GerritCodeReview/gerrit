@@ -16,10 +16,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
   CommitId,
-  PatchSetNum,
+  PatchSetNumber,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
-  RevisionPatchSetNum,
   SubmittedTogetherInfo,
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
@@ -33,6 +32,9 @@ import {
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -54,11 +56,11 @@ export class GrRelatedChangesList extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 
-  @property({type: String})
-  patchNum?: PatchSetNum;
-
   @property({type: Boolean})
   mergeable?: boolean;
+
+  @state()
+  latestPatchNum?: PatchSetNumber;
 
   @state()
   submittedTogether?: SubmittedTogetherInfo = {
@@ -79,6 +81,17 @@ export class GrRelatedChangesList extends LitElement {
   sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
+  }
 
   static override get styles() {
     return [
@@ -197,7 +210,7 @@ export class GrRelatedChangesList extends LitElement {
     );
     const connectedRevisions = this._computeConnectedRevisions(
       this.change,
-      this.patchNum,
+      this.latestPatchNum,
       this.relatedChanges
     );
 
@@ -570,11 +583,11 @@ export class GrRelatedChangesList extends LitElement {
   reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
     const change = this.change;
     if (!change) return Promise.reject(new Error('change missing'));
-    if (!this.patchNum) return Promise.reject(new Error('patchNum missing'));
+    if (!this.latestPatchNum) return Promise.reject(new Error('latestPatchNum missing'));
     if (!getRelatedChanges) {
       getRelatedChanges = this.restApiService.getRelatedChanges(
         change._number,
-        this.patchNum
+        this.latestPatchNum
       );
     }
     const promises: Array<Promise<void>> = [
@@ -652,15 +665,15 @@ export class GrRelatedChangesList extends LitElement {
    */
   _computeConnectedRevisions(
     change?: ParsedChangeInfo,
-    patchNum?: PatchSetNum,
+    latestPatchNum?: PatchSetNumber,
     relatedChanges?: RelatedChangeAndCommitInfo[]
   ) {
-    if (!patchNum || !relatedChanges || !change) {
+    if (!latestPatchNum || !relatedChanges || !change) {
       return [];
     }
 
     const connected: CommitId[] = [];
-    const changeRevision = getRevisionKey(change, patchNum);
+    const changeRevision = getRevisionKey(change, latestPatchNum);
     const commits = relatedChanges.map(c => c.commit);
     let pos = commits.length - 1;
 

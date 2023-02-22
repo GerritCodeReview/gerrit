@@ -322,8 +322,8 @@ public class RebaseIT {
       testRepo.reset("HEAD~1");
       PushOneCommit.Result r2 = createChange();
 
-      ChangeInfo ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
-      RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
+      RevisionInfo ri2 =
+          get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
 
       Change.Id id1 = r1.getChange().getId();
@@ -332,8 +332,7 @@ public class RebaseIT {
       rebaseCallWithInput.call(r2.getChangeId(), in);
 
       Change.Id id2 = r2.getChange().getId();
-      ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
-      ri2 = ci2.revisions.get(ci2.currentRevision);
+      ri2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
       List<RelatedChangeAndCommitInfo> related =
@@ -352,8 +351,8 @@ public class RebaseIT {
       testRepo.reset("HEAD~1");
       PushOneCommit.Result r2 = createChange();
 
-      ChangeInfo ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
-      RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
+      RevisionInfo ri2 =
+          get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
 
       // Submit first change.
@@ -367,8 +366,7 @@ public class RebaseIT {
       rebaseCallWithInput.call(r2.getChangeId(), in);
 
       Change.Id id2 = r2.getChange().getId();
-      ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
-      ri2 = ci2.revisions.get(ci2.currentRevision);
+      ri2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
       assertThat(gApi.changes().id(id2.get()).revision(ri2._number).related().changes).isEmpty();
@@ -539,7 +537,7 @@ public class RebaseIT {
       ChangeInfo info =
           gApi.changes().id(changeId.get()).get(CURRENT_REVISION, CURRENT_COMMIT, DETAILED_LABELS);
 
-      RevisionInfo r = info.revisions.get(info.currentRevision);
+      RevisionInfo r = info.getCurrentRevision();
       assertThat(r._number).isEqualTo(expectedNumRevisions);
       assertThat(r.realUploader).isNull();
 
@@ -550,10 +548,10 @@ public class RebaseIT {
           .isEqualTo(baseCommit);
 
       // ...and the committer and description should be correct
-      GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+      GitPerson committer = r.commit.committer;
       assertThat(committer.name).isEqualTo(admin.fullName());
       assertThat(committer.email).isEqualTo(admin.email());
-      String description = info.revisions.get(info.currentRevision).description;
+      String description = r.description;
       assertThat(description).isEqualTo("Rebase");
 
       if (shouldHaveApproval) {
@@ -676,7 +674,7 @@ public class RebaseIT {
       ChangeInfo changeInfo =
           gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
       assertThat(changeInfo.revisions).hasSize(2);
-      assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+      assertThat(changeInfo.getCurrentRevision().commit.parents.get(0).commit)
           .isEqualTo(base.name());
 
       // Verify that the file content in the created patch set is correct.
@@ -767,8 +765,8 @@ public class RebaseIT {
       rebaseCallWithInput.call(r3.getChangeId(), in);
 
       Change.Id id3 = r3.getChange().getId();
-      ChangeInfo ci3 = get(r3.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
-      RevisionInfo ri3 = ci3.revisions.get(ci3.currentRevision);
+      RevisionInfo ri3 =
+          get(r3.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri3.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
       assertThat(gApi.changes().id(id3.get()).revision(ri3._number).related().changes).isEmpty();
@@ -843,22 +841,20 @@ public class RebaseIT {
               fileName2,
               fileContent2Ps2)
           .assertOkStatus();
-      ChangeInfo changeInfo2 = gApi.changes().id(changeId2).get();
-      assertThat(changeInfo2.revisions.get(changeInfo2.currentRevision)._number).isEqualTo(2);
+      assertThat(gApi.changes().id(changeId2).get().getCurrentRevision()._number).isEqualTo(2);
 
       // Rebase the first patch set of the second change
       gApi.changes().id(changeId2).revision(1).rebase();
 
       // Second change should have 3 patch sets
-      changeInfo2 = gApi.changes().id(changeId2).get();
-      assertThat(changeInfo2.revisions.get(changeInfo2.currentRevision)._number).isEqualTo(3);
+      assertThat(gApi.changes().id(changeId2).get().getCurrentRevision()._number).isEqualTo(3);
 
       // ... and the committer and description should be correct
       ChangeInfo info = gApi.changes().id(changeId2).get(CURRENT_REVISION, CURRENT_COMMIT);
-      GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+      GitPerson committer = info.getCurrentRevision().commit.committer;
       assertThat(committer.name).isEqualTo(admin.fullName());
       assertThat(committer.email).isEqualTo(admin.email());
-      String description = info.revisions.get(info.currentRevision).description;
+      String description = info.getCurrentRevision().description;
       assertThat(description).isEqualTo("Rebase");
 
       // ... and the file contents should match with patch set 1 based on change1
@@ -936,8 +932,13 @@ public class RebaseIT {
       verifyChangeIsUpToDate(r4);
 
       // r5 wasn't rebased.
-      ChangeInfo r5info = gApi.changes().id(r5.getChangeId()).get(CURRENT_REVISION);
-      assertThat(r5info.revisions.get(r5info.currentRevision)._number).isEqualTo(1);
+      assertThat(
+              gApi.changes()
+                  .id(r5.getChangeId())
+                  .get(CURRENT_REVISION)
+                  .getCurrentRevision()
+                  ._number)
+          .isEqualTo(1);
 
       // Rebasing r5
       verifyRebaseChainResponse(
@@ -1081,7 +1082,7 @@ public class RebaseIT {
               .id(changeWithConflictId)
               .get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
       assertThat(changeInfo.revisions).hasSize(2);
-      assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+      assertThat(changeInfo.getCurrentRevision().commit.parents.get(0).commit)
           .isEqualTo(base.name());
 
       // Verify that the file content in the created patch set is correct.

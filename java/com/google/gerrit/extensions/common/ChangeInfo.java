@@ -174,4 +174,14 @@ public class ChangeInfo {
     submitted = Timestamp.from(when);
     submitter = who;
   }
+
+  public RevisionInfo getCurrentRevision() {
+    RevisionInfo currentRevisionInfo = revisions.get(currentRevision);
+    if (currentRevisionInfo.commit != null) {
+      // If all revisions are requested the commit.commit field is not populated because the commit
+      // SHA1 is already present as the key in the revisions map.
+      currentRevisionInfo.commit.commit = currentRevision;
+    }
+    return currentRevisionInfo;
+  }
 }

@@ -215,7 +215,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     }
 
     ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 2 patch sets before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
     assertThat(currentRevisionInfo.uploader._accountId).isEqualTo(uploader.get());
@@ -278,7 +278,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
     ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.committer.email).isEqualTo(uploaderEmail);
@@ -297,7 +297,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
     changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 2 patch sets before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
     assertThat(currentRevisionInfo.commit.committer.email).isEqualTo(uploaderEmail);
@@ -317,7 +317,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
     changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 3 patch sets before the rebase, now it should be 4
     assertThat(currentRevisionInfo._number).isEqualTo(4);
     assertThat(currentRevisionInfo.commit.committer.email).isEqualTo(uploaderEmail);
@@ -432,8 +432,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.uploader._accountId).isEqualTo(uploader.get());
@@ -531,8 +531,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 2 patch set before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
     assertThat(currentRevisionInfo.uploader._accountId).isEqualTo(uploader.get());
@@ -632,8 +632,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.author.email).isEqualTo(authorEmail);
@@ -720,8 +720,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.committer.email).isEqualTo(uploaderEmail);
@@ -773,8 +773,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo currentRevisionInfo = changeInfo2.revisions.get(changeInfo2.currentRevision);
+    RevisionInfo currentRevisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.author.email)
@@ -871,8 +871,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
 
     requestScopeOperations.setApiUser(rebaser);
-    ChangeInfo changeInfo = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    RevisionInfo revisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     assertThat(revisionInfo.actions).containsKey("rebase");
     ActionInfo rebaseActionInfo = revisionInfo.actions.get("rebase");
     assertThat(rebaseActionInfo.enabled).isTrue();
@@ -900,8 +900,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
 
     requestScopeOperations.setApiUser(changeOwner);
-    ChangeInfo changeInfo = gApi.changes().id(changeToBeRebased.get()).get();
-    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    RevisionInfo revisionInfo =
+        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     assertThat(revisionInfo.actions).containsKey("rebase");
     ActionInfo rebaseActionInfo = revisionInfo.actions.get("rebase");
     assertThat(rebaseActionInfo.enabled).isTrue();

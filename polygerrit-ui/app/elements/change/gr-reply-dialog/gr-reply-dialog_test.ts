@@ -39,7 +39,7 @@ import {
   GroupId,
   GroupName,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   ReviewerInput,
   ReviewInput,
   ReviewResult,
@@ -89,7 +89,7 @@ function cloneableResponse(status: number, text: string) {
 suite('gr-reply-dialog tests', () => {
   let element: GrReplyDialog;
   let changeNum: NumericChangeId;
-  let patchNum: PatchSetNum;
+  let latestPatchNum: PatchSetNumber;
   let commentsModel: CommentsModel;
 
   let lastId = 1;
@@ -105,7 +105,7 @@ suite('gr-reply-dialog tests', () => {
 
   setup(async () => {
     changeNum = 42 as NumericChangeId;
-    patchNum = 1 as PatchSetNum;
+    latestPatchNum = 1 as PatchSetNumber;
 
     stubRestApi('getChange').returns(Promise.resolve({...createChange()}));
     stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));
@@ -143,7 +143,7 @@ suite('gr-reply-dialog tests', () => {
         },
       },
     };
-    element.patchNum = patchNum;
+    element.latestPatchNum = latestPatchNum;
     element.permittedLabels = {
       'Code-Review': ['-1', ' 0', '+1'],
       Verified: ['-1', ' 0', '+1'],

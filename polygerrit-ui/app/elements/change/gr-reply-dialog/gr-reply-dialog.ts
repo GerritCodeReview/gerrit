@@ -54,7 +54,6 @@ import {
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   ParsedJSON,
-  PatchSetNum,
   ReviewerInput,
   ReviewInput,
   ReviewResult,
@@ -187,9 +186,6 @@ export class GrReplyDialog extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo | ChangeInfo;
 
-  @property({type: String})
-  patchNum?: PatchSetNum;
-
   @property({type: Boolean})
   canBeStarted = false;
 
@@ -219,6 +215,8 @@ export class GrReplyDialog extends LitElement {
 
   @query('#reviewerConfirmationModal')
   reviewerConfirmationModal?: HTMLDialogElement;
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   @state() serverConfig?: ServerInfo;
 
@@ -360,8 +358,6 @@ export class GrReplyDialog extends LitElement {
   private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
-
-  private latestPatchNum?: PatchSetNumber;
 
   storeTask?: DelayedTask;
 
@@ -1172,7 +1168,7 @@ export class GrReplyDialog extends LitElement {
             this.knownLatestState === LatestPatchState.CHECKING,
             () => html`
               <span id="checkingStatusLabel">
-                Checking whether patch ${this.patchNum} is latest...
+                Checking whether patch ${this.latestPatchNum} is latest...
               </span>
             `
           )}
@@ -1868,10 +1864,10 @@ export class GrReplyDialog extends LitElement {
 
   saveReview(review: ReviewInput, errFn?: ErrorCallback) {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchNum, 'patchNum');
+    assertIsDefined(this.latestPatchNum, 'latestPatchNum');
     return this.restApiService.saveChangeReview(
       this.change._number,
-      this.patchNum,
+      this.latestPatchNum,
       review,
       errFn
     );
@@ -2027,7 +2023,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   computePatchSetWarning() {
-    let str = `Patch ${this.patchNum} is not latest.`;
+    let str = `Patch ${this.latestPatchNum} is not latest.`;
     if (this.labelsChanged) {
       str += ' Voting may have no effect.';
     }

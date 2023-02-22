@@ -1049,6 +1049,10 @@ public class ChangeField {
         + (count != null ? ",count=" + count : "");
   }
 
+  public static String formatLabel(String label, String value, @Nullable Integer count) {
+    return formatLabel(label, value, /* accountId= */ null, count);
+  }
+
   public static String formatLabel(
       String label, String value, @Nullable Account.Id accountId, @Nullable Integer count) {
     return label.toLowerCase()

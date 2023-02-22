@@ -47,7 +47,7 @@ import {
   isQuickLabelInfo,
   LabelInfo,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
@@ -110,6 +110,7 @@ import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-
 import {whenVisible} from '../../../utils/dom-util';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {subscribe} from '../../lit/subscription-controller';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -410,8 +411,7 @@ export class GrChangeActions
   @property({type: Boolean})
   hasParent?: boolean;
 
-  @property({type: String})
-  latestPatchNum?: PatchSetNum;
+  @state() latestPatchNum?: PatchSetNumber;
 
   @property({type: String})
   commitMessage = '';
@@ -533,6 +533,11 @@ export class GrChangeActions
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
   }
 
   override connectedCallback() {
@@ -1327,7 +1332,7 @@ export class GrChangeActions
   }
 
   // private but used in test
-  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
+  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNumber) {
     for (const rev of Object.values(change.revisions)) {
       if (rev._number === patchNum) {
         return rev;

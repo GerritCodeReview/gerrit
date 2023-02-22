@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -23,6 +24,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -137,9 +139,22 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
-      RevCommit baseCommit =
-          CommitUtil.getBaseCommit(
-              project.get(), queryProvider.get(), revWalk, destRef, input.base);
+      RevCommit baseCommit;
+      if (!Strings.isNullOrEmpty(input.base)) {
+        baseCommit =
+            CommitUtil.getBaseCommit(
+                project.get(), queryProvider.get(), revWalk, destRef, input.base);
+      } else {
+        RevCommit destChangeLatestCommit =
+            revWalk.parseCommit(destChange.currentPatchSet().commitId());
+        if (destChangeLatestCommit.getParentCount() != 1) {
+          throw new BadRequestException(
+              String.format(
+                  "Cannot parse base commit for a change with none or multiple parents. Change ID: %s.",
+                  destChange.getId()));
+        }
+        baseCommit = revWalk.parseCommit(destChangeLatestCommit.getParent(0));
+      }
       ObjectId treeId = ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
 
       Instant now = TimeUtil.now();

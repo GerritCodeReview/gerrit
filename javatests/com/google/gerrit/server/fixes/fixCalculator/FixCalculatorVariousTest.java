@@ -41,7 +41,7 @@ public class FixCalculatorVariousTest {
         new FixReplacement(
             "AnyPath", new Range(startLine, startChar, endLine, endChar), replacement);
     return FixCalculator.calculateFix(
-        new Text(content.getBytes(UTF_8)), ImmutableList.of(fixReplacement));
+        new Text(content.getBytes(UTF_8)), ImmutableList.of(fixReplacement), false);
   }
 
   @Test

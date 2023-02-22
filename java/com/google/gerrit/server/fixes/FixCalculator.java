@@ -17,15 +17,19 @@ package com.google.gerrit.server.fixes;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
 import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patch.IntraLineDiff;
+import com.google.gerrit.server.patch.IntraLineLoader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
+
 
 /**
  * Produces final version of an input content with all fixes applied together with list of edits.
@@ -164,11 +168,13 @@ public class FixCalculator {
     }
 
     private final ContentProcessor contentProcessor;
+    private final Text src;
     final ImmutableList.Builder<Edit> edits;
     FixRegion currentRegion;
 
     ContentBuilder(Text src) {
       this.contentProcessor = new ContentProcessor(src);
+      this.src = src;
       this.edits = new ImmutableList.Builder<>();
     }
 
@@ -195,7 +201,11 @@ public class FixCalculator {
 
     public FixResult build() {
       finish();
-      return new FixResult(edits.build(), this.getNewText());
+      // IntraLineLoader.compute
+      ImmutableList<Edit> tmpEdits = edits.build();
+      IntraLineDiff ild = IntraLineLoader.compute(this.src, this.getNewText(), tmpEdits, ImmutableSet.of());
+      System.out.println(ild.getEdits());
+      return new FixResult(ild.getEdits(), this.getNewText());
     }
 
     private void finishExistingEdit() {

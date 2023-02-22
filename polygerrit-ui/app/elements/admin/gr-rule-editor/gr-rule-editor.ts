@@ -60,6 +60,7 @@ interface RuleLabel {
   values: RuleLabelValue[];
 }
 
+// TODO
 interface RuleLabelValue {
   value: number;
   text: string;

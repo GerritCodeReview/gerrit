@@ -86,6 +86,24 @@
       "parentUuid": "f5f0f08c_7e537257",
       "revId": "faa31d53c17d40e8d3673ce54479415d7aeb7c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2a1af7_6ef079dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-22T08:38:41Z",
+      "side": 1,
+      "message": "Do you believe it safe to release it on v3.6.5? (once we get the green light from Edwin and Youssef)",
+      "parentUuid": "b55892fc_a4fd826d",
+      "revId": "faa31d53c17d40e8d3673ce54479415d7aeb7c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

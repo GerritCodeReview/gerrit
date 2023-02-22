@@ -40,7 +40,7 @@ import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.lib.Config;
 
-class IntraLineLoader implements Callable<IntraLineDiff> {
+public class IntraLineLoader implements Callable<IntraLineDiff> {
   static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
@@ -105,7 +105,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     }
   }
 
-  static IntraLineDiff compute(
+  public static IntraLineDiff compute(
       Text aText,
       Text bText,
       ImmutableList<Edit> immutableEdits,

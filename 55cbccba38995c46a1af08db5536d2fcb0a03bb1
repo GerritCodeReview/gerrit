@@ -16,6 +16,24 @@
       "message": "@poucet@google.com it looks like maybe you changed this by accident in one of the last patchsets after it was approved. Was this intentional or should/can it be reverted?",
       "revId": "55cbccba38995c46a1af08db5536d2fcb0a03bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e17798d8_82845140",
+        "filename": ".bazelrc",
+        "patchSetId": 25
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-22T23:31:44Z",
+      "side": 1,
+      "message": "I\u0027m assuming accident and pushed 360414: Revert accidental change to test output level | https://gerrit-review.googlesource.com/c/gerrit/+/360414",
+      "parentUuid": "7639bdee_ed65e59f",
+      "revId": "55cbccba38995c46a1af08db5536d2fcb0a03bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

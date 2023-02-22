@@ -23,6 +23,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.RangeUtil;
 import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -44,6 +45,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected final AccountGroup.UUID group;
     protected final Integer count;
     protected final PredicateArgs.Operator countOp;
+    protected final GroupBackend groupBackend;
 
     protected Args(
         ProjectCache projectCache,
@@ -53,7 +55,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         Set<Account.Id> accounts,
         AccountGroup.UUID group,
         @Nullable Integer count,
-        @Nullable PredicateArgs.Operator countOp) {
+        @Nullable PredicateArgs.Operator countOp,
+        GroupBackend groupBackend) {
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.userFactory = userFactory;
@@ -62,6 +65,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       this.group = group;
       this.count = count;
       this.countOp = countOp;
+      this.groupBackend = groupBackend;
     }
   }
 
@@ -96,7 +100,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
                 accounts,
                 group,
                 count,
-                countOp)));
+                countOp,
+                a.groupBackend)));
     this.value = value;
   }
 
@@ -180,24 +185,36 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
   protected static Predicate<ChangeData> equalsLabelPredicate(
       Args args, String label, int expVal, @Nullable Integer count) {
+    if (args.groupBackend.isOrContainsExternalGroup(args.group)) {
+      // We can only get members of internal groups and negating an index search that doesn't
+      // include the external group information leads to incorrect query results. Use a
+      // PostFilterPredicate in this case instead.
+      return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(args, label, expVal, count);
+    }
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicate(args, label, expVal, null, count);
+      return new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, count);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new EqualsLabelPredicate(args, label, expVal, a, count));
+      r.add(new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, a, count));
     }
     return or(r);
   }
 
   protected static Predicate<ChangeData> magicLabelPredicate(
       Args args, MagicLabelVote mlv, @Nullable Integer count) {
+    if (args.groupBackend.isOrContainsExternalGroup(args.group)) {
+      // We can only get members of internal groups and negating an index search that doesn't
+      // include the external group information leads to incorrect query results. Use a
+      // PostFilterPredicate in this case instead.
+      return new MagicLabelPredicates.PostFilterMagicLabelPredicate(args, mlv, count);
+    }
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new MagicLabelPredicate(args, mlv, /* account= */ null, count);
+      return new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv, count);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new MagicLabelPredicate(args, mlv, a, count));
+      r.add(new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv, a, count));
     }
     return or(r);
   }

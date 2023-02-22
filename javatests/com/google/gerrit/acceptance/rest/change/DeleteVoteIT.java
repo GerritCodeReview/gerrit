@@ -140,6 +140,33 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     verifyCannotDeleteVote(true);
   }
 
+  @Test
+  public void deleteAlreadyDeletedVote_returnsNotFoundAndWithoutEmails() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    String deleteAdminVoteEndPoint =
+        "/changes/"
+            + r.getChangeId()
+            + "/reviewers/"
+            + admin.id().toString()
+            + "/votes/Code-Review";
+
+    sender.clear();
+    RestResponse response = userRestSession.delete(deleteAdminVoteEndPoint);
+    response.assertNoContent();
+    assertThat(sender.getMessages()).hasSize(1);
+
+    sender.clear();
+    response = userRestSession.delete(deleteAdminVoteEndPoint);
+    response.assertNotFound();
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
   private void verifyDeleteVote(boolean onRevisionLevel) throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());

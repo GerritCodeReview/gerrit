@@ -3799,6 +3799,10 @@ a reviewer is removed the reviewer itself is still listed on the change.
 If another user removed a user's vote, the user with the deleted vote will be
 added to the attention set.
 
+The request returns:
+ * '204 No Content' if the vote is deleted successfully;
+ * '404 Not Found' when the vote to be deleted is zero or not present.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review HTTP/1.0

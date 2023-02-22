@@ -5,7 +5,7 @@
  */
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {fire} from '../../../utils/event-util';
+import {fireEvent} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -131,6 +131,6 @@ export class GrSelectionActionBox extends LitElement {
     } // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    fire(this, 'create-comment-requested', {});
+    fireEvent(this, 'create-comment-requested');
   }
 }

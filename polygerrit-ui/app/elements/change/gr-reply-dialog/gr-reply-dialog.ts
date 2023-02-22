@@ -93,9 +93,9 @@ import {pluralize} from '../../../utils/string-util';
 import {
   fireAlert,
   fireError,
-  fire,
-  fireNoBubble,
-  fireNoBubbleNoCompose,
+  fireEvent,
+  fireEventNoBubble,
+  fireEventNoBubbleNoCompose,
   fireIronAnnounce,
   fireReload,
   fireServerError,
@@ -1258,7 +1258,7 @@ export class GrReplyDialog extends LitElement {
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {
-        fire(this, 'comment-refresh', {});
+        fireEvent(this, 'comment-refresh');
         this.savingComments = false;
       });
     }
@@ -1448,7 +1448,7 @@ export class GrReplyDialog extends LitElement {
 
         this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
-        fireNoBubble(this, 'send', {});
+        fireEventNoBubble(this, 'send');
         fireIronAnnounce(this, 'Reply sent');
         return;
       })
@@ -1562,7 +1562,7 @@ export class GrReplyDialog extends LitElement {
   onAttentionExpandedChange() {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
-    fire(this, 'iron-resize', {});
+    fireEvent(this, 'iron-resize');
   }
 
   computeAttentionButtonTitle(sendDisabled?: boolean) {
@@ -1831,7 +1831,7 @@ export class GrReplyDialog extends LitElement {
   async cancel() {
     assertIsDefined(this.change, 'change');
     if (!this.change?.owner) throw new Error('missing required owner property');
-    fireNoBubble(this, 'cancel', {});
+    fireEventNoBubble(this, 'cancel');
     await this.patchsetLevelGrComment?.save();
     this.rebuildReviewerArrays();
   }
@@ -2039,7 +2039,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   sendDisabledChanged() {
-    fireNoBubbleNoCompose(this, 'send-disabled-changed', {});
+    fireEventNoBubbleNoCompose(this, 'send-disabled-changed');
   }
 
   getReviewerSuggestionsProvider(change?: ChangeInfo | ParsedChangeInfo) {

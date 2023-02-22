@@ -17,7 +17,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {fire, fireReload} from '../../../utils/event-util';
+import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {Key} from '../../../utils/dom-util';
@@ -403,11 +403,11 @@ export class GrChangeList extends LitElement {
   }
 
   private nextPage() {
-    fire(this, 'next-page', {});
+    fireEvent(this, 'next-page');
   }
 
   private prevPage() {
-    fire(this, 'previous-page', {});
+    fireEvent(this, 'previous-page');
   }
 
   private refreshChangeList() {

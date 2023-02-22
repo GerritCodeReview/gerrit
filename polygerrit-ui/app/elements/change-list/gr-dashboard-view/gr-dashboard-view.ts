@@ -29,7 +29,7 @@ import {
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {
   fireAlert,
-  fire,
+  fireEvent,
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
@@ -539,7 +539,7 @@ export class GrDashboardView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-dashboard');
     }

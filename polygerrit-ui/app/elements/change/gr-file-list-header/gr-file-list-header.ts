@@ -25,7 +25,7 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fire, fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {fireEvent, fireEventNoBubbleNoCompose} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -362,11 +362,11 @@ export class GrFileListHeader extends LitElement {
   }
 
   private expandAllDiffs() {
-    fire(this, 'expand-diffs', {});
+    fireEvent(this, 'expand-diffs');
   }
 
   private collapseAllDiffs() {
-    fire(this, 'collapse-diffs', {});
+    fireEvent(this, 'collapse-diffs');
   }
 
   private computeExpandedClass(filesExpanded?: FilesExpandedState) {
@@ -403,13 +403,13 @@ export class GrFileListHeader extends LitElement {
 
   private handlePrefsTap(e: Event) {
     e.preventDefault();
-    fire(this, 'open-diff-prefs', {});
+    fireEvent(this, 'open-diff-prefs');
   }
 
   private handleDownloadTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubbleNoCompose(this, 'open-download-dialog', {});
+    fireEventNoBubbleNoCompose(this, 'open-download-dialog');
   }
 
   private computeEditModeClass(editMode?: boolean) {

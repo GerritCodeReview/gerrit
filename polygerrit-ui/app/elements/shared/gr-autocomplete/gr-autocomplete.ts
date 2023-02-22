@@ -13,7 +13,7 @@ import {
   GrAutocompleteDropdown,
   ItemSelectedEventDetail,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {fire} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {
   debounce,
   DelayedTask,
@@ -614,7 +614,7 @@ export class GrAutocomplete extends LitElement {
       this.activeQueryId = 0;
       this.requestUpdate();
     } else {
-      fire(this, 'cancel', {});
+      fireEvent(this, 'cancel');
     }
   }
 

@@ -7,7 +7,7 @@ import {css, html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ChangeActionDialog} from '../../../types/common';
-import {fireNoBubble} from '../../../utils/event-util';
+import {fireEventNoBubble} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-confirm-cherrypick-conflict-dialog')
@@ -67,13 +67,13 @@ export class GrConfirmCherrypickConflictDialog
   handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubble(this, 'confirm', {});
+    fireEventNoBubble(this, 'confirm');
   }
 
   handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubble(this, 'cancel', {});
+    fireEventNoBubble(this, 'cancel');
   }
 }
 

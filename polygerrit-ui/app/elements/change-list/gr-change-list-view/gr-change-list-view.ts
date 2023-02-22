@@ -15,7 +15,7 @@ import {
   RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {fireAlert, fire, fireTitleChange} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
@@ -316,7 +316,7 @@ export class GrChangeListView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
   }
 }
 

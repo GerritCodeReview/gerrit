@@ -41,7 +41,7 @@ import {
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
-import {fireAlert, fire} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
@@ -201,7 +201,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-    fire(this.diffElement, 'render-start', {});
+    this.fireDiffEvent('render-start');
     // TODO: processor.process() returns a cancelable promise already.
     // Why wrap another one around it?
     this.cancelableRenderPromise = makeCancelable(
@@ -215,7 +215,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
             this.builder.renderImageDiff();
           }
           await this.untilGroupsRendered();
-          fire(this.diffElement, 'render-content', {});
+          this.fireDiffEvent('render-content');
         })
         // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
@@ -242,6 +242,11 @@ export class GrDiffBuilderElement implements GroupConsumer {
     // resizing.
     this.replaceGroup(e.detail.contextGroup, e.detail.groups);
   };
+
+  private fireDiffEvent<K extends keyof HTMLElementEventMap>(type: K) {
+    assertIsDefined(this.diffElement, 'diff table');
+    fireEvent(this.diffElement, type);
+  }
 
   // visible for testing
   setupAnnotationLayers() {
@@ -355,12 +360,12 @@ export class GrDiffBuilderElement implements GroupConsumer {
     newGroups: readonly GrDiffGroup[]
   ) {
     if (!this.builder) return;
-    fire(this.diffElement, 'render-start', {});
+    this.fireDiffEvent('render-start');
     this.builder.replaceGroup(contextGroup, newGroups);
     this.groups = this.groups.filter(g => g !== contextGroup);
     this.groups.push(...newGroups);
     this.untilGroupsRendered(newGroups).then(() => {
-      fire(this.diffElement, 'render-content', {});
+      this.fireDiffEvent('render-content');
     });
   }
 

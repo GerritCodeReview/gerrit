@@ -1886,7 +1886,7 @@ suite('gr-reply-dialog tests', () => {
 
     // Remove and add to other field.
     reviewers.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: reviewer1},
         composed: true,
         bubbles: true,
@@ -1903,14 +1903,14 @@ suite('gr-reply-dialog tests', () => {
       })
     );
     ccs.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: cc1},
         composed: true,
         bubbles: true,
       })
     );
     ccs.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: cc3},
         composed: true,
         bubbles: true,

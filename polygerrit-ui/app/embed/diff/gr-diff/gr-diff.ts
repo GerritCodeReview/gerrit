@@ -45,7 +45,7 @@ import {
   Side,
 } from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
-import {fire, fireAlert} from '../../../utils/event-util';
+import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
 import {AbortStop} from '../../../api/core';
@@ -1273,10 +1273,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     threadEl: GrDiffThreadElement
   ) {
     hoverEl.addEventListener('mouseenter', () => {
-      fire(threadEl, 'comment-thread-mouseenter', {});
+      fireEvent(threadEl, 'comment-thread-mouseenter');
     });
     hoverEl.addEventListener('mouseleave', () => {
-      fire(threadEl, 'comment-thread-mouseleave', {});
+      fireEvent(threadEl, 'comment-thread-mouseleave');
     });
   }
 
@@ -1561,10 +1561,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // (client), although it was not actually rendered. Clients need to know
     // when it is safe to perform operations like cursor moves, for example,
     // and if changing an input actually requires a reload of the diff table.
-    // Since `fire` is synchronous it allows clients to be aware when an
+    // Since `fireEvent` is synchronous it allows clients to be aware when an
     // async render is needed and that they can wait for a further `render`
     // event to actually take further action.
-    fire(this, 'render-required', {});
+    fireEvent(this, 'render-required');
     this.renderDiffTableTask = debounceP(
       this.renderDiffTableTask,
       async () => await this.renderDiffTable()
@@ -1579,7 +1579,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   async renderDiffTable() {
     this.unobserveNodes();
     if (!this.diff || !this.prefs) {
-      fire(this, 'render', {});
+      fireEvent(this, 'render');
       return;
     }
     if (
@@ -1589,7 +1589,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.safetyBypass === null
     ) {
       this.showWarning = true;
-      fire(this, 'render', {});
+      fireEvent(this, 'render');
       return;
     }
 
@@ -1633,7 +1633,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.observeNodes();
     // We are just converting 'render-content' into 'render' here. Maybe we
     // should retire the 'render' event in favor of 'render-content'?
-    fire(this, 'render', {});
+    fireEvent(this, 'render');
   }
 
   private observeNodes() {

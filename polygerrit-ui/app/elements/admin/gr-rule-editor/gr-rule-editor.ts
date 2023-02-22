@@ -8,7 +8,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
-import {fire} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
@@ -424,14 +424,14 @@ export class GrRuleEditor extends LitElement {
   private handleRemoveRule() {
     if (!this.rule?.value) return;
     if (this.rule.value.added) {
-      fire(this, 'added-rule-removed', {});
+      fireEvent(this, 'added-rule-removed');
     }
     this.deleted = true;
     this.rule.value.deleted = true;
 
     this.handleRuleChange();
 
-    fire(this, 'access-modified', {});
+    fireEvent(this, 'access-modified');
   }
 
   private handleUndoRemove() {
@@ -469,7 +469,7 @@ export class GrRuleEditor extends LitElement {
     this.handleRuleChange();
 
     // Allows overall access page to know a change has been made.
-    fire(this, 'access-modified', {});
+    fireEvent(this, 'access-modified');
   }
 
   // private but used in test

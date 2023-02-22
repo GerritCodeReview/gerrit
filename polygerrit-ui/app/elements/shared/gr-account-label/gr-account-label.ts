@@ -13,7 +13,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {fire} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {EventType} from '../../../types/events';
 import {LitElement, css, html, TemplateResult} from 'lit';
@@ -388,7 +388,7 @@ export class GrAccountLabel extends LitElement {
         reason
       )
       .then(() => {
-        fire(this, 'hide-alert', {});
+        fireEvent(this, 'hide-alert');
       });
   }
 

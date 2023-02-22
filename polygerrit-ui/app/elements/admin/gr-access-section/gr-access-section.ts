@@ -24,7 +24,7 @@ import {
   LabelNameToLabelTypeInfoMap,
   RepoName,
 } from '../../../types/common';
-import {fire} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -288,7 +288,7 @@ export class GrAccessSection extends LitElement {
       // For a new section, this is not fired because new permissions and
       // rules have to be added in order to save, modifying the ref is not
       // enough.
-      fire(this, 'access-modified', {});
+      fireEvent(this, 'access-modified');
     }
     this.section.value.updatedId = this.section.id;
     this.requestUpdate();
@@ -420,11 +420,11 @@ export class GrAccessSection extends LitElement {
       return;
     }
     if (this.section.value.added) {
-      fire(this, 'added-section-removed', {});
+      fireEvent(this, 'added-section-removed');
     }
     this.deleted = true;
     this.section.value.deleted = true;
-    fire(this, 'access-modified', {});
+    fireEvent(this, 'access-modified');
   }
 
   _handleUndoRemove() {

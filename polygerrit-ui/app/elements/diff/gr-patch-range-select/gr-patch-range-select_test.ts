@@ -469,10 +469,10 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
 
     const stub = stubReporting('reportInteraction');
-    fire(element.patchNumDropdown, 'value-change', {value: '1'});
+    fire(element.patchNumDropdown!, 'value-change', {value: '1'});
     assert.isFalse(stub.called);
 
-    fire(element.patchNumDropdown, 'value-change', {value: '2'});
+    fire(element.patchNumDropdown!, 'value-change', {value: '2'});
     assert.isTrue(stub.called);
   });
 });

@@ -128,9 +128,10 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
+  fire,
   fireAlert,
   fireDialogChange,
-  fire,
+  fireEvent,
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
@@ -2356,7 +2357,7 @@ export class GrChangeView extends LitElement {
 
   private handleOpenReplyDialog() {
     if (!this.loggedIn) {
-      fire(this, 'show-auth-required', {});
+      fireEvent(this, 'show-auth-required');
       return;
     }
     this.openReplyDialog(FocusTarget.ANY);
@@ -2386,7 +2387,7 @@ export class GrChangeView extends LitElement {
           reason
         )
         .then(() => {
-          fire(this, 'hide-alert', {});
+          fireEvent(this, 'hide-alert');
         });
     } else {
       const reason = getAddedByReason(this.account, this.serverConfig);
@@ -2403,7 +2404,7 @@ export class GrChangeView extends LitElement {
           reason
         )
         .then(() => {
-          fire(this, 'hide-alert', {});
+          fireEvent(this, 'hide-alert');
         });
     }
     this.change = newChange;
@@ -2871,7 +2872,7 @@ export class GrChangeView extends LitElement {
     allDataPromises.push(mergeabilityLoaded);
 
     coreDataPromise.then(() => {
-      fire(this, 'change-details-loaded', {});
+      fireEvent(this, 'change-details-loaded');
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);
       if (isLocationChange) {
         this.reporting.changeDisplayed(roleDetails(this.change, this.account));
@@ -3212,7 +3213,7 @@ export class GrChangeView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
   }
 
   private getRevisionInfo(): RevisionInfoClass | undefined {

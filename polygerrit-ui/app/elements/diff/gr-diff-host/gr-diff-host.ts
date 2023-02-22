@@ -58,8 +58,9 @@ import {
   firePageError,
   fireAlert,
   fireServerError,
-  fire,
+  fireEvent,
   waitForEventOnce,
+  fire,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
@@ -123,7 +124,7 @@ export interface LineInfo {
 declare global {
   interface HTMLElementEventMap {
     /* prettier-ignore */
-    'render': CustomEvent<{}>;
+    'render': CustomEvent<void>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
@@ -134,7 +135,7 @@ declare global {
     // Fired when the user selects a line (See gr-diff).
     'line-selected': CustomEvent<LineSelectedEventDetail>;
     // Fired if being logged in is required.
-    'show-auth-required': CustomEvent<{}>;
+    'show-auth-required': void;
   }
 }
 
@@ -1241,7 +1242,7 @@ export class GrDiffHost extends LitElement {
 
   private canCommentOnPatchSetNum(patchNum: PatchSetNum) {
     if (!this.loggedIn) {
-      fire(this, 'show-auth-required', {});
+      fireEvent(this, 'show-auth-required');
       return false;
     }
     if (!this.patchRange) {

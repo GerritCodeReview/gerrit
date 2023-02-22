@@ -15,7 +15,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {AddAccountEvent, BindValueChangeEvent} from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {fire} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 
 /**
  * gr-account-entry is an element for entering account
@@ -105,7 +105,7 @@ export class GrAccountEntry extends LitElement {
 
   private inputTextChanged() {
     if (this.inputText.length && this.allowAnyInput) {
-      fire(this, 'account-text-changed', {});
+      fireEvent(this, 'account-text-changed');
     }
   }
 
@@ -129,6 +129,6 @@ declare global {
      * changed. This is needed so that the reply dialog's save button can be
      * enabled for arbitrary cc's, which don't need a 'commit'.
      */
-    'account-text-changed': CustomEvent<{}>;
+    'account-text-changed': CustomEvent<void>;
   }
 }

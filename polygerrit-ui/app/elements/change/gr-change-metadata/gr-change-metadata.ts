@@ -57,7 +57,7 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
-import {fireAlert, fire, fireReload} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
 import {
   EditRevisionInfo,
   isDefined,
@@ -769,7 +769,7 @@ export class GrChangeMetadata extends LitElement {
     } finally {
       this.settingTopic = false;
     }
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
     fireReload(this);
   }
 
@@ -802,7 +802,7 @@ export class GrChangeMetadata extends LitElement {
     await this.restApiService.setChangeHashtag(this.change._number, {
       add: [newHashtag as Hashtag],
     });
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
     fireReload(this);
   }
 
@@ -957,7 +957,7 @@ export class GrChangeMetadata extends LitElement {
     } finally {
       target.disabled = false;
     }
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
     fireReload(this);
   }
 
@@ -975,7 +975,7 @@ export class GrChangeMetadata extends LitElement {
     } finally {
       target.disabled = false;
     }
-    fire(this, 'hide-alert', {});
+    fireEvent(this, 'hide-alert');
     fireReload(this);
   }
 

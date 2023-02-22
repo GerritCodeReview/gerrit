@@ -51,7 +51,7 @@ import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
-import {fireAlert, fire} from '../../utils/event-util';
+import {fireAlert, fireEvent} from '../../utils/event-util';
 import {Model} from '../model';
 import {define} from '../dependency';
 import {
@@ -716,7 +716,7 @@ export class ChecksModel extends Model<ChecksState> {
         if (result.errorMessage || result.message) {
           fireAlert(document, `${result.message ?? result.errorMessage}`);
         } else {
-          fire(document, 'hide-alert', {});
+          fireEvent(document, 'hide-alert');
         }
         if (result.shouldReload) {
           this.reloadForCheck(run?.checkName);

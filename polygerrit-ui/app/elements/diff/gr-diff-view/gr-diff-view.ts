@@ -58,7 +58,7 @@ import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {CommentMap} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
-import {fireAlert, fire, fireTitleChange} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
@@ -1197,7 +1197,7 @@ export class GrDiffView extends LitElement {
   // Similar to gr-change-view.handleOpenReplyDialog
   private handleOpenReplyDialog() {
     if (!this.loggedIn) {
-      fire(this, 'show-auth-required', {});
+      fireEvent(this, 'show-auth-required');
       return;
     }
     this.getChangeModel().navigateToChange(true);

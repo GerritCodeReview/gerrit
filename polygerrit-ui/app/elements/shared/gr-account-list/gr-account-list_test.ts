@@ -154,7 +154,7 @@ suite('gr-account-list tests', () => {
 
     // Removed accounts are taken out of the list.
     element.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: existingAccount1},
         composed: true,
         bubbles: true,
@@ -168,14 +168,14 @@ suite('gr-account-list tests', () => {
 
     // Invalid remove is ignored.
     element.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: existingAccount1},
         composed: true,
         bubbles: true,
       })
     );
     element.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: newAccount},
         composed: true,
         bubbles: true,
@@ -197,7 +197,7 @@ suite('gr-account-list tests', () => {
 
     // Removed groups are taken out of the list.
     element.dispatchEvent(
-      new CustomEvent('remove-account', {
+      new CustomEvent('remove', {
         detail: {account: newGroup},
         composed: true,
         bubbles: true,

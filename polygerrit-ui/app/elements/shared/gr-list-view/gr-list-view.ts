@@ -7,7 +7,7 @@ import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
-import {fire} from '../../../utils/event-util';
+import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -183,7 +183,7 @@ export class GrListView extends LitElement {
   }
 
   private createNewItem() {
-    fire(this, 'create-clicked', {});
+    fireEvent(this, 'create-clicked');
   }
 
   // private but used in test

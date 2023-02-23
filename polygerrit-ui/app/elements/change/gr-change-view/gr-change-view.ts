@@ -677,6 +677,15 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().openReplyDialog$,
+      openReplyDialog => {
+        // Here we are relying on `this.loggedIn` being set *before*
+        // `openReplyDialog`, but that is fine for this feature.
+        if (openReplyDialog && this.loggedIn) this.handleOpenReplyDialog();
+      }
+    );
+    subscribe(
+      this,
       () => this.getChecksModel().aPluginHasRegistered$,
       b => {
         this.showChecksTab = b;
@@ -2175,7 +2184,6 @@ export class GrChangeView extends LitElement {
   }
 
   private performPostLoadTasks() {
-    this.maybeShowReplyDialog();
     this.maybeShowRevertDialog();
 
     this.sendShowChangeEvent();
@@ -2245,13 +2253,6 @@ export class GrChangeView extends LitElement {
           this.actions.showRevertDialog();
         }
       });
-  }
-
-  private maybeShowReplyDialog() {
-    if (!this.loggedIn) return;
-    if (this.viewState?.openReplyDialog) {
-      this.openReplyDialog(FocusTarget.ANY);
-    }
   }
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {

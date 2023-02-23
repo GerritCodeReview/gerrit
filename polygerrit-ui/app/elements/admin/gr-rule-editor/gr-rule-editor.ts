@@ -529,6 +529,7 @@ export class GrRuleEditor extends LitElement {
   }
 
   private handleRuleChange() {
+    console.error('first change');
     this.requestUpdate('rule');
     fire(this, 'rule-changed', {value: this.rule});
   }

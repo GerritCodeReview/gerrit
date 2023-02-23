@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e10672d_a903cdb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:01:39Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a382e73b_3aede7f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:01:39Z",
+      "side": 1,
+      "message": "I would appreciate, if you could rename this from `patchNum` to `latestPatchNum`. Otherwise I think a future developer could be a bit confused.",
+      "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6bf183_4c0b848a",
@@ -14,6 +48,24 @@
       "writtenOn": "2023-02-23T01:56:36Z",
       "side": 1,
       "message": "I’m not sure if we should just use the one without edits.",
+      "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88f1d468_dc7c7974",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:01:39Z",
+      "side": 1,
+      "message": "I am pretty sure that we should use the one WITHOUT edit here. That is also what the change-view was passing in.",
+      "parentUuid": "2b6bf183_4c0b848a",
       "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

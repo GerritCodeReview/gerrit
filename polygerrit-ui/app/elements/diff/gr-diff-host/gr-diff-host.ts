@@ -64,7 +64,7 @@ import {
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {Timing, Interaction} from '../../../constants/reporting';
+import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
@@ -336,9 +336,6 @@ export class GrDiffHost extends LitElement {
 
   private checksSubscription?: Subscription;
 
-  // for DIFF_AUTOCLOSE logging purposes only
-  readonly uid = performance.now().toString(36) + Math.random().toString(36);
-
   constructor() {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker(
@@ -386,23 +383,6 @@ export class GrDiffHost extends LitElement {
         this.prefs = diffPreferences;
       }
     );
-    this.logForDiffAutoClose();
-  }
-
-  // for DIFF_AUTOCLOSE logging purposes only
-  private logForDiffAutoClose() {
-    this.reporting.reportInteraction(
-      Interaction.DIFF_AUTOCLOSE_DIFF_HOST_CREATED,
-      {uid: this.uid}
-    );
-    setTimeout(() => {
-      if (!this.hasReloadBeenCalledOnce) {
-        this.reporting.reportInteraction(
-          Interaction.DIFF_AUTOCLOSE_DIFF_HOST_NOT_RENDERING,
-          {uid: this.uid}
-        );
-      }
-    }, /* 10 seconds */ 10000);
   }
 
   override connectedCallback() {
@@ -586,14 +566,7 @@ export class GrDiffHost extends LitElement {
     return this.reloadPromise;
   }
 
-  // for DIFF_AUTOCLOSE logging purposes only
-  private reloadOngoing = false;
-
-  // for DIFF_AUTOCLOSE logging purposes only
-  private hasReloadBeenCalledOnce = false;
-
   async reloadInternal(shouldReportMetric?: boolean) {
-    this.hasReloadBeenCalledOnce = true;
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
     // TODO: Find better names for these 3 clear/cancel methods. Ideally the
@@ -606,10 +579,6 @@ export class GrDiffHost extends LitElement {
     this.diff = undefined;
     this.errorMessage = null;
     const whitespaceLevel = this.getIgnoreWhitespace();
-    if (this.reloadOngoing) {
-      this.reporting.reportInteraction(Interaction.DIFF_AUTOCLOSE_DIFF_ONGOING);
-    }
-    this.reloadOngoing = true;
 
     try {
       // We are carefully orchestrating operations that have to wait for another
@@ -619,11 +588,6 @@ export class GrDiffHost extends LitElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this.getDiff();
-      if (diff === undefined) {
-        this.reporting.reportInteraction(
-          Interaction.DIFF_AUTOCLOSE_DIFF_UNDEFINED
-        );
-      }
       this.loadedWhitespaceLevel = whitespaceLevel;
       this.reportDiff(diff);
 
@@ -670,7 +634,6 @@ export class GrDiffHost extends LitElement {
       }
     } finally {
       this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
-      this.reloadOngoing = false;
     }
   }
 
@@ -758,9 +721,6 @@ export class GrDiffHost extends LitElement {
     const idToEl = new Map<string, GrDiffCheckResult>();
     const checkEls = this.getCheckEls();
     const dontRemove = new Set<GrDiffCheckResult>();
-    let createdCount = 0;
-    let updatedCount = 0;
-    let removedCount = 0;
     const checksCount = checks.length;
     const checkElsCount = checkEls.length;
     if (checksCount === 0 && checkElsCount === 0) return;
@@ -775,23 +735,16 @@ export class GrDiffHost extends LitElement {
       if (existingEl) {
         existingEl.result = check;
         dontRemove.add(existingEl);
-        updatedCount++;
       } else {
         const newEl = this.createCheckEl(check);
         dontRemove.add(newEl);
-        createdCount++;
       }
     }
     // Remove all check els that don't have a matching check anymore.
     for (const el of checkEls) {
       if (dontRemove.has(el)) continue;
       el.remove();
-      removedCount++;
     }
-    this.reporting.reportInteraction(
-      Interaction.COMMENTS_AUTOCLOSE_CHECKS_UPDATED,
-      {createdCount, updatedCount, removedCount, checksCount, checkElsCount}
-    );
   }
 
   /**
@@ -1106,9 +1059,6 @@ export class GrDiffHost extends LitElement {
       }
     }
     const dontRemove = new Set<GrCommentThread>();
-    let createdCount = 0;
-    let updatedCount = 0;
-    let removedCount = 0;
     const threadCount = threads.length;
     const threadElCount = threadEls.length;
     if (threadCount === 0 && threadElCount === 0) return;
@@ -1150,12 +1100,10 @@ export class GrDiffHost extends LitElement {
       ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
-        updatedCount++;
       } else {
         const threadEl = this.createThreadElement(thread);
         this.attachThreadElement(threadEl);
         dontRemove.add(threadEl);
-        createdCount++;
       }
     }
     // Remove all threads that are no longer existing.
@@ -1165,13 +1113,8 @@ export class GrDiffHost extends LitElement {
       // might be unsaved and thus not be reflected in `threads` yet, so let's
       // keep them open.
       if (threadEl.editing && threadEl.thread?.comments.length === 0) continue;
-      removedCount++;
       threadEl.remove();
     }
-    this.reporting.reportInteraction(
-      Interaction.COMMENTS_AUTOCLOSE_THREADS_UPDATED,
-      {createdCount, updatedCount, removedCount, threadCount, threadElCount}
-    );
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
     const portedThreadsWithoutRange = threads.filter(
       thread => thread.ported && thread.rangeInfoLost
@@ -1371,9 +1314,6 @@ export class GrDiffHost extends LitElement {
       preferredWhitespaceLevel !== loadedWhitespaceLevel &&
       !noRenderOnPrefsChange
     ) {
-      this.reporting.reportInteraction(
-        Interaction.DIFF_AUTOCLOSE_RELOAD_ON_WHITESPACE
-      );
       return this.reload();
     }
   }
@@ -1392,9 +1332,6 @@ export class GrDiffHost extends LitElement {
     if (oldPrefs?.syntax_highlighting === prefs.syntax_highlighting) return;
 
     if (!noRenderOnPrefsChange) {
-      this.reporting.reportInteraction(
-        Interaction.DIFF_AUTOCLOSE_RELOAD_ON_SYNTAX
-      );
       return this.reload();
     }
   }

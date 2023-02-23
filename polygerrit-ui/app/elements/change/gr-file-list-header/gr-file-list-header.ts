@@ -26,7 +26,7 @@ import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fire, fireNoBubbleNoCompose} from '../../../utils/event-util';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -161,15 +161,6 @@ export class GrFileListHeader extends LitElement {
         display: flex;
         flex-wrap: wrap;
       }
-      .patchInfo-header .container.latestPatchContainer {
-        display: none;
-      }
-      .patchInfoOldPatchSet .container.latestPatchContainer {
-        display: initial;
-      }
-      .editMode.patchInfoOldPatchSet .container.latestPatchContainer {
-        display: none;
-      }
       .latestPatchContainer a {
         text-decoration: none;
       }
@@ -221,13 +212,7 @@ export class GrFileListHeader extends LitElement {
       .editMode .hideOnEdit {
         display: none;
       }
-      .showOnEdit {
-        display: none;
-      }
-      .editMode .showOnEdit {
-        display: initial;
-      }
-      .editMode .showOnEdit.flexContainer {
+      .flexContainer {
         align-items: center;
         display: flex;
       }
@@ -268,17 +253,14 @@ export class GrFileListHeader extends LitElement {
             </gr-patch-range-select>
             <span class="separator"></span>
             <gr-commit-info .commitInfo=${this.commitInfo}></gr-commit-info>
-            <span class="container latestPatchContainer">
-              <span class="separator"></span>
-              <a href=${ifDefined(this.changeUrl)}>Go to latest patch set</a>
-            </span>
+            ${this.renderLatestPatchContainer()}
           </div>
         </div>
         <div class="rightControls ${expandedClass}">
           ${when(
             this.editMode,
             () => html`
-              <span class="showOnEdit flexContainer">
+              <span class="flexContainer">
                 <gr-edit-controls
                   id="editControls"
                   .patchNum=${this.patchNum}
@@ -297,16 +279,7 @@ export class GrFileListHeader extends LitElement {
                   id="modeSelect"
                   .saveOnChange=${true}
                 ></gr-diff-mode-selector>
-                <span id="diffPrefsContainer" class="hideOnEdit">
-                  <gr-tooltip-content has-tooltip title="Diff preferences">
-                    <gr-button
-                      link
-                      class="prefsButton desktop"
-                      @click=${this.handlePrefsTap}
-                      ><gr-icon icon="settings" filled></gr-icon
-                    ></gr-button>
-                  </gr-tooltip-content>
-                </span>
+                ${this.renderDiffPrefsContainer()}
                 <span class="separator"></span>
               </div>
             `
@@ -362,6 +335,36 @@ export class GrFileListHeader extends LitElement {
     `;
   }
 
+  private renderLatestPatchContainer() {
+    if (
+      (this.editMode && this.patchNum !== this.latestPatchNum) ||
+      this.patchNum !== this.latestPatchNum
+    )
+      return nothing;
+    return html`
+      <span class="container latestPatchContainer">
+        <span class="separator"></span>
+        <a href=${ifDefined(this.changeUrl)}>Go to latest patch set</a>
+      </span>
+    `;
+  }
+
+  private renderDiffPrefsContainer() {
+    if (this.editMode) return nothing;
+    return html`
+      <span id="diffPrefsContainer" class="hideOnEdit">
+        <gr-tooltip-content has-tooltip title="Diff preferences">
+          <gr-button
+            link
+            class="prefsButton desktop"
+            @click=${this.handleDiffPrefsTap}
+            ><gr-icon icon="settings" filled></gr-icon
+          ></gr-button>
+        </gr-tooltip-content>
+      </span>
+    `;
+  }
+
   private expandAllDiffs() {
     fire(this, 'expand-diffs', {});
   }
@@ -402,7 +405,7 @@ export class GrFileListHeader extends LitElement {
     );
   }
 
-  private handlePrefsTap(e: Event) {
+  private handleDiffPrefsTap(e: Event) {
     e.preventDefault();
     fire(this, 'open-diff-prefs', {});
   }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d2636c_e2339ae9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:07:54Z",
+      "side": 1,
+      "message": "Nice! ❤️\n\nInteresting how the dialog maintained to fields with the same content. I think this is a good argument for why the variable should be named `latestPatchNum`. The developer that had introduced `latestPatchNum` on top of `patchNum` was likely thinking that `patchNum` is the current patchset choice.",
+      "revId": "25d22824f89c51e3b1a9797fcc53c9defa5deff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8e42e2_92451c6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:07:54Z",
+      "side": 1,
+      "message": "Use `latestPatchNum` as a name here.",
+      "range": {
+        "startLine": 219,
+        "startChar": 11,
+        "endLine": 219,
+        "endChar": 19
+      },
+      "revId": "25d22824f89c51e3b1a9797fcc53c9defa5deff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

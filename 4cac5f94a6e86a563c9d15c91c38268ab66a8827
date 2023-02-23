@@ -16,6 +16,24 @@
       "message": "what about returning undefined and then using ifDefined on line 148?",
       "revId": "4cac5f94a6e86a563c9d15c91c38268ab66a8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb8068f_c6e32015",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T09:10:54Z",
+      "side": 1,
+      "message": "`ifDefined` is for attributes, not for properties.\n\nWe could also return `undefined` instead of `\u0027\u0027`. What do you prefer?",
+      "parentUuid": "dc7ab3c6_1d37431e",
+      "revId": "4cac5f94a6e86a563c9d15c91c38268ab66a8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

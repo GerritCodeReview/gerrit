@@ -51,7 +51,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
-import {Interaction, Timing} from '../../../constants/reporting';
+import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {select} from '../../../utils/observable-util';
 import {resolve} from '../../../models/dependency';
@@ -78,7 +78,6 @@ import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {HtmlPatched} from '../../../utils/lit-util';
 import {
   createDiffUrl,
   createEditUrl,
@@ -308,13 +307,6 @@ export class GrFileList extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
-
-  private readonly patched = new HtmlPatched(key => {
-    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
-      component: this.tagName,
-      key: key.substring(0, 300),
-    });
-  });
 
   shortcutsController = new ShortcutController(this);
 
@@ -1015,25 +1007,12 @@ export class GrFileList extends LitElement {
     );
   }
 
-  // for DIFF_AUTOCLOSE logging purposes only
-  private shownFilesOld: NormalizedFileInfo[] = this.shownFiles;
-
   private renderShownFiles() {
     const showDynamicColumns = this.computeShowDynamicColumns();
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const sizeBarLayout = this.computeSizeBarLayout();
 
-    // for DIFF_AUTOCLOSE logging purposes only
-    if (
-      this.shownFilesOld.length > 0 &&
-      this.shownFiles !== this.shownFilesOld
-    ) {
-      this.reporting.reportInteraction(
-        Interaction.DIFF_AUTOCLOSE_SHOWN_FILES_CHANGED
-      );
-    }
-    this.shownFilesOld = this.shownFiles;
     return incrementalRepeat({
       values: this.shownFiles,
       mapFn: (f, i) =>
@@ -1084,7 +1063,7 @@ export class GrFileList extends LitElement {
       </div>
       ${when(
         this.isFileExpanded(file.__path),
-        () => this.patched.html`
+        () => html`
           <gr-diff-host
             ?noAutoRender=${true}
             ?showLoadFailure=${true}
@@ -1658,17 +1637,6 @@ export class GrFileList extends LitElement {
     this.reporting.fileListDisplayed();
   }
 
-  protected override updated(): void {
-    // for DIFF_AUTOCLOSE logging purposes only
-    const ids = this.diffs.map(d => d.uid);
-    if (ids.length > 0) {
-      this.reporting.reportInteraction(
-        Interaction.DIFF_AUTOCLOSE_FILE_LIST_UPDATED,
-        {l: ids.length, ids: ids.slice(0, 10)}
-      );
-    }
-  }
-
   // TODO: Move into files-model.
   // visible for testing
   async updateCleanlyMergedPaths() {
@@ -1787,10 +1755,6 @@ export class GrFileList extends LitElement {
     if (!this.diffs.length) {
       return;
     }
-    this.reporting.reportInteraction(
-      Interaction.DIFF_AUTOCLOSE_RELOAD_FILELIST_PREFS
-    );
-
     // Re-render all expanded diffs sequentially.
     this.renderInOrder(this.expandedFiles, this.diffs);
   }

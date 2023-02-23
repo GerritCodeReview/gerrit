@@ -125,6 +125,7 @@ export class GrChangeMetadata extends LitElement {
 
   @property({type: Object}) revision?: RevisionInfo | EditRevisionInfo;
 
+  // TODO: Just use `revision.commit` instead.
   @property({type: Object}) commitInfo?: CommitInfoWithRequiredCommit;
 
   @property({type: Object}) serverConfig?: ServerInfo;

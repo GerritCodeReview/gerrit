@@ -296,15 +296,15 @@ public class BatchUpdate implements AutoCloseable {
     private final ChangeNotes notes;
 
     /**
-     * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
-     * PatchSet.Id only for convenience.
+     * Updates where the caller allowed us to combine potentially multiple adjustments into a single
+     * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
+     * patch set.
      */
     private final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
 
     /**
-     * Updates where the caller allowed us to combine potentially multiple adjustments into a single
-     * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
-     * patch set.
+     * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
+     * PatchSet.Id only for convenience.
      */
     private final ListMultimap<PatchSet.Id, ChangeUpdate> distinctUpdates;
 
@@ -579,7 +579,7 @@ public class BatchUpdate implements AutoCloseable {
       for (Map.Entry<Change.Id, BatchUpdateOp> op : ops.entries()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
-                op.getClass().getSimpleName() + "#updateRepo",
+                op.getValue().getClass().getSimpleName() + "#updateRepo",
                 Metadata.builder()
                     .projectName(project.get())
                     .changeId(op.getKey().get())

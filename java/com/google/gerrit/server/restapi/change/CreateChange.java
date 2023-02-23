@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -404,10 +405,18 @@ public class CreateChange
             throw new BadRequestException("Cannot apply patch on top of an empty tree.");
           }
           ObjectId treeId = ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
+          String appliedPatchCommitMessage =
+              getCommitMessage(
+                  ApplyPatchUtil.buildCommitMessage(
+                      input.subject,
+                      ImmutableList.of(),
+                      input.patch.patch,
+                      ApplyPatchUtil.getResultPatch(git, reader, mergeTip, rw.lookupTree(treeId))),
+                  me);
           c =
               rw.parseCommit(
                   CommitUtil.createCommitWithTree(
-                      oi, author, committer, mergeTip, commitMessage, treeId));
+                      oi, author, committer, mergeTip, appliedPatchCommitMessage, treeId));
         } else {
           // create an empty commit.
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);

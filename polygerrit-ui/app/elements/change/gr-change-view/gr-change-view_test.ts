@@ -1933,6 +1933,7 @@ suite('gr-change-view tests', () => {
         patchNum: 1 as RevisionPatchSetNum,
       })
     );
+    element.patchNum = EDIT as RevisionPatchSetNum;
     assert.isTrue(
       await callCompute({
         ...createChangeViewState(),

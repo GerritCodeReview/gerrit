@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4025cb47_92104de5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-23T08:50:34Z",
+      "side": 1,
+      "message": "I am wondering how this works on the API? It seems that CreateChange never sets a group for a new change?",
+      "revId": "0a49698575c0aadcacf8df36e37b3c4d9925fcc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

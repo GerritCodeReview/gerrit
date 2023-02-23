@@ -175,6 +175,10 @@ suite('FrameConstrainer tests', () => {
           dimensions: {width: 50, height: 50},
         });
       });
+
+      test('fails', () => {
+        assert.isTrue(false);
+      });
     });
   });
 });

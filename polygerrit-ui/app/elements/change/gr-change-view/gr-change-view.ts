@@ -424,7 +424,7 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   getEditMode() {
-    if (!this.patchRange || !this.viewState) {
+    if (!this.patchNum || !this.viewState) {
       return false;
     }
 
@@ -432,7 +432,7 @@ export class GrChangeView extends LitElement {
       return true;
     }
 
-    return this.patchRange.patchNum === EDIT;
+    return this.patchNum === EDIT;
   }
 
   isSubmitEnabled(): boolean {
@@ -521,6 +521,9 @@ export class GrChangeView extends LitElement {
   /** Reflects the `opened` state of the reply dialog. */
   @state()
   replyModalOpened = false;
+
+  @state()
+  patchNum?: RevisionPatchSetNum;
 
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
@@ -703,6 +706,13 @@ export class GrChangeView extends LitElement {
       () => this.getViewModel().patchNum$,
       patchNum => {
         this.viewModelPatchNum = patchNum;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => {
+        this.patchNum = patchNum;
       }
     );
     subscribe(

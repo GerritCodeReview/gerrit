@@ -72,6 +72,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d55eb84_00bd81e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-23T17:37:40Z",
+      "side": 1,
+      "message": "\u003e apply it to the latest patchsets\u0027s parent\n\nThis is not completely accurate. In case the previous patchset had some content, the result patch should include this content as well. \nI\u0027m not sure how to clarify this nuance.\n\nSee `ps1.txt` handling in `applyPatchWithNoExplicitBase_doNoIgnoreLatestPatch` test as an example.",
+      "parentUuid": "6a34e733_129f78a6",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e41c49b_4495f4a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-23T17:37:40Z",
+      "side": 1,
+      "message": "Replying on a single thread since clarifying this point is a prerequisite for the others.",
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42cb7023_31788d30",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
         "patchSetId": 2

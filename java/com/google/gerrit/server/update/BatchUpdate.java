@@ -579,7 +579,7 @@ public class BatchUpdate implements AutoCloseable {
       for (Map.Entry<Change.Id, BatchUpdateOp> op : ops.entries()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
-                op.getClass().getSimpleName() + "#updateRepo",
+                op.getValue().getClass().getSimpleName() + "#updateRepo",
                 Metadata.builder()
                     .projectName(project.get())
                     .changeId(op.getKey().get())

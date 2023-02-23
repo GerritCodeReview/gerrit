@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.DiffUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,12 +33,10 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.kohsuke.args4j.Option;
 
 public class GetPatch implements RestReadView<RevisionResource> {
@@ -98,14 +97,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
                 if (path == null) {
                   out.write(formatEmailHeader(commit).getBytes(UTF_8));
                 }
-                try (DiffFormatter fmt = new DiffFormatter(out)) {
-                  fmt.setRepository(repo);
-                  if (path != null) {
-                    fmt.setPathFilter(PathFilter.create(path));
-                  }
-                  fmt.format(base.getTree(), commit.getTree());
-                  fmt.flush();
-                }
+                DiffUtil.getFormattedDiff(repo, base, commit, path, out);
               }
 
               @Override

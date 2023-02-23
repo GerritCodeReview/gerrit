@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.p
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.patch.DiffUtil.cleanPatch;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -47,14 +48,13 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
-import java.io.IOException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
 public class ApplyPatchIT extends AbstractDaemonTest {
 
-  private static final String COMMIT_MESSAGE = "Applying patch";
+  private static final String COMMIT_MESSAGE = "Default commit message";
   private static final String DESTINATION_BRANCH = "destBranch";
 
   private static final String ADDED_FILE_NAME = "a_new_file.txt";
@@ -442,6 +442,44 @@ public class ApplyPatchIT extends AbstractDaemonTest {
         fetchDiffForFile(result, "ps1.txt"), result.currentRevision, "ps1.txt", "ps1 content");
   }
 
+  @Test
+  public void commitMessage_providedMessage() throws Exception {
+    final String msg = "custom message";
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+    in.commitMessage = msg;
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .startsWith(msg + "\n\nChange-Id:");
+  }
+
+  @Test
+  public void commitMessage_defaultMessageAndPatchHeader() throws Exception {
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput("Patch header\n" + ADDED_FILE_DIFF);
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .startsWith("Applying patch.\n\nOriginal patch:\nPatch header\n\nChange-Id:");
+  }
+
+  @Test
+  public void commitMessage_defaultMessageAndNoPatchHeader() throws Exception {
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .startsWith("Applying patch.\n\nOriginal patch:\n" + ADDED_FILE_DIFF + "\n\nChange-Id:");
+  }
+
   private void initDestBranch() throws Exception {
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, ApplyPatchIT.DESTINATION_BRANCH), head);
@@ -470,21 +508,5 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
   private DiffInfo fetchDiffForFile(ChangeInfo result, String fileName) throws RestApiException {
     return gApi.changes().id(result.id).current().file(fileName).diff();
-  }
-
-  private String cleanPatch(BinaryResult bin) throws IOException {
-    return cleanPatch(bin.asString());
-  }
-
-  private String cleanPatch(String s) {
-    return s
-        // Remove the header
-        .substring(s.lastIndexOf("\ndiff --git"), s.length() - 1)
-        // Remove "index NN..NN lines
-        .replaceAll("(?m)^index.*", "")
-        // Remove empty lines
-        .replaceAll("\n+", "\n")
-        // Trim
-        .trim();
   }
 }

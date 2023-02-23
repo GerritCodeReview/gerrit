@@ -53,7 +53,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -170,11 +169,12 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               ? committerIdent
               : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
       String commitMessage =
-          CommitMessageUtil.checkAndSanitizeCommitMessage(
-              input.commitMessage != null
-                  ? input.commitMessage
-                  : "The following patch was applied:\n>\t"
-                      + input.patch.patch.replaceAll("\n", "\n>\t"));
+          ApplyPatchUtil.buildCommitMessage(
+              input.commitMessage,
+              patchsetBaseCommit.getFooterLines(),
+              input.patch.patch,
+              ApplyPatchUtil.getResultPatch(
+                  repo, reader, patchsetBaseCommit, revWalk.lookupTree(treeId)));
 
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(

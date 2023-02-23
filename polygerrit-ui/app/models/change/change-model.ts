@@ -13,6 +13,7 @@ import {
   PreferencesInfo,
   RevisionPatchSetNum,
   PatchSetNumber,
+  CommitId,
 } from '../../types/common';
 import {DefaultBase} from '../../constants/constants';
 import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
@@ -27,6 +28,7 @@ import {
   computeAllPatchSets,
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
+  sortRevisions,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -69,6 +71,14 @@ export interface ChangeState {
    * Undefined means it's still loading and empty set means no files reviewed.
    */
   reviewedFiles?: string[];
+}
+
+export function updateRevisionsWithCommitShas(change?: ParsedChangeInfo) {
+  for (const sha of Object.keys(change?.revisions ?? {})) {
+    const revision = change?.revisions.sha;
+    if (revision?.commit) revision.commit.commit = sha as CommitId;
+  }
+  return change;
 }
 
 /**
@@ -179,9 +189,8 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly revisions$ = select(
-    this.change$,
-    change => change?.revisions
+  public readonly revisions$ = select(this.change$, change =>
+    sortRevisions(Object.values(change?.revisions || {}))
   );
 
   public readonly patchsets$ = select(this.change$, change =>
@@ -259,6 +268,28 @@ export class ChangeModel extends Model<ChangeState> {
         computeBase(viewModelBasePatchNum, patchNum, change, preferences)
     );
 
+  /** The revision that matches `patchNum`. */
+  public readonly revision$ = select(
+    combineLatest([this.revisions$, this.patchNum$]),
+    ([revisions, patchNum]) => {
+      if (!revisions || !patchNum) return undefined;
+      return Object.values(revisions).find(
+        revision => revision._number === patchNum
+      );
+    }
+  );
+
+  /** The revision that matches `latestPatchNum`. */
+  public readonly latestRevision$ = select(
+    combineLatest([this.revisions$, this.latestPatchNum$]),
+    ([revisions, latestPatchNum]) => {
+      if (!revisions || !latestPatchNum) return undefined;
+      return Object.values(revisions).find(
+        revision => revision._number === latestPatchNum
+      );
+    }
+  );
+
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),
     ([change, account]) => isOwner(change, account)
@@ -290,7 +321,8 @@ export class ChangeModel extends Model<ChangeState> {
           withLatestFrom(this.viewModel.patchNum$),
           map(([[change, edit], patchNum]) =>
             updateChangeWithEdit(change, edit, patchNum)
-          )
+          ),
+          map(updateRevisionsWithCommitShas)
         )
         .subscribe(change => {
           // The change service is currently a singleton, so we have to be

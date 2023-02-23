@@ -33,7 +33,11 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
+import {
+  createRepoUrl,
+  RepoDetailView,
+  RepoViewState,
+} from '../../../models/views/repo';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
@@ -132,6 +136,8 @@ export class GrRepoDetailList extends LitElement {
   }
 
   override render() {
+    if (!this.repo) return html`repository not set`;
+    if (!this.detailType) return html`detailType not set`;
     return html`
       <gr-list-view
         .createNew=${this.loggedIn}
@@ -140,7 +146,7 @@ export class GrRepoDetailList extends LitElement {
         .items=${this.items}
         .loading=${this.loading}
         .offset=${this.offset}
-        .path=${this.getPath(this.repo, this.detailType)}
+        .path=${this.getPath()}
         @create-clicked=${() => {
           this.handleCreateClicked();
         }}
@@ -434,11 +440,10 @@ export class GrRepoDetailList extends LitElement {
     return Promise.reject(new Error('unknown detail type'));
   }
 
-  private getPath(repo?: RepoName, detailType?: RepoDetailView) {
-    // TODO: Replace with `createRepoUrl()`, but be aware that `encodeURL()`
-    // gets `false` as a second parameter here. The router pattern in gr-router
-    // does not handle the filter URLs, if the repo is not encoded!
-    return `/admin/repos/${encodeURL(repo ?? '')},${detailType}`;
+  private getPath() {
+    if (!this.repo) return '';
+    if (!this.detailType) return '';
+    return createRepoUrl({repo: this.repo, detail: this.detailType});
   }
 
   private computeWeblink(repo: ProjectInfo | BranchInfo | TagInfo) {

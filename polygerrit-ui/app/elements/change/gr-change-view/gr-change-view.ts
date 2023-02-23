@@ -424,7 +424,7 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   getEditMode() {
-    if (!this.patchNum || !this.viewState) {
+    if (!this.viewState) {
       return false;
     }
 

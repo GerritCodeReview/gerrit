@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f932f26_cee2eeaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-23T12:07:03Z",
+      "side": 1,
+      "message": "also referenced here https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#links-to-external-tools",
+      "revId": "64152ac50ff290262c653abb50e118c56e35a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96d5276d_ce278ef8",

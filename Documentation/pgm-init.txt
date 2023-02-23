@@ -16,7 +16,7 @@ _java_ -jar gerrit.war _init_
   [--list-plugins]
   [--install-plugin=<PLUGIN_NAME>]
   [--install-all-plugins]
-  [--secure-store-lib]
+  [--secure-store-lib=<PATH_TO_JAR>]
   [--dev]
   [--skip-all-downloads]
   [--skip-download=<LIBRARY_NAME>]

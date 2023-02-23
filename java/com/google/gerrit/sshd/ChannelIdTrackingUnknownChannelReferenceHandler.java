@@ -45,7 +45,7 @@ import org.apache.sshd.common.util.buffer.Buffer;
 public class ChannelIdTrackingUnknownChannelReferenceHandler
     extends DefaultUnknownChannelReferenceHandler implements ChannelListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final AttributeKey<Integer> LAST_CHANNEL_ID_KEY = new AttributeKey<>();
+  public static final AttributeKey<Long> LAST_CHANNEL_ID_KEY = new AttributeKey<>();
 
   public static final ChannelIdTrackingUnknownChannelReferenceHandler TRACKER =
       new ChannelIdTrackingUnknownChannelReferenceHandler();
@@ -56,9 +56,9 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
 
   @Override
   public void channelInitialized(Channel channel) {
-    int channelId = channel.getId();
+    long channelId = channel.getChannelId();
     Session session = channel.getSession();
-    Integer lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
+    Long lastTracked = session.setAttribute(LAST_CHANNEL_ID_KEY, channelId);
     logger.atFine().log(
         "channelInitialized(%s) updated last tracked channel ID %s => %s",
         channel, lastTracked, channelId);
@@ -66,9 +66,9 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
 
   @Override
   public Channel handleUnknownChannelCommand(
-      ConnectionService service, byte cmd, int channelId, Buffer buffer) throws IOException {
+      ConnectionService service, byte cmd, long channelId, Buffer buffer) throws IOException {
     Session session = service.getSession();
-    Integer lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
+    Long lastTracked = session.getAttribute(LAST_CHANNEL_ID_KEY);
     if ((lastTracked != null) && (channelId <= lastTracked.intValue())) {
       // Use TRACE level in order to avoid messages flooding
       logger.atFinest().log(

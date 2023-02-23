@@ -63,6 +63,7 @@ TEST_DEPS = [
     "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/truth",
     "//java/com/google/gerrit/acceptance/config",
+    "//java/com/google/gerrit/acceptance/testsuite/group",
     "//java/com/google/gerrit/acceptance/testsuite/project",
     "//java/com/google/gerrit/server/fixes/testing",
     "//java/com/google/gerrit/server/data",

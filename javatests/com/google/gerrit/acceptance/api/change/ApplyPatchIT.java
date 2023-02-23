@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.patch.DiffUtil.cleanPatch;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -48,7 +49,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
-import java.io.IOException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.Base64;
@@ -56,7 +56,6 @@ import org.junit.Test;
 
 public class ApplyPatchIT extends AbstractDaemonTest {
 
-  private static final String COMMIT_MESSAGE = "Applying patch";
   private static final String DESTINATION_BRANCH = "destBranch";
 
   private static final String ADDED_FILE_NAME = "a_new_file.txt";
@@ -402,7 +401,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void applyPatchWithExplicitBase_OverrideParentId() throws Exception {
+  public void applyPatchWithExplicitBase_overrideParentId() throws Exception {
     PushOneCommit.Result inputParent = createChange("Input parent", "file1", "content");
     PushOneCommit.Result parent = createChange("Parent Change", "file2", "content");
     parent.assertOkStatus();
@@ -440,6 +439,44 @@ public class ApplyPatchIT extends AbstractDaemonTest {
         ADDED_FILE_CONTENT);
   }
 
+  @Test
+  public void commitMessage_providedMessage() throws Exception {
+    final String msg = "custom message";
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+    in.commitMessage = msg;
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo(msg + "\n\nChange-Id: " + result.changeId + "\n");
+  }
+
+  @Test
+  public void commitMessage_defaultMessageAndPatchHeader() throws Exception {
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput("Patch header\n" + ADDED_FILE_DIFF);
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo("Default commit message\n\nChange-Id: " + result.changeId + "\n");
+  }
+
+  @Test
+  public void commitMessage_defaultMessageAndNoPatchHeader() throws Exception {
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+
+    ChangeInfo result = applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo("Default commit message\n\nChange-Id: " + result.changeId + "\n");
+  }
+
   private void initDestBranch() throws Exception {
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, ApplyPatchIT.DESTINATION_BRANCH), head);
@@ -462,27 +499,11 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   private ChangeInfo applyPatch(ApplyPatchPatchSetInput input) throws RestApiException {
     input.responseFormatOptions = ImmutableList.of(ListChangesOption.CURRENT_REVISION);
     return gApi.changes()
-        .create(new ChangeInput(project.get(), DESTINATION_BRANCH, COMMIT_MESSAGE))
+        .create(new ChangeInput(project.get(), DESTINATION_BRANCH, "Default commit message"))
         .applyPatch(input);
   }
 
   private DiffInfo fetchDiffForFile(ChangeInfo result, String fileName) throws RestApiException {
     return gApi.changes().id(result.id).current().file(fileName).diff();
-  }
-
-  private String cleanPatch(BinaryResult bin) throws IOException {
-    return cleanPatch(bin.asString());
-  }
-
-  private String cleanPatch(String s) {
-    return s
-        // Remove the header
-        .substring(s.lastIndexOf("\ndiff --git"), s.length() - 1)
-        // Remove "index NN..NN lines
-        .replaceAll("(?m)^index.*", "")
-        // Remove empty lines
-        .replaceAll("\n+", "\n")
-        // Trim
-        .trim();
   }
 }

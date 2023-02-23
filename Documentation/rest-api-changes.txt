@@ -6751,7 +6751,8 @@ given patch.
 |`patch`              |required|
 The details of the patch to be applied as a link:#applypatch-input[ApplyPatchInput] entity.
 |`commit_message`     |optional|
-The commit message for the new patch set. If not specified, a predefined message will be used.
+The commit message for the new patch set. If not specified, the latest patch-set message will be
+used.
 |`base`               |optional|
 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created patch set.
 If set, it must be a merged commit or a change revision on the destination branch.

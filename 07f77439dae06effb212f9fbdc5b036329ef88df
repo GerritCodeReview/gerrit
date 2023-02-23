@@ -45,6 +45,52 @@
       },
       "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a34e733_129f78a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-23T16:41:19Z",
+      "side": 1,
+      "message": "that sounds strange to me.\n\nI think what we want (and that was my understanding when discussing with Android) was that when no `base` is provided, it keeps the same base that the previous patch set had, instead if rebasing.\n\nso creates a commit whose parent \u003d\u003d parent of previous patchset and whose tree is tree of parent + patch applied.\n\nthis also seems to be how your code works, it\u0027s just the commit message and doc string that suggests something else :-)\n\nSuggestion for commit message:\n\n```\nApplyPatch: Do not rebase change when applying a patch\n\nWhen applying a patch to an existing change, apply it to the latest patchsets\u0027s parent when `base` is not explicitly specified in the request. In absence of this, applying a patch on an existing change would always rebase the change, which is unexpected and inconsistent with other Gerrit features (e.g. publishing a change edit would also not rebase the change).\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28af89bd_367d3ad6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-23T16:41:19Z",
+      "side": 1,
+      "message": "nit: this assertation is correct but slightly confusing.\n\nusing result.revisions.get(1).commit.parents.get(0) would be easier to understand (i.e. ps1 and ps2 have the same parent, applying a patch did not change that parent)",
+      "range": {
+        "startLine": 433,
+        "startChar": 20,
+        "endLine": 433,
+        "endChar": 44
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

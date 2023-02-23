@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "330c8a4e_6e6cf93e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-23T18:46:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a382e73b_3aede7f5",
+      "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6bf183_4c0b848a",
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I am pretty sure that we should use the one WITHOUT edit here. That is also what the change-view was passing in.",
       "parentUuid": "2b6bf183_4c0b848a",
+      "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6f5ed1_5d8fe88d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-23T18:46:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "88f1d468_dc7c7974",
       "revId": "5722671ca4866814a0f0a3c9d4b4ae7100e19ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

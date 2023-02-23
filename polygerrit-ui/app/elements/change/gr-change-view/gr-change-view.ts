@@ -73,7 +73,6 @@ import {
   BasePatchSetNum,
   ChangeId,
   ChangeInfo,
-  CommitId,
   CommitInfo,
   ConfigInfo,
   DetailedLabelInfo,
@@ -359,7 +358,7 @@ export class GrChangeView extends LitElement {
   private editingCommitMessage = false;
 
   @state()
-  private latestCommitMessage: string | null = '';
+  private latestCommitMessage = '';
 
   @state() basePatchNum: BasePatchSetNum = PARENT;
 
@@ -381,13 +380,10 @@ export class GrChangeView extends LitElement {
     if (this._patchRange === patchRange) return;
     const oldPatchRange = this._patchRange;
     this._patchRange = patchRange;
-    this.patchNumChanged();
     this.requestUpdate('patchRange', oldPatchRange);
   }
 
-  // Private but used in tests.
-  @state()
-  selectedRevision?: RevisionInfo | EditRevisionInfo;
+  @state() revision?: RevisionInfo | EditRevisionInfo;
 
   /**
    * <gr-change-actions> populates this via two-way data binding.
@@ -756,6 +752,23 @@ export class GrChangeView extends LitElement {
       this,
       () => this.getChangeModel().basePatchNum$,
       basePatchNum => (this.basePatchNum = basePatchNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revision$,
+      revision => {
+        this.revision = revision;
+        this.commitInfo = revision?.commit;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestRevision$,
+      revision => {
+        this.latestCommitMessage = this.prepareCommitMsgForLinkify(
+          revision?.commit?.message ?? ''
+        );
+      }
     );
     subscribe(
       this,
@@ -1390,7 +1403,7 @@ export class GrChangeView extends LitElement {
           .change=${this.change}
           .revertedChange=${this.revertedChange}
           .account=${this.account}
-          .revision=${this.selectedRevision}
+          .revision=${this.revision}
           .commitInfo=${this.commitInfo}
           .serverConfig=${this.serverConfig}
           .parentIsCurrent=${this.isParentCurrent()}
@@ -1431,7 +1444,7 @@ export class GrChangeView extends LitElement {
                 remove-zero-width-space=""
               >
                 <gr-formatted-text
-                  .content=${this.latestCommitMessage ?? ''}
+                  .content=${this.latestCommitMessage}
                   .markdown=${false}
                 ></gr-formatted-text>
               </gr-editable-content>
@@ -1441,10 +1454,7 @@ export class GrChangeView extends LitElement {
             <gr-endpoint-decorator name="commit-container">
               <gr-endpoint-param name="change" .value=${this.change}>
               </gr-endpoint-param>
-              <gr-endpoint-param
-                name="revision"
-                .value=${this.selectedRevision}
-              >
+              <gr-endpoint-param name="revision" .value=${this.revision}>
               </gr-endpoint-param>
             </gr-endpoint-decorator>
           </div>
@@ -1496,10 +1506,7 @@ export class GrChangeView extends LitElement {
               <gr-endpoint-decorator name=${tabHeader}>
                 <gr-endpoint-param name="change" .value=${this.change}>
                 </gr-endpoint-param>
-                <gr-endpoint-param
-                  name="revision"
-                  .value=${this.selectedRevision}
-                >
+                <gr-endpoint-param name="revision" .value=${this.revision}>
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </paper-tab>
@@ -1630,7 +1637,7 @@ export class GrChangeView extends LitElement {
       <gr-endpoint-decorator .name=${pluginTabContentEndpoint}>
         <gr-endpoint-param name="change" .value=${this.change}>
         </gr-endpoint-param>
-        <gr-endpoint-param name="revision" .value=${this.selectedRevision}></gr-endpoint-param>
+        <gr-endpoint-param name="revision" .value=${this.revision}></gr-endpoint-param>
         </gr-endpoint-param>
       </gr-endpoint-decorator>
     `;
@@ -1641,7 +1648,7 @@ export class GrChangeView extends LitElement {
       <gr-endpoint-decorator name="change-view-integration">
         <gr-endpoint-param name="change" .value=${this.change}>
         </gr-endpoint-param>
-        <gr-endpoint-param name="revision" .value=${this.selectedRevision}>
+        <gr-endpoint-param name="revision" .value=${this.revision}>
         </gr-endpoint-param>
       </gr-endpoint-decorator>
 
@@ -1759,7 +1766,8 @@ export class GrChangeView extends LitElement {
   }
 
   private handleContentChanged(e: ValueChangedEvent) {
-    this.latestCommitMessage = e.detail.value;
+    // optimistic update
+    this.latestCommitMessage = e.detail.value ?? '';
   }
 
   // Private but used in tests.
@@ -1786,7 +1794,6 @@ export class GrChangeView extends LitElement {
           return;
         }
 
-        this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
         this.editingCommitMessage = false;
         this.reloadWindow();
       })
@@ -2113,9 +2120,7 @@ export class GrChangeView extends LitElement {
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
-        this.reloadPatchNumDependentResources().then(() => {
-          this.sendShowChangeEvent();
-        });
+        this.sendShowChangeEvent();
       }
 
       // If there is no change in patchset or changeNum, such as when user goes
@@ -2578,6 +2583,8 @@ export class GrChangeView extends LitElement {
     // TODO(wyatta) switch linkify sequence, see issue 5526.
     // This is a zero-with space. It is added to prevent the linkify library
     // from including R= or CC= as part of the email address.
+    // TODO: Is this comment referring to the ba-linkify library that we are
+    // not using anymore? If so, then remove this hack.
     return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
   }
 
@@ -2629,9 +2636,6 @@ export class GrChangeView extends LitElement {
     // one location.
     if (!this.viewModelPatchNum && latestPsNum === editParentRev._number) {
       this.patchRange = {...this.patchRange, patchNum: EDIT};
-      // The file list is not reactive (yet) with regards to patch range
-      // changes, so we have to actively trigger it.
-      this.reloadPatchNumDependentResources();
     }
   }
 
@@ -2698,7 +2702,7 @@ export class GrChangeView extends LitElement {
 
     this.prefs = await prefCompletes;
 
-    if (!this.change) return false;
+    if (!this.change) return;
 
     this.processEdit(this.change);
     // Issue 4190: Coalesce missing topics to null.
@@ -2710,45 +2714,8 @@ export class GrChangeView extends LitElement {
     if (!this.change.reviewer_updates) {
       this.change.reviewer_updates = null as unknown as undefined;
     }
-    const latestRevisionSha = this.getLatestRevisionSHA(this.change);
-    if (!latestRevisionSha)
-      throw new Error('Could not find latest Revision Sha');
-    const currentRevision = this.change.revisions[latestRevisionSha];
-    if (currentRevision.commit && currentRevision.commit.message) {
-      this.latestCommitMessage = this.prepareCommitMsgForLinkify(
-        currentRevision.commit.message
-      );
-    } else {
-      this.latestCommitMessage = null;
-    }
 
     this.computeRevertSubmitted(this.change);
-    if (
-      !this.patchRange ||
-      !this.patchRange.patchNum ||
-      this.patchRange.patchNum === currentRevision._number
-    ) {
-      // CommitInfo.commit is optional, and may need patching.
-      if (currentRevision.commit && !currentRevision.commit.commit) {
-        currentRevision.commit.commit = latestRevisionSha as CommitId;
-      }
-      this.commitInfo = currentRevision.commit;
-      this.selectedRevision = currentRevision;
-      // TODO: Fetch and process files.
-    } else {
-      if (!this.change?.revisions || !this.patchRange) return false;
-      this.selectedRevision = Object.values(this.change.revisions).find(
-        revision => {
-          // edit patchset is a special one
-          const thePatchNum = this.patchRange!.patchNum;
-          if (thePatchNum === EDIT) {
-            return revision._number === thePatchNum;
-          }
-          return revision._number === Number(`${thePatchNum}`);
-        }
-      );
-    }
-    return true;
   }
 
   private isParentCurrent() {
@@ -2758,49 +2725,6 @@ export class GrChangeView extends LitElement {
     } else {
       return true;
     }
-  }
-
-  // Private but used in tests.
-  getLatestCommitMessage() {
-    assertIsDefined(this.changeNum, 'changeNum');
-    const lastpatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (lastpatchNum === undefined)
-      throw new Error('missing lastPatchNum property');
-    return this.restApiService
-      .getChangeCommitInfo(this.changeNum, lastpatchNum)
-      .then(commitInfo => {
-        if (!commitInfo) return;
-        this.latestCommitMessage = this.prepareCommitMsgForLinkify(
-          commitInfo.message
-        );
-      });
-  }
-
-  // Private but used in tests.
-  getLatestRevisionSHA(change: ChangeInfo | ParsedChangeInfo) {
-    if (change.current_revision) return change.current_revision;
-    // current_revision may not be present in the case where the latest rev is
-    // a draft and the user doesn’t have permission to view that rev.
-    let latestRev = null;
-    let latestPatchNum = -1 as PatchSetNum;
-    for (const [rev, revInfo] of Object.entries(change.revisions ?? {})) {
-      if (revInfo._number > latestPatchNum) {
-        latestRev = rev;
-        latestPatchNum = revInfo._number;
-      }
-    }
-    return latestRev;
-  }
-
-  // visible for testing
-  loadAndSetCommitInfo() {
-    assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.patchRange?.patchNum, 'patchRange.patchNum');
-    return this.restApiService
-      .getChangeCommitInfo(this.changeNum, this.patchRange.patchNum)
-      .then(commitInfo => {
-        this.commitInfo = commitInfo;
-      });
   }
 
   /**
@@ -2841,30 +2765,7 @@ export class GrChangeView extends LitElement {
       this.performPostChangeLoadTasks();
     });
 
-    let coreDataPromise;
-
-    // If the patch number is specified
-    if (this.patchRange && this.patchRange.patchNum) {
-      // Because a specific patchset is specified, reload the resources that
-      // are keyed by patch number or patch range.
-      const patchResourcesLoaded = this.reloadPatchNumDependentResources();
-      allDataPromises.push(patchResourcesLoaded);
-
-      // Promise resolves when the change detail and patch dependent resources
-      // have loaded.
-      coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
-    } else {
-      const latestCommitMessageLoaded = loadingFlagSet.then(() => {
-        // If the latest commit message is known, there is nothing to do.
-        if (this.latestCommitMessage) {
-          return Promise.resolve();
-        }
-        return this.getLatestCommitMessage();
-      });
-      allDataPromises.push(latestCommitMessageLoaded);
-
-      coreDataPromise = loadingFlagSet;
-    }
+    const coreDataPromise = loadingFlagSet;
     const mergeabilityLoaded = coreDataPromise.then(() =>
       this.getMergeability()
     );
@@ -2937,14 +2838,6 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  /**
-   * Kicks off requests for resources that rely on the patch range
-   * (`this.patchRange`) being defined.
-   */
-  reloadPatchNumDependentResources() {
-    return this.loadAndSetCommitInfo();
-  }
-
   // Private but used in tests
   getMergeability(): Promise<void> {
     if (!this.change) {
@@ -2995,13 +2888,11 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  private computeCommitCollapsible() {
-    if (!this.latestCommitMessage) {
-      return false;
-    }
+  private computeCommitCollapsible(): boolean {
     return (
+      !!this.latestCommitMessage &&
       this.latestCommitMessage.split('\n').length >=
-      MIN_LINES_FOR_COMMIT_COLLAPSE
+        MIN_LINES_FOR_COMMIT_COLLAPSE
     );
   }
 
@@ -3126,21 +3017,6 @@ export class GrChangeView extends LitElement {
         controls.openRestoreDialog(path);
         break;
     }
-  }
-
-  private patchNumChanged() {
-    if (!this.selectedRevision || !this.patchRange?.patchNum) {
-      return;
-    }
-    assertIsDefined(this.change, 'change');
-
-    if (this.patchRange.patchNum === this.selectedRevision._number) {
-      return;
-    }
-    if (!this.change.revisions) return;
-    this.selectedRevision = Object.values(this.change.revisions).find(
-      revision => revision._number === this.patchRange!.patchNum
-    );
   }
 
   /**

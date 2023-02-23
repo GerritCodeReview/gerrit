@@ -23,7 +23,6 @@ import {
   PatchSetNumber,
 } from '../../../types/common';
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
-import {PatchSet} from '../../../utils/patch-set-util';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -250,23 +249,16 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('class is applied to file list on old patch set', () => {
-    const allPatchSets: PatchSet[] = [
-      {num: 4 as PatchSetNumber, desc: undefined, sha: ''},
-      {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
-      {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
-    ];
-    assert.equal(
-      element.computePatchInfoClass(1 as PatchSetNum, allPatchSets),
-      'patchInfoOldPatchSet'
-    );
-    assert.equal(
-      element.computePatchInfoClass(2 as PatchSetNum, allPatchSets),
-      'patchInfoOldPatchSet'
-    );
-    assert.equal(
-      element.computePatchInfoClass(4 as PatchSetNum, allPatchSets),
-      ''
-    );
+    element.latestPatchNum = 4 as PatchSetNumber;
+
+    element.patchNum = 1 as PatchSetNumber;
+    assert.equal(element.computePatchInfoClass(), 'patchInfoOldPatchSet');
+
+    element.patchNum = 2 as PatchSetNumber;
+    assert.equal(element.computePatchInfoClass(), 'patchInfoOldPatchSet');
+
+    element.patchNum = 4 as PatchSetNumber;
+    assert.equal(element.computePatchInfoClass(), '');
   });
 
   suite('editMode behavior', () => {
@@ -277,11 +269,6 @@ suite('gr-file-list-header tests', () => {
 
     test('patch specific elements', async () => {
       element.editMode = true;
-      element.allPatchSets = [
-        {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
-        {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
-        {num: 3 as PatchSetNumber, desc: undefined, sha: ''},
-      ];
       await element.updateComplete;
 
       assert.isFalse(

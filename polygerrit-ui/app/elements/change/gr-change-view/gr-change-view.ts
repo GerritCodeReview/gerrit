@@ -1520,7 +1520,6 @@ export class GrChangeView extends LitElement {
         <gr-file-list-header
           id="fileListHeader"
           .account=${this.account}
-          .allPatchSets=${this.allPatchSets}
           .change=${this.change}
           .changeNum=${this.changeNum}
           .commitInfo=${this.commitInfo}

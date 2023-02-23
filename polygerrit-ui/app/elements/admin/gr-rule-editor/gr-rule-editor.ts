@@ -531,6 +531,7 @@ export class GrRuleEditor extends LitElement {
   private handleRuleChange() {
     console.error('first change');
     this.requestUpdate('rule');
+    console.error('second change');
     fire(this, 'rule-changed', {value: this.rule});
   }
 }

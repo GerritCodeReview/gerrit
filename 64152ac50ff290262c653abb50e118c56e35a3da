@@ -16,6 +16,29 @@
       "message": "will you remove java side too?\ndoes community/release notes need to be aware?",
       "revId": "64152ac50ff290262c653abb50e118c56e35a3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d5276d_ce278ef8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7571,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-23T12:04:13Z",
+      "side": 1,
+      "message": "isn\u0027t this deleted and not just renamed?",
+      "range": {
+        "startLine": 7571,
+        "startChar": 27,
+        "endLine": 7571,
+        "endChar": 45
+      },
+      "revId": "64152ac50ff290262c653abb50e118c56e35a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

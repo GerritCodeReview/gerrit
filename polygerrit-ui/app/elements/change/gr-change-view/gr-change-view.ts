@@ -1345,7 +1345,6 @@ export class GrChangeView extends LitElement {
         .changeNum=${this.changeNum}
         .changeStatus=${this.change?.status}
         .commitNum=${this.commitInfo?.commit}
-        .latestPatchNum=${computeLatestPatchNum(this.allPatchSets)}
         .commitMessage=${this.latestCommitMessage}
         .editPatchsetLoaded=${this.patchRange
           ? hasEditPatchsetLoaded(this.patchRange)

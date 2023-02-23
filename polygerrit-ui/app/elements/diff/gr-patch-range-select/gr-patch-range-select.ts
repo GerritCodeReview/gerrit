@@ -13,7 +13,6 @@ import {
   getParentIndex,
   getRevisionByPatchNum,
   isMergeParent,
-  sortRevisions,
   PatchSet,
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
@@ -156,7 +155,7 @@ export class GrPatchRangeSelect extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().revisions$,
-      x => (this.sortedRevisions = sortRevisions(Object.values(x || {})))
+      x => (this.sortedRevisions = x)
     );
     subscribe(
       this,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e316332_a24ef33d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-23T22:16:02Z",
+      "side": 1,
+      "message": "Oh... if you click \"go to latest\" the \"stop editing\" button is shown even though an edit exists...",
+      "revId": "22039edbf381eb72f4dfea3d7b0ebf7f915b810c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

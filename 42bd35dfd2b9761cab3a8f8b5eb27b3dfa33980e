@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96dd22b7_886b790d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-23T18:27:02Z",
+      "side": 1,
+      "message": "Good stuff @Frank, just 4 mins validation time, that\u0027s amazing!\nWhat are the timelines to use it for the backend as well?",
+      "revId": "42bd35dfd2b9761cab3a8f8b5eb27b3dfa33980e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

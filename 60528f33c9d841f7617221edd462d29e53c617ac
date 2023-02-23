@@ -88,6 +88,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fc4a834_5b47b2f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-02-23T15:06:47Z",
+      "side": 1,
+      "message": "draft 2",
+      "parentUuid": "4ba58d0a_c5667e44",
+      "revId": "60528f33c9d841f7617221edd462d29e53c617ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c56d201_efed4981",
         "filename": "THIS_IS_A_TEST_CHANGE",
         "patchSetId": 1

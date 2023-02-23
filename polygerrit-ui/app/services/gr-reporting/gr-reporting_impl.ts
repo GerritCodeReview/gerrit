@@ -17,6 +17,7 @@ import {
   Timing,
 } from '../../constants/reporting';
 import {onCLS, onFID, onLCP, Metric, onINP} from 'web-vitals';
+import {getEventPath, isElementTarget} from '../../utils/dom-util';
 
 // Latency reporting constants.
 
@@ -183,6 +184,22 @@ export function initPerformanceReporter(reportingService: ReportingService) {
 export function initVisibilityReporter(reportingService: ReportingService) {
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
+  });
+}
+
+export function initClickReporter(reportingService: ReportingService) {
+  document.addEventListener('click', (e: MouseEvent) => {
+    const anchorEl = e
+      .composedPath()
+      .find(el => isElementTarget(el) && el.tagName.toUpperCase() === 'A') as
+      | HTMLAnchorElement
+      | undefined;
+    if (!anchorEl) return;
+    reportingService.reportInteraction('link-click', {
+      path: getEventPath(e),
+      link: anchorEl.href,
+      text: anchorEl.innerText,
+    });
   });
 }
 

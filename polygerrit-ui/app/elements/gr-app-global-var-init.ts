@@ -20,6 +20,7 @@ import {
   initPerformanceReporter,
   initErrorReporter,
   initWebVitals,
+  initClickReporter,
 } from '../services/gr-reporting/gr-reporting_impl';
 import {Finalizable} from '../services/registry';
 
@@ -34,6 +35,7 @@ export function initGlobalVariables(
     initPerformanceReporter(reportingService);
     initWebVitals(reportingService);
     initErrorReporter(reportingService);
+    initClickReporter(reportingService);
   }
   window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;

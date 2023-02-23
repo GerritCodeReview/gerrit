@@ -34,6 +34,24 @@
       "parentUuid": "dc7ab3c6_1d37431e",
       "revId": "4cac5f94a6e86a563c9d15c91c38268ab66a8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1024079_0ecbc81c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-23T09:14:19Z",
+      "side": 1,
+      "message": "Ah, right, no keep it as is then.",
+      "parentUuid": "fdb8068f_c6e32015",
+      "revId": "4cac5f94a6e86a563c9d15c91c38268ab66a8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "39194c54_d62f76e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-23T18:02:22Z",
+      "side": 1,
+      "message": "\u003e This is not completely accurate. In case the previous patchset had some content, the result patch should include this content as well.\n\nI don\u0027t think it should do that. I thought we are only fixing the \"accidental rebase\" that currently happens when you apply a patch on an existing change.\n\n@hanwen@google.com, what behavior would you expect when applying a patch to an existing change (apply to latest PS OR apply to parent of latest PS OR apply to tip of target branch)?",
+      "parentUuid": "1d55eb84_00bd81e5",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e41c49b_4495f4a4",

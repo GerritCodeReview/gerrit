@@ -43,7 +43,6 @@ import {
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
-import {Interaction} from '../../../constants/reporting';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -353,21 +352,6 @@ export class GrMessagesList extends LitElement {
         this.changeNum = x;
       }
     );
-    // for COMMENTS_AUTOCLOSE logging purposes only
-    this.reporting.reportInteraction(
-      Interaction.COMMENTS_AUTOCLOSE_MESSAGES_LIST_CREATED
-    );
-  }
-
-  override updated(): void {
-    // for COMMENTS_AUTOCLOSE logging purposes only
-    const messages = this.shadowRoot!.querySelectorAll('gr-message');
-    if (messages.length > 0) {
-      this.reporting.reportInteraction(
-        Interaction.COMMENTS_AUTOCLOSE_MESSAGES_LIST_UPDATED,
-        {uid: messages[0].uid}
-      );
-    }
   }
 
   override willUpdate(changedProperties: PropertyValues): void {

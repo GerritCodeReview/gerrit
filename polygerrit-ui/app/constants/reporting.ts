@@ -124,33 +124,6 @@ export enum Interaction {
   CHECKS_RUNS_PANEL_TOGGLE = 'checks-runs-panel-toggle',
   CHECKS_RUNS_SELECTED_TRIGGERED = 'checks-runs-selected-triggered',
   CHECKS_STATS = 'checks-stats',
-  // The following interactions are logged for investigating a spurious bug of
-  // auto-closing draft comments.
-  COMMENTS_AUTOCLOSE_FIRST_UPDATE = 'comments-autoclose-first-update',
-  COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE = 'comments-autoclose-editing-false-save',
-  COMMENTS_AUTOCLOSE_EDITING_DISCONNECTED = 'comments-autoclose-editing-disconnected',
-  COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED = 'comments-autoclose-editing-thread-disconnected',
-  COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
-  COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
-  COMMENTS_AUTOCLOSE_COMMENT_REMOVED = 'comments-autoclose-comment-removed',
-  COMMENTS_AUTOCLOSE_MESSAGES_LIST_CREATED = 'comments-autoclose-messages-list-created',
-  COMMENTS_AUTOCLOSE_MESSAGES_LIST_UPDATED = 'comments-autoclose-messages-list-updated',
-  COMMENTS_AUTOCLOSE_THREAD_LIST_CREATED = 'comments-autoclose-thread-list-created',
-  COMMENTS_AUTOCLOSE_THREAD_LIST_UPDATED = 'comments-autoclose-thread-list-updated',
-  // The following interactions are logged for investigating a spurious bug of
-  // auto-closing diffs.
-  DIFF_AUTOCLOSE_DIFF_UNDEFINED = 'diff-autoclose-diff-undefined',
-  DIFF_AUTOCLOSE_DIFF_ONGOING = 'diff-autoclose-diff-ongoing',
-  DIFF_AUTOCLOSE_RELOAD_ON_WHITESPACE = 'diff-autoclose-reload-on-whitespace',
-  DIFF_AUTOCLOSE_RELOAD_ON_SYNTAX = 'diff-autoclose-reload-on-syntax',
-  DIFF_AUTOCLOSE_RELOAD_FILELIST_PREFS = 'diff-autoclose-reload-filelist-prefs',
-  DIFF_AUTOCLOSE_DIFF_HOST_CREATED = 'diff-autoclose-diff-host-created',
-  DIFF_AUTOCLOSE_DIFF_HOST_NOT_RENDERING = 'diff-autoclose-diff-not-rendering',
-  DIFF_AUTOCLOSE_FILE_LIST_UPDATED = 'diff-autoclose-file-list-updated',
-  DIFF_AUTOCLOSE_SHOWN_FILES_CHANGED = 'diff-autoclose-shown-files-changed',
-  // The following interaction is logged for reporting and counting a suspected
-  // Chrome bug that leads to html`` misbehavior.
-  AUTOCLOSE_HTML_PATCHED = 'autoclose-html-patched',
   CHANGE_ACTION_FIRED = 'change-action-fired',
   BUTTON_CLICK = 'button-click',
   LINK_CLICK = 'link-click',

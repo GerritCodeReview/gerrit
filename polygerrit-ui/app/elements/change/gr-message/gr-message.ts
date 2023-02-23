@@ -128,9 +128,6 @@ export class GrMessage extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
-  // for COMMENTS_AUTOCLOSE logging purposes only
-  readonly uid = performance.now().toString(36) + Math.random().toString(36);
-
   constructor() {
     super();
     this.addEventListener('click', e => this.handleClick(e));

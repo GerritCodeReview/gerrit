@@ -545,10 +545,7 @@ suite('gr-change-view tests', () => {
 
   test('handleMessageAnchorTap', async () => {
     element.changeNum = 1 as NumericChangeId;
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
+    element.patchNum = 1 as RevisionPatchSetNum;
     element.change = createChangeViewChange();
     await element.updateComplete;
     const replaceStateStub = sinon.stub(history, 'replaceState');
@@ -564,10 +561,8 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element.patchRange = {
-      patchNum: 3 as RevisionPatchSetNum,
-      basePatchNum: 1 as BasePatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     element.handleDiffAgainstBase();
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3');
@@ -578,10 +573,8 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element.patchRange = {
-      basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     element.handleDiffAgainstLatest();
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..10');
@@ -592,10 +585,8 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element.patchRange = {
-      patchNum: 3 as RevisionPatchSetNum,
-      basePatchNum: 1 as BasePatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     element.handleDiffBaseAgainstLeft();
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
@@ -606,10 +597,8 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element.patchRange = {
-      basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     element.handleDiffRightAgainstLatest();
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3..10');
@@ -620,10 +609,8 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element.patchRange = {
-      basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     element.handleDiffBaseAgainstLatest();
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/10');
@@ -1915,6 +1902,8 @@ suite('gr-change-view tests', () => {
   test('computeEditMode', async () => {
     const callCompute = async (viewState: ChangeViewState) => {
       element.viewState = viewState;
+      element.patchNum = viewState.patchNum;
+      element.basePatchNum = viewState.basePatchNum ?? PARENT;
       await element.updateComplete;
       return element.getEditMode();
     };
@@ -1978,10 +1967,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('file-action-tap handling', async () => {
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
+    element.patchNum = 1 as RevisionPatchSetNum;
     element.change = {
       ...createChangeViewChange(),
     };
@@ -2224,7 +2210,7 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.actions);
     sinon.stub(element.metadata, 'computeLabelNames');
 
-    element.patchRange = {patchNum: 1 as RevisionPatchSetNum};
+    element.patchNum = 1 as RevisionPatchSetNum;
     element.actions.dispatchEvent(
       new CustomEvent('stop-edit-tap', {bubbles: false})
     );

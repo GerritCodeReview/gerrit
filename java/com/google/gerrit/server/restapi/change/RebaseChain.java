@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -119,11 +121,14 @@ public class RebaseChain
   @Override
   public Response<RebaseChainInfo> apply(ChangeResource tipRsrc, RebaseInput input)
       throws IOException, PermissionBackendException, RestApiException, UpdateException {
-    tipRsrc.permissions().check(ChangePermission.REBASE);
-
     if (input.onBehalfOfUploader) {
-      throw new BadRequestException(
-          "rebasing on behalf of the uploader is not supported when rebasing a chain");
+      tipRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
+      if (input.allowConflicts) {
+        throw new BadRequestException(
+            "allow_conflicts and on_behalf_of_uploader are mutually exclusive");
+      }
+    } else {
+      tipRsrc.permissions().check(ChangePermission.REBASE);
     }
 
     Project.NameKey project = tipRsrc.getProject();
@@ -152,7 +157,13 @@ public class RebaseChain
 
           RevisionResource revRsrc =
               new RevisionResource(changeResourceFactory.create(changeData, user), ps);
-          revRsrc.permissions().check(ChangePermission.REBASE);
+          if (input.onBehalfOfUploader
+              && !revRsrc.getPatchSet().uploader().equals(revRsrc.getAccountId())) {
+            revRsrc = rebaseUtil.onBehalfOf(revRsrc, input);
+            revRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
+          } else {
+            revRsrc.permissions().check(ChangePermission.REBASE);
+          }
           rebaseUtil.verifyRebasePreconditions(rw, changeData.notes(), ps);
 
           boolean isUpToDate = false;
@@ -183,7 +194,7 @@ public class RebaseChain
             continue;
           }
           ancestorsAreUpToDate = false;
-          bu.addOp(revRsrc.getChange().getId(), rebaseOp);
+          bu.addOp(revRsrc.getChange().getId(), revRsrc.getUser(), rebaseOp);
           rebaseOps.put(revRsrc.getChange().getId(), rebaseOp);
         }
 
@@ -259,25 +270,44 @@ public class RebaseChain
         enabled = false;
       }
 
-      for (PatchSetData ps : chain) {
-        RevisionResource psRsrc =
-            new RevisionResource(
-                changeResourceFactory.create(ps.data(), tipRsrc.getUser()), ps.patchSet());
+      ImmutableList<RevisionResource> chainAsRevisionResources =
+          chain.stream()
+              .map(
+                  ps ->
+                      new RevisionResource(
+                          changeResourceFactory.create(ps.data(), tipRsrc.getUser()),
+                          ps.patchSet()))
+              .collect(toImmutableList());
 
-        if (!psRsrc.permissions().testOrFalse(ChangePermission.REBASE)) {
-          visible = false;
-          break;
-        }
+      boolean canRebase =
+          chainAsRevisionResources.stream()
+              .allMatch(psRsrc -> psRsrc.permissions().testOrFalse(ChangePermission.REBASE));
+      boolean canRebaseOnBehalfOfUploader =
+          chainAsRevisionResources.stream()
+              .allMatch(
+                  psRsrc ->
+                      psRsrc
+                          .permissions()
+                          .testOrFalse(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER));
 
-        if (patchSetUtil.isPatchSetLocked(psRsrc.getNotes())) {
-          enabled = false;
-        }
-        if (!RebaseUtil.hasOneParent(rw, psRsrc.getPatchSet())) {
-          enabled = false;
+      if (!canRebase && !canRebaseOnBehalfOfUploader) {
+        visible = false;
+      } else {
+        for (RevisionResource psRsrc : chainAsRevisionResources) {
+          if (patchSetUtil.isPatchSetLocked(psRsrc.getNotes())
+              || !RebaseUtil.hasOneParent(rw, psRsrc.getPatchSet())) {
+            enabled = false;
+            break;
+          }
         }
       }
+
+      return description
+          .setVisible(visible)
+          .setOption("rebase", canRebase)
+          .setOption("rebase_on_behalf_of_uploader", canRebaseOnBehalfOfUploader)
+          .setEnabled(enabled);
     }
-    return description.setVisible(visible).setEnabled(enabled);
   }
 
   private ObjectId currentBase(RevWalk rw, PatchSet ps) throws IOException {

@@ -1175,6 +1175,8 @@ public class RebaseIT {
       assertThat(changeInfo.actions).containsKey("rebase:chain");
       ActionInfo rebaseActionInfo = changeInfo.actions.get("rebase:chain");
       assertThat(rebaseActionInfo.enabled).isTrue();
+      assertThat(rebaseActionInfo.enabledOptions)
+          .containsExactly("rebase", "rebase_on_behalf_of_uploader");
     }
 
     @Test

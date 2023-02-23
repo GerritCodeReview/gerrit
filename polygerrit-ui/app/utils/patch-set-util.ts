@@ -35,11 +35,6 @@ export interface PatchSet {
   wip?: boolean;
 }
 
-interface PatchRange {
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-}
-
 /**
  * Whether the given patch is a numbered parent of a merge (i.e. a negative
  * number).
@@ -292,10 +287,6 @@ export function hasEditBasedOnCurrentPatchSet(
     return false;
   }
   return allPatchSets[0].num === EDIT;
-}
-
-export function hasEditPatchsetLoaded(patchRange: PatchRange) {
-  return patchRange.patchNum === EDIT;
 }
 
 /**

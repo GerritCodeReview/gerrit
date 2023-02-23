@@ -24,6 +24,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
@@ -37,6 +38,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -144,6 +146,124 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.branch).isEqualTo("test-branch");
+  }
+
+  @Test
+  public void createdChangeHasDefaultGroupsByDefault() throws Exception {
+    Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).branch("test-branch").create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+  }
+
+  @Test
+  public void createdChangeHasDefaultGroupsIfBranchTipIsSpecifiedAsParent() throws Exception {
+    Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .tipOfBranch("refs/heads/test-branch")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+  }
+
+  @Test
+  public void createdChangeHasSameGroupsAsOpenParentChange() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+
+    ChangeInfo parentChange = getChangeFromServer(parentChangeId);
+    ImmutableList<String> parentGroups = getGroups(project, parentChangeId);
+    assertThat(parentGroups).containsExactly(parentChange.currentRevision);
+
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+
+    assertThat(getGroups(project, changeId)).isEqualTo(parentGroups);
+  }
+
+  @Test
+  public void createdChangeHasDefaultGroupsIfClosedChangeIsSpecifiedAsParent() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(parentChangeId.get()).current().submit();
+
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+  }
+
+  @Test
+  public void createdChangeHasSameGroupsAsPatchSetOfOpenParentChange() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
+    changeOperations.change(parentChangeId).newPatchset().create();
+
+    ImmutableList<String> parentGroups = getGroups(project, parentPatchset.patchsetId());
+    assertThat(parentGroups).containsExactly(parentPatchset.commitId().name());
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .patchset(parentPatchset.patchsetId())
+            .create();
+
+    assertThat(getGroups(project, changeId)).isEqualTo(parentGroups);
+  }
+
+  @Test
+  public void createdChangeHasDefaultGroupsIfPatchSetOfClosedChangeIsSpecifiedAsParent()
+      throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
+    changeOperations.change(parentChangeId).newPatchset().create();
+    gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(parentChangeId.get()).current().submit();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .patchset(parentPatchset.patchsetId())
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+  }
+
+  @Test
+  public void createdChangeHasDefaultGroupsIfCommitIsSpecifiedAsParent() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    // Currently, the easiest way to create a commit is by creating another change.
+    Change.Id anotherChangeId = changeOperations.newChange().project(project).create();
+    ObjectId parentCommitId =
+        changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
+
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().commit(parentCommitId).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
   }
 
   @Test
@@ -1632,6 +1752,17 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   private BinaryResult getFileContent(Change.Id changeId, PatchSet.Id patchsetId, String filePath)
       throws RestApiException {
     return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath).content();
+  }
+
+  private ImmutableList<String> getGroups(Project.NameKey projectName, Change.Id changeId) {
+    return changeDataFactory.create(projectName, changeId).currentPatchSet().groups();
+  }
+
+  private ImmutableList<String> getGroups(Project.NameKey projectName, PatchSet.Id patchSetId) {
+    return changeDataFactory
+        .create(projectName, patchSetId.changeId())
+        .patchSet(patchSetId)
+        .groups();
   }
 
   private Correspondence<CommitInfo, String> hasSha1() {

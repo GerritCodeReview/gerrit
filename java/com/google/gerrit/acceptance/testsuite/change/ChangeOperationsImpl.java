@@ -150,6 +150,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
         String refName = RefNames.fullName(changeCreation.branch());
         ChangeInserter inserter = getChangeInserter(changeId, refName, commitId);
+        inserter.setGroups(getGroups(changeCreation));
         changeCreation.topic().ifPresent(t -> inserter.setTopic(t));
         inserter.setApprovals(changeCreation.approvals());
 
@@ -243,9 +244,73 @@ public class ChangeOperationsImpl implements ChangeOperations {
     return createCommit(objectInserter, tree, parentCommits, author, committer, commitMessage);
   }
 
+  private ImmutableList<String> getGroups(TestChangeCreation changeCreation) {
+    return changeCreation
+        .parents()
+        .map(parents -> getGroups(parents))
+        .orElseGet(() -> ImmutableList.of());
+  }
+
+  private ImmutableList<String> getGroups(ImmutableList<TestCommitIdentifier> parents) {
+    return parents.stream()
+        .map(parent -> getGroups(parent))
+        .flatMap(groups -> groups.stream())
+        .collect(toImmutableList());
+  }
+
+  private ImmutableList<String> getGroups(TestCommitIdentifier parentCommit) {
+    switch (parentCommit.getKind()) {
+      case BRANCH:
+        return ImmutableList.of();
+      case CHANGE_ID:
+        return getGroupsFromChange(parentCommit.changeId());
+      case COMMIT_SHA_1:
+        return ImmutableList.of();
+      case PATCHSET_ID:
+        return getGroupsFromPatchset(parentCommit.patchsetId());
+      default:
+        throw new IllegalStateException(
+            String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
+    }
+  }
+
+  private ImmutableList<String> getGroupsFromChange(Change.Id changeId) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeId);
+
+    if (changeNotes.isPresent() && changeNotes.get().getChange().isClosed()) {
+      return ImmutableList.of();
+    }
+
+    return changeNotes
+        .map(ChangeNotes::getCurrentPatchSet)
+        .map(PatchSet::groups)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Change %s not found and hence can't be used as parent.", changeId)));
+  }
+
+  private ImmutableList<String> getGroupsFromPatchset(PatchSet.Id patchsetId) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(patchsetId.changeId());
+
+    if (changeNotes.isPresent() && changeNotes.get().getChange().isClosed()) {
+      return ImmutableList.of();
+    }
+
+    return changeNotes
+        .map(ChangeNotes::getPatchSets)
+        .map(patchsets -> patchsets.get(patchsetId))
+        .map(PatchSet::groups)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Patchset %s not found and hence can't be used as parent.", patchsetId)));
+  }
+
   private ImmutableList<ObjectId> getParentCommits(
       Repository repository, RevWalk revWalk, TestChangeCreation changeCreation) {
-
     return changeCreation
         .parents()
         .map(parents -> resolveParents(repository, revWalk, parents))

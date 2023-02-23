@@ -261,6 +261,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.basePatchNum
   );
 
+  public readonly openReplyDialog$ = select(
+    this.state$,
+    state => state?.openReplyDialog
+  );
+
   public readonly diffPath$ = select(
     this.state$,
     state => state?.diffView?.path

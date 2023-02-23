@@ -142,7 +142,7 @@ export class GrChangeList extends LitElement {
     this.shortcuts.addAbstract(Shortcut.CURSOR_NEXT_CHANGE, () =>
       this.nextChange()
     );
-    this.shortcuts.addAbstract(Shortcut.CURSOR_PREV_CHANGE, () =>
+    this.shortcuts.addAbstract(Shortcut.CURSarOR_PREV_CHANGE, () =>
       this.prevChange()
     );
     this.shortcuts.addAbstract(Shortcut.NEXT_PAGE, () => this.nextPage());

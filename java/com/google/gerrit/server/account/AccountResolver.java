@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -447,20 +448,45 @@ public class AccountResolver {
       }
 
       // User cannot see secondary emails, hence search by preferred email only.
-      Stream<AccountState> accountStateStream =
-          accountQueryProvider.get().byPreferredEmail(input).stream();
+      List<AccountState> accountStates = accountQueryProvider.get().byPreferredEmail(input);
 
-      // Users can always see their own secondary emails. Hence if any email of the user matches,
-      // include the user into the result.
+      if (accountStates.size() == 1) {
+        return Stream.of(Iterables.getOnlyElement(accountStates));
+      }
+
+      if (accountStates.size() > 1) {
+        // An email can only belong to a single account. If multiple accounts are found it means
+        // there is an inconsistency, i.e. some of the found accounts have a preferred email set
+        // that they do not own via an external ID. Hence in this case we return only the one
+        // account that actually owns the email via an external ID.
+        for (AccountState accountState : accountStates) {
+          if (accountState.externalIds().stream()
+              .map(ExternalId::email)
+              .filter(Objects::nonNull)
+              .anyMatch(email -> email.equals(input))) {
+            return Stream.of(accountState);
+          }
+        }
+
+        // None of the matched accounts owns the email, return all matches to be consistent with
+        // the behavior of Emails.getAccountFor(String) that is used above if the user can see
+        // secondary emails.
+        return accountStates.stream();
+      }
+
+      // No match by preferred email. Since users can always see their own secondary emails, check
+      // if the input matches a secondary email of the user and if yes, return the account of the
+      // user.
       if (asUser.isIdentifiedUser()
           && asUser.asIdentifiedUser().state().externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
               .anyMatch(email -> email.equals(input))) {
-        return Streams.concat(accountStateStream, Stream.of(asUser.asIdentifiedUser().state()));
+        return Stream.of(asUser.asIdentifiedUser().state());
       }
 
-      return accountStateStream;
+      // No match.
+      return Stream.empty();
     }
 
     @Override

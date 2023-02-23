@@ -16,6 +16,41 @@
       "message": "Internally at Google we are still behind.\n\n@poucet@google.com has tried upgrading, but ran into issues. Chris, what is the latest status of this?\n\n@thomasmulhall410@yahoo.com Is there any immediate benefit that we would have from submitting this change?",
       "revId": "94f42e515e4e73e3a56f4fe50d7a56c13e39a009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907cee66_36dea338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-23T07:39:14Z",
+      "side": 1,
+      "message": "We are still on 10.6 so this can\u0027t go through",
+      "revId": "94f42e515e4e73e3a56f4fe50d7a56c13e39a009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5aedaad_979b5650",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-23T07:39:14Z",
+      "side": 1,
+      "message": "The upgrade broke other tools, this would require investment.",
+      "parentUuid": "1895b3f2_6b9d10aa",
+      "revId": "94f42e515e4e73e3a56f4fe50d7a56c13e39a009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

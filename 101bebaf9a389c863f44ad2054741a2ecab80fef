@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1220687_0486ebf1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-23T08:55:36Z",
+      "side": 1,
+      "message": "Not this change, but what if `this.patchNum \u003d\u003d\u003d EDIT`?\n\nOh, I see. This css rule takes care of it: `.editMode.patchInfoOldPatchSet .container.latestPatchContainer {`\n\nSide note: Using css classes is very much Polymer style. Ideally we would move `latestPatchContainer` into its own `render` method, and then make a choice there about rendering it or not. That would be more Lit style, but again, not your change.",
+      "revId": "101bebaf9a389c863f44ad2054741a2ecab80fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -185,6 +185,27 @@ export class GrPatchRangeSelect extends LitElement {
           --trigger-style-text-color: var(--deemphasized-text-color);
           --trigger-style-font-family: var(--font-family);
         }
+        .filesWeblinks gr-icon {
+          font-size: 16px;
+          margin-right: 4px;
+          vertical-align: middle;
+          display: none;
+        }
+        .filesWeblinks a {
+          text-decoration: none;
+        }
+        .filesWeblinks span.icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+          vertical-align: top;
+          position: relative;
+          top: 6px;
+          background-image: url('https://www.gstatic.com/devopsconsole/images/favicon/cs-32x32.png');
+          /* background-image: url('https://www.gstatic.com/devopsconsole/images/oss/favicons/oss-32x32.png'); */
+          background-size: cover;
+        }
         @media screen and (max-width: 50em) {
           .filesWeblinks {
             display: none;
@@ -236,9 +257,16 @@ export class GrPatchRangeSelect extends LitElement {
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
         weblink => html`
-          <a target="_blank" rel="noopener" href=${ifDefined(weblink.url)}>
-            ${weblink.name}
-          </a>
+          <gr-tooltip-content
+            has-tooltip
+            position-below
+            title="Open this file in Code Search in a new tab"
+          >
+            <a target="_blank" rel="noopener" href=${ifDefined(weblink.url)}>
+              <gr-icon icon="open_in_new"></gr-icon><span class="icon"></span
+              ><span class="text"></span>
+            </a>
+          </gr-tooltip-content>
         `
       )}</span
     > `;

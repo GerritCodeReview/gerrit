@@ -76,7 +76,7 @@ suite('gr-file-list-header tests', () => {
             <div class="fileViewActions">
               <span class="fileViewActionsLabel"> Diff view: </span>
               <gr-diff-mode-selector id="modeSelect"> </gr-diff-mode-selector>
-              <span class="hideOnEdit" id="diffPrefsContainer">
+              <span id="diffPrefsContainer">
                 <gr-tooltip-content has-tooltip="" title="Diff preferences">
                   <gr-button
                     aria-disabled="false"
@@ -248,17 +248,20 @@ suite('gr-file-list-header tests', () => {
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..3');
   });
 
-  test('class is applied to file list on old patch set', () => {
+  test('class is applied to file list on old patch set', async () => {
     element.latestPatchNum = 4 as PatchSetNumber;
 
     element.patchNum = 1 as PatchSetNumber;
-    assert.equal(element.computePatchInfoClass(), 'patchInfoOldPatchSet');
+    await element.updateComplete;
+    assert.isTrue(Boolean(query(element, '.patchInfoOldPatchSet')));
 
     element.patchNum = 2 as PatchSetNumber;
-    assert.equal(element.computePatchInfoClass(), 'patchInfoOldPatchSet');
+    await element.updateComplete;
+    assert.isTrue(Boolean(query(element, '.patchInfoOldPatchSet')));
 
     element.patchNum = 4 as PatchSetNumber;
-    assert.equal(element.computePatchInfoClass(), '');
+    await element.updateComplete;
+    assert.isFalse(Boolean(query(element, '.patchInfoOldPatchSet')));
   });
 
   suite('editMode behavior', () => {
@@ -270,17 +273,11 @@ suite('gr-file-list-header tests', () => {
     test('patch specific elements', async () => {
       element.editMode = true;
       await element.updateComplete;
-
-      assert.isFalse(
-        isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
-      );
+      assert.isFalse(Boolean(query(element, '#diffPrefsContainer')));
 
       element.editMode = false;
       await element.updateComplete;
-
-      assert.isTrue(
-        isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
-      );
+      assert.isTrue(Boolean(query(element, '#diffPrefsContainer')));
     });
 
     test('edit-controls visibility', async () => {

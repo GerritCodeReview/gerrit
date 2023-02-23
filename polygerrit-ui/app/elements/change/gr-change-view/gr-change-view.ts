@@ -50,7 +50,6 @@ import {
   findEdit,
   findEditParentRevision,
   hasEditBasedOnCurrentPatchSet,
-  hasEditPatchsetLoaded,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
@@ -362,15 +361,22 @@ export class GrChangeView extends LitElement {
   @state()
   private latestCommitMessage: string | null = '';
 
+  @state() basePatchNum: BasePatchSetNum = PARENT;
+
+  @state() patchNum?: RevisionPatchSetNum;
+
+  // TODO: Migrate usages to this.patchNum and this.basePatchnum.
   // Use patchRange getter/setter.
   private _patchRange?: ChangeViewPatchRange;
 
+  // TODO: Migrate usages to this.patchNum and this.basePatchnum.
   // Private but used in tests.
   @state()
   get patchRange() {
     return this._patchRange;
   }
 
+  // TODO: Migrate usages to this.patchNum and this.basePatchnum.
   set patchRange(patchRange: ChangeViewPatchRange | undefined) {
     if (this._patchRange === patchRange) return;
     const oldPatchRange = this._patchRange;
@@ -748,6 +754,16 @@ export class GrChangeView extends LitElement {
         // change to undefined.
         if (change) this.change = change;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().basePatchNum$,
+      basePatchNum => (this.basePatchNum = basePatchNum)
     );
     subscribe(
       this,
@@ -1352,9 +1368,7 @@ export class GrChangeView extends LitElement {
         .changeStatus=${this.change?.status}
         .commitNum=${this.commitInfo?.commit}
         .commitMessage=${this.latestCommitMessage}
-        .editPatchsetLoaded=${this.patchRange
-          ? hasEditPatchsetLoaded(this.patchRange)
-          : false}
+        .editPatchsetLoaded=${this.patchNum === EDIT}
         .editMode=${this.getEditMode()}
         .editBasedOnCurrentPatchSet=${hasEditBasedOnCurrentPatchSet(
           this.allPatchSets ?? []
@@ -2197,12 +2211,12 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
     const hash = PREFIX + e.detail.id;
     const url = createChangeUrl({
       change: this.change,
-      patchNum: this.patchRange.patchNum,
-      basePatchNum: this.patchRange.basePatchNum,
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
       edit: this.getEditMode(),
       messageHash: hash,
     });
@@ -2409,13 +2423,13 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleDiffAgainstBase() {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
-    if (this.patchRange.basePatchNum === PARENT) {
+    assertIsDefined(this.patchNum, 'patchNum');
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum: this.patchRange.patchNum})
+      createChangeUrl({change: this.change, patchNum: this.patchNum})
     );
   }
 
@@ -2423,16 +2437,16 @@ export class GrChangeView extends LitElement {
   handleDiffBaseAgainstLeft() {
     if (this.viewState?.childView !== ChangeChildView.OVERVIEW) return;
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
-    if (this.patchRange.basePatchNum === PARENT) {
+    if (this.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
     this.getNavigation().setUrl(
       createChangeUrl({
         change: this.change,
-        patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
+        patchNum: this.basePatchNum as RevisionPatchSetNum,
       })
     );
   }
@@ -2440,9 +2454,9 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleDiffAgainstLatest() {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
     const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum === latestPatchNum) {
+    if (this.patchNum === latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
@@ -2450,7 +2464,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: latestPatchNum,
-        basePatchNum: this.patchRange.basePatchNum,
+        basePatchNum: this.basePatchNum,
       })
     );
   }
@@ -2458,9 +2472,9 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleDiffRightAgainstLatest() {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
     const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (this.patchRange.patchNum === latestPatchNum) {
+    if (this.patchNum === latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
@@ -2468,7 +2482,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: latestPatchNum,
-        basePatchNum: this.patchRange.patchNum as BasePatchSetNum,
+        basePatchNum: this.patchNum as BasePatchSetNum,
       })
     );
   }
@@ -2476,12 +2490,9 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleDiffBaseAgainstLatest() {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
     const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
-    if (
-      this.patchRange.patchNum === latestPatchNum &&
-      this.patchRange.basePatchNum === PARENT
-    ) {
+    if (this.patchNum === latestPatchNum && this.basePatchNum === PARENT) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
@@ -3098,7 +3109,7 @@ export class GrChangeView extends LitElement {
       );
     if (!controls) throw new Error('Missing edit controls');
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
 
     const path = e.detail.path;
     switch (e.detail.action) {
@@ -3106,12 +3117,12 @@ export class GrChangeView extends LitElement {
         controls.openDeleteDialog(path);
         break;
       case GrEditConstants.Actions.OPEN.id:
-        assertIsDefined(this.patchRange.patchNum, 'patchset number');
+        assertIsDefined(this.patchNum, 'patchset number');
         this.getNavigation().setUrl(
           createEditUrl({
             changeNum: this.change._number,
             repo: this.change.project,
-            patchNum: this.patchRange.patchNum,
+            patchNum: this.patchNum,
             editView: {path},
           })
         );
@@ -3169,11 +3180,11 @@ export class GrChangeView extends LitElement {
 
   private handleStopEditTap() {
     assertIsDefined(this.change, 'change');
-    assertIsDefined(this.patchRange, 'patchRange');
+    assertIsDefined(this.patchNum, 'patchNum');
     this.getNavigation().setUrl(
       createChangeUrl({
         change: this.change,
-        patchNum: this.patchRange.patchNum,
+        patchNum: this.patchNum,
         forceReload: true,
       })
     );

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e6a49ae_bb116672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-23T15:50:28Z",
+      "side": 1,
+      "message": "it was behaving as documented as far as I can see, so this is a new feature.\n\ncan you explain why you\u0027re doing this?I imagine it\u0027s related to a use case you discussed with the android folks",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49619334_b9b03315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-23T15:50:28Z",
+      "side": 1,
+      "message": "needs doc update.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

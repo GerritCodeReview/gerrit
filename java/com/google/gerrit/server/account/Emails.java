@@ -57,12 +57,11 @@ public class Emails {
    * are needed it is more efficient to use {@link #getAccountsFor(String...)} as this method reads
    * the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
    *
-   * <p>In addition accounts are included that have the given email as preferred email even if they
-   * have no external ID for the preferred email. Having accounts with a preferred email that does
-   * not exist as external ID is an inconsistency, but existing functionality relies on still
-   * getting those accounts, which is why they are included. Accounts by preferred email are fetched
-   * from the account index as a fallback for email addresses that could not be resolved using
-   * {@link ExternalIds}.
+   * <p>If there is no account that owns the email via an external ID all accounts that have the
+   * email set as a preferred email are returned. Having accounts with a preferred email that does
+   * not exist as external ID is an inconsistency, but existing functionality relies on getting
+   * those accounts, which is why they are returned as a fall-back by fetching them from the account
+   * index.
    *
    * @see #getAccountsFor(String...)
    */

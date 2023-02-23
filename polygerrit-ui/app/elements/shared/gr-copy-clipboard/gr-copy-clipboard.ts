@@ -39,6 +39,10 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean})
   hideInput = false;
 
+  // Optional property for toast to announce correct name of target that was copied
+  @property({type: String})
+  copyTargetName?: string;
+
   @query('#icon')
   iconEl!: GrIcon;
 
@@ -137,7 +141,7 @@ export class GrCopyClipboard extends LitElement {
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
     this.iconEl.icon = 'check';
-    copyToClipbard(this.text, 'Link');
+    copyToClipbard(this.text, this.copyTargetName ?? 'Link');
     setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
   }
 }

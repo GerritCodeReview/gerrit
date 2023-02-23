@@ -53,7 +53,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -141,13 +140,14 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
+      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
+
       RevCommit baseCommit;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
             CommitUtil.getBaseCommit(
                 project.get(), queryProvider.get(), revWalk, destRef, input.base);
       } else {
-        RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
         if (latestPatchset.getParentCount() != 1) {
           throw new BadRequestException(
               String.format(
@@ -165,11 +165,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               ? committerIdent
               : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
       String commitMessage =
-          CommitMessageUtil.checkAndSanitizeCommitMessage(
-              input.commitMessage != null
+          ApplyPatchUtil.buildCommitMessage(
+              !Strings.isNullOrEmpty(input.commitMessage)
                   ? input.commitMessage
-                  : "The following patch was applied:\n>\t"
-                      + input.patch.patch.replaceAll("\n", "\n>\t"));
+                  : latestPatchset.getFullMessage(),
+              latestPatchset.getFooterLines(),
+              input.patch.patch,
+              ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)));
 
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(

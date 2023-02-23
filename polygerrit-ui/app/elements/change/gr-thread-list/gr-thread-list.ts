@@ -42,11 +42,8 @@ import {subscribe} from '../../lit/subscription-controller';
 import {ParsedChangeInfo} from '../../../types/types';
 import {repeat} from 'lit/directives/repeat.js';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {getAppContext} from '../../../services/app-context';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Interaction} from '../../../constants/reporting';
-import {HtmlPatched} from '../../../utils/lit-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {specialFilePathCompare} from '../../../utils/path-list-util';
 
@@ -206,16 +203,7 @@ export class GrThreadList extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly reporting = getAppContext().reportingService;
-
   private readonly getUserModel = resolve(this, userModelToken);
-
-  private readonly patched = new HtmlPatched(key => {
-    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
-      component: this.tagName,
-      key: key.substring(0, 300),
-    });
-  });
 
   constructor() {
     super();
@@ -233,10 +221,6 @@ export class GrThreadList extends LitElement {
       this,
       () => this.getUserModel().account$,
       x => (this.account = x)
-    );
-    // for COMMENTS_AUTOCLOSE logging purposes only
-    this.reporting.reportInteraction(
-      Interaction.COMMENTS_AUTOCLOSE_THREAD_LIST_CREATED
     );
   }
 
@@ -341,17 +325,6 @@ export class GrThreadList extends LitElement {
     ];
   }
 
-  override updated(): void {
-    // for COMMENTS_AUTOCLOSE logging purposes only
-    const threads = this.shadowRoot!.querySelectorAll('gr-comment-thread');
-    if (threads.length > 0) {
-      this.reporting.reportInteraction(
-        Interaction.COMMENTS_AUTOCLOSE_THREAD_LIST_UPDATED,
-        {uid: threads[0].uid}
-      );
-    }
-  }
-
   override render() {
     return html`
       ${this.renderDropdown()}
@@ -425,16 +398,16 @@ export class GrThreadList extends LitElement {
           index === 0 || threads[index - 1].path !== threads[index].path;
         const separator =
           index !== 0 && isFirst
-            ? this.patched.html`<div class="thread-separator"></div>`
+            ? html`<div class="thread-separator"></div>`
             : undefined;
         const commentThread = this.renderCommentThread(thread, isFirst);
-        return this.patched.html`${separator}${commentThread}`;
+        return html`${separator}${commentThread}`;
       }
     );
   }
 
   private renderCommentThread(thread: CommentThread, isFirst: boolean) {
-    return this.patched.html`
+    return html`
       <gr-comment-thread
         .thread=${thread}
         show-file-path

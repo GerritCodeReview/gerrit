@@ -294,4 +294,12 @@ suite('change model tests', () => {
     changeModel.updateStateChange(createParsedChange());
     assert.equal(spy.callCount, 2);
   });
+
+  test('revision$ selector', async () => {
+    await waitUntilObserved(changeModel.revision$, x => x?._number === 2);
+  });
+
+  test('revision$ selector edit', async () => {
+    await waitUntilObserved(changeModel.revision$, x => x?._number === EDIT);
+  });
 });

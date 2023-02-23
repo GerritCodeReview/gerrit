@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c071d89e_93c683cb",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-23T00:27:15Z",
+      "side": 1,
+      "message": "@ekempin@google.com pointed out to me that this is used by the code-owners plugin on master: https://cs.opensource.google/gerrit/gerrit/plugins/code-owners/+/master:java/com/google/gerrit/plugins/codeowners/backend/config/CodeOwnersPluginConfiguration.java;l\u003d58\n\nThe usage on line 58 is a single cache entry; however, the usage on line 72 is again a per-project entry. Perhaps we should find a way to make the PerThreadProjectCache more generic such that its limit applies to how many projects to cache and callers can store multiple different cache entries per-project? That wouldn\u0027t be helpful if the projects don\u0027t overlap, but they probably do?",
+      "parentUuid": "54f25760_896647ae",
+      "revId": "320236a5a4c5679bc15161ef77e8b5cfdbed53fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06b5f795_69ed9012",
         "filename": "java/com/google/gerrit/server/permissions/PerThreadProjectCache.java",
         "patchSetId": 2

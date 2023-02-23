@@ -29,13 +29,27 @@ import {
 } from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
-import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
+import {
+  ChangeState,
+  LoadingStatus,
+  updateChangeWithEdit,
+  updateRevisionsWithCommitShas,
+} from './change-model';
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {userModelToken} from '../user/user-model';
-import {changeViewModelToken} from '../views/change';
+import {ChangeViewModel, changeViewModelToken} from '../views/change';
 import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
+
+suite('updateRevisionsWithCommitShas() tests', () => {
+  test('undefined edit', async () => {
+    const change = createParsedChange();
+    const updated = updateRevisionsWithCommitShas(change);
+    assert.equal(change?.revisions?.['abc'].commit?.commit, undefined);
+    assert.equal(updated?.revisions?.['abc'].commit?.commit, 'abc' as CommitId);
+  });
+});
 
 suite('updateChangeWithEdit() tests', () => {
   test('undefined change', async () => {
@@ -69,6 +83,7 @@ suite('updateChangeWithEdit() tests', () => {
 });
 
 suite('change model tests', () => {
+  let changeViewModel: ChangeViewModel;
   let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
   const testCompleted = new Subject<void>();
@@ -84,25 +99,18 @@ suite('change model tests', () => {
   }
 
   setup(() => {
+    changeViewModel = testResolver(changeViewModelToken);
     changeModel = new ChangeModel(
       testResolver(navigationToken),
-      testResolver(changeViewModelToken),
+      changeViewModel,
       getAppContext().restApiService,
       testResolver(userModelToken)
     );
     knownChange = {
       ...createChange(),
       revisions: {
-        sha1: {
-          ...createRevision(1),
-          description: 'patch 1',
-          _number: 1 as PatchSetNumber,
-        },
-        sha2: {
-          ...createRevision(2),
-          description: 'patch 2',
-          _number: 2 as PatchSetNumber,
-        },
+        sha1: {...createRevision(1), description: 'patch 1'},
+        sha2: {...createRevision(2), description: 'patch 2'},
       },
       status: ChangeStatus.NEW,
       current_revision: 'abc' as CommitId,
@@ -132,7 +140,7 @@ suite('change model tests', () => {
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 1);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('reload a change', async () => {
@@ -148,12 +156,12 @@ suite('change model tests', () => {
     document.dispatchEvent(new CustomEvent('reload'));
     state = await waitForLoadingStatus(LoadingStatus.RELOADING);
     assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('navigating to another change', async () => {
@@ -183,7 +191,7 @@ suite('change model tests', () => {
     promise.resolve(otherChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, otherChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(otherChange));
   });
 
   test('navigating to dashboard', async () => {
@@ -211,7 +219,7 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 3);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('changeModel.fetchChangeUpdates on latest', async () => {
@@ -293,5 +301,29 @@ suite('change model tests', () => {
     // test distinctUntilChanged
     changeModel.updateStateChange(createParsedChange());
     assert.equal(spy.callCount, 2);
+  });
+
+  test('revision$ selector latest', async () => {
+    changeViewModel.updateState({patchNum: undefined});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.revision$, x => x?._number === 2);
+  });
+
+  test('revision$ selector 1', async () => {
+    changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.revision$, x => x?._number === 1);
+  });
+
+  test('latestRevision$ selector latest', async () => {
+    changeViewModel.updateState({patchNum: undefined});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
+  });
+
+  test('latestRevision$ selector 1', async () => {
+    changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
   });
 });

@@ -36,7 +36,6 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestMetricMaker;
-import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -90,7 +89,6 @@ import org.junit.runners.Suite;
 })
 public class RebaseIT {
   public abstract static class Base extends AbstractDaemonTest {
-    @Inject protected AccountOperations accountOperations;
     @Inject protected ChangeOperations changeOperations;
     @Inject protected RequestScopeOperations requestScopeOperations;
     @Inject protected ProjectOperations projectOperations;
@@ -1177,6 +1175,8 @@ public class RebaseIT {
       assertThat(changeInfo.actions).containsKey("rebase:chain");
       ActionInfo rebaseActionInfo = changeInfo.actions.get("rebase:chain");
       assertThat(rebaseActionInfo.enabled).isTrue();
+      assertThat(rebaseActionInfo.enabledOptions)
+          .containsExactly("rebase", "rebase_on_behalf_of_uploader");
     }
 
     @Test

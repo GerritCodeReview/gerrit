@@ -32,6 +32,7 @@ suite('gr-user-suggestion-fix tests', () => {
             <gr-copy-clipboard
               hideinput=""
               text="Hello World"
+              copytargetname="Suggested fix"
             ></gr-copy-clipboard>
           </div>
           <div>

@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -230,6 +231,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
   public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
+  public static final Account.Id NON_EXISTING_ACCOUNT_ID = Account.id(-1000);
 
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
   public static final String OPERATOR_MERGED_AFTER = "mergedafter";
@@ -1043,7 +1045,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
             accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
           } else {
-            accounts = parseAccount(value);
+            accounts = parseAccountIgnoreVisibility(value);
           }
         } else if (key.equalsIgnoreCase(ARG_ID_GROUP)) {
           group = parseGroup(value).getUUID();
@@ -1071,17 +1073,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         if (accounts != null || group != null) {
           throw new QueryParseException("more than one user/group specified (" + value + ")");
         }
-        try {
-          if (value.equals(ARG_ID_OWNER)) {
-            accounts = Collections.singleton(OWNER_ACCOUNT_ID);
-          } else if (value.equals(ARG_ID_NON_UPLOADER)) {
-            accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
-          } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
-            accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
-          } else {
-            accounts = parseAccount(value);
-          }
-        } catch (QueryParseException qpex) {
+        if (value.equals(ARG_ID_OWNER)) {
+          accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+        } else if (value.equals(ARG_ID_NON_UPLOADER)) {
+          accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
+        } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
+          accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
+        } else {
+          accounts = parseAccountIgnoreVisibility(value);
+        }
+
+        if (accounts.contains(NON_EXISTING_ACCOUNT_ID)) {
           // If it doesn't match an account, see if it matches a group
           // (accounts get precedence)
           try {
@@ -1227,7 +1229,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> owner(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return owner(parseAccount(who, (AccountState s) -> true));
+    return owner(parseAccountIgnoreVisibility(who, (AccountState s) -> true));
   }
 
   private Predicate<ChangeData> owner(Set<Account.Id> who) {
@@ -1240,7 +1242,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> ownerDefaultField(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> accounts = parseAccount(who);
+    Set<Account.Id> accounts = parseAccountIgnoreVisibility(who);
     if (accounts.size() > MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
       return Predicate.any();
     }
@@ -1251,7 +1253,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> uploader(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     checkOperatorAvailable(ChangeField.UPLOADER_SPEC, "uploader");
-    return uploader(parseAccount(who, (AccountState s) -> true));
+    return uploader(parseAccountIgnoreVisibility(who, (AccountState s) -> true));
   }
 
   private Predicate<ChangeData> uploader(Set<Account.Id> who) {
@@ -1266,7 +1268,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> attention(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     checkOperatorAvailable(ChangeField.ATTENTION_SET_USERS, "attention");
-    return attention(parseAccount(who, (AccountState s) -> true));
+    return attention(parseAccountIgnoreVisibility(who, (AccountState s) -> true));
   }
 
   private Predicate<ChangeData> attention(Set<Account.Id> who) {
@@ -1403,7 +1405,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> commentby(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return commentby(parseAccount(who));
+    return commentby(parseAccountIgnoreVisibility(who));
   }
 
   private Predicate<ChangeData> commentby(Set<Account.Id> who) {
@@ -1417,7 +1419,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> from(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> ownerIds = parseAccount(who);
+    Set<Account.Id> ownerIds = parseAccountIgnoreVisibility(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
 
@@ -1469,7 +1471,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> reviewedby(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return ChangePredicates.reviewedBy(parseAccount(who));
+    return ChangePredicates.reviewedBy(parseAccountIgnoreVisibility(who));
   }
 
   @Operator
@@ -1722,18 +1724,42 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private Set<Account.Id> parseAccount(
-      String who, java.util.function.Predicate<AccountState> activityFilter)
-      throws QueryParseException, IOException, ConfigInvalidException {
+  private Set<Account.Id> parseAccountIgnoreVisibility(String who)
+      throws QueryRequiresAuthException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver
-          .resolveAsUser(args.getUser(), who, activityFilter)
+          .resolveAsUserIgnoreVisibility(args.getUser(), who)
           .asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);
       }
-      throw new QueryParseException(e.getMessage(), e);
+      return ImmutableSet.of(NON_EXISTING_ACCOUNT_ID);
+    }
+  }
+
+  private Set<Account.Id> parseAccountIgnoreVisibility(
+      String who, java.util.function.Predicate<AccountState> activityFilter)
+      throws QueryRequiresAuthException, IOException, ConfigInvalidException {
+    try {
+      return args.accountResolver
+          .resolveAsUserIgnoreVisibility(args.getUser(), who, activityFilter)
+          .asNonEmptyIdSet();
+    } catch (UnresolvableAccountException e) {
+      // Thrown if no account was found.
+
+      // Users can always see their own account. This means if self was being resolved and there was
+      // no match the user wasn't logged it and the request was done anonymously.
+      if (e.isSelf()) {
+        throw new QueryRequiresAuthException(e.getMessage(), e);
+      }
+
+      // If no account is found, we don't want to fail with an error as this would allow users to
+      // probe the existence of accounts (error -> account doesn't exist, empty result -> account
+      // exists but didn't take part in any visible changes). Hence, we return a special account ID
+      // (NON_EXISTING_ACCOUNT_ID) that doesn't match any account so the query can be normally
+      // executed
+      return ImmutableSet.of(NON_EXISTING_ACCOUNT_ID);
     }
   }
 
@@ -1790,7 +1816,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     Predicate<ChangeData> reviewerPredicate = null;
     try {
-      Set<Account.Id> accounts = parseAccount(who);
+      Set<Account.Id> accounts = parseAccountIgnoreVisibility(who);
       if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
         reviewerPredicate =
             Predicate.or(

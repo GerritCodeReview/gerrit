@@ -450,8 +450,18 @@ public class ProjectWatchIT extends AbstractDaemonTest {
             .to("refs/for/master");
     r.assertOkStatus();
 
-    // assert no email notifications for user
-    assertThat(sender.getMessages()).isEmpty();
+    // Assert email notification for user.
+    // The non-visible account participated in a change that is visible to user, hence through this
+    // change user can see the non-visible account.
+    // Even if watching by the non-visible account was not possible, user could just watch all
+    // changes that are visible to them and then filter them by the non-visible account locally.
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains("Change subject: subject\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+    sender.clear();
   }
 
   @Test

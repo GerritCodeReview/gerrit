@@ -43,6 +43,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -421,13 +422,45 @@ public class AccountResolver {
 
   private class ByEmail extends StringSearcher {
     @Override
+    public boolean requiresContextUser() {
+      return true;
+    }
+
+    @Override
     protected boolean matches(String input) {
       return input.contains("@");
     }
 
     @Override
-    public Stream<AccountState> search(String input) throws IOException {
-      return toAccountStates(emails.getAccountFor(input));
+    public Stream<AccountState> search(String input, CurrentUser asUser) throws IOException {
+      boolean canSeeSecondaryEmails = false;
+      try {
+        if (permissionBackend.user(asUser).test(GlobalPermission.MODIFY_ACCOUNT)) {
+          canSeeSecondaryEmails = true;
+        }
+      } catch (PermissionBackendException e) {
+        // remains false
+      }
+
+      if (canSeeSecondaryEmails) {
+        return toAccountStates(emails.getAccountFor(input));
+      }
+
+      // User cannot see secondary emails, hence search by preferred email only.
+      Stream<AccountState> accountStateStream =
+          accountQueryProvider.get().byPreferredEmail(input).stream();
+
+      // Users can always see their own secondary emails. Hence if any email of the user matches,
+      // include the user into the result.
+      if (asUser.isIdentifiedUser()
+          && asUser.asIdentifiedUser().state().externalIds().stream()
+              .map(ExternalId::email)
+              .filter(Objects::nonNull)
+              .anyMatch(email -> email.equals(input))) {
+        return Streams.concat(accountStateStream, Stream.of(asUser.asIdentifiedUser().state()));
+      }
+
+      return accountStateStream;
     }
 
     @Override
@@ -669,6 +702,18 @@ public class AccountResolver {
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
         input, searchers, self.get(), this::allVisiblePredicate, AccountResolver::isActive);
+  }
+
+  public Result resolveAsUserIgnoreVisibility(CurrentUser asUser, String input)
+      throws ConfigInvalidException, IOException {
+    return resolveAsUserIgnoreVisibility(asUser, input, AccountResolver::isActive);
+  }
+
+  public Result resolveAsUserIgnoreVisibility(
+      CurrentUser asUser, String input, Predicate<AccountState> accountActivityPredicate)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input, searchers, asUser, this::allVisiblePredicate, accountActivityPredicate);
   }
 
   /**

@@ -874,8 +874,8 @@ the numbers of added and deleted lines are shown as text, e.g.
 
 - [[show-change-number]]`Show Change Number In Changes Table`:
 +
-Whether in change lists and dashboards an `ID` column with the numeric
-change IDs should be shown.
+Whether in change lists and dashboards an `ID` column with the change numbers
+should be shown.
 
 - [[mute-common-path-prefixes]]`Mute Common Path Prefixes In File List`:
 +

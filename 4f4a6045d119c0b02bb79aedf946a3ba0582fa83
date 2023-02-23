@@ -16,6 +16,24 @@
       "message": "This is a comment",
       "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1438adde_bdbbedbe",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-23T12:27:24Z",
+      "side": 1,
+      "message": "This is another comment",
+      "parentUuid": "5138ae27_d5cc091d",
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

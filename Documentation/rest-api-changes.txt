@@ -6693,20 +6693,35 @@ Options that are returned via the `enabled_options` field of
 link:#action-info[ActionInfo].
 
 [options="header",cols="1,^1,5"]
-|===============================
-|REST view |Option  |Description
-|`rebase`  |`rebase`|
+|===================================
+|REST view     |Option  |Description
+|`rebase`      |`rebase`|
 Present if the user can rebase the change. +
 This is the case for the change owner and users with the
 link:access-control.html#category_submit[Submit] or
 link:access-control.html#category_rebase[Rebase] permission if they
 have the link:access-control.html#category_push[Push] permission.
-|`rebase`  |`rebase_on_behalf_of`|
+|`rebase`      |`rebase_on_behalf_of`|
 Present if the user can rebase the change on behalf of the uploader. +
 This is the case for the change owner and users with the
 link:access-control.html#category_submit[Submit] or
 link:access-control.html#category_rebase[Rebase] permission.
-|===============================
+|`rebase:chain`|`rebase`|
+Present if the user can rebase the chain. +
+This is the case if the calling user can rebase each change in the
+chain.+
+Rebasing a change is allowed for the change owner and users with the
+link:access-control.html#category_submit[Submit] or
+link:access-control.html#category_rebase[Rebase] permission if they
+have the link:access-control.html#category_push[Push] permission.
+|`rebase:chain`|`rebase_on_behalf_of`|
+Present if the user can rebase the chain on behalf of the uploader. +
+This is the case if the calling user can rebase each change in the
+chain on behalf of the uploader.+
+Rebasing a change on behalf of the uploader is allowed for the change
+owner and users with the link:access-control.html#category_submit[Submit]
+or link:access-control.html#category_rebase[Rebase] permission.
+|===================================
 
 For all other REST views no options are returned.
 

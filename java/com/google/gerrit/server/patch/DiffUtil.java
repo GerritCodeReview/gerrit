@@ -15,19 +15,29 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 /**
  * A utility class used by the diff cache interfaces {@link GitModifiedFilesCache} and {@link
@@ -114,6 +124,75 @@ public class DiffUtil {
       return str.length() * 2;
     }
     return 0;
+  }
+
+  /**
+   * Get formatted diff between the given commits, either for a single path if specified, or for the
+   * full trees.
+   *
+   * @param repo to get the diff from
+   * @param baseCommit to compare with
+   * @param childCommit to compare
+   * @param path to narrow the diff to
+   * @param out to append the diff to
+   * @throws IOException if the diff couldn't be written
+   */
+  public static void getFormattedDiff(
+      Repository repo,
+      RevCommit baseCommit,
+      RevCommit childCommit,
+      @Nullable String path,
+      OutputStream out)
+      throws IOException {
+    getFormattedDiff(repo, null, baseCommit.getTree(), childCommit.getTree(), path, out);
+  }
+
+  public static void getFormattedDiff(
+      Repository repo,
+      @Nullable ObjectReader reader,
+      RevTree baseTree,
+      RevTree childTree,
+      @Nullable String path,
+      OutputStream out)
+      throws IOException {
+    try (DiffFormatter fmt = new DiffFormatter(out)) {
+      fmt.setRepository(repo);
+      if (reader != null) {
+        fmt.setReader(reader, repo.getConfig());
+      }
+      if (path != null) {
+        fmt.setPathFilter(PathFilter.create(path));
+      }
+      fmt.format(baseTree, childTree);
+      fmt.flush();
+    }
+  }
+
+  public static String cleanPatch(final String patch) {
+    String res = patch;
+    if (res.contains("\ndiff --git")) {
+      // Remove the header
+      res = res.substring(patch.lastIndexOf("\ndiff --git"), patch.length() - 1);
+    }
+    return res
+        // Remove "index NN..NN lines
+        .replaceAll("(?m)^index.*", "")
+        // Remove empty lines
+        .replaceAll("\n+", "\n")
+        // Trim
+        .trim();
+  }
+
+  public static Optional<String> getPatchHeader(final String patch) {
+    if (!patch.contains("\ndiff --git")) {
+      return Optional.empty();
+    }
+    return Optional.ofNullable(
+        Strings.emptyToNull(patch.trim().substring(0, patch.lastIndexOf("\ndiff --git"))));
+  }
+
+  public static String cleanPatch(BinaryResult bin) throws IOException {
+    return cleanPatch(bin.asString());
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {

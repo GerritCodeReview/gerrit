@@ -13,6 +13,7 @@ import {
   PreferencesInfo,
   RevisionPatchSetNum,
   PatchSetNumber,
+  CommitId,
 } from '../../types/common';
 import {DefaultBase} from '../../constants/constants';
 import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
@@ -27,6 +28,7 @@ import {
   computeAllPatchSets,
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
+  sortRevisions,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -69,6 +71,32 @@ export interface ChangeState {
    * Undefined means it's still loading and empty set means no files reviewed.
    */
   reviewedFiles?: string[];
+}
+
+/**
+ * `change.revisions` is a dictionary mapping the revision sha to RevisionInfo,
+ * but the info object itself does not contain the sha, which is a problem when
+ * working with just the info objects.
+ *
+ * So we are iterating over the map here and are assigning the sha map key to
+ * the property `revision.commit.commit`.
+ *
+ * As usual we are treating data objects as immutable, so we are doind a lot of
+ * cloning here.
+ */
+export function updateRevisionsWithCommitShas(changeInput?: ParsedChangeInfo) {
+  if (!changeInput?.revisions) return changeInput;
+  const changeOutput = {...changeInput, revisions: {...changeInput.revisions}};
+  for (const sha of Object.keys(changeOutput.revisions)) {
+    const revision = changeOutput.revisions[sha];
+    if (revision?.commit && !revision.commit.commit) {
+      changeOutput.revisions[sha] = {
+        ...revision,
+        commit: {...revision.commit, commit: sha as CommitId},
+      };
+    }
+  }
+  return changeOutput;
 }
 
 /**
@@ -179,9 +207,8 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly revisions$ = select(
-    this.change$,
-    change => change?.revisions
+  public readonly revisions$ = select(this.change$, change =>
+    sortRevisions(Object.values(change?.revisions || {}))
   );
 
   public readonly patchsets$ = select(this.change$, change =>
@@ -259,6 +286,28 @@ export class ChangeModel extends Model<ChangeState> {
         computeBase(viewModelBasePatchNum, patchNum, change, preferences)
     );
 
+  /** The revision that matches `patchNum`. */
+  public readonly revision$ = select(
+    combineLatest([this.revisions$, this.patchNum$]),
+    ([revisions, patchNum]) => {
+      if (!revisions || !patchNum) return undefined;
+      return Object.values(revisions).find(
+        revision => revision._number === patchNum
+      );
+    }
+  );
+
+  /** The revision that matches `latestPatchNum`. */
+  public readonly latestRevision$ = select(
+    combineLatest([this.revisions$, this.latestPatchNum$]),
+    ([revisions, latestPatchNum]) => {
+      if (!revisions || !latestPatchNum) return undefined;
+      return Object.values(revisions).find(
+        revision => revision._number === latestPatchNum
+      );
+    }
+  );
+
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),
     ([change, account]) => isOwner(change, account)
@@ -290,7 +339,8 @@ export class ChangeModel extends Model<ChangeState> {
           withLatestFrom(this.viewModel.patchNum$),
           map(([[change, edit], patchNum]) =>
             updateChangeWithEdit(change, edit, patchNum)
-          )
+          ),
+          map(updateRevisionsWithCommitShas)
         )
         .subscribe(change => {
           // The change service is currently a singleton, so we have to be

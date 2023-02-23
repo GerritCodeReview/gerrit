@@ -152,4 +152,6 @@ export enum Interaction {
   // Chrome bug that leads to html`` misbehavior.
   AUTOCLOSE_HTML_PATCHED = 'autoclose-html-patched',
   CHANGE_ACTION_FIRED = 'change-action-fired',
+  BUTTON_CLICK = 'button-click',
+  LINK_CLICK = 'link-click',
 }

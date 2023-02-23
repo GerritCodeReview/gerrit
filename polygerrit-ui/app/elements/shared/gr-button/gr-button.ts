@@ -11,6 +11,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map.js';
+import {Interaction} from '../../../constants/reporting';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -228,6 +229,8 @@ export class GrButton extends LitElement {
       return;
     }
 
-    this.reporting.reportInteraction('button-click', {path: getEventPath(e)});
+    this.reporting.reportInteraction(Interaction.BUTTON_CLICK, {
+      path: getEventPath(e),
+    });
   }
 }

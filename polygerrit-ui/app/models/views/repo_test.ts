@@ -23,4 +23,8 @@ suite('repo view state tests', () => {
       '/admin/repos/asdf,access'
     );
   });
+
+  test('passes', () => {
+    assert.isTrue(true);
+  });
 });

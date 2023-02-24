@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b90e7ed_c1a5939c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307c23b3_4ddfe4a5",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea18484b_b8b22dd2",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-24T11:54:26Z",
       "side": 1,
       "message": "This feels risky, you will now have dual state that might be out of sync.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32012ad1_7eb6b77e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "We already had dual state before. Half of the change page is already relying on the model provided patchNum. That is why we are having issues and why I think we need to move on with this migration.\n\nThis is maybe less risky than you think. The methods in `gr-change-view` can be split up into two categories: render/handle methods and viewStateChanged/loading methods. What I am trying to do here is changing the render/handle methods to be model based, which is safe and consistent. The viewStateChanged/loading methods are risky to switch over, because we don\u0027t know whether `patchNum` is set before `viewStateChanged()` is called.\n\nThat said, I am fine to hold back the submission of this individual change, and rather pile a full chain of changes on top until `viewStateChanged()` is completely gone. Let me know what you prefer.\n\nSorry for not explaining this in more detail in the commit message. :-/",
+      "parentUuid": "ea18484b_b8b22dd2",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +107,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6624528c_e3920c7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "Eventually yes, but at the moment this is too risky, see my other comment.",
+      "parentUuid": "22984295_1d5e030c",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "89416bbc_0bef26e4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2023-02-24T08:53:44Z",
       "side": 1,
       "message": "Could replace all these type within this element with latestPatchNum from the change-model although that can be done in a separate change.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4501657e_696004d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2491,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "Absolutely! One of many follow up changes that can or must follow.",
+      "parentUuid": "89416bbc_0bef26e4",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f053fb_0d4c7da1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "See my other comment about render/handle vs viewStateChanged/loading methods. Still using `this.patchRange` is all viewStateChanged/loading methods is intentional.",
+      "parentUuid": "72db39ba_2ff83c31",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79e75150_4f43b02d",
@@ -116,6 +206,24 @@
       "writtenOn": "2023-02-24T11:54:26Z",
       "side": 1,
       "message": "use this.patchNum",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bf2e87b_357614ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2803,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "See my other comment about render/handle vs viewStateChanged/loading methods. Still using `this.patchRange` is all viewStateChanged/loading methods is intentional.\n\nAlso, with the child change 360496, this is obsolete.",
+      "parentUuid": "79e75150_4f43b02d",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +245,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b765905_bd3d8a27",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2805,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "See my other comment about render/handle vs viewStateChanged/loading methods. Still using `this.patchRange` is all viewStateChanged/loading methods is intentional.\n\nAlso, with the child change 360496, this is obsolete.",
+      "parentUuid": "b9b5aa41_01f26ca1",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77483f6b_d3f8961d",
@@ -154,6 +280,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99714b1d_ff58b769",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2852,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "See my other comment about render/handle vs viewStateChanged/loading methods. Still using `this.patchRange` is all viewStateChanged/loading methods is intentional.\n\nAlso, with the child change 360496, this is obsolete.",
+      "parentUuid": "77483f6b_d3f8961d",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85dbeb90_8cfdf2cf",
@@ -167,6 +311,24 @@
       "writtenOn": "2023-02-24T11:54:26Z",
       "side": 1,
       "message": "This could be called in updtaed.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ac3631_6b51806b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:59:04Z",
+      "side": 1,
+      "message": "Method deleted in change 360496.",
+      "parentUuid": "85dbeb90_8cfdf2cf",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

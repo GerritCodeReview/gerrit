@@ -16,6 +16,24 @@
       "message": "You\u0027re no longer checking \u0027loggedIn\u0027",
       "revId": "6502642d522a3a2b6ac800d2bab608908ff2ffe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a55136_e9f3ab80",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "386acf5c_fe822da8",
+      "revId": "6502642d522a3a2b6ac800d2bab608908ff2ffe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,8 @@ export class GrUserSuggetionFix extends LitElement {
         padding: var(--spacing-xs) var(--spacing-s);
         display: flex;
         align-items: center;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
       }
       .header .title {
         flex: 1;
@@ -56,6 +58,8 @@ export class GrUserSuggetionFix extends LitElement {
         overflow-x: auto;
         /* Pre will preserve whitespace and line breaks but not wrap */
         white-space: pre;
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
       }
     `,
   ];

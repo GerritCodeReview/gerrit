@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aec56b97_0f297aa1",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchPatchSetInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-24T08:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cad98b33_35647a06",
+      "range": {
+        "startLine": 46,
+        "startChar": 43,
+        "endLine": 46,
+        "endChar": 66
+      },
+      "revId": "90ccd61a1a8c57247f9e967fe5076afb19d01cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "937161df_d86b1646",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-02-24T08:22:05Z",
       "side": 1,
       "message": "nit: should be camelCase in Java code",
+      "revId": "90ccd61a1a8c57247f9e967fe5076afb19d01cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b54c34d_5ac5c5ac",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-24T08:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "937161df_d86b1646",
       "revId": "90ccd61a1a8c57247f9e967fe5076afb19d01cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63a972b_f7bed7d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T06:57:23Z",
+      "side": 1,
+      "message": "I have done the same in change 360493. Sorry for duplicated effort. :-/",
+      "revId": "2e48b6ba102826b8b778ab695c8e741ade966d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

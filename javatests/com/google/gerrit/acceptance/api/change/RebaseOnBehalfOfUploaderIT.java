@@ -101,7 +101,10 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
             () -> gApi.changes().id(changeId.get()).revision(1).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
-        .isEqualTo("non-current patch set cannot be rebased on behalf of the uploader");
+        .isEqualTo(
+            String.format(
+                "change %s: non-current patch set cannot be rebased on behalf of the uploader",
+                changeId));
   }
 
   @Test
@@ -402,7 +405,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class,
             () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
-    assertThat(exception).hasMessageThat().isEqualTo(expectedErrorMessage);
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(String.format("change %s: %s", changeToBeRebased, expectedErrorMessage));
   }
 
   @Test
@@ -593,7 +598,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
             () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
-        .isEqualTo(String.format("uploader %s cannot add patch set", uploaderEmail));
+        .isEqualTo(
+            String.format(
+                "change %s: uploader %s cannot add patch set", changeToBeRebased, uploaderEmail));
   }
 
   @Test
@@ -684,8 +691,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "author of patch set 1 is forged and the uploader %s cannot forge author",
-                uploaderEmail));
+                "change %s: author of patch set 1 is forged and the uploader %s cannot forge author",
+                changeToBeRebased, uploaderEmail));
   }
 
   @Test
@@ -830,9 +837,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "author of patch set 1 is the server identity and the uploader %s cannot forge"
+                "change %s: author of patch set 1 is the server identity and the uploader %s cannot forge"
                     + " the server identity",
-                uploaderEmail));
+                changeToBeRebased, uploaderEmail));
   }
 
   @Test

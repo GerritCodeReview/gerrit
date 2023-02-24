@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386acf5c_fe822da8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T12:00:10Z",
+      "side": 1,
+      "message": "You\u0027re no longer checking \u0027loggedIn\u0027",
+      "revId": "6502642d522a3a2b6ac800d2bab608908ff2ffe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

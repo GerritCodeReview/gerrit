@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebba92e_d0caaf6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T07:43:10Z",
+      "side": 1,
+      "message": "Nice! ❤️ Thank you! 🙏",
+      "revId": "aa78df40ed98d755b5845b12f95858843c540bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11449021_23c43e09",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T07:43:10Z",
+      "side": 1,
+      "message": "This can be simplified:\n```suggestion\n      this.editMode || this.patchNum \u003d\u003d\u003d this.latestPatchNum\n```",
+      "range": {
+        "startLine": 341,
+        "startChar": 5,
+        "endLine": 342,
+        "endChar": 43
+      },
+      "revId": "aa78df40ed98d755b5845b12f95858843c540bfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

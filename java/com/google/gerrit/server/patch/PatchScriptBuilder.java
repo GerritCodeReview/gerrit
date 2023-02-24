@@ -122,7 +122,7 @@ class PatchScriptBuilder {
     if (a.mode == FileMode.MISSING) {
       throw new ResourceNotFoundException(String.format("File %s not found", fileName));
     }
-    FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements);
+    FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements, true);
     PatchSide b =
         new PatchSide(
             null,

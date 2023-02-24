@@ -34,6 +34,24 @@
       "parentUuid": "96dd22b7_886b790d",
       "revId": "42bd35dfd2b9761cab3a8f8b5eb27b3dfa33980e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5db0e4_6b5638c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-02-24T12:16:54Z",
+      "side": 1,
+      "message": "\u003e Backend team is looking to set up the backend side next quarter. I am preparing an explanation post for repo-discuss on the timeline and new workflow.\n\n+1\n\n\u003e Hopefully it can \"launch\" in March, with java side still relying on Jenkins until a LUCI recipe is set up. Happy to chat further if you have other specific questions\n\nIt would be nice if you guys could prepare a presentation of the amazing work done for the Gerrit User Summit 2023 ! That would also give more visibility to LUCI, the open-source framework used.\n\nThanks again for working on this, this looks really exciting and promising 👍\n\nLuca.",
+      "parentUuid": "f7ffbad1_d4798b07",
+      "revId": "42bd35dfd2b9761cab3a8f8b5eb27b3dfa33980e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

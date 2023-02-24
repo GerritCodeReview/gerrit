@@ -1,0 +1,36 @@
+= Gerrit Code Review - User suggest edits (Experiment)
+
+Easy and fast way for reviewers to suggest code changes that can be easily applied
+by change owner.
+
+== Reviewer workflow
+
+** Select line or multiple lines of diff and start comment
+
+image::images/user-suggest-edits-reviewer-comment.png["Comment example", align="center", width=400]
+
+** Click on suggest fix - that copies whole selected line/lines
+
+image::images/user-suggest-edits-reviewer-suggest-fix.png["Comment example", align="center", width=400]
+
+** Modify lines in the suggestion block. Optionally add more details as normal comment text before or after the suggestion block.
+
+image::images/user-suggest-edits-suggestion.png["Suggestion example", align="center", width=400]
+
+** Optionally you can preview suggested fix by clicking on Preview fix when you stop editing comment
+
+image::images/user-suggest-edits-reviewer-preview.png["Suggestion Draft example", align="center", width=400]
+
+image::images/user-suggest-edits-preview.png["Suggestion Preview", align="center", width=400]
+
+== Author workflow
+
+You can apply one or more suggested fixes. When suggested fix is applied - it creates
+a change edit that you can modify. link:user-inline-edit.html#editing-change[More about editing mode.]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

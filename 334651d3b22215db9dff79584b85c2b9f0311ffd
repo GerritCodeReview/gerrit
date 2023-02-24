@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d17de91d_ce7b038a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-02-24T10:38:24Z",
+      "side": 1,
+      "message": "will you need `reflect: true`? We have in [a few places](https://cs.opensource.google/search?q\u003d%22type:%20String,%20reflect:%20true%22\u0026ss\u003dgerrit) for String",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "334651d3b22215db9dff79584b85c2b9f0311ffd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

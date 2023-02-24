@@ -1,0 +1,12 @@
+= Gerrit Code Review - User suggest edits
+
+Easy and fast way for reviewers to suggest code changes that can be easily applied
+by change owner.
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

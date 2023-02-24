@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3167aa8_3970cdab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-02-24T07:58:11Z",
+      "side": 1,
+      "message": "Without this nuance, applying a patch is effectively overwriting the change. I think this is counter-intuitive (\u003dunintended behavior).\nSince both parts are about fetching the right base, I related to them as parts of the same issue.",
+      "parentUuid": "39194c54_d62f76e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e41c49b_4495f4a4",

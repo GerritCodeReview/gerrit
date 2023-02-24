@@ -73,7 +73,11 @@ export class GrUserSuggetionFix extends LitElement {
     return html`<div class="header">
         <div class="title">Suggested fix</div>
         <div>
-          <gr-copy-clipboard hideInput="" text=${code}></gr-copy-clipboard>
+          <gr-copy-clipboard
+            hideInput=""
+            text=${code}
+            copyTargetName="Suggested fix"
+          ></gr-copy-clipboard>
         </div>
         <div>
           <gr-button

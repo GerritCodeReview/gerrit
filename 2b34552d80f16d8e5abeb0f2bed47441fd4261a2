@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2583a0b2_fbad745c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-24T08:53:44Z",
+      "side": 1,
+      "message": "The change looks good to me apart from my other comment.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "307c23b3_4ddfe4a5",
@@ -14,6 +31,23 @@
       "writtenOn": "2023-02-24T08:50:24Z",
       "side": 1,
       "message": "Should probably update getEditMode to use patchNum?",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89416bbc_0bef26e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2491,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-24T08:53:44Z",
+      "side": 1,
+      "message": "Could replace all these type within this element with latestPatchNum from the change-model although that can be done in a separate change.",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

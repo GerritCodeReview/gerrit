@@ -35,6 +35,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea18484b_b8b22dd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "This feels risky, you will now have dual state that might be out of sync.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22984295_1d5e030c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "This getter can be changed to return \n\n```\n{\n   basePatchNum: this.basePatchNum,\n   patchNum: this.patchNum\n}",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "89416bbc_0bef26e4",
@@ -48,6 +82,91 @@
       "writtenOn": "2023-02-24T08:53:44Z",
       "side": 1,
       "message": "Could replace all these type within this element with latestPatchNum from the change-model although that can be done in a separate change.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72db39ba_2ff83c31",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2734,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "Stop using patchRange here.",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e75150_4f43b02d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2803,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "use this.patchNum",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9b5aa41_01f26ca1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2805,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "use this.patchNum",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77483f6b_d3f8961d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2852,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "use this.patchNum",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85dbeb90_8cfdf2cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-24T11:54:26Z",
+      "side": 1,
+      "message": "This could be called in updtaed.",
       "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

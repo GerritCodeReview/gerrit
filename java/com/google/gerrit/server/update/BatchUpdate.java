@@ -35,6 +35,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
@@ -572,6 +573,7 @@ public class BatchUpdate implements AutoCloseable {
    *
    * <p>The op is executed by the user for which the {@link BatchUpdate} has been created.
    */
+  @CanIgnoreReturnValue
   public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     requireNonNull(op);
@@ -580,6 +582,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   /** Adds a {@link BatchUpdate} for a change that should be executed by the given context user. */
+  @CanIgnoreReturnValue
   public BatchUpdate addOp(Change.Id id, CurrentUser contextUser, BatchUpdateOp op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     requireNonNull(op);
@@ -592,6 +595,7 @@ public class BatchUpdate implements AutoCloseable {
    *
    * <p>The op is executed by the user for which the {@link BatchUpdate} has been created.
    */
+  @CanIgnoreReturnValue
   public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
     checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
     repoOnlyOps.add(OpData.create(op, user));
@@ -599,12 +603,14 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   /** Adds a {@link RepoOnlyOp} that should be executed by the given context user. */
+  @CanIgnoreReturnValue
   public BatchUpdate addRepoOnlyOp(CurrentUser contextUser, RepoOnlyOp op) {
     checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
     repoOnlyOps.add(OpData.create(op, contextUser));
     return this;
   }
 
+  @CanIgnoreReturnValue
   public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
     Context ctx = new ContextImpl(user);
     Change c = op.createChange(ctx);

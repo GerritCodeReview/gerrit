@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8d725f_d25b7905",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2899,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T07:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19843ad5_c7725e84",
+      "range": {
+        "startLine": 2899,
+        "startChar": 29,
+        "endLine": 2899,
+        "endChar": 31
+      },
+      "revId": "6ae29c2c2604183ee07c74815b268ff81b2897b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ece5b0a9_a2d8b266",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-24T07:43:54Z",
       "side": 1,
       "message": "Dangling \"in\" is a little confusing. Feels like it should end with changeInX or something(just based on reading the name).\nmaybe replace with `changeInp` or `changeInput`?",
+      "range": {
+        "startLine": 76,
+        "startChar": 46,
+        "endLine": 76,
+        "endChar": 54
+      },
+      "revId": "6ae29c2c2604183ee07c74815b268ff81b2897b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba164ec_6aaaadcf",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-24T07:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ece5b0a9_a2d8b266",
       "range": {
         "startLine": 76,
         "startChar": 46,

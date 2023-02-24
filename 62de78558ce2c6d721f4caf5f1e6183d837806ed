@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55015b84_dcae1a65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-24T10:45:57Z",
+      "side": 1,
+      "message": "Thanks. I am passing false for intraline in existing tests so tests succeed. \n\nI will add new tests in next patchset.",
+      "parentUuid": "d9bab372_df6dd0ce",
+      "revId": "62de78558ce2c6d721f4caf5f1e6183d837806ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45a2ebf6_533378d0",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-23T11:44:05Z",
       "side": 1,
       "message": "Minor nit:\n\n```\n    private TypeOfBuildEdits buildEdits() {\n      if (this.intraline) {\n        return IntraLineLoader.compute(this.src, this.getNewText(), edits.build(), ImmutableSet.of()).build();\n      } else {\n        return edits.build();\n      }\n    }\n    \n    public FixResult build() {\n      finish();\n      return new FixResult(buildEdits(), this.getNewText());\n    }\n ```",
+      "revId": "62de78558ce2c6d721f4caf5f1e6183d837806ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3add95e_62b9a1b9",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-24T10:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45a2ebf6_533378d0",
       "revId": "62de78558ce2c6d721f4caf5f1e6183d837806ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

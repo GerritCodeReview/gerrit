@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e36a252_3cab9414",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-24T11:59:49Z",
+      "side": 1,
+      "message": "Added test for intraline that changes correctly replace to insert!\n\nThanks for help Dmitrii, this is implementation of your instructions how to do intraline.",
+      "parentUuid": "55015b84_dcae1a65",
+      "revId": "62de78558ce2c6d721f4caf5f1e6183d837806ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45a2ebf6_533378d0",

@@ -143,13 +143,16 @@ public class RebaseUtil {
   public RevisionResource onBehalfOf(RevisionResource rsrc, RebaseInput rebaseInput)
       throws IOException, PermissionBackendException, BadRequestException,
           ResourceConflictException {
-    if (rsrc.getPatchSet().id().get() != rsrc.getChange().currentPatchSetId().get()) {
-      throw new BadRequestException(
-          "non-current patch set cannot be rebased on behalf of the uploader");
-    }
     if (rebaseInput.allowConflicts) {
       throw new BadRequestException(
           "allow_conflicts and on_behalf_of_uploader are mutually exclusive");
+    }
+
+    if (rsrc.getPatchSet().id().get() != rsrc.getChange().currentPatchSetId().get()) {
+      throw new BadRequestException(
+          String.format(
+              "change %s: non-current patch set cannot be rebased on behalf of the uploader",
+              rsrc.getChange().getId()));
     }
 
     CurrentUser caller = rsrc.getUser();
@@ -166,12 +169,16 @@ public class RebaseUtil {
         uploader,
         rsrc.getNotes(),
         ChangePermission.READ,
-        String.format("uploader %s cannot read change", uploader.getLoggableName()));
+        String.format(
+            "change %s: uploader %s cannot read change",
+            rsrc.getChange().getId(), uploader.getLoggableName()));
     checkPermissionForUploader(
         uploader,
         rsrc.getNotes(),
         ChangePermission.ADD_PATCH_SET,
-        String.format("uploader %s cannot add patch set", uploader.getLoggableName()));
+        String.format(
+            "change %s: uploader %s cannot add patch set",
+            rsrc.getChange().getId(), uploader.getLoggableName()));
 
     try (Repository repo = repoManager.openRepository(rsrc.getProject())) {
       RevCommit commit = repo.parseCommit(rsrc.getPatchSet().commitId());
@@ -182,8 +189,10 @@ public class RebaseUtil {
             rsrc.getNotes(),
             RefPermission.FORGE_AUTHOR,
             String.format(
-                "author of patch set %d is forged and the uploader %s cannot forge author",
-                rsrc.getPatchSet().id().get(), uploader.getLoggableName()));
+                "change %s: author of patch set %d is forged and the uploader %s cannot forge author",
+                rsrc.getChange().getId(),
+                rsrc.getPatchSet().id().get(),
+                uploader.getLoggableName()));
 
         if (serverIdent.get().getEmailAddress().equals(commit.getAuthorIdent().getEmailAddress())) {
           checkPermissionForUploader(
@@ -191,9 +200,11 @@ public class RebaseUtil {
               rsrc.getNotes(),
               RefPermission.FORGE_SERVER,
               String.format(
-                  "author of patch set %d is the server identity and the uploader %s cannot forge"
+                  "change %s: author of patch set %d is the server identity and the uploader %s cannot forge"
                       + " the server identity",
-                  rsrc.getPatchSet().id().get(), uploader.getLoggableName()));
+                  rsrc.getChange().getId(),
+                  rsrc.getPatchSet().id().get(),
+                  uploader.getLoggableName()));
         }
       }
     }

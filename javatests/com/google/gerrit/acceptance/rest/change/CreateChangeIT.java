@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -222,6 +223,38 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo info = assertCreateSucceeds(ci);
     assertThat(info.changeId).isEqualTo(changeId);
     assertThat(info.revisions.get(info.currentRevision).commit.message).contains(changeIdLine);
+  }
+
+  @Test
+  public void formatResponse_fieldsPresentWhenRequested() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    String changeId = "I1234000000000000000000000000000000000000";
+    String changeIdLine = "Change-Id: " + changeId;
+    ci.subject = "Subject\n\n" + changeIdLine;
+    ci.responseFormatOptions =
+        ImmutableList.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_ACTIONS);
+    // Must use REST directly because the Java API returns a ChangeApi upon
+    // creation that will do its own formatting when #get is called on it.
+    RestResponse resp = adminRestSession.post("/changes/", ci);
+    resp.assertCreated();
+    ChangeInfo res = readContentFromJson(resp, ChangeInfo.class);
+    assertThat(res.actions).isNotEmpty();
+    assertThat(res.revisions.values()).hasSize(1);
+  }
+
+  @Test
+  public void formatResponse_fieldsAbsentWhenNotRequested() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    String changeId = "I1234000000000000000000000000000000000000";
+    String changeIdLine = "Change-Id: " + changeId;
+    ci.subject = "Subject\n\n" + changeIdLine;
+    // Must use REST directly because the Java API returns a ChangeApi upon
+    // creation that will do its own formatting when #get is called on it.
+    RestResponse resp = adminRestSession.post("/changes/", ci);
+    resp.assertCreated();
+    ChangeInfo res = readContentFromJson(resp, ChangeInfo.class);
+    assertThat(res.actions).isNull();
+    assertThat(res.revisions).isNull();
   }
 
   @Test

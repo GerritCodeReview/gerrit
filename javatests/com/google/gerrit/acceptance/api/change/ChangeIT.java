@@ -53,6 +53,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -3525,54 +3526,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
     assertPermitted(change, LabelId.VERIFIED, 0, 1);
     assertLabelDescription(change, LabelId.VERIFIED, TestLabels.VERIFIED_LABEL_DESCRIPTION);
-
-    // Ignore the new label by Prolog submit rule. Permitted ranges are still going to be
-    // returned for the label.
-    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
-    testRepo.reset("config");
-    PushOneCommit push2 =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "Ignore Verified",
-            "rules.pl",
-            "submit_rule(submit(CR)) :-\n  gerrit:max_with_block(-2, 2, 'Code-Review', CR).");
-    push2.to(RefNames.REFS_CONFIG);
-
-    change = gApi.changes().id(r.getChangeId()).get();
-    assertPermitted(change, LabelId.CODE_REVIEW, 2);
-    assertPermitted(change, LabelId.VERIFIED, 0, 1);
-
-    // add an approval on the new label. The label can still be voted +1 although it is ignored
-    // in Prolog. 0 is not permitted because votes cannot be decreased.
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(new ReviewInput().label(verified.getName(), verified.getMax().getValue()));
-
-    change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
-    assertPermitted(change, LabelId.CODE_REVIEW, 2);
-    assertPermitted(change, LabelId.VERIFIED, 1);
-    assertThat(change.removableLabels).isEmpty();
-
-    // remove label and assert that it's no longer returned for existing
-    // changes, even if there is an approval for it
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().remove(verified.getName());
-      u.save();
-    }
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .remove(permissionKey(verified.getName()).ref(heads).group(registeredUsers))
-        .update();
-
-    change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
-    assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
-    assertPermitted(change, LabelId.CODE_REVIEW, 2);
-    assertThat(change.removableLabels).isEmpty();
   }
 
   @Test
@@ -3614,62 +3567,83 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void checkLabelsForMergedChangeWithNonAuthorCodeReview() throws Exception {
-    // Configure Non-Author-Code-Review
-    RevCommit oldHead = projectOperations.project(project).getHead("master");
+  public void uploadingRulesPlIsNotAllowed() throws Exception {
+    projectOperations.project(project).getHead("master");
     GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
     testRepo.reset("config");
-    PushOneCommit push2 =
-        pushFactory.create(
+    PushOneCommit.Result pushResult =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "Add prolog rules",
+                RULES_PL_FILE,
+                "submit_rule(S) :-\n"
+                    + "  gerrit:default_submit(X),\n"
+                    + "  X =.. [submit | Ls],\n"
+                    + "  add_non_author_approval(Ls, R),\n"
+                    + "  S =.. [submit | R].\n"
+                    + "\n"
+                    + "add_non_author_approval(S1, S2) :-\n"
+                    + "  gerrit:commit_author(A),\n"
+                    + "  gerrit:commit_label(label('Code-Review', 2), R),\n"
+                    + "  R \\= A, !,\n"
+                    + "  S2 = [label('Non-Author-Code-Review', ok(R)) | S1].\n"
+                    + "add_non_author_approval(S1,"
+                    + " [label('Non-Author-Code-Review', need(_)) | S1]).")
+            .to(RefNames.REFS_CONFIG);
+    pushResult.assertErrorStatus();
+    pushResult.assertMessage(
+        "Uploading a new 'rules.pl' file is not allowed."
+            + " Please add submit-requirements instead.");
+  }
+
+  @Test
+  public void modifyingRulesPlIsAllowed() throws Exception {
+    // Committing the rules.pl change directly to the repository to bypass gerrit validation.
+    modifySubmitRules(
+        "submit_rule(submit(R)) :- \n"
+            + "gerrit:unresolved_comments_count(2), \n"
+            + "!,"
+            + "gerrit:uploader(U), \n"
+            + "R = label('All-Comments-Resolved', ok(U)).\n");
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    pushFactory
+        .create(
             admin.newIdent(),
             testRepo,
-            "Configure Non-Author-Code-Review",
-            "rules.pl",
-            "submit_rule(S) :-\n"
-                + "  gerrit:default_submit(X),\n"
-                + "  X =.. [submit | Ls],\n"
-                + "  add_non_author_approval(Ls, R),\n"
-                + "  S =.. [submit | R].\n"
-                + "\n"
-                + "add_non_author_approval(S1, S2) :-\n"
-                + "  gerrit:commit_author(A),\n"
-                + "  gerrit:commit_label(label('Code-Review', 2), R),\n"
-                + "  R \\= A, !,\n"
-                + "  S2 = [label('Non-Author-Code-Review', ok(R)) | S1].\n"
-                + "add_non_author_approval(S1,"
-                + " [label('Non-Author-Code-Review', need(_)) | S1]).");
-    push2.to(RefNames.REFS_CONFIG);
-    testRepo.reset(oldHead);
+            "Update prolog rules",
+            RULES_PL_FILE,
+            "submit_rule(submit(R)) :- \n"
+                + "gerrit:unresolved_comments_count(0), \n"
+                + "!,"
+                + "gerrit:uploader(U), \n"
+                + "R = label('All-Comments-Resolved', ok(U)).\n")
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
+  }
 
-    String heads = RefNames.REFS_HEADS + "*";
-
-    // Allow user to approve
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(
-            allowLabel(TestLabels.codeReview().getName())
-                .ref(heads)
-                .group(REGISTERED_USERS)
-                .range(-2, 2))
-        .update();
-
-    PushOneCommit.Result r = createChange();
-
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-
-    requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
-
-    ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
-    assertThat(change.status).isEqualTo(MERGED);
-    assertThat(change.submissionId).isNotNull();
-    assertThat(change.labels.keySet())
-        .containsExactly(LabelId.CODE_REVIEW, "Non-Author-Code-Review");
-    assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
-    assertPermitted(change, LabelId.CODE_REVIEW, 0, 1, 2);
-    assertThat(change.removableLabels).isEmpty();
+  @Test
+  public void deletingRulesPlIsAllowed() throws Exception {
+    // Committing the rules.pl change directly to the repository to bypass gerrit validation.
+    modifySubmitRules(
+        "submit_rule(submit(R)) :- \n"
+            + "gerrit:unresolved_comments_count(2), \n"
+            + "!,"
+            + "gerrit:uploader(U), \n"
+            + "R = label('All-Comments-Resolved', ok(U)).\n");
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            /* subject= */ "Remove prolog rules",
+            /* files= */ ImmutableMap.of())
+        .rmFile(RULES_PL_FILE)
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
   }
 
   @Test
@@ -3825,43 +3799,6 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class, () -> gApi.changes().id(changeId).current().review(in));
     assertThat(thrown).hasMessageThat().contains("label \"Code-Review\": 3 is not a valid value");
-  }
-
-  @Test
-  public void unresolvedCommentsBlocked() throws Exception {
-    modifySubmitRules(
-        "submit_rule(submit(R)) :- \n"
-            + "gerrit:unresolved_comments_count(0), \n"
-            + "!,"
-            + "gerrit:uploader(U), \n"
-            + "R = label('All-Comments-Resolved', ok(U)).\n"
-            + "submit_rule(submit(R)) :- \n"
-            + "gerrit:unresolved_comments_count(U), \n"
-            + "U > 0,"
-            + "R = label('All-Comments-Resolved', need(_)). \n\n");
-
-    String oldHead = projectOperations.project(project).getHead("master").name();
-    PushOneCommit.Result result1 =
-        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    testRepo.reset(oldHead);
-    PushOneCommit.Result result2 =
-        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-
-    addComment(result1, "comment 1", true, false, null);
-    addComment(result2, "comment 2", true, true, null);
-
-    gApi.changes().id(result1.getChangeId()).current().submit();
-
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () -> gApi.changes().id(result2.getChangeId()).current().submit());
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("submit requirement 'All-Comments-Resolved' is unsatisfied");
   }
 
   @Test
@@ -4193,26 +4130,6 @@ public class ChangeIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }
 
-  private void addComment(
-      PushOneCommit.Result r,
-      String message,
-      boolean omitDuplicateComments,
-      Boolean unresolved,
-      String inReplyTo)
-      throws Exception {
-    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
-    c.line = 1;
-    c.message = message;
-    c.path = FILE_NAME;
-    c.unresolved = unresolved;
-    c.inReplyTo = inReplyTo;
-    ReviewInput in = new ReviewInput();
-    in.comments = new HashMap<>();
-    in.comments.put(c.path, Lists.newArrayList(c));
-    in.omitDuplicateComments = omitDuplicateComments;
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
-  }
-
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     if (r == null) {
       return ImmutableList.of();
@@ -4276,7 +4193,7 @@ public class ChangeIT extends AbstractDaemonTest {
           .commit()
           .author(admin.newIdent())
           .committer(admin.newIdent())
-          .add("rules.pl", newContent)
+          .add(RULES_PL_FILE, newContent)
           .message("Modify rules.pl")
           .create();
     }

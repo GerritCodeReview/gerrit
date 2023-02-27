@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -60,8 +61,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   private class RulesPl extends VersionedMetaData {
-    private static final String FILENAME = "rules.pl";
-
     private String rule;
 
     @Override
@@ -71,7 +70,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
     @Override
     protected void onLoad() throws IOException, ConfigInvalidException {
-      rule = readUTF8(FILENAME);
+      rule = readUTF8(RULES_PL_FILE);
     }
 
     @Override
@@ -84,7 +83,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
         throw new ConfigInvalidException("Invalid submit type rule", e);
       }
 
-      saveUTF8(FILENAME, rule);
+      saveUTF8(RULES_PL_FILE, rule);
       return true;
     }
   }

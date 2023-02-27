@@ -190,6 +190,7 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RulesPlBlockerValidator;
 import com.google.gerrit.server.project.SubmitRequirementConfigValidator;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -401,6 +402,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.bind(binder(), CommitValidationListener.class)
         .to(SubmitRequirementConfigValidator.class);
+    DynamicSet.bind(binder(), CommitValidationListener.class).to(RulesPlBlockerValidator.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);

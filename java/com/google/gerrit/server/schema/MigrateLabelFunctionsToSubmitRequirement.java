@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelFunction;
@@ -373,7 +375,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
         return false;
       }
       RevCommit commit = repo.parseCommit(refsConfig.getObjectId());
-      try (TreeWalk tw = TreeWalk.forPath(reader, "rules.pl", commit.getTree())) {
+      try (TreeWalk tw = TreeWalk.forPath(reader, RULES_PL_FILE, commit.getTree())) {
         if (tw != null) {
           return true;
         }

@@ -66,7 +66,7 @@ public class DefaultRefLogIdentityProvider implements RefLogIdentityProvider {
     } else {
       email =
           Strings.isNullOrEmpty(account.preferredEmail())
-              ? constructMailAddress(user, "unknown")
+              ? constructMailAddress(user, getDefaultDomain())
               : account.preferredEmail();
     }
 
@@ -90,7 +90,7 @@ public class DefaultRefLogIdentityProvider implements RefLogIdentityProvider {
       host = in != null ? in.getHostAddress() : sa.getHostName();
     }
     if (Strings.isNullOrEmpty(host)) {
-      return "unknown";
+      return getDefaultDomain();
     }
     return host;
   }

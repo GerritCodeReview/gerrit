@@ -62,6 +62,7 @@ import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
@@ -402,6 +403,17 @@ public class BatchUpdateTest {
       bu.addOp(changeId, user2, testOp2);
       bu.addOp(changeId, testOp3);
       bu.execute();
+
+      PersonIdent refLogIdent = bu.getRefLogIdent().get();
+      assertThat(refLogIdent.getName())
+          .isEqualTo(
+              String.format(
+                  "account-%s|account-%s|account-%s",
+                  defaultUser.asIdentifiedUser().getAccountId(),
+                  user1.asIdentifiedUser().getAccountId(),
+                  user2.asIdentifiedUser().getAccountId()));
+      assertThat(refLogIdent.getEmailAddress())
+          .isEqualTo(String.format("%s@unknown", refLogIdent.getName()));
     }
 
     assertThat(testOp1.updateRepoUser).isEqualTo(user1);
@@ -481,6 +493,11 @@ public class BatchUpdateTest {
       bu.addOp(changeId, defaultUser, testOp1);
       bu.addOp(changeId, testOp2);
       bu.execute();
+
+      PersonIdent refLogIdent = bu.getRefLogIdent().get();
+      PersonIdent defaultUserRefLogIdent = defaultUser.asIdentifiedUser().newRefLogIdent();
+      assertThat(refLogIdent.getName()).isEqualTo(defaultUserRefLogIdent.getName());
+      assertThat(refLogIdent.getEmailAddress()).isEqualTo(defaultUserRefLogIdent.getEmailAddress());
     }
 
     assertThat(testOp1.updateRepoUser).isEqualTo(defaultUser);

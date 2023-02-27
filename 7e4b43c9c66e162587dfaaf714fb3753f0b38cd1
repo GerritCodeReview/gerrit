@@ -45,6 +45,30 @@
       },
       "revId": "7e4b43c9c66e162587dfaaf714fb3753f0b38cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "971c34f1_b06a3ec4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-27T07:37:09Z",
+      "side": 1,
+      "message": "Thanks. Fixed in https://gerrit-review.git.corp.google.com/c/gerrit/+/360838",
+      "parentUuid": "9d7da7eb_3fed04a1",
+      "range": {
+        "startLine": 1752,
+        "startChar": 41,
+        "endLine": 1752,
+        "endChar": 43
+      },
+      "revId": "7e4b43c9c66e162587dfaaf714fb3753f0b38cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

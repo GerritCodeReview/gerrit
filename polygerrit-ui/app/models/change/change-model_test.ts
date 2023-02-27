@@ -11,6 +11,7 @@ import {
   createChangeMessageInfo,
   createChangeViewState,
   createEditInfo,
+  createMergeable,
   createParsedChange,
   createRevision,
 } from '../../test/test-data-generators';
@@ -41,6 +42,7 @@ import {testResolver} from '../../test/common-test-setup';
 import {userModelToken} from '../user/user-model';
 import {ChangeViewModel, changeViewModelToken} from '../views/change';
 import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
+import {SinonStub} from 'sinon';
 
 suite('updateRevisionsWithCommitShas() tests', () => {
   test('undefined edit', async () => {
@@ -121,6 +123,93 @@ suite('change model tests', () => {
   teardown(() => {
     testCompleted.next();
     changeModel.finalize();
+  });
+
+  suite('mergeability', async () => {
+    let getMergeableStub: SinonStub;
+    let mergeableApiResponse = false;
+
+    setup(() => {
+      getMergeableStub = stubRestApi('getMergeable').callsFake(() =>
+        Promise.resolve(createMergeable(mergeableApiResponse))
+      );
+    });
+
+    test('mergeability initially undefined', async () => {
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === undefined
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability true from change', async () => {
+      changeModel.updateStateChange({...knownChange, mergeable: true});
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false from change', async () => {
+      changeModel.updateStateChange({...knownChange, mergeable: false});
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for MERGED change', async () => {
+      changeModel.updateStateChange({
+        ...knownChange,
+        status: ChangeStatus.MERGED,
+      });
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for ABANDONED change', async () => {
+      changeModel.updateStateChange({
+        ...knownChange,
+        status: ChangeStatus.ABANDONED,
+      });
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability true from API', async () => {
+      mergeableApiResponse = true;
+      changeModel.updateStateChange(knownChange);
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isTrue(getMergeableStub.calledOnce);
+    });
+
+    test('mergeability false from API', async () => {
+      mergeableApiResponse = false;
+      changeModel.updateStateChange(knownChange);
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isTrue(getMergeableStub.calledOnce);
+    });
   });
 
   test('load a change', async () => {

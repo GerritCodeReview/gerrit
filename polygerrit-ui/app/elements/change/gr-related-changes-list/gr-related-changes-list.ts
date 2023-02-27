@@ -11,7 +11,7 @@ import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import {LitElement, css, html, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
@@ -54,7 +54,7 @@ export enum Section {
 
 @customElement('gr-related-changes-list')
 export class GrRelatedChangesList extends LitElement {
-  @property({type: Boolean})
+  @state()
   mergeable?: boolean;
 
   @state()
@@ -96,6 +96,11 @@ export class GrRelatedChangesList extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().mergeable$,
+      x => (this.mergeable = x)
     );
   }
 
@@ -616,8 +621,6 @@ export class GrRelatedChangesList extends LitElement {
         }),
     ];
 
-    // Get conflicts if change is open and is mergeable.
-    // Mergeable is output of restApiServict.getMergeable from gr-change-view
     if (changeIsOpen(change) && this.mergeable) {
       promises.push(
         this.restApiService

@@ -1717,7 +1717,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       // Thrown if no account was found.
 
       // Users can always see their own account. This means if self was being resolved and there was
-      // no match the user wasn't logged it and the request was done anonymously.
+      // no match the user wasn't logged in and the request was done anonymously.
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);
       }

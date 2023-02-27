@@ -254,7 +254,7 @@ public class RebaseChain
         return description;
       }
       PatchSetData oldestAncestor = chain.get(0);
-      if (rebaseUtil.canRebase(
+      if (!rebaseUtil.canRebase(
           oldestAncestor.patchSet(), oldestAncestor.data().change().getDest(), repo, rw)) {
         enabled = false;
       }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.rules;
 
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.entities.RefNames;
@@ -84,7 +86,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       return Status.NO_RULES;
     }
 
-    ObjectId rulesId = git.resolve(metaConfig.name() + ":rules.pl");
+    ObjectId rulesId = git.resolve(metaConfig.name() + ":" + RULES_PL_FILE);
     if (rulesId == null) {
       return Status.NO_RULES;
     }

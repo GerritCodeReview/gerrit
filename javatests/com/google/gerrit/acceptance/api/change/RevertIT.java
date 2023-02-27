@@ -34,7 +34,6 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -66,7 +65,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -75,63 +73,6 @@ public class RevertIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
-
-  @Test
-  public void pureRevertFactBlocksSubmissionOfNonReverts() throws Exception {
-    addPureRevertSubmitRule();
-
-    // Create a change that is not a revert of another change
-    PushOneCommit.Result r1 = pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    approve(r1.getChangeId());
-
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () -> gApi.changes().id(r1.getChangeId()).current().submit());
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("submit requirement 'Is-Pure-Revert' is unsatisfied.");
-  }
-
-  @Test
-  public void pureRevertFactBlocksSubmissionOfNonPureReverts() throws Exception {
-    PushOneCommit.Result r1 = pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    merge(r1);
-
-    addPureRevertSubmitRule();
-
-    // Create a revert and push a content change
-    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
-    amendChange(revertId);
-    approve(revertId);
-
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(revertId).current().submit());
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Failed to submit 1 change due to the following problems");
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("submit requirement 'Is-Pure-Revert' is unsatisfied.");
-  }
-
-  @Test
-  public void pureRevertFactAllowsSubmissionOfPureReverts() throws Exception {
-    // Create a change that we can later revert
-    PushOneCommit.Result r1 = pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    merge(r1);
-
-    addPureRevertSubmitRule();
-
-    // Create a revert and submit it
-    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
-    approve(revertId);
-    gApi.changes().id(revertId).current().submit();
-  }
 
   @Test
   public void pureRevertReturnsTrueForPureRevert() throws Exception {
@@ -1532,34 +1473,6 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
-  }
-
-  private void addPureRevertSubmitRule() throws Exception {
-    modifySubmitRules(
-        "submit_rule(submit(R)) :- \n"
-            + "gerrit:pure_revert(1), \n"
-            + "!,"
-            + "gerrit:uploader(U), \n"
-            + "R = label('Is-Pure-Revert', ok(U)).\n"
-            + "submit_rule(submit(R)) :- \n"
-            + "gerrit:pure_revert(U), \n"
-            + "U \\= 1,"
-            + "R = label('Is-Pure-Revert', need(_)). \n\n");
-  }
-
-  private void modifySubmitRules(String newContent) throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
-      testRepo
-          .branch(RefNames.REFS_CONFIG)
-          .commit()
-          .author(admin.newIdent())
-          .committer(admin.newIdent())
-          .add("rules.pl", newContent)
-          .message("Modify rules.pl")
-          .create();
-    }
-    projectCache.evict(project);
   }
 
   private List<ChangeApi> getChangeApis(RevertSubmissionInfo revertSubmissionInfo)

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -742,7 +743,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
           .commit()
           .author(admin.newIdent())
           .committer(admin.newIdent())
-          .add("rules.pl", newContent)
+          .add(RULES_PL_FILE, newContent)
           .message("Modify rules.pl")
           .create();
     }

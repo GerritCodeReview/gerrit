@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -266,7 +267,7 @@ public class RulesIT extends AbstractDaemonTest {
           .commit()
           .author(admin.newIdent())
           .committer(admin.newIdent())
-          .add("rules.pl", newContent)
+          .add(RULES_PL_FILE, newContent)
           .message("Modify rules.pl")
           .create();
     }

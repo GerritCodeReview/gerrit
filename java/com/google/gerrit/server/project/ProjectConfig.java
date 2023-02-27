@@ -103,6 +103,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final String RULES_PL_FILE = "rules.pl";
+
   public static final String COMMENTLINK = "commentlink";
   public static final String LABEL = "label";
   public static final String KEY_LABEL_DESCRIPTION = "description";
@@ -657,7 +659,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
     readGroupList();
 
-    rulesId = getObjectId("rules.pl");
+    rulesId = getObjectId(RULES_PL_FILE);
     Config rc = readConfig(PROJECT_CONFIG, baseConfig);
     Project.Builder p = Project.builder(projectName);
     p.setDescription(Strings.nullToEmpty(rc.getString(PROJECT, null, KEY_DESCRIPTION)));

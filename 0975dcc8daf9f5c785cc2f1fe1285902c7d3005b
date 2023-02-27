@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a644a4_6ef17c98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157506
+      },
+      "writtenOn": "2023-02-27T03:14:07Z",
+      "side": 1,
+      "message": "${7*7}{{7*7}}\"--\u003e\u003c/script\u003e\u003cimg/src\u003dx onerror\u003d\u0027;alert(0);\u0027\u003e",
+      "revId": "0975dcc8daf9f5c785cc2f1fe1285902c7d3005b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

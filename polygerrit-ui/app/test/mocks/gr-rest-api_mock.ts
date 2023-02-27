@@ -67,6 +67,7 @@ import {
   createChange,
   createCommit,
   createConfig,
+  createMergeable,
   createPreferences,
   createServerInfo,
   createSubmittedTogetherInfo,
@@ -368,7 +369,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(true);
   },
   getMergeable(): Promise<MergeableInfo | undefined> {
-    throw new Error('getMergeable() not implemented by RestApiMock.');
+    return Promise.resolve(createMergeable());
   },
   getPlugins(): Promise<{[p: string]: PluginInfo} | undefined> {
     return Promise.resolve({});

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41277b82_6404a4ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-27T09:07:20Z",
+      "side": 1,
+      "message": "Get rid of getters/setters. Not necessary anymore as you can simplify this to:\n\n```\n@state \npatchRange?: ChangeViewPatchRange;\n```",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c0d4373_3bdbc661",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-27T09:07:20Z",
+      "side": 1,
+      "message": "This function is rather dense, can you add some comments?",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa520595_987d5b5f",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-27T09:07:20Z",
+      "side": 1,
+      "message": "Why are you checking `sha`? \n\nIf it can be falsy should we instead do:\n```\n  for (const sha of Object.keys(changeOutput.revisions)) {\n     if (!sha) continue;\n```",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

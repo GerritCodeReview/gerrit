@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e799f815_4694a4a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-02-27T11:14:52Z",
+      "side": 1,
+      "message": "for the rest of gerrit, the new version usually disregards the previous patchset, which is why I was surprised at the new behavior. Disregarding the previous PS makes the request idempotent. (Imagine a patch that adds an empty line at the bottom of a file. If you call apply-patch N times identically, you don\u0027t want to add N empty lines)\n\n\nFor comparison, you can also check what the \"upload merge as new patchset\" endpoint does. IIRC, it disregards the previous patchset.",
+      "parentUuid": "f3167aa8_3970cdab",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e41c49b_4495f4a4",

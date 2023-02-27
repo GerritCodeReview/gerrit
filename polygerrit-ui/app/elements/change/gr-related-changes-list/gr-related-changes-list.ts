@@ -57,7 +57,7 @@ export class GrRelatedChangesList extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 
-  @property({type: Boolean})
+  @state()
   mergeable?: boolean;
 
   @state()
@@ -91,6 +91,11 @@ export class GrRelatedChangesList extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().mergeable$,
+      x => (this.mergeable = x)
     );
   }
 
@@ -611,8 +616,6 @@ export class GrRelatedChangesList extends LitElement {
         }),
     ];
 
-    // Get conflicts if change is open and is mergeable.
-    // Mergeable is output of restApiServict.getMergeable from gr-change-view
     if (changeIsOpen(change) && this.mergeable) {
       promises.push(
         this.restApiService

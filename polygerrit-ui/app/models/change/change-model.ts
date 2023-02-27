@@ -15,7 +15,7 @@ import {
   PatchSetNumber,
   CommitId,
 } from '../../types/common';
-import {DefaultBase} from '../../constants/constants';
+import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
 import {
   map,
@@ -71,6 +71,13 @@ export interface ChangeState {
    * Undefined means it's still loading and empty set means no files reviewed.
    */
   reviewedFiles?: string[];
+  /**
+   * Either filled from `change.mergeable`, or from a dedicated REST API call.
+   * Is initially `undefined`, such that you can identify whether this
+   * information has already been loaded once for this change or not. Will never
+   * go back to `undefined` after being set for a change.
+   */
+  mergeable?: boolean;
 }
 
 export function updateRevisionsWithCommitShas(changeInput?: ParsedChangeInfo) {
@@ -188,6 +195,11 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly reviewedFiles$ = select(
     this.state$,
     changeState => changeState?.reviewedFiles
+  );
+
+  public readonly mergeable$ = select(
+    this.state$,
+    changeState => changeState.mergeable
   );
 
   public readonly changeNum$ = select(this.change$, change => change?._number);
@@ -341,6 +353,21 @@ export class ChangeModel extends Model<ChangeState> {
           // helps with that.
           this.updateStateChange(change ?? undefined);
         }),
+      this.change$
+        .pipe(
+          switchMap(change => {
+            if (change?._number === undefined) return of(undefined);
+            if (change.mergeable !== undefined) return of(change.mergeable);
+            if (change.status === ChangeStatus.MERGED) return of(false);
+            if (change.status === ChangeStatus.ABANDONED) return of(false);
+            return from(
+              this.restApiService
+                .getMergeable(change._number)
+                .then(mergableInfo => mergableInfo?.mergeable ?? false)
+            );
+          })
+        )
+        .subscribe(mergeable => this.updateState({mergeable})),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(

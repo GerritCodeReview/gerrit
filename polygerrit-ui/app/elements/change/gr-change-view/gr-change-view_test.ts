@@ -36,7 +36,6 @@ import {
   createChange,
   createChangeMessages,
   createCommit,
-  createMergeable,
   createPreferences,
   createRevision,
   createRevisions,
@@ -74,8 +73,7 @@ import {
   PatchSetNumber,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
-import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {SinonFakeTimers} from 'sinon';
 import {CommentThread} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -801,7 +799,6 @@ suite('gr-change-view tests', () => {
         Promise.resolve(createParsedChange())
       );
       sinon.stub(element, 'performPostChangeLoadTasks');
-      sinon.stub(element, 'getMergeability');
       const change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
@@ -1543,9 +1540,6 @@ suite('gr-change-view tests', () => {
       '#relatedChanges'
     ) as GrRelatedChangesList;
     const reloadStub = sinon.stub(relatedChanges, 'reload');
-    stubRestApi('getMergeable').returns(
-      Promise.resolve({...createMergeable(), mergeable: true})
-    );
 
     element.viewState = createChangeViewState();
     changeModel.setState({
@@ -2149,42 +2143,6 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  suite('getMergeability', () => {
-    let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
-    setup(() => {
-      element.change = {...createChangeViewChange(), labels: {}};
-      getMergeableStub = stubRestApi('getMergeable').returns(
-        Promise.resolve({...createMergeable(), mergeable: true})
-      );
-    });
-
-    test('merged change', () => {
-      element.mergeable = null;
-      element.change!.status = ChangeStatus.MERGED;
-      return element.getMergeability().then(() => {
-        assert.isFalse(element.mergeable);
-        assert.isFalse(getMergeableStub.called);
-      });
-    });
-
-    test('abandoned change', () => {
-      element.mergeable = null;
-      element.change!.status = ChangeStatus.ABANDONED;
-      return element.getMergeability().then(() => {
-        assert.isFalse(element.mergeable);
-        assert.isFalse(getMergeableStub.called);
-      });
-    });
-
-    test('open change', () => {
-      element.mergeable = null;
-      return element.getMergeability().then(() => {
-        assert.isTrue(element.mergeable);
-        assert.isTrue(getMergeableStub.called);
-      });
-    });
-  });
-
   test('handleToggleStar called when star is tapped', async () => {
     element.change = {
       ...createChangeViewChange(),
@@ -2208,7 +2166,6 @@ suite('gr-change-view tests', () => {
         patchNum: 1 as RevisionPatchSetNum,
       };
       sinon.stub(element, 'performPostChangeLoadTasks');
-      sinon.stub(element, 'getMergeability').returns(Promise.resolve());
     });
 
     test("don't report changeDisplayed on reply", async () => {

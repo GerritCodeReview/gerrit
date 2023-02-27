@@ -413,9 +413,7 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  // Private but used in tests.
-  @state()
-  mergeable: boolean | null = null;
+  @state() mergeable?: boolean;
 
   /**
    * Plugins can provide (multiple) tabs. For each plugin tab we render an
@@ -733,6 +731,11 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().mergeable$,
+      mergeable => (this.mergeable = mergeable)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().revision$,
       revision => (this.revision = revision)
     );
@@ -855,6 +858,8 @@ export class GrChangeView extends LitElement {
       changedProperties.has('mergeable') ||
       changedProperties.has('currentRevisionActions')
     ) {
+      // TODO: Just compute `changeStatuses` on the fly. No need for it to be a
+      // @state object.
       this.changeStatuses = this.computeChangeStatusChips();
     }
   }
@@ -1433,7 +1438,6 @@ export class GrChangeView extends LitElement {
           <div class="relatedChanges">
             <gr-related-changes-list
               id="relatedChanges"
-              .mergeable=${this.mergeable}
             ></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>
@@ -1783,18 +1787,11 @@ export class GrChangeView extends LitElement {
   }
 
   private computeChangeStatusChips() {
-    if (!this.change) {
-      return [];
-    }
-
-    // Show no chips until mergeability is loaded.
-    if (this.mergeable === null) {
-      return [];
-    }
+    if (!this.change || this.mergeable === undefined) return [];
 
     const options = {
       includeDerived: true,
-      mergeable: !!this.mergeable,
+      mergeable: this.mergeable,
       submitEnabled: !!this.isSubmitEnabled(),
     };
     return changeStatuses(this.change as ChangeInfo, options);
@@ -2160,7 +2157,7 @@ export class GrChangeView extends LitElement {
     this.getPluginLoader().jsApiService.handleShowChange({
       change: this.change,
       patchNum: this.patchRange.patchNum,
-      info: {mergeable: this.mergeable},
+      info: {mergeable: this.mergeable ?? null},
     });
   }
 
@@ -2736,11 +2733,6 @@ export class GrChangeView extends LitElement {
     });
 
     const coreDataPromise = loadingFlagSet;
-    const mergeabilityLoaded = coreDataPromise.then(() =>
-      this.getMergeability()
-    );
-    allDataPromises.push(mergeabilityLoaded);
-
     coreDataPromise.then(() => {
       fire(this, 'change-details-loaded', {});
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);
@@ -2806,43 +2798,6 @@ export class GrChangeView extends LitElement {
       relatedChanges.length > 0 &&
       relatedChanges[relatedChanges.length - 1].change_id !== currentChangeId
     );
-  }
-
-  // Private but used in tests
-  getMergeability(): Promise<void> {
-    if (!this.change) {
-      this.mergeable = null;
-      return Promise.resolve();
-    }
-    // If the change is closed, it is not mergeable. Note: already merged
-    // changes are obviously not mergeable, but the mergeability API will not
-    // answer for abandoned changes.
-    if (
-      this.change.status === ChangeStatus.MERGED ||
-      this.change.status === ChangeStatus.ABANDONED
-    ) {
-      this.mergeable = false;
-      return Promise.resolve();
-    }
-
-    if (!this.changeNum) {
-      return Promise.reject(new Error('missing required changeNum property'));
-    }
-
-    // If mergeable bit was already returned in detail REST endpoint, use it.
-    if (this.change.mergeable !== undefined) {
-      this.mergeable = this.change.mergeable;
-      return Promise.resolve();
-    }
-
-    this.mergeable = null;
-    return this.restApiService
-      .getMergeable(this.changeNum)
-      .then(mergableInfo => {
-        if (mergableInfo) {
-          this.mergeable = mergableInfo.mergeable;
-        }
-      });
   }
 
   /**

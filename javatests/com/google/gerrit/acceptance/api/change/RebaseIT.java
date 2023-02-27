@@ -36,6 +36,8 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestMetricMaker;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -50,6 +52,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.GitPerson;
@@ -87,6 +90,8 @@ import org.junit.runners.Suite;
 })
 public class RebaseIT {
   public abstract static class Base extends AbstractDaemonTest {
+    @Inject protected AccountOperations accountOperations;
+    @Inject protected ChangeOperations changeOperations;
     @Inject protected RequestScopeOperations requestScopeOperations;
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
@@ -1148,6 +1153,30 @@ public class RebaseIT {
               ResourceConflictException.class,
               () -> rebaseCallWithInput.call(r4.getChangeId(), ri));
       assertThat(thrown).hasMessageThat().contains("recursion not allowed");
+    }
+
+    @Test
+    public void rebaseChainActionEnabled() throws Exception {
+      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+
+      Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeRebased2 =
+          changeOperations
+              .newChange()
+              .project(project)
+              .childOf()
+              .change(changeToBeRebased1)
+              .create();
+
+      // Approve and submit the change that will be the new base for the chain so that the chain is
+      // rebasable.
+      gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+      gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+      ChangeInfo changeInfo = gApi.changes().id(changeToBeRebased2.get()).get();
+      assertThat(changeInfo.actions).containsKey("rebase:chain");
+      ActionInfo rebaseActionInfo = changeInfo.actions.get("rebase:chain");
+      assertThat(rebaseActionInfo.enabled).isTrue();
     }
 
     @Test

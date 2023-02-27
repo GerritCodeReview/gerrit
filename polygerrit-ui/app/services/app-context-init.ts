@@ -68,6 +68,10 @@ import {
   ServiceWorkerInstaller,
   serviceWorkerInstallerToken,
 } from './service-worker-installer';
+import {
+  RelatedChangesModel,
+  relatedChangesModelToken,
+} from '../models/change/related-changes-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -179,6 +183,15 @@ export function createAppDependencies(
       configModelToken,
       () =>
         new ConfigModel(resolver(changeModelToken), appContext.restApiService),
+    ],
+    [
+      relatedChangesModelToken,
+      () =>
+        new RelatedChangesModel(
+          resolver(changeModelToken),
+          resolver(configModelToken),
+          appContext.restApiService
+        ),
     ],
     [
       pluginLoaderToken,

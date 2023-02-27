@@ -56,7 +56,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
         <gr-change-actions></gr-change-actions>
       `);
       element.change = {} as ChangeViewChangeInfo;
-      element._hasKnownChainState = false;
       window.Gerrit.install(
         p => {
           plugin = p;

@@ -64,14 +64,12 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
-import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
 import {
   AccountDetailInfo,
   ActionNameToActionInfoMap,
   BasePatchSetNum,
-  ChangeId,
   ChangeInfo,
   ConfigInfo,
   DetailedLabelInfo,
@@ -84,8 +82,6 @@ import {
   PatchSetNumber,
   PreferencesInfo,
   QuickLabelInfo,
-  RelatedChangeAndCommitInfo,
-  RelatedChangesInfo,
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
@@ -284,9 +280,6 @@ export class GrChangeView extends LitElement {
 
   @property({type: String})
   backPage?: string;
-
-  @state()
-  private hasParent?: boolean;
 
   // Private but used in tests.
   @state()
@@ -1077,7 +1070,7 @@ export class GrChangeView extends LitElement {
           .relatedChanges {
             padding: 0;
           }
-          #relatedChanges {
+          .relatedChanges gr-related-changes-list {
             padding-top: var(--spacing-l);
           }
           #commitAndRelated {
@@ -1351,7 +1344,6 @@ export class GrChangeView extends LitElement {
         id="actions"
         .change=${this.change}
         .disableEdit=${false}
-        .hasParent=${this.hasParent}
         .account=${this.account}
         .changeNum=${this.changeNum}
         .changeStatus=${this.change?.status}
@@ -1443,10 +1435,7 @@ export class GrChangeView extends LitElement {
             </gr-endpoint-decorator>
           </div>
           <div class="relatedChanges">
-            <gr-related-changes-list
-              id="relatedChanges"
-              .change=${this.change}
-            ></gr-related-changes-list>
+            <gr-related-changes-list></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>
         </div>
@@ -2753,27 +2742,6 @@ export class GrChangeView extends LitElement {
     if (isLocationChange) {
       this.editingCommitMessage = false;
     }
-    const relatedChangesLoaded = coreDataPromise.then(() => {
-      let relatedChangesPromise:
-        | Promise<RelatedChangesInfo | undefined>
-        | undefined;
-      const patchNum = computeLatestPatchNum(this.allPatchSets);
-      if (this.change && patchNum) {
-        relatedChangesPromise = this.restApiService
-          .getRelatedChanges(this.change._number, patchNum)
-          .then(response => {
-            if (this.change && response) {
-              this.hasParent = this.calculateHasParent(
-                this.change.change_id,
-                response.changes
-              );
-            }
-            return response;
-          });
-      }
-      return this.getRelatedChangesList()?.reload(relatedChangesPromise);
-    });
-    allDataPromises.push(relatedChangesLoaded);
     allDataPromises.push(this.filesLoaded());
 
     Promise.all(allDataPromises).then(() => {
@@ -2790,23 +2758,6 @@ export class GrChangeView extends LitElement {
   private async filesLoaded() {
     if (!this.isConnected) await until(this.connected$, connected => connected);
     await until(this.getFilesModel().files$, f => f.length > 0);
-  }
-
-  /**
-   * Determines whether or not the given change has a parent change. If there
-   * is a relation chain, and the change id is not the last item of the
-   * relation chain, there is a parent.
-   *
-   * Private but used in tests.
-   */
-  calculateHasParent(
-    currentChangeId: ChangeId,
-    relatedChanges: RelatedChangeAndCommitInfo[]
-  ) {
-    return (
-      relatedChanges.length > 0 &&
-      relatedChanges[relatedChanges.length - 1].change_id !== currentChangeId
-    );
   }
 
   /**
@@ -3019,12 +2970,6 @@ export class GrChangeView extends LitElement {
   private getRevisionInfo(): RevisionInfoClass | undefined {
     if (this.change === undefined) return undefined;
     return new RevisionInfoClass(this.change);
-  }
-
-  getRelatedChangesList() {
-    return this.shadowRoot!.querySelector<GrRelatedChangesList>(
-      '#relatedChanges'
-    );
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

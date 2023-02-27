@@ -217,6 +217,8 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly repo$ = select(this.change$, change => change?.project);
 
+  public readonly topic$ = select(this.change$, change => change?.topic);
+
   public readonly labels$ = select(this.change$, change => change?.labels);
 
   public readonly revisions$ = select(this.change$, change =>

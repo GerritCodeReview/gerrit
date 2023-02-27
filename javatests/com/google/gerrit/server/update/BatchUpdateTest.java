@@ -383,8 +383,7 @@ public class BatchUpdateTest {
   public void executeOpsWithDifferentUsers() throws Exception {
     Change.Id changeId = createChange();
 
-    ObjectId oldHead =
-        repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId();
+    ObjectId oldHead = getMetaId(changeId);
 
     CurrentUser defaultUser = user.get();
     IdentifiedUser user1 =
@@ -418,10 +417,7 @@ public class BatchUpdateTest {
     assertThat(testOp3.postUpdateUser).isEqualTo(defaultUser);
 
     // Verify that we got one meta commit per op.
-    RevCommit metaCommitForTestOp3 =
-        repo.getRepository()
-            .parseCommit(
-                repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId());
+    RevCommit metaCommitForTestOp3 = repo.getRepository().parseCommit(getMetaId(changeId));
     assertThat(metaCommitForTestOp3.getAuthorIdent().getEmailAddress())
         .isEqualTo(String.format("%s@gerrit", defaultUser.getAccountId()));
     assertThat(metaCommitForTestOp3.getFullMessage())
@@ -468,8 +464,7 @@ public class BatchUpdateTest {
   public void executeOpsWithSameUser() throws Exception {
     Change.Id changeId = createChange();
 
-    ObjectId oldHead =
-        repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId();
+    ObjectId oldHead = getMetaId(changeId);
 
     CurrentUser defaultUser = user.get();
     IdentifiedUser user1 =
@@ -497,10 +492,7 @@ public class BatchUpdateTest {
     assertThat(testOp2.postUpdateUser).isEqualTo(defaultUser);
 
     // Verify that we got a single meta commit (updates of both ops squashed into one commit).
-    RevCommit metaCommit =
-        repo.getRepository()
-            .parseCommit(
-                repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId());
+    RevCommit metaCommit = repo.getRepository().parseCommit(getMetaId(changeId));
     assertThat(metaCommit.getAuthorIdent().getEmailAddress())
         .isEqualTo(String.format("%s@gerrit", defaultUser.getAccountId()));
     assertThat(metaCommit.getFullMessage())

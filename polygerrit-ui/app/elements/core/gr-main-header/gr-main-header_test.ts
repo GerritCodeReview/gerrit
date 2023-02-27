@@ -68,6 +68,8 @@ suite('gr-main-header tests', () => {
               name="header-browse-source"
             >
             </gr-endpoint-decorator>
+            <gr-endpoint-decorator class="hideOnMobile" name="header-help-menu">
+            </gr-endpoint-decorator>
             <gr-endpoint-decorator
               class="feedbackButton"
               name="header-feedback"

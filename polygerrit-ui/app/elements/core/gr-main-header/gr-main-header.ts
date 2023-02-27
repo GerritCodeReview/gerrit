@@ -385,6 +385,10 @@ export class GrMainHeader extends LitElement {
         class="hideOnMobile"
         name="header-browse-source"
       ></gr-endpoint-decorator>
+      <gr-endpoint-decorator
+        class="hideOnMobile"
+        name="header-help-menu"
+      ></gr-endpoint-decorator>
       <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
         ${this.renderFeedback()}
       </gr-endpoint-decorator>

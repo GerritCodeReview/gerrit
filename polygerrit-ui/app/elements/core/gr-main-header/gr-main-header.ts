@@ -383,7 +383,7 @@ export class GrMainHeader extends LitElement {
       ></gr-smart-search>
       <gr-endpoint-decorator
         class="hideOnMobile"
-        name="header-browse-source"
+        name="header-top-right"
       ></gr-endpoint-decorator>
       <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
         ${this.renderFeedback()}

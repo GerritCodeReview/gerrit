@@ -11,31 +11,26 @@ import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import {LitElement, css, html, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
   CommitId,
   PatchSetNumber,
   RelatedChangeAndCommitInfo,
-  RelatedChangesInfo,
   RevisionPatchSetNum,
   SubmittedTogetherInfo,
 } from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {truncatePath} from '../../../utils/path-list-util';
 import {pluralize} from '../../../utils/string-util';
-import {
-  changeIsOpen,
-  getChangeNumber,
-  getRevisionKey,
-} from '../../../utils/change-util';
+import {getChangeNumber, getRevisionKey} from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -54,11 +49,8 @@ export enum Section {
 
 @customElement('gr-related-changes-list')
 export class GrRelatedChangesList extends LitElement {
-  @property({type: Object})
-  change?: ParsedChangeInfo;
-
   @state()
-  mergeable?: boolean;
+  change?: ParsedChangeInfo;
 
   @state()
   latestPatchNum?: PatchSetNumber;
@@ -81,12 +73,20 @@ export class GrRelatedChangesList extends LitElement {
   @state()
   sameTopicChanges: ChangeInfo[] = [];
 
-  private readonly restApiService = getAppContext().restApiService;
-
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
@@ -94,8 +94,28 @@ export class GrRelatedChangesList extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().mergeable$,
-      x => (this.mergeable = x)
+      () => this.getRelatedChangesModel().relatedChanges$,
+      x => (this.relatedChanges = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().submittedTogether$,
+      x => (this.submittedTogether = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().cherryPicks$,
+      x => (this.cherryPickChanges = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().conflictingChanges$,
+      x => (this.conflictingChanges = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().sameTopicChanges$,
+      x => (this.sameTopicChanges = x ?? [])
     );
   }
 
@@ -584,70 +604,6 @@ export class GrRelatedChangesList extends LitElement {
       ></span> `;
     }
     return html`<span class="marker space"></span>`;
-  }
-
-  reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
-    const change = this.change;
-    if (!change) return Promise.reject(new Error('change missing'));
-    if (!this.latestPatchNum)
-      return Promise.reject(new Error('latestPatchNum missing'));
-    if (!getRelatedChanges) {
-      getRelatedChanges = this.restApiService.getRelatedChanges(
-        change._number,
-        this.latestPatchNum
-      );
-    }
-    const promises: Array<Promise<void>> = [
-      getRelatedChanges.then(response => {
-        if (!response) {
-          throw new Error('getRelatedChanges returned undefined response');
-        }
-        this.relatedChanges = response?.changes ?? [];
-      }),
-      this.restApiService
-        .getChangesSubmittedTogether(change._number)
-        .then(response => {
-          this.submittedTogether = response;
-        }),
-      this.restApiService
-        .getChangeCherryPicks(change.project, change.change_id, change._number)
-        .then(response => {
-          this.cherryPickChanges = response || [];
-        }),
-    ];
-
-    if (changeIsOpen(change) && this.mergeable) {
-      promises.push(
-        this.restApiService
-          .getChangeConflicts(change._number)
-          .then(response => {
-            this.conflictingChanges = response ?? [];
-          })
-      );
-    }
-    if (change.topic) {
-      const changeTopic = change.topic;
-      promises.push(
-        this.restApiService.getConfig().then(config => {
-          if (config && !config.change.submit_whole_topic) {
-            return this.restApiService
-              .getChangesWithSameTopic(changeTopic, {
-                openChangesOnly: true,
-                changeToExclude: change._number,
-              })
-              .then(response => {
-                if (changeTopic === this.change?.topic) {
-                  this.sameTopicChanges = response ?? [];
-                }
-              });
-          }
-          this.sameTopicChanges = [];
-          return Promise.resolve();
-        })
-      );
-    }
-
-    return Promise.all(promises);
   }
 
   /**

@@ -177,14 +177,13 @@ suite('gr-change-actions tests', () => {
                 title="Rebase onto tip of branch or parent change"
               >
                 <gr-button
-                  aria-disabled="true"
+                  aria-disabled="false"
                   class="rebase"
                   data-action-key="rebase"
                   data-label="Rebase"
-                  disabled=""
                   link=""
                   role="button"
-                  tabindex="-1"
+                  tabindex="0"
                 >
                   <gr-icon icon="rebase"> </gr-icon>
                   Rebase
@@ -568,34 +567,6 @@ suite('gr-change-actions tests', () => {
         'gr-button[data-action-key="submit"]'
       ).click();
       assert.equal(fireActionStub.callCount, 0);
-    });
-
-    test('chain state', async () => {
-      assert.equal(element._hasKnownChainState, false);
-      element.hasParent = true;
-      await element.updateComplete;
-      assert.equal(element._hasKnownChainState, true);
-    });
-
-    test('calculateDisabled', () => {
-      const action = {
-        __key: 'rebase',
-        enabled: true,
-        __type: ActionType.CHANGE,
-        label: 'l',
-      };
-      element._hasKnownChainState = false;
-      assert.equal(element.calculateDisabled(action), true);
-
-      action.__key = 'delete';
-      assert.equal(element.calculateDisabled(action), false);
-
-      action.__key = 'rebase';
-      element._hasKnownChainState = true;
-      assert.equal(element.calculateDisabled(action), false);
-
-      action.enabled = false;
-      assert.equal(element.calculateDisabled(action), false);
     });
 
     test('rebase change', async () => {

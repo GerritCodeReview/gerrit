@@ -29,6 +29,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
 
   test('render', async () => {
     element.branch = 'test' as BranchName;
+    element.hasParent = false;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -44,6 +45,9 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
               Rebase on parent change
             </label>
+          </div>
+          <div class="message" hidden="">
+            Still loading parent information ...
           </div>
           <div class="message" hidden="" id="parentUpToDateMsg">
             This change is up to date with its parent.
@@ -173,7 +177,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     element.hasParent = false;
     await element.updateComplete;
 
-    assert.isTrue(element.rebaseOnOtherInput.checked);
+    assert.isTrue(element.rebaseOnOtherInput?.checked);
     assert.isTrue(
       queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
     );
@@ -294,7 +298,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       assert.equal(element.filterChanges('awesome', recentChanges).length, 3);
       assert.equal(element.filterChanges('third', recentChanges).length, 1);
 
-      element.changeNumber = 123 as NumericChangeId;
+      element.changeNum = 123 as NumericChangeId;
       await element.updateComplete;
 
       assert.equal(element.filterChanges('123', recentChanges).length, 0);

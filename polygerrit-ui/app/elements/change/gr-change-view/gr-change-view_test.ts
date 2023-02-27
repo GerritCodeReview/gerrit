@@ -45,7 +45,6 @@ import {
   TEST_PROJECT_NAME,
   createAccountWithIdNameAndEmail,
   createChangeViewChange,
-  createRelatedChangeAndCommitInfo,
   createAccountDetailWithId,
   createParsedChange,
   createDraft,
@@ -55,12 +54,10 @@ import {
   AccountId,
   ApprovalInfo,
   BasePatchSetNum,
-  ChangeId,
   CommitId,
   EDIT,
   NumericChangeId,
   PARENT,
-  RelatedChangeAndCommitInfo,
   ReviewInputTag,
   RevisionPatchSetNum,
   RobotId,
@@ -77,7 +74,6 @@ import {SinonFakeTimers} from 'sinon';
 import {CommentThread} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {
   ChangeModel,
@@ -453,8 +449,7 @@ suite('gr-change-view tests', () => {
                     </gr-endpoint-decorator>
                   </div>
                   <div class="relatedChanges">
-                    <gr-related-changes-list id="relatedChanges">
-                    </gr-related-changes-list>
+                    <gr-related-changes-list></gr-related-changes-list>
                   </div>
                   <div class="emptySpace"></div>
                 </div>
@@ -951,10 +946,6 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      const relatedChanges = element.shadowRoot!.querySelector(
-        '#relatedChanges'
-      ) as GrRelatedChangesList;
-      sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
       sinon.spy(element, 'viewStateChanged');
       element.viewState = createChangeViewState();
@@ -1532,26 +1523,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(collapseStub.called);
     // patchNum is set by changeChanged, so this verifies that change was set.
     assert.isOk(element.patchRange?.patchNum);
-  });
-
-  test('related changes are updated when loadData is called', async () => {
-    await element.updateComplete;
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    const reloadStub = sinon.stub(relatedChanges, 'reload');
-
-    element.viewState = createChangeViewState();
-    changeModel.setState({
-      loadingStatus: LoadingStatus.LOADED,
-      change: {
-        ...createChangeViewChange(),
-      },
-    });
-
-    await element.loadData(true);
-    assert.isFalse(setUrlStub.called);
-    assert.isTrue(reloadStub.called);
   });
 
   test('computeCopyTextForTitle', () => {
@@ -2216,25 +2187,6 @@ suite('gr-change-view tests', () => {
       assert.isTrue(changeDisplayStub.called);
       assert.isTrue(changeFullyLoadedStub.called);
     });
-  });
-
-  test('calculateHasParent', () => {
-    const changeId = '123' as ChangeId;
-    const relatedChanges: RelatedChangeAndCommitInfo[] = [];
-
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), false);
-
-    relatedChanges.push({
-      ...createRelatedChangeAndCommitInfo(),
-      change_id: '123' as ChangeId,
-    });
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), false);
-
-    relatedChanges.push({
-      ...createRelatedChangeAndCommitInfo(),
-      change_id: '234' as ChangeId,
-    });
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), true);
   });
 
   test('renders sha in copy links', async () => {

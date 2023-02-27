@@ -23,6 +23,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 export interface RebaseChange {
   name: string;
@@ -55,17 +59,17 @@ export class GrConfirmRebaseDialog
   @property({type: String})
   branch?: BranchName;
 
-  @property({type: Number})
-  changeNumber?: NumericChangeId;
-
-  @property({type: Boolean})
-  hasParent?: boolean;
-
   @property({type: Boolean})
   rebaseOnCurrent?: boolean;
 
   @property({type: Boolean})
   disableActions = false;
+
+  @state()
+  changeNum?: NumericChangeId;
+
+  @state()
+  hasParent?: boolean;
 
   @state()
   text = '';
@@ -80,16 +84,16 @@ export class GrConfirmRebaseDialog
   recentChanges?: RebaseChange[];
 
   @query('#rebaseOnParentInput')
-  private rebaseOnParentInput!: HTMLInputElement;
+  private rebaseOnParentInput?: HTMLInputElement;
 
   @query('#rebaseOnTipInput')
-  private rebaseOnTipInput!: HTMLInputElement;
+  private rebaseOnTipInput?: HTMLInputElement;
 
   @query('#rebaseOnOtherInput')
-  rebaseOnOtherInput!: HTMLInputElement;
+  rebaseOnOtherInput?: HTMLInputElement;
 
   @query('#rebaseAllowConflicts')
-  private rebaseAllowConflicts!: HTMLInputElement;
+  private rebaseAllowConflicts?: HTMLInputElement;
 
   @query('#rebaseChain')
   private rebaseChain?: HTMLInputElement;
@@ -99,9 +103,26 @@ export class GrConfirmRebaseDialog
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
+
   constructor() {
     super();
     this.query = input => this.getChangeSuggestions(input);
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().hasParent$,
+      x => (this.hasParent = x)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
@@ -154,99 +175,104 @@ export class GrConfirmRebaseDialog
         @cancel=${this.handleCancelTap}
       >
         <div class="header" slot="header">Confirm rebase</div>
-        <div class="main" slot="main">
-          <div
-            id="rebaseOnParent"
-            class="rebaseOption"
-            ?hidden=${!this.displayParentOption()}
-          >
-            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
-            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
-              Rebase on parent change
-            </label>
-          </div>
-          <div
-            id="parentUpToDateMsg"
-            class="message"
-            ?hidden=${!this.displayParentUpToDateMsg()}
-          >
-            This change is up to date with its parent.
-          </div>
-          <div
-            id="rebaseOnTip"
-            class="rebaseOption"
-            ?hidden=${!this.displayTipOption()}
-          >
-            <input
-              id="rebaseOnTipInput"
-              name="rebaseOptions"
-              type="radio"
-              ?disabled=${!this.displayTipOption()}
-            />
-            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-              Rebase on top of the ${this.branch} branch<span
-                ?hidden=${!this.hasParent || this.shouldRebaseChain}
-              >
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div
-            id="tipUpToDateMsg"
-            class="message"
-            ?hidden=${this.displayTipOption()}
-          >
-            Change is up to date with the target branch already (${this.branch})
-          </div>
-          <div id="rebaseOnOther" class="rebaseOption">
-            <input
-              id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              type="radio"
-              @click=${this.handleRebaseOnOther}
-            />
-            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-              Rebase on a specific change, ref, or commit
-              <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div class="parentRevisionContainer">
-            <gr-autocomplete
-              id="parentInput"
-              .query=${this.query}
-              .text=${this.text}
-              @text-changed=${(e: ValueChangedEvent) =>
-                (this.text = e.detail.value)}
-              @click=${this.handleEnterChangeNumberClick}
-              allow-non-suggested-values
-              placeholder="Change number, ref, or commit hash"
-            >
-            </gr-autocomplete>
-          </div>
-          <div class="rebaseAllowConflicts">
-            <input id="rebaseAllowConflicts" type="checkbox" />
-            <label for="rebaseAllowConflicts"
-              >Allow rebase with conflicts</label
-            >
-          </div>
-          ${when(
-            this.hasParent,
-            () =>
-              html`<div>
-                <input
-                  id="rebaseChain"
-                  type="checkbox"
-                  @change=${() => {
-                    this.shouldRebaseChain = !!this.rebaseChain?.checked;
-                  }}
-                />
-                <label for="rebaseChain">Rebase all ancestors</label>
-              </div>`
-          )}
-        </div>
+        <div class="main" slot="main">${this.renderContent()}</div>
       </gr-dialog>
+    `;
+  }
+
+  private renderContent() {
+    return html`
+      <div
+        id="rebaseOnParent"
+        class="rebaseOption"
+        ?hidden=${!this.displayParentOption()}
+      >
+        <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+        <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
+          Rebase on parent change
+        </label>
+      </div>
+      <div class="message" ?hidden=${this.hasParent !== undefined}>
+        Still loading parent information ...
+      </div>
+      <div
+        id="parentUpToDateMsg"
+        class="message"
+        ?hidden=${!this.displayParentUpToDateMsg()}
+      >
+        This change is up to date with its parent.
+      </div>
+      <div
+        id="rebaseOnTip"
+        class="rebaseOption"
+        ?hidden=${!this.displayTipOption()}
+      >
+        <input
+          id="rebaseOnTipInput"
+          name="rebaseOptions"
+          type="radio"
+          ?disabled=${!this.displayTipOption()}
+        />
+        <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
+          Rebase on top of the ${this.branch} branch<span
+            ?hidden=${!this.hasParent || this.shouldRebaseChain}
+          >
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div
+        id="tipUpToDateMsg"
+        class="message"
+        ?hidden=${this.displayTipOption()}
+      >
+        Change is up to date with the target branch already (${this.branch})
+      </div>
+      <div id="rebaseOnOther" class="rebaseOption">
+        <input
+          id="rebaseOnOtherInput"
+          name="rebaseOptions"
+          type="radio"
+          @click=${this.handleRebaseOnOther}
+        />
+        <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
+          Rebase on a specific change, ref, or commit
+          <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div class="parentRevisionContainer">
+        <gr-autocomplete
+          id="parentInput"
+          .query=${this.query}
+          .text=${this.text}
+          @text-changed=${(e: ValueChangedEvent) =>
+            (this.text = e.detail.value)}
+          @click=${this.handleEnterChangeNumberClick}
+          allow-non-suggested-values
+          placeholder="Change number, ref, or commit hash"
+        >
+        </gr-autocomplete>
+      </div>
+      <div class="rebaseAllowConflicts">
+        <input id="rebaseAllowConflicts" type="checkbox" />
+        <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+      </div>
+      ${when(
+        this.hasParent,
+        () =>
+          html`<div>
+            <input
+              id="rebaseChain"
+              type="checkbox"
+              @change=${() => {
+                this.shouldRebaseChain = !!this.rebaseChain?.checked;
+              }}
+            />
+            <label for="rebaseChain">Rebase all ancestors</label>
+          </div>`
+      )}
     `;
   }
 
@@ -298,8 +324,7 @@ export class GrConfirmRebaseDialog
   ): AutocompleteSuggestion[] {
     return changes
       .filter(
-        change =>
-          change.name.includes(input) && change.value !== this.changeNumber
+        change => change.name.includes(input) && change.value !== this.changeNum
       )
       .map(
         change =>
@@ -330,10 +355,10 @@ export class GrConfirmRebaseDialog
    * should be rebased on top of its current parent.
    */
   getSelectedBase() {
-    if (this.rebaseOnParentInput.checked) {
+    if (this.rebaseOnParentInput?.checked) {
       return null;
     }
-    if (this.rebaseOnTipInput.checked) {
+    if (this.rebaseOnTipInput?.checked) {
       return '';
     }
     if (!this.text) {
@@ -349,7 +374,7 @@ export class GrConfirmRebaseDialog
     e.stopPropagation();
     const detail: ConfirmRebaseEventDetail = {
       base: this.getSelectedBase(),
-      allowConflicts: this.rebaseAllowConflicts.checked,
+      allowConflicts: !!this.rebaseAllowConflicts?.checked,
       rebaseChain: !!this.rebaseChain?.checked,
     };
     fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
@@ -368,7 +393,7 @@ export class GrConfirmRebaseDialog
   }
 
   private handleEnterChangeNumberClick() {
-    this.rebaseOnOtherInput.checked = true;
+    if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
   }
 
   /**
@@ -382,11 +407,11 @@ export class GrConfirmRebaseDialog
     }
 
     if (this.displayParentOption()) {
-      this.rebaseOnParentInput.checked = true;
+      if (this.rebaseOnParentInput) this.rebaseOnParentInput.checked = true;
     } else if (this.displayTipOption()) {
-      this.rebaseOnTipInput.checked = true;
+      if (this.rebaseOnTipInput) this.rebaseOnTipInput.checked = true;
     } else {
-      this.rebaseOnOtherInput.checked = true;
+      if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
     }
   }
 }

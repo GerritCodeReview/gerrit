@@ -408,9 +408,6 @@ export class GrChangeActions
   @property({type: String})
   commitNum?: CommitId;
 
-  @property({type: Boolean})
-  hasParent?: boolean;
-
   @state() latestPatchNum?: PatchSetNumber;
 
   @property({type: String})
@@ -663,14 +660,12 @@ export class GrChangeActions
         <gr-confirm-rebase-dialog
           id="confirmRebase"
           class="confirmDialog"
-          .changeNumber=${this.change?._number}
           @confirm-rebase=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
           .disableActions=${this.inProgressActionKeys.has(
             RevisionActions.REBASE
           )}
           .branch=${this.change?.branch}
-          .hasParent=${this.hasParent}
           .rebaseOnCurrent=${this.revisionRebaseAction
             ? !!this.revisionRebaseAction.enabled
             : null}
@@ -777,7 +772,7 @@ export class GrChangeActions
           class=${action.__key}
           data-action-key=${action.__key}
           data-label=${action.label}
-          ?disabled=${this.calculateDisabled(action)}
+          ?disabled=${!action.enabled}
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}
         >
@@ -795,10 +790,6 @@ export class GrChangeActions
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('hasParent')) {
-      this.computeChainState();
-    }
-
     if (changedProperties.has('change')) {
       this.reload();
       this.actions = this.change?.actions ?? {};
@@ -1527,25 +1518,6 @@ export class GrChangeActions
 
   private prependSlash(key: string) {
     return key === '/' ? key : `/${key}`;
-  }
-
-  /**
-   * _hasKnownChainState set to true true if hasParent is defined (can be
-   * either true or false). set to false otherwise.
-   *
-   * private but used in test
-   */
-  computeChainState() {
-    this._hasKnownChainState = true;
-  }
-
-  // private but used in test
-  calculateDisabled(action: UIActionInfo) {
-    if (action.__key === 'rebase') {
-      // Rebase button is only disabled when change has no parent(s).
-      return this._hasKnownChainState === false;
-    }
-    return !action.enabled;
   }
 
   private handleConfirmDialogCancel() {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42f8608_d0a821d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-27T09:26:11Z",
+      "side": 1,
+      "message": "The `Release-Notes:` footer is still missing. This will block submission of the change.",
+      "revId": "0fc1298ab96923898d0d6a178d9a3a94de68a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e83fa16_d9bb4ba2",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-27T09:26:11Z",
+      "side": 1,
+      "message": "nit: unnecessary `d`",
+      "range": {
+        "startLine": 183,
+        "startChar": 5,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "0fc1298ab96923898d0d6a178d9a3a94de68a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

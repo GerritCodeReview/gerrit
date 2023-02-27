@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ab7231_54e5c4e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-27T11:13:55Z",
+      "side": 1,
+      "message": "nit: commit messages don\u0027t end with a .",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec5b7b90_ed1c7c57",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-27T11:13:55Z",
+      "side": 1,
+      "message": "Should this be a comment instead?\n\nIt means we can keep the commit message clean and can also get a little nicer formatting on the diff (because comments can render code blocks)",
+      "range": {
+        "startLine": 85,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66966e67_adf0e6c4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-02-27T11:13:55Z",
+      "side": 1,
+      "message": "Adding the original patch to the commit message seems like cluttering things up to me. The regular create change endpoint mandates that callers provide commit messages. Can we make it so that on change creation, a message must be provided (I think that is already the case) and if a new patch set is added without a message, we just keep the one from the old patch set?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

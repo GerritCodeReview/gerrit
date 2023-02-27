@@ -16,6 +16,7 @@ package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
@@ -24,6 +25,7 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -51,6 +53,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -407,6 +410,7 @@ public class BatchUpdate implements AutoCloseable {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final RefLogIdentityProvider refLogIdentityProvider;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -442,6 +446,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      RefLogIdentityProvider refLogIdentityProvider,
       AttentionSetObserver attentionSetObserver,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -454,10 +459,11 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.refLogIdentityProvider = refLogIdentityProvider;
+    this.attentionSetObserver = attentionSetObserver;
     this.project = project;
     this.user = user;
     this.when = when;
-    this.attentionSetObserver = attentionSetObserver;
     zoneId = serverIdent.getZoneId();
   }
 
@@ -748,9 +754,7 @@ public class BatchUpdate implements AutoCloseable {
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);
-    if (user.isIdentifiedUser()) {
-      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, zoneId));
-    }
+    getRefLogIdent().ifPresent(handle.manager::setRefLogIdent);
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);
     for (Map.Entry<Change.Id, Collection<OpData<BatchUpdateOp>>> e : ops.asMap().entrySet()) {
@@ -800,6 +804,47 @@ public class BatchUpdate implements AutoCloseable {
       }
     }
     return handle;
+  }
+
+  /**
+   * Creates the ref log identity that should be used for the ref updates that are done by this
+   * {@code BatchUpdate}.
+   *
+   * <p>The ref log identity is created for the users for which operations should be executed. If
+   * all operations are executed by the same user the ref log identity is created for that user. If
+   * operations are executed for multiple users a shared reflog identity is created.
+   */
+  @VisibleForTesting
+  Optional<PersonIdent> getRefLogIdent() {
+    if (ops.isEmpty()) {
+      return Optional.empty();
+    }
+
+    // If all updates are done by identified users, create a shared ref log identity.
+    if (ops.values().stream()
+        .map(OpData::user)
+        .allMatch(currentUser -> currentUser.isIdentifiedUser())) {
+      return Optional.of(
+          refLogIdentityProvider.newRefLogIdent(
+              ops.values().stream()
+                  .map(OpData::user)
+                  .map(CurrentUser::asIdentifiedUser)
+                  .collect(toImmutableList()),
+              when,
+              zoneId));
+    }
+
+    // Fail if some but not all updates are done by identified users. At the moment we do not
+    // support batching updates of identified users and non-identified users (e.g. updates done on
+    // behalf of the server).
+    checkState(
+        ops.values().stream()
+            .map(OpData::user)
+            .noneMatch(currentUser -> currentUser.isIdentifiedUser()),
+        "batching updates of identified users and non-identified users is not supported");
+
+    // As fallback the server identity will be used as the ref log identity.
+    return Optional.empty();
   }
 
   private ChangeContextImpl newChangeContext(@Nullable CurrentUser contextUser, Change.Id id) {

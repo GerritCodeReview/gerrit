@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecede78b_fde64043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-27T20:13:02Z",
+      "side": 1,
+      "message": "Thanks for moving related changes to model.",
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a4f0b8_846ffcad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-27T20:13:02Z",
+      "side": 1,
+      "message": "Is this even used somewhere? Maybe can be removed.",
+      "range": {
+        "startLine": 394,
+        "startChar": 2,
+        "endLine": 394,
+        "endChar": 30
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885c3018_55c1c548",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-27T20:13:02Z",
+      "side": 1,
+      "message": "I assume that this is just refactoring. That there wasn\u0027t any change.",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 27
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c368e4bf_6bfebb2e",
+        "filename": "polygerrit-ui/app/models/change/related-changes-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-27T20:13:02Z",
+      "side": 1,
+      "message": "Does change model easily change topic? If I change topic 1 to topic 2 in change 1, will this result in loading changes with topic 2?",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 28
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

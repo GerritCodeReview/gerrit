@@ -393,9 +393,6 @@ export class GrChangeActions
   @property({type: Boolean})
   disableEdit = false;
 
-  @property({type: Boolean})
-  _hasKnownChainState = false;
-
   // private but used in test
   @state() _hideQuickApproveAction = false;
 
@@ -410,9 +407,6 @@ export class GrChangeActions
 
   @property({type: String})
   commitNum?: CommitId;
-
-  @property({type: Boolean})
-  hasParent?: boolean;
 
   @state() latestPatchNum?: PatchSetNumber;
 
@@ -678,14 +672,12 @@ export class GrChangeActions
         <gr-confirm-rebase-dialog
           id="confirmRebase"
           class="confirmDialog"
-          .changeNumber=${this.change?._number}
           @confirm-rebase=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
           .disableActions=${this.inProgressActionKeys.has(
             RevisionActions.REBASE
           )}
           .branch=${this.change?.branch}
-          .hasParent=${this.hasParent}
           .rebaseOnCurrent=${this.revisionRebaseAction
             ? !!this.revisionRebaseAction.enabled
             : null}
@@ -810,10 +802,6 @@ export class GrChangeActions
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('hasParent')) {
-      this.computeChainState();
-    }
-
     if (changedProperties.has('change')) {
       this.reload();
       this.actions = this.change?.actions ?? {};
@@ -1543,22 +1531,10 @@ export class GrChangeActions
     return key === '/' ? key : `/${key}`;
   }
 
-  /**
-   * _hasKnownChainState set to true true if hasParent is defined (can be
-   * either true or false). set to false otherwise.
-   *
-   * private but used in test
-   */
-  computeChainState() {
-    this._hasKnownChainState = true;
-  }
-
-  // private but used in test
-  calculateDisabled(action: UIActionInfo) {
-    if (action.__key === 'rebase') {
-      // Rebase button is only disabled when change has no parent(s).
-      return this._hasKnownChainState === false;
-    }
+  private calculateDisabled(action: UIActionInfo) {
+    // TODO(b/270972983): Remove this special casing once the backend is more
+    // aggressive about setting`enabled:true`.
+    if (action.__key === 'rebase') return false;
     return !action.enabled;
   }
 

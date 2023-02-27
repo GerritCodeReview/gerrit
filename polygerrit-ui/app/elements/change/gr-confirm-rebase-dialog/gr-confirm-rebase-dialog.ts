@@ -28,8 +28,9 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 export interface RebaseChange {
   name: string;
@@ -63,17 +64,17 @@ export class GrConfirmRebaseDialog
   @property({type: String})
   branch?: BranchName;
 
-  @property({type: Number})
-  changeNumber?: NumericChangeId;
-
-  @property({type: Boolean})
-  hasParent?: boolean;
-
   @property({type: Boolean})
   rebaseOnCurrent?: boolean;
 
   @property({type: Boolean})
   disableActions = false;
+
+  @state()
+  changeNum?: NumericChangeId;
+
+  @state()
+  hasParent?: boolean;
 
   @state()
   text = '';
@@ -91,16 +92,16 @@ export class GrConfirmRebaseDialog
   allowConflicts = false;
 
   @query('#rebaseOnParentInput')
-  private rebaseOnParentInput!: HTMLInputElement;
+  private rebaseOnParentInput?: HTMLInputElement;
 
   @query('#rebaseOnTipInput')
-  private rebaseOnTipInput!: HTMLInputElement;
+  private rebaseOnTipInput?: HTMLInputElement;
 
   @query('#rebaseOnOtherInput')
-  rebaseOnOtherInput!: HTMLInputElement;
+  rebaseOnOtherInput?: HTMLInputElement;
 
   @query('#rebaseAllowConflicts')
-  private rebaseAllowConflicts!: HTMLInputElement;
+  private rebaseAllowConflicts?: HTMLInputElement;
 
   @query('#rebaseChain')
   private rebaseChain?: HTMLInputElement;
@@ -120,6 +121,11 @@ export class GrConfirmRebaseDialog
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
+
   constructor() {
     super();
     this.query = input => this.getChangeSuggestions(input);
@@ -132,6 +138,16 @@ export class GrConfirmRebaseDialog
       this,
       () => this.getChangeModel().latestUploader$,
       x => (this.uploader = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().hasParent$,
+      x => (this.hasParent = x)
     );
   }
 
@@ -198,6 +214,9 @@ export class GrConfirmRebaseDialog
             <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
               Rebase on parent change
             </label>
+          </div>
+          <div class="message" ?hidden=${this.hasParent !== undefined}>
+            Still loading parent information ...
           </div>
           <div
             id="parentUpToDateMsg"
@@ -361,8 +380,7 @@ export class GrConfirmRebaseDialog
   ): AutocompleteSuggestion[] {
     return changes
       .filter(
-        change =>
-          change.name.includes(input) && change.value !== this.changeNumber
+        change => change.name.includes(input) && change.value !== this.changeNum
       )
       .map(
         change =>
@@ -393,10 +411,10 @@ export class GrConfirmRebaseDialog
    * should be rebased on top of its current parent.
    */
   getSelectedBase() {
-    if (this.rebaseOnParentInput.checked) {
+    if (this.rebaseOnParentInput?.checked) {
       return null;
     }
-    if (this.rebaseOnTipInput.checked) {
+    if (this.rebaseOnTipInput?.checked) {
       return '';
     }
     if (!this.text) {
@@ -412,7 +430,7 @@ export class GrConfirmRebaseDialog
     e.stopPropagation();
     const detail: ConfirmRebaseEventDetail = {
       base: this.getSelectedBase(),
-      allowConflicts: this.rebaseAllowConflicts.checked,
+      allowConflicts: !!this.rebaseAllowConflicts?.checked,
       rebaseChain: !!this.rebaseChain?.checked,
       onBehalfOfUploader: this.rebaseOnBehalfOfUploader(),
     };
@@ -437,7 +455,7 @@ export class GrConfirmRebaseDialog
   }
 
   private handleEnterChangeNumberClick() {
-    this.rebaseOnOtherInput.checked = true;
+    if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
   }
 
   /**
@@ -451,11 +469,11 @@ export class GrConfirmRebaseDialog
     }
 
     if (this.displayParentOption()) {
-      this.rebaseOnParentInput.checked = true;
+      if (this.rebaseOnParentInput) this.rebaseOnParentInput.checked = true;
     } else if (this.displayTipOption()) {
-      this.rebaseOnTipInput.checked = true;
+      if (this.rebaseOnTipInput) this.rebaseOnTipInput.checked = true;
     } else {
-      this.rebaseOnOtherInput.checked = true;
+      if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
     }
   }
 }

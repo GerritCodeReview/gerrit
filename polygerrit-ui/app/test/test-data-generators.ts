@@ -672,10 +672,10 @@ export function createBlame(): BlameInfo {
   };
 }
 
-export function createMergeable(): MergeableInfo {
+export function createMergeable(mergeable = false): MergeableInfo {
   return {
     submit_type: SubmitType.MERGE_IF_NECESSARY,
-    mergeable: false,
+    mergeable,
   };
 }
 

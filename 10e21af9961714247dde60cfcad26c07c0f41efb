@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e680ba23_f4ccd7f7",
+        "filename": "java/com/google/gerrit/server/project/RulesPlBlockerValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-27T15:18:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e58b027_d25a161b",
+      "revId": "10e21af9961714247dde60cfcad26c07c0f41efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f22b87c8_815feeac",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-27T14:09:53Z",
       "side": 1,
       "message": "[optional] maybe use Map.Entry here",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "10e21af9961714247dde60cfcad26c07c0f41efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "828c6853_b67ac664",
+        "filename": "java/com/google/gerrit/server/project/RulesPlBlockerValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-02-27T15:18:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f22b87c8_815feeac",
       "range": {
         "startLine": 71,
         "startChar": 9,

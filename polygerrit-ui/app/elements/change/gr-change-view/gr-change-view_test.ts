@@ -1403,22 +1403,6 @@ suite('gr-change-view tests', () => {
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
 
-  test('topic is coalesced to null', async () => {
-    sinon.stub(element, 'changeChanged');
-    changeModel.setState({
-      loadingStatus: LoadingStatus.LOADED,
-      change: {
-        ...createChangeViewChange(),
-        labels: {},
-        current_revision: 'foo' as CommitId,
-        revisions: {foo: createRevision()},
-      },
-    });
-
-    await element.performPostChangeLoadTasks();
-    assert.isNull(element.change!.topic);
-  });
-
   test('getBasePatchNum', async () => {
     element.change = {
       ...createChangeViewChange(),

@@ -238,12 +238,19 @@ References can have the user name or the sharded account ID of the
 current user automatically included, creating dynamic access controls
 that change to match the currently logged in user.  For example to
 provide a personal sandbox space to all developers,
-`+refs/heads/sandbox/${username}/*+` allows the user 'joe' to use
-'refs/heads/sandbox/joe/foo'. The sharded account ID can be used to
+`+refs/sandbox/${username}/*+` allows the user 'joe' to use
+'refs/sandbox/joe/foo'. The sharded account ID can be used to
 give users access to their user branch in the `All-Users` repository,
 for example `+refs/users/${shardeduserid}+` is resolved to
 'refs/users/23/1011123' if the account ID of the current user is
 `1011123`.
+
+Note, branches in the `refs/heads` namespace are used to build
+bitmaps. Since sandbox branches are subject to frequent deletion,
+this will affect bitmaps objects reachability, invalidating the bitmap
+itself. Therefore, it's reccomended to add `sandbox` branches outside
+of the `refs/heads` namespace to avoid impacts on upload-pack
+performance.
 
 When evaluating a reference-level access right, Gerrit will use
 the full set of access rights to determine if the user

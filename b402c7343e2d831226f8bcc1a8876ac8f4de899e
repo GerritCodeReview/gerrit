@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2c9ada_d186313f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-28T09:48:19Z",
+      "side": 1,
+      "message": "since we check it for each individual change in the chain, do we really need this check before the loop?",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "b402c7343e2d831226f8bcc1a8876ac8f4de899e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

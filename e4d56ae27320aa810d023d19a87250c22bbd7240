@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56814d21_fba22aa3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3e31623_ea205a6f",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da5db729_1d55ee67",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-28T08:23:44Z",
       "side": 1,
       "message": "Why does gr-change-metadata need the commitInfo if it\u0027s getting passed the revision?",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f54d34c9_c292e364",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1393,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:14Z",
+      "side": 1,
+      "message": "No good reason. Added TODO.",
+      "parentUuid": "da5db729_1d55ee67",
       "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a81f88_04f3c057",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:14Z",
+      "side": 1,
+      "message": "`commit` is an optional field: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revision-info\n\nI am not sure whether that can actually happen.\n\nNot directly related to my change though.",
+      "parentUuid": "4089cd94_04770c6c",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8fe6959_f39b0a32",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-02-28T08:23:44Z",
       "side": 1,
       "message": "Make a helper functionthat takes this.revision$ and this.patchNum$ and use it here and below.\n\n```\npublic readonly revision$ \u003d selectRevision(this.revisions$, this.patchNum$);\n\npublic readonly latestRevision$ \u003d selectRevision(this.revisions$, this.latestPatchNum$);\n```",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdc4851_ab99cd56",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8fe6959_f39b0a32",
       "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

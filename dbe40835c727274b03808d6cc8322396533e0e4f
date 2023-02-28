@@ -157,6 +157,30 @@
       },
       "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e60ffd3_0c1b4a24",
+        "filename": "polygerrit-ui/app/models/change/related-changes-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-28T08:30:41Z",
+      "side": 1,
+      "message": "Nice, that\u0027s good point. \n\nBut isn\u0027t this issue of triggering too often in all other related changes? Do we at least cache them in rest-api?",
+      "parentUuid": "88763f94_6820cafc",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 28
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

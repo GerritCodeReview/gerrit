@@ -22,6 +22,30 @@
       },
       "revId": "b402c7343e2d831226f8bcc1a8876ac8f4de899e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "379391d2_1d2b2650",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-28T10:30:45Z",
+      "side": 1,
+      "message": "I just recently moved it here, see [1] for the reasoning.\nIf we are concerned about duplicate permission checks we should rather remove the permission check below, but doing this seems unrelated to this change. Hence marking this as resolved. Please still let me know what you think about this and whether you think we should remove the permission check below.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/356398",
+      "parentUuid": "5d2c9ada_d186313f",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "b402c7343e2d831226f8bcc1a8876ac8f4de899e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

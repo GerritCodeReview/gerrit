@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d47940d_b9a3e020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-28T13:29:10Z",
+      "side": 1,
+      "message": "ah wasn\u0027t aware, added.",
+      "parentUuid": "c42f8608_d0a821d7",
+      "revId": "0fc1298ab96923898d0d6a178d9a3a94de68a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e83fa16_d9bb4ba2",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-27T09:26:11Z",
       "side": 1,
       "message": "nit: unnecessary `d`",
+      "range": {
+        "startLine": 183,
+        "startChar": 5,
+        "endLine": 183,
+        "endChar": 7
+      },
+      "revId": "0fc1298ab96923898d0d6a178d9a3a94de68a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ab2bfe_f8a7ae9c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-02-28T13:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e83fa16_d9bb4ba2",
       "range": {
         "startLine": 183,
         "startChar": 5,

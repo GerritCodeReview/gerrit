@@ -16,6 +16,23 @@
       "message": "Leaving +2 to Chris.",
       "revId": "b362fdbfbaa814e039e7b2b0988eab8f9e46d8e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0885c69_cbb57823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-02-28T20:54:20Z",
+      "side": 1,
+      "message": "Test failure is expected unless we checkout the codemirror submodule in this change.",
+      "revId": "b362fdbfbaa814e039e7b2b0988eab8f9e46d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

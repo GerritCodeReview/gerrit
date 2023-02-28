@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CommentRange} from '../api/core';
 import {
   ChangeStatus,
   RepoState,
@@ -116,6 +115,7 @@ import {
   isDetailedLabelInfo,
   isQuickLabelInfo,
   Base64FileContent,
+  CommentRange,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 

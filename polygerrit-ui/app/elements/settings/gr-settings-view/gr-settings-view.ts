@@ -81,12 +81,6 @@ enum CopyPrefsDirection {
 @customElement('gr-settings-view')
 export class GrSettingsView extends LitElement {
   /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
-  /**
    * Fired with email confirmation text, or when the page reloads.
    *
    * @event show-alert
@@ -261,7 +255,7 @@ export class GrSettingsView extends LitElement {
     // Polymer 2: anchor tag won't work on shadow DOM
     // we need to manually calling scrollIntoView when hash changed
     document.addEventListener('location-change', this.handleLocationChange);
-    fireTitleChange(this, 'Settings');
+    fireTitleChange('Settings');
   }
 
   override firstUpdated() {

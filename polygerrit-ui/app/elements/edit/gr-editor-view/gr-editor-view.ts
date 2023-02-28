@@ -57,12 +57,6 @@ const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 @customElement('gr-editor-view')
 export class GrEditorView extends LitElement {
   /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
-  /**
    * Fired to notify the user of
    *
    * @event show-alert
@@ -341,7 +335,7 @@ export class GrEditorView extends LitElement {
       const title = `Editing ${computeTruncatedPath(
         this.viewState.editView?.path
       )}`;
-      fireTitleChange(this, title);
+      fireTitleChange(title);
     });
 
     const promises = [];

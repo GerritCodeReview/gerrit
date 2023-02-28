@@ -16,6 +16,7 @@ import {RepoName, BranchName, TopicName, ChangeInfo} from '../../api/rest-api';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
+import {accountKey} from '../../utils/account-util';
 import {select} from '../../utils/observable-util';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
@@ -168,8 +169,11 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     ([query, changes]) => {
       if (changes.length === 0) return undefined;
       if (!USER_QUERY_PATTERN.test(query)) return undefined;
-      const owner = changes[0].owner;
-      return owner?._account_id ?? owner?.email;
+      const ownerKey = accountKey(changes[0].owner);
+      if (changes.some(change => accountKey(change.owner) !== ownerKey)) {
+        return undefined;
+      }
+      return ownerKey;
     }
   );
 

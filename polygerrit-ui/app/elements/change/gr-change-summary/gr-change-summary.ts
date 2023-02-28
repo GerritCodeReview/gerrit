@@ -29,14 +29,6 @@ import {
   isRunningOrScheduled,
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
-import {
-  getFirstComment,
-  getMentionedThreads,
-  hasHumanReply,
-  isResolved,
-  isRobotThread,
-  isUnresolved,
-} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
 import {isDefined} from '../../../types/types';
@@ -55,6 +47,14 @@ import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when.js';
 import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
+import {
+  getFirstComment,
+  getMentionedThreads,
+  hasHumanReply,
+  isResolved,
+  isRobotThread,
+  isUnresolved,
+} from '../../../api/comments';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;

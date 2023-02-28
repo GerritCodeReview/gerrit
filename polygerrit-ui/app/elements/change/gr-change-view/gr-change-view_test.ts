@@ -68,9 +68,7 @@ import {
   RevisionInfo,
   RevisionPatchSetNum,
   RobotId,
-  RobotCommentInfo,
   Timestamp,
-  UrlEncodedCommentId,
   DetailedLabelInfo,
   RepoName,
   QuickLabelInfo,
@@ -104,6 +102,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {UrlEncodedCommentId, RobotCommentInfo} from '../../../api/rest-api';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;

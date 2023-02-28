@@ -36,7 +36,6 @@ import {
 } from '../../../test/test-data-generators';
 import {
   BasePatchSetNum,
-  CommentInfo,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -45,7 +44,6 @@ import {
   PathToCommentsInfoMap,
   RepoName,
   RevisionPatchSetNum,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {CursorMoveResult} from '../../../api/core';
 import {Side} from '../../../api/diff';
@@ -76,6 +74,7 @@ import {
   changeViewModelToken,
 } from '../../../models/views/change';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
+import {UrlEncodedCommentId, CommentInfo} from '../../../api/rest-api';
 
 function createComment(
   id: string,

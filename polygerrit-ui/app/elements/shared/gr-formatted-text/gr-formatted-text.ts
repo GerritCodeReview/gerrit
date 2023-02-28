@@ -21,7 +21,7 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
-import {USER_SUGGESTION_INFO_STRING} from '../../../utils/comment-util';
+import {USER_SUGGESTION_INFO_STRING} from '../../../api/comments';
 
 /**
  * This element optionally renders markdown and also applies some regex

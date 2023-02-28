@@ -40,7 +40,6 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNumber,
   PreferencesInfo,
   RepoName,
@@ -98,6 +97,7 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
+import {PatchRange} from '../../../api/comments';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';

@@ -20,11 +20,6 @@ import {
   isMergeParent,
   isNumber,
 } from '../../../utils/patch-set-util';
-import {
-  equalLocation,
-  isInBaseOfPatchRange,
-  isInRevisionOfPatchRange,
-} from '../../../utils/comment-util';
 import {CoverageRange, DiffLayer, PatchSetFile} from '../../../types/types';
 import {
   Base64ImageFile,
@@ -34,11 +29,9 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   DiffInfo,
@@ -98,6 +91,13 @@ import {subscribe} from '../../lit/subscription-controller';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  equalLocation,
+  isInBaseOfPatchRange,
+  isInRevisionOfPatchRange,
+  PatchRange,
+} from '../../../api/comments';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 

@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {isMentionedThread, isUnresolved} from '../api/comments';
 import {
   AccountInfo,
   ChangeInfo,
@@ -17,7 +18,6 @@ import {
   isServiceUser,
   replaceTemplates,
 } from './account-util';
-import {isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
 import {getCodeReviewLabel} from './label-util';
 

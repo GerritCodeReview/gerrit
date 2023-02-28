@@ -5,13 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-comment-thread';
-import {sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
   NumericChangeId,
-  UrlEncodedCommentId,
   Timestamp,
-  CommentInfo,
   RepoName,
   DraftInfo,
 } from '../../../types/common';
@@ -33,6 +30,8 @@ import {SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {sortComments} from '../../../api/comments';
+import {UrlEncodedCommentId, CommentInfo} from '../../../api/rest-api';
 
 const c1 = {
   author: {name: 'Kermit'},

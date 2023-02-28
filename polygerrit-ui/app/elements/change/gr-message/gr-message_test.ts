@@ -31,7 +31,6 @@ import {
   RevisionPatchSetNum,
   ReviewInputTag,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   ChangeMessageDeletedEventDetail,
@@ -43,6 +42,7 @@ import {SinonStub} from 'sinon';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 suite('gr-message tests', () => {
   let element: GrMessage;

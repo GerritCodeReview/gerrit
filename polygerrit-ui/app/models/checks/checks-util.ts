@@ -14,16 +14,17 @@ import {
   Replacement,
   RunStatus,
 } from '../../api/checks';
-import {PatchSetNumber, RevisionPatchSetNum} from '../../api/rest-api';
-import {CommentSide} from '../../constants/constants';
+import {PROVIDED_FIX_ID} from '../../api/comments';
 import {
   FixSuggestionInfo,
   FixReplacementInfo,
-  UnsavedInfo,
-} from '../../types/common';
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
+import {CommentSide} from '../../constants/constants';
+import {UnsavedInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';

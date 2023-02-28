@@ -41,7 +41,6 @@ import {
   FileInfo,
   NumericChangeId,
   PARENT,
-  PatchRange,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -86,6 +85,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {PatchRange} from '../../../api/comments';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 

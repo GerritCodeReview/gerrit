@@ -5,6 +5,14 @@
  */
 import '../test/common-test-setup';
 import {
+  createAccountWithEmail,
+  createComment,
+  createCommentThread,
+} from '../test/test-data-generators';
+import {CommentSide} from '../constants/constants';
+import {PARENT, RevisionPatchSetNum, Timestamp} from '../types/common';
+import {assert} from '@open-wc/testing';
+import {
   isUnresolved,
   getPatchRangeForCommentUrl,
   createCommentThreads,
@@ -16,20 +24,8 @@ import {
   createUserFixSuggestion,
   PROVIDED_FIX_ID,
   getMentionedThreads,
-} from './comment-util';
-import {
-  createAccountWithEmail,
-  createComment,
-  createCommentThread,
-} from '../test/test-data-generators';
-import {CommentSide} from '../constants/constants';
-import {
-  PARENT,
-  RevisionPatchSetNum,
-  Timestamp,
-  UrlEncodedCommentId,
-} from '../types/common';
-import {assert} from '@open-wc/testing';
+} from '../api/comments';
+import {UrlEncodedCommentId} from '../api/rest-api';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {

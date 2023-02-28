@@ -3,16 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  AccountInfo,
-  ChangeMessage,
-  DropdownLink,
-  FixSuggestionInfo,
-  PatchSetNum,
-} from './common';
+import {AccountInfo, ChangeMessage, DropdownLink, PatchSetNum} from './common';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {FixSuggestionInfo} from '../api/rest-api';
 
 // TODO: Local events that are only fired by one component should also be
 // declared and documented in that component. Don't collect ALL the events here.

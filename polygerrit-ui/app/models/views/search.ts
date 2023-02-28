@@ -169,6 +169,15 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
       if (changes.length === 0) return undefined;
       if (!USER_QUERY_PATTERN.test(query)) return undefined;
       const owner = changes[0].owner;
+      if (
+        !changes.every(
+          change =>
+            (change.owner._account_id ?? change.owner.email) ===
+            (owner._account_id ?? owner.email)
+        )
+      ) {
+        return undefined;
+      }
       return owner?._account_id ?? owner?.email;
     }
   );

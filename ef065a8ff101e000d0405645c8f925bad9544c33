@@ -16,6 +16,24 @@
       "message": "What motivates the move from one api file to another?\n\nIs `CommentRange` an object that is returned by the REST API?",
       "revId": "ef065a8ff101e000d0405645c8f925bad9544c33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce2dc28_06dea435",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-28T20:57:30Z",
+      "side": 1,
+      "message": "It is returned as part of [CommentInput](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-input) so I think the answer is yes?\n\nI am not sure what you mean by `returned by the REST API`?",
+      "parentUuid": "7653243d_ad3cd593",
+      "revId": "ef065a8ff101e000d0405645c8f925bad9544c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5,28 +5,14 @@
  */
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
-  CommentBasics,
   CommentInfo,
   NumericChangeId,
   PatchSetNum,
   RevisionId,
-  UrlEncodedCommentId,
   PathToCommentsInfoMap,
-  RobotCommentInfo,
   PathToRobotCommentsInfoMap,
   AccountInfo,
-  DraftInfo,
-  UnsavedInfo,
-  Comment,
-  isDraft,
-  isDraftOrUnsaved,
-  isUnsaved,
 } from '../../types/common';
-import {
-  addPath,
-  isDraftThread,
-  reportingDetails,
-} from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
@@ -53,6 +39,19 @@ import {
 } from 'rxjs/operators';
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
+import {
+  isDraftOrUnsaved,
+  addPath,
+  Comment,
+  DraftInfo,
+  isDraft,
+  isDraftThread,
+  isUnsaved,
+  reportingDetails,
+  UnsavedInfo,
+  CommentBasics,
+} from '../../api/comments';
+import {RobotCommentInfo, UrlEncodedCommentId} from '../../api/rest-api';
 
 export interface CommentState {
   /** undefined means 'still loading' */

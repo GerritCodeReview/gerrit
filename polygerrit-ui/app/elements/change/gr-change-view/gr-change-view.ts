@@ -1628,7 +1628,7 @@ export class GrChangeView extends LitElement {
         <gr-messages-list
           .labels=${this.change?.labels}
           .messages=${this.change?.messages}
-          .reviewerUpdates=${this.change?.reviewer_updates}
+          .reviewerUpdates=${this.change?.reviewer_updates ?? []}
           @message-anchor-tap=${this.handleMessageAnchorTap}
           @reply=${this.handleMessageReply}
         ></gr-messages-list>
@@ -2629,9 +2629,6 @@ export class GrChangeView extends LitElement {
     if (!this.change) return;
 
     this.processEdit(this.change);
-    if (!this.change.reviewer_updates) {
-      this.change.reviewer_updates = null as unknown as undefined;
-    }
   }
 
   private isParentCurrent() {

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e63183de_b2bc3aa9",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-28T05:53:10Z",
+      "side": 1,
+      "message": "\u003e \u003e If not, you probably need to provide a justification for leaving this around, maybe something like \"there could be plugin users of this cache\", \"this is now used by ... on the master branch\" (if that is true), and, of course, your intended use case for this one this branch?\n\u003e \n\u003e Ack. Done.\n\u003e \n\u003e \u003e The usage on line 58 is a single cache entry; however, the usage on line 72 is again a per-project entry.\n\u003e \n\u003e Post merging this change, I think we can update code-owners plugin to use PerThreadProjectCache.\n\nRight, but that will mean a bit more refracting to PerThreadProjectCache to really make it generic (as noted below) and move it into the .server.cache package.\n\n\u003e \n\u003e \u003e Perhaps we should find a way to make the PerThreadProjectCache more generic such that its limit applies to how many projects to cache and callers can store multiple different cache entries per-project?\n\u003e \n\u003e Sure, I see this as an enhancement on top of this change. Can be a follow-on change?\n\nI like that as a follow-on change, but since the 3.5 version of the code-owners plugin already uses PerThreadCache [1], we should wait to submit this change until the follow ons for generic PerThreadProjectCache and the code-owners plugin update to use it are ready to submit.\n\n[1] https://gerrit.googlesource.com/plugins/code-owners/+/refs/heads/stable-3.5/java/com/google/gerrit/plugins/codeowners/backend/config/CodeOwnersPluginConfiguration.java#59",
+      "parentUuid": "2bfedd0c_b05e45e2",
+      "revId": "320236a5a4c5679bc15161ef77e8b5cfdbed53fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06b5f795_69ed9012",
         "filename": "java/com/google/gerrit/server/permissions/PerThreadProjectCache.java",
         "patchSetId": 2

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20b90862_c4fbd4dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41277b82_6404a4ee",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c0d4373_3bdbc661",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67cf667d_e0388a7d",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c0d4373_3bdbc661",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa520595_987d5b5f",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-02-27T09:07:20Z",
       "side": 1,
       "message": "Why are you checking `sha`? \n\nIf it can be falsy should we instead do:\n```\n  for (const sha of Object.keys(changeOutput.revisions)) {\n     if (!sha) continue;\n```",
+      "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4aaaa1d_2732510a",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa520595_987d5b5f",
       "revId": "9f4b86db60f934cbbd2531b042967c836fd61434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

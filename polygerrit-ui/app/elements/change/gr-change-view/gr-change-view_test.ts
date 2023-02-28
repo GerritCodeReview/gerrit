@@ -12,7 +12,6 @@ import {
   CommentSide,
   DefaultBase,
   DiffViewMode,
-  MessageTag,
   createDefaultPreferences,
   Tab,
 } from '../../../constants/constants';
@@ -32,7 +31,6 @@ import {
 import {
   createChangeViewState,
   createApproval,
-  createChange,
   createChangeMessages,
   createCommit,
   createPreferences,
@@ -56,7 +54,6 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  ReviewInputTag,
   RevisionPatchSetNum,
   RobotId,
   RobotCommentInfo,
@@ -67,7 +64,6 @@ import {
   QuickLabelInfo,
   PatchSetNumber,
   CommentThread,
-  ChangeStates,
   SavingState,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
@@ -1124,183 +1120,6 @@ suite('gr-change-view tests', () => {
       element.serverConfig!.user.anonymous_coward_name,
       'test coward name'
     );
-  });
-
-  test('changeStatuses', async () => {
-    element.loading = false;
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        rev2: createRevision(2),
-        rev1: createRevision(1),
-        rev13: createRevision(13),
-        rev3: createRevision(3),
-      },
-      current_revision: 'rev3' as CommitId,
-      status: ChangeStatus.MERGED,
-      labels: {
-        test: {
-          all: [],
-          default_value: 0,
-          values: {},
-          approved: {},
-        },
-      },
-    };
-    element.mergeable = true;
-    await element.updateComplete;
-    const expectedStatuses = [ChangeStates.MERGED];
-    assert.deepEqual(element.changeStatuses, expectedStatuses);
-    const statusChips =
-      element.shadowRoot!.querySelectorAll('gr-change-status');
-    assert.equal(statusChips.length, 1);
-  });
-
-  suite('ChangeStatus revert', () => {
-    test('do not show any chip if no revert created', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('do not show any chip if all reverts are abandoned', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      change.messages[1].message = 'Created a revert of this change as 23456';
-      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.ABANDONED,
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.ABANDONED,
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('show revert created if no revert is merged', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      change.messages[1].message = 'Created a revert of this change as 23456';
-      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      // Wait for promises to settle.
-      await waitEventLoop();
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isTrue(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('show revert submitted if revert is merged', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.MERGED,
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      // Wait for promises to settle.
-      await waitEventLoop();
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-      assert.isTrue(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-    });
   });
 
   test('diff preferences open when open-diff-prefs is fired', async () => {

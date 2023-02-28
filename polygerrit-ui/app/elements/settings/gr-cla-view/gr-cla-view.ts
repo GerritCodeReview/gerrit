@@ -53,7 +53,7 @@ export class GrClaView extends LitElement {
     super.connectedCallback();
     this.loadData();
 
-    fireTitleChange(this, 'New Contributor Agreement');
+    fireTitleChange('New Contributor Agreement');
   }
 
   static override get styles() {

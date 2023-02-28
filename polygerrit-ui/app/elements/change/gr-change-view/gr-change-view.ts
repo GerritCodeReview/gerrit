@@ -198,12 +198,6 @@ export type ChangeViewPatchRange = Partial<PatchRange>;
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
-  /**
    * Fired if an error occurs when fetching the change data.
    *
    * @event page-error
@@ -2222,7 +2216,7 @@ export class GrChangeView extends LitElement {
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change) return;
     const title = `${change.subject} (${change._number})`;
-    fireTitleChange(this, title);
+    fireTitleChange(title);
   }
 
   // Private but used in tests.

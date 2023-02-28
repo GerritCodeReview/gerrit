@@ -68,12 +68,6 @@ const slotNameBySectionName = new Map<string, string>([
 
 @customElement('gr-dashboard-view')
 export class GrDashboardView extends LitElement {
-  /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
   @query('#confirmDeleteDialog') protected confirmDeleteDialog?: GrDialog;
 
   @query('#commandsDialog') protected commandsDialog?: GrCreateCommandsDialog;
@@ -404,7 +398,7 @@ export class GrDashboardView extends LitElement {
     return dashboardPromise
       .then(res => {
         if (res && res.title) {
-          fireTitleChange(this, res.title);
+          fireTitleChange(res.title);
         }
         return this.fetchDashboardChanges(res, checkForNewUser);
       })
@@ -413,7 +407,7 @@ export class GrDashboardView extends LitElement {
         this.reporting.dashboardDisplayed();
       })
       .catch(err => {
-        fireTitleChange(this, title || this.computeTitle(user));
+        fireTitleChange(title || this.computeTitle(user));
         this.reporting.error('Dashboard reload', err);
       })
       .finally(() => {

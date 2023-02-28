@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestMetricMaker;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -50,6 +51,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.GitPerson;
@@ -87,6 +89,7 @@ import org.junit.runners.Suite;
 })
 public class RebaseIT {
   public abstract static class Base extends AbstractDaemonTest {
+    @Inject protected ChangeOperations changeOperations;
     @Inject protected RequestScopeOperations requestScopeOperations;
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
@@ -792,6 +795,53 @@ public class RebaseIT {
       assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(0);
       assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
       assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(0);
+    }
+
+    @Test
+    public void rebaseActionEnabledIfChangeCanBeRebased() throws Exception {
+      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeRebased = changeOperations.newChange().project(project).create();
+
+      // Change cannot be rebased since its parent commit is the same commit as the HEAD of the
+      // destination branch.
+      RevisionInfo currentRevisionInfo =
+          gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+      assertThat(currentRevisionInfo.actions).containsKey("rebase");
+      ActionInfo rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
+      assertThat(rebaseActionInfo.enabled).isNull();
+
+      // Approve and submit the change that will be the new base for the chain so that the chain is
+      // rebasable.
+      gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+      gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+      // Change can be rebased since its parent commit differs from the commit at the HEAD of the
+      // destination branch.
+      currentRevisionInfo = gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+      assertThat(currentRevisionInfo.actions).containsKey("rebase");
+      rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
+      assertThat(rebaseActionInfo.enabled).isTrue();
+    }
+
+    @Test
+    public void rebaseActionEnabledIfChangeHasAParentChange() throws Exception {
+      Change.Id change1 = changeOperations.newChange().project(project).create();
+      Change.Id change2 =
+          changeOperations.newChange().project(project).childOf().change(change1).create();
+
+      // change1 cannot be rebased since its parent commit is the same commit as the HEAD of the
+      // destination branch.
+      RevisionInfo currentRevisionInfo =
+          gApi.changes().id(change1.get()).get().getCurrentRevision();
+      assertThat(currentRevisionInfo.actions).containsKey("rebase");
+      ActionInfo rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
+      assertThat(rebaseActionInfo.enabled).isNull();
+
+      // change2 can be rebased to break the relation to change1
+      currentRevisionInfo = gApi.changes().id(change2.get()).get().getCurrentRevision();
+      assertThat(currentRevisionInfo.actions).containsKey("rebase");
+      rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
+      assertThat(rebaseActionInfo.enabled).isTrue();
     }
   }
 

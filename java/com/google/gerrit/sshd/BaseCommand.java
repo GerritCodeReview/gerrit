@@ -501,7 +501,7 @@ public abstract class BaseCommand implements Command {
 
           out.flush();
           err.flush();
-        } catch (Exception e) {
+        } catch (Throwable e) {
           try {
             out.flush();
           } catch (Exception e2) {

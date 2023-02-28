@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e7a9544_2984aa50",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-02-28T13:52:36Z",
+      "side": 1,
+      "message": "waitForEvent executes lambda in the same thread. Do you use AtomicInteger as a workaround for non-final variable?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "31ca2fe7afdcd7d49ea6ede395dd2e8c30a171f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

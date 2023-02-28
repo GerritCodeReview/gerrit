@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "187e3199_b5157da5",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-02-28T18:38:42Z",
+      "side": 1,
+      "message": "I think we want to remove this as well?\nTackling here:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/361219",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "3833c152430efb5fe8ac57733ef4e7a50d961041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

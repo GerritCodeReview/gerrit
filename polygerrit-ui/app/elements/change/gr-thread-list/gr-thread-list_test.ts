@@ -32,8 +32,9 @@ import {
   RobotId,
   UrlEncodedCommentId,
   RevisionPatchSetNum,
+  CommentThread,
 } from '../../../types/common';
-import {CommentThread, isDraft} from '../../../utils/comment-util';
+import {isDraft} from '../../../utils/comment-util';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';

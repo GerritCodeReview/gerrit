@@ -11,8 +11,6 @@ import {
   isDraftThread,
   isUnresolved,
   createCommentThreads,
-  DraftInfo,
-  CommentThread,
 } from '../../../utils/comment-util';
 import {
   createDraft,
@@ -26,6 +24,8 @@ import {CommentSide, FileInfoStatus} from '../../../constants/constants';
 import {
   BasePatchSetNum,
   CommentInfo,
+  CommentThread,
+  DraftInfo,
   PARENT,
   PatchRange,
   PatchSetNum,

@@ -30,7 +30,6 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {
-  CommentThread,
   getFirstComment,
   getMentionedThreads,
   hasHumanReply,
@@ -39,7 +38,7 @@ import {
   isUnresolved,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
-import {AccountInfo, DropdownLink} from '../../../types/common';
+import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
 import {isDefined} from '../../../types/types';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';

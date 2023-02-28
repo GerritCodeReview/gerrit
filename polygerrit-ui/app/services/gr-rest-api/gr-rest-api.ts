@@ -91,6 +91,7 @@ import {
   TopMenuEntryInfo,
   UrlEncodedCommentId,
   UserId,
+  DraftInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -99,7 +100,6 @@ import {
 } from '../../types/diff';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {DraftInfo} from '../../utils/comment-util';
 
 export type CancelConditionCallback = () => boolean;
 

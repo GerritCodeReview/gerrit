@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-comment-thread';
-import {DraftInfo, sortComments} from '../../../utils/comment-util';
+import {sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
   NumericChangeId,
@@ -13,6 +13,7 @@ import {
   Timestamp,
   CommentInfo,
   RepoName,
+  DraftInfo,
 } from '../../../types/common';
 import {
   mockPromise,

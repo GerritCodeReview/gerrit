@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03af0bdb_8c54b787",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-02-28T10:01:37Z",
+      "side": 1,
+      "message": "can it be:\nenabled \u003d rebaseUtil.canRebase(...)",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 23
+      },
+      "revId": "139547a03217fea6e593ad610851001a06f7a6d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

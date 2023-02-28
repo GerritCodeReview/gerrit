@@ -5,14 +5,17 @@
  */
 import '../gr-autocomplete/gr-autocomplete';
 import {
-  AutocompleteCommitEvent,
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {AddAccountEvent, BindValueChangeEvent} from '../../../types/events';
+import {
+  AddAccountEvent,
+  AutocompleteCommitEvent,
+  BindValueChangeEvent,
+} from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fire} from '../../../utils/event-util';

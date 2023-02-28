@@ -20,7 +20,6 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {
-  AutocompleteCommitEvent,
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
@@ -40,7 +39,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
-import {ValueChangedEvent} from '../../../types/events';
+import {
+  AutocompleteCommitEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';

@@ -53,7 +53,11 @@ import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected, matches} from './gr-checks-util';
-import {ChecksTabState, ValueChangedEvent} from '../../types/events';
+import {
+  ChecksTabState,
+  DropdownLink,
+  ValueChangedEvent,
+} from '../../types/events';
 import {LabelNameToInfoMap, PatchSetNumber} from '../../types/common';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
@@ -61,7 +65,6 @@ import {
   getRepresentativeValue,
   valueString,
 } from '../../utils/label-util';
-import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';

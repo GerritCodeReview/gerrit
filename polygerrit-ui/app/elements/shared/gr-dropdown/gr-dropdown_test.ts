@@ -5,11 +5,12 @@
  */
 import '../../../test/common-test-setup';
 import './gr-dropdown';
-import {DropdownLink, GrDropdown} from './gr-dropdown';
+import {GrDropdown} from './gr-dropdown';
 import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {DropdownLink} from '../../../types/events';
 
 suite('gr-dropdown tests', () => {
   let element: GrDropdown;

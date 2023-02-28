@@ -18,7 +18,7 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {fire} from '../../../utils/event-util';
-import {ValueChangedEvent} from '../../../types/events';
+import {DropdownLink, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
 
@@ -32,16 +32,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-dropdown': GrDropdown;
   }
-}
-
-export interface DropdownLink {
-  url?: string;
-  name?: string;
-  external?: boolean;
-  target?: string | null;
-  download?: boolean;
-  id?: string;
-  tooltip?: string;
 }
 
 export interface DropdownContent {

@@ -20,7 +20,6 @@ import {
   TopMenuItemInfo,
 } from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
@@ -30,6 +29,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {DropdownLink} from '../../../types/events';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 

@@ -6,10 +6,9 @@
 import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {FileActionTapEvent} from '../../../types/events';
+import {DropdownLink, FileActionTapEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fire} from '../../../utils/event-util';
 
 interface EditAction {

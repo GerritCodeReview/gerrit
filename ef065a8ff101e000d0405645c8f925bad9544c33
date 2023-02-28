@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7653243d_ad3cd593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T20:55:02Z",
+      "side": 1,
+      "message": "What motivates the move from one api file to another?\n\nIs `CommentRange` an object that is returned by the REST API?",
+      "revId": "ef065a8ff101e000d0405645c8f925bad9544c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

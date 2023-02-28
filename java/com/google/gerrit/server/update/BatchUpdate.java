@@ -608,10 +608,10 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void fireAttentionSetUpdateEvents(PostUpdateContext ctx) {
+  private void fireAttentionSetUpdateEvents(PostUpdateContext ctx) throws Exception {
     for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
       ChangeData change = ctx.getChangeData(key.projectName(), key.changeId());
-      AccountState account = ctx.getAccount();
+      AccountState account = getAccount().orElse(null);
       for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
         attentionSetObserver.fire(change, account, update, ctx.getWhen());
       }

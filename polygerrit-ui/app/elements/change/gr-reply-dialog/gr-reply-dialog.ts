@@ -48,6 +48,7 @@ import {
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
+  DraftInfo,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
@@ -75,7 +76,6 @@ import {
 import {
   CommentThread,
   createPatchsetLevelUnsavedDraft,
-  DraftInfo,
   getFirstComment,
   isDraft,
   isPatchsetLevel,

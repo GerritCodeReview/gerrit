@@ -450,7 +450,7 @@ suite('gr-comment tests', () => {
     assert.isTrue(stub.called);
     assert.deepEqual(stub.lastCall.args[0].detail, {
       side: 'REVISION',
-      number: element.comment!.line,
+      number: element.comment.line,
     });
   });
 

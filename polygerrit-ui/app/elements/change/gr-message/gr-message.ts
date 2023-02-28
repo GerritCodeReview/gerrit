@@ -751,7 +751,7 @@ export class GrMessage extends LitElement {
     // The element which triggers handleAnchorClick is rendered only if
     // message.id defined: the element is wrapped in dom-if if="[[message.id]]"
     const detail: MessageAnchorTapDetail = {
-      id: this.message!.id,
+      id: this.message.id,
     };
     fire(this, 'message-anchor-tap', detail);
   }

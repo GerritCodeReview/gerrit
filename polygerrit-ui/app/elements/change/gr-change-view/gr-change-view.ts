@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
@@ -31,19 +31,19 @@ import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
-import { ChangeStarToggleStarDetail } from '../../shared/gr-change-star/gr-change-star';
-import { GrEditConstants } from '../../edit/gr-edit-constants';
-import { pluralize } from '../../../utils/string-util';
-import { whenVisible, windowLocationReload } from '../../../utils/dom-util';
-import { navigationToken } from '../../core/gr-navigation/gr-navigation';
-import { RevisionInfo as RevisionInfoClass } from '../../shared/revision-info/revision-info';
+import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
+import {GrEditConstants} from '../../edit/gr-edit-constants';
+import {pluralize} from '../../../utils/string-util';
+import {whenVisible, windowLocationReload} from '../../../utils/dom-util';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
   ChangeStatus,
   DefaultBase,
   Tab,
   DiffViewMode,
 } from '../../../constants/constants';
-import { getAppContext } from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -60,12 +60,12 @@ import {
   isInvolved,
   roleDetails,
 } from '../../../utils/change-util';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { GrApplyFixDialog } from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
-import { GrFileListHeader } from '../gr-file-list-header/gr-file-list-header';
-import { GrEditableContent } from '../../shared/gr-editable-content/gr-editable-content';
-import { GrChangeStar } from '../../shared/gr-change-star/gr-change-star';
-import { GrChangeActions } from '../gr-change-actions/gr-change-actions';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
+import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
+import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
+import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
 import {
   AccountDetailInfo,
   ActionNameToActionInfoMap,
@@ -87,26 +87,26 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import { FocusTarget, GrReplyDialog } from '../gr-reply-dialog/gr-reply-dialog';
-import { GrIncludedInDialog } from '../gr-included-in-dialog/gr-included-in-dialog';
-import { GrDownloadDialog } from '../gr-download-dialog/gr-download-dialog';
-import { GrChangeMetadata } from '../gr-change-metadata/gr-change-metadata';
+import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
+import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
+import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
+import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {
   assertIsDefined,
   assert,
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
-import { GrEditControls } from '../../edit/gr-edit-controls/gr-edit-controls';
+import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
   isRobot,
   isUnresolved,
   DraftInfo,
 } from '../../../utils/comment-util';
-import { PaperTabsElement } from '@polymer/paper-tabs/paper-tabs';
-import { GrFileList } from '../gr-file-list/gr-file-list';
-import { EditRevisionInfo, ParsedChangeInfo } from '../../../types/types';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
+import {GrFileList} from '../gr-file-list/gr-file-list';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
   EditableContentSaveEvent,
   FileActionTapEvent,
@@ -116,9 +116,9 @@ import {
   TabState,
   ValueChangedEvent,
 } from '../../../types/events';
-import { GrButton } from '../../shared/gr-button/gr-button';
-import { GrMessagesList } from '../gr-messages-list/gr-messages-list';
-import { GrThreadList } from '../gr-thread-list/gr-thread-list';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
   fireAlert,
   fireDialogChange,
@@ -132,7 +132,7 @@ import {
   throttleWrap,
   until,
 } from '../../../utils/async-util';
-import { Interaction, Timing } from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -143,24 +143,24 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import { LoadingStatus } from '../../../models/change/change-model';
-import { commentsModelToken } from '../../../models/comments/comments-model';
-import { resolve } from '../../../models/dependency';
-import { checksModelToken } from '../../../models/checks/checks-model';
-import { changeModelToken } from '../../../models/change/change-model';
-import { css, html, LitElement, nothing } from 'lit';
-import { a11yStyles } from '../../../styles/gr-a11y-styles';
-import { paperStyles } from '../../../styles/gr-paper-styles';
-import { sharedStyles } from '../../../styles/shared-styles';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { when } from 'lit/directives/when.js';
-import { ShortcutController } from '../../lit/shortcut-controller';
-import { FilesExpandedState } from '../gr-file-list-constants';
-import { subscribe } from '../../lit/subscription-controller';
-import { configModelToken } from '../../../models/config/config-model';
-import { filesModelToken } from '../../../models/change/files-model';
-import { getBaseUrl, prependOrigin } from '../../../utils/url-util';
-import { CopyLink, GrCopyLinks } from '../gr-copy-links/gr-copy-links';
+import {LoadingStatus} from '../../../models/change/change-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {resolve} from '../../../models/dependency';
+import {checksModelToken} from '../../../models/checks/checks-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {css, html, LitElement, nothing} from 'lit';
+import {a11yStyles} from '../../../styles/gr-a11y-styles';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {when} from 'lit/directives/when.js';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {FilesExpandedState} from '../gr-file-list-constants';
+import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
+import {filesModelToken} from '../../../models/change/files-model';
+import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
+import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
   ChangeChildView,
   changeViewModelToken,
@@ -168,11 +168,11 @@ import {
   createChangeUrl,
   createEditUrl,
 } from '../../../models/views/change';
-import { rootUrl } from '../../../utils/url-util';
-import { userModelToken } from '../../../models/user/user-model';
-import { pluginLoaderToken } from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import { modalStyles } from '../../../styles/gr-modal-styles';
-import { relatedChangesModelToken } from '../../../models/change/related-changes-model';
+import {rootUrl} from '../../../utils/url-util';
+import {userModelToken} from '../../../models/user/user-model';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -2631,12 +2631,6 @@ export class GrChangeView extends LitElement {
     if (!this.change) return;
 
     this.processEdit(this.change);
-    // Issue 4190: Coalesce missing topics to null.
-    // TODO(TS): code needs second thought,
-    // it might be that nulls were assigned to trigger some bindings
-    if (!this.change.topic) {
-      this.change.topic = null as unknown as undefined;
-    }
     if (!this.change.reviewer_updates) {
       this.change.reviewer_updates = null as unknown as undefined;
     }

@@ -59,7 +59,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
-import {fireAlert, fire, fireTitleChange} from '../../../utils/event-util';
+import {fireAlert, fire} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
@@ -181,21 +181,7 @@ export class GrDiffView extends LitElement {
   @state()
   files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
-  // Private but used in tests
-  // Use path getter/setter.
-  _path?: string;
-
-  get path() {
-    return this._path;
-  }
-
-  set path(path: string | undefined) {
-    if (this._path === path) return;
-    const oldPath = this._path;
-    this._path = path;
-    this.pathChanged();
-    this.requestUpdate('path', oldPath);
-  }
+  @state() path?: string;
 
   /** Allows us to react when the user switches to the DIFF view. */
   // Private but used in tests.
@@ -1396,12 +1382,6 @@ export class GrDiffView extends LitElement {
       lineNum: this.focusLineNum,
       side: this.leftSide ? Side.LEFT : Side.RIGHT,
     };
-  }
-
-  private pathChanged() {
-    if (this.path) {
-      fireTitleChange(computeTruncatedPath(this.path));
-    }
   }
 
   // Private but used in tests

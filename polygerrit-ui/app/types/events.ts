@@ -56,7 +56,6 @@ declare global {
     'show-tab': SwitchTabEvent;
     'show-secondary-tab': SwitchTabEvent;
     'tap-item': TapItemEvent;
-    'title-change': TitleChangeEvent;
   }
 }
 
@@ -71,6 +70,7 @@ declare global {
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
     'auth-error': AuthErrorEvent;
+    'title-change': TitleChangeEvent;
   }
 }
 

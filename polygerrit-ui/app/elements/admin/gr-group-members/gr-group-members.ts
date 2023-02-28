@@ -127,7 +127,7 @@ export class GrGroupMembers extends LitElement {
     super.connectedCallback();
     this.loadGroupDetails();
 
-    fireTitleChange(this, 'Members');
+    fireTitleChange('Members');
   }
 
   static override get styles() {

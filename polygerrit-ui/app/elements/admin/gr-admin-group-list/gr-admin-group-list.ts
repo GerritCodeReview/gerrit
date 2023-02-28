@@ -61,7 +61,7 @@ export class GrAdminGroupList extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.getCreateGroupCapability();
-    fireTitleChange(this, 'Groups');
+    fireTitleChange('Groups');
   }
 
   static override get styles() {

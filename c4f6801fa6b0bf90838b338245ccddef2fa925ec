@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t mergeable be set in here with the model as it\u0027s used in computeChangeStatusChips?",
       "revId": "c4f6801fa6b0bf90838b338245ccddef2fa925ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72f1551a_d9ee5348",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a7bf83e_1c73cd1f",
+      "revId": "c4f6801fa6b0bf90838b338245ccddef2fa925ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

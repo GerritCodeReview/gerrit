@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c17f537b_2b20003b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T20:52:53Z",
+      "side": 1,
+      "message": "Leaving +2 to Chris.",
+      "revId": "b362fdbfbaa814e039e7b2b0988eab8f9e46d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -39,6 +39,30 @@
       },
       "revId": "1caf9503df0d5aa91c8c419515c66b238f36d535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887716f1_7a621c02",
+        "filename": "Documentation/user-suggest-edits.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-28T18:29:34Z",
+      "side": 1,
+      "message": "You are right. Thanks",
+      "parentUuid": "f7d9f278_7f8f65ab",
+      "range": {
+        "startLine": 1,
+        "startChar": 23,
+        "endLine": 1,
+        "endChar": 41
+      },
+      "revId": "1caf9503df0d5aa91c8c419515c66b238f36d535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

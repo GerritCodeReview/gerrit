@@ -499,7 +499,7 @@ export class GrCommentThread extends LitElement {
     return html`
       <gr-comment
         .comment=${comment}
-        .comments=${this.thread!.comments}
+        .comments=${this.thread.comments}
         ?initially-collapsed=${initiallyCollapsed}
         ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}

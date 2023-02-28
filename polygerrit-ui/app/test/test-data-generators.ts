@@ -20,7 +20,6 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeViewChangeInfo,
-  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommentRange,
@@ -31,8 +30,6 @@ import {
   EditInfo,
   EDIT,
   EmailAddress,
-  FixId,
-  FixSuggestionInfo,
   GerritInfo,
   GitPersonInfo,
   GitRef,
@@ -46,7 +43,6 @@ import {
   MergeableInfo,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PluginConfigInfo,
   PreferencesInfo,
   RelatedChangeAndCommitInfo,
@@ -57,7 +53,6 @@ import {
   Reviewers,
   RevisionInfo,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   RobotId,
   RobotRunId,
   SchemesInfoMap,
@@ -67,7 +62,6 @@ import {
   SuggestInfo,
   Timestamp,
   TimezoneOffset,
-  UrlEncodedCommentId,
   UserConfigInfo,
 } from '../types/common';
 import {
@@ -89,17 +83,15 @@ import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {
-  ChangeMessage,
-  CommentThread,
-  createCommentThreads,
-  DraftInfo,
-  UnsavedInfo,
-} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {
+  CommentInfo,
+  FixId,
+  FixSuggestionInfo,
+  RobotCommentInfo,
+  UrlEncodedCommentId,
   DetailedLabelInfo,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
@@ -116,6 +108,14 @@ import {GroupViewState} from '../models/views/group';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {AdminChildView, AdminViewState} from '../models/views/admin';
 import {DashboardViewState} from '../models/views/dashboard';
+import {
+  PatchRange,
+  ChangeMessage,
+  CommentThread,
+  createCommentThreads,
+  DraftInfo,
+  UnsavedInfo,
+} from '../api/comments';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;

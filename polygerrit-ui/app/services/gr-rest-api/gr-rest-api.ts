@@ -22,7 +22,6 @@ import {
   ChangeId,
   ChangeInfo,
   ChangeMessageId,
-  CommentInfo,
   CommentInput,
   CommitInfo,
   ConfigInfo,
@@ -40,8 +39,6 @@ import {
   EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
-  FixId,
-  FixReplacementInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -62,7 +59,6 @@ import {
   NumericChangeId,
   ParsedJSON,
   Password,
-  PatchRange,
   PatchSetNum,
   PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
@@ -81,7 +77,6 @@ import {
   RequestPayload,
   ReviewInput,
   RevisionId,
-  RobotCommentInfo,
   ServerInfo,
   SshKeyInfo,
   SubmittedTogetherInfo,
@@ -89,7 +84,6 @@ import {
   TagInfo,
   TagInput,
   TopMenuEntryInfo,
-  UrlEncodedCommentId,
   UserId,
 } from '../../types/common';
 import {
@@ -99,7 +93,13 @@ import {
 } from '../../types/diff';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {DraftInfo} from '../../utils/comment-util';
+import {
+  CommentInfo,
+  RobotCommentInfo,
+  UrlEncodedCommentId,
+  FixId,
+} from '../../api/rest-api';
+import {PatchRange, DraftInfo} from '../../api/comments';
 
 export type CancelConditionCallback = () => boolean;
 

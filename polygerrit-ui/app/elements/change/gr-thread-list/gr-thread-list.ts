@@ -12,20 +12,9 @@ import {
   AccountInfo,
   CommentThread,
   NumericChangeId,
-  UrlEncodedCommentId,
   isDraft,
 } from '../../../types/common';
-import {ChangeMessageId} from '../../../api/rest-api';
-import {
-  getCommentAuthors,
-  getMentionedThreads,
-  hasHumanReply,
-  isDraftThread,
-  isMentionedThread,
-  isRobotThread,
-  isUnresolved,
-  lastUpdated,
-} from '../../../utils/comment-util';
+import {ChangeMessageId, UrlEncodedCommentId} from '../../../api/rest-api';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
@@ -46,6 +35,16 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {specialFilePathCompare} from '../../../utils/path-list-util';
+import {
+  getCommentAuthors,
+  getMentionedThreads,
+  hasHumanReply,
+  isDraftThread,
+  isMentionedThread,
+  isRobotThread,
+  isUnresolved,
+  lastUpdated,
+} from '../../../api/comments';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',

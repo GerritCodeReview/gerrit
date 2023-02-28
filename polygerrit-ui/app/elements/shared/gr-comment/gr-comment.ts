@@ -24,21 +24,12 @@ import {
   DraftInfo,
   NumericChangeId,
   RepoName,
-  RobotCommentInfo,
   Comment,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {
-  createUserFixSuggestion,
-  getContentInCommentRange,
-  getUserSuggestion,
-  hasUserSuggestion,
-  NEWLINE_PATTERN,
-  USER_SUGGESTION_START_PATTERN,
-} from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
   ReplyToCommentEventDetail,
@@ -58,10 +49,18 @@ import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {isBase64FileContent} from '../../../api/rest-api';
+import {isBase64FileContent, RobotCommentInfo} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {
+  createUserFixSuggestion,
+  getContentInCommentRange,
+  getUserSuggestion,
+  hasUserSuggestion,
+  NEWLINE_PATTERN,
+  USER_SUGGESTION_START_PATTERN,
+} from '../../../api/comments';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 

@@ -4,30 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  PatchRange,
   PatchSetNum,
-  RobotCommentInfo,
   PathToCommentsInfoMap,
   FileInfo,
   PARENT,
-  CommentInfo,
   CommentThread,
   Comment,
   CommentMap,
   DraftInfo,
 } from '../../../types/common';
-import {
-  isUnresolved,
-  createCommentThreads,
-  isInPatchRange,
-  isDraftThread,
-  isPatchsetLevel,
-  addPath,
-} from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {CommentSide} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
+import {
+  createCommentThreads,
+  isUnresolved,
+  isInPatchRange,
+  isDraftThread,
+  isPatchsetLevel,
+  addPath,
+  PatchRange,
+} from '../../../api/comments';
+import {RobotCommentInfo, CommentInfo} from '../../../api/rest-api';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;

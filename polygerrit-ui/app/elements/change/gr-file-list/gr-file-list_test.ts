@@ -26,9 +26,7 @@ import {
   RepoName,
   RevisionPatchSetNum,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
-import {createCommentThreads} from '../../../utils/comment-util';
 import {
   createChangeComments,
   createCommit,
@@ -46,7 +44,11 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
-import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
+import {
+  FileInfo,
+  PatchSetNumber,
+  UrlEncodedCommentId,
+} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ParsedChangeInfo} from '../../../types/types';
 import {normalize} from '../../../models/change/files-model';
@@ -57,6 +59,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {FileMode} from '../../../utils/file-util';
+import {createCommentThreads} from '../../../api/comments';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {

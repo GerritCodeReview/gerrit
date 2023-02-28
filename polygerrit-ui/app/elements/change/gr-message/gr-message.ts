@@ -27,12 +27,6 @@ import {
   CommentThread,
   ChangeMessage,
 } from '../../../types/common';
-import {
-  isFormattedReviewerUpdate,
-  LabelExtreme,
-  PATCH_SET_PREFIX_PATTERN,
-  isUnresolved,
-} from '../../../utils/comment-util';
 import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';
 import {getAppContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
@@ -53,6 +47,12 @@ import {
   ChangeMessageDeletedEventDetail,
   ReplyEvent,
 } from '../../../types/events';
+import {
+  isFormattedReviewerUpdate,
+  LabelExtreme,
+  PATCH_SET_PREFIX_PATTERN,
+  isUnresolved,
+} from '../../../api/comments';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;

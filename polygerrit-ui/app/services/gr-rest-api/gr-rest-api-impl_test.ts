@@ -38,7 +38,6 @@ import {
 import {
   BasePatchSetNum,
   ChangeMessageId,
-  CommentInfo,
   DashboardId,
   DiffPreferenceInput,
   EDIT,
@@ -53,13 +52,16 @@ import {
   RepoName,
   RevisionId,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../types/common';
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
 import {GrAuthMock} from '../gr-auth/gr-auth_mock';
+import {
+  UrlEncodedCommentId,
+  RobotCommentInfo,
+  CommentInfo,
+} from '../../api/rest-api';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,

@@ -76,12 +76,6 @@ import {
   difference,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {
-  createPatchsetLevelUnsavedDraft,
-  getFirstComment,
-  isPatchsetLevel,
-  isUnresolved,
-} from '../../../utils/comment-util';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {
   getApprovalInfo,
@@ -139,6 +133,12 @@ import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {
+  createPatchsetLevelUnsavedDraft,
+  isPatchsetLevel,
+  isUnresolved,
+  getFirstComment,
+} from '../../../api/comments';
 
 export enum FocusTarget {
   ANY = 'any',

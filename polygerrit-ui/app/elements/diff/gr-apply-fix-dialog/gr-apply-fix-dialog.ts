@@ -11,13 +11,11 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,
   EDIT,
-  FixSuggestionInfo,
   PatchSetNum,
   BasePatchSetNum,
   FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
@@ -37,6 +35,8 @@ import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {fireReload} from '../../../utils/event-util';
+import {PROVIDED_FIX_ID} from '../../../api/comments';
+import {FixSuggestionInfo} from '../../../api/rest-api';
 
 interface FilePreview {
   filepath: string;

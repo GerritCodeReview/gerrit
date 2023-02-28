@@ -18,7 +18,6 @@ import {
   NumericChangeId,
   RevisionPatchSetNum,
   RepoName,
-  UrlEncodedCommentId,
   PARENT,
   PatchSetNumber,
   BranchName,
@@ -90,15 +89,16 @@ import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
 import {Subscription} from 'rxjs';
-import {
-  addPath,
-  findComment,
-  getPatchRangeForCommentUrl,
-  isInBaseOfPatchRange,
-} from '../../../utils/comment-util';
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
+import {
+  getPatchRangeForCommentUrl,
+  addPath,
+  findComment,
+  isInBaseOfPatchRange,
+} from '../../../api/comments';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.

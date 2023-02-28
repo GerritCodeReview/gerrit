@@ -8,7 +8,6 @@ import {
   FileInfo,
   FileNameToFileInfoMap,
   PARENT,
-  PatchRange,
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
@@ -22,6 +21,7 @@ import {Model} from '../model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';
+import {PatchRange} from '../../api/comments';
 
 export type FileNameToNormalizedFileInfoMap = {
   [name: string]: NormalizedFileInfo;

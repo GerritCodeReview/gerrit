@@ -14,7 +14,6 @@ import {
   EmailAddress,
   NumericChangeId,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../types/common';
 import {CommentsModel, deleteDraft} from './comments-model';
 import {Subscription} from 'rxjs';
@@ -31,6 +30,7 @@ import {testResolver} from '../../test/common-test-setup';
 import {accountsModelToken} from '../accounts-model/accounts-model';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {changeViewModelToken} from '../views/change';
+import {UrlEncodedCommentId} from '../../api/rest-api';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {

@@ -27,10 +27,10 @@ import {
   EmailAddress,
   NumericChangeId,
   Timestamp,
+  UrlEncodedCommentId,
 } from '../../../api/rest-api';
 import {
   RobotId,
-  UrlEncodedCommentId,
   RevisionPatchSetNum,
   CommentThread,
   isDraft,

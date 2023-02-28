@@ -32,7 +32,6 @@ import {
   DashboardInfo,
   RepoAccessInfoMap,
   IncludedInInfo,
-  CommentInfo,
   PathToCommentsInfoMap,
   PluginInfo,
   DocResult,
@@ -76,6 +75,7 @@ import {
   createDefaultEditPrefs,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
+import {CommentInfo} from '../../api/rest-api';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {

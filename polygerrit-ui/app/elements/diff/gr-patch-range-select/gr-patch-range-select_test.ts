@@ -19,7 +19,6 @@ import {
   PatchSetNumber,
   RevisionInfo,
   Timestamp,
-  UrlEncodedCommentId,
   PathToCommentsInfoMap,
 } from '../../../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
@@ -42,6 +41,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {changeViewModelToken} from '../../../models/views/change';
 import {changeModelToken} from '../../../models/change/change-model';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;

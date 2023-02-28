@@ -17,15 +17,7 @@ import {
   queryAll,
   state,
 } from 'lit/decorators.js';
-import {
-  computeDiffFromContext,
-  getLastComment,
-  createUnsavedComment,
-  getFirstComment,
-  createUnsavedReply,
-  NEWLINE_PATTERN,
-} from '../../../utils/comment-util';
-import {ChangeMessageId} from '../../../api/rest-api';
+import {ChangeMessageId, UrlEncodedCommentId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
@@ -34,17 +26,9 @@ import {
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
-  Comment,
   CommentRange,
-  CommentThread,
-  isDraft,
-  isDraftOrUnsaved,
-  isRobot,
-  isUnsaved,
   NumericChangeId,
   RepoName,
-  UnsavedInfo,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
 import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
@@ -73,6 +57,21 @@ import {whenRendered} from '../../../utils/dom-util';
 import {createChangeUrl, createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {
+  computeDiffFromContext,
+  isDraft,
+  isRobot,
+  Comment,
+  CommentThread,
+  getLastComment,
+  UnsavedInfo,
+  isDraftOrUnsaved,
+  createUnsavedComment,
+  getFirstComment,
+  createUnsavedReply,
+  isUnsaved,
+  NEWLINE_PATTERN,
+} from '../../../api/comments';
 
 declare global {
   interface HTMLElementEventMap {
@@ -499,7 +498,7 @@ export class GrCommentThread extends LitElement {
     return html`
       <gr-comment
         .comment=${comment}
-        .comments=${this.thread!.comments}
+        .comments=${this.thread.comments}
         ?initially-collapsed=${initiallyCollapsed}
         ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}

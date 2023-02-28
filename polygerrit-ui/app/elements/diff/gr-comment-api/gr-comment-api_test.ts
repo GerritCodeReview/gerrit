@@ -23,20 +23,22 @@ import {
 import {CommentSide, FileInfoStatus} from '../../../constants/constants';
 import {
   BasePatchSetNum,
-  CommentInfo,
   CommentThread,
   DraftInfo,
   PARENT,
-  PatchRange,
   PatchSetNum,
   PathToCommentsInfoMap,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {stubRestApi} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
+import {
+  UrlEncodedCommentId,
+  CommentInfo,
+  RobotCommentInfo,
+} from '../../../api/rest-api';
+import {PatchRange} from '../../../api/comments';
 
 suite('ChangeComments tests', () => {
   let changeComments: ChangeComments;

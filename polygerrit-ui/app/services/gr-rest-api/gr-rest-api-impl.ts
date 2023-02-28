@@ -48,7 +48,6 @@ import {
   ChangeInfo,
   ChangeMessageId,
   ChangeViewChangeInfo,
-  CommentInfo,
   CommentInput,
   CommitId,
   CommitInfo,
@@ -69,7 +68,6 @@ import {
   EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
-  FixId,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -91,7 +89,6 @@ import {
   PARENT,
   ParsedJSON,
   Password,
-  PatchRange,
   PatchSetNum,
   PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
@@ -117,9 +114,6 @@ import {
   TagInfo,
   TagInput,
   TopMenuEntryInfo,
-  UrlEncodedCommentId,
-  FixReplacementInfo,
-  DraftInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -143,10 +137,16 @@ import {
 import {firePageError, fireServerError} from '../../utils/event-util';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
+import {
+  CommentInfo,
+  FixId,
+  UrlEncodedCommentId,
+  FixReplacementInfo,
+} from '../../api/rest-api';
+import {addDraftProp, DraftInfo, PatchRange} from '../../api/comments';
 
 const MAX_PROJECT_RESULTS = 25;
 

@@ -2078,9 +2078,7 @@ export class GrChangeView extends LitElement {
 
     const patchKnown =
       !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange!.patchNum
-      );
+      (this.allPatchSets ?? []).some(ps => ps.num === this.patchRange.patchNum);
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = this.viewState.forceReload || !patchKnown;
 
@@ -2736,7 +2734,7 @@ export class GrChangeView extends LitElement {
       this.selectedRevision = Object.values(this.change.revisions).find(
         revision => {
           // edit patchset is a special one
-          const thePatchNum = this.patchRange!.patchNum;
+          const thePatchNum = this.patchRange.patchNum;
           if (thePatchNum === EDIT) {
             return revision._number === thePatchNum;
           }
@@ -3135,7 +3133,7 @@ export class GrChangeView extends LitElement {
     }
     if (!this.change.revisions) return;
     this.selectedRevision = Object.values(this.change.revisions).find(
-      revision => revision._number === this.patchRange!.patchNum
+      revision => revision._number === this.patchRange.patchNum
     );
   }
 

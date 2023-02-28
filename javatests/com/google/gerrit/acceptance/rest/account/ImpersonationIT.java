@@ -568,8 +568,9 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void submitOnBehalfOf_rebaseAlways() throws Exception {
-    TestAccount realUser = admin;
-    TestAccount impersonatedUser = admin2;
+    TestAccount originalAuthor = admin; // user that creates and authors the change that is rebased
+    TestAccount realUser = admin2;
+    TestAccount impersonatedUser = user;
 
     // Create a project with REBASE_ALWAYS submit strategy so that a new patch set is created on
     // submit and we can verify its committer and author and the ref log for the update of the
@@ -582,14 +583,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
     // Rebase on submit is expected to create a new patch set.
     assertThat(cd.currentPatchSet().id().get()).isEqualTo(2);
 
-    // The patch set commit is created by the impersonated user and has the real user as the author.
-    // Recording the real user as the author seems to a bug, we would expect the author to be the
-    // impersonated user.
+    // The patch set commit is created by the impersonated user and has the author of the rebased
+    // commit as the author.
     RevCommit newPatchSetCommit =
         projectOperations.project(project).getHead(cd.currentPatchSet().refName());
     assertThat(newPatchSetCommit.getCommitterIdent().getEmailAddress())
         .isEqualTo(impersonatedUser.email());
-    assertThat(newPatchSetCommit.getAuthorIdent().getEmailAddress()).isEqualTo(realUser.email());
+    assertThat(newPatchSetCommit.getAuthorIdent().getEmailAddress())
+        .isEqualTo(originalAuthor.email());
 
     try (Repository repo = repoManager.openRepository(project)) {
       // The ref log for the patch set ref records the impersonated user.
@@ -626,6 +627,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
       createRefLogFileIfMissing(repo, "refs/heads/master");
       createRefLogFileIfMissing(repo, patchSetRef(PatchSet.id(r.getChange().getId(), 2)));
 
+      requestScopeOperations.setApiUser(realUser.id());
       gApi.changes().id(changeId).current().submit(in);
 
       ChangeData cd = r.getChange();

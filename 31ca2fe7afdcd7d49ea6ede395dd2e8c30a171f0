@@ -22,6 +22,30 @@
       },
       "revId": "31ca2fe7afdcd7d49ea6ede395dd2e8c30a171f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf8c781_c186d348",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-28T15:51:05Z",
+      "side": 1,
+      "message": "\u003e waitForEvent executes lambda in the same thread\n\nYes.\n\n\u003e Do you use AtomicInteger as a workaround for non-final variable?\n\nYes, exactly. Unfortunately Java doesn\u0027t have a mutable integer type. So yes, the atomicity is not needed here since it\u0027s the same thread.\n\nplease let me know if you have a better suggestion.",
+      "parentUuid": "6e7a9544_2984aa50",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "31ca2fe7afdcd7d49ea6ede395dd2e8c30a171f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

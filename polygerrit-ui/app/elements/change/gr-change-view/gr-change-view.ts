@@ -2605,12 +2605,6 @@ export class GrChangeView extends LitElement {
     if (!this.change) return;
 
     this.processEdit(this.change);
-    // Issue 4190: Coalesce missing topics to null.
-    // TODO(TS): code needs second thought,
-    // it might be that nulls were assigned to trigger some bindings
-    if (!this.change.topic) {
-      this.change.topic = null as unknown as undefined;
-    }
     if (!this.change.reviewer_updates) {
       this.change.reviewer_updates = null as unknown as undefined;
     }

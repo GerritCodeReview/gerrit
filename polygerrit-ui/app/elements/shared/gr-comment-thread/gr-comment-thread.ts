@@ -22,7 +22,6 @@ import {
   isDraft,
   isRobot,
   Comment,
-  CommentThread,
   getLastComment,
   UnsavedInfo,
   isDraftOrUnsaved,
@@ -42,6 +41,7 @@ import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
   CommentRange,
+  CommentThread,
   NumericChangeId,
   RepoName,
   UrlEncodedCommentId,

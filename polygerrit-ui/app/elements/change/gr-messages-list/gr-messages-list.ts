@@ -15,12 +15,13 @@ import {
   ChangeId,
   ChangeMessageId,
   ChangeMessageInfo,
+  CommentThread,
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
   VotingRangeInfo,
 } from '../../../types/common';
-import {CommentThread, isRobot} from '../../../utils/comment-util';
+import {isRobot} from '../../../utils/comment-util';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
 import {

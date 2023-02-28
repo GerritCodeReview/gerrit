@@ -15,11 +15,11 @@ import {
   RobotCommentInfo,
   PathToRobotCommentsInfoMap,
   AccountInfo,
+  DraftInfo,
 } from '../../types/common';
 import {
   addPath,
   Comment,
-  DraftInfo,
   isDraft,
   isDraftOrUnsaved,
   isDraftThread,

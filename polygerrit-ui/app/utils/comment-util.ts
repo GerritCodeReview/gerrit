@@ -10,7 +10,6 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
-  CommentRange,
   PatchRange,
   PARENT,
   ContextLine,
@@ -18,27 +17,21 @@ import {
   RevisionPatchSetNum,
   AccountInfo,
   AccountDetailInfo,
-  ChangeMessageInfo,
   VotingRangeInfo,
   FixSuggestionInfo,
   FixId,
   PatchSetNumber,
+  CommentThread,
+  DraftInfo,
+  ChangeMessage,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
-import {LineNumber} from '../api/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
 import {extractMentionedUsers} from './account-util';
-
-export interface DraftCommentProps {
-  // This must be true for all drafts. Drafts received from the backend will be
-  // modified immediately with __draft:true before allowing them to get into
-  // the application state.
-  __draft: boolean;
-}
 
 export interface UnsavedCommentProps {
   // This must be true for all unsaved comment drafts. An unsaved draft is
@@ -47,8 +40,6 @@ export interface UnsavedCommentProps {
   // state.
   __unsaved: boolean;
 }
-
-export type DraftInfo = CommentInfo & DraftCommentProps;
 
 export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
 
@@ -84,13 +75,6 @@ export function isDraftOrUnsaved<T extends CommentBasics>(
 interface SortableComment {
   updated: Timestamp;
   id: UrlEncodedCommentId;
-}
-
-export interface ChangeMessage extends ChangeMessageInfo {
-  // TODO(TS): maybe should be an enum instead
-  type: string;
-  expanded: boolean;
-  commentThreads: CommentThread[];
 }
 
 export function isFormattedReviewerUpdate(
@@ -206,47 +190,6 @@ export function createCommentThreads(comments: CommentInfo[]) {
     if (comment.id) idThreadMap[comment.id] = newThread;
   }
   return threads;
-}
-
-export interface CommentThread {
-  /**
-   * This can only contain at most one draft. And if so, then it is the last
-   * comment in this list. This must not contain unsaved drafts.
-   */
-  comments: Array<CommentInfo | DraftInfo | RobotCommentInfo>;
-  /**
-   * Identical to the id of the first comment. If this is undefined, then the
-   * thread only contains an unsaved draft.
-   */
-  rootId?: UrlEncodedCommentId;
-  /**
-   * Note that all location information is typically identical to that of the
-   * first comment, but not for ported comments!
-   */
-  path: string;
-  commentSide: CommentSide;
-  /* mergeParentNum is the merge parent number only valid for merge commits
-     when commentSide is PARENT.
-     mergeParentNum is undefined for auto merge commits
-     Same as `parent` in CommentInfo.
-  */
-  mergeParentNum?: number;
-  patchNum?: RevisionPatchSetNum;
-  /* Different from CommentInfo, which just keeps the line undefined for
-     FILE comments. */
-  line?: LineNumber;
-  range?: CommentRange;
-  /**
-   * Was the thread ported over from its original location to a newer patchset?
-   * If yes, then the location information above contains the ported location,
-   * but the comments still have the original location set.
-   */
-  ported?: boolean;
-  /**
-   * Only relevant when ported:true. Means that no ported range could be
-   * computed. `line` and `range` can be undefined then.
-   */
-  rangeInfoLost?: boolean;
 }
 
 export function equalLocation(t1?: CommentThread, t2?: CommentThread) {

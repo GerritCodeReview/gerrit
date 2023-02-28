@@ -69,6 +69,9 @@ import {
   TimezoneOffset,
   UrlEncodedCommentId,
   UserConfigInfo,
+  CommentThread,
+  DraftInfo,
+  ChangeMessage,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -89,13 +92,7 @@ import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {
-  ChangeMessage,
-  CommentThread,
-  createCommentThreads,
-  DraftInfo,
-  UnsavedInfo,
-} from '../utils/comment-util';
+import {createCommentThreads, UnsavedInfo} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';

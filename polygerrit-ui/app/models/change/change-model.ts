@@ -5,6 +5,7 @@
  */
 import {
   BasePatchSetNum,
+  ChangeInfo,
   EditInfo,
   EDIT,
   PARENT,
@@ -30,10 +31,8 @@ import {
   computeLatestPatchNumWithEdit,
   sortRevisions,
 } from '../../utils/patch-set-util';
-import {ParsedChangeInfo} from '../../types/types';
-import {fireAlert} from '../../utils/event-util';
-
-import {ChangeInfo} from '../../types/common';
+import {isDefined, ParsedChangeInfo} from '../../types/types';
+import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -42,6 +41,7 @@ import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
 import {
+  ChangeChildView,
   ChangeViewModel,
   createChangeUrl,
   createDiffUrl,
@@ -49,6 +49,7 @@ import {
 } from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {getRevertCreatedChangeIds} from '../../utils/message-util';
+import {computeTruncatedPath} from '../../utils/path-list-util';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -356,6 +357,9 @@ export class ChangeModel extends Model<ChangeState> {
       this.loadChange(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
+      this.setOverviewTitle(),
+      this.setDiffTitle(),
+      this.setEditTitle(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -365,6 +369,45 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
+  }
+
+  private setOverviewTitle() {
+    return combineLatest([this.viewModel.childView$, this.change$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.OVERVIEW),
+        map(([_, change]) => change),
+        filter(isDefined)
+      )
+      .subscribe(change => {
+        const title = `${change.subject} (${change._number})`;
+        fireTitleChange(title);
+      });
+  }
+
+  private setDiffTitle() {
+    return combineLatest([this.viewModel.childView$, this.viewModel.diffPath$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.DIFF),
+        map(([_, diffPath]) => diffPath),
+        filter(isDefined)
+      )
+      .subscribe(diffPath => {
+        const title = computeTruncatedPath(diffPath);
+        fireTitleChange(title);
+      });
+  }
+
+  private setEditTitle() {
+    return combineLatest([this.viewModel.childView$, this.viewModel.editPath$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.EDIT),
+        map(([_, editPath]) => editPath),
+        filter(isDefined)
+      )
+      .subscribe(editPath => {
+        const title = `Editing ${computeTruncatedPath(editPath)}`;
+        fireTitleChange(title);
+      });
   }
 
   private loadReviewedFiles() {

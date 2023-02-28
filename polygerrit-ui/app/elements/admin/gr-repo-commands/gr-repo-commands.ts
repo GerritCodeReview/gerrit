@@ -91,7 +91,7 @@ export class GrRepoCommands extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Repo Commands');
+    fireTitleChange('Repo Commands');
   }
 
   static override get styles() {

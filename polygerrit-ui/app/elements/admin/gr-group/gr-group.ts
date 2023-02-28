@@ -342,7 +342,7 @@ export class GrGroup extends LitElement {
     this.groupConfig = config;
     this.originalOptionsVisibleToAll = config?.options?.visible_to_all;
 
-    fireTitleChange(this, config.name);
+    fireTitleChange(config.name);
 
     await Promise.all(promises);
     this.loading = false;

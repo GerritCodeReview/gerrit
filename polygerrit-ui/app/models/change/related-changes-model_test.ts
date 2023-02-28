@@ -22,8 +22,10 @@ import {
   createRelatedChangesInfo,
   createRelatedChangeAndCommitInfo,
   createChange,
+  createChangeMessage,
 } from '../../test/test-data-generators';
-import {ChangeStatus, TopicName} from '../../api/rest-api';
+import {ChangeStatus, ReviewInputTag, TopicName} from '../../api/rest-api';
+import {MessageTag} from '../../constants/constants';
 
 suite('related-changes-model tests', () => {
   let model: RelatedChangesModel;
@@ -233,6 +235,52 @@ suite('related-changes-model tests', () => {
         sameTopicChanges => sameTopicChanges?.length === 1
       );
       assert.isTrue(getChangesWithSameTopicStub.calledOnce);
+    });
+  });
+
+  suite('loadRevertingChanges', async () => {
+    let getChangeStub: SinonStub;
+
+    setup(() => {
+      getChangeStub = stubRestApi('getChange').callsFake(() =>
+        Promise.resolve(createChange())
+      );
+    });
+
+    test('revertingChanges initially empty', async () => {
+      await waitUntilObserved(
+        model.revertingChanges$,
+        revertingChanges => revertingChanges.length === 0
+      );
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('revertingChanges empty when change does not contain a revert message', async () => {
+      changeModel.updateStateChange(createParsedChange());
+      await waitUntilObserved(
+        model.revertingChanges$,
+        revertingChanges => revertingChanges.length === 0
+      );
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('revertingChanges emits', async () => {
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        messages: [
+          {
+            ...createChangeMessage(),
+            message: 'Created a revert of this change as 123',
+            tag: MessageTag.TAG_REVERT as ReviewInputTag,
+          },
+        ],
+      });
+
+      await waitUntilObserved(
+        model.revertingChanges$,
+        revertingChanges => revertingChanges?.length === 1
+      );
+      assert.isTrue(getChangeStub.calledOnce);
     });
   });
 });

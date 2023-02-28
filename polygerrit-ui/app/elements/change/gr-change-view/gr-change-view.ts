@@ -89,7 +89,6 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
   isRobot,
-  ChangeStates,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
@@ -132,7 +131,6 @@ import {
   until,
 } from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -148,7 +146,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -172,6 +170,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -387,10 +386,6 @@ export class GrChangeView extends LitElement {
   @state()
   replyDisabled = true;
 
-  // Private but used in tests.
-  @state()
-  changeStatuses: ChangeStates[] = [];
-
   @state()
   private updateCheckTimerHandle?: number | null;
 
@@ -474,7 +469,7 @@ export class GrChangeView extends LitElement {
   private tabState?: TabState;
 
   @state()
-  private revertedChange?: ChangeInfo;
+  private revertingChange?: ChangeInfo;
 
   // Private but used in tests.
   @state()
@@ -504,6 +499,11 @@ export class GrChangeView extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -771,6 +771,13 @@ export class GrChangeView extends LitElement {
         this.projectConfig = config;
       }
     );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().revertingChange$,
+      revertingChange => {
+        this.revertingChange = revertingChange;
+      }
+    );
   }
 
   override connectedCallback() {
@@ -844,18 +851,6 @@ export class GrChangeView extends LitElement {
     }
     this.connected$.next(false);
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changedProperties: PropertyValues): void {
-    if (
-      changedProperties.has('change') ||
-      changedProperties.has('mergeable') ||
-      changedProperties.has('currentRevisionActions')
-    ) {
-      // TODO: Just compute `changeStatuses` on the fly. No need for it to be a
-      // @state object.
-      this.changeStatuses = this.computeChangeStatusChips();
-    }
   }
 
   static override get styles() {
@@ -1237,13 +1232,14 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeaderTitle() {
+    const changeStatuses = this.computeChangeStatusChips();
     const resolveWeblinks =
       this.revision?.commit?.resolve_conflicts_web_links ?? [];
     return html` <div class="headerTitle">
       <div class="changeStatuses">
-        ${this.changeStatuses.map(
+        ${changeStatuses.map(
           status => html` <gr-change-status
-            .revertedChange=${this.revertedChange}
+            .revertedChange=${this.revertingChange}
             .status=${status}
             .resolveWeblinks=${resolveWeblinks}
           ></gr-change-status>`
@@ -1375,7 +1371,7 @@ export class GrChangeView extends LitElement {
         <gr-change-metadata
           id="metadata"
           .change=${this.change}
-          .revertedChange=${this.revertedChange}
+          .revertedChange=${this.revertingChange}
           .account=${this.account}
           .revision=${this.revision}
           .commitInfo=${this.revision?.commit}
@@ -1785,9 +1781,9 @@ export class GrChangeView extends LitElement {
     if (!this.change || this.mergeable === undefined) return [];
 
     const options = {
-      includeDerived: true,
       mergeable: this.mergeable,
       submitEnabled: !!this.isSubmitEnabled(),
+      revertingChangeStatus: this.revertingChange?.status,
     };
     return changeStatuses(this.change as ChangeInfo, options);
   }
@@ -2602,41 +2598,6 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  computeRevertSubmitted(change?: ChangeInfo | ParsedChangeInfo) {
-    if (!change?.messages) return;
-    Promise.all(
-      getRevertCreatedChangeIds(change.messages).map(changeId =>
-        this.restApiService.getChange(changeId)
-      )
-    ).then(changes => {
-      // if a change is deleted then getChanges returns null for that changeId
-      changes = changes.filter(
-        change => change && change.status !== ChangeStatus.ABANDONED
-      );
-      if (!changes.length) return;
-      const submittedRevert = changes.find(
-        change => change?.status === ChangeStatus.MERGED
-      );
-      if (!this.changeStatuses) return;
-      // Protect against `computeRevertSubmitted()` being called twice.
-      // TODO: Convert this to be rxjs based, so computeRevertSubmitted() is not
-      // actively called, but instead we can subscribe to something.
-      if (this.changeStatuses.includes(ChangeStates.REVERT_SUBMITTED)) return;
-      if (this.changeStatuses.includes(ChangeStates.REVERT_CREATED)) return;
-      if (submittedRevert) {
-        this.revertedChange = submittedRevert;
-        this.changeStatuses = this.changeStatuses.concat([
-          ChangeStates.REVERT_SUBMITTED,
-        ]);
-      } else {
-        if (changes[0]) this.revertedChange = changes[0];
-        this.changeStatuses = this.changeStatuses.concat([
-          ChangeStates.REVERT_CREATED,
-        ]);
-      }
-    });
-  }
-
   private async untilModelLoaded() {
     // NOTE: Wait until this page is connected before determining whether the
     // model is loaded.  This can happen when viewState changes when setting up
@@ -2677,8 +2638,6 @@ export class GrChangeView extends LitElement {
     if (!this.change.reviewer_updates) {
       this.change.reviewer_updates = null as unknown as undefined;
     }
-
-    this.computeRevertSubmitted(this.change);
   }
 
   private isParentCurrent() {

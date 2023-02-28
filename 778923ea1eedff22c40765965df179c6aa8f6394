@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f306db6_07b3d44e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:33Z",
+      "side": 1,
+      "message": "Yes, absolutely. These kinds of cleanups are planned for after the basic migration to models in change-view is complete. Then I will send larger simple cleanups of that kind.",
+      "parentUuid": "6a5ef995_25fecf76",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca8b66db_81d8df20",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3907c9f5_72836745",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:33Z",
+      "side": 1,
+      "message": "Sorry, I only did this refactoring for a reason. I wanted to return a different html`` snippet as content when the `hasParent` info was not loaded yet. But that created a mess with tests, so I decided against it, but kept the refactoring. I did not expect the diff to look so different ...",
+      "parentUuid": "ca8b66db_81d8df20",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b78f6be_99b72827",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-02-28T08:38:22Z",
       "side": 1,
       "message": "Compute displayTipOption once inside of renderContent();",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e92b300_685744f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T10:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b78f6be_99b72827",
       "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

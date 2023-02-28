@@ -32,12 +32,6 @@ const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
 @customElement('gr-change-list-view')
 export class GrChangeListView extends LitElement {
-  /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
   @query('#prevArrow') protected prevArrow?: HTMLAnchorElement;
 
   @query('#nextArrow') protected nextArrow?: HTMLAnchorElement;
@@ -248,7 +242,7 @@ export class GrChangeListView extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('query')) {
-      fireTitleChange(this, this.query);
+      fireTitleChange(this.query);
     }
   }
 

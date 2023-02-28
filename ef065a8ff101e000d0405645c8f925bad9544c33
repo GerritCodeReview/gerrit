@@ -34,6 +34,24 @@
       "parentUuid": "7653243d_ad3cd593",
       "revId": "ef065a8ff101e000d0405645c8f925bad9544c33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f7acfc_db59e38a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T21:01:09Z",
+      "side": 1,
+      "message": "Ok. I think the idea of `core` was to be something even more low level than rest-api.\n\ndiff.ts depends on this type, which does not really care about REST API at all.\n\nI don\u0027t mind moving the type, but you would have to change Critique\u0027s `.../components/diff/diff_models.ts` file on import.",
+      "parentUuid": "4ce2dc28_06dea435",
+      "revId": "ef065a8ff101e000d0405645c8f925bad9544c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

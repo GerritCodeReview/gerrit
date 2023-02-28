@@ -115,12 +115,6 @@ export interface Files {
 @customElement('gr-diff-view')
 export class GrDiffView extends LitElement {
   /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
-  /**
    * Fired when user tries to navigate away while comments are pending save.
    *
    * @event show-alert
@@ -1406,7 +1400,7 @@ export class GrDiffView extends LitElement {
 
   private pathChanged() {
     if (this.path) {
-      fireTitleChange(this, computeTruncatedPath(this.path));
+      fireTitleChange(computeTruncatedPath(this.path));
     }
   }
 

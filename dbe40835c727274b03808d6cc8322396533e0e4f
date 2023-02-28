@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e65b452d_031e60e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16a4f0b8_846ffcad",
+      "range": {
+        "startLine": 394,
+        "startChar": 2,
+        "endLine": 394,
+        "endChar": 30
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "885c3018_55c1c548",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eae6209_195cda60",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:09:23Z",
+      "side": 1,
+      "message": "Yes, just refactoring. Temporarily I was returning some \"loading ...\" div instead of the content, but that created a mess, so I reverted that, but still kept the refactoring.",
+      "parentUuid": "885c3018_55c1c548",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 27
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c368e4bf_6bfebb2e",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-02-27T20:13:02Z",
       "side": 1,
       "message": "Does change model easily change topic? If I change topic 1 to topic 2 in change 1, will this result in loading changes with topic 2?",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 28
+      },
+      "revId": "dbe40835c727274b03808d6cc8322396533e0e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88763f94_6820cafc",
+        "filename": "polygerrit-ui/app/models/change/related-changes-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:09:23Z",
+      "side": 1,
+      "message": "The entire web app is supposed to treat `change` as an immutable object, so you can generally expect that a changed `topic` requires a changed parent `change` object. So this should be safe.\n\nBut that also means that maybe this logic is triggered too often, because `change$` may emit a new value, and the topic is still the same. So it seems better to use more fine grained observables. Done.",
+      "parentUuid": "c368e4bf_6bfebb2e",
       "range": {
         "startLine": 183,
         "startChar": 15,

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d476565c_26a5df00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-28T12:13:40Z",
+      "side": 1,
+      "message": "Could you add a test for this in BatchUpdateTest?",
+      "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4d2a4a3_eb6651d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -60,6 +77,23 @@
       "writtenOn": "2023-02-28T11:57:01Z",
       "side": 1,
       "message": "Perhaps mention that this change is relevant because:\n\nThis causes f.i AbandonUtil, when changeCleanup is configured, to log errors because it eventually tries to fire AttentionSetUpdateEvents with the InternalUser, which is not an IdentifiedUser.",
+      "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aee0c92_97f3d288",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-02-28T12:13:40Z",
+      "side": 1,
+      "message": "This fix seems fine, but can you please make sure that all places to which account\u003dnull is passed are annotated with @Nullable and add missing @Nullable annotations?",
       "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

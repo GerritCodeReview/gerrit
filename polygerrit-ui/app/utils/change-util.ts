@@ -20,6 +20,8 @@ import {getUserId, isServiceUser} from './account-util';
 interface ChangeStatusesOptions {
   mergeable: boolean; // This can be wrong! See WARNING above
   submitEnabled: boolean; // This can be wrong! See WARNING above
+  /** Is there a reverting change and if so, what status has it? */
+  revertingChangeStatus?: ChangeStatus;
 }
 
 export const ChangeDiffType = {
@@ -158,6 +160,12 @@ export function changeStatuses(
 ): ChangeStates[] {
   const states = [];
   if (change.status === ChangeStatus.MERGED) {
+    if (opt_options?.revertingChangeStatus === ChangeStatus.MERGED) {
+      return [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED];
+    }
+    if (opt_options?.revertingChangeStatus !== undefined) {
+      return [ChangeStates.MERGED, ChangeStates.REVERT_CREATED];
+    }
     return [ChangeStates.MERGED];
   }
   if (change.status === ChangeStatus.ABANDONED) {

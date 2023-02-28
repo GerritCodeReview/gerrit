@@ -40,7 +40,7 @@ export class GrGroupAuditLog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Audit Log');
+    fireTitleChange('Audit Log');
   }
 
   static override get styles() {

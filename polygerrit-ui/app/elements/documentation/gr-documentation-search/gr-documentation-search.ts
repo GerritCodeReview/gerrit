@@ -45,7 +45,7 @@ export class GrDocumentationSearch extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Documentation Search');
+    fireTitleChange('Documentation Search');
   }
 
   static override get styles() {

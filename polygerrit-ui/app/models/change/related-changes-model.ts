@@ -13,10 +13,11 @@ import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
-import {combineLatest, from, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {combineLatest, forkJoin, from, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {ConfigModel} from '../config/config-model';
 import {ChangeStatus} from '../../api/rest-api';
+import {isDefined} from '../../types/types';
 
 export interface RelatedChangesState {
   /** `undefined` means "not yet loaded". */
@@ -25,6 +26,7 @@ export interface RelatedChangesState {
   cherryPicks?: ChangeInfo[];
   conflictingChanges?: ChangeInfo[];
   sameTopicChanges?: ChangeInfo[];
+  revertingChanges: ChangeInfo[];
 }
 
 const initialState: RelatedChangesState = {
@@ -33,6 +35,7 @@ const initialState: RelatedChangesState = {
   cherryPicks: undefined,
   conflictingChanges: undefined,
   sameTopicChanges: undefined,
+  revertingChanges: [],
 };
 
 export const relatedChangesModelToken = define<RelatedChangesModel>(
@@ -66,6 +69,32 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
   );
 
   /**
+   * Emits all changes that have reverted the current change, based on
+   * information from parsed change messages. Abandoned changes are not
+   * included.
+   */
+  public readonly revertingChanges$ = select(
+    this.state$,
+    state => state.revertingChanges
+  );
+
+  /**
+   * Emits one reverting change (if there is any) from revertingChanges$.
+   * It prefers MERGED changes. Otherwise the choice is random.
+   */
+  public readonly revertingChange$ = select(
+    this.revertingChanges$,
+    revertingChanges => {
+      if (revertingChanges.length === 0) return undefined;
+      const submittedRevert = revertingChanges.find(
+        c => c.status === ChangeStatus.MERGED
+      );
+      if (submittedRevert) return submittedRevert;
+      return revertingChanges[0];
+    }
+  );
+
+  /**
    * Determines whether the change has a parent change. If there
    * is a relation chain, and the change id is not the last item of the
    * relation chain, then there is a parent.
@@ -93,6 +122,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
       this.loadCherryPicks(),
       this.loadConflictingChanges(),
       this.loadSameTopicChanges(),
+      this.loadRevertingChanges(),
     ];
   }
 
@@ -195,6 +225,28 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
       )
       .subscribe(sameTopicChanges => {
         this.updateState({sameTopicChanges});
+      });
+  }
+
+  private loadRevertingChanges() {
+    return combineLatest([
+      this.changeModel.reload$,
+      this.changeModel.revertingChangeIds$,
+    ])
+      .pipe(
+        switchMap(([_, changeIds]) => {
+          if (!changeIds?.length) return of([]);
+          return forkJoin(
+            changeIds.map(changeId =>
+              from(this.restApiService.getChange(changeId))
+            )
+          );
+        }),
+        map(changes => changes.filter(isDefined)),
+        map(changes => changes.filter(c => c.status !== ChangeStatus.ABANDONED))
+      )
+      .subscribe(revertingChanges => {
+        this.updateState({revertingChanges});
       });
   }
 }

@@ -48,6 +48,7 @@ import {
   createEditUrl,
 } from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {getRevertCreatedChangeIds} from '../../utils/message-util';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -330,6 +331,12 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),
     ([change, account]) => isOwner(change, account)
+  );
+
+  public readonly messages$ = select(this.change$, change => change?.messages);
+
+  public readonly revertingChangeIds$ = select(this.messages$, messages =>
+    getRevertCreatedChangeIds(messages ?? [])
   );
 
   // For usage in `combineLatest` we need `startWith` such that reload$ has an

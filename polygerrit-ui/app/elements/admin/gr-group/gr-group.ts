@@ -9,22 +9,22 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-textarea/gr-textarea';
 import {
-  AutocompleteSuggestion,
-  AutocompleteQuery,
+    AutocompleteSuggestion,
+    AutocompleteQuery,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {GroupId, GroupInfo, GroupName} from '../../../types/common';
-import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {ErrorCallback} from '../../../api/rest';
-import {convertToString} from '../../../utils/string-util';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import { GroupId, GroupInfo, GroupName } from '../../../types/common';
+import { fire, firePageError, fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { ErrorCallback } from '../../../api/rest';
+import { convertToString } from '../../../utils/string-util';
+import { BindValueChangeEvent, ValueChangedEvent } from '../../../types/events';
+import { fontStyles } from '../../../styles/gr-font-styles';
+import { formStyles } from '../../../styles/gr-form-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { subpageStyles } from '../../../styles/gr-subpage-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { throwingErrorCallback } from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -342,7 +342,7 @@ export class GrGroup extends LitElement {
     this.groupConfig = config;
     this.originalOptionsVisibleToAll = config?.options?.visible_to_all;
 
-    fireTitleChange(this, config.name);
+    fireTitleChange(config.name);
 
     await Promise.all(promises);
     this.loading = false;

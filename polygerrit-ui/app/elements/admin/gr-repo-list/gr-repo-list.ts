@@ -6,23 +6,23 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
-import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {RepoState} from '../../../constants/constants';
-import {fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import { ProjectInfoWithName, WebLinkInfo } from '../../../types/common';
+import { GrCreateRepoDialog } from '../gr-create-repo-dialog/gr-create-repo-dialog';
+import { RepoState } from '../../../constants/constants';
+import { fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import {
-  AdminChildView,
-  AdminViewState,
-  createAdminUrl,
+    AdminChildView,
+    AdminViewState,
+    createAdminUrl,
 } from '../../../models/views/admin';
-import {createSearchUrl} from '../../../models/views/search';
-import {modalStyles} from '../../../styles/gr-modal-styles';
-import {createRepoUrl} from '../../../models/views/repo';
+import { createSearchUrl } from '../../../models/views/search';
+import { modalStyles } from '../../../styles/gr-modal-styles';
+import { createRepoUrl } from '../../../models/views/repo';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,7 +58,7 @@ export class GrRepoList extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
     await this.getCreateRepoCapability();
-    fireTitleChange(this, 'Repos');
+    fireTitleChange('Repos');
     this.maybeOpenCreateModal(this.params);
   }
 

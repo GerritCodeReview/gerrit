@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-list-view/gr-list-view';
-import {PluginInfo} from '../../../types/common';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {ErrorCallback} from '../../../api/rest';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {AdminViewState} from '../../../models/views/admin';
+import { PluginInfo } from '../../../types/common';
+import { firePageError, fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { ErrorCallback } from '../../../api/rest';
+import { encodeURL, getBaseUrl } from '../../../utils/url-util';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { AdminViewState } from '../../../models/views/admin';
 
 // Exported for tests
 export interface PluginInfoWithName extends PluginInfo {
@@ -47,7 +47,7 @@ export class GrPluginList extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Plugins');
+    fireTitleChange('Plugins');
   }
 
   static override get styles() {

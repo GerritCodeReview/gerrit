@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-list-view/gr-list-view';
-import {getBaseUrl} from '../../../utils/url-util';
-import {DocResult} from '../../../types/common';
-import {fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, html} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
-import {resolve} from '../../../models/dependency';
-import {subscribe} from '../../lit/subscription-controller';
-import {documentationViewModelToken} from '../../../models/views/documentation';
+import { getBaseUrl } from '../../../utils/url-util';
+import { DocResult } from '../../../types/common';
+import { fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { LitElement, html } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
+import { resolve } from '../../../models/dependency';
+import { subscribe } from '../../lit/subscription-controller';
+import { documentationViewModelToken } from '../../../models/views/documentation';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
@@ -45,7 +45,7 @@ export class GrDocumentationSearch extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Documentation Search');
+    fireTitleChange('Documentation Search');
   }
 
   static override get styles() {

@@ -6,23 +6,23 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../gr-create-group-dialog/gr-create-group-dialog';
-import {GroupId, GroupInfo, GroupName} from '../../../types/common';
-import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
-import {fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
-import {assertIsDefined} from '../../../utils/common-util';
+import { GroupId, GroupInfo, GroupName } from '../../../types/common';
+import { GrCreateGroupDialog } from '../gr-create-group-dialog/gr-create-group-dialog';
+import { fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, query, property, state } from 'lit/decorators.js';
+import { assertIsDefined } from '../../../utils/common-util';
 import {
   AdminChildView,
   AdminViewState,
   createAdminUrl,
 } from '../../../models/views/admin';
-import {createGroupUrl} from '../../../models/views/group';
-import {whenVisible} from '../../../utils/dom-util';
-import {modalStyles} from '../../../styles/gr-modal-styles';
+import { createGroupUrl } from '../../../models/views/group';
+import { whenVisible } from '../../../utils/dom-util';
+import { modalStyles } from '../../../styles/gr-modal-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -61,7 +61,7 @@ export class GrAdminGroupList extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.getCreateGroupCapability();
-    fireTitleChange(this, 'Groups');
+    fireTitleChange('Groups');
   }
 
   static override get styles() {

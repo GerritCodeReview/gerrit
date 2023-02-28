@@ -5,21 +5,21 @@
  */
 import '../../shared/gr-account-label/gr-account-label';
 import {
-  GroupInfo,
-  AccountInfo,
-  EncodedGroupId,
-  GroupAuditEventInfo,
-  GroupAuditGroupEventInfo,
-  isGroupAuditGroupEventInfo,
+    GroupInfo,
+    AccountInfo,
+    EncodedGroupId,
+    GroupAuditEventInfo,
+    GroupAuditGroupEventInfo,
+    isGroupAuditGroupEventInfo,
 } from '../../../types/common';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {ErrorCallback} from '../../../api/rest';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {createGroupUrl} from '../../../models/views/group';
+import { firePageError, fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { ErrorCallback } from '../../../api/rest';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { createGroupUrl } from '../../../models/views/group';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -40,7 +40,7 @@ export class GrGroupAuditLog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Audit Log');
+    fireTitleChange('Audit Log');
   }
 
   static override get styles() {

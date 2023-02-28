@@ -7,43 +7,43 @@ import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
-import {getBaseUrl} from '../../../utils/url-util';
+import { getBaseUrl } from '../../../utils/url-util';
 import {
-  GroupId,
-  AccountId,
-  AccountInfo,
-  GroupInfo,
-  GroupName,
-  ServerInfo,
+    GroupId,
+    AccountId,
+    AccountInfo,
+    GroupInfo,
+    GroupName,
+    ServerInfo,
 } from '../../../types/common';
 import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
+    AutocompleteQuery,
+    AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
-  fireAlert,
-  firePageError,
-  fireTitleChange,
+    fireAlert,
+    firePageError,
+    fireTitleChange,
 } from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {ErrorCallback} from '../../../api/rest';
-import {assertNever} from '../../../utils/common-util';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
-import {getAccountSuggestions} from '../../../utils/account-util';
-import {subscribe} from '../../lit/subscription-controller';
-import {configModelToken} from '../../../models/config/config-model';
-import {resolve} from '../../../models/dependency';
-import {modalStyles} from '../../../styles/gr-modal-styles';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {ValueChangedEvent} from '../../../types/events';
+import { getAppContext } from '../../../services/app-context';
+import { ErrorCallback } from '../../../api/rest';
+import { assertNever } from '../../../utils/common-util';
+import { GrButton } from '../../shared/gr-button/gr-button';
+import { fontStyles } from '../../../styles/gr-font-styles';
+import { formStyles } from '../../../styles/gr-form-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { subpageStyles } from '../../../styles/gr-subpage-styles';
+import { tableStyles } from '../../../styles/gr-table-styles';
+import { LitElement, css, html } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { getAccountSuggestions } from '../../../utils/account-util';
+import { subscribe } from '../../lit/subscription-controller';
+import { configModelToken } from '../../../models/config/config-model';
+import { resolve } from '../../../models/dependency';
+import { modalStyles } from '../../../styles/gr-modal-styles';
+import { throwingErrorCallback } from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import { ValueChangedEvent } from '../../../types/events';
 
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
@@ -127,7 +127,7 @@ export class GrGroupMembers extends LitElement {
     super.connectedCallback();
     this.loadGroupDetails();
 
-    fireTitleChange(this, 'Members');
+    fireTitleChange('Members');
   }
 
   static override get styles() {

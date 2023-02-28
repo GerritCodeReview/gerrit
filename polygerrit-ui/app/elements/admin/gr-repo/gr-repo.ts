@@ -12,37 +12,37 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-textarea/gr-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {
-  ConfigInfo,
-  RepoName,
-  InheritedBooleanInfo,
-  SchemesInfoMap,
-  ConfigInput,
-  MaxObjectSizeLimitInfo,
-  PluginParameterToConfigParameterInfoMap,
+    ConfigInfo,
+    RepoName,
+    InheritedBooleanInfo,
+    SchemesInfoMap,
+    ConfigInput,
+    MaxObjectSizeLimitInfo,
+    PluginParameterToConfigParameterInfoMap,
 } from '../../../types/common';
 import {
-  InheritedBooleanInfoConfiguredValue,
-  RepoState,
-  SubmitType,
+    InheritedBooleanInfoConfiguredValue,
+    RepoState,
+    SubmitType,
 } from '../../../constants/constants';
-import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {WebLinkInfo} from '../../../types/diff';
-import {ErrorCallback} from '../../../api/rest';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
-import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {BindValueChangeEvent} from '../../../types/events';
-import {deepClone} from '../../../utils/deep-util';
-import {LitElement, PropertyValues, css, html, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {when} from 'lit/directives/when.js';
-import {subscribe} from '../../lit/subscription-controller';
-import {createSearchUrl} from '../../../models/views/search';
-import {userModelToken} from '../../../models/user/user-model';
-import {resolve} from '../../../models/dependency';
+import { assertIsDefined, hasOwnProperty } from '../../../utils/common-util';
+import { firePageError, fireTitleChange } from '../../../utils/event-util';
+import { getAppContext } from '../../../services/app-context';
+import { WebLinkInfo } from '../../../types/diff';
+import { ErrorCallback } from '../../../api/rest';
+import { fontStyles } from '../../../styles/gr-font-styles';
+import { formStyles } from '../../../styles/gr-form-styles';
+import { subpageStyles } from '../../../styles/gr-subpage-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { BindValueChangeEvent } from '../../../types/events';
+import { deepClone } from '../../../utils/deep-util';
+import { LitElement, PropertyValues, css, html, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
+import { subscribe } from '../../lit/subscription-controller';
+import { createSearchUrl } from '../../../models/views/search';
+import { userModelToken } from '../../../models/user/user-model';
+import { resolve } from '../../../models/dependency';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -134,7 +134,7 @@ export class GrRepo extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    fireTitleChange(this, `${this.repo}`);
+    fireTitleChange(`${this.repo}`);
   }
 
   static override get styles() {

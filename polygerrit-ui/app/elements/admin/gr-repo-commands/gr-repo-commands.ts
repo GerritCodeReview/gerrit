@@ -9,32 +9,32 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../gr-create-change-dialog/gr-create-change-dialog';
 import '../gr-create-change-dialog/gr-create-file-edit-dialog';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import { navigationToken } from '../../core/gr-navigation/gr-navigation';
 import {
-  BranchName,
-  ConfigInfo,
-  RevisionPatchSetNum,
-  RepoName,
+    BranchName,
+    ConfigInfo,
+    RevisionPatchSetNum,
+    RepoName,
 } from '../../../types/common';
-import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
+import { GrCreateChangeDialog } from '../gr-create-change-dialog/gr-create-change-dialog';
 import {
-  fireAlert,
-  firePageError,
-  fireTitleChange,
+    fireAlert,
+    firePageError,
+    fireTitleChange,
 } from '../../../utils/event-util';
-import {getAppContext} from '../../../services/app-context';
-import {ErrorCallback} from '../../../api/rest';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
-import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
-import {assertIsDefined} from '../../../utils/common-util';
-import {createEditUrl} from '../../../models/views/change';
-import {resolve} from '../../../models/dependency';
-import {modalStyles} from '../../../styles/gr-modal-styles';
-import {GrCreateFileEditDialog} from '../gr-create-change-dialog/gr-create-file-edit-dialog';
+import { getAppContext } from '../../../services/app-context';
+import { ErrorCallback } from '../../../api/rest';
+import { fontStyles } from '../../../styles/gr-font-styles';
+import { formStyles } from '../../../styles/gr-form-styles';
+import { subpageStyles } from '../../../styles/gr-subpage-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { LitElement, PropertyValues, css, html } from 'lit';
+import { customElement, query, property, state } from 'lit/decorators.js';
+import { assertIsDefined } from '../../../utils/common-util';
+import { createEditUrl } from '../../../models/views/change';
+import { resolve } from '../../../models/dependency';
+import { modalStyles } from '../../../styles/gr-modal-styles';
+import { GrCreateFileEditDialog } from '../gr-create-change-dialog/gr-create-file-edit-dialog';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -91,7 +91,7 @@ export class GrRepoCommands extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Repo Commands');
+    fireTitleChange('Repo Commands');
   }
 
   static override get styles() {

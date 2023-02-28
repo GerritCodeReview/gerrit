@@ -544,10 +544,8 @@ suite('gr-settings-view tests', () => {
 
   test('calls the title-change event', async () => {
     const titleChangedStub = sinon.stub();
-
-    // Create a new view.
     const newElement = document.createElement('gr-settings-view');
-    newElement.addEventListener('title-change', titleChangedStub);
+    document.addEventListener('title-change', titleChangedStub);
 
     const div = await fixture(html`<div></div>`);
     div.appendChild(newElement);

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3e31623_ea205a6f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:23:44Z",
+      "side": 1,
+      "message": "Why do you need to store commitInfo if it\u0027s stored on the revision?",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5db729_1d55ee67",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1393,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:23:44Z",
+      "side": 1,
+      "message": "Why does gr-change-metadata need the commitInfo if it\u0027s getting passed the revision?",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4089cd94_04770c6c",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:23:44Z",
+      "side": 1,
+      "message": "What does it mean to have a revision without a commit?",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8fe6959_f39b0a32",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:23:44Z",
+      "side": 1,
+      "message": "Make a helper functionthat takes this.revision$ and this.patchNum$ and use it here and below.\n\n```\npublic readonly revision$ \u003d selectRevision(this.revisions$, this.patchNum$);\n\npublic readonly latestRevision$ \u003d selectRevision(this.revisions$, this.latestPatchNum$);\n```",
+      "revId": "e4d56ae27320aa810d023d19a87250c22bbd7240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

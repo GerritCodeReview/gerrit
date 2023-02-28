@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63758c7b_68d963db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2617,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-28T17:28:50Z",
+      "side": 0,
+      "message": "I don\u0027t remember this in new code? Was this logic removed?",
+      "range": {
+        "startLine": 2615,
+        "startChar": 6,
+        "endLine": 2617,
+        "endChar": 8
+      },
+      "revId": "616064b2b4b8b6902a602d5c7c022aedfc4b742e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

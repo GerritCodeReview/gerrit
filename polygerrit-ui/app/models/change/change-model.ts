@@ -353,46 +353,9 @@ export class ChangeModel extends Model<ChangeState> {
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.viewModel.changeNum$, this.reload$])
-        .pipe(
-          map(([changeNum, _]) => changeNum),
-          switchMap(changeNum => {
-            if (changeNum !== undefined) this.updateStateLoading(changeNum);
-            const change = from(this.restApiService.getChangeDetail(changeNum));
-            const edit = from(this.restApiService.getChangeEdit(changeNum));
-            return forkJoin([change, edit]);
-          }),
-          withLatestFrom(this.viewModel.patchNum$),
-          map(([[change, edit], patchNum]) =>
-            updateChangeWithEdit(change, edit, patchNum)
-          ),
-          map(updateRevisionsWithCommitShas)
-        )
-        .subscribe(change => {
-          // The change service is currently a singleton, so we have to be
-          // careful to avoid situations where the application state is
-          // partially set for the old change where the user is coming from,
-          // and partially for the new change where the user is navigating to.
-          // So setting the change explicitly to undefined when the user
-          // moves away from diff and change pages (changeNum === undefined)
-          // helps with that.
-          this.updateStateChange(change ?? undefined);
-        }),
-      this.change$
-        .pipe(
-          switchMap(change => {
-            if (change?._number === undefined) return of(undefined);
-            if (change.mergeable !== undefined) return of(change.mergeable);
-            if (change.status === ChangeStatus.MERGED) return of(false);
-            if (change.status === ChangeStatus.ABANDONED) return of(false);
-            return from(
-              this.restApiService
-                .getMergeable(change._number)
-                .then(mergableInfo => mergableInfo?.mergeable ?? false)
-            );
-          })
-        )
-        .subscribe(mergeable => this.updateState({mergeable})),
+      this.loadChange(),
+      this.loadMergeable(),
+      this.loadReviewedFiles(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -401,18 +364,71 @@ export class ChangeModel extends Model<ChangeState> {
       this.latestPatchNum$.subscribe(
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
-      combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
-        .pipe(
-          switchMap(([patchNum, changeNum, loggedIn]) => {
-            if (!changeNum || !patchNum || !loggedIn) {
-              this.updateStateReviewedFiles([]);
-              return of(undefined);
-            }
-            return from(this.fetchReviewedFiles(patchNum, changeNum));
-          })
-        )
-        .subscribe(),
     ];
+  }
+
+  private loadReviewedFiles() {
+    return combineLatest([
+      this.patchNum$,
+      this.changeNum$,
+      this.userModel.loggedIn$,
+    ])
+      .pipe(
+        switchMap(([patchNum, changeNum, loggedIn]) => {
+          if (!changeNum || !patchNum || !loggedIn) {
+            this.updateStateReviewedFiles([]);
+            return of(undefined);
+          }
+          return from(this.fetchReviewedFiles(patchNum, changeNum));
+        })
+      )
+      .subscribe();
+  }
+
+  private loadMergeable() {
+    return this.change$
+      .pipe(
+        switchMap(change => {
+          if (change?._number === undefined) return of(undefined);
+          if (change.mergeable !== undefined) return of(change.mergeable);
+          if (change.status === ChangeStatus.MERGED) return of(false);
+          if (change.status === ChangeStatus.ABANDONED) return of(false);
+          return from(
+            this.restApiService
+              .getMergeable(change._number)
+              .then(mergableInfo => mergableInfo?.mergeable ?? false)
+          );
+        })
+      )
+      .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private loadChange() {
+    return combineLatest([this.viewModel.changeNum$, this.reload$])
+      .pipe(
+        map(([changeNum, _]) => changeNum),
+        switchMap(changeNum => {
+          if (changeNum !== undefined) this.updateStateLoading(changeNum);
+          const change = from(this.restApiService.getChangeDetail(changeNum));
+          const edit = from(this.restApiService.getChangeEdit(changeNum));
+          return forkJoin([change, edit]);
+        }),
+        withLatestFrom(this.viewModel.patchNum$),
+        map(([[change, edit], patchNum]) =>
+          updateChangeWithEdit(change, edit, patchNum)
+        ),
+        map(updateRevisionsWithCommitShas)
+      )
+      .subscribe(change => {
+        // The change service is currently a singleton, so we have to be
+        // careful to avoid situations where the application state is
+        // partially set for the old change where the user is coming from,
+        // and partially for the new change where the user is navigating to.
+        // So setting the change explicitly to undefined when the user
+        // moves away from diff and change pages (changeNum === undefined)
+        // helps with that.
+        this.updateStateChange(change ?? undefined);
+      });
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {

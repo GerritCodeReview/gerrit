@@ -14,13 +14,13 @@ import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
 import {
   AccountDetailInfo,
+  DropdownLink,
   RequireProperties,
   ServerInfo,
   TopMenuEntryInfo,
   TopMenuItemInfo,
 } from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';

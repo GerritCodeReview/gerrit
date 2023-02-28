@@ -364,6 +364,16 @@ export interface GroupInput {
   members?: string[];
 }
 
+export interface DropdownLink {
+  url?: string;
+  name?: string;
+  external?: boolean;
+  target?: string | null;
+  download?: boolean;
+  id?: string;
+  tooltip?: string;
+}
+
 /**
  * New options for a group.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html

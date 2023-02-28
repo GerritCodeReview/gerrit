@@ -21,6 +21,7 @@ import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {DropdownLink} from '../../../types/common';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -32,16 +33,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-dropdown': GrDropdown;
   }
-}
-
-export interface DropdownLink {
-  url?: string;
-  name?: string;
-  external?: boolean;
-  target?: string | null;
-  download?: boolean;
-  id?: string;
-  tooltip?: string;
 }
 
 export interface DropdownContent {

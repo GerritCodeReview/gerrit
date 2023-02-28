@@ -52,13 +52,6 @@ export interface AutocompleteSuggestion<T = string> {
   text?: string;
 }
 
-export interface AutocompleteCommitEventDetail {
-  value: string;
-}
-
-export type AutocompleteCommitEvent =
-  CustomEvent<AutocompleteCommitEventDetail>;
-
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends LitElement {
   /**

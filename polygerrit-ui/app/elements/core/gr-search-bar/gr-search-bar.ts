@@ -7,7 +7,6 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-icon/gr-icon';
 import {ServerInfo} from '../../../types/common';
 import {
-  AutocompleteCommitEvent,
   AutocompleteQuery,
   AutocompleteSuggestion,
   GrAutocomplete,
@@ -26,7 +25,10 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {ValueChangedEvent} from '../../../types/events';
+import {
+  AutocompleteCommitEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 
 // Possible static search options for auto complete, without negations.

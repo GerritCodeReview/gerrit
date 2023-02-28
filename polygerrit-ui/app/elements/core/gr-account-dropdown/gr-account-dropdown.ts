@@ -6,13 +6,10 @@
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-avatar/gr-avatar';
 import {getUserName} from '../../../utils/display-name-util';
-import {AccountInfo, ServerInfo} from '../../../types/common';
+import {AccountInfo, DropdownLink, ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {fire} from '../../../utils/event-util';
-import {
-  DropdownContent,
-  DropdownLink,
-} from '../../shared/gr-dropdown/gr-dropdown';
+import {DropdownContent} from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';

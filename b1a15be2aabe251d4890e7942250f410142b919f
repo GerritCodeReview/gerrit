@@ -16,6 +16,24 @@
       "message": "Don\u0027t you need the same logic here in case loggedIn is set after openReplyDialog? I guess not, but leave a comment why not.",
       "revId": "b1a15be2aabe251d4890e7942250f410142b919f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9124565a_5903986d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-02-28T08:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3981c142_e8e3e9de",
+      "revId": "b1a15be2aabe251d4890e7942250f410142b919f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

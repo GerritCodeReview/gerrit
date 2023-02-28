@@ -236,12 +236,6 @@ export type RobotRunId = BrandType<string, '_robotRunId'>;
 // in our code, so it is not added here as a possible value.
 export type RevisionId = 'current' | CommitId | PatchSetNum;
 
-// The UUID of the suggested fix.
-export type FixId = BrandType<string, '_fixId'>;
-
-// The URL encoded UUID of the comment
-export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
-
 // The ID of the dashboard, in the form of '<ref>:<path>'
 export type DashboardId = BrandType<string, '_dahsboardId'>;
 
@@ -813,15 +807,6 @@ export interface CommentInfo {
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
 
-/**
- * The ContextLine entity contains the line number and line text of a single line of the source file content..
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
- */
-export interface ContextLine {
-  line_number: number;
-  context_line: string;
-}
-
 export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
 
 export type FilePathToDiffInfoMap = {[path: string]: DiffInfo};
@@ -1073,15 +1058,6 @@ export interface HashtagsInput {
 }
 
 /**
- * Defines a patch ranges. Used as input for gr-rest-api methods,
- * doesn't exist in Rest API
- */
-export interface PatchRange {
-  patchNum: RevisionPatchSetNum;
-  basePatchNum: BasePatchSetNum;
-}
-
-/**
  * The CommentInput entity contains information for creating an inline comment
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-input
  */
@@ -1309,64 +1285,7 @@ export type RecipientTypeToNotifyInfoMap = {
  */
 export type RobotCommentInput = RobotCommentInfo;
 
-/**
- * This is what human, robot and draft comments can agree upon.
- *
- * Human, robot and saved draft comments all have a required id, but unsaved
- * drafts do not. That is why the id is omitted from CommentInfo, such that it
- * can be optional in Draft, but required in CommentInfo and RobotCommentInfo.
- */
-export interface CommentBasics extends Omit<CommentInfo, 'id' | 'updated'> {
-  id?: UrlEncodedCommentId;
-  updated?: Timestamp;
-}
-
-/**
- * The RobotCommentInfo entity contains information about a robot inline comment
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-info
- */
-export interface RobotCommentInfo extends CommentInfo {
-  robot_id: RobotId;
-  robot_run_id: RobotRunId;
-  url?: string;
-  properties: {[propertyName: string]: string};
-  fix_suggestions: FixSuggestionInfo[];
-}
 export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
-
-/**
- * The FixSuggestionInfo entity represents a suggested fix
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
- */
-export interface FixSuggestionInfoInput {
-  description: string;
-  replacements: FixReplacementInfo[];
-}
-
-export interface FixSuggestionInfo extends FixSuggestionInfoInput {
-  fix_id: FixId;
-  description: string;
-  replacements: FixReplacementInfo[];
-}
-
-/**
- * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the
- * request body, to a revision.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix
- */
-export interface ApplyProvidedFixInput {
-  fix_replacement_infos: FixReplacementInfo[];
-}
-
-/**
- * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
- */
-export interface FixReplacementInfo {
-  path: string;
-  range: CommentRange;
-  replacement: string;
-}
 
 /**
  * The NotifyInfo entity contains detailed information about who should be notified about an update

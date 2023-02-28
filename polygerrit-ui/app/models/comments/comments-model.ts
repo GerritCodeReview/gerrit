@@ -10,7 +10,6 @@ import {
   NumericChangeId,
   PatchSetNum,
   RevisionId,
-  UrlEncodedCommentId,
   PathToCommentsInfoMap,
   RobotCommentInfo,
   PathToRobotCommentsInfoMap,
@@ -53,6 +52,16 @@ import {
 } from 'rxjs/operators';
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
+import { isDraftOrUnsaved,   addPath,
+  Comment,
+  DraftInfo,
+  isDraft,
+  isDraftThread,
+  isUnsaved,
+  reportingDetails,
+  UnsavedInfo,
+ } from '../../api/comments';
+import { UrlEncodedCommentId } from '../../api/rest-api';
 
 export interface CommentState {
   /** undefined means 'still loading' */

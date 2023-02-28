@@ -329,10 +329,10 @@ suite('gr-messages-list tests', () => {
       await element.updateComplete;
       const messageElements = getMessages();
       // threads
-      assert.equal(messageElements[0].message!.commentThreads.length, 3);
+      assert.equal(messageElements[0].message.commentThreads.length, 3);
       // first thread contains 1 comment
       assert.equal(
-        messageElements[0].message!.commentThreads[0].comments.length,
+        messageElements[0].message.commentThreads[0].comments.length,
         1
       );
     });
@@ -524,7 +524,7 @@ suite('gr-messages-list tests', () => {
       await element.updateComplete;
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
-      assert.equal(messageEls[0].message!.message, messages[0].message);
+      assert.equal(messageEls[0].message.message, messages[0].message);
     });
   });
 

@@ -48,6 +48,8 @@ import {
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
+  CommentThread,
+  DraftInfo,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
@@ -73,9 +75,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  CommentThread,
   createPatchsetLevelUnsavedDraft,
-  DraftInfo,
   getFirstComment,
   isDraft,
   isPatchsetLevel,

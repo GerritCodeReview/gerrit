@@ -21,6 +21,7 @@ import {resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {
   AccountDetailInfo,
+  DraftInfo,
   NumericChangeId,
   RepoName,
   RobotCommentInfo,
@@ -29,7 +30,6 @@ import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/
 import {
   Comment,
   createUserFixSuggestion,
-  DraftInfo,
   getContentInCommentRange,
   getUserSuggestion,
   hasUserSuggestion,

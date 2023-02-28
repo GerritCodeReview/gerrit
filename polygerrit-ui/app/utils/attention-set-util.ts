@@ -6,6 +6,7 @@
 import {
   AccountInfo,
   ChangeInfo,
+  CommentThread,
   DetailedLabelInfo,
   ServerInfo,
 } from '../types/common';
@@ -16,7 +17,7 @@ import {
   isServiceUser,
   replaceTemplates,
 } from './account-util';
-import {CommentThread, isMentionedThread, isUnresolved} from './comment-util';
+import {isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
 import {getCodeReviewLabel} from './label-util';
 

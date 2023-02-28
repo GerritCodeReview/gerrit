@@ -21,7 +21,6 @@ import {
   isNumber,
 } from '../../../utils/patch-set-util';
 import {
-  CommentThread,
   equalLocation,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
@@ -31,6 +30,7 @@ import {
   Base64ImageFile,
   BlameInfo,
   ChangeInfo,
+  CommentThread,
   EDIT,
   NumericChangeId,
   PARENT,

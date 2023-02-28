@@ -33,6 +33,7 @@ import {GrReplyDialog} from './gr-reply-dialog';
 import {
   AccountId,
   AccountInfo,
+  CommentThread,
   CommitId,
   DetailedLabelInfo,
   EmailAddress,
@@ -49,7 +50,6 @@ import {
   UrlEncodedCommentId,
   UserId,
 } from '../../../types/common';
-import {CommentThread} from '../../../utils/comment-util';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';

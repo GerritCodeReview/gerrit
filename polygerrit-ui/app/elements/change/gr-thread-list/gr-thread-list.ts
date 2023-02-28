@@ -10,12 +10,12 @@ import {SpecialFilePath} from '../../../constants/constants';
 import {
   AccountDetailInfo,
   AccountInfo,
+  CommentThread,
   NumericChangeId,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {
-  CommentThread,
   getCommentAuthors,
   getMentionedThreads,
   hasHumanReply,

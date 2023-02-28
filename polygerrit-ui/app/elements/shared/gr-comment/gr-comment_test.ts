@@ -20,6 +20,7 @@ import {
 } from '../../../test/test-utils';
 import {
   AccountId,
+  DraftInfo,
   EmailAddress,
   NumericChangeId,
   PatchSetNum,
@@ -34,7 +35,6 @@ import {
 } from '../../../test/test-data-generators';
 import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';

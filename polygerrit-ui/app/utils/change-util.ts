@@ -160,10 +160,10 @@ export function changeStatuses(
 ): ChangeStates[] {
   const states = [];
   if (change.status === ChangeStatus.MERGED) {
-    if (opt_options?.revertingChangeStatus === ChangeStatus.MERGED) {
+    if (options?.revertingChangeStatus === ChangeStatus.MERGED) {
       return [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED];
     }
-    if (opt_options?.revertingChangeStatus !== undefined) {
+    if (options?.revertingChangeStatus !== undefined) {
       return [ChangeStates.MERGED, ChangeStates.REVERT_CREATED];
     }
     return [ChangeStates.MERGED];

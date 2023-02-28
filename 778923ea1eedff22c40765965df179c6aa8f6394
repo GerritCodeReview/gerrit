@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5ef995_25fecf76",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:38:22Z",
+      "side": 1,
+      "message": "Should changeNum and change also be loaded from the changeModel instead of being passed in?\n\nSame ewith commitNum , changeStatus, ...",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca8b66db_81d8df20",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:38:22Z",
+      "side": 1,
+      "message": "Doing refactorings like this while also changing logic makes it hard to keep track of what is going on without move-detection.\n\nPlease either refactor the code or change behavior, but not both.",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b78f6be_99b72827",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-02-28T08:38:22Z",
+      "side": 1,
+      "message": "Compute displayTipOption once inside of renderContent();",
+      "revId": "778923ea1eedff22c40765965df179c6aa8f6394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

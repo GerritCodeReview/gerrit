@@ -446,6 +446,109 @@ export type ChangeSubmissionId = BrandType<
 
 export type CloneCommandMap = {[name: string]: string};
 
+// The URL encoded UUID of the comment
+export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
+
+/**
+ * The CommentInfo entity contains information about an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export interface CommentInfo {
+  id: UrlEncodedCommentId;
+  updated: Timestamp;
+  // TODO(TS): Make this required. Every comment must have patch_set set.
+  patch_set?: RevisionPatchSetNum;
+  path?: string;
+  side?: CommentSide;
+  parent?: number;
+  line?: number;
+  range?: CommentRange;
+  in_reply_to?: UrlEncodedCommentId;
+  message?: string;
+  author?: AccountInfo;
+  tag?: string;
+  unresolved?: boolean;
+  change_message_id?: string;
+  commit_id?: string;
+  context_lines?: ContextLine[];
+  source_content_type?: string;
+}
+
+/**
+ * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the
+ * request body, to a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix
+ */
+export interface ApplyProvidedFixInput {
+  fix_replacement_infos: FixReplacementInfo[];
+}
+
+/**
+ * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
+ */
+export interface FixReplacementInfo {
+  path: string;
+  range: CommentRange;
+  replacement: string;
+}
+
+/**
+ * The FixSuggestionInfo entity represents a suggested fix
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
+ */
+export interface FixSuggestionInfoInput {
+  description: string;
+  replacements: FixReplacementInfo[];
+}
+// The UUID of the suggested fix.
+export type FixId = BrandType<string, '_fixId'>;
+
+export interface FixSuggestionInfo extends FixSuggestionInfoInput {
+  fix_id: FixId;
+  description: string;
+  replacements: FixReplacementInfo[];
+}
+
+/**
+ * The RobotCommentInfo entity contains information about a robot inline comment
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-info
+ */
+export interface RobotCommentInfo extends CommentInfo {
+  robot_id: RobotId;
+  robot_run_id: RobotRunId;
+  url?: string;
+  properties: {[propertyName: string]: string};
+  fix_suggestions: FixSuggestionInfo[];
+}
+
+/**
+ * The CommentRange entity describes the range of an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
+ *
+ * The range includes all characters from the start position, specified by
+ * start_line and start_character, to the end position, specified by end_line
+ * and end_character. The start position is inclusive and the end position is
+ * exclusive.
+ *
+ * So, a range over part of a line will have start_line equal to end_line;
+ * however a range with end_line set to 5 and end_character equal to 0 will not
+ * include any characters on line 5.
+ */
+export declare interface CommentRange {
+  /** The start line number of the range. (1-based) */
+  start_line: number;
+
+  /** The character position in the start line. (0-based) */
+  start_character: number;
+
+  /** The end line number of the range. (1-based) */
+  end_line: number;
+
+  /** The character position in the end line. (0-based) */
+  end_character: number;
+}
+
 /**
  * The CommentLinkInfo entity describes acommentlink.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#commentlink-info
@@ -835,6 +938,15 @@ export declare interface PluginConfigInfo {
   has_avatars: boolean;
   // Exists in Java class, but not mentioned in docs.
   js_resource_paths: string[];
+}
+
+/**
+ * The ContextLine entity contains the line number and line text of a single line of the source file content..
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
+ */
+export interface ContextLine {
+  line_number: number;
+  context_line: string;
 }
 
 /**

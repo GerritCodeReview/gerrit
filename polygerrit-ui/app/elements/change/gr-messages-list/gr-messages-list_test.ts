@@ -25,7 +25,6 @@ import {
   ReviewInputTag,
   RevisionPatchSetNum,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
 import {html} from 'lit';
@@ -34,6 +33,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 const author = {
   _account_id: 42 as AccountId,

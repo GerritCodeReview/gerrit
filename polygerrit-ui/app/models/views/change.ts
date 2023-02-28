@@ -11,10 +11,10 @@ import {
   ChangeInfo,
   PatchSetNumber,
   EDIT,
+  UrlEncodedCommentId,
 } from '../../api/rest-api';
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
-import {UrlEncodedCommentId} from '../../types/common';
 import {toggleSet} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {

@@ -15,8 +15,8 @@ import {
   stringToAttemptChoice,
 } from './checks-util';
 import {Fix, Replacement} from '../../api/checks';
-import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange} from '../../api/rest-api';
+import {PROVIDED_FIX_ID} from '../../api/comments';
 
 suite('checks-util tests', () => {
   setup(() => {});

@@ -16,7 +16,6 @@ import {
 } from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
-import {isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -27,6 +26,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import { isUnresolved } from '../../../api/comments';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog

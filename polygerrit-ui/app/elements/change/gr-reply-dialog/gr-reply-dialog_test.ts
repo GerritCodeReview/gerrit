@@ -47,7 +47,6 @@ import {
   RevisionPatchSetNum,
   Suggestion,
   Timestamp,
-  UrlEncodedCommentId,
   UserId,
 } from '../../../types/common';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
@@ -65,6 +64,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 function cloneableResponse(status: number, text: string) {
   return {

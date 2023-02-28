@@ -22,6 +22,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
 import {testResolver} from '../../../test/common-test-setup';
+import {assertIsDefined} from '../../../utils/common-util';
 
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
@@ -145,7 +146,8 @@ suite('gr-apply-fix-dialog tests', () => {
 
     test('dialog opens fetch and sets previews', async () => {
       await open(TWO_FIXES);
-      assert.equal(element.currentFix!.fix_id, 'fix_1');
+      assertIsDefined(element.currentFix, 'currentFix');
+      assert.equal(element.currentFix.fix_id, 'fix_1');
       assert.equal(element.currentPreviews.length, 2);
       const button = getConfirmButton();
       assert.isFalse(button.hasAttribute('disabled'));
@@ -285,10 +287,11 @@ suite('gr-apply-fix-dialog tests', () => {
     sinon.stub(element.applyFixModal!, 'showModal');
 
     await open(TWO_FIXES);
+    assertIsDefined(element.currentFix, 'currentFix');
     element.onNextFixClick(new CustomEvent('click'));
-    assert.equal(element.currentFix!.fix_id, 'fix_2');
+    assert.equal(element.currentFix.fix_id, 'fix_2');
     element.onPrevFixClick(new CustomEvent('click'));
-    assert.equal(element.currentFix!.fix_id, 'fix_1');
+    assert.equal(element.currentFix.fix_id, 'fix_1');
   });
 
   test('server-error should throw for failed apply call', async () => {

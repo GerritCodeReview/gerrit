@@ -20,7 +20,6 @@ import {
   PARENT,
   RepoName,
   RevisionPatchSetNum,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {AppElementJustRegisteredParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
@@ -49,6 +48,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ViewState} from '../../../models/views/base';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

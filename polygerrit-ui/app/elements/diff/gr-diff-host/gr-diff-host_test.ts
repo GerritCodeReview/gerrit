@@ -39,7 +39,6 @@ import {
   PARENT,
   PatchSetNum,
   RevisionPatchSetNum,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
 import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
@@ -54,6 +53,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken, UserModel} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;

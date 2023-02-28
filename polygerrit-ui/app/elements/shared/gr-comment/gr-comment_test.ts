@@ -25,7 +25,6 @@ import {
   NumericChangeId,
   PatchSetNum,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   createComment,
@@ -45,6 +44,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -450,7 +450,7 @@ suite('gr-comment tests', () => {
     assert.isTrue(stub.called);
     assert.deepEqual(stub.lastCall.args[0].detail, {
       side: 'REVISION',
-      number: element.comment!.line,
+      number: element.comment?.line,
     });
   });
 

@@ -7,13 +7,10 @@ import '../gr-trigger-vote/gr-trigger-vote';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ChangeInfo} from '../../../api/rest-api';
-import {
-  LabelExtreme,
-  PATCH_SET_PREFIX_PATTERN,
-} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {getTriggerVotes} from '../../../utils/label-util';
 import {ChangeMessage} from '../../../types/common';
+import {PATCH_SET_PREFIX_PATTERN, LabelExtreme} from '../../../api/comments';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 

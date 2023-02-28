@@ -84,7 +84,6 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
   PatchSetNumber,
   PreferencesInfo,
@@ -94,7 +93,6 @@ import {
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
-  UrlEncodedCommentId,
   isRobot,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
@@ -108,7 +106,6 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {isUnresolved} from '../../../utils/comment-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
@@ -179,6 +176,8 @@ import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {UrlEncodedCommentId} from '../../../api/rest-api';
+import {isUnresolved} from '../../../api/comments';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -2078,9 +2077,7 @@ export class GrChangeView extends LitElement {
 
     const patchKnown =
       !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange!.patchNum
-      );
+      (this.allPatchSets ?? []).some(ps => ps.num === this.patchRange.patchNum);
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = this.viewState.forceReload || !patchKnown;
 
@@ -2736,7 +2733,7 @@ export class GrChangeView extends LitElement {
       this.selectedRevision = Object.values(this.change.revisions).find(
         revision => {
           // edit patchset is a special one
-          const thePatchNum = this.patchRange!.patchNum;
+          const thePatchNum = this.patchRange.patchNum;
           if (thePatchNum === EDIT) {
             return revision._number === thePatchNum;
           }
@@ -3135,7 +3132,7 @@ export class GrChangeView extends LitElement {
     }
     if (!this.change.revisions) return;
     this.selectedRevision = Object.values(this.change.revisions).find(
-      revision => revision._number === this.patchRange!.patchNum
+      revision => revision._number === this.patchRange.patchNum
     );
   }
 

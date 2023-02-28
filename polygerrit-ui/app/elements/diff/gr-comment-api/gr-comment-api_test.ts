@@ -6,13 +6,6 @@
 import '../../../test/common-test-setup';
 import {ChangeComments} from './gr-comment-api';
 import {
-  isInRevisionOfPatchRange,
-  isInBaseOfPatchRange,
-  isDraftThread,
-  isUnresolved,
-  createCommentThreads,
-} from '../../../utils/comment-util';
-import {
   createDraft,
   createComment,
   createChangeComments,
@@ -23,20 +16,29 @@ import {
 import {CommentSide, FileInfoStatus} from '../../../constants/constants';
 import {
   BasePatchSetNum,
-  CommentInfo,
   CommentThread,
   DraftInfo,
   PARENT,
-  PatchRange,
   PatchSetNum,
   PathToCommentsInfoMap,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {stubRestApi} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
+import {
+  UrlEncodedCommentId,
+  CommentInfo,
+  RobotCommentInfo,
+} from '../../../api/rest-api';
+import {
+  createCommentThreads,
+  PatchRange,
+  isInRevisionOfPatchRange,
+  isInBaseOfPatchRange,
+  isDraftThread,
+  isUnresolved,
+} from '../../../api/comments';
 
 suite('ChangeComments tests', () => {
   let changeComments: ChangeComments;

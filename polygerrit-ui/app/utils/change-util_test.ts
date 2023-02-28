@@ -129,6 +129,32 @@ suite('change-util tests', () => {
     assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
   });
 
+  test('Merged and Reverted status', () => {
+    const change = {
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.MERGED,
+    };
+    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
+    assert.deepEqual(
+      changeStatuses(change, {
+        revertingChangeStatus: ChangeStatus.NEW,
+        mergeable: true,
+        submitEnabled: true,
+      }),
+      [ChangeStates.MERGED, ChangeStates.REVERT_CREATED]
+    );
+    assert.deepEqual(
+      changeStatuses(change, {
+        revertingChangeStatus: ChangeStatus.MERGED,
+        mergeable: true,
+        submitEnabled: true,
+      }),
+      [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED]
+    );
+  });
+
   test('Abandoned status', () => {
     const change = {
       ...createChange(),

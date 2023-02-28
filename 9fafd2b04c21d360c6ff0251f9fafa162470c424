@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4d2a4a3_eb6651d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-02-28T11:57:01Z",
+      "side": 1,
+      "message": "NIT: tries",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a4e1a3_86238497",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-02-28T11:57:01Z",
+      "side": 1,
+      "message": "NIT: throws",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8d4da47_444d8fb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-02-28T11:57:01Z",
+      "side": 1,
+      "message": "Perhaps mention that this change is relevant because:\n\nThis causes f.i AbandonUtil, when changeCleanup is configured, to log errors because it eventually tries to fire AttentionSetUpdateEvents with the InternalUser, which is not an IdentifiedUser.",
+      "revId": "9fafd2b04c21d360c6ff0251f9fafa162470c424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

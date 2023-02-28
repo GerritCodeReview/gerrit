@@ -278,7 +278,7 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   public void rebuildSubkeyMasterKeyMap()
-      throws MissingObjectException, IncorrectObjectTypeException, IOException, PGPException {
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
     if (reader == null) {
       load();
     }

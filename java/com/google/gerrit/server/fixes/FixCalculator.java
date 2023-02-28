@@ -206,9 +206,8 @@ public class FixCalculator {
         return IntraLineLoader.compute(
                 this.src, this.getNewText(), edits.build(), ImmutableSet.of())
             .getEdits();
-      } else {
-        return edits.build();
       }
+      return edits.build();
     }
 
     public FixResult build() {

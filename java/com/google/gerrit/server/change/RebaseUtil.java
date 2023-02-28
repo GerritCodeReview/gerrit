@@ -282,9 +282,28 @@ public class RebaseUtil {
 
   public boolean canRebase(PatchSet patchSet, BranchNameKey dest, Repository git, RevWalk rw) {
     try {
-      @SuppressWarnings("unused")
-      ObjectId base = findBaseRevision(patchSet, dest, git, rw, true);
-      return true;
+      RevCommit commit = rw.parseCommit(patchSet.commitId());
+
+      if (commit.getParentCount() > 1) {
+        throw new UnprocessableEntityException("Cannot rebase a change with multiple parents.");
+      } else if (commit.getParentCount() == 0) {
+        throw new UnprocessableEntityException(
+            "Cannot rebase a change without any parents (is this the initial commit?).");
+      }
+
+      Ref destRef = git.getRefDatabase().exactRef(dest.branch());
+      if (destRef == null) {
+        throw new UnprocessableEntityException(
+            "The destination branch does not exist: " + dest.branch());
+      }
+
+      // Change can be rebased if its parent commit differs from the HEAD commit of the destination
+      // branch.
+      // It's possible that the change is part of a chain that is based on the HEAD commit of the
+      // destination branch and the chain cannot be rebased, but then the change can still be
+      // rebased onto the destination branch to break the relation to its parent change.
+      ObjectId parentId = commit.getParent(0);
+      return !destRef.getObjectId().equals(parentId);
     } catch (RestApiException e) {
       return false;
     } catch (StorageException | IOException e) {

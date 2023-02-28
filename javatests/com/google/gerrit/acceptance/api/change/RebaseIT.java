@@ -1201,6 +1201,30 @@ public class RebaseIT {
     }
 
     @Test
+    public void rebaseChainActionEnabled() throws Exception {
+      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+
+      Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeRebased2 =
+          changeOperations
+              .newChange()
+              .project(project)
+              .childOf()
+              .change(changeToBeRebased1)
+              .create();
+
+      // Approve and submit the change that will be the new base for the chain so that the chain is
+      // rebasable.
+      gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+      gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+      ChangeInfo changeInfo = gApi.changes().id(changeToBeRebased2.get()).get();
+      assertThat(changeInfo.actions).containsKey("rebase:chain");
+      ActionInfo rebaseActionInfo = changeInfo.actions.get("rebase:chain");
+      assertThat(rebaseActionInfo.enabled).isTrue();
+    }
+
+    @Test
     public void testCountRebasesMetric() throws Exception {
       // Create changes with the following hierarchy:
       // * HEAD

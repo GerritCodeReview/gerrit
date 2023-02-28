@@ -246,7 +246,7 @@ public class RebaseChain
     }
 
     boolean visible = true;
-    boolean enabled = true;
+    boolean enabled;
     try (Repository repo = repoManager.openRepository(tipRsrc.getProject());
         RevWalk rw = new RevWalk(repo)) {
       List<PatchSetData> chain = getChainForCurrentPatchSet(tipRsrc);
@@ -254,10 +254,9 @@ public class RebaseChain
         return description;
       }
       PatchSetData oldestAncestor = chain.get(0);
-      if (rebaseUtil.canRebase(
-          oldestAncestor.patchSet(), oldestAncestor.data().change().getDest(), repo, rw)) {
-        enabled = false;
-      }
+      enabled =
+          rebaseUtil.canRebase(
+              oldestAncestor.patchSet(), oldestAncestor.data().change().getDest(), repo, rw);
 
       for (PatchSetData ps : chain) {
         RevisionResource psRsrc =

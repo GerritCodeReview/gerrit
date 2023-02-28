@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb05646_9dfe511b",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-02-28T17:18:59Z",
+      "side": 1,
+      "message": "Nit: You could say:\n\nchanges.some(change \u003d\u003e accountKey(change.owner) !\u003d\u003d accountKey(owner))",
+      "range": {
+        "startLine": 172,
+        "startChar": 5,
+        "endLine": 178,
+        "endChar": 9
+      },
+      "revId": "10b588f5f1b9871d5106f20852f809776636e0bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

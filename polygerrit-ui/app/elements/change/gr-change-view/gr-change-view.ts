@@ -121,7 +121,6 @@ import {
   fireDialogChange,
   fire,
   fireReload,
-  fireTitleChange,
 } from '../../../utils/event-util';
 import {
   debounce,
@@ -2069,7 +2068,6 @@ export class GrChangeView extends LitElement {
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
-      this.updateTitle(this.change);
       // We still need to check if post load tasks need to be done such as when
       // user wants to open the reply dialog when in the diff page, the change
       // page should open the reply dialog
@@ -2207,12 +2205,6 @@ export class GrChangeView extends LitElement {
       });
   }
 
-  private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
-    if (!change) return;
-    const title = `${change.subject} (${change._number})`;
-    fireTitleChange(title);
-  }
-
   // Private but used in tests.
   changeChanged(oldChange: ParsedChangeInfo | undefined) {
     this.allPatchSets = computeAllPatchSets(this.change);
@@ -2240,7 +2232,6 @@ export class GrChangeView extends LitElement {
       patchNum:
         this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
     };
-    this.updateTitle(this.change);
   }
 
   /**

@@ -9,7 +9,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-editable-label/gr-editable-label';
 import '../gr-default-editor/gr-default-editor';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {
   EditPreferencesInfo,
   Base64FileContent,
@@ -17,11 +16,7 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {
-  fireAlert,
-  fireTitleChange,
-  fireReload,
-} from '../../../utils/event-util';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -326,17 +321,6 @@ export class GrEditorView extends LitElement {
   // private but used in test
   viewStateChanged() {
     if (this.viewState?.childView !== ChangeChildView.EDIT) return;
-
-    // NOTE: This may be called before attachment (e.g. while parentElement is
-    // null). Fire title-change in an async so that, if attachment to the DOM
-    // has been queued, the event can bubble up to the handler in gr-app.
-    setTimeout(() => {
-      if (!this.viewState) return;
-      const title = `Editing ${computeTruncatedPath(
-        this.viewState.editView?.path
-      )}`;
-      fireTitleChange(title);
-    });
 
     const promises = [];
     promises.push(this.getFileData());

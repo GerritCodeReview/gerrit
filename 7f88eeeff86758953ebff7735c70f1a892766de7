@@ -46,6 +46,30 @@
       },
       "revId": "7f88eeeff86758953ebff7735c70f1a892766de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ddca736_a6f2c84a",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadProjectCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-02-28T19:20:09Z",
+      "side": 1,
+      "message": "\u003e No Nasser, This change does not achieve that. This cache is still flat, meaning project name + some other identifier can become a key. So two keys with same project name and different identifier can occupy two entries in the cache. (This is the current behaviour without this cache)\n\nGot it, thanks for clarifying.\n\n\u003e \n\u003e Maybe we require a Map\u003cProject.NameKey, Map\u003cPerThreadCache.Key\u003c?\u003e, Object\u003e\u003e to achieve that. Did I get it right or you were suggesting something else?\n\nYes, that\u0027s what I was thinking we would need, but that improvement can come later on master.",
+      "parentUuid": "6561422e_e76f0475",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "7f88eeeff86758953ebff7735c70f1a892766de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

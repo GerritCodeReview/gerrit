@@ -33,6 +33,23 @@
       "message": "Test failure is expected unless we checkout the codemirror submodule in this change.",
       "revId": "b362fdbfbaa814e039e7b2b0988eab8f9e46d8e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38e1a26_c643412e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-01T23:29:56Z",
+      "side": 1,
+      "message": "Force merging because of the expected failure. Requires the plugin to be updated as well.",
+      "revId": "b362fdbfbaa814e039e7b2b0988eab8f9e46d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

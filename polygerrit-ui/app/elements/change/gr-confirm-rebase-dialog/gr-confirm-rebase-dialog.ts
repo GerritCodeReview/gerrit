@@ -33,6 +33,7 @@ export interface ConfirmRebaseEventDetail {
   base: string | null;
   allowConflicts: boolean;
   rebaseChain: boolean;
+  onBehalfOfUploader: boolean;
 }
 
 @customElement('gr-confirm-rebase-dialog')
@@ -88,6 +89,9 @@ export class GrConfirmRebaseDialog
   @query('#rebaseOnOtherInput')
   rebaseOnOtherInput!: HTMLInputElement;
 
+  @query('#rebaseOnBehalfOfUploader')
+  private rebaseOnBehalfOfUploader?: HTMLInputElement;
+
   @query('#rebaseAllowConflicts')
   private rebaseAllowConflicts!: HTMLInputElement;
 
@@ -135,7 +139,7 @@ export class GrConfirmRebaseDialog
         display: block;
         width: 100%;
       }
-      .rebaseAllowConflicts {
+      .rebaseCheckbox:first-of-type {
         margin-top: var(--spacing-m);
       }
       .rebaseOption {
@@ -225,7 +229,13 @@ export class GrConfirmRebaseDialog
             >
             </gr-autocomplete>
           </div>
-          <div class="rebaseAllowConflicts">
+          <div class="rebaseCheckbox">
+            <input id="rebaseOnBehalfOfUploader" type="checkbox" checked />
+            <label for="rebaseOnBehalfOfUploader"
+              >Rebase on behalf of uploader</label
+            >
+          </div>
+          <div class="rebaseCheckbox">
             <input id="rebaseAllowConflicts" type="checkbox" />
             <label for="rebaseAllowConflicts"
               >Allow rebase with conflicts</label
@@ -234,7 +244,7 @@ export class GrConfirmRebaseDialog
           ${when(
             this.hasParent,
             () =>
-              html`<div>
+              html`<div class="rebaseCheckbox">
                 <input
                   id="rebaseChain"
                   type="checkbox"
@@ -351,6 +361,7 @@ export class GrConfirmRebaseDialog
       base: this.getSelectedBase(),
       allowConflicts: this.rebaseAllowConflicts.checked,
       rebaseChain: !!this.rebaseChain?.checked,
+      onBehalfOfUploader: !!this.rebaseOnBehalfOfUploader?.checked,
     };
     fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
     this.text = '';

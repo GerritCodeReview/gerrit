@@ -16,6 +16,24 @@
       "message": "Can you move this to before `UnsavedInfo`? Thanks!",
       "revId": "7450604b3ba7ced085fba19c8e5dfbd21e6831b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcced614_ce3b563a",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-01T10:20:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ad428c_5cd61f85",
+      "revId": "7450604b3ba7ced085fba19c8e5dfbd21e6831b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

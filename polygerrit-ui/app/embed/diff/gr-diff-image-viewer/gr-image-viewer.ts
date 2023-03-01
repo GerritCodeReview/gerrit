@@ -753,17 +753,18 @@ export class GrImageViewer extends LitElement {
     });
   }
 
-  zoomControlChanged(event: ValueChangedEvent<'fit' | number>) {
-    const value = event.detail.value;
-    if (!value) return;
-    if (value === 'fit') {
+  zoomControlChanged(event: ValueChangedEvent<string>) {
+    const scaleString = event.detail.value;
+    if (!scaleString) return;
+    if (scaleString === 'fit') {
       this.scaledSelected = true;
       this.fireAction({type: 'zoom-level-changed', scale: 'fit'});
     }
-    if (typeof value === 'number' && value > 0) {
+    const scale = Number(scaleString);
+    if (Number.isFinite(scale) && scale > 0) {
       this.scaledSelected = false;
-      this.scale = value;
-      this.fireAction({type: 'zoom-level-changed', scale: value});
+      this.scale = scale;
+      this.fireAction({type: 'zoom-level-changed', scale});
     }
     this.updateSizes();
   }

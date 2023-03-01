@@ -3,13 +3,16 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AccountInfo, FixSuggestionInfo, PatchSetNum} from './common';
+import {
+  AccountInfo,
+  DropdownLink,
+  FixSuggestionInfo,
+  PatchSetNum,
+} from './common';
 import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
-import {DropdownLink} from '../elements/shared/gr-dropdown/gr-dropdown';
-import {AutocompleteCommitEvent} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
 // TODO: Local events that are only fired by one component should also be
 // declared and documented in that component. Don't collect ALL the events here.
@@ -73,6 +76,13 @@ declare global {
     'auth-error': AuthErrorEvent;
   }
 }
+
+export interface AutocompleteCommitEventDetail {
+  value: string;
+}
+
+export type AutocompleteCommitEvent =
+  CustomEvent<AutocompleteCommitEventDetail>;
 
 export interface AddAccountEventDetail {
   value: string;

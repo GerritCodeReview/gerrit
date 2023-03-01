@@ -39,13 +39,12 @@ import {
   isUnresolved,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
-import {AccountInfo} from '../../../types/common';
+import {AccountInfo, DropdownLink} from '../../../types/common';
 import {isDefined} from '../../../types/types';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';

@@ -22,12 +22,9 @@ import {
   UrlEncodedRepoName,
 } from '../../../types/common';
 import {PermissionAction} from '../../../constants/constants';
-import {PageErrorEvent} from '../../../types/events';
+import {AutocompleteCommitEvent, PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {
-  AutocompleteCommitEvent,
-  GrAutocomplete,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {GrPermission} from '../gr-permission/gr-permission';
 import {createChange} from '../../../test/test-data-generators';

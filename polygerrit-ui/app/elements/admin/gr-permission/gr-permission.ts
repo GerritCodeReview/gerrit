@@ -26,7 +26,6 @@ import {
   AutocompleteQuery,
   GrAutocomplete,
   AutocompleteSuggestion,
-  AutocompleteCommitEvent,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
   EditablePermissionInfo,
@@ -40,7 +39,10 @@ import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {when} from 'lit/directives/when.js';
-import {ValueChangedEvent} from '../../../types/events';
+import {
+  AutocompleteCommitEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;

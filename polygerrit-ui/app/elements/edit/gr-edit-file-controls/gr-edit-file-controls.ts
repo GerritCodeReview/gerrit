@@ -9,8 +9,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {FileActionTapEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fire} from '../../../utils/event-util';
+import {DropdownLink} from '../../../types/common';
 
 interface EditAction {
   label: string;

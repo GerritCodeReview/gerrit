@@ -29,6 +29,7 @@
 .. link:user-inline-edit.html[Manipulating Changes in Browser]
 .. link:user-notify.html[Subscribing to Email Notifications]
 .. link:user-attention-set.html[Attention Set]
+.. link:user-suggest-edits.html[User Suggest Edits]
 . SSH
 .. link:user-upload.html#ssh[SSH connection details]
 .. link:cmd-index.html[Command Line Tools]

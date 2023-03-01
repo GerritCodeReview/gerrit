@@ -5,11 +5,11 @@
  */
 import {
   AccountInfo,
+  ChangeMessage,
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
 } from './common';
-import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';

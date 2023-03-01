@@ -21,21 +21,21 @@ import {resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {
   AccountDetailInfo,
+  DraftInfo,
   NumericChangeId,
   RepoName,
   RobotCommentInfo,
-} from '../../../types/common';
-import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {
   Comment,
-  createUserFixSuggestion,
-  DraftInfo,
-  getContentInCommentRange,
-  getUserSuggestion,
-  hasUserSuggestion,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
+} from '../../../types/common';
+import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
+import {
+  createUserFixSuggestion,
+  getContentInCommentRange,
+  getUserSuggestion,
+  hasUserSuggestion,
   NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';

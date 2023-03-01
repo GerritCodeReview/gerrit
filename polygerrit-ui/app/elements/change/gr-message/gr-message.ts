@@ -24,10 +24,10 @@ import {
   AccountInfo,
   BasePatchSetNum,
   LabelNameToInfoMap,
+  CommentThread,
+  ChangeMessage,
 } from '../../../types/common';
 import {
-  ChangeMessage,
-  CommentThread,
   isFormattedReviewerUpdate,
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
@@ -748,10 +748,11 @@ export class GrMessage extends LitElement {
 
   private handleAnchorClick(e: Event) {
     e.preventDefault();
+    assertIsDefined(this.message, 'message');
     // The element which triggers handleAnchorClick is rendered only if
     // message.id defined: the element is wrapped in dom-if if="[[message.id]]"
     const detail: MessageAnchorTapDetail = {
-      id: this.message!.id,
+      id: this.message.id,
     };
     fire(this, 'message-anchor-tap', detail);
   }

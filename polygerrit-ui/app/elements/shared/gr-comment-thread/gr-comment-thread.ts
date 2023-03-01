@@ -19,17 +19,10 @@ import {
 } from 'lit/decorators.js';
 import {
   computeDiffFromContext,
-  isDraft,
-  isRobot,
-  Comment,
-  CommentThread,
   getLastComment,
-  UnsavedInfo,
-  isDraftOrUnsaved,
   createUnsavedComment,
   getFirstComment,
   createUnsavedReply,
-  isUnsaved,
   NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
@@ -41,9 +34,16 @@ import {
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
+  Comment,
   CommentRange,
+  CommentThread,
+  isDraft,
+  isDraftOrUnsaved,
+  isRobot,
+  isUnsaved,
   NumericChangeId,
   RepoName,
+  UnsavedInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';

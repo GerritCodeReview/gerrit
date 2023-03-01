@@ -15,17 +15,17 @@ import {
   RobotCommentInfo,
   PathToRobotCommentsInfoMap,
   AccountInfo,
+  DraftInfo,
+  UnsavedInfo,
+  Comment,
+  isDraft,
+  isDraftOrUnsaved,
+  isUnsaved,
 } from '../../types/common';
 import {
   addPath,
-  Comment,
-  DraftInfo,
-  isDraft,
-  isDraftOrUnsaved,
   isDraftThread,
-  isUnsaved,
   reportingDetails,
-  UnsavedInfo,
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';

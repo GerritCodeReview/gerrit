@@ -10,16 +10,16 @@ import {SpecialFilePath} from '../../../constants/constants';
 import {
   AccountDetailInfo,
   AccountInfo,
+  CommentThread,
   NumericChangeId,
   UrlEncodedCommentId,
+  isDraft,
 } from '../../../types/common';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {
-  CommentThread,
   getCommentAuthors,
   getMentionedThreads,
   hasHumanReply,
-  isDraft,
   isDraftThread,
   isMentionedThread,
   isRobotThread,

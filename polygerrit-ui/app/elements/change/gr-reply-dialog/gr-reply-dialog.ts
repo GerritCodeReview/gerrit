@@ -48,6 +48,8 @@ import {
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
+  CommentThread,
+  DraftInfo,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
@@ -61,6 +63,8 @@ import {
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
+  UnsavedInfo,
+  isDraft,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -73,14 +77,10 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  CommentThread,
   createPatchsetLevelUnsavedDraft,
-  DraftInfo,
   getFirstComment,
-  isDraft,
   isPatchsetLevel,
   isUnresolved,
-  UnsavedInfo,
 } from '../../../utils/comment-util';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {

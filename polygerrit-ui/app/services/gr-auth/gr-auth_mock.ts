@@ -3,9 +3,9 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {AuthRequestInit} from '../../types/types';
 import {fire} from '../../utils/event-util';
 import {
-  AuthRequestInit,
   AuthService,
   AuthStatus,
   DefaultAuthOptions,

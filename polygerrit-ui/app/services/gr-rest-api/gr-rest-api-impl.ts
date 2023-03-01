@@ -27,7 +27,7 @@ import {
   listChangesOptionsToHex,
 } from '../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../utils/common-util';
-import {AuthRequestInit, AuthService} from '../gr-auth/gr-auth';
+import {AuthService} from '../gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -141,7 +141,7 @@ import {
   ReviewerState,
 } from '../../constants/constants';
 import {firePageError, fireServerError} from '../../utils/event-util';
-import {ParsedChangeInfo} from '../../types/types';
+import {AuthRequestInit, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';

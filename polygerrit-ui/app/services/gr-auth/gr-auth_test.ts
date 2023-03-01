@@ -7,8 +7,9 @@ import '../../test/common-test-setup';
 import {Auth} from './gr-auth_impl';
 import {stubBaseUrl} from '../../test/test-utils';
 import {SinonFakeTimers} from 'sinon';
-import {AuthRequestInit, DefaultAuthOptions} from './gr-auth';
+import {DefaultAuthOptions} from './gr-auth';
 import {assert} from '@open-wc/testing';
+import {AuthRequestInit} from '../../types/types';
 
 suite('gr-auth', () => {
   let auth: Auth;

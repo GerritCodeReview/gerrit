@@ -5,10 +5,7 @@
  */
 import {getBaseUrl} from '../../../../utils/url-util';
 import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
-import {
-  AuthRequestInit,
-  AuthService,
-} from '../../../../services/gr-auth/gr-auth';
+import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {
   AccountDetailInfo,
   EmailInfo,
@@ -22,7 +19,7 @@ import {
   fireNetworkError,
   fireServerError,
 } from '../../../../utils/event-util';
-import {FetchRequest} from '../../../../types/types';
+import {AuthRequestInit, FetchRequest} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';

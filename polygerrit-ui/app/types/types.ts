@@ -17,7 +17,6 @@ import {
   RevisionInfo,
   Timestamp,
 } from './common';
-import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
 export function isDefined<T>(x: T): x is NonNullable<T> {
   return x !== undefined && x !== null;
@@ -34,6 +33,13 @@ export enum ErrorType {
   AUTH = 'AUTH',
   NETWORK = 'NETWORK',
   GENERIC = 'GENERIC',
+}
+
+export interface AuthRequestInit extends RequestInit {
+  // RequestInit define headers as HeadersInit, i.e.
+  // Headers | string[][] | Record<string, string>
+  // Auth class supports only Headers in options
+  headers?: Headers;
 }
 
 /*

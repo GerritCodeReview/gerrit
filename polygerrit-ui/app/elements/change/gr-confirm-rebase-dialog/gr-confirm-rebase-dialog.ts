@@ -23,6 +23,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export interface RebaseChange {
   name: string;
@@ -33,6 +34,7 @@ export interface ConfirmRebaseEventDetail {
   base: string | null;
   allowConflicts: boolean;
   rebaseChain: boolean;
+  onBehalfOfUploader: boolean;
 }
 
 @customElement('gr-confirm-rebase-dialog')
@@ -88,6 +90,9 @@ export class GrConfirmRebaseDialog
   @query('#rebaseOnOtherInput')
   rebaseOnOtherInput!: HTMLInputElement;
 
+  @query('#rebaseOnBehalfOfUploader')
+  private rebaseOnBehalfOfUploader?: HTMLInputElement;
+
   @query('#rebaseAllowConflicts')
   private rebaseAllowConflicts!: HTMLInputElement;
 
@@ -98,6 +103,8 @@ export class GrConfirmRebaseDialog
   parentInput!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -135,7 +142,7 @@ export class GrConfirmRebaseDialog
         display: block;
         width: 100%;
       }
-      .rebaseAllowConflicts {
+      .rebaseCheckbox:first-of-type {
         margin-top: var(--spacing-m);
       }
       .rebaseOption {
@@ -225,16 +232,25 @@ export class GrConfirmRebaseDialog
             >
             </gr-autocomplete>
           </div>
-          <div class="rebaseAllowConflicts">
-            <input id="rebaseAllowConflicts" type="checkbox" />
-            <label for="rebaseAllowConflicts"
-              >Allow rebase with conflicts</label
+          <div class="rebaseCheckbox">
+            <input id="rebaseOnBehalfOfUploader" type="checkbox" checked />
+            <label for="rebaseOnBehalfOfUploader"
+              >Rebase on behalf of uploader</label
             >
           </div>
           ${when(
+            this.flagsService.isEnabled(KnownExperimentId.REBASE_CHAIN),
+            () => html` <div class="rebaseCheckbox">
+              <input id="rebaseAllowConflicts" type="checkbox" />
+              <label for="rebaseAllowConflicts"
+                >Allow rebase with conflicts</label
+              >
+            </div>`
+          )}
+          ${when(
             this.hasParent,
             () =>
-              html`<div>
+              html`<div class="rebaseCheckbox">
                 <input
                   id="rebaseChain"
                   type="checkbox"
@@ -351,6 +367,7 @@ export class GrConfirmRebaseDialog
       base: this.getSelectedBase(),
       allowConflicts: this.rebaseAllowConflicts.checked,
       rebaseChain: !!this.rebaseChain?.checked,
+      onBehalfOfUploader: !!this.rebaseOnBehalfOfUploader?.checked,
     };
     fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
     this.text = '';

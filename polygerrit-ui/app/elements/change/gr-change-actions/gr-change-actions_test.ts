@@ -624,15 +624,20 @@ suite('gr-change-actions tests', () => {
       assert.isTrue(fetchChangesStub.called);
       element.handleRebaseConfirm(
         new CustomEvent('', {
-          detail: {base: '1234', allowConflicts: false, rebaseChain: false},
+          detail: {
+            base: '1234',
+            allowConflicts: false,
+            rebaseChain: false,
+            onBehalfOfUploader: true,
+          },
         })
       );
       assert.deepEqual(fireActionStub.lastCall.args, [
         '/rebase',
         assertUIActionInfo(rebaseAction),
         true,
-        {base: '1234', allow_conflicts: false},
-        {allow_conflicts: false},
+        {base: '1234', allow_conflicts: false, on_behalf_of_uploader: true},
+        {allow_conflicts: false, on_behalf_of_uploader: true},
       ]);
     });
 

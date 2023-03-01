@@ -9,7 +9,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {CommentRange, CursorMoveResult} from './core';
+import {CursorMoveResult} from './core';
+import {CommentRange} from './rest-api';
 
 /**
  * Diff type in preferences

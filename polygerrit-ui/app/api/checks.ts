@@ -3,8 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CommentRange} from './core';
-import {ChangeInfo} from './rest-api';
+import {ChangeInfo, CommentRange} from './rest-api';
 
 export declare interface ChecksPluginApi {
   /**

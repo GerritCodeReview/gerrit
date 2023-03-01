@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be464e9d_5d2b6d96",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-01T09:37:07Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "187e3199_b5157da5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "3833c152430efb5fe8ac57733ef4e7a50d961041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4effa9a8_39401bd4",

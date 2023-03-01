@@ -690,13 +690,52 @@ export interface TopMenuItemInfo {
   id?: string;
 }
 
-export type DraftInfo = CommentInfo & DraftCommentProps;
-
 export interface DraftCommentProps {
   // This must be true for all drafts. Drafts received from the backend will be
   // modified immediately with __draft:true before allowing them to get into
   // the application state.
   __draft: boolean;
+}
+
+export interface UnsavedCommentProps {
+  // This must be true for all unsaved comment drafts. An unsaved draft is
+  // always just local to a comment component like <gr-comment> or
+  // <gr-comment-thread>. Unsaved drafts will never appear in the application
+  // state.
+  __unsaved: boolean;
+}
+
+export type DraftInfo = CommentInfo & DraftCommentProps;
+
+export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
+
+export type Comment = UnsavedInfo | DraftInfo | CommentInfo | RobotCommentInfo;
+
+// TODO: Replace the CommentMap type with just an array of paths.
+export type CommentMap = {[path: string]: boolean};
+
+export function isRobot<T extends CommentBasics>(
+  x: T | DraftInfo | RobotCommentInfo | undefined
+): x is RobotCommentInfo {
+  return !!x && !!(x as RobotCommentInfo).robot_id;
+}
+
+export function isDraft<T extends CommentBasics>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && !!(x as DraftInfo).__draft;
+}
+
+export function isUnsaved<T extends CommentBasics>(
+  x: T | UnsavedInfo | undefined
+): x is UnsavedInfo {
+  return !!x && !!(x as UnsavedInfo).__unsaved;
+}
+
+export function isDraftOrUnsaved<T extends CommentBasics>(
+  x: T | DraftInfo | UnsavedInfo | undefined
+): x is UnsavedInfo | DraftInfo {
+  return isDraft(x) || isUnsaved(x);
 }
 
 export interface CommentThread {

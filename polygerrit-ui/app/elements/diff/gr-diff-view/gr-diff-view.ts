@@ -46,6 +46,7 @@ import {
   RepoName,
   RevisionPatchSetNum,
   ServerInfo,
+  CommentMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {FileRange, ParsedChangeInfo} from '../../../types/types';
@@ -56,7 +57,6 @@ import {
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {CommentMap} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fire, fireTitleChange} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';

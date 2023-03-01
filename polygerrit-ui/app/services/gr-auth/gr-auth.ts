@@ -28,12 +28,6 @@ export interface DefaultAuthOptions {
   credentials: RequestCredentials;
 }
 
-export interface AuthRequestInit extends RequestInit {
-  // RequestInit define headers as HeadersInit, i.e.
-  // Headers | string[][] | Record<string, string>
-  // Auth class supports only Headers in options
-  headers?: Headers;
-}
 export const authServiceToken = define<AuthService>('auth-service');
 
 export interface AuthService extends Finalizable {

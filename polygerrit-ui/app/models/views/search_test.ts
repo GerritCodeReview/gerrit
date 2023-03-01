@@ -151,25 +151,32 @@ suite('search view state tests', () => {
     test('userId', async () => {
       assert.isUndefined(userId);
 
+      // userId set when all owners are the same
       model.updateState({
-        query: 'owner: foo@bar',
+        query: 'owner:foo',
         changes: [
+          {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
           {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
         ],
       });
       assert.equal(userId, 'foo@bar' as EmailAddress);
 
+      // userId not set when multiple owners exist
+      model.updateState({
+        query: 'owner:foo',
+        changes: [
+          {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
+          {...createChange(), owner: {email: 'foo@foo' as EmailAddress}},
+        ],
+      });
+      assert.isUndefined(userId);
+
+      // userId not set when query is not about owner
       model.updateState({
         query: 'foo bar baz',
         changes: [
           {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
         ],
-      });
-      assert.isUndefined(userId);
-
-      model.updateState({
-        query: 'owner: foo@bar',
-        changes: [{...createChange(), owner: {}}],
       });
       assert.isUndefined(userId);
     });

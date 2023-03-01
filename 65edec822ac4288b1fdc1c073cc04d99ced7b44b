@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "264751c8_f068b445",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T09:44:11Z",
+      "side": 1,
+      "message": "I think these types belong together with the types that you have moved. It is awkward to split them across two files.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 1
+      },
+      "revId": "65edec822ac4288b1fdc1c073cc04d99ced7b44b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

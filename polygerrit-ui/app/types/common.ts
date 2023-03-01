@@ -779,6 +779,10 @@ export interface CommentThread {
   rangeInfoLost?: boolean;
 }
 
+export type CommentIdToCommentThreadMap = {
+  [urlEncodedCommentId: string]: CommentThread;
+};
+
 export interface ChangeMessage extends ChangeMessageInfo {
   // TODO(TS): maybe should be an enum instead
   type: string;

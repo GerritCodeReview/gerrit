@@ -29,10 +29,6 @@ import {CommentSide} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
-export type CommentIdToCommentThreadMap = {
-  [urlEncodedCommentId: string]: CommentThread;
-};
-
 // TODO: Move file out of elements/ directory
 export class ChangeComments {
   private readonly _comments: PathToCommentsInfoMap;

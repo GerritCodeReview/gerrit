@@ -29,10 +29,10 @@ import {
   isDraftOrUnsaved,
   Comment,
   isUnsaved,
+  CommentIdToCommentThreadMap,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
-import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';

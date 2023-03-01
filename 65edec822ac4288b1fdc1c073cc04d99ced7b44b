@@ -22,6 +22,30 @@
       },
       "revId": "65edec822ac4288b1fdc1c073cc04d99ced7b44b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e0f4ab_05c522fd",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-01T10:03:41Z",
+      "side": 1,
+      "message": "361262: Remove futher types from comment-util to common.ts | https://gerrit-review.git.corp.google.com/c/gerrit/+/361262",
+      "parentUuid": "264751c8_f068b445",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 1
+      },
+      "revId": "65edec822ac4288b1fdc1c073cc04d99ced7b44b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

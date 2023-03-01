@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c0e5320_29a82149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T18:35:19Z",
+      "side": 1,
+      "message": "Alternatively you could have replaced `FetchRequest` in `ServerErrorEvent` by a URL.",
+      "revId": "4f326673affe9172ca1c76ffd15af6d120855164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

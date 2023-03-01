@@ -16,10 +16,14 @@ import {
 } from '../../api/checks';
 import {PatchSetNumber, RevisionPatchSetNum} from '../../api/rest-api';
 import {CommentSide} from '../../constants/constants';
-import {FixSuggestionInfo, FixReplacementInfo} from '../../types/common';
+import {
+  FixSuggestionInfo,
+  FixReplacementInfo,
+  UnsavedInfo,
+} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID, UnsavedInfo} from '../../utils/comment-util';
+import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';

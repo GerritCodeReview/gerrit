@@ -13,13 +13,13 @@ import {
   CommentThread,
   NumericChangeId,
   UrlEncodedCommentId,
+  isDraft,
 } from '../../../types/common';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {
   getCommentAuthors,
   getMentionedThreads,
   hasHumanReply,
-  isDraft,
   isDraftThread,
   isMentionedThread,
   isRobotThread,

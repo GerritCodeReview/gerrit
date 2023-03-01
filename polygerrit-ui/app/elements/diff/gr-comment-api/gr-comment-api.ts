@@ -12,11 +12,11 @@ import {
   PARENT,
   CommentInfo,
   CommentThread,
+  Comment,
+  CommentMap,
   DraftInfo,
 } from '../../../types/common';
 import {
-  Comment,
-  CommentMap,
   isUnresolved,
   createCommentThreads,
   isInPatchRange,

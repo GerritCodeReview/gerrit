@@ -95,6 +95,7 @@ import {
   RevisionPatchSetNum,
   ServerInfo,
   UrlEncodedCommentId,
+  isRobot,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
@@ -107,7 +108,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {isRobot, isUnresolved} from '../../../utils/comment-util';
+import {isUnresolved} from '../../../utils/comment-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';

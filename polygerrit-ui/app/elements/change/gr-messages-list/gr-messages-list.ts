@@ -20,8 +20,8 @@ import {
   NumericChangeId,
   PatchSetNum,
   VotingRangeInfo,
+  isRobot,
 } from '../../../types/common';
-import {isRobot} from '../../../utils/comment-util';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
 import {

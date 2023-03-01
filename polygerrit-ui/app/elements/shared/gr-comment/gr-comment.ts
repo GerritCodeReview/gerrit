@@ -25,17 +25,17 @@ import {
   NumericChangeId,
   RepoName,
   RobotCommentInfo,
+  Comment,
+  isDraftOrUnsaved,
+  isRobot,
+  isUnsaved,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
-  Comment,
   createUserFixSuggestion,
   getContentInCommentRange,
   getUserSuggestion,
   hasUserSuggestion,
-  isDraftOrUnsaved,
-  isRobot,
-  isUnsaved,
   NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';

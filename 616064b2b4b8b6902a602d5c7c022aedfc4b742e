@@ -22,6 +22,30 @@
       },
       "revId": "616064b2b4b8b6902a602d5c7c022aedfc4b742e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc46a60_efba3882",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2617,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T07:16:11Z",
+      "side": 0,
+      "message": "This is in line 246 of related-change-model.ts.",
+      "parentUuid": "63758c7b_68d963db",
+      "range": {
+        "startLine": 2615,
+        "startChar": 6,
+        "endLine": 2617,
+        "endChar": 8
+      },
+      "revId": "616064b2b4b8b6902a602d5c7c022aedfc4b742e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

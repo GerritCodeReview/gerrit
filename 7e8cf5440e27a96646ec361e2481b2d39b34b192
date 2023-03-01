@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafd9ec6_c9826d35",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T07:16:11Z",
+      "side": 1,
+      "message": "Yeah, that was me trying to get VSCode to remove unused imports on save. Obviously that failed ...",
+      "parentUuid": "37fe04f8_32e0675d",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 9
+      },
+      "revId": "7e8cf5440e27a96646ec361e2481b2d39b34b192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ea19c2a_67e37d58",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "688cdc01_a6f0b895",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T07:16:11Z",
+      "side": 1,
+      "message": "See documentation in related-change-model.\n\nThis is a change that has reverted the current change, might be still active or merged. Both is possible.\n\nI renamed that, because \"revertedChange\" sounds like it is a reverted change, but that is not the case. It is a revert of the current change.",
+      "parentUuid": "2ea19c2a_67e37d58",
+      "range": {
+        "startLine": 474,
+        "startChar": 10,
+        "endLine": 474,
+        "endChar": 25
+      },
+      "revId": "7e8cf5440e27a96646ec361e2481b2d39b34b192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbb9c413_70a1292c",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-02-28T17:28:50Z",
       "side": 1,
       "message": "Is this replacement for includeDerived ?",
+      "range": {
+        "startLine": 1788,
+        "startChar": 6,
+        "endLine": 1788,
+        "endChar": 27
+      },
+      "revId": "7e8cf5440e27a96646ec361e2481b2d39b34b192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9716e0fe_fc35efa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1788,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-01T07:16:11Z",
+      "side": 1,
+      "message": "`includeDerived` was just obsolete. It just set, but never read. It did not exist on the options type def, as well.\n\nThe purpose of adding `revertingChangeStatus` as a option was to avoid hacking the list statuses after the fact in change-view. I wanted the logic for creating the list of statuses to be in one place",
+      "parentUuid": "bbb9c413_70a1292c",
       "range": {
         "startLine": 1788,
         "startChar": 6,

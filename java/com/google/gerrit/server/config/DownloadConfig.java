@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.CoreDownloadSchemes;
@@ -43,7 +44,8 @@ public class DownloadConfig {
   private final ImmutableSet<ArchiveFormatInternal> archiveFormats;
 
   @Inject
-  DownloadConfig(@GerritServerConfig Config cfg) {
+  @VisibleForTesting
+  public DownloadConfig(@GerritServerConfig Config cfg) {
     String[] allSchemes = cfg.getStringList("download", null, "scheme");
     if (allSchemes.length == 0) {
       downloadSchemes =

@@ -15,6 +15,7 @@ import {
   GroupInfo,
   GroupName,
   ServerInfo,
+  NumericChangeId,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -37,18 +38,19 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {getAccountSuggestions} from '../../../utils/account-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ValueChangedEvent} from '../../../types/events';
+import {getAccountDisplayName} from '../../../utils/display-name-util';
 
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
 
 const URL_REGEX = '^(?:[a-z]+:)?//';
+const SUGGESTIONS_LIMIT = 15;
 
 export enum ItemType {
   MEMBER = 'member',
@@ -119,7 +121,7 @@ export class GrGroupMembers extends LitElement {
       }
     );
     this.queryMembers = input =>
-      getAccountSuggestions(input, this.restApiService, this.serverConfig);
+      this.getAccountSuggestions(input, this.serverConfig);
     this.queryIncludedGroup = input => this.getGroupSuggestions(input);
   }
 
@@ -269,6 +271,33 @@ export class GrGroupMembers extends LitElement {
         ></gr-confirm-delete-item-dialog>
       </dialog>
     `;
+  }
+
+  getAccountSuggestions(
+    input: string,
+    config?: ServerInfo,
+    canSee?: NumericChangeId,
+    filterActive = false
+  ) {
+    return this.restApiService
+      .getSuggestedAccounts(
+        input,
+        SUGGESTIONS_LIMIT,
+        canSee,
+        filterActive,
+        throwingErrorCallback
+      )
+      .then(accounts => {
+        if (!accounts) return [];
+        const accountSuggestions = [];
+        for (const account of accounts) {
+          accountSuggestions.push({
+            name: getAccountDisplayName(config, account),
+            value: account._account_id?.toString(),
+          });
+        }
+        return accountSuggestions;
+      });
   }
 
   private renderGroupMember(member: AccountInfo, index: number) {

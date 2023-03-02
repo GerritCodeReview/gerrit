@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
@@ -103,6 +105,7 @@ public class ChangeEditModifier {
   private final PatchSetUtil patchSetUtil;
   private final ProjectCache projectCache;
   private final NoteDbEdits noteDbEdits;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
   ChangeEditModifier(
@@ -113,7 +116,8 @@ public class ChangeEditModifier {
       ChangeEditUtil changeEditUtil,
       PatchSetUtil patchSetUtil,
       ProjectCache projectCache,
-      GitReferenceUpdated gitReferenceUpdated) {
+      GitReferenceUpdated gitReferenceUpdated,
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.zoneId = gerritIdent.getZoneId();
@@ -121,6 +125,7 @@ public class ChangeEditModifier {
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;
     noteDbEdits = new NoteDbEdits(gitReferenceUpdated, zoneId, indexer, currentUser);
+    this.urlFormatter = urlFormatter;
   }
 
   /**
@@ -515,7 +520,8 @@ public class ChangeEditModifier {
           "New commit message cannot be same as existing commit message");
     }
 
-    ChangeUtil.ensureChangeIdIsCorrect(requireChangeId, currentChangeId, newCommitMessage);
+    ChangeUtil.ensureChangeIdIsCorrect(
+        requireChangeId, currentChangeId, newCommitMessage, urlFormatter.get());
 
     return newCommitMessage;
   }

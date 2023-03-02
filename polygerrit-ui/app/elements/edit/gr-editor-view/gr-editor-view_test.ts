@@ -117,6 +117,7 @@ suite('gr-editor-view tests', () => {
             <gr-endpoint-param name="prefs"> </gr-endpoint-param>
             <gr-endpoint-param name="fileType"> </gr-endpoint-param>
             <gr-endpoint-param name="lineNum"> </gr-endpoint-param>
+            <gr-endpoint-param name="darkMode"> </gr-endpoint-param>
             <gr-default-editor id="file"> </gr-default-editor>
           </gr-endpoint-decorator>
         </div>

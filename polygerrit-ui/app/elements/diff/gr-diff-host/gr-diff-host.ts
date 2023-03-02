@@ -496,30 +496,35 @@ export class GrDiffHost extends LitElement {
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
 
-    return html` <gr-diff
-      id="diff"
-      ?hidden=${this.hidden}
-      .noAutoRender=${this.noAutoRender}
-      .path=${this.path}
-      .prefs=${this.prefs}
-      .isImageDiff=${this.isImageDiff}
-      .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
-      .renderPrefs=${this.renderPrefs}
-      .lineWrapping=${this.lineWrapping}
-      .viewMode=${this.viewMode}
-      .lineOfInterest=${this.lineOfInterest}
-      .loggedIn=${this.loggedIn}
-      .errorMessage=${this.errorMessage}
-      .baseImage=${this.baseImage}
-      .revisionImage=${this.revisionImage}
-      .coverageRanges=${this.coverageRanges}
-      .blame=${this.blame}
-      .layers=${this.layers}
-      .diff=${this.diff}
-      .showNewlineWarningLeft=${showNewlineWarningLeft}
-      .showNewlineWarningRight=${showNewlineWarningRight}
-      .useNewImageDiffUi=${useNewImageDiffUi}
-    ></gr-diff>`;
+    return html` <div style="display: flex">
+      <gr-diff
+        id="diff"
+        ?hidden=${this.hidden}
+        .noAutoRender=${this.noAutoRender}
+        .path=${this.path}
+        .prefs=${this.prefs}
+        .isImageDiff=${this.isImageDiff}
+        .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
+        .renderPrefs=${this.renderPrefs}
+        .lineWrapping=${this.lineWrapping}
+        .viewMode=${this.viewMode}
+        .lineOfInterest=${this.lineOfInterest}
+        .loggedIn=${this.loggedIn}
+        .errorMessage=${this.errorMessage}
+        .baseImage=${this.baseImage}
+        .revisionImage=${this.revisionImage}
+        .coverageRanges=${this.coverageRanges}
+        .blame=${this.blame}
+        .layers=${this.layers}
+        .diff=${this.diff}
+        .showNewlineWarningLeft=${showNewlineWarningLeft}
+        .showNewlineWarningRight=${showNewlineWarningRight}
+        .useNewImageDiffUi=${useNewImageDiffUi}
+      ></gr-diff>
+      <gr-endpoint-decorator name="diff-right">
+        <gr-endpoint-param name="diff" .value=${this.diff}></gr-endpoint-param>
+      </gr-endpoint-decorator>
+    </div>`;
   }
 
   async initLayers() {

@@ -16,6 +16,24 @@
       "message": "Can you add the changelog for the submodule update?",
       "revId": "592d7439498bb37f12c9b4200f595cb1022ea66a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3571f981_d30c09e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-02T17:42:55Z",
+      "side": 1,
+      "message": "When you say that, download-commands is probably updated through an submodule update subscription and we probably shouldn\u0027t do this type of manual updates.\nThe correct way is probably to update the subscription.",
+      "parentUuid": "59380e27_9e6ce36c",
+      "revId": "592d7439498bb37f12c9b4200f595cb1022ea66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

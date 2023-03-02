@@ -164,8 +164,12 @@ public class AutoMerger {
   public Optional<ReceiveCommand> createAutoMergeCommitIfNecessary(
       RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
       throws IOException {
-    if (maybeMergeCommit.getParentCount() != 2 || !save) {
+    if (maybeMergeCommit.getParentCount() != 2) {
       logger.atFine().log("AutoMerge not required");
+      return Optional.empty();
+    }
+    if (!save) {
+      logger.atFine().log("Saving AutoMerge is disabled");
       return Optional.empty();
     }
 

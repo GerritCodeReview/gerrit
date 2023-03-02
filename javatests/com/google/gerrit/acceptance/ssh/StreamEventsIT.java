@@ -30,7 +30,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -85,11 +87,14 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @Test
   public void batchRefsUpdatedShowSeparatelyInStreamEvents() throws Exception {
     String refName = createChange().getChange().currentPatchSet().refName();
+    AtomicInteger numberOfFoundEvents = new AtomicInteger(0);
     waitForEvent(
         () ->
-            pollEventsContaining("ref-updated", refName.substring(0, refName.lastIndexOf('/')))
-                    .size()
-                == 1);
+            numberOfFoundEvents.addAndGet(
+                    pollEventsContaining(
+                            "ref-updated", refName.substring(0, refName.lastIndexOf('/')))
+                        .size())
+                == 2);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
@@ -121,8 +126,8 @@ public class StreamEventsIT extends AbstractDaemonTest {
       char[] cbuf = new char[2048];
       StringBuilder eventsOutput = new StringBuilder();
       while (streamEventsReader.ready()) {
-        streamEventsReader.read(cbuf);
-        eventsOutput.append(cbuf);
+        int read = streamEventsReader.read(cbuf);
+        eventsOutput.append(Arrays.copyOfRange(cbuf, 0, read));
       }
       return StreamSupport.stream(
               Splitter.on('\n').trimResults().split(eventsOutput.toString()).spliterator(), false)

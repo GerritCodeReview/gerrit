@@ -20,12 +20,6 @@ import '../gr-repo-list/gr-repo-list';
 import {getBaseUrl} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  AdminNavLinksOption,
-  getAdminLinks,
-  NavLink,
-  SubsectionInterface,
-} from '../../../utils/admin-nav-util';
-import {
   AccountDetailInfo,
   GroupId,
   GroupName,
@@ -48,6 +42,10 @@ import {
   AdminChildView,
   adminViewModelToken,
   AdminViewState,
+  AdminNavLinksOption,
+  getAdminLinks,
+  NavLink,
+  SubsectionInterface,
 } from '../../../models/views/admin';
 import {
   GroupDetailView,

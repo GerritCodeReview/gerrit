@@ -21,7 +21,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 

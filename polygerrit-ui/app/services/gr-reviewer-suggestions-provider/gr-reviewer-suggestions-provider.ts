@@ -29,7 +29,7 @@ import {
   GroupId,
   ReviewerState,
 } from '../../api/rest-api';
-import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../utils/rest-api-util';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;

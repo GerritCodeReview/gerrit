@@ -46,8 +46,8 @@ import {
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {createRepoUrl, RepoDetailView} from '../../../models/views/repo';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 

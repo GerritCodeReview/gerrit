@@ -80,7 +80,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 

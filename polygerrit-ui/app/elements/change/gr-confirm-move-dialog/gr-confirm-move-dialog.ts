@@ -14,8 +14,8 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubble} from '../../../utils/event-util';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 const SUGGESTIONS_LIMIT = 15;
 

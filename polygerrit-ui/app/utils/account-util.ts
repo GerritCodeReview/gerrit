@@ -24,7 +24,7 @@ import {getAccountDisplayName, getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../types/types';
-import {throwingErrorCallback} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from './rest-api-util';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;

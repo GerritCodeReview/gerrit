@@ -21,8 +21,8 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 export interface RebaseChange {
   name: string;

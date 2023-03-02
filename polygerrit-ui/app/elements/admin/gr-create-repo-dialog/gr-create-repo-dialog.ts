@@ -21,11 +21,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {createRepoUrl} from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ValueChangedEvent} from '../../../types/events';
+import {throwingErrorCallback} from '../../../utils/rest-api-util';
 
 declare global {
   interface HTMLElementTagNameMap {

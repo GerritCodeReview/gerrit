@@ -231,6 +231,7 @@ public abstract class LabelType {
 
     public abstract Builder setDescription(Optional<String> description);
 
+    @Deprecated
     public abstract Builder setFunction(LabelFunction function);
 
     public abstract Builder setCanOverride(boolean canOverride);

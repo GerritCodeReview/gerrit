@@ -3,17 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  BasePatchSetNum,
-  RevisionPatchSetNum,
-  ServerInfo,
-} from '../api/rest-api';
+import {BasePatchSetNum, RevisionPatchSetNum} from '../api/rest-api';
 import '../test/common-test-setup';
-import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
   getBaseUrl,
-  getDocsBaseUrl,
-  testOnly_clearDocsBaseUrlCache,
   encodeURL,
   singleDecodeURL,
   toPath,
@@ -22,12 +15,9 @@ import {
   getPatchRangeExpression,
   PatchRangeParams,
 } from './url-util';
-import {getAppContext, AppContext} from '../services/app-context';
-import {stubRestApi} from '../test/test-utils';
 import {assert} from '@open-wc/testing';
 
 suite('url-util tests', () => {
-  let appContext: AppContext;
   suite('getBaseUrl tests', () => {
     let originalCanonicalPath: string | undefined;
 
@@ -42,61 +32,6 @@ suite('url-util tests', () => {
 
     test('getBaseUrl', () => {
       assert.deepEqual(getBaseUrl(), '/r');
-    });
-  });
-
-  suite('getDocsBaseUrl tests', () => {
-    setup(() => {
-      testOnly_clearDocsBaseUrlCache();
-      appContext = getAppContext();
-    });
-
-    test('null config', async () => {
-      const probePathMock = stubRestApi('probePath').resolves(true);
-      const docsBaseUrl = await getDocsBaseUrl(
-        undefined,
-        appContext.restApiService
-      );
-      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
-      assert.equal(docsBaseUrl, '/Documentation');
-    });
-
-    test('no doc config', async () => {
-      const probePathMock = stubRestApi('probePath').resolves(true);
-      const config: ServerInfo = {
-        ...createServerInfo(),
-        gerrit: createGerritInfo(),
-      };
-      const docsBaseUrl = await getDocsBaseUrl(
-        config,
-        appContext.restApiService
-      );
-      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
-      assert.equal(docsBaseUrl, '/Documentation');
-    });
-
-    test('has doc config', async () => {
-      const probePathMock = stubRestApi('probePath').resolves(true);
-      const config: ServerInfo = {
-        ...createServerInfo(),
-        gerrit: {...createGerritInfo(), doc_url: 'foobar'},
-      };
-      const docsBaseUrl = await getDocsBaseUrl(
-        config,
-        appContext.restApiService
-      );
-      assert.isFalse(probePathMock.called);
-      assert.equal(docsBaseUrl, 'foobar');
-    });
-
-    test('no probe', async () => {
-      const probePathMock = stubRestApi('probePath').resolves(false);
-      const docsBaseUrl = await getDocsBaseUrl(
-        undefined,
-        appContext.restApiService
-      );
-      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
-      assert.isNotOk(docsBaseUrl);
     });
   });
 

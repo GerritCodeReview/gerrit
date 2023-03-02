@@ -23,7 +23,6 @@ import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
-import {getDocsBaseUrl} from '../../../utils/url-util';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -291,7 +290,7 @@ export class GrSettingsView extends LitElement {
         }
 
         configPromises.push(
-          getDocsBaseUrl(config, this.restApiService).then(baseUrl => {
+          this.restApiService.getDocsBaseUrl(config).then(baseUrl => {
             this.docsBaseUrl = baseUrl;
           })
         );

@@ -189,7 +189,7 @@ function filterLinks(
   return {links: filteredLinks, expandedSection};
 }
 
-export function getGroupSubsections(
+function getGroupSubsections(
   groupId: GroupId,
   groupName: string,
   groupIsInternal?: boolean,
@@ -222,7 +222,7 @@ export function getGroupSubsections(
   return subsection;
 }
 
-export function getRepoSubsections(repo: RepoName) {
+function getRepoSubsections(repo: RepoName) {
   return {
     name: repo,
     view: GerritView.REPO,

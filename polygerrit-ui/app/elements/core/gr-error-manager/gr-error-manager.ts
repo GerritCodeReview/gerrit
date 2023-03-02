@@ -7,10 +7,9 @@ import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getAppContext} from '../../../services/app-context';
-import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
-import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
+import {ErrorType} from '../../../types/types';
 import {AccountId} from '../../../types/common';
 import {
   AuthErrorEvent,
@@ -27,6 +26,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -132,9 +132,7 @@ export class GrErrorManager extends LitElement {
     document.addEventListener('show-auth-required', this.handleAuthRequired);
     document.addEventListener('auth-error', this.handleAuthError);
 
-    (
-      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
-    ).requestAvailability();
+    ironAnnouncerRequestAvailability();
   }
 
   override disconnectedCallback() {

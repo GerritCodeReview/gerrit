@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c0bf078_95e60b91",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-02T11:44:31Z",
+      "side": 1,
+      "message": "Why is this needed? We normally only throw specific exceptions in production code.",
+      "range": {
+        "startLine": 611,
+        "startChar": 67,
+        "endLine": 611,
+        "endChar": 83
+      },
+      "revId": "da66dcc99db501e483424130be1a98547d5d569a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
-import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
+import {getAdminLinks, NavLink} from '../../../models/views/admin';
 import {
   AccountDetailInfo,
   DropdownLink,

@@ -17,7 +17,7 @@ import {
   createGerritInfo,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {NavLink} from '../../../utils/admin-nav-util';
+import {NavLink} from '../../../models/views/admin';
 import {ServerInfo, TopMenuItemInfo} from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';

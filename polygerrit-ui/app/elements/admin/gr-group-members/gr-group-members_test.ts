@@ -26,8 +26,6 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PageErrorEvent} from '../../../types/events';
-import {getAccountSuggestions} from '../../../utils/account-util';
-import {getAppContext} from '../../../services/app-context';
 import {fixture, html, assert} from '@open-wc/testing';
 import {createServerInfo} from '../../../test/test-data-generators';
 
@@ -492,18 +490,16 @@ suite('gr-group-members tests', () => {
   });
 
   test('getAccountSuggestions empty', async () => {
-    const accounts = await getAccountSuggestions(
+    const accounts = await element.getAccountSuggestions(
       'nonexistent',
-      getAppContext().restApiService,
       createServerInfo()
     );
     assert.equal(accounts.length, 0);
   });
 
   test('getAccountSuggestions non-empty', async () => {
-    const accounts = await getAccountSuggestions(
+    const accounts = await element.getAccountSuggestions(
       'test-',
-      getAppContext().restApiService,
       createServerInfo()
     );
     assert.equal(accounts.length, 3);

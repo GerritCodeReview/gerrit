@@ -10,7 +10,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
-import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
+import {getBaseUrl} from '../../../utils/url-util';
 import {getAdminLinks, NavLink} from '../../../models/views/admin';
 import {
   AccountDetailInfo,
@@ -172,7 +172,7 @@ export class GrMainHeader extends LitElement {
         this.serverConfig = config;
         this.retrieveFeedbackURL(config);
         this.retrieveRegisterURL(config);
-        getDocsBaseUrl(config, this.restApiService).then(docBaseUrl => {
+        this.restApiService.getDocsBaseUrl(config).then(docBaseUrl => {
           this.docBaseUrl = docBaseUrl;
         });
       })

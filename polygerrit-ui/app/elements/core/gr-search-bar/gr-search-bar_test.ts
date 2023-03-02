@@ -10,6 +10,7 @@ import '../../../utils/async-util';
 import {
   mockPromise,
   pressKey,
+  stubRestApi,
   waitUntil,
   waitUntilObserved,
 } from '../../../test/test-utils';
@@ -37,12 +38,13 @@ suite('gr-search-bar tests', () => {
   let configModel: ConfigModel;
 
   setup(async () => {
+    const serverConfig = createServerInfo();
+    serverConfig.gerrit.doc_url = 'https://mydocumentationurl.google.com/';
+    stubRestApi('getConfig').returns(Promise.resolve(serverConfig));
     configModel = new ConfigModel(
       testResolver(changeModelToken),
       getAppContext().restApiService
     );
-    const serverConfig = createServerInfo();
-    serverConfig.gerrit.doc_url = 'https://mydocumentationurl.google.com/';
     configModel.updateServerConfig(serverConfig);
     await waitUntilObserved(
       configModel.docsBaseUrl$,

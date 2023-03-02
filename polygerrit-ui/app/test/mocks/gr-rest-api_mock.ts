@@ -305,6 +305,12 @@ export const grRestApiMock: RestApiService = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Promise.resolve({}) as any;
   },
+  getDocsBaseUrl() {
+    return Promise.resolve('');
+  },
+  testOnly_clearDocsBaseUrlCache() {
+    return;
+  },
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);
   },

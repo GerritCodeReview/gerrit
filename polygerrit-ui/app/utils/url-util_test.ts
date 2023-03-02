@@ -12,8 +12,6 @@ import '../test/common-test-setup';
 import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
   getBaseUrl,
-  getDocsBaseUrl,
-  testOnly_clearDocsBaseUrlCache,
   encodeURL,
   singleDecodeURL,
   toPath,
@@ -47,15 +45,14 @@ suite('url-util tests', () => {
 
   suite('getDocsBaseUrl tests', () => {
     setup(() => {
-      testOnly_clearDocsBaseUrlCache();
       appContext = getAppContext();
+      appContext.restApiService.testOnly_clearDocsBaseUrlCache();
     });
 
     test('null config', async () => {
       const probePathMock = stubRestApi('probePath').resolves(true);
-      const docsBaseUrl = await getDocsBaseUrl(
-        undefined,
-        appContext.restApiService
+      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl(
+        undefined
       );
       assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.equal(docsBaseUrl, '/Documentation');
@@ -67,9 +64,8 @@ suite('url-util tests', () => {
         ...createServerInfo(),
         gerrit: createGerritInfo(),
       };
-      const docsBaseUrl = await getDocsBaseUrl(
-        config,
-        appContext.restApiService
+      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl(
+        config
       );
       assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.equal(docsBaseUrl, '/Documentation');
@@ -81,9 +77,8 @@ suite('url-util tests', () => {
         ...createServerInfo(),
         gerrit: {...createGerritInfo(), doc_url: 'foobar'},
       };
-      const docsBaseUrl = await getDocsBaseUrl(
-        config,
-        appContext.restApiService
+      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl(
+        config
       );
       assert.isFalse(probePathMock.called);
       assert.equal(docsBaseUrl, 'foobar');
@@ -91,9 +86,8 @@ suite('url-util tests', () => {
 
     test('no probe', async () => {
       const probePathMock = stubRestApi('probePath').resolves(false);
-      const docsBaseUrl = await getDocsBaseUrl(
-        undefined,
-        appContext.restApiService
+      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl(
+        undefined
       );
       assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.isNotOk(docsBaseUrl);

@@ -149,8 +149,8 @@ import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 
 const MAX_PROJECT_RESULTS = 25;
-const PROBE_PATH = '/Documentation/index.html';
-const DOCS_BASE_PATH = '/Documentation';
+export const PROBE_PATH = '/Documentation/index.html';
+export const DOCS_BASE_PATH = '/Documentation';
 
 const Requests = {
   SEND_DIFF_DRAFT: 'sendDiffDraft',

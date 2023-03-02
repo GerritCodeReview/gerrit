@@ -51,9 +51,7 @@ suite('url-util tests', () => {
 
     test('null config', async () => {
       const probePathMock = stubRestApi('probePath').resolves(true);
-      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl(
-        undefined
-      );
+      const docsBaseUrl = await appContext.restApiService.getDocsBaseUrl();
       assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.equal(docsBaseUrl, '/Documentation');
     });

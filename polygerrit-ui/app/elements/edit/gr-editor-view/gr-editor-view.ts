@@ -39,6 +39,7 @@ import {
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {isDarkTheme} from '../../../utils/theme-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -88,6 +89,8 @@ export class GrEditorView extends LitElement {
   // private but used in test
   @state() latestPatchsetNumber?: RevisionPatchSetNum;
 
+  @state() private darkMode = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -131,6 +134,13 @@ export class GrEditorView extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNumWithEdit$,
       x => (this.latestPatchsetNumber = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceTheme$,
+      theme => {
+        this.darkMode = isDarkTheme(theme);
+      }
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
       this.handleSaveShortcut()
@@ -283,6 +293,10 @@ export class GrEditorView extends LitElement {
           <gr-endpoint-param
             name="lineNum"
             .value=${this.viewState?.editView?.lineNum}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="darkMode"
+            .value=${this.darkMode}
           ></gr-endpoint-param>
           <gr-default-editor
             id="file"

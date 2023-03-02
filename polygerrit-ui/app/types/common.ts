@@ -22,7 +22,6 @@ import {
   EmailFormat,
   MergeStrategy,
 } from '../constants/constants';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   AccountId,
   AccountDetailInfo,
@@ -217,11 +216,6 @@ export type RequireProperties<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
 
 export type PropertyType<T, K extends keyof T> = ReturnType<() => T[K]>;
-
-export type ElementPropertyDeepChange<
-  T,
-  K extends keyof T
-> = PolymerDeepPropertyChange<PropertyType<T, K>, PropertyType<T, K>>;
 
 /**
  * Type alias for parsed json object to make code cleaner

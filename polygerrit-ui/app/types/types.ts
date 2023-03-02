@@ -5,7 +5,6 @@
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
-import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {
   AccountInfo,
   BasePatchSetNum,
@@ -20,10 +19,6 @@ import {
 
 export function isDefined<T>(x: T): x is NonNullable<T> {
   return x !== undefined && x !== null;
-}
-
-export interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
-  requestAvailability(): void;
 }
 
 export type {CoverageRange} from '../api/diff';

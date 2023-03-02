@@ -28,13 +28,8 @@ import {
   removeServiceUsers,
   toReviewInput,
 } from '../../../utils/account-util';
-import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
-import {
-  FixIronA11yAnnouncer,
-  isDefined,
-  ParsedChangeInfo,
-} from '../../../types/types';
+import {isDefined, ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfoInput,
   AccountInput,
@@ -139,6 +134,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -656,9 +652,7 @@ export class GrReplyDialog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    (
-      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
-    ).requestAvailability();
+    ironAnnouncerRequestAvailability();
 
     this.getPluginLoader().jsApiService.addElement(
       TargetElement.REPLY_DIALOG,

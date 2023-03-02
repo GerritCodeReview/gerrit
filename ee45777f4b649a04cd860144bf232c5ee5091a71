@@ -16,6 +16,24 @@
       "message": "move the tests",
       "revId": "ee45777f4b649a04cd860144bf232c5ee5091a71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2105f204_3b1267d9",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-02T16:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2500769c_4b179bb9",
+      "revId": "ee45777f4b649a04cd860144bf232c5ee5091a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

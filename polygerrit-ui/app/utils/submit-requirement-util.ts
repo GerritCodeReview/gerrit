@@ -3,10 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {SubmitRequirementExpressionInfo} from '../api/rest-api';
-import {Execution} from '../constants/reporting';
-import {getAppContext} from '../services/app-context';
 
 export enum SubmitRequirementExpressionAtomStatus {
   UNKNOWN = 'UNKNOWN',
@@ -55,13 +52,8 @@ function splitExpressionIntoParts(
   const result: SubmitRequirementExpressionPart[] = [];
   let currentIndex = 0;
   for (const {start, end, isPassing} of matchedAtoms) {
-    if (start < currentIndex) {
-      getAppContext().reportingService.reportExecution(
-        Execution.REACHABLE_CODE,
-        'Overlapping atom matches in submit requirement expression.'
-      );
-      continue;
-    }
+    // We don't handle overlapping matches, but this can happen.
+    if (start < currentIndex) continue;
     if (start > currentIndex) {
       result.push({
         value: expression.slice(currentIndex, start),

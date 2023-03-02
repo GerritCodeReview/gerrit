@@ -375,6 +375,9 @@ export interface RestApiService extends Finalizable {
     endpoint: string
   ): Promise<string>;
 
+  getDocsBaseUrl(config?: ServerInfo): Promise<string | null>;
+  testOnly_clearDocsBaseUrlCache(): void;
+
   createChange(
     repo: RepoName,
     branch: BranchName,

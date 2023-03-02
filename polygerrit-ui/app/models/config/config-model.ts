@@ -11,7 +11,6 @@ import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 import {define} from '../dependency';
-import {getDocsBaseUrl} from '../../utils/url-util';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
@@ -43,7 +42,7 @@ export class ConfigModel extends Model<ConfigState> {
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
       switchMap(serverConfig =>
-        from(getDocsBaseUrl(serverConfig, this.restApiService))
+        from(this.restApiService.getDocsBaseUrl(serverConfig))
       )
     ),
     url => url

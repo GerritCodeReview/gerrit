@@ -3,16 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  BasePatchSetNum,
-  PARENT,
-  RevisionPatchSetNum,
-  ServerInfo,
-} from '../types/common';
-import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
-
-const PROBE_PATH = '/Documentation/index.html';
-const DOCS_BASE_PATH = '/Documentation';
+import {BasePatchSetNum, PARENT, RevisionPatchSetNum} from '../types/common';
 
 export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
@@ -49,35 +40,6 @@ export function prependOrigin(path: string): string {
   if (path.startsWith('http')) return path;
   if (path.startsWith('/')) return window.location.origin + path;
   throw new Error(`Cannot prepend origin to relative path '${path}'.`);
-}
-
-let getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
-
-/**
- * Get the docs base URL from either the server config or by probing.
- *
- * @return A promise that resolves with the docs base URL.
- */
-export function getDocsBaseUrl(
-  config: ServerInfo | undefined,
-  restApi: RestApiService
-): Promise<string | null> {
-  if (!getDocsBaseUrlCachedPromise) {
-    getDocsBaseUrlCachedPromise = new Promise(resolve => {
-      if (config?.gerrit?.doc_url) {
-        resolve(config.gerrit.doc_url);
-      } else {
-        restApi.probePath(getBaseUrl() + PROBE_PATH).then(ok => {
-          resolve(ok ? getBaseUrl() + DOCS_BASE_PATH : null);
-        });
-      }
-    });
-  }
-  return getDocsBaseUrlCachedPromise;
-}
-
-export function testOnly_clearDocsBaseUrlCache() {
-  getDocsBaseUrlCachedPromise = undefined;
 }
 
 /**

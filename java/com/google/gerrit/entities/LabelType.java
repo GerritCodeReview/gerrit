@@ -231,6 +231,11 @@ public abstract class LabelType {
 
     public abstract Builder setDescription(Optional<String> description);
 
+    /**
+     * @deprecated in favour of using submit requirements, except if it’s needed to set the value to
+     *     PatchSetLock
+     */
+    @Deprecated
     public abstract Builder setFunction(LabelFunction function);
 
     public abstract Builder setCanOverride(boolean canOverride);

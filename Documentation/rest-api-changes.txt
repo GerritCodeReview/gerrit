@@ -6683,7 +6683,7 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |`enabled_options`      |optional|
 Optional list of enabled options. +
-See the list of suppported options link:action-options[below].
+See the list of suppported options link:#action-options[below].
 |====================================
 
 [[action-options]]

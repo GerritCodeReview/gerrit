@@ -38,7 +38,6 @@ export class GrHovercardRun extends base {
       css`
         #container {
           min-width: 356px;
-          max-width: 356px;
           padding: var(--spacing-xl) 0 var(--spacing-m) 0;
         }
         .row {

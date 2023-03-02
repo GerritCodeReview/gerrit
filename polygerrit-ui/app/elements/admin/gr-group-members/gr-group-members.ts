@@ -37,7 +37,6 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {getAccountSuggestions} from '../../../utils/account-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
@@ -119,7 +118,7 @@ export class GrGroupMembers extends LitElement {
       }
     );
     this.queryMembers = input =>
-      getAccountSuggestions(input, this.restApiService, this.serverConfig);
+      this.restApiService.getAccountSuggestions(input, this.serverConfig);
     this.queryIncludedGroup = input => this.getGroupSuggestions(input);
   }
 

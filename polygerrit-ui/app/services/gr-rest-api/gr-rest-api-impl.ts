@@ -16,6 +16,7 @@ import {
   SendJSONRequest,
   SendRequest,
   SiteBasedCache,
+  throwingErrorCallback,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
@@ -147,8 +148,10 @@ import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
+import {getAccountDisplayName} from '../../utils/display-name-util';
 
 const MAX_PROJECT_RESULTS = 25;
+const SUGGESTIONS_LIMIT = 15;
 
 const Requests = {
   SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -1684,6 +1687,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       params,
       reportUrlAsIs: true,
       errFn,
+    });
+  }
+
+  getAccountSuggestions(
+    input: string,
+    config?: ServerInfo,
+    canSee?: NumericChangeId,
+    filterActive = false
+  ) {
+    return this.getSuggestedAccounts(
+      input,
+      SUGGESTIONS_LIMIT,
+      canSee,
+      filterActive,
+      throwingErrorCallback
+    ).then(accounts => {
+      if (!accounts) return [];
+      const accountSuggestions = [];
+      for (const account of accounts) {
+        accountSuggestions.push({
+          name: getAccountDisplayName(config, account),
+          value: account._account_id?.toString(),
+        });
+      }
+      return accountSuggestions;
     });
   }
 

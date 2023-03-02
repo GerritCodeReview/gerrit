@@ -76,6 +76,7 @@ import {
   createDefaultEditPrefs,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
+import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -406,6 +407,9 @@ export const grRestApiMock: RestApiService = {
   },
   getRobotCommentFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
     return Promise.resolve({});
+  },
+  getAccountSuggestions(): Promise<AutocompleteSuggestion[]> {
+    return Promise.resolve([]);
   },
   getSuggestedAccounts(): Promise<AccountInfo[] | undefined> {
     return Promise.resolve([]);

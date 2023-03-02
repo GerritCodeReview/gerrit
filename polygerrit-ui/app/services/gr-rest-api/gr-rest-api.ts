@@ -100,6 +100,7 @@ import {
 } from '../../types/diff';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
+import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 
 export type CancelConditionCallback = () => boolean;
 
@@ -161,6 +162,12 @@ export interface RestApiService extends Finalizable {
     input: string,
     errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined>;
+  getAccountSuggestions(
+    input: string,
+    config?: ServerInfo,
+    canSee?: NumericChangeId,
+    filterActive?: boolean
+  ): Promise<AutocompleteSuggestion[]>;
   /**
    * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
    * Operators defined here https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators

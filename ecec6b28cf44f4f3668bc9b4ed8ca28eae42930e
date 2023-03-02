@@ -22,6 +22,30 @@
       },
       "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7302592_c727844e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-02T09:55:39Z",
+      "side": 1,
+      "message": "Yes this method is always called with the same argument, although for scoping reasons I preferred it this way. I don\u0027t mind making this a static constant if you think that works better.",
+      "parentUuid": "86e9efa4_c2955977",
+      "range": {
+        "startLine": 806,
+        "startChar": 56,
+        "endLine": 806,
+        "endChar": 80
+      },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

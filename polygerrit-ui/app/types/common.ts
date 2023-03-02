@@ -690,6 +690,19 @@ export interface TopMenuItemInfo {
   id?: string;
 }
 
+export enum ChangeStates {
+  ABANDONED = 'Abandoned',
+  ACTIVE = 'Active',
+  MERGE_CONFLICT = 'Merge Conflict',
+  GIT_CONFLICT = 'Git Conflict',
+  MERGED = 'Merged',
+  PRIVATE = 'Private',
+  READY_TO_SUBMIT = 'Ready to submit',
+  REVERT_CREATED = 'Revert Created',
+  REVERT_SUBMITTED = 'Revert Submitted',
+  WIP = 'WIP',
+}
+
 export interface DraftCommentProps {
   // This must be true for all drafts. Drafts received from the backend will be
   // modified immediately with __draft:true before allowing them to get into

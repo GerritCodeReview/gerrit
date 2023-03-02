@@ -9,10 +9,11 @@ import {
   TEST_NUMERIC_CHANGE_ID,
 } from '../../../test/test-data-generators';
 import './gr-change-status';
-import {ChangeStates, GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
+import {GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
 import {fixture, html, assert} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
+import {ChangeStates} from '../../../types/common';
 
 const PRIVATE_TOOLTIP =
   'This change is only visible to its owner and ' +

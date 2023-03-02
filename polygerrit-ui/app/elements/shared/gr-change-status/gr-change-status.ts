@@ -6,25 +6,12 @@
 import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {ChangeInfo} from '../../../types/common';
+import {ChangeInfo, ChangeStates} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
-
-export enum ChangeStates {
-  ABANDONED = 'Abandoned',
-  ACTIVE = 'Active',
-  MERGE_CONFLICT = 'Merge Conflict',
-  GIT_CONFLICT = 'Git Conflict',
-  MERGED = 'Merged',
-  PRIVATE = 'Private',
-  READY_TO_SUBMIT = 'Ready to submit',
-  REVERT_CREATED = 'Revert Created',
-  REVERT_SUBMITTED = 'Revert Submitted',
-  WIP = 'WIP',
-}
 
 export const WIP_TOOLTIP =
   "This change isn't ready to be reviewed or submitted. " +

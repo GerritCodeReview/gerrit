@@ -96,6 +96,7 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
   isRobot,
+  ChangeStates,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
@@ -138,7 +139,6 @@ import {
   until,
 } from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
   getAddedByReason,

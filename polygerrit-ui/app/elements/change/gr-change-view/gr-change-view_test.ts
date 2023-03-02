@@ -76,6 +76,7 @@ import {
   QuickLabelInfo,
   PatchSetNumber,
   CommentThread,
+  ChangeStates,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -83,7 +84,6 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
-import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {
   ChangeModel,
   changeModelToken,

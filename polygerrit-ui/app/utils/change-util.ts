@@ -11,9 +11,9 @@ import {
   ChangeInfo,
   AccountInfo,
   RelatedChangeAndCommitInfo,
+  ChangeStates,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
-import {ChangeStates} from '../elements/shared/gr-change-status/gr-change-status';
 import {getUserId, isServiceUser} from './account-util';
 
 // This can be wrong! See WARNING above

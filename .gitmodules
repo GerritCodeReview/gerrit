@@ -20,7 +20,7 @@
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
 	url = ../plugins/download-commands
-	branch = .
+	branch = master
 
 [submodule "plugins/gitiles"]
 	path = plugins/gitiles

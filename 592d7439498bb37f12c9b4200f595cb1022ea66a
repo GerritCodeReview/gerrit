@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59380e27_9e6ce36c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-02T17:32:50Z",
+      "side": 1,
+      "message": "Can you add the changelog for the submodule update?",
+      "revId": "592d7439498bb37f12c9b4200f595cb1022ea66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

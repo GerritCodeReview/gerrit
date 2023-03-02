@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b13d5f49_bc928d92",
+        "filename": "plugins/download-commands",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-02T17:47:46Z",
+      "side": 1,
+      "message": "Doh",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "969b9741bff31e5ad7ecc2ef54a20514de13b0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

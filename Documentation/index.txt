@@ -51,9 +51,6 @@
 . Multi-project management
 .. link:user-submodules.html[Submodules]
 .. link:https://source.android.com/source/using-repo.html[Repo,role=external,window=_blank] (external)
-. Prolog rules
-.. link:prolog-cookbook.html[Prolog Cookbook]
-.. link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
 . link:intro-project-owner.html#project-deletion[Project deletion]
 
 == Customization and Integration

@@ -1,5 +1,9 @@
 :linkattrs:
-= Gerrit Code Review - Prolog Submit Rules Cookbook
+= Gerrit Code Review - Prolog Submit Rules Cookbook (Deprecated)
+
+[WARNING]
+Prolog rules are no longer supported in Gerrit. Please use
+link:config-submit-requirements.html[submit requirements] instead.
 
 [[SubmitRule]]
 == Submit Rule

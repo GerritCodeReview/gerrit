@@ -266,6 +266,8 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.openReplyDialog
   );
 
+  public readonly commentId$ = select(this.state$, state => state?.commentId);
+
   public readonly editPath$ = select(
     this.state$,
     state => state?.editView?.path

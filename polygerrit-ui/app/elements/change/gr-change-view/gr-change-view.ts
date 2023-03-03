@@ -633,6 +633,11 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().commentId$,
+      commentId => (this.scrollCommentId = commentId)
+    );
+    subscribe(
+      this,
       () => this.getViewModel().openReplyDialog$,
       openReplyDialog => {
         // Here we are relying on `this.loggedIn` being set *before*
@@ -2037,7 +2042,6 @@ export class GrChangeView extends LitElement {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
     };
-    this.scrollCommentId = this.viewState.commentId;
 
     const patchKnown =
       !this.patchRange.patchNum ||

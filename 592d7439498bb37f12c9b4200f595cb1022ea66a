@@ -70,6 +70,24 @@
       "parentUuid": "ea64e3ca_ece49c73",
       "revId": "592d7439498bb37f12c9b4200f595cb1022ea66a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa941a6_b18fdc65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-03T07:23:27Z",
+      "side": 1,
+      "message": "Done!\nI think you are absolutely right, it makes all the sense in the world to me to update the submodule and add a changelog for it in the same commit.\nIIUC the submodule wouldn\u0027t be updated before plugins/download-commands:master moved.",
+      "parentUuid": "def82bc4_daf339f8",
+      "revId": "592d7439498bb37f12c9b4200f595cb1022ea66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

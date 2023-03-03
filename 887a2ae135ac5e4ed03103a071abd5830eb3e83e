@@ -16,6 +16,24 @@
       "message": "Move to gr-app.ts.",
       "revId": "887a2ae135ac5e4ed03103a071abd5830eb3e83e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d784e1_6bc70a0c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-03T12:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "738aaae3_8b083613",
+      "revId": "887a2ae135ac5e4ed03103a071abd5830eb3e83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

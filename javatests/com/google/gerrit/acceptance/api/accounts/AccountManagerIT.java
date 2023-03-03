@@ -619,6 +619,27 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotLinkDifferentExternalIdToSameAccount() throws Exception {
+    String externalUsername1 = "foo";
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey1 =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, externalUsername1);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(externalIdFactory.create(externalExtIdKey1, accountId)));
+
+    // Create another account with a SCHEME_EXTERNAL external ID
+    String externalUsername2 = "bar";
+    ExternalId.Key externalExtIdKey2 =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, externalUsername2);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(externalIdFactory.create(externalExtIdKey2, accountId)));
+  }
+
+  @Test
   public void cannotLinkEmailThatIsAlreadyUsed() throws Exception {
     String email = "foo@example.com";
 

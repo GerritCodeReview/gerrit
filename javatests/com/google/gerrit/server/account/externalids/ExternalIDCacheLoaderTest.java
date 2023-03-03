@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
@@ -208,6 +209,19 @@ public class ExternalIDCacheLoaderTest {
     verifyNoMoreInteractions(externalIdReaderSpy);
   }
 
+  @Test
+  public void handlesParsingExternalIdsWithSameTimestamp() throws Exception {
+    ObjectId oldState = insertExternalId(1, 1);
+    ObjectId newState = insertExternalId(2, 1);
+    try (Repository repo = repoManager.openRepository(ALL_USERS);
+         RevWalk rw = new RevWalk(repo)) {
+
+      assertThat(rw.parseCommit(newState).getCommitTime()).isEqualTo(rw.parseCommit(oldState).getCommitTime());
+    }
+    assertThat(newState).isEqualTo(oldState);
+  }
+
+  private RevCommit revCommit(RevWalk rw, int externalId)
   private ExternalIdCacheLoader createLoader() {
     return new ExternalIdCacheLoader(
         repoManager,

@@ -1,2 +1,1 @@
-def external_plugin_deps():
-    pass
+../../owners/external_plugin_deps.bzl

@@ -34,6 +34,24 @@
       "parentUuid": "04ec8fa8_87881547",
       "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0583f44c_c1d68c7f",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-03T12:25:58Z",
+      "side": 1,
+      "message": "\u003e With I26236f3f5, we made it so that users can no longer upload new prolog rules.\n\nAh, so this means users can also no longer newly add Prolog code to control the submit type?\n\n\u003e Also we had only one or two usages of submit types in prolog which we \n\u003e eliminated; If we want to continue to have this feature, we need to\n\u003e provide another means to configure it.\n\nI think we want to provide another mean for this before dropping the support for Prolog completely (to non break existing upstream usages), unless we can confirm that upstream has no concerns with dropping this feature.\n\n\u003e Do you prefer not to submit this change until then? \n\nIf with I26236f3f5 it\u0027s no longer possible to add new Prolog code to control the submit type, then effectively this is already deprecated now and it is consistent to mark it as such.\n\n\u003e Or update the warning at the top and mention that submit types are not \n\u003e supported in the SR system?\n\nYes, at the moment the warning makes the impression that everything that is described here can be done with submit requirements, which is not true for this part. To avoid confusion it would be good to state explicitly for the submitType that this is deprecated and there is no non-Prolog replacement for this (yet).",
+      "parentUuid": "3a493b6e_e17eb0bb",
+      "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2072,10 +2072,6 @@ export class GrChangeView extends LitElement {
         };
       }
       if (patchChanged) {
-        // We need to collapse all diffs when viewState changes so that a non
-        // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetFileState();
-        this.fileList?.collapseAllDiffs();
         this.sendShowChangeEvent();
       }
 
@@ -2090,14 +2086,6 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
       return;
     }
-
-    // We need to collapse all diffs when viewState changes so that a non
-    // existing diff is not requested. See Issue 125270 for more details.
-    this.updateComplete.then(() => {
-      assertIsDefined(this.fileList);
-      this.fileList?.collapseAllDiffs();
-      this.fileList?.resetFileState();
-    });
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:

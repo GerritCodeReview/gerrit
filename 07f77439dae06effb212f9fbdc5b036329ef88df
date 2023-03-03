@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43161889_b01a4d02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T16:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e6a49ae_bb116672",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49619334_b9b03315",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-23T15:50:28Z",
       "side": 1,
       "message": "needs doc update.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fceacdc_ed156f2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T16:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49619334_b9b03315",
       "range": {
         "startLine": 9,
         "startChar": 2,
@@ -192,6 +240,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d337b894_59ae6743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T16:32:28Z",
+      "side": 1,
+      "message": "Discussed offline. Switched to idempotency.",
+      "parentUuid": "1914afb1_61866eba",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5e41c49b_4495f4a4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -224,6 +296,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eac51fe_eabec666",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T16:32:28Z",
+      "side": 1,
+      "message": "I wanted to make sure we\u0027re not just taking the branch tip. Reordered the used changes and removed this one.",
+      "parentUuid": "42cb7023_31788d30",
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28af89bd_367d3ad6",
@@ -237,6 +327,30 @@
       "writtenOn": "2023-02-23T16:41:19Z",
       "side": 1,
       "message": "nit: this assertation is correct but slightly confusing.\n\nusing result.revisions.get(1).commit.parents.get(0) would be easier to understand (i.e. ps1 and ps2 have the same parent, applying a patch did not change that parent)",
+      "range": {
+        "startLine": 433,
+        "startChar": 20,
+        "endLine": 433,
+        "endChar": 44
+      },
+      "revId": "07f77439dae06effb212f9fbdc5b036329ef88df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "701c27dd_432f9d6d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T16:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28af89bd_367d3ad6",
       "range": {
         "startLine": 433,
         "startChar": 20,

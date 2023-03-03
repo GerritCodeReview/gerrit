@@ -16,6 +16,24 @@
       "message": "This part can\u0027t be done with submit requirements. Hence it is not deprecated yet, is it? Also see internal issue b/269649818",
       "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a493b6e_e17eb0bb",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-03T12:11:14Z",
+      "side": 1,
+      "message": "Right.\n\nWith I26236f3f5, we made it so that users can no longer upload new prolog rules. Also we had only one or two usages of submit types in prolog which we eliminated; If we want to continue to have this feature, we need to provide another means to configure it.\n\nDo you prefer not to submit this change until then? Or update the warning at the top and mention that submit types are not supported in the SR system?",
+      "parentUuid": "04ec8fa8_87881547",
+      "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

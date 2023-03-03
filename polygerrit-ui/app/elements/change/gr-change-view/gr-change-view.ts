@@ -2036,8 +2036,6 @@ export class GrChangeView extends LitElement {
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 
-    const patchChanged = this.hasPatchRangeChanged(this.viewState);
-
     this.patchRange = {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
@@ -2060,12 +2058,6 @@ export class GrChangeView extends LitElement {
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
       }
-      if (patchChanged) {
-        // We need to collapse all diffs when viewState changes so that a non
-        // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetFileState();
-        this.fileList?.collapseAllDiffs();
-      }
 
       // If there is no change in patchset or changeNum, such as when user goes
       // to the diff view and then comes back to change page then there is no
@@ -2078,14 +2070,6 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
       return;
     }
-
-    // We need to collapse all diffs when viewState changes so that a non
-    // existing diff is not requested. See Issue 125270 for more details.
-    this.updateComplete.then(() => {
-      assertIsDefined(this.fileList);
-      this.fileList?.collapseAllDiffs();
-      this.fileList?.resetFileState();
-    });
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:

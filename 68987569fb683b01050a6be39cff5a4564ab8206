@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ec8fa8_87881547",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-03T11:59:10Z",
+      "side": 1,
+      "message": "This part can\u0027t be done with submit requirements. Hence it is not deprecated yet, is it? Also see internal issue b/269649818",
+      "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

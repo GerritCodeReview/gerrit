@@ -83,17 +83,21 @@ export function isWithinHalfYear(now: Date, date: Date) {
   return diff < 180 * Duration.DAY;
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts
+// TODO(dmfilippov): TS-Fix review this type. All fields here must be optional,
+// but this require some changes in the code. During JS->TS migration
+// we want to avoid code changes where possible, so for simplicity we
+// define it with almost all fields mandatory
 interface DateTimeFormatParts {
-  year?: string;
-  month?: string;
-  day?: string;
-  hour?: string;
-  minute?: string;
-  second?: string;
-  // AM or PM
-  dayPeriod?: string;
-  weekday?: string;
+  year: string;
+  month: string;
+  day: string;
+  hour: string;
+  minute: string;
+  second: string;
+  dayPeriod: string;
+  dayperiod?: string;
+  // Object can have other properties, but our code doesn't use it
+  [key: string]: string | undefined;
 }
 
 export function formatDate(date: Date, format: string) {
@@ -189,28 +193,33 @@ export function formatDate(date: Date, format: string) {
     }
   }
 
-  if (parts.day && format.includes('DD')) {
+  if (format.includes('DD')) {
     format = format.replace('DD', parts.day);
   }
 
-  if (parts.hour && format.includes('HH')) {
+  if (format.includes('HH')) {
     format = format.replace('HH', parts.hour);
   }
 
-  if (parts.hour && format.includes('h')) {
+  if (format.includes('h')) {
     format = format.replace('h', parts.hour);
   }
 
-  if (parts.minute && format.includes('mm')) {
+  if (format.includes('mm')) {
     format = format.replace('mm', parts.minute);
   }
 
-  if (parts.second && format.includes('ss')) {
+  if (format.includes('ss')) {
     format = format.replace('ss', parts.second);
   }
 
-  if (parts.dayPeriod && format.includes('A')) {
-    format = format.replace('A', parts.dayPeriod.toUpperCase());
+  if (format.includes('A')) {
+    if (parts.dayperiod) {
+      // Workaround for chrome 70 and below
+      format = format.replace('A', parts.dayperiod.toUpperCase());
+    } else {
+      format = format.replace('A', parts.dayPeriod.toUpperCase());
+    }
   }
 
   // Month and weekday must be last, because they will yield characters that

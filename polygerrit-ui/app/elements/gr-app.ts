@@ -5,6 +5,7 @@
  */
 import {safeTypesBridge} from '../utils/safe-types-util';
 import './font-roboto-local-loader';
+import '../types/globals';
 // Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer';
 

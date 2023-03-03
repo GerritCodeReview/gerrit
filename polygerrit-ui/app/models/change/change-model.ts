@@ -50,6 +50,7 @@ import {
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {getRevertCreatedChangeIds} from '../../utils/message-util';
 import {computeTruncatedPath} from '../../utils/path-list-util';
+import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -350,7 +351,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
-    private readonly userModel: UserModel
+    private readonly userModel: UserModel,
+    private readonly pluginLoader: PluginLoader
   ) {
     super(initialState);
     this.subscriptions = [
@@ -360,6 +362,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.setOverviewTitle(),
       this.setDiffTitle(),
       this.setEditTitle(),
+      this.fireShowChange(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -369,6 +372,35 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
+  }
+
+  private fireShowChange() {
+    return combineLatest([
+      this.viewModel.childView$,
+      this.change$,
+      this.patchNum$,
+      this.mergeable$,
+    ])
+      .pipe(
+        filter(
+          ([childView, change, patchNum, mergeable]) =>
+            childView === ChangeChildView.OVERVIEW &&
+            !!change &&
+            !!patchNum &&
+            mergeable !== undefined
+        )
+      )
+      .subscribe(([_, change, patchNum, mergeable]) => {
+        this.pluginLoader.jsApiService.handleShowChange({
+          change,
+          patchNum,
+          // `?? null` is for the TypeScript compiler only. We have a
+          // `mergeable !== undefined` filter above, so this cannot happen.
+          // It would be nice to change `ShowChangeDetail` to accept `undefined`
+          // instaed of `null`, but that would be a Plugin API change ...
+          info: {mergeable: mergeable ?? null},
+        });
+      });
   }
 
   private setOverviewTitle() {

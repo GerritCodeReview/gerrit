@@ -52,6 +52,24 @@
       "parentUuid": "3a493b6e_e17eb0bb",
       "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d04c031_37af4f0e",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-03T12:40:45Z",
+      "side": 1,
+      "message": "\u003e Ah, so this means users can also no longer newly add Prolog code to control the submit type?\n\nYes.\n\n\u003e I think we want to provide another mean for this before dropping the support for Prolog completely (to non break existing upstream usages)\n\nUsers can still modify / delete prolog rules, so IIUC existing usages are not broken, but new ones are prevented.\n\n\u003e  To avoid confusion it would be good to state explicitly for the submitType that this is deprecated and there is no non-Prolog replacement for this (yet).\n\nDone. I added more details to the warning message. PTAL.",
+      "parentUuid": "0583f44c_c1d68c7f",
+      "revId": "68987569fb683b01050a6be39cff5a4564ab8206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

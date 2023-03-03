@@ -46,6 +46,53 @@
       },
       "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f4f641_03f72f56",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-03T09:02:21Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s make it constant, otherwise it is quite misleading.",
+      "parentUuid": "b7302592_c727844e",
+      "range": {
+        "startLine": 806,
+        "startChar": 56,
+        "endLine": 806,
+        "endChar": 80
+      },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f8bc41_64eef009",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-03T09:02:21Z",
+      "side": 1,
+      "message": "This looks quite expensive isn\u0027t it?",
+      "range": {
+        "startLine": 852,
+        "startChar": 8,
+        "endLine": 852,
+        "endChar": 98
+      },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

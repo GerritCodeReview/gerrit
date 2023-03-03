@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4fa32eb_ca8869ee",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-03T11:35:32Z",
+      "side": 0,
+      "message": "Anyone know what a `wired tag` is? I\u0027m thinking maybe they meant `weird tag`, as this comment doesn\u0027t make sense to me.",
+      "revId": "06256d6690a8b2f7f2b7b71baccbedd942f4e5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "495a5421_538e3d21",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-03T11:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f641_03f72f56",
+      "range": {
+        "startLine": 806,
+        "startChar": 56,
+        "endLine": 806,
+        "endChar": 80
+      },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80f8bc41_64eef009",
@@ -91,6 +115,47 @@
         "endLine": 852,
         "endChar": 98
       },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d250082_8fb6bacf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-03T11:35:32Z",
+      "side": 1,
+      "message": "Thanks for pointing that out. Also looking into this I spotted a bug where we append a `\u003e` to the last identity of the array. This has now been fixed.",
+      "parentUuid": "80f8bc41_64eef009",
+      "range": {
+        "startLine": 852,
+        "startChar": 8,
+        "endLine": 852,
+        "endChar": 98
+      },
+      "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df65b41_6bf7cb5c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-03T11:35:32Z",
+      "side": 1,
+      "message": "Nit: Inlining this so we only evaluate it when required.",
       "revId": "ecec6b28cf44f4f3668bc9b4ed8ca28eae42930e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

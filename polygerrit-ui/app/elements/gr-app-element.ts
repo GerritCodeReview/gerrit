@@ -5,6 +5,7 @@
  */
 import '../styles/themes/app-theme';
 import '../styles/themes/dark-theme';
+import '../types/globals';
 import {
   applyTheme as applyDarkTheme,
   removeTheme as removeDarkTheme,

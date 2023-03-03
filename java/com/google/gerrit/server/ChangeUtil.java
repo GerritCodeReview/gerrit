@@ -124,7 +124,10 @@ public class ChangeUtil {
    * @throws BadRequestException if the new commit message is null or empty
    */
   public static void ensureChangeIdIsCorrect(
-      boolean requireChangeId, String currentChangeId, String newCommitMessage)
+      boolean requireChangeId,
+      String currentChangeId,
+      String newCommitMessage,
+      UrlFormatter urlFormatter)
       throws ResourceConflictException, BadRequestException {
     RevCommit revCommit =
         RevCommit.parse(
@@ -133,7 +136,7 @@ public class ChangeUtil {
     // Check that the commit message without footers is not empty
     CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
-    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
+    List<String> changeIdFooters = getChangeIdsFromFooter(revCommit, urlFormatter);
     if (requireChangeId && changeIdFooters.isEmpty()) {
       throw new ResourceConflictException("missing Change-Id footer");
     }

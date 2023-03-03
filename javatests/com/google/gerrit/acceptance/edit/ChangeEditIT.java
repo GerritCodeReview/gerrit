@@ -325,6 +325,21 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateCommitMessageByEditingMagicCommitMsgFileChangingChangeIdFooterToLinkFooter()
+      throws Exception {
+    createEmptyEditFor(changeId);
+    String updatedCommitMsg =
+        "Foo Bar\n\n\n\nLink: " + canonicalWebUrl.get() + "id/" + changeId + "\n";
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(Patch.COMMIT_MSG, RawInputUtil.create(updatedCommitMsg.getBytes(UTF_8)));
+    assertThat(getEdit(changeId)).isPresent();
+    ensureSameBytes(
+        getFileContentOfEdit(changeId, Patch.COMMIT_MSG), updatedCommitMsg.getBytes(UTF_8));
+  }
+
+  @Test
   public void updateCommitMessageByEditingMagicCommitMsgFileWithoutContent() throws Exception {
     createEmptyEditFor(changeId);
     BadRequestException ex =

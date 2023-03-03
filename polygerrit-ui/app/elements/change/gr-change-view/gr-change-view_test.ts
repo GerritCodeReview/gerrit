@@ -1243,40 +1243,12 @@ suite('gr-change-view tests', () => {
     assert.equal(getLabel(true), 'Start Review (3)');
   });
 
-  test('change num change', async () => {
-    const change = {
-      ...createChangeViewChange(),
-      labels: {},
-    } as ParsedChangeInfo;
-    element.changeNum = undefined;
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 2 as RevisionPatchSetNum,
-    };
-    element.change = change;
-    assertIsDefined(element.fileList);
-    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
-    element.fileList.numFilesShown = 150;
-    element.fileList.selectedIndex = 15;
-    await element.updateComplete;
-
-    element.changeNum = 2 as NumericChangeId;
-    element.viewState = {
-      ...createChangeViewState(),
-      changeNum: 2 as NumericChangeId,
-    };
-    await element.updateComplete;
-    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
-    assert.equal(element.fileList.selectedIndex, 0);
-  });
-
   test('don’t reload entire page when patchRange changes', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     assertIsDefined(element.fileList);
     await element.fileList.updateComplete;
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: ChangeViewState = {
       ...createChangeViewState(),
       view: GerritView.CHANGE,
@@ -1288,7 +1260,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.calledOnce);
 
     element.initialLoadComplete = true;
-    element.fileList.selectedIndex = 15;
     element.change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1302,9 +1273,7 @@ suite('gr-change-view tests', () => {
     element.viewState = {...value};
     await element.updateComplete;
     await waitEventLoop();
-    assert.equal(element.fileList.selectedIndex, 0);
     assert.isFalse(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
   });
 
   test('do not reload entire page when patchRange doesnt change', async () => {

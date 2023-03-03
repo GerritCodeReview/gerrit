@@ -155,7 +155,8 @@ export function createAppDependencies(
           resolver(navigationToken),
           resolver(changeViewModelToken),
           appContext.restApiService,
-          resolver(userModelToken)
+          resolver(userModelToken),
+          resolver(pluginLoaderToken)
         ),
     ],
     [

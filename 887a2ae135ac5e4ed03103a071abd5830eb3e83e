@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "738aaae3_8b083613",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-03T11:57:33Z",
+      "side": 1,
+      "message": "Move to gr-app.ts.",
+      "revId": "887a2ae135ac5e4ed03103a071abd5830eb3e83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

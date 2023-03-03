@@ -2020,13 +2020,6 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  hasPatchRangeChanged(viewState: ChangeViewState) {
-    if (!this.patchRange) return false;
-    if (this.patchRange.basePatchNum !== viewState.basePatchNum) return true;
-    return this.hasPatchNumChanged(viewState);
-  }
-
-  // Private but used in tests.
   hasPatchNumChanged(viewState: ChangeViewState) {
     if (!this.patchRange) return false;
     if (viewState.patchNum !== undefined) {
@@ -2046,8 +2039,6 @@ export class GrChangeView extends LitElement {
 
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
-
-    const patchChanged = this.hasPatchRangeChanged(this.viewState);
 
     this.patchRange = {
       patchNum: this.viewState.patchNum,
@@ -2070,9 +2061,6 @@ export class GrChangeView extends LitElement {
           ...this.patchRange,
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
-      }
-      if (patchChanged) {
-        this.sendShowChangeEvent();
       }
 
       // If there is no change in patchset or changeNum, such as when user goes
@@ -2127,20 +2115,8 @@ export class GrChangeView extends LitElement {
     this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
   }
 
-  // Private but used in tests.
-  sendShowChangeEvent() {
-    assertIsDefined(this.patchRange, 'patchRange');
-    this.getPluginLoader().jsApiService.handleShowChange({
-      change: this.change,
-      patchNum: this.patchRange.patchNum,
-      info: {mergeable: this.mergeable ?? null},
-    });
-  }
-
   private performPostLoadTasks() {
     this.maybeShowRevertDialog();
-
-    this.sendShowChangeEvent();
 
     this.updateComplete.then(() => {
       this.maybeScrollToMessage(window.location.hash);

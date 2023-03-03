@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb744161_bb7345ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T17:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28ab7231_54e5c4e4",
+      "range": {
+        "startLine": 7,
+        "startChar": 55,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec5b7b90_ed1c7c57",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3455ec0f_afc1105b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T17:57:29Z",
+      "side": 1,
+      "message": "As discussed offline, this is only effective if the comment is marked as unresolved.\n\nRobot-comments cannot be marked this way[1]. Keeping the error as part as the commit message.\n\n[1]https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input:~:text\u003dexcept%20for%20the%20unresolved%20field%20which%20doesn%E2%80%99t%20exist%20for%20robot%20comments",
+      "parentUuid": "ec5b7b90_ed1c7c57",
+      "range": {
+        "startLine": 85,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66966e67_adf0e6c4",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-02-27T11:13:55Z",
       "side": 1,
       "message": "Adding the original patch to the commit message seems like cluttering things up to me. The regular create change endpoint mandates that callers provide commit messages. Can we make it so that on change creation, a message must be provided (I think that is already the case) and if a new patch set is added without a message, we just keep the one from the old patch set?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "9ca6130e3ab693666ea349a4200cb280ade10bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceac4a69_a1bd4345",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-03T17:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66966e67_adf0e6c4",
       "range": {
         "startLine": 116,
         "startChar": 8,

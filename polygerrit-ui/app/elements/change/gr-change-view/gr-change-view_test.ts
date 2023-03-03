@@ -62,7 +62,6 @@ import {
   DetailedLabelInfo,
   RepoName,
   QuickLabelInfo,
-  PatchSetNumber,
   CommentThread,
   SavingState,
 } from '../../../types/common';
@@ -1684,57 +1683,6 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
 
     assert.isTrue(setUrlStub.called);
-  });
-
-  test('sendShowChangeEvent', () => {
-    const change = {...createChangeViewChange(), labels: {}};
-    element.change = {...change};
-    element.patchRange = {patchNum: 4 as RevisionPatchSetNum};
-    element.mergeable = true;
-    const showStub = sinon.stub(
-      testResolver(pluginLoaderToken).jsApiService,
-      'handleShowChange'
-    );
-    element.sendShowChangeEvent();
-    assert.isTrue(showStub.calledOnce);
-    assert.deepEqual(showStub.lastCall.args[0], {
-      change,
-      patchNum: 4 as PatchSetNumber,
-      info: {mergeable: true},
-    });
-  });
-
-  test('patch range changed', () => {
-    element.patchRange = undefined;
-    element.change = createChangeViewChange();
-    element.change.revisions = createRevisions(4);
-    element.change.current_revision = '1' as CommitId;
-    element.change = {...element.change};
-
-    const viewState = createChangeViewState();
-
-    assert.isFalse(element.hasPatchRangeChanged(viewState));
-    assert.isFalse(element.hasPatchNumChanged(viewState));
-
-    viewState.basePatchNum = PARENT;
-    // undefined means navigate to latest patchset
-    viewState.patchNum = undefined;
-
-    element.patchRange = {
-      patchNum: 2 as RevisionPatchSetNum,
-      basePatchNum: PARENT,
-    };
-
-    assert.isTrue(element.hasPatchRangeChanged(viewState));
-    assert.isTrue(element.hasPatchNumChanged(viewState));
-
-    element.patchRange = {
-      patchNum: 4 as RevisionPatchSetNum,
-      basePatchNum: PARENT,
-    };
-
-    assert.isFalse(element.hasPatchRangeChanged(viewState));
-    assert.isFalse(element.hasPatchNumChanged(viewState));
   });
 
   suite('handleEditTap', () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1057923c_90d3e097",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-04T01:32:21Z",
+      "side": 1,
+      "message": "Can you add the associated JavaDoc where you explain why it has been deprecated?\n\nExample:\n```\n/**\n * @deprecated in favour of using submit requirements, except if it’s needed\n   to set the value to PatchSetLock\n */\n ```",
+      "revId": "90b4fe7956d8de35d7f8349f76bc8ed4a8383714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c862d34_96ad760c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155811
+      },
+      "writtenOn": "2023-03-04T22:32:05Z",
+      "side": 1,
+      "message": "Este trabajo está marcado con CC0 1.0",
+      "revId": "0f0b2d863c83b7645d05b2741a7cc3afefaf4645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -588,6 +588,34 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    test('renders rewrites with an asterisk', async () => {
+      await setCommentLinks({
+        customLinkRewrite: {
+          match: 'asterisks (\\*) rule',
+          link: 'http://google.com',
+        },
+      });
+
+      element.content = 'I think asterisks * rule';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html" class="markdown-html">
+              <p>
+                I think
+                <a href="http://google.com" rel="noopener" target="_blank"
+                  >asterisks * rule</a
+                >
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+
     suite('user suggest fix', () => {
       setup(async () => {
         const flagsService = getAppContext().flagsService;

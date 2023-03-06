@@ -33,11 +33,12 @@ function getRewriteResultsFromConfig(
     commentLinkInfo =>
       commentLinkInfo.enabled !== false && commentLinkInfo.link !== undefined
   );
-  // Always linkify URLs starting with https?://
-  enabledRewrites.push({
-    match: '(https?://\\S+[\\w/])',
-    link: '$1',
-  });
+  // // Always linkify URLs starting with https?://
+  // enabledRewrites.push({
+  //   match: '(https?://\\S+[\\w/])',
+  //   link: '$1',
+  //   enabled: true,
+  // });
   return enabledRewrites.flatMap(rewrite => {
     const regexp = new RegExp(rewrite.match, 'g');
     const partialResults: RewriteResult[] = [];

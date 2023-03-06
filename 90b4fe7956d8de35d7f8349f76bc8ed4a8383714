@@ -33,6 +33,24 @@
       "message": "Can you add the associated JavaDoc where you explain why it has been deprecated?\n\nExample:\n```\n/**\n * @deprecated in favour of using submit requirements, except if it’s needed\n   to set the value to PatchSetLock\n */\n ```",
       "revId": "90b4fe7956d8de35d7f8349f76bc8ed4a8383714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fd491c4_52444960",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-06T08:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1057923c_90d3e097",
+      "revId": "90b4fe7956d8de35d7f8349f76bc8ed4a8383714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f703febd_341a61c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-06T17:33:10Z",
+      "side": 1,
+      "message": "*use",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "2dbdd757774e22051b68224093140d990f00f1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f7ce621_ca344108",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-06T17:33:10Z",
+      "side": 1,
+      "message": "I have a naive question.\n\nWhat if we linkified text before markdown parser. \n\nBut we wouldn\u0027t linkified with change \"CL:*12345 to \u003ca href\u003d\"\"\u003e\u003c/\u003e\nbut changing CL:*12345 to [CL:*12345](link)\n\nWDYT?",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "2dbdd757774e22051b68224093140d990f00f1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

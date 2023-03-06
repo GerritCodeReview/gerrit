@@ -76,6 +76,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowChange(detail: ShowChangeDetail) {
+    if (!detail.change) return;
     await this.waitForPluginsToLoad();
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
@@ -108,10 +109,14 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       }
     }
 
+    console.log(
+      `asdf showChange change ${change} ${detail.change} ${change?._number}`
+    );
     for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
       try {
         cb(change, revision, info);
       } catch (err: unknown) {
+        console.log(`asdf showChange ${err}`);
         this.reporting.error(
           'GrJsApiInterface',
           new Error('showChange callback error'),

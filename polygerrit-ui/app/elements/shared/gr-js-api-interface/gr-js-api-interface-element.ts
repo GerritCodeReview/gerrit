@@ -76,6 +76,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowChange(detail: ShowChangeDetail) {
+    if (!detail.change) return;
     await this.waitForPluginsToLoad();
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as

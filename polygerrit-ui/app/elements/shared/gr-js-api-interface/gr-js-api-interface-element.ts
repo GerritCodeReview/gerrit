@@ -123,6 +123,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   _handleShowChange(detail: ShowChangeDetail) {
+    if (!detail.change) return;
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can

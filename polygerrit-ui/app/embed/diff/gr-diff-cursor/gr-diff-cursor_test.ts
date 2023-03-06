@@ -46,7 +46,6 @@ suite('gr-diff-cursor tests', () => {
 
     diff = createDiff();
     diffElement.prefs = createDefaultDiffPrefs();
-    diffElement.renderPrefs = {use_lit_components: true};
     diffElement.diff = diff;
     await promise;
   });
@@ -661,7 +660,7 @@ suite('gr-diff-cursor tests', () => {
       // Goto second last line of the first diff
       cursor.moveToLineNumber(lastLine - 1, Side.RIGHT);
       assert.equal(
-        cursor.getTargetLineElement()!.textContent,
+        cursor.getTargetLineElement()!.textContent?.trim(),
         `${lastLine - 1}`
       );
 
@@ -669,7 +668,7 @@ suite('gr-diff-cursor tests', () => {
       cursor.moveDown();
       assert.equal(getTargetDiffIndex(), 0);
       assert.equal(
-        cursor.getTargetLineElement()!.textContent,
+        cursor.getTargetLineElement()!.textContent?.trim(),
         lastLine.toString()
       );
 
@@ -677,7 +676,7 @@ suite('gr-diff-cursor tests', () => {
       cursor.moveDown();
       assert.equal(getTargetDiffIndex(), 0);
       assert.equal(
-        cursor.getTargetLineElement()!.textContent,
+        cursor.getTargetLineElement()!.textContent?.trim(),
         lastLine.toString()
       );
 
@@ -686,9 +685,10 @@ suite('gr-diff-cursor tests', () => {
       await waitForEventOnce(diffElements[1], 'render');
 
       // Now we can go down
-      cursor.moveDown();
+      cursor.moveDown(); // LOST
+      cursor.moveDown(); // FILE
       assert.equal(getTargetDiffIndex(), 1);
-      assert.equal(cursor.getTargetLineElement()!.textContent, 'File');
+      assert.equal(cursor.getTargetLineElement()!.textContent?.trim(), 'File');
     });
   });
 });

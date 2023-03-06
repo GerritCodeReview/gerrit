@@ -68,18 +68,8 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('a unified diff legacy', async () => {
-      element.viewMode = DiffViewMode.UNIFIED;
-      await testUnified();
-    });
-
     test('a unified diff lit', async () => {
       element.viewMode = DiffViewMode.UNIFIED;
-      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
-      await testUnified();
-    });
-
-    const testUnified = async () => {
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
       await element.updateComplete;
@@ -1343,18 +1333,9 @@ suite('gr-diff tests', () => {
           ],
         }
       );
-    };
-
-    test('a normal diff legacy', async () => {
-      await testNormal();
     });
 
     test('a normal diff lit', async () => {
-      element.renderPrefs = {...element.renderPrefs, use_lit_components: true};
-      await testNormal();
-    });
-
-    const testNormal = async () => {
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
       await element.updateComplete;
@@ -3008,7 +2989,7 @@ suite('gr-diff tests', () => {
           ],
         }
       );
-    };
+    });
   });
 
   suite('selectionchange event handling', () => {
@@ -3548,7 +3529,11 @@ suite('gr-diff tests', () => {
         await element.updateComplete;
         const ROWS = 48;
         const FILE_ROW = 1;
-        assert.equal(element.getCursorStops().length, ROWS + FILE_ROW);
+        const LOST_ROW = 1;
+        assert.equal(
+          element.getCursorStops().length,
+          ROWS + FILE_ROW + LOST_ROW
+        );
       });
 
       test('returns an additional AbortStop when still loading', async () => {
@@ -3557,8 +3542,9 @@ suite('gr-diff tests', () => {
         await element.updateComplete;
         const ROWS = 48;
         const FILE_ROW = 1;
+        const LOST_ROW = 1;
         const actual = element.getCursorStops();
-        assert.equal(actual.length, ROWS + FILE_ROW + 1);
+        assert.equal(actual.length, ROWS + FILE_ROW + LOST_ROW + 1);
         assert.isTrue(actual[actual.length - 1] instanceof AbortStop);
       });
     });
@@ -4050,13 +4036,13 @@ suite('gr-diff tests', () => {
         b: ['Non eram nescius, Brute, cum, quae summis ingeniis '],
       },
     ];
-    function assertDiffTableWithContent() {
+    function diffTableHasContent() {
       assertIsDefined(element.diffTable);
       const diffTable = element.diffTable;
-      assert.isTrue(diffTable.innerText.includes(content[0].a?.[0] ?? ''));
+      return diffTable.innerText.includes(content[0].a?.[0] ?? '');
     }
     await setupSampleDiff({content});
-    assertDiffTableWithContent();
+    await waitUntil(diffTableHasContent);
     element.diff = {...element.diff!};
     await element.updateComplete;
     // immediately cleaned up
@@ -4066,7 +4052,7 @@ suite('gr-diff tests', () => {
     element.renderDiffTable();
     await element.updateComplete;
     // rendered again
-    assertDiffTableWithContent();
+    await waitUntil(diffTableHasContent);
   });
 
   suite('selection test', () => {

@@ -107,6 +107,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
+<<<<<<< HEAD   (e5d3b1 gr-related-changes-list: Use change-model for patchNum)
   // TODO(TS): The HISTORY event and its handler seem unused.
   _handleHistory(detail: {path: string}) {
     for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
@@ -123,6 +124,11 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   _handleShowChange(detail: ShowChangeDetail) {
+=======
+  async handleShowChange(detail: ShowChangeDetail) {
+    if (!detail.change) return;
+    await this.waitForPluginsToLoad();
+>>>>>>> CHANGE (20a4e8 Do not emit a SHOW_CHANGE event without a change)
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can

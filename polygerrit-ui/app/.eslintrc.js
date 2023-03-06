@@ -327,6 +327,8 @@ module.exports = {
           'error',
           {argsIgnorePattern: '^_'},
         ],
+        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
+        'node/no-unsupported-features/es-builtins': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         'node/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports

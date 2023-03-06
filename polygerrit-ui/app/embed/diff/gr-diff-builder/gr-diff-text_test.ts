@@ -10,6 +10,8 @@ import {fixture, html, assert} from '@open-wc/testing';
 
 const LINE_BREAK = '<span class="gr-diff br"></span>';
 
+const LINE_BREAK_WBR = '<wbr class="gr-diff"></wbr>';
+
 const TAB = '<span class="" style=""></span>';
 
 const TAB_IGNORE = ['class', 'style'];
@@ -37,6 +39,12 @@ suite('gr-diff-text test', () => {
     test('renderText newlines 1', async () => {
       await check('abcdef', 'abcdef');
       await check('a'.repeat(20), `aaaaaaaaaa${LINE_BREAK}aaaaaaaaaa`);
+    });
+
+    test('renderText newlines 1 responsive', async () => {
+      element.isResponsive = true;
+      await check('abcdef', 'abcdef');
+      await check('a'.repeat(20), `aaaaaaaaaa${LINE_BREAK_WBR}aaaaaaaaaa`);
     });
 
     test('renderText newlines 2', async () => {

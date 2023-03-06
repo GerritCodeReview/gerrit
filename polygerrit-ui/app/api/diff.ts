@@ -243,12 +243,6 @@ export declare interface RenderPreferences {
   image_diff_prefs?: ImageDiffPreferences;
   responsive_mode?: DiffResponsiveMode;
   num_lines_rendered_at_once?: number;
-  /**
-   * If enabled, then a new (experimental) diff rendering is used that is
-   * based on Lit components and multiple rendering passes. This is planned to
-   * be a temporary setting until the experiment is concluded.
-   */
-  use_lit_components?: boolean;
   show_sign_col?: boolean;
   /**
    * The default view mode is SIDE_BY_SIDE.

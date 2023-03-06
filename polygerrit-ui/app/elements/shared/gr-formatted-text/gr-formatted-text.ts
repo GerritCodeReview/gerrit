@@ -116,7 +116,14 @@ export class GrFormattedText extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().repoCommentLinks$,
-      repoCommentLinks => (this.repoCommentLinks = repoCommentLinks)
+      repoCommentLinks => {
+        this.repoCommentLinks = repoCommentLinks; // Always linkify URLs starting with https?://
+        this.repoCommentLinks.ALWAYS_LINK_HTTP = {
+          match: '(https?://\\S+[\\w/])',
+          link: '$1',
+          enabled: true,
+        };
+      }
     );
   }
 
@@ -149,6 +156,22 @@ export class GrFormattedText extends LitElement {
     // closure.
     const boundRewriteText = (text: string) =>
       linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
+
+    // Due to a tokenizer bug in the old version of markedjs we use, text with a
+    // single asterisk is separated into 2 tokens before passing to renderer
+    // ['text'] which breaks our rewrites that would span across the 2 tokens.
+    // Since upgrading our markedjs version is infeasible, we are applying those
+    // asterisk rewrites again at the end (using renderer['paragraph'] hook)
+    // after all the nodes are combined.
+    const boundRewriteAsterisks = (text: string) => {
+      const asteriskRewrites = Object.fromEntries(
+        Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
+          rewrite.match.includes('\\*')
+        )
+      );
+      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
+      return `<p>${linkedText}</p>`;
+    };
 
     // We are overriding some marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
@@ -189,6 +212,7 @@ export class GrFormattedText extends LitElement {
           return `<pre><code>${text}</code></pre>`;
         }
       };
+      renderer['paragraph'] = boundRewriteAsterisks;
       renderer['text'] = boundRewriteText;
     }
 

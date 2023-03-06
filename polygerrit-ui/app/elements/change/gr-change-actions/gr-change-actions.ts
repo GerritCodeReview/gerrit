@@ -1569,6 +1569,7 @@ export class GrChangeActions
     const payload = {
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,
+      on_behalf_of_uploader: e.detail.onBehalfOfUploader,
     };
     const rebaseChain = !!e.detail.rebaseChain;
     this.fireAction(
@@ -1576,7 +1577,10 @@ export class GrChangeActions
       assertUIActionInfo(this.revisionActions.rebase),
       rebaseChain ? false : true,
       payload,
-      {allow_conflicts: payload.allow_conflicts}
+      {
+        allow_conflicts: payload.allow_conflicts,
+        on_behalf_of_uploader: payload.on_behalf_of_uploader,
+      }
     );
   }
 

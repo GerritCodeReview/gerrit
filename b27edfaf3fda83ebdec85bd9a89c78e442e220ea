@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d674a7c6_a9222a1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-06T16:02:05Z",
+      "side": 1,
+      "message": "nit: download-commands\n\n```suggestion\ndownload-commands\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 15,
+        "endLine": 18,
+        "endChar": 31
+      },
+      "revId": "b27edfaf3fda83ebdec85bd9a89c78e442e220ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddcf45ef_775d4c74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-06T16:02:05Z",
+      "side": 1,
+      "message": "Needs a Release-Notes footer.\n\n```suggestion\nRelease-Notes: Update plugins/download-commands to latest master\n```",
+      "revId": "b27edfaf3fda83ebdec85bd9a89c78e442e220ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

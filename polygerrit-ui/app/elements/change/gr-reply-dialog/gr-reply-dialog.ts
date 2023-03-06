@@ -914,6 +914,8 @@ export class GrReplyDialog extends LitElement {
         }}
         @comment-text-changed=${(e: ValueChangedEvent<string>) => {
           this.patchsetLevelDraftMessage = e.detail.value;
+          // See `addReplyTextChangedCallback` in `ChangeReplyPluginApi`.
+          fire(e.currentTarget as HTMLElement, 'value-changed', e.detail);
         }}
         .messagePlaceholder=${this.messagePlaceholder}
         hide-header

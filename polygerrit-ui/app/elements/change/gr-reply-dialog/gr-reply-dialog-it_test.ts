@@ -9,6 +9,7 @@ import {
   queryAndAssert,
   stubRestApi,
   waitEventLoop,
+  waitUntil,
 } from '../../../test/test-utils';
 
 import {GrReplyDialog} from './gr-reply-dialog';
@@ -23,6 +24,7 @@ import {createChange} from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
 
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
@@ -96,10 +98,15 @@ suite('gr-reply-dialog-it tests', () => {
   });
 
   test('lgtm plugin', async () => {
+    const attachStub = sinon.stub();
+    const callbackStub = sinon.stub();
     window.Gerrit.install(
       plugin => {
         const replyApi = plugin.changeReply();
+        const hook = plugin.hook('reply-text');
+        hook.onAttached(attachStub);
         replyApi.addReplyTextChangedCallback(text => {
+          callbackStub(text);
           const label = 'Code-Review';
           const labelValue = replyApi.getLabelValue(label);
           if (labelValue && labelValue === ' 0' && text.indexOf('LGTM') === 0) {
@@ -114,16 +121,27 @@ suite('gr-reply-dialog-it tests', () => {
     setupElement(element);
     const pluginLoader = testResolver(pluginLoaderToken);
     pluginLoader.loadPlugins([]);
-    await pluginLoader.awaitPluginsLoaded();
-    await waitEventLoop();
-    await waitEventLoop();
+    // This may seem a bit weird, but we have to somehow make sure that the
+    // event listener is actually installed, and apparently a `gr-comment` is
+    // attached twice inside the 'reply-text' endpoint. Could not find a better
+    // way to make sure that the callback is ready to receive events.
+    await waitUntil(() => attachStub.callCount === 2);
+
+    const comment = queryAndAssert<GrComment>(
+      element,
+      'gr-comment#patchsetLevelComment'
+    );
+    comment.messageText = 'LGTM';
+
+    await waitUntil(() => callbackStub.calledWith('LGTM'));
+
     const labelScoreRows = queryAndAssert(
       element.getLabelScores(),
       'gr-label-score-row[name="Code-Review"]'
     );
     const selectedBtn = queryAndAssert(
       labelScoreRows,
-      'gr-button[data-value="+1"]'
+      'gr-button[data-value="+1"].iron-selected'
     );
     assert.isOk(selectedBtn);
   });

@@ -39,6 +39,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class ChangesCollection implements RestCollection<TopLevelResource, ChangeResource> {
@@ -49,6 +50,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   @Inject
   public ChangesCollection(
@@ -58,7 +60,9 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
       ChangeFinder changeFinder,
       ChangeResource.Factory changeResourceFactory,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ChangeNotes.Factory changeNotesFactory) {
+    this.changeNotesFactory = changeNotesFactory;
     this.user = user;
     this.queryFactory = queryFactory;
     this.views = views;
@@ -96,8 +100,21 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     return changeResourceFactory.create(change, user.get());
   }
 
+  public ChangeResource parse(Project.NameKey project, Change.Id id, ObjectId metaRevId)
+      throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException {
+    // Read change from ChangeNotesCache upon creation, since it might not be immediately available
+    // in the index.
+    ChangeNotes change = changeNotesFactory.createChecked(project, id, metaRevId);
+    if (!canRead(change)) {
+      throw new ResourceNotFoundException(toIdString(id));
+    }
+    checkProjectStatePermitsRead(change.getProjectName());
+    return changeResourceFactory.create(change, user.get());
+  }
+
   public ChangeResource parse(Change.Id id)
       throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException {
+    // Read from index in case the project is not known
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));

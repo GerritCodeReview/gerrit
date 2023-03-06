@@ -46,6 +46,30 @@
       },
       "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eabb42c0_4fcd1ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-06T11:47:45Z",
+      "side": 1,
+      "message": "\u003e Right. In [1] we added a note to the docs that prolog rules are no longer supported. Existing configs will continue to work though.\n\u003e \n\u003e In google, we no longer intend to use prolog rules anymore. \n\nAck, and I personally think that *we* (as Gerrit community) don\u0027t want to have to deal with Prolog in the future anymore either.\n\nHowever, I am concerned that Prolog may still be very actively used and dropping it altogether without even a plugin option it would be a blocker for many people.\n\nCan we hold this change for now and wait for an initial discussion with the ESC?\n\n\u003e I can revert this change and make prolog disabled by configuration that we default to true until we move it to a plugin.\n\u003e \n\u003e [1] https://gerrit-review.git.corp.google.com/c/gerrit/+/361696/2..3/Documentation/prolog-cookbook.txt#b42\n\nNot necessarily, as Gerrit v3.8 is not out yet and this change impacts only master.\nIf the ESC agree to drop it and there are no objections from the community, I am personally happy to see Prolog go 😊",
+      "parentUuid": "55d3f095_e90c6324",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

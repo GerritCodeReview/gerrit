@@ -5416,6 +5416,18 @@ By default, 1h.
 +
 Set to 0 to disable this check.
 
+[[sshd.enableChannelIdTracking]]sshd.enableChannelIdTracking::
++
+Whether or not to enable less lenient SSH channel tracking. When set to
+`false` a default unknown channel handler is used that applies to all
+unknown channels. When set to `true` a more strict channel handler that
+only applies when an unknown channel has been assigned in the past is
+used. Otherwise an error is raised.
++
+By default, `true`.
++
+For safetey users should avoid setting this to `false`.
+
 [[suggest]]
 === Section suggest
 

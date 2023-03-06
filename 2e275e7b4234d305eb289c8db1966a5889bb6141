@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7ad084_793306a9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-06T09:54:10Z",
+      "side": 1,
+      "message": "piece, excluding footers",
+      "range": {
+        "startLine": 90,
+        "startChar": 38,
+        "endLine": 90,
+        "endChar": 43
+      },
+      "revId": "2e275e7b4234d305eb289c8db1966a5889bb6141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd31f5c_f12a478c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-06T09:54:10Z",
+      "side": 1,
+      "message": "Can we assert the full message in these test (just inline the full string).\n\nusing variables like COMMIT_MESSAGE makes tests way harder to read compared to providing the message that we want to make sure is actually there as an inlined string.\n\nasserting with `startsWith` also makes it so that we aren\u0027t checking if footers are duplicated",
+      "range": {
+        "startLine": 454,
+        "startChar": 20,
+        "endLine": 454,
+        "endChar": 23
+      },
+      "revId": "2e275e7b4234d305eb289c8db1966a5889bb6141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

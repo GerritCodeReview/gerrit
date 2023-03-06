@@ -46,7 +46,6 @@ suite('gr-diff-cursor tests', () => {
 
     diff = createDiff();
     diffElement.prefs = createDefaultDiffPrefs();
-    diffElement.renderPrefs = {use_lit_components: true};
     diffElement.diff = diff;
     await promise;
   });

@@ -209,6 +209,38 @@ suite('gr-formatted-text tests', () => {
         /* HTML */ '<pre class="plaintext"># A Markdown Heading</pre>'
       );
     });
+
+    test('does default linking', async () => {
+      element.content = 'http://www.google.com';
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML*/ `
+        <pre class="plaintext">
+          <a
+            href="http://www.google.com"
+            rel="noopener"
+            target="_blank"
+          >http://www.google.com</a>
+        </pre>
+      `
+      );
+
+      element.content = 'https://www.google.com';
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML*/ `
+        <pre class="plaintext">
+          <a
+            href="https://www.google.com"
+            rel="noopener"
+            target="_blank"
+          >https://www.google.com</a>
+        </pre>
+        `
+      );
+    });
   });
 
   suite('as markdown', () => {
@@ -576,6 +608,74 @@ suite('gr-formatted-text tests', () => {
               </p>
             </div>
           </marked-element>
+        `
+      );
+    });
+
+    test('renders rewrites with an asterisk', async () => {
+      await setCommentLinks({
+        customLinkRewrite: {
+          match: 'asterisks (\\*) rule',
+          link: 'http://google.com',
+        },
+      });
+
+      element.content = 'I think asterisks * rule';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html" class="markdown-html">
+              <p>
+                I think
+                <a href="http://google.com" rel="noopener" target="_blank"
+                  >asterisks * rule</a
+                >
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+
+    test('does default linking', async () => {
+      element.content = 'http://www.google.com';
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML*/ `
+        <marked-element>
+          <div slot="markdown-html" class="markdown-html">
+            <p>
+              <a
+                href="http://www.google.com"
+                rel="noopener"
+                target="_blank"
+              >http://www.google.com</a>
+            </p>
+          </div>
+        </marked-element>
+      `
+      );
+
+      element.content = 'https://www.google.com';
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML*/ `
+        <marked-element>
+          <div slot="markdown-html" class="markdown-html">
+            <p>
+              <a
+                href="https://www.google.com"
+                rel="noopener"
+                target="_blank"
+              >https://www.google.com</a>
+            </p>
+          </div>
+        </marked-element>
         `
       );
     });

@@ -264,6 +264,8 @@ export class ChangeModel extends Model<ChangeState> {
     ([change, account]) => isOwner(change, account)
   );
 
+  public readonly owner$ = select(this.change$, change => change?.owner);
+
   // For usage in `combineLatest` we need `startWith` such that reload$ has an
   // initial value.
   readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(

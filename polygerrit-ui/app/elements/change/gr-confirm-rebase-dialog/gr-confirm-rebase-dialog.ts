@@ -10,6 +10,7 @@ import {
   NumericChangeId,
   BranchName,
   ChangeActionDialog,
+  AccountDetailInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -24,6 +25,11 @@ import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {userModelToken} from '../../../models/user/user-model';
 
 export interface RebaseChange {
   name: string;
@@ -76,6 +82,12 @@ export class GrConfirmRebaseDialog
   shouldRebaseChain = false;
 
   @state()
+  allowConflicts = false;
+
+  @state()
+  isOwner = false;
+
+  @state()
   private query: AutocompleteQuery;
 
   @state()
@@ -93,8 +105,11 @@ export class GrConfirmRebaseDialog
   @query('#rebaseOnBehalfOfUploader')
   private rebaseOnBehalfOfUploader?: HTMLInputElement;
 
+  @query('#rebaseYourself')
+  private rebaseYourself?: HTMLInputElement;
+
   @query('#rebaseAllowConflicts')
-  private rebaseAllowConflicts!: HTMLInputElement;
+  private rebaseAllowConflicts?: HTMLInputElement;
 
   @query('#rebaseChain')
   private rebaseChain?: HTMLInputElement;
@@ -102,13 +117,38 @@ export class GrConfirmRebaseDialog
   @query('#parentInput')
   parentInput!: GrAutocomplete;
 
+  @state()
+  account?: AccountDetailInfo;
+
+  @state()
+  owner?: AccountDetailInfo;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
   constructor() {
     super();
     this.query = input => this.getChangeSuggestions(input);
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().owner$,
+      x => (this.owner = x)
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
@@ -122,6 +162,7 @@ export class GrConfirmRebaseDialog
 
   static override styles = [
     sharedStyles,
+    fontStyles,
     css`
       :host {
         display: block;
@@ -145,8 +186,12 @@ export class GrConfirmRebaseDialog
       .rebaseCheckbox:first-of-type {
         margin-top: var(--spacing-m);
       }
-      .rebaseOption {
-        margin: var(--spacing-m) 0;
+      .rebaseOption,
+      .rebaseOnBehalfOption {
+        margin: var(--spacing-s) 0;
+      }
+      .heading-4 {
+        margin: var(--spacing-s) 0;
       }
     `,
   ];
@@ -162,6 +207,7 @@ export class GrConfirmRebaseDialog
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
+          <h4 class="heading-4">Destination</h4>
           <div
             id="rebaseOnParent"
             class="rebaseOption"
@@ -233,20 +279,66 @@ export class GrConfirmRebaseDialog
             </gr-autocomplete>
           </div>
           ${when(
-            this.flagsService.isEnabled(
-              KnownExperimentId.REBASE_ON_BEHALF_OF_UPLOADER
-            ),
+            !this.isOwner &&
+              this.flagsService.isEnabled(
+                KnownExperimentId.REBASE_ON_BEHALF_OF_UPLOADER
+              ),
             () => html`
+              <h4 class="heading-4">Uploader</h4>
               <div class="rebaseCheckbox">
-                <input id="rebaseOnBehalfOfUploader" type="checkbox" checked />
-                <label for="rebaseOnBehalfOfUploader"
-                  >Rebase on behalf of uploader</label
-                >
+                <div>
+                  <input
+                    id="rebaseOnBehalfOfUploader"
+                    type="radio"
+                    name="rebaseOnBehalf"
+                    checked
+                    value="uploader"
+                    class="rebaseOnBehalfOption"
+                    ?disabled=${this.allowConflicts}
+                  />
+                  <label for="rebaseOnBehalfOfUploader"
+                    ><gr-account-label
+                      .account=${this.owner}
+                      .hideHovercard=${true}
+                    ></gr-account-label
+                    ><span>(on behalf of owner)</span></label
+                  >
+                  <span class="message" ?hidden=${!this.allowConflicts}>
+                    Not possible with "allow conflicts"
+                  </span>
+                </div>
+                <div>
+                  <input
+                    id="rebaseYourself"
+                    type="radio"
+                    value="yourself"
+                    class="rebaseOnBehalfOption"
+                    name="rebaseOnBehalf"
+                  />
+                  <!-- clicking on label should change input -->
+                  <label for="rebaseOnBehalfOfUploader"
+                    ><gr-account-label
+                      .account=${this.account}
+                      .hideHovercard=${true}
+                    ></gr-account-label
+                    ><span>(as yourself)</span></label
+                  >
+                </div>
               </div>
             `
           )}
+          <h4 class="heading-4">Options</h4>
           <div class="rebaseCheckbox">
-            <input id="rebaseAllowConflicts" type="checkbox" />
+            <input
+              id="rebaseAllowConflicts"
+              type="checkbox"
+              @change=${() => {
+                this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+                if (this.rebaseOnBehalfOfUploader)
+                  this.rebaseOnBehalfOfUploader.checked = false;
+                if (this.rebaseYourself) this.rebaseYourself.checked = true;
+              }}
+            />
             <label for="rebaseAllowConflicts"
               >Allow rebase with conflicts</label
             >
@@ -369,7 +461,7 @@ export class GrConfirmRebaseDialog
     e.stopPropagation();
     const detail: ConfirmRebaseEventDetail = {
       base: this.getSelectedBase(),
-      allowConflicts: this.rebaseAllowConflicts.checked,
+      allowConflicts: !!this.rebaseAllowConflicts?.checked,
       rebaseChain: !!this.rebaseChain?.checked,
       onBehalfOfUploader: !!this.rebaseOnBehalfOfUploader?.checked,
     };

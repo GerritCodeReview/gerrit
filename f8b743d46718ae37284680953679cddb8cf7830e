@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88306fb3_ceadb266",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-06T20:24:33Z",
+      "side": 1,
+      "message": "If you distinguish between rewrites with asterisk and without, then I would expect that one set of rewrites is used for one renderer and the other set of rewrites is used for the other renderer. But you are using the *full* set (including asterisk rewrites) for the text renderer.\n\nMaybe you can add some rationale as a comment. Also, why not apply all rewrites to paragraph and no rewrites to text?",
+      "revId": "f8b743d46718ae37284680953679cddb8cf7830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09c5ef8_05e49e8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-06T20:24:33Z",
+      "side": 1,
+      "message": "Nit: It is slightly inconsistent to have two renderers defined outside the customRenderer as consts and the other 4 renderer overwrite being done inline.",
+      "range": {
+        "startLine": 216,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 42
+      },
+      "revId": "f8b743d46718ae37284680953679cddb8cf7830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

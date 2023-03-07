@@ -23,6 +23,7 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
   public static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
+  public static final FooterKey FOOTER_CUSTOM_KEYED_VALUE = new FooterKey("Custom-Keyed-Value");
   public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");

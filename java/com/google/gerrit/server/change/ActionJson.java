@@ -123,6 +123,9 @@ public class ActionJson {
         changeInfo.removedFromAttentionSet == null
             ? null
             : ImmutableMap.copyOf(changeInfo.removedFromAttentionSet);
+    copy.customKeyedValues = changeInfo.customKeyedValues == null
+            ? null
+            : ImmutableMap.copyOf(changeInfo.customKeyedValues);
     copy.hashtags = changeInfo.hashtags;
     copy.changeId = changeInfo.changeId;
     copy.submitType = changeInfo.submitType;

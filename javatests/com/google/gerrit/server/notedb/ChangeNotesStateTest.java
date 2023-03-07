@@ -65,6 +65,7 @@ import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -330,6 +331,22 @@ public class ChangeNotesStateTest {
             .setColumns(colsProto)
             .addHashtag("tag2")
             .addHashtag("tag1")
+            .build());
+  }
+
+  @Test
+  public void serializeKeyedValues() throws Exception {
+    assertRoundTrip(
+        newBuilder().keyedValues(ImmutableList.of(
+          new SimpleEntry<String, String>("key1", "value1"),
+          new SimpleEntry<String, String>("key2", "value2")
+        )).build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .putKeyedValues("key1", "value1")
+            .putKeyedValues("key2", "value2")
             .build());
   }
 

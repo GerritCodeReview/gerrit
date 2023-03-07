@@ -192,7 +192,7 @@ public class AccountManager {
       throws AccountException, IOException, ConfigInvalidException {
     // TODO: in case of extension of further migration paths this code should
     // probably be refactored out by creating an AccountMigrator extension point.
-    if (who.getExternalIdKey().isScheme(SCHEME_GOOGLE_OAUTH)) {
+    if (who.isMigrateAccountByEmail() && who.getExternalIdKey().isScheme(SCHEME_GOOGLE_OAUTH)) {
       Optional<ExternalId> existingLDAPExtID = findLdapExternalId(who);
       if (existingLDAPExtID.isPresent()) {
         return migrateLdapAccountToOauth(who, existingLDAPExtID.get());

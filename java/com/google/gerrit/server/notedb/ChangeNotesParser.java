@@ -24,6 +24,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LA
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_KEYED_VALUES_PREFIX;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
@@ -97,6 +98,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -165,6 +167,7 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
+  private final TreeMap<String, String> keyedValues;
   private final Map<PatchSetApproval.Key, PatchSetApproval.Builder> approvals;
   private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
@@ -233,6 +236,7 @@ class ChangeNotesParser {
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
+    keyedValues = new TreeMap<>();
   }
 
   ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
@@ -263,6 +267,7 @@ class ChangeNotesParser {
       checkMandatoryFooters();
     }
 
+    pruneEmptyKeyedValues();
     return buildState();
   }
 
@@ -301,6 +306,7 @@ class ChangeNotesParser {
         buildAllMessages(),
         humanComments,
         submitRequirementResults,
+        keyedValues,
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
@@ -490,6 +496,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
+    parseKeyedValues(commit);
     parseAttentionSetUpdates(commit);
 
     parseSubmission(commit, commitTimestamp);
@@ -720,6 +727,35 @@ class ChangeNotesParser {
       hashtags = Sets.newHashSet(HASHTAG_SPLITTER.split(hashtagsLines.get(0)));
     }
   }
+
+  private void parseKeyedValues(ChangeNotesCommit commit) throws ConfigInvalidException {
+    for (FooterLine footer : commit.getFooterLines()) {
+      String footerKey = footer.getKey();
+      if (footerKey.startsWith(FOOTER_KEYED_VALUES_PREFIX)) {
+        String key = footer.getKey().substring(FOOTER_KEYED_VALUES_PREFIX.length());
+        String value = footer.getValue();
+      // Commits are parsed in reverse order and only the last set of hashtags
+      // should be used.  An empty value for a key means it's a deletion.
+        if (!keyedValues.containsKey(key)) {
+          keyedValues.put(key, value);
+        }
+      }
+    }
+  }
+
+  private void pruneEmptyKeyedValues() {
+    List<String> toRemove = new List<>();
+    for (Map.Entry<K, V> entry : keyedValues.entrySet()) {
+      if (entry.getValue().length() == 0) {
+        toRemove.add(entry.getKey());
+      }
+    }
+
+    for (String key : toRemove) {
+      keyedValues.remove(key);
+    }
+  }
+
 
   private void parseAttentionSetUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {
     List<String> attentionStrings = commit.getFooterLineValues(FOOTER_ATTENTION);

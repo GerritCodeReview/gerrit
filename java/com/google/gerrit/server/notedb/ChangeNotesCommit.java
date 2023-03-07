@@ -116,6 +116,10 @@ public class ChangeNotesCommit extends RevCommit {
 
   private ListMultimap<String, String> footerLines;
 
+  public ListMultimap<String, String> getParsedFooterLines() {
+    
+  }
+
   public ChangeNotesCommit(AnyObjectId id) {
     super(id);
   }

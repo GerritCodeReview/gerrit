@@ -663,10 +663,33 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
     whoOAuth.setEmailAddress(email);
+    whoOAuth.setMigrateAccountByEmail(true);
     AuthResult authResultOAuth = accountManager.authenticate(whoOAuth);
     assertAuthResultForExistingAccount(authResultOAuth, accID, OAuthExtIdKey);
 
     assertThat(authResultOAuth.getAccountId()).isEqualTo(authResultGerrit.getAccountId());
+  }
+
+  @Test
+  public void doNotLinkOAuthAccountToLDAPAccountWithEmailWhenConfigAbsent() throws Exception {
+    String username = "foo";
+    String email = "foo@example.com";
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    AuthRequest whoGerrit = authRequestFactory.createForUser(username);
+    whoGerrit.setEmailAddress(email);
+    AuthResult authResultGerrit = accountManager.authenticate(whoGerrit);
+    assertAuthResultForNewAccount(authResultGerrit, gerritExtIdKey);
+    // Check that OAuth externalID is not in use.
+    ExternalId.Key OAuthExtIdKey = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, username);
+    assertNoSuchExternalIds(OAuthExtIdKey);
+
+    AuthRequest whoOAuth = authRequestFactory.createForOAuthUser(username);
+    whoOAuth.setEmailAddress(email);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Email 'foo@example.com' in use by another account");
   }
 
   @Test

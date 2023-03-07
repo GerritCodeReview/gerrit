@@ -43,6 +43,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.KeyedValues;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApprovals;
@@ -475,6 +476,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** Returns all updates for the attention set. */
   public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
     return state.allAttentionSetUpdates();
+  }
+
+  /** Returns the key-value pairs that are attached to this change */
+  public KeyedValues getKeyedValues() {
+    return state.keyedValues();
   }
 
   /**

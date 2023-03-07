@@ -53,7 +53,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,6 +69,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
@@ -141,13 +141,14 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
+      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
+
       RevCommit baseCommit;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
             CommitUtil.getBaseCommit(
                 project.get(), queryProvider.get(), revWalk, destRef, input.base);
       } else {
-        RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
         if (latestPatchset.getParentCount() != 1) {
           throw new BadRequestException(
               String.format(
@@ -164,12 +165,17 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
           input.author == null
               ? committerIdent
               : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
+      List<FooterLine> footerLines = latestPatchset.getFooterLines();
+      String messageWithNoFooters =
+          !Strings.isNullOrEmpty(input.commitMessage)
+              ? input.commitMessage
+              : removeFooters(latestPatchset.getFullMessage(), footerLines);
       String commitMessage =
-          CommitMessageUtil.checkAndSanitizeCommitMessage(
-              input.commitMessage != null
-                  ? input.commitMessage
-                  : "The following patch was applied:\n>\t"
-                      + input.patch.patch.replaceAll("\n", "\n>\t"));
+          ApplyPatchUtil.buildCommitMessage(
+              messageWithNoFooters,
+              footerLines,
+              input.patch.patch,
+              ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)));
 
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
@@ -214,5 +220,12 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
 
   private static String buildMessageForPatchSet(PatchSet.Id psId) {
     return new StringBuilder(String.format("Uploaded patch set %s.", psId.get())).toString();
+  }
+
+  private String removeFooters(String originalMessage, List<FooterLine> footerLines) {
+    if (footerLines.isEmpty()) {
+      return originalMessage;
+    }
+    return originalMessage.substring(0, originalMessage.indexOf(footerLines.get(0).getKey()));
   }
 }

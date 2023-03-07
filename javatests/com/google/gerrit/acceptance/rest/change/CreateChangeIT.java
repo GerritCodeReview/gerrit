@@ -1022,6 +1022,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
     assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo("apply patch to other\n\nChange-Id: " + info.changeId + "\n");
   }
 
   @Test

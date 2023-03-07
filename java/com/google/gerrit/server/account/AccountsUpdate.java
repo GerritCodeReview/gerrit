@@ -26,6 +26,7 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.StorageException;
@@ -201,7 +202,7 @@ public class AccountsUpdate {
   private final Runnable beforeCommit;
 
   /** Single instance that accumulates updates from the batch. */
-  private ExternalIdNotes externalIdNotes;
+  @Nullable private ExternalIdNotes externalIdNotes;
 
   @AssistedInject
   AccountsUpdate(
@@ -402,13 +403,17 @@ public class AccountsUpdate {
               delta.getDeletedExternalIds()),
           updateArguments.accountId);
 
-      if (externalIdNotes == null) {
-        externalIdNotes =
-            extIdNotesLoader.load(
-                repo, accountConfig.getExternalIdsRev().orElse(ObjectId.zeroId()));
+      if (delta.hasExternalIdUpdates()) {
+        // Only load the externalIds if they are going to be updated
+        // This makes e.g. preferences updates faster.
+        if (externalIdNotes == null) {
+          externalIdNotes =
+              extIdNotesLoader.load(
+                  repo, accountConfig.getExternalIdsRev().orElse(ObjectId.zeroId()));
+        }
+        externalIdNotes.replace(delta.getDeletedExternalIds(), delta.getCreatedExternalIds());
+        externalIdNotes.upsert(delta.getUpdatedExternalIds());
       }
-      externalIdNotes.replace(delta.getDeletedExternalIds(), delta.getCreatedExternalIds());
-      externalIdNotes.upsert(delta.getUpdatedExternalIds());
 
       CachedPreferences cachedDefaultPreferences =
           CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
@@ -514,12 +519,19 @@ public class AccountsUpdate {
         updatedAccounts.size() == 1
             ? Iterables.getOnlyElement(updatedAccounts).message
             : "Batch update for " + updatedAccounts.size() + " accounts";
-    ObjectId oldExternalIdsRevision = externalIdNotes.getRevision();
+    Optional<ObjectId> oldExternalIdsRevision =
+        externalIdNotes != null
+            ? Optional.ofNullable(externalIdNotes.getRevision())
+            : Optional.empty();
     // These update the same ref, so they need to be stacked on top of one another using the same
     // ExternalIdNotes instance.
-    RevCommit revCommit =
+    Optional<RevCommit> revCommit =
         commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
-    boolean externalIdsUpdated = !Objects.equals(revCommit.getId(), oldExternalIdsRevision);
+    //  External ids may be not updated if:
+    //  * externalIdNotes is not loaded if there were no externalId updates in the delta (then both
+    // old and new revCommit are empty)
+    //  * new revCommit is identical to the previous externalId tip
+    boolean externalIdsUpdated = !Objects.equals(revCommit, oldExternalIdsRevision);
     for (UpdatedAccount updatedAccount : updatedAccounts) {
 
       // These updates are all for different refs (because batches never update the same account
@@ -544,8 +556,10 @@ public class AccountsUpdate {
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
 
     Set<Account.Id> accountsToSkipForReindex = getUpdatedAccountIds(batchRefUpdate);
-    extIdNotesLoader.updateExternalIdCacheAndMaybeReindexAccounts(
-        externalIdNotes, accountsToSkipForReindex);
+    if (externalIdsUpdated) {
+      extIdNotesLoader.updateExternalIdCacheAndMaybeReindexAccounts(
+          externalIdNotes, accountsToSkipForReindex);
+    }
 
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser.map(IdentifiedUser::state).orElse(null));
@@ -571,10 +585,13 @@ public class AccountsUpdate {
     }
   }
 
-  private RevCommit commitExternalIdUpdates(
+  private Optional<RevCommit> commitExternalIdUpdates(
       String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) throws IOException {
+    if (externalIdNotes == null) {
+      return Optional.empty();
+    }
     try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
-      return externalIdNotes.commit(md);
+      return Optional.of(externalIdNotes.commit(md));
     }
   }
 

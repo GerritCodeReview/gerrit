@@ -161,6 +161,11 @@ public abstract class AccountDelta {
    */
   public abstract Optional<EditPreferencesInfo> getEditPreferences();
 
+  public boolean hasExternalIdUpdates() {
+    return !this.getCreatedExternalIds().isEmpty()
+        || !this.getDeletedExternalIds().isEmpty()
+        || !this.getUpdatedExternalIds().isEmpty();
+  }
   /**
    * Class to build an {@link AccountDelta}.
    *

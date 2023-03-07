@@ -28,6 +28,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
@@ -111,6 +112,7 @@ public abstract class ChangeNotesState {
       @Nullable String submissionId,
       @Nullable Change.Status status,
       Set<String> hashtags,
+      ImmutableSortedMap<String, String> customValues,
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
@@ -163,6 +165,7 @@ public abstract class ChangeNotesState {
                 .cherryPickOf(cherryPickOf)
                 .build())
         .hashtags(hashtags)
+        .customValues(customValues.entrySet())
         .serverId(serverId)
         .patchSets(patchSets.entrySet())
         .approvals(approvals.entries())
@@ -290,6 +293,8 @@ public abstract class ChangeNotesState {
   // Other related to this Change.
   abstract ImmutableSet<String> hashtags();
 
+  abstract ImmutableList<Map.Entry<String, String>> customValues();
+
   @Nullable
   abstract String serverId();
 
@@ -384,6 +389,7 @@ public abstract class ChangeNotesState {
       return new AutoValue_ChangeNotesState.Builder()
           .changeId(changeId)
           .hashtags(ImmutableSet.of())
+          .customValues(ImmutableList.of())
           .patchSets(ImmutableList.of())
           .approvals(ImmutableList.of())
           .reviewers(ReviewerSet.empty())
@@ -410,6 +416,8 @@ public abstract class ChangeNotesState {
     abstract Builder serverId(String serverId);
 
     abstract Builder hashtags(Iterable<String> hashtags);
+
+    abstract Builder customValues(Iterable<Map.Entry<String, String>> customValues);
 
     abstract Builder patchSets(Iterable<Map.Entry<PatchSet.Id, PatchSet>> patchSets);
 
@@ -475,6 +483,14 @@ public abstract class ChangeNotesState {
         b.setHasServerId(true);
       }
       object.hashtags().forEach(b::addHashtag);
+
+      object
+          .customValues()
+          .forEach(
+              entry -> {
+                b.putCustomValues(entry.getKey(), entry.getValue());
+              });
+
       object
           .patchSets()
           .forEach(e -> b.addPatchSet(PatchSetProtoConverter.INSTANCE.toProto(e.getValue())));
@@ -614,6 +630,7 @@ public abstract class ChangeNotesState {
               .columns(toChangeColumns(changeId, proto.getColumns()))
               .serverId(proto.getHasServerId() ? proto.getServerId() : null)
               .hashtags(proto.getHashtagList())
+              .customValues(proto.getCustomValuesMap().entrySet())
               .patchSets(
                   proto.getPatchSetList().stream()
                       .map(msg -> PatchSetProtoConverter.INSTANCE.fromProto(msg))

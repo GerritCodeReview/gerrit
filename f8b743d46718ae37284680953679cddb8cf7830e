@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9dc6ab_0b51ef2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-07T12:54:39Z",
+      "side": 1,
+      "message": "\u003e I would expect that one set of rewrites is used for one renderer and the other set of rewrites is used for the other renderer.\n\nYeah good point I will split them.\n\n\u003e Also, why not apply all rewrites to paragraph and no rewrites to text?\n\nparagraph is the recombination of all the pieces at the end, so there\u0027s a bunch of html in there by the time it gets to paragraph. This would have unintended side effects for most rewrites.\n\nEx: raw comment text:\n```\n[abc](google.com)\n```\n\nconverts to:\n```\n\u003ca href\u003d\"google.com\" target\u003d\"_blank\" rel\u003d\"noopener\"\u003eabc\u003c/a\u003e\n```\n\nin renderer.link, and then put together in paragraph.\n\nThis would break a lot of rewrites not expecting to operate on the html output. We end up with stuff like:\n```\n\u003ca href\u003d\"\u003ca href\u003d\"google.com\"...\u003egoogle.com\u003c/a\u003e\" ...\u003eabc\u003c/a\u003e\n```\n\nThis `CL:*12345` is an important existing rewrite in chromium, otherwise I would just ban it. But it should be safe enough that it\u0027s not going to interfere with other stuff.",
+      "parentUuid": "88306fb3_ceadb266",
+      "revId": "f8b743d46718ae37284680953679cddb8cf7830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f09c5ef8_05e49e8b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-03-06T20:24:33Z",
       "side": 1,
       "message": "Nit: It is slightly inconsistent to have two renderers defined outside the customRenderer as consts and the other 4 renderer overwrite being done inline.",
+      "range": {
+        "startLine": 216,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 42
+      },
+      "revId": "f8b743d46718ae37284680953679cddb8cf7830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2daaa3f6_e7942f9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-07T12:54:39Z",
+      "side": 1,
+      "message": "comment on boundRewriteText explains, I will also add to comment on boundRewriteAsterisks and here",
+      "parentUuid": "f09c5ef8_05e49e8b",
       "range": {
         "startLine": 216,
         "startChar": 6,

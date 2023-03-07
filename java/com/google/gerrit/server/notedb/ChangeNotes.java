@@ -477,6 +477,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.allAttentionSetUpdates();
   }
 
+  /** Returns the key-value pairs that are attached to this change */
+  public ImmutableSortedMap<String, String> getKeyedValues() {
+    return state.keyedValues();
+  }
+
   /**
    * Returns the evaluated submit requirements for the change. We only intend to store submit
    * requirements in NoteDb for closed changes. For closed changes, the results represent the state

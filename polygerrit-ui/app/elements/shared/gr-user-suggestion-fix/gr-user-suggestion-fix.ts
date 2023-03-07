@@ -83,7 +83,7 @@ export class GrUserSuggetionFix extends LitElement {
           <gr-button
             secondary
             class="action show-fix"
-            @click=${this.handleShowFix}
+            @click=${() => this.handleShowFix()}
           >
             Preview Fix
           </gr-button>

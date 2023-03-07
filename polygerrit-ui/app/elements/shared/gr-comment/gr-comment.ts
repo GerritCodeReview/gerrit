@@ -640,9 +640,9 @@ export class GrComment extends LitElement {
         link
         class="action delete"
         @click=${(e: MouseEvent) => {
-          e.stopPropagation();
-          this.openDeleteCommentModal();
-        }}
+        e.stopPropagation();
+        this.openDeleteCommentModal();
+      }}
       >
         <gr-icon id="icon" icon="delete" filled></gr-icon>
       </gr-button>
@@ -706,13 +706,13 @@ export class GrComment extends LitElement {
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
         @text-changed=${(e: ValueChangedEvent) => {
-          // TODO: This is causing a re-render of <gr-comment> on every key
-          // press. Try to avoid always setting `this.messageText` or at least
-          // debounce it. Most of the code can just inspect the current value
-          // of the textare instead of needing a dedicated property.
-          this.messageText = e.detail.value;
-          this.autoSaveTrigger$.next();
-        }}
+        // TODO: This is causing a re-render of <gr-comment> on every key
+        // press. Try to avoid always setting `this.messageText` or at least
+        // debounce it. Most of the code can just inspect the current value
+        // of the textare instead of needing a dedicated property.
+        this.messageText = e.detail.value;
+        this.autoSaveTrigger$.next();
+      }}
       ></gr-textarea>
     `;
   }
@@ -870,14 +870,16 @@ export class GrComment extends LitElement {
   }
 
   private renderShowFixButton() {
-    if (!(this.comment as RobotCommentInfo)?.fix_suggestions) return;
+    let fix_suggestions = (this.comment as RobotCommentInfo)?.fix_suggestions;
+    if (!fix_suggestions
+      || fix_suggestions.length === 0) return;
     return html`
       <gr-button
         link
         secondary
         class="action show-fix"
         ?disabled=${this.saving}
-        @click=${this.handleShowFix}
+        @click=${() => this.handleShowFix()}
       >
         Show Fix
       </gr-button>

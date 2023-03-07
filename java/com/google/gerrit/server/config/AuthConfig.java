@@ -64,6 +64,9 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
+
+  private final boolean allowLDAPToGoogleOAuthTransition;
+
   private final boolean userNameCaseInsensitive;
   private final boolean userNameCaseInsensitiveMigrationMode;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
@@ -97,6 +100,8 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    allowLDAPToGoogleOAuthTransition =
+        cfg.getBoolean("auth", "allowLDAPToGoogleOAuthTransition", false);
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);
@@ -348,5 +353,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public boolean isAllowLDAPToGoogleOAuthTransition() {
+    return allowLDAPToGoogleOAuthTransition;
   }
 }

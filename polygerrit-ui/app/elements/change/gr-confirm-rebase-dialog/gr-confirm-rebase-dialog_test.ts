@@ -81,12 +81,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
             </gr-autocomplete>
           </div>
           <div class="rebaseCheckbox">
-            <input id="rebaseOnBehalfOfUploader" type="checkbox" checked="" />
-            <label for="rebaseOnBehalfOfUploader">
-              Rebase on behalf of uploader
-            </label>
-          </div>
-          <div class="rebaseCheckbox">
             <input id="rebaseAllowConflicts" type="checkbox" />
             <label for="rebaseAllowConflicts">
               Allow rebase with conflicts

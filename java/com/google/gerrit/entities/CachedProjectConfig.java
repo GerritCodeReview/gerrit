@@ -257,7 +257,7 @@ public abstract class CachedProjectConfig {
 
   private static ImmutableList<SubscribeSection> filterSubscribeSectionsByBranch(
       Collection<SubscribeSection> allSubscribeSections, BranchNameKey branch) {
-    ImmutableList.Builder<SubscribeSection> ret = ImmutableList.builder();
+  ImmutableList.Builder<SubscribeSection> ret = ImmutableList.builder();
     for (SubscribeSection s : allSubscribeSections) {
       if (s.appliesTo(branch)) {
         ret.add(s);

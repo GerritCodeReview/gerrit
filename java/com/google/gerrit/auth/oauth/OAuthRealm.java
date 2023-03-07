@@ -41,6 +41,8 @@ public class OAuthRealm extends AbstractRealm {
   private final DynamicMap<OAuthLoginProvider> loginProviders;
   private final Set<AccountFieldName> editableAccountFields;
 
+  private final boolean migrateAccountByEmail;
+
   @Inject
   OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders, @GerritServerConfig Config config) {
     this.loginProviders = loginProviders;
@@ -54,6 +56,7 @@ public class OAuthRealm extends AbstractRealm {
     if (config.getBoolean("oauth", null, "allowRegisterNewEmail", false)) {
       editableAccountFields.add(AccountFieldName.REGISTER_NEW_EMAIL);
     }
+    migrateAccountByEmail = config.getBoolean("auth", null, "migrateAccountByEmail", false);
   }
 
   @Override
@@ -76,6 +79,7 @@ public class OAuthRealm extends AbstractRealm {
    */
   @Override
   public AuthRequest authenticate(AuthRequest who) throws AccountException {
+    who.setMigrateAccountByEmail(isMigrateAccountByEmail());
     if (Strings.isNullOrEmpty(who.getPassword())) {
       return who;
     }
@@ -127,5 +131,9 @@ public class OAuthRealm extends AbstractRealm {
       }
     }
     return false;
+  }
+
+  public boolean isMigrateAccountByEmail() {
+    return migrateAccountByEmail;
   }
 }

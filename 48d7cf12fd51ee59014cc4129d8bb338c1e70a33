@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b3cf93_d78e8116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-07T14:29:29Z",
+      "side": 1,
+      "message": "placing",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "48d7cf12fd51ee59014cc4129d8bb338c1e70a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd9b0d2_b4fc0cae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-07T14:29:29Z",
+      "side": 1,
+      "message": "Missing `Release-Notes:` footer",
+      "revId": "48d7cf12fd51ee59014cc4129d8bb338c1e70a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c8d6f8_42b50972",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-07T14:29:29Z",
+      "side": 1,
+      "message": "Can you elaborate more on the impact?",
+      "range": {
+        "startLine": 249,
+        "startChar": 32,
+        "endLine": 249,
+        "endChar": 52
+      },
+      "revId": "48d7cf12fd51ee59014cc4129d8bb338c1e70a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

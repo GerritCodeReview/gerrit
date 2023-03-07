@@ -331,6 +331,7 @@ public class ChangeData {
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
+  private Map<String, String> customKeyedValues;
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.
@@ -1181,6 +1182,16 @@ public class ChangeData {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public Map<String, String> customKeyedValues() {
+    if (customKeyedValues == null) {
+      if (!lazyload()) {
+        return Collections.emptyMap();
+      }
+      customKeyedValues = notes().getCustomKeyedValues();
+    }
+    return customKeyedValues;
   }
 
   public ImmutableListMultimap<Account.Id, String> stars() {

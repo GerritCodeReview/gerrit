@@ -65,6 +65,7 @@ import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -247,8 +248,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(
-                colsProto
-                    .toBuilder()
+                colsProto.toBuilder()
                     .setOriginalSubject("The first patch set")
                     .setHasOriginalSubject(true))
             .build());
@@ -330,6 +330,24 @@ public class ChangeNotesStateTest {
             .setColumns(colsProto)
             .addHashtag("tag2")
             .addHashtag("tag1")
+            .build());
+  }
+
+  @Test
+  public void serializeCustomValues() throws Exception {
+    assertRoundTrip(
+        newBuilder()
+            .customKeyedValues(
+                ImmutableList.of(
+                    new SimpleEntry<String, String>("key1", "value1"),
+                    new SimpleEntry<String, String>("key2", "value2")))
+            .build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .putCustomValues("key1", "value1")
+            .putCustomValues("key2", "value2")
             .build());
   }
 
@@ -917,6 +935,9 @@ public class ChangeNotesStateTest {
                 .put("serverId", String.class)
                 .put("columns", ChangeColumns.class)
                 .put("hashtags", new TypeLiteral<ImmutableSet<String>>() {}.getType())
+                .put(
+                    "customKeyedValues",
+                    new TypeLiteral<ImmutableList<Map.Entry<String, String>>>() {}.getType())
                 .put(
                     "patchSets",
                     new TypeLiteral<ImmutableList<Map.Entry<PatchSet.Id, PatchSet>>>() {}.getType())

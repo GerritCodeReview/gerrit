@@ -78,7 +78,7 @@ message ChangeNotesKeyProto {
 // Instead, we just take the tedious yet simple approach of having a "has_foo"
 // field for each nullable field "foo", indicating whether or not foo is null.
 //
-// Next ID: 28
+// Next ID: 29
 message ChangeNotesStateProto {
   // Effectively required, even though the corresponding ChangeNotesState field
   // is optional, since the field is only absent when NoteDb is disabled, in
@@ -141,6 +141,8 @@ message ChangeNotesStateProto {
   reserved 4; // past_assignee
 
   repeated string hashtag = 5;
+
+  map<string, string> custom_keyed_values = 28;
 
   repeated devtools.gerritcodereview.PatchSet patch_set = 6;
 

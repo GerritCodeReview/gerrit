@@ -23,6 +23,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTE
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.CUSTOM_KEYED_VALUES;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
@@ -616,6 +617,9 @@ public class ChangeJson {
                   toImmutableMap(
                       a -> a.account().get(),
                       a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader)));
+    }
+    if (has(CUSTOM_KEYED_VALUES)) {
+      out.customKeyedValues = cd.customKeyedValues();
     }
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();

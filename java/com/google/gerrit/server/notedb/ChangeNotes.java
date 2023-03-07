@@ -394,6 +394,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   // Lazy defensive copies of mutable ReviewDb types, to avoid polluting the
   // ChangeNotesCache from handlers.
+  private ImmutableSortedMap<String, String> customKeyedValues;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private PatchSetApprovals approvals;
   private ImmutableSet<Comment.Key> commentKeys;
@@ -475,6 +476,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** Returns all updates for the attention set. */
   public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
     return state.allAttentionSetUpdates();
+  }
+
+  /** Returns the key-value pairs that are attached to this change */
+  public ImmutableSortedMap<String, String> getCustomKeyedValues() {
+    if (customKeyedValues == null) {
+      ImmutableSortedMap.Builder<String, String> b = ImmutableSortedMap.naturalOrder();
+      b.putAll(state.customKeyedValues());
+      customKeyedValues = b.build();
+    }
+    return customKeyedValues;
   }
 
   /**

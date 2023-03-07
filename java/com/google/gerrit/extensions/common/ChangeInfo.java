@@ -49,6 +49,8 @@ public class ChangeInfo {
 
   public Map<Integer, AttentionSetInfo> removedFromAttentionSet;
 
+  public Map<String, String> customKeyedValues;
+
   public Collection<String> hashtags;
   public String changeId;
   public String subject;

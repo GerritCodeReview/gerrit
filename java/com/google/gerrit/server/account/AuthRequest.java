@@ -36,6 +36,14 @@ import java.util.Optional;
  * not all OpenID providers return them, and not all non-OpenID systems can use them.
  */
 public class AuthRequest {
+  public boolean isMigrateAccountByEmail() {
+    return migrateAccountByEmail;
+  }
+
+  public void setMigrateAccountByEmail(boolean migrateAccountByEmail) {
+    this.migrateAccountByEmail = migrateAccountByEmail;
+  }
+
   @Singleton
   public static class Factory {
     private final ExternalIdKeyFactory externalIdKeyFactory;
@@ -101,6 +109,7 @@ public class AuthRequest {
   private String authProvider;
   private boolean authProvidesAccountActiveStatus;
   private boolean active;
+  private boolean migrateAccountByEmail;
 
   private AuthRequest(ExternalId.Key externalId, ExternalIdKeyFactory externalIdKeyFactory) {
     this.externalId = externalId;

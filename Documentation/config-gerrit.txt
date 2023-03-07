@@ -690,6 +690,17 @@ trigger the migration while Gerrit process is running.
 +
 Default is false.
 
+[[auth.migrateAccountByEmail]]auth.migrateAccountByEmail::
++
+Setting migrate account by e-mail to true enables a seamless transition
+of user accounts between different authentication schemes. The account
+ID of a previous authentication scheme is reused when the new user is
+created for the new authentication scheme.
++
+This is only available when transitioning from LDAP to Google OAuth currently.
++
+Default is false.
+
 [[auth.enableRunAs]]auth.enableRunAs::
 +
 If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request

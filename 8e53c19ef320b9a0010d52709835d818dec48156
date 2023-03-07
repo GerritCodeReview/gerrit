@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5c61120_28fb04ba",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-07T12:19:37Z",
+      "side": 1,
+      "message": "Could we just skip this whole block if externalIdNotes is null?\n\n```\n  boolean externalIdsUpdated \u003d false;\n  if (externalIdNotes !\u003d null) {\n     String externalIdUpdateMessage \u003d\n        updatedAccounts.size() \u003d\u003d 1\n            ? Iterables.getOnlyElement(updatedAccounts).message\n            : \"Batch update for \" + updatedAccounts.size() + \" accounts\";\n      ObjectId oldExternalIdsRevision \u003d externalIdNotes.getRevision();\n      // These update the same ref, so they need to be stacked on top of one another using the same\n      // ExternalIdNotes instance.\n      RevCommit revCommit \u003d\n        commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);\n      externalIdsUpdated \u003d !Objects.equals(revCommit.getId(), oldExternalIdsRevision);\n   }\n```\n\nI think this would be easier to read (e.g. it\u0027s not clear why we would want to call commitExternalIdUpdates if there are no external ID updates to be committed.",
+      "range": {
+        "startLine": 518,
+        "startChar": 4,
+        "endLine": 534,
+        "endChar": 84
+      },
+      "revId": "8e53c19ef320b9a0010d52709835d818dec48156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

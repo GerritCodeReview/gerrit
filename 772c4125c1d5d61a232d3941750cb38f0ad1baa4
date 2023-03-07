@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cc833ea_0fc6727d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-07T21:31:11Z",
+      "side": 1,
+      "message": "Nit: also missing apostrophe (`objects\u0027`).",
+      "range": {
+        "startLine": 14,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "772c4125c1d5d61a232d3941750cb38f0ad1baa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

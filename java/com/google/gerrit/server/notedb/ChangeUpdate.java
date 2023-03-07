@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LA
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_KEYED_VALUES_PREFIX;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
@@ -52,6 +53,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
@@ -99,6 +101,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -162,6 +165,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
   private boolean ignoreFurtherAttentionSetUpdates;
   private Set<String> hashtags;
+  private TreeMap<String, String> keyedValues = new TreeMap<>();
   private String changeMessage;
   private String tag;
   private PatchSetState psState;
@@ -459,6 +463,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public void addCustomValue(String key, String value) {
+    this.keyedValues.put(key, value);
   }
 
   /**
@@ -761,6 +769,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     Joiner comma = Joiner.on(',');
     if (hashtags != null) {
       addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
+    }
+
+    for (Map.Entry<String, String> entry : keyedValues.entrySet()) {
+      addFooter(
+          msg, new FooterKey(FOOTER_KEYED_VALUES_PREFIX + entry.getKey()), entry.getValue());
     }
 
     if (tag != null) {
@@ -1158,6 +1171,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && submissionId == null
         && submitRecords == null
         && hashtags == null
+        && keyedValues.isEmpty()
         && topic == null
         && commit == null
         && psState == null

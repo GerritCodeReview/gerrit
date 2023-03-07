@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -41,6 +42,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 class ChangesImpl implements Changes {
@@ -101,7 +103,11 @@ class ChangesImpl implements Changes {
   public ChangeApi create(ChangeInput in) throws RestApiException {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
-      return api.create(changes.parse(Change.id(out._number)));
+      return api.create(
+          changes.parse(
+              Project.nameKey(out.project),
+              Change.id(out._number),
+              ObjectId.fromString(out.metaRevId)));
     } catch (Exception e) {
       throw asRestApiException("Cannot create change", e);
     }

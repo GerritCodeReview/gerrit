@@ -25,6 +25,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PI
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
@@ -99,6 +100,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -162,6 +164,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
   private boolean ignoreFurtherAttentionSetUpdates;
   private Set<String> hashtags;
+  private TreeMap<String, String> customValues = new TreeMap<>();
   private String changeMessage;
   private String tag;
   private PatchSetState psState;
@@ -459,6 +462,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public void addCustomValue(String key, String value) {
+    this.customValues.put(key, value);
+  }
+
+  public void deleteCustomValue(String key) {
+    this.customValues.put(key, "");
   }
 
   /**
@@ -761,6 +772,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     Joiner comma = Joiner.on(',');
     if (hashtags != null) {
       addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
+    }
+
+    for (Map.Entry<String, String> entry : customValues.entrySet()) {
+      addFooter(msg, FOOTER_CUSTOM_VALUE, entry.getKey() + "=" + entry.getValue());
     }
 
     if (tag != null) {
@@ -1158,6 +1173,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && submissionId == null
         && submitRecords == null
         && hashtags == null
+        && customValues.isEmpty()
         && topic == null
         && commit == null
         && psState == null

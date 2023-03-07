@@ -97,6 +97,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -165,6 +166,7 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
+  private final TreeMap<String, String> keyedValues;
   private final Map<PatchSetApproval.Key, PatchSetApproval.Builder> approvals;
   private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
@@ -233,6 +235,7 @@ class ChangeNotesParser {
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
+    keyedValues = new TreeMap<>();
   }
 
   ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
@@ -301,6 +304,7 @@ class ChangeNotesParser {
         buildAllMessages(),
         humanComments,
         submitRequirementResults,
+        keyedValues,
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),

@@ -40,6 +40,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.KeyedValues;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -125,6 +126,7 @@ public abstract class ChangeNotesState {
       List<ChangeMessage> changeMessages,
       ListMultimap<ObjectId, HumanComment> publishedComments,
       List<SubmitRequirementResult> submitRequirementResults,
+      @Nullable KeyedValues keyedValues,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -156,6 +158,7 @@ public abstract class ChangeNotesState {
                 .topic(topic)
                 .originalSubject(originalSubject)
                 .submissionId(submissionId)
+                .keyedValues(keyedValues)
                 .isPrivate(isPrivate)
                 .workInProgress(workInProgress)
                 .reviewStarted(reviewStarted)
@@ -230,6 +233,8 @@ public abstract class ChangeNotesState {
 
     abstract boolean reviewStarted();
 
+    @Nullable KeyedValues keyedValues();
+
     @Nullable
     abstract Change.Id revertOf();
 
@@ -263,6 +268,8 @@ public abstract class ChangeNotesState {
 
       abstract Builder status(@Nullable Change.Status status);
 
+      abstract Builder keyedValues(@Nullable KeyedValues keyedValues);
+
       abstract Builder isPrivate(boolean isPrivate);
 
       abstract Builder workInProgress(boolean workInProgress);
@@ -276,7 +283,7 @@ public abstract class ChangeNotesState {
       abstract ChangeColumns build();
     }
   }
-
+3
   // Only null if NoteDb is disabled.
   @Nullable
   abstract ObjectId metaId();
@@ -551,6 +558,12 @@ public abstract class ChangeNotesState {
       }
       if (cols.status() != null) {
         b.setStatus(STATUS_CONVERTER.reverse().convert(cols.status())).setHasStatus(true);
+      }
+      if (cols.keyedValues() != null) {
+        cols.keyedValues().getKeyedValues().entrySet()
+        .forEachentry -> {
+          builder.putKeyedValues(entry.getKey(), entry.getValue());
+        });
       }
       b.setIsPrivate(cols.isPrivate())
           .setWorkInProgress(cols.workInProgress())

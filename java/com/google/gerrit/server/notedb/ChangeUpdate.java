@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LA
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_KEYED_VALUES_PREFIX;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
@@ -52,6 +53,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
@@ -162,6 +164,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
   private boolean ignoreFurtherAttentionSetUpdates;
   private Set<String> hashtags;
+  private ImmutableSortedMap<String, String> keyedValues;
   private String changeMessage;
   private String tag;
   private PatchSetState psState;
@@ -459,6 +462,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public void setKeyedValues(ImmutableSortedMap<String, String> keyedValues) {
+    this.keyedValues = keyedValues;
   }
 
   /**
@@ -761,6 +768,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     Joiner comma = Joiner.on(',');
     if (hashtags != null) {
       addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
+    }
+
+    if (keyedValues != null) {
+      for (Map.Entry<String, String> entry : keyedValues.entrySet()) {
+        addFooter(
+            msg, new FooterKey(FOOTER_KEYED_VALUES_PREFIX + entry.getKey()), entry.getValue());
+      }
     }
 
     if (tag != null) {

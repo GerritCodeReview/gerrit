@@ -22,6 +22,30 @@
       },
       "revId": "fecaccb11395b579b81b19921f1e6917b6a40824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e7cc0b_302cf2da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-07T09:49:59Z",
+      "side": 0,
+      "message": "No that one, doesn\u0027t take any arguments, so it\u0027s fine\n\nThough it does refer to `this` which I thought shouldn\u0027t work with function pointer like that. I am confused, but also updated here to make sure.",
+      "parentUuid": "b4e4083c_c14f9fe1",
+      "range": {
+        "startLine": 880,
+        "startChar": 8,
+        "endLine": 880,
+        "endChar": 36
+      },
+      "revId": "fecaccb11395b579b81b19921f1e6917b6a40824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

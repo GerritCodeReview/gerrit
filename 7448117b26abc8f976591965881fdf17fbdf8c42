@@ -46,6 +46,30 @@
       },
       "revId": "7448117b26abc8f976591965881fdf17fbdf8c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47ff41a_2821bc2f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-03-07T17:05:47Z",
+      "side": 1,
+      "message": "I would argue `bitmap\u0027s objects`, as it\u0027s the reachability of the various objects referenced within the bitmap that is being affected.",
+      "parentUuid": "dacb3f77_4fe9e978",
+      "range": {
+        "startLine": 250,
+        "startChar": 17,
+        "endLine": 250,
+        "endChar": 32
+      },
+      "revId": "7448117b26abc8f976591965881fdf17fbdf8c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

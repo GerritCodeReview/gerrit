@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f97f0d22_6fd4c222",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-07T13:02:42Z",
+      "side": 1,
+      "message": "nit: this comment looks outdated now",
+      "range": {
+        "startLine": 517,
+        "startChar": 4,
+        "endLine": 521,
+        "endChar": 67
+      },
+      "revId": "9bc7cb5fd7ee2c31c37861889fb433b749b4bc92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

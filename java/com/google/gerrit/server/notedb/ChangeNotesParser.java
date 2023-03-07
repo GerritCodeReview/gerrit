@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PI
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
@@ -47,6 +48,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -97,6 +99,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -165,6 +168,7 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
+  private final TreeMap<String, String> customValues;
   private final Map<PatchSetApproval.Key, PatchSetApproval.Builder> approvals;
   private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
@@ -233,6 +237,7 @@ class ChangeNotesParser {
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
+    customValues = new TreeMap<>();
   }
 
   ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
@@ -263,6 +268,7 @@ class ChangeNotesParser {
       checkMandatoryFooters();
     }
 
+    pruneEmptyCustomValues();
     return buildState();
   }
 
@@ -287,6 +293,7 @@ class ChangeNotesParser {
         submissionId,
         status,
         firstNonNull(hashtags, ImmutableSet.of()),
+        ImmutableSortedMap.copyOfSorted(customValues),
         buildPatchSets(),
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
@@ -490,6 +497,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
+    parseCustomValues(commit);
     parseAttentionSetUpdates(commit);
 
     parseSubmission(commit, commitTimestamp);
@@ -718,6 +726,30 @@ class ChangeNotesParser {
       hashtags = ImmutableSet.of();
     } else {
       hashtags = Sets.newHashSet(HASHTAG_SPLITTER.split(hashtagsLines.get(0)));
+    }
+  }
+
+  private void parseCustomValues(ChangeNotesCommit commit) throws ConfigInvalidException {
+    for (String customValueLine : commit.getFooterLineValues(FOOTER_CUSTOM_VALUE)) {
+      String[] parts = customValueLine.split("=", 2);
+      String key = parts[0];
+      String value = parts[1];
+      // Commits are parsed in reverse order and only the last set of values
+      // should be used.  An empty value for a key means it's a deletion.
+      customValues.putIfAbsent(key, value);
+    }
+  }
+
+  private void pruneEmptyCustomValues() {
+    List<String> toRemove = new ArrayList<>();
+    for (Map.Entry<String, String> entry : customValues.entrySet()) {
+      if (entry.getValue().length() == 0) {
+        toRemove.add(entry.getKey());
+      }
+    }
+
+    for (String key : toRemove) {
+      customValues.remove(key);
     }
   }
 

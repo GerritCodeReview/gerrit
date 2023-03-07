@@ -34,6 +34,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -67,6 +68,7 @@ import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -1501,6 +1503,75 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getHashtags()).isEqualTo(hashtags);
+  }
+
+  @Test
+  public void customValuesCommit() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.addCustomValue("key1", "value1");
+    update.addCustomValue("key2", "value2");
+    update.commit();
+    try (RevWalk walk = new RevWalk(repo)) {
+      RevCommit commit = walk.parseCommit(update.getResult());
+      walk.parseBody(commit);
+      assertThat(commit.getFullMessage()).contains("Custom-Value: key1=value1\n");
+      assertThat(commit.getFullMessage()).contains("Custom-Value: key2=value2\n");
+    }
+  }
+
+  @Test
+  public void customValuesChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.addCustomValue("key1", "value\n1");
+    update.addCustomValue("key2", "value2=value3");
+    update.addCustomValue("key3", "value3: value4");
+    update.commit();
+
+    TreeMap<String, String> customValues = new TreeMap<>();
+    customValues.put("key1", "value 1");
+    customValues.put("key2", "value2=value3");
+    customValues.put("key3", "value3: value4");
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCustomValues()).isEqualTo(ImmutableSortedMap.copyOfSorted(customValues));
+  }
+
+  @Test
+  public void customValuesChangeNotes_Override() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.addCustomValue("key1", "value1");
+    update.addCustomValue("key2", "value2");
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.addCustomValue("key1", "value3");
+    update.commit();
+
+    TreeMap<String, String> customValues = new TreeMap<>();
+    customValues.put("key1", "value3");
+    customValues.put("key2", "value2");
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCustomValues()).isEqualTo(ImmutableSortedMap.copyOfSorted(customValues));
+  }
+
+  @Test
+  public void customValuesChangeNotes_Deletion() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.addCustomValue("key1", "value1");
+    update.addCustomValue("key2", "value2");
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.deleteCustomValue("key1");
+    update.commit();
+
+    TreeMap<String, String> customValues = new TreeMap<>();
+    customValues.put("key2", "value2");
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCustomValues()).isEqualTo(ImmutableSortedMap.copyOfSorted(customValues));
   }
 
   @Test

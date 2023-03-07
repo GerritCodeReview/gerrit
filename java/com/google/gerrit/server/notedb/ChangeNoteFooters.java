@@ -26,6 +26,7 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
+  public static final String FOOTER_KEYED_VALUES_PREFIX = "Custom-Value-";
   public static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =

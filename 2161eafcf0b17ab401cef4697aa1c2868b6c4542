@@ -70,6 +70,30 @@
       },
       "revId": "2161eafcf0b17ab401cef4697aa1c2868b6c4542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6624bfdb_504dea4c",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-03-07T20:24:09Z",
+      "side": 1,
+      "message": "added the config option https://gerrit-review.googlesource.com/c/gerrit/+/362615.",
+      "parentUuid": "c6de85b8_17411e42",
+      "range": {
+        "startLine": 385,
+        "startChar": 64,
+        "endLine": 386,
+        "endChar": 55
+      },
+      "revId": "2161eafcf0b17ab401cef4697aa1c2868b6c4542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,46 @@
       },
       "revId": "1d9023ac2dfbeccadc9ea49eaed947ca5db1332e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dcd7839_5ddb045f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangesCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-07T08:14:16Z",
+      "side": 1,
+      "message": "Should this be a javadoc on the method?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 20
+      },
+      "revId": "1d9023ac2dfbeccadc9ea49eaed947ca5db1332e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f0d1c5_90771434",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangesCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-07T08:14:16Z",
+      "side": 1,
+      "message": "[optional] Should we check this first, so that we do not need to load the change if the project state doesn\u0027t permit read?",
+      "revId": "1d9023ac2dfbeccadc9ea49eaed947ca5db1332e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

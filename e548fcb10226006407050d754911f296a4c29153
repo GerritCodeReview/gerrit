@@ -94,6 +94,30 @@
       },
       "revId": "e548fcb10226006407050d754911f296a4c29153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2af89a47_7b83c59e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-07T07:54:20Z",
+      "side": 1,
+      "message": "Damn! My bad 😊",
+      "parentUuid": "35b8d20d_18be8877",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "e548fcb10226006407050d754911f296a4c29153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

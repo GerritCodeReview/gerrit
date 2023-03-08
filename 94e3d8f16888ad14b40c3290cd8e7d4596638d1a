@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1488aec_527edcf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-08T13:21:10Z",
+      "side": 1,
+      "message": "What am I missing here to ensure these show up on ChangeInfo?\n\nI notice \"SetHashtagOp\" do I need this as well?",
+      "revId": "94e3d8f16888ad14b40c3290cd8e7d4596638d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

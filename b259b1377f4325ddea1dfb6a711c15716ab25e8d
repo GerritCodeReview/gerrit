@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da9011c_40e00da7",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-08T12:52:36Z",
+      "side": 1,
+      "message": "nit: to have consistent formatting with other notes, you may use \u0027[NOTE]\u0027:\n\n[NOTE]\nThough edits created ...",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 6
+      },
+      "revId": "b259b1377f4325ddea1dfb6a711c15716ab25e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

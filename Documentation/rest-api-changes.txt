@@ -3012,7 +3012,7 @@ entity is returned that describes the submit requirement result.
 'GET /changes/link:#change-id[\{change-id\}]/edit
 --
 
-Retrieves a change edit details.
+Retrieves the details of the change edit done by the caller to the given change.
 
 .Request
 ----

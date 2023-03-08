@@ -16,6 +16,41 @@
       "message": "360570: Set version to 3.7.2-SNAPSHOT | https://gerrit-review.googlesource.com/c/gerrit/+/360570",
       "revId": "a57c4bf868763b81bf64e30c488e7a6035eaf42c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c4ddca_1117a54f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1143440
+      },
+      "writtenOn": "2023-03-08T17:32:54Z",
+      "side": 1,
+      "message": "\u003e 360570: Set version to 3.7.2-SNAPSHOT | https://gerrit-review.googlesource.com/c/gerrit/+/360570",
+      "parentUuid": "6cbb4e90_ed6d4ae0",
+      "revId": "a57c4bf868763b81bf64e30c488e7a6035eaf42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b08035f_6858f70c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1143440
+      },
+      "writtenOn": "2023-03-08T17:32:54Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/360570/comments/6cbb4e90_ed6d4ae0",
+      "revId": "a57c4bf868763b81bf64e30c488e7a6035eaf42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

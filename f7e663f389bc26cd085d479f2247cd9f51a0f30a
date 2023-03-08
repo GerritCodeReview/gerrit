@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c03777_d4723c42",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-08T12:36:27Z",
+      "side": 1,
+      "message": "maybe add:\n\nAs such, they can be accessible to users who have access to the repository.",
+      "range": {
+        "startLine": 188,
+        "startChar": 44,
+        "endLine": 188,
+        "endChar": 45
+      },
+      "revId": "f7e663f389bc26cd085d479f2247cd9f51a0f30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -245,5 +245,10 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     public boolean isEnabled() {
       return true;
     }
+
+    @Override
+    public boolean isHidden() {
+      return false;
+    }
   }
 }

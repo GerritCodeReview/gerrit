@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d08b1fa_bc1964e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1143440
+      },
+      "writtenOn": "2023-03-08T17:27:37Z",
+      "side": 1,
+      "message": "360569: Set version to 3.7.1 | https://gerrit-review.googlesource.com/c/gerrit/+/360569",
+      "revId": "d49aaaaeb682fddf5b351d56cba20f4d952d3ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

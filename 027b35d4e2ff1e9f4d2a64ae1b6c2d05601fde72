@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c66815_56fc63f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-08T21:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd405ca6_63923723",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3aa7a47_4a9546bf",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-08T21:02:45Z",
       "side": 1,
       "message": "Where?",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dedb93c_3829f3cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-08T21:28:23Z",
+      "side": 1,
+      "message": "Do you mean I should make it clearer the objects\u0027 reachability is referring to the bitmap?",
+      "parentUuid": "e3aa7a47_4a9546bf",
       "range": {
         "startLine": 13,
         "startChar": 51,

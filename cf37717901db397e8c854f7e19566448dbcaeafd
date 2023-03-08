@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ef8984_8925143b",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-08T21:01:52Z",
+      "side": 1,
+      "message": "What about `migrateAccountByEmail` instead? The same logic could also be applied when migrating to other authentication systems that aren\u0027t necessarily Google\u0027s OAuth.",
+      "range": {
+        "startLine": 60,
+        "startChar": 42,
+        "endLine": 60,
+        "endChar": 78
+      },
+      "revId": "cf37717901db397e8c854f7e19566448dbcaeafd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

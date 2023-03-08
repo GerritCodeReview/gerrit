@@ -173,7 +173,7 @@ patchset was uploaded later:
 [[search-for-changes]]
 == Searching for Changes with Pending Edits
 
-To find changes with pending edits:
+To find changes with pending edits created by you:
 
 *  From the Gerrit dashboard, select Your > Changes. All your changes are
 listed, according to Work in progress, Outgoing reviews, Incoming reviews,
@@ -182,6 +182,10 @@ CCed on, and Recently closed.
 For more information about Search operators, see
 link:user-search.html[Searching Changes]. For example, to find only
 those changes that contain edits, see link:user-search.html#has[has:edit].
+
+NOTE - though edits created by others are not accessible from the Gerrit UI,
+edits are not considered to be private data, and are stored in non-encrypted
+special branches under the target repository.
 
 
 [[change-edit-actions]]

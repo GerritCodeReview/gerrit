@@ -7,15 +7,19 @@ import {CommentLinkInfo, CommentLinks} from '../types/common';
 import {getBaseUrl} from './url-util';
 
 /**
- * Finds links within the base string and convert them to HTML. Config-based
- * rewrites are only applied on text that is not linked by the default linking
- * library.
+ * Finds links within the base string and convert them to either HTML or
+ * markdown.
  */
 export function linkifyUrlsAndApplyRewrite(
   base: string,
-  repoCommentLinks: CommentLinks
+  repoCommentLinks: CommentLinks,
+  renderAs: 'html' | 'markdown'
 ): string {
-  const rewriteResults = getRewriteResultsFromConfig(base, repoCommentLinks);
+  const rewriteResults = getRewriteResultsFromConfig(
+    base,
+    repoCommentLinks,
+    renderAs
+  );
   return applyRewrites(base, rewriteResults);
 }
 
@@ -27,7 +31,8 @@ export function linkifyUrlsAndApplyRewrite(
  */
 function getRewriteResultsFromConfig(
   base: string,
-  repoCommentLinks: CommentLinks
+  repoCommentLinks: CommentLinks,
+  renderAs: 'html' | 'markdown'
 ): RewriteResult[] {
   const enabledRewrites = Object.values(repoCommentLinks).filter(
     commentLinkInfo =>
@@ -44,7 +49,11 @@ function getRewriteResultsFromConfig(
     let match: RegExpExecArray | null;
 
     while ((match = regexp.exec(base)) !== null) {
-      const fullReplacementText = getReplacementText(match[0], rewrite);
+      const fullReplacementText = getReplacementText(
+        match[0],
+        rewrite,
+        renderAs
+      );
       // The replacement may not be changing the entire matched substring so we
       // "trim" the replacement position and text to the part that is actually
       // different. This makes sure that unchanged portions are still eligible
@@ -115,7 +124,8 @@ function applyRewrites(base: string, rewriteResults: RewriteResult[]): string {
  */
 function getReplacementText(
   matchedText: string,
-  rewrite: CommentLinkInfo
+  rewrite: CommentLinkInfo,
+  renderAs: 'html' | 'markdown'
 ): string {
   const replacementHref = rewrite.link.startsWith('/')
     ? `${getBaseUrl()}${rewrite.link}`
@@ -124,6 +134,7 @@ function getReplacementText(
   return matchedText.replace(
     regexp,
     createLinkTemplate(
+      renderAs,
       replacementHref,
       rewrite.text ?? '$&',
       rewrite.prefix,
@@ -133,11 +144,15 @@ function getReplacementText(
 }
 
 function createLinkTemplate(
+  renderAs: 'html' | 'markdown',
   href: string,
   displayText: string,
   prefix?: string,
   suffix?: string
 ) {
+  if (renderAs === 'markdown') {
+    return `${prefix ?? ''}[${displayText}](${href})${suffix ?? ''}`;
+  }
   return `${
     prefix ?? ''
   }<a href="${href}" rel="noopener" target="_blank">${displayText}</a>${

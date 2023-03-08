@@ -131,7 +131,8 @@ export class GrFormattedText extends LitElement {
   private renderAsPlaintext() {
     const linkedText = linkifyUrlsAndApplyRewrite(
       htmlEscape(this.content).toString(),
-      this.repoCommentLinks
+      this.repoCommentLinks,
+      'html'
     );
 
     return html`
@@ -144,11 +145,6 @@ export class GrFormattedText extends LitElement {
     const suggestEditsEnable = this.flagsService.isEnabled(
       KnownExperimentId.SUGGEST_EDIT
     );
-    // <marked-element> internals will be in charge of calling our custom
-    // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
-    // closure.
-    const boundRewriteText = (text: string) =>
-      linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
 
     // We are overriding some marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
@@ -160,9 +156,7 @@ export class GrFormattedText extends LitElement {
     //    characters using <pre>. The convention is to only use <pre> for multi-
     //    line code blocks so it is not used for inline code blocks. See test
     //    for this.
-    // 4. Rewrite plain text ("text") to apply linking and other config-based
-    //    rewrites. Text within code blocks is not passed here.
-    // 5. Open links in a new tab by rendering with target="_blank" attribute.
+    // 4. Open links in a new tab by rendering with target="_blank" attribute.
     function customRenderer(renderer: {[type: string]: Function}) {
       renderer['link'] = (href: string, title: string, text: string) =>
         /* HTML */
@@ -189,16 +183,22 @@ export class GrFormattedText extends LitElement {
           return `<pre><code>${text}</code></pre>`;
         }
       };
-      renderer['text'] = boundRewriteText;
     }
 
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
     // HTML string before it is rendered by `<marked-element>` in case any
     // rewrites have been abused to attempt an XSS attack.
+    // Rewrites are pre-applied before rendering markdown so that markdown-
+    // related characters and tokenization does not interfere with rewrite
+    // regular expressions.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.content)}
+        .markdown=${linkifyUrlsAndApplyRewrite(
+          this.escapeAllButBlockQuotes(this.content),
+          this.repoCommentLinks,
+          'markdown'
+        )}
         .breaks=${true}
         .renderer=${customRenderer}
         .callback=${(_error: string | null, contents: string) =>

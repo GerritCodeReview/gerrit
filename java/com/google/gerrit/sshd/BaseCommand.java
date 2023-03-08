@@ -55,6 +55,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.channel.exception.SshChannelClosedException;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.channel.ChannelSession;
@@ -501,6 +502,8 @@ public abstract class BaseCommand implements Command {
 
           out.flush();
           err.flush();
+        } catch (SshChannelClosedException e) {
+          // Ignore - JGit flushed already
         } catch (Throwable e) {
           try {
             out.flush();

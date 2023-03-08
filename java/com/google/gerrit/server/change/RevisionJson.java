@@ -249,6 +249,7 @@ public class RevisionJson {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
       if (!scheme.isEnabled()
+          || scheme.isHidden()
           || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
         continue;
       }

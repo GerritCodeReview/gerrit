@@ -34,4 +34,7 @@ public abstract class DownloadScheme {
 
   /** Returns whether the download scheme is enabled */
   public abstract boolean isEnabled();
+
+  /** Returns whether the download scheme is hidden in the UI */
+  public abstract boolean isHidden();
 }

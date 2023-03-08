@@ -2083,6 +2083,7 @@ Default is 1 hour.
   scheme = anon_http
   scheme = anon_git
   scheme = repo
+  hide = ssh
 ----
 
 The download section configures the allowed download methods.
@@ -2150,6 +2151,17 @@ This is not default, as not all instances will deploy repo.
 +
 If `download.scheme` is not specified, SSH, HTTP and Anonymous HTTP
 downloads are allowed.
+
+[[download.hide]]download.hide::
++
+Schemes that can be used to download changes, but will not be advertised
+in the UI. This can be any scheme that can be configured in <<download.scheme>>.
++
+This is mostly useful in a deprecation scenario during a time where using
+a scheme is discouraged, but has to be supported until all clients have
+migrated to use a different scheme.
++
+By default, no scheme will be hidden in the UI.
 
 [[download.checkForHiddenChangeRefs]]download.checkForHiddenChangeRefs::
 +

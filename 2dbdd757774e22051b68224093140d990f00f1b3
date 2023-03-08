@@ -93,6 +93,30 @@
       },
       "revId": "2dbdd757774e22051b68224093140d990f00f1b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db2ea770_60f8faef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-08T13:23:06Z",
+      "side": 1,
+      "message": "I tried this implementation strategy in Change 362877, the problem is we do not want to rewrite within code blocks, and we do not know for sure which ones are in code until we markdown parse. Some pictures of the issue: https://imgur.com/a/4huD0jk",
+      "parentUuid": "b4f9fa60_ae6bac36",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "2dbdd757774e22051b68224093140d990f00f1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

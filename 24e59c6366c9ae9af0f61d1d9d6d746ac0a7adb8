@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b58304f_4f533107",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-08T21:45:08Z",
+      "side": 1,
+      "message": "Could this move to stable-3.5?",
+      "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca35e83_59f15aa2",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-08T21:45:08Z",
+      "side": 1,
+      "message": "Would there be any other reason for this exception? If this is JGit specific, should it go into AbstractGitCommand.java instead?",
+      "range": {
+        "startLine": 506,
+        "startChar": 10,
+        "endLine": 506,
+        "endChar": 42
+      },
+      "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

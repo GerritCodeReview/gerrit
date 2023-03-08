@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b29c8142_dfe73cfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-08T22:50:40Z",
+      "side": 1,
+      "message": "Done, I also cherry-picked Sasa\u0027s fix which is also useful for stable-3.5 and was conflicting with moving this fix",
+      "parentUuid": "8b58304f_4f533107",
+      "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eca35e83_59f15aa2",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-03-08T21:45:08Z",
       "side": 1,
       "message": "Would there be any other reason for this exception? If this is JGit specific, should it go into AbstractGitCommand.java instead?",
+      "range": {
+        "startLine": 506,
+        "startChar": 10,
+        "endLine": 506,
+        "endChar": 42
+      },
+      "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f5efdb_3f2ef5e8",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-08T22:50:40Z",
+      "side": 1,
+      "message": "I think there are two cases:\n- the command implementation flushes the stream like jgit does, then this exception can occur and it should be ignored here\n- the command implementation does not flush the stream, then this exception shouldn\u0027t be thrown. Ignoring an exception which isn\u0027t thrown shouldn\u0027t cause an issue",
+      "parentUuid": "eca35e83_59f15aa2",
       "range": {
         "startLine": 506,
         "startChar": 10,

@@ -23,8 +23,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -38,6 +41,7 @@ public class DownloadConfig {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ImmutableSet<String> downloadSchemes;
+  private final ImmutableSet<String> hiddenSchemes;
   private final ImmutableSet<DownloadCommand> downloadCommands;
   private final ImmutableSet<ArchiveFormatInternal> archiveFormats;
 
@@ -61,6 +65,10 @@ public class DownloadConfig {
       }
       downloadSchemes = normalized.build();
     }
+
+    Set<String> hidden = new HashSet<>(Arrays.asList(cfg.getStringList("download", null, "hide")));
+    hidden.retainAll(downloadSchemes);
+    hiddenSchemes = ImmutableSet.copyOf(hidden);
 
     DownloadCommand[] downloadCommandValues = DownloadCommand.values();
     List<DownloadCommand> allCommands =
@@ -106,6 +114,11 @@ public class DownloadConfig {
   /** Scheme used to download. */
   public ImmutableSet<String> getDownloadSchemes() {
     return downloadSchemes;
+  }
+
+  /** Scheme hidden in the UI. */
+  public ImmutableSet<String> getHiddenSchemes() {
+    return hiddenSchemes;
   }
 
   /** Command used to download. */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127ae703_f31b4913",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-09T09:20:23Z",
+      "side": 1,
+      "message": "Remove the empty line to fix the Release-Notes footer.",
+      "revId": "b14c004a75e504f022004079f3e9f9b7097dbc1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

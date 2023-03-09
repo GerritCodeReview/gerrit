@@ -93,6 +93,30 @@
       },
       "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e2ded40_fcc8a302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-09T11:32:17Z",
+      "side": 1,
+      "message": "Simply put a link to the documentation (or other resources) that explain the impact of the force-push to the bitmap reachability. That would also a useful addition to the Gerrit documentation, so that people is fully aware of it.",
+      "parentUuid": "9dedb93c_3829f3cb",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

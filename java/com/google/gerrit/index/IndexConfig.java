@@ -29,7 +29,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @AutoValue
 public abstract class IndexConfig {
-  private static final int DEFAULT_MAX_TERMS = 1024;
+  public static final int DEFAULT_MAX_TERMS = 1024;
   private static final int DEFAULT_PAGE_SIZE_MULTIPLIER = 1;
 
   public static IndexConfig createDefault() {

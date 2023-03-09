@@ -38,6 +38,7 @@ import {
   RepoViewState,
 } from '../../../models/views/repo';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {when} from 'lit/directives/when.js';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -129,6 +130,11 @@ export class GrRepoDetailList extends LitElement {
         }
         .tagger.hide {
           display: none;
+        }
+        .webLink img {
+          vertical-align: top;
+          width: var(--line-height-normal);
+          height: var(--line-height-normal);
         }
       `,
     ];
@@ -338,7 +344,18 @@ export class GrRepoDetailList extends LitElement {
   private renderWeblink(link: WebLinkInfo) {
     return html`
       <a href=${link.url} class="webLink" rel="noopener" target="_blank">
-        (${link.name})
+        ${when(
+          !!link.image_url,
+          () => html`
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="Open in Code Search">
+            <img src=${link.image_url}></img>
+          </gr-tooltip-content>
+          `,
+          () => html`<span>${link.name}</span>`
+        )}
       </a>
     `;
   }

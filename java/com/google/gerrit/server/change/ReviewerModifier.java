@@ -113,6 +113,7 @@ public class ReviewerModifier {
 
   private enum FailureType {
     NOT_FOUND,
+    INACTIVE,
     OTHER;
   }
 
@@ -232,6 +233,9 @@ public class ReviewerModifier {
 
       ReviewerModification byAccountId = byAccountId(input, notes, user);
 
+      if (byAccountId.isFailure() && byAccountId.failureType.equals(FailureType.INACTIVE)) {
+        return byAccountId;
+      }
       ReviewerModification wholeGroup = null;
       if (!byAccountId.exactMatchFound) {
         wholeGroup = addWholeGroup(input, notes, user, confirmed, allowGroup, allowByEmail);
@@ -284,6 +288,13 @@ public class ReviewerModifier {
             accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
       } else {
         reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+      }
+      if (reviewerUser.getAccount().inactive()) {
+        return fail(
+            input,
+            FailureType.INACTIVE,
+            String.format(
+                "Cannot add inactive account %s, %s", reviewerUser.getAccountId(), input.reviewer));
       }
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {

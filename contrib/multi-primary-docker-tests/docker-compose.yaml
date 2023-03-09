@@ -1,0 +1,79 @@
+version: '3'
+services:
+
+  gerrit-01:
+    build:
+      context: gerrit
+    environment:
+      - CREATE_DEFAULT_ACCOUNT=true
+      - WAIT_FOR=es-server:9200
+    depends_on:
+      - nfs-server
+      - es-server
+    networks:
+      - gerrit-net
+    volumes:
+      - "./:/docker:ro"
+      - "gerrit-etc:/var/gerrit/etc"
+    privileged: true
+
+  gerrit-02:
+    build:
+      context: gerrit
+    environment:
+      - WAIT_FOR=gerrit-01:29418
+    depends_on:
+      - gerrit-01
+      - nfs-server
+      - es-server
+    networks:
+      - gerrit-net
+    volumes:
+      - "./:/docker:ro"
+      - "gerrit-etc:/var/gerrit/etc"
+    privileged: true
+
+  nfs-server:
+    build:
+      context: nfs-server
+    networks:
+      - gerrit-net
+    environment:
+      - NFS_EXPORT_1=/var/git-data *(rw,fsid=0,insecure,sync,no_root_squash)
+      - NFS_VERSION=3
+    volumes:
+      - "gitvolume:/var/git-data"
+    privileged: true
+
+  es-server:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=elasticsearch
+      - xpack.security.enabled=true
+    networks:
+      - gerrit-net
+
+  run_tests:
+    build:
+      context: run_tests
+    environment:
+      - GERRIT_HOST_1=gerrit-01
+      - GERRIT_HOST_2=gerrit-02
+      - PROJECT_NAME
+    depends_on:
+      - gerrit-01
+      - gerrit-02
+    networks:
+      - gerrit-net
+    volumes:
+      - "./:/docker:ro"
+      - "gerrit-etc:/gerrit_etc:ro"
+
+volumes:
+  gitvolume:
+  gerrit-etc:
+
+networks:
+  gerrit-net:
+    driver: bridge

@@ -16,7 +16,9 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import java.util.Collection;
+import java.util.Set;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
@@ -36,6 +38,14 @@ public interface GroupIncludeCache {
    * @return the UUIDs of all direct parent groups
    */
   Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
+
+  /**
+   * Returns the parent groups of the provided subgroups.
+   *
+   * @param groupId the UUID of the subgroup
+   * @return the UUIDs of all direct parent groups
+   */
+  Collection<AccountGroup.UUID> parentGroupsOf(Set<UUID> groupId);
 
   /** Returns set of any UUIDs that are not internal groups. */
   Collection<AccountGroup.UUID> allExternalMembers();

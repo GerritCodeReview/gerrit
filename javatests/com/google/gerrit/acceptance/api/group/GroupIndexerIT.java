@@ -14,12 +14,14 @@
 
 package com.google.gerrit.acceptance.api.group;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
-import static com.google.gerrit.truth.ListSubject.assertThat;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.exceptions.NoSuchGroupException;
@@ -34,13 +36,12 @@ import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
-import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,6 +54,7 @@ public class GroupIndexerIT {
   @Inject private GroupCache groupCache;
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private Provider<InternalGroupQuery> groupQueryProvider;
+  @Inject private GroupOperations groupOperations;
 
   @Test
   public void indexingUpdatesTheIndex() throws Exception {
@@ -66,8 +68,10 @@ public class GroupIndexerIT {
 
     groupIndexer.index(groupUuid);
 
-    List<InternalGroup> parentGroups = groupQueryProvider.get().bySubgroup(subgroupUuid);
-    assertThatGroups(parentGroups).onlyElement().groupUuid().isEqualTo(groupUuid);
+    Set<AccountGroup.UUID> parentGroups =
+        groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
+    assertThat(parentGroups).hasSize(1);
+    assertThat(parentGroups).containsExactly(groupUuid);
   }
 
   @Test
@@ -83,8 +87,10 @@ public class GroupIndexerIT {
 
     groupIndexer.index(groupUuid);
 
-    List<InternalGroup> parentGroups = groupQueryProvider.get().bySubgroup(subgroupUuid);
-    assertThatGroups(parentGroups).onlyElement().groupUuid().isEqualTo(groupUuid);
+    Set<AccountGroup.UUID> parentGroups =
+        groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
+    assertThat(parentGroups).hasSize(1);
+    assertThat(parentGroups).containsExactly(groupUuid);
   }
 
   @Test
@@ -111,8 +117,10 @@ public class GroupIndexerIT {
 
     groupIndexer.reindexIfStale(groupUuid);
 
-    List<InternalGroup> parentGroups = groupQueryProvider.get().bySubgroup(subgroupUuid);
-    assertThatGroups(parentGroups).onlyElement().groupUuid().isEqualTo(groupUuid);
+    Set<AccountGroup.UUID> parentGroups =
+        groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
+    assertThat(parentGroups).hasSize(1);
+    assertThat(parentGroups).containsExactly(groupUuid);
   }
 
   @Test
@@ -135,6 +143,20 @@ public class GroupIndexerIT {
     boolean reindexed = groupIndexer.reindexIfStale(groupUuid);
 
     assertWithMessage("Group should have been reindexed").that(reindexed).isTrue();
+  }
+
+  @Test
+  public void getMultipleParents() throws Exception {
+    AccountGroup.UUID sub1 = groupOperations.newGroup().create();
+    AccountGroup.UUID sub2 = groupOperations.newGroup().create();
+    AccountGroup.UUID parent1 = groupOperations.newGroup().addSubgroup(sub1).create();
+    AccountGroup.UUID parent2 = groupOperations.newGroup().addSubgroup(sub2).create();
+    AccountGroup.UUID parent3 = groupOperations.newGroup().addSubgroup(sub2).create();
+
+    assertThat(groupQueryProvider.get().bySubgroups(ImmutableSet.of(sub1, sub2)))
+        .containsExactlyEntriesIn(
+            ImmutableMap.of(
+                sub1, ImmutableSet.of(parent1), sub2, ImmutableSet.of(parent2, parent3)));
   }
 
   private AccountGroup.UUID createGroup(String name) throws RestApiException {
@@ -163,10 +185,5 @@ public class GroupIndexerIT {
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(
       Optional<InternalGroup> updatedGroup) {
     return assertThat(updatedGroup, internalGroups());
-  }
-
-  private static ListSubject<InternalGroupSubject, InternalGroup> assertThatGroups(
-      List<InternalGroup> parentGroups) {
-    return assertThat(parentGroups, internalGroups());
   }
 }

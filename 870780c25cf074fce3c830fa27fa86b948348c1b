@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f12b6f9a_4b83f6ed",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-09T15:39:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01bee1ef_3ca1e8ec",
+      "range": {
+        "startLine": 297,
+        "startChar": 17,
+        "endLine": 297,
+        "endChar": 24
+      },
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9187d51a_66159f1c",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fa4bd63_70097c39",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-09T15:39:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9187d51a_66159f1c",
+      "range": {
+        "startLine": 1362,
+        "startChar": 4,
+        "endLine": 1362,
+        "endChar": 24
+      },
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac413ef6_1539dc4e",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-03-09T15:32:17Z",
       "side": 1,
       "message": "Why not verify the full message?",
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20238055_5bd1e4aa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-09T15:39:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac413ef6_1539dc4e",
       "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

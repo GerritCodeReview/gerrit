@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -25,7 +24,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -135,7 +133,7 @@ public class IncludingGroupMembership implements GroupMembership {
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);
 
-    List<AccountGroup.UUID> q = Lists.newArrayList(r);
+    Set<AccountGroup.UUID> q = Sets.newHashSet(r);
     for (AccountGroup.UUID g : membership.intersection(includeCache.allExternalMembers())) {
       if (g != null && r.add(g)) {
         q.add(g);
@@ -143,9 +141,10 @@ public class IncludingGroupMembership implements GroupMembership {
     }
 
     while (!q.isEmpty()) {
-      AccountGroup.UUID id = q.remove(q.size() - 1);
-      for (AccountGroup.UUID g : includeCache.parentGroupsOf(id)) {
-        if (g != null && r.add(g)) {
+      Collection<AccountGroup.UUID> parents = includeCache.parentGroupsOf(q);
+      q.clear();
+      for (AccountGroup.UUID g : parents) {
+        if (r.add(g)) {
           q.add(g);
           memberOf.put(g, true);
         }

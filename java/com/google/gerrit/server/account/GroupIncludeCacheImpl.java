@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
@@ -45,6 +46,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /** Tracks group inclusions in memory for efficient access. */
@@ -70,7 +74,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         cache(
                 PARENT_GROUPS_NAME,
                 AccountGroup.UUID.class,
-                new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
+                new TypeLiteral<ImmutableSet<AccountGroup.UUID>>() {})
             .loader(ParentGroupsLoader.class);
 
         /**
@@ -101,7 +105,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   private final LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember;
-  private final LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> parentGroups;
+  private final LoadingCache<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> parentGroups;
   private final LoadingCache<String, ImmutableList<AccountGroup.UUID>> external;
 
   @Inject
@@ -109,7 +113,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       @Named(GROUPS_WITH_MEMBER_NAME)
           LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember,
       @Named(PARENT_GROUPS_NAME)
-          LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> parentGroups,
+          LoadingCache<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> parentGroups,
       @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external) {
     this.groupsWithMember = groupsWithMember;
     this.parentGroups = parentGroups;
@@ -130,6 +134,18 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   public Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId) {
     try {
       return parentGroups.get(groupId);
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Cannot load included groups");
+      return Collections.emptySet();
+    }
+  }
+
+  @Override
+  public Collection<AccountGroup.UUID> parentGroupsOf(Set<AccountGroup.UUID> groupIds) {
+    try {
+      Set<AccountGroup.UUID> parents = new HashSet<>();
+      parentGroups.getAll(groupIds).values().forEach(p -> parents.addAll(p));
+      return parents;
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot load included groups");
       return Collections.emptySet();
@@ -194,7 +210,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   static class ParentGroupsLoader
-      extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
+      extends CacheLoader<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> {
     private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
@@ -203,13 +219,19 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) {
+    public ImmutableSet<AccountGroup.UUID> load(AccountGroup.UUID key) {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading parent groups", Metadata.builder().groupUuid(key.get()).build())) {
-        return groupQueryProvider.get().bySubgroup(key).stream()
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableList());
+        return loadAll(ImmutableList.of(key)).get(key);
+      }
+    }
+
+    @Override
+    public Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> loadAll(
+        Iterable<? extends UUID> keys) {
+      try (TraceTimer timer = TraceContext.newTimer("Loading parent groups")) {
+        return groupQueryProvider.get().bySubgroups(ImmutableSet.copyOf(keys));
       }
     }
   }

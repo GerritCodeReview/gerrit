@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01bee1ef_3ca1e8ec",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-09T15:32:17Z",
+      "side": 1,
+      "message": "nit: I think writing this as \"Cannot\" is more common [1]\n\n[1] https://www.grammarly.com/blog/cannot-or-can-not/",
+      "range": {
+        "startLine": 297,
+        "startChar": 17,
+        "endLine": 297,
+        "endChar": 24
+      },
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9187d51a_66159f1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-09T15:32:17Z",
+      "side": 1,
+      "message": "This creates a warning in Eclipse, can we drop this (or use it to verify the full message as suggested below).",
+      "range": {
+        "startLine": 1362,
+        "startChar": 4,
+        "endLine": 1362,
+        "endChar": 24
+      },
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac413ef6_1539dc4e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-09T15:32:17Z",
+      "side": 1,
+      "message": "Why not verify the full message?",
+      "revId": "870780c25cf074fce3c830fa27fa86b948348c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

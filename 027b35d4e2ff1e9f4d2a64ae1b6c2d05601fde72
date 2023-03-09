@@ -117,6 +117,30 @@
       },
       "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d47364_c7ac0c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T17:58:35Z",
+      "side": 1,
+      "message": "I can\u0027t find any documentation talking about it. What I can do I can point to the JGit  `repack()` method [1] which is where all the magic happens. WDYT?\n\n[1]: https://gerrit.googlesource.com/jgit/+/176f17d05ec154ce455ab2bde7429017d43d67fb/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#804",
+      "parentUuid": "4e2ded40_fcc8a302",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

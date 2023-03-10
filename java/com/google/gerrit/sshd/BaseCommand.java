@@ -55,6 +55,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.channel.exception.SshChannelClosedException;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.channel.ChannelSession;
@@ -499,19 +500,11 @@ public abstract class BaseCommand implements Command {
             throw new UnloggedFailure(1, e.getMessage() + " no such change");
           }
 
-          out.flush();
-          err.flush();
+          flushIgnoreSCCE(out);
+          flushIgnoreSCCE(err);
         } catch (Throwable e) {
-          try {
-            out.flush();
-          } catch (Exception e2) {
-            // Ignored
-          }
-          try {
-            err.flush();
-          } catch (Exception e2) {
-            // Ignored
-          }
+          flushIgnoreException(out);
+          flushIgnoreException(err);
           rc = handleError(e);
         } finally {
           try {
@@ -521,6 +514,22 @@ public abstract class BaseCommand implements Command {
             thisThread.setName(thisName);
           }
         }
+      }
+    }
+
+    private void flushIgnoreSCCE(OutputStream os) throws IOException {
+      try {
+        os.flush();
+      } catch (SshChannelClosedException e) {
+        // Ignore - command implementation flushed stream already
+      }
+    }
+
+    private void flushIgnoreException(OutputStream os) {
+      try {
+        os.flush();
+      } catch (Exception e) {
+        // Ignore
       }
     }
 

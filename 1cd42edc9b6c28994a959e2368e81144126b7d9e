@@ -16,6 +16,29 @@
       "message": "With jgit.config\n```\n[core]\n  trustPackedRefsStat \u003d unset\n  trustFolderStat \u003d true\n```\n\n```\n./run.sh --gerrit-war /local/mnt/workspace/prudhvi/downloads/gerrit-war-3.5.5-4-g68610c96e5.war \\\n  --module index-elasticsearch /local/mnt/workspace/prudhvi/downloads/elasticsearch-528ba6e135.jar\n```\n...\nPASSED - Push to primary1 and review on primary2 #1 test\n*** FAILED *** - Push to primary1 and review on primary2 #2 test\nfatal: \"22\" no such change\nPASSED - Push to primary1 and review on primary2 #3 test\n*** FAILED *** - Push to primary1 and review on primary2 #4 test\nfatal: \"24\" no such change\nPASSED - Push to primary1 and review on primary2 #5 test\n*** FAILED *** - Push to primary1 and review on primary2 #6 test\nfatal: \"26\" no such change\nPASSED - Push to primary1 and review on primary2 #7 test\n*** FAILED *** - Push to primary1 and review on primary2 #8 test\nfatal: \"28\" no such change\nPASSED - Push to primary1 and review on primary2 #9 test\n*** FAILED *** - Push to primary1 and review on primary2 #10 test\nfatal: \"30\" no such change\n\n\nWith jgit.config\n```\n[core]\n  trustPackedRefsStat \u003d after_open\n  trustFolderStat \u003d false\n```\n\n```\n./run.sh --gerrit-war /local/mnt/workspace/prudhvi/downloads/gerrit-war-3.5.5-4-g68610c96e5.war \\\n  --module index-elasticsearch /local/mnt/workspace/prudhvi/downloads/elasticsearch-528ba6e135.jar\n```\n\n...\nPASSED - Push to primary1 and review on primary2 #1 test\nPASSED - Push to primary1 and review on primary2 #2 test\nPASSED - Push to primary1 and review on primary2 #3 test\nPASSED - Push to primary1 and review on primary2 #4 test\nPASSED - Push to primary1 and review on primary2 #5 test\nPASSED - Push to primary1 and review on primary2 #6 test\nPASSED - Push to primary1 and review on primary2 #7 test\nPASSED - Push to primary1 and review on primary2 #8 test\nPASSED - Push to primary1 and review on primary2 #9 test\nPASSED - Push to primary1 and review on primary2 #10 test",
       "revId": "1cd42edc9b6c28994a959e2368e81144126b7d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4b275e_ea739025",
+        "filename": "contrib/multi-primary-docker-tests/gerrit/gerrit_start.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-03-10T12:52:05Z",
+      "side": 1,
+      "message": "[ $? -ne 0 ]",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "1cd42edc9b6c28994a959e2368e81144126b7d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

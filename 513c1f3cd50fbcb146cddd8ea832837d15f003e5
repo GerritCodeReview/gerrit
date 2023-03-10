@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4efbef70_7398a5da",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-10T11:55:24Z",
+      "side": 1,
+      "message": "\u0027~\u0027 is not supported in footer keys.\n\nIf a footer that contains this character is present in the commit message it is ignored. That\u0027s why the keys are missing in the keyedValuesChangeNotes test.\n\nYou can see the list of allowed characters at [1].\n\nIf \u0027~\u0027 is used in a footer it\u0027s ignored by the RevCommit.getFooterLines() method at [2] because RawParseUtils.endOfFooterLineKey returns -1 for keyEnd.\n\n[1] https://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java#n78\n\n[2] https://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java#n604",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 62
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8faef935_d58686fe",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 7
@@ -118,6 +141,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d5b76f3_0f1804a2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-10T11:55:24Z",
+      "side": 1,
+      "message": "For backwards compatibility we must handle the case where the keyed value map doesn\u0027t exist in the proto. E.g. all current protos don\u0027t have this field.",
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c58da6d_98efc9e6",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 7
@@ -135,6 +175,40 @@
         "endLine": 467,
         "endChar": 28
       },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec48a1e0_7aa54102",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-10T11:55:24Z",
+      "side": 1,
+      "message": "We need to add \n\n  \u0026\u0026 keyedValues.isEmpty()\n  \nhere. Otherwise updates that only modify keyedValues are considered as empty and no commit is made.\n\nThis is why the keyedValuesCommit test fails with an NPE (NPE because no commit is created and hence the commit is null).",
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f94dbb_e82a6c1f",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-10T11:55:24Z",
+      "side": 1,
+      "message": "We need to add\n\n.put(\"keyedValues\", new TypeLiteral\u003cImmutableSortedMap\u003cString, String\u003e\u003e() {}.getType())\n\nto make this test pass.",
       "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

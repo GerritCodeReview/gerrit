@@ -8140,9 +8140,7 @@ the rebased patch set. The calling user will be recorded as the real user. +
 Rebasing on behalf of the uploader is only supported for trivial rebases.
 This means this option cannot be combined with the `allow_conflicts` option. +
 In addition, rebasing on behalf of the uploader is only supported for the
-current patch set of a change and not when rebasing a chain. +
-Using this option is not supported when rebasing a chain via the
-link:#rebase-chain[Rebase Chain] REST endpoint. +
+current patch set of a change. +
 If the caller is the uploader this flag is ignored and a normal rebase is done.
 |`validation_options`   |optional|
 Map with key-value pairs that are forwarded as options to the commit validation

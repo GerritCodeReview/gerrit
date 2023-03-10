@@ -104,6 +104,9 @@ export class GrFormattedText extends LitElement {
         word-wrap: var(--linked-text-word-wrap, break-word);
       }
       .markdown-html {
+        /* code overrides white-space to pre, everything else should wrap as
+           normal. */
+        white-space: normal;
         /* prose will automatically wrap but inline <code> blocks won't and we
            should overflow in that case rather than wrapping or leaking out */
         overflow-x: auto;

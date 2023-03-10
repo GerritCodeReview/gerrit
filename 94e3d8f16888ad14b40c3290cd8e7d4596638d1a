@@ -16,6 +16,24 @@
       "message": "What am I missing here to ensure these show up on ChangeInfo?\n\nI notice \"SetHashtagOp\" do I need this as well?",
       "revId": "94e3d8f16888ad14b40c3290cd8e7d4596638d1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ca11b5_a9834ab7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "- Add a field to ChangeInfo\n- Populate it in ChangeJson\n- Add a test to ChangeIT\n\nThis is a good blue print IMO: https://gerrit-review.git.corp.google.com/c/gerrit/+/323044",
+      "parentUuid": "e1488aec_527edcf6",
+      "revId": "94e3d8f16888ad14b40c3290cd8e7d4596638d1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

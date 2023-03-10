@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623ddf87_207d0809",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "nit: Custom-Value~ ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8faef935_d58686fe",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "nit: Why do you need the sorting (the map is small so in any case I\u0027d go with ImmutableMap)?",
+      "range": {
+        "startLine": 481,
+        "startChar": 18,
+        "endLine": 481,
+        "endChar": 24
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35ec385b_9364379f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "values",
+      "range": {
+        "startLine": 739,
+        "startChar": 72,
+        "endLine": 739,
+        "endChar": 80
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23d485e4_1ab3be2e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "For other footers, we use -, for example for labels:\n\nLabel: -Label1\n\nWe could structure the new data as:\n\nCustom-Value: KEY\u003dVALUE\nCustom-Value: -KEY\n\nTo stay consistent (this lets you spare pruneEmptyKeyedValues)",
+      "range": {
+        "startLine": 740,
+        "startChar": 28,
+        "endLine": 740,
+        "endChar": 75
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da69b24e_793bd7ed",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "nit: remove. you already initialise with an empty map, so need to be nullable",
+      "range": {
+        "startLine": 296,
+        "startChar": 3,
+        "endLine": 296,
+        "endChar": 11
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c58da6d_98efc9e6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-10T08:27:14Z",
+      "side": 1,
+      "message": "nit: addCustomValue(String key, String value) makes handling this a bit easier.",
+      "range": {
+        "startLine": 467,
+        "startChar": 14,
+        "endLine": 467,
+        "endChar": 28
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

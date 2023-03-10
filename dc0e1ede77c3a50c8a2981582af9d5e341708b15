@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36b1171f_86cf4b97",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-10T14:44:28Z",
+      "side": 1,
+      "message": "nit: maybe log the number of groups?",
+      "range": {
+        "startLine": 233,
+        "startChar": 73,
+        "endLine": 233,
+        "endChar": 76
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd4356d_d082636c",
+        "filename": "java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-10T14:44:28Z",
+      "side": 1,
+      "message": "I think breaking the loop here into batches of batchSize \u003d min(page_result, maxTerms) sounds reasonable. Or even min(page_result, maxTerms, 100), to be completely safe.\n\nI.e. only query and clear first batchSize elements of q.",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45bf7f2_e09af16e",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-10T14:44:28Z",
+      "side": 1,
+      "message": "nit: why not  subgroupIds.stream().map(e -\u003e GroupPredicates.subgroup(e)).collect(...)",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bd1b7ce_e5149b2d",
         "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
         "patchSetId": 4
@@ -19,6 +88,53 @@
         "startChar": 33,
         "endLine": 77,
         "endChar": 38
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc03d1dc_92f662d9",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-10T14:44:28Z",
+      "side": 1,
+      "message": "We can choose min(page_result, maxTerms) as a number of groups to query parents for, right? I think this should be safe.",
+      "parentUuid": "0bd1b7ce_e5149b2d",
+      "range": {
+        "startLine": 77,
+        "startChar": 33,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01eee879_8fa62f31",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-10T14:44:28Z",
+      "side": 1,
+      "message": "nit parentsByChild",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 58
       },
       "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

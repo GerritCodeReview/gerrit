@@ -81,6 +81,30 @@
       },
       "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "128924f0_1b9c9045",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-10T14:23:15Z",
+      "side": 1,
+      "message": "I checked and found there are commands (JGit and non-JGit) which close streams, some don\u0027t",
+      "parentUuid": "20f5efdb_3f2ef5e8",
+      "range": {
+        "startLine": 506,
+        "startChar": 10,
+        "endLine": 506,
+        "endChar": 42
+      },
+      "revId": "24e59c6366c9ae9af0f61d1d9d6d746ac0a7adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

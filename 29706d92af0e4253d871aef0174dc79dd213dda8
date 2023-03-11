@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "779fdd26_a6216c63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T08:00:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "262bb3ec_6a023b34",
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "35520a47_87663902",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -143,6 +161,30 @@
       "side": 1,
       "message": "Do you mean to use a regex? I was under the impression we wanted to keep using `indexOf` instead of regexes for performance reasons.",
       "parentUuid": "61a6acf6_475b7972",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "174824a6_1f070855",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T08:00:28Z",
+      "side": 1,
+      "message": "Not sure if that is what he meant but I could imagine up to two checks after that.\nHaving the following line\n`Label2\u003d+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 \u003c1@gerrit\u003e`\nand `\u003d` being at index `6` all you have to do is check if `, ` starts at index `8` (when `0` is given) or `9` (when `-/+N`).\nAFAIU other case would mean thet it is not an UUID.\n\n@luca is that what you meant?",
+      "parentUuid": "e915d791_3c38f95b",
       "range": {
         "startLine": 830,
         "startChar": 9,

@@ -1215,7 +1215,7 @@ By default 500.
 Maximum number of changes that can be chained together in the same repository
 to be submitted at once.
 +
-Default is 32767.
+Default is 1024.
 
 [[change.move]]change.move::
 +

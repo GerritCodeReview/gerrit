@@ -15,6 +15,7 @@
 package com.google.gerrit.server.auth.ldap;
 
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.metrics.Timer0;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,13 +62,16 @@ class LdapQuery {
     return pattern.getParameterNames();
   }
 
-  List<Result> query(DirContext ctx, Map<String, String> params) throws NamingException {
+  List<Result> query(DirContext ctx, Map<String, String> params, Timer0 queryTimer)
+      throws NamingException {
     final SearchControls sc = new SearchControls();
     final NamingEnumeration<SearchResult> res;
 
     sc.setSearchScope(searchScope.scope());
     sc.setReturningAttributes(returnAttributes);
-    res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
+    try (Timer0.Context ignored = queryTimer.start()) {
+      res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
+    }
     try {
       final List<Result> r = new ArrayList<>();
       try {

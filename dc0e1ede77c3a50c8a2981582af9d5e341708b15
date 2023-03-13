@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7673e58_b7d3739c",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T09:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b1171f_86cf4b97",
+      "range": {
+        "startLine": 233,
+        "startChar": 73,
+        "endLine": 233,
+        "endChar": 76
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bd4356d_d082636c",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "590c1e04_75c8cf39",
+        "filename": "java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T09:12:34Z",
+      "side": 1,
+      "message": "This must happen in the cache loader as the cache API callers shouldn\u0027t need to care about inner works of loading. Done.",
+      "parentUuid": "1bd4356d_d082636c",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a45bf7f2_e09af16e",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-03-10T14:44:28Z",
       "side": 1,
       "message": "nit: why not  subgroupIds.stream().map(e -\u003e GroupPredicates.subgroup(e)).collect(...)",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ebd6274_b00e1175",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T09:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45bf7f2_e09af16e",
       "range": {
         "startLine": 75,
         "startChar": 4,
@@ -134,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0f7579_08894b1e",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T09:12:34Z",
+      "side": 1,
+      "message": "Let\u0027s discuss in the other comment.",
+      "parentUuid": "cc03d1dc_92f662d9",
+      "range": {
+        "startLine": 77,
+        "startChar": 33,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01eee879_8fa62f31",
@@ -147,6 +243,30 @@
       "writtenOn": "2023-03-10T14:44:28Z",
       "side": 1,
       "message": "nit parentsByChild",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 58
+      },
+      "revId": "dc0e1ede77c3a50c8a2981582af9d5e341708b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d66488_fa2aa219",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T09:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01eee879_8fa62f31",
       "range": {
         "startLine": 79,
         "startChar": 51,

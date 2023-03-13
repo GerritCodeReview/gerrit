@@ -32,11 +32,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -89,7 +91,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -176,6 +181,37 @@ public class BatchUpdate implements AutoCloseable {
               // filter out null values that were returned for change deletions
               .filter(Objects::nonNull)
               .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+
+      ListenableFuture<Boolean> value  = Futures.whenAllSucceed(indexFutures)
+          .call(
+              () -> {
+                Map<Change.Id, ChangeData> changeDatasX = Maps.newHashMapWithExpectedSize(indexFutures.size());
+                boolean hasFailure = false;
+                try{
+                  for(int i = 0; i <indexFutures.size(); i++){
+                    ChangeData cd = Futures.getDone(indexFutures.get(i));
+                    changeDatas.put(cd.getId(), cd);
+                  }
+                } catch (ExecutionException e) {
+                  logger.atWarning().withCause(e).log("Could not execute index futures for ",updates.stream().map(u -> String.format("project: %s, refs: %s", u.getProject(), u.getRefUpdates().keySet())).collect(Collectors.joining(", ")));
+                  hasFailure = true;
+
+                }
+                if(hasFailure){
+                  return false;
+                }
+                // Fire ref update events only after all mutations are finished, since callers may assume a
+                // patch set ref being created means the change was created, or a branch advancing meaning
+                // some changes were closed.
+                updates.forEach(BatchUpdate::fireRefChangeEvent);
+
+                if (!dryrun && !hasFailure) {
+                  for (BatchUpdate u : updates) {
+                    u.executePostOps(changeDatas);
+                  }
+                }
+                return true;
+              }, MoreExecutors.directExecutor());
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning

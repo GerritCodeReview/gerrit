@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3383101_0325308c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-13T07:35:43Z",
+      "side": 1,
+      "message": "This looks good from my side.\n\nIt would be great to have someone from the backend team to also have a look. @ekempin@google.com\n\nI don\u0027t fully understand why this was not submitted 3 years ago. @thomasmulhall410@yahoo.com Do you know why?",
+      "revId": "3c07f1897ceb1e3c860b2dec83fef1804b2e66c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9988a3f4_08e79d34",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-13T07:35:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "3c07f1897ceb1e3c860b2dec83fef1804b2e66c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2881b4d_c7b27fa6",
+        "filename": "resources/com/google/gerrit/httpd/raw/OpenSearch.soy",
+        "patchSetId": 22
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-13T07:35:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "3c07f1897ceb1e3c860b2dec83fef1804b2e66c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

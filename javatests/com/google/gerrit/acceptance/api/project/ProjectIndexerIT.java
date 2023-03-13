@@ -54,19 +54,19 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Project projectIndexOperations;
 
   private static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(ProjectField.NAME_SPEC.getName(), ProjectField.REF_STATE.getName());
+      ImmutableSet.of(ProjectField.NAME_SPEC.getName(), ProjectField.REF_STATE_SPEC.getName());
 
   @Test
   public void indexProject_indexesRefStateOfProjectAndParents() throws Exception {
     projectIndexer.index(project);
     ProjectIndex i = indexes.getSearchIndex();
-    assertThat(i.getSchema().hasField(ProjectField.REF_STATE)).isTrue();
+    assertThat(i.getSchema().hasField(ProjectField.REF_STATE_SPEC)).isTrue();
 
     Optional<FieldBundle> result =
         i.getRaw(project, QueryOptions.create(indexConfig, 0, 1, FIELDS));
 
     assertThat(result).isPresent();
-    Iterable<byte[]> refState = result.get().getValue(ProjectField.REF_STATE);
+    Iterable<byte[]> refState = result.get().getValue(ProjectField.REF_STATE_SPEC);
     assertThat(refState).isNotEmpty();
 
     Map<Project.NameKey, Collection<RefState>> states = RefState.parseStates(refState).asMap();

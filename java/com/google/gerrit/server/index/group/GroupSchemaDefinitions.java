@@ -33,7 +33,6 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   static final Schema<InternalGroup> V5 =
       schema(
           /* version= */ 5,
-          ImmutableList.of(),
           ImmutableList.of(
               GroupField.CREATED_ON_FIELD,
               GroupField.DESCRIPTION_FIELD,

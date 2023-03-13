@@ -17,7 +17,9 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -27,8 +29,12 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.inject.Inject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Query wrapper for the group index.
@@ -57,8 +63,29 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
     return query(GroupPredicates.member(memberId));
   }
 
-  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) {
-    return query(GroupPredicates.subgroup(subgroupId));
+  /**
+   * Get all immediate parents of the provided {@code subgroupIds}.
+   *
+   * @return map pointing from children to list of its immediate parents
+   */
+  public Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups(
+      ImmutableSet<AccountGroup.UUID> subgroupIds) {
+    List<Predicate<InternalGroup>> predicates =
+        subgroupIds.stream().map(e -> GroupPredicates.subgroup(e)).collect(Collectors.toList());
+    List<InternalGroup> groups = query(Predicate.or(predicates));
+
+    Map<AccountGroup.UUID, Set<AccountGroup.UUID>> parentsByChild =
+        Maps.newHashMapWithExpectedSize(groups.size());
+    subgroupIds.stream().forEach(c -> parentsByChild.put(c, new HashSet<>()));
+    for (InternalGroup parent : groups) {
+      for (AccountGroup.UUID child : parent.getSubgroups()) {
+        if (subgroupIds.contains(child)) {
+          parentsByChild.get(child).add(parent.getGroupUUID());
+        }
+      }
+    }
+    return parentsByChild.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> ImmutableSet.copyOf(e.getValue())));
   }
 
   private Optional<InternalGroup> getOnlyGroup(

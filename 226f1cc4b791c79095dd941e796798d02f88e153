@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0cb34114_9301eccb",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T19:09:43Z",
+      "side": 1,
+      "message": "You already inject experimentfeatures into BatchUpdate and that is available here, so if you use that directly, the change gets easier as you don\u0027t have to pass EF around so much.\n\nCould alternatively expose a boolean BatchUpdate#indexAsync and call that here.",
+      "range": {
+        "startLine": 147,
+        "startChar": 31,
+        "endLine": 147,
+        "endChar": 42
+      },
+      "revId": "226f1cc4b791c79095dd941e796798d02f88e153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f274f27c_bc611ba4",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 4
@@ -60,6 +83,30 @@
       "writtenOn": "2023-03-13T17:01:49Z",
       "side": 1,
       "message": "This code can be executed in a thread, which is different from the request thread. I remember that we assume that the whole request should be processed within the same thread, because some request-related data stores in ThreadStatic vars + IIRC there is some optimisation to avoid opening the same repository multiple time during the request.\n\nI am not very familiar with all details. @hiesel@google.com do you see any problems with executing postops and fireRefChangeEvent in the non-request thread?",
+      "range": {
+        "startLine": 251,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "226f1cc4b791c79095dd941e796798d02f88e153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5fa81e_8f5a39e7",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-13T19:09:43Z",
+      "side": 1,
+      "message": "RepoOnlyOp says:\n\n```\nTODO(dborowitz): Support async operations?\n```\n\nSo I guess it was within the intention of the original author of this framework :-)\n\nThe problem is that when you look at what implementations of postUpdate(PostUpdateContext ctx) are actually doing, that is all not thread-safe (they read variables from all over the place, for example).\n\nMostly, this code is sending emails and firing plugin listeners.\n\nWe could try to just let the indexing by async and call postUpdate from the main thread as we do. But we need to check the code to see if that will work out.\n\nThe alternative is make all postUpdate methods tread safe.",
+      "parentUuid": "91034141_cd3c99a2",
       "range": {
         "startLine": 251,
         "startChar": 4,

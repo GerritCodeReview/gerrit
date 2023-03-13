@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f274f27c_bc611ba4",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-03-13T17:01:49Z",
+      "side": 1,
+      "message": "If one of the indexFutures fails, the whenAllSucceed will never be called. From the code in the call it looks like indexFutures can fail. Shouldn\u0027t whenAllCompleted be used?",
+      "range": {
+        "startLine": 213,
+        "startChar": 16,
+        "endLine": 213,
+        "endChar": 30
+      },
+      "revId": "226f1cc4b791c79095dd941e796798d02f88e153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38374e68_db9c70b5",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-03-13T17:01:49Z",
+      "side": 1,
+      "message": "Seems hasFailure is not required and can be replaced with return false.",
+      "range": {
+        "startLine": 234,
+        "startChar": 20,
+        "endLine": 234,
+        "endChar": 38
+      },
+      "revId": "226f1cc4b791c79095dd941e796798d02f88e153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91034141_cd3c99a2",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-03-13T17:01:49Z",
+      "side": 1,
+      "message": "This code can be executed in a thread, which is different from the request thread. I remember that we assume that the whole request should be processed within the same thread, because some request-related data stores in ThreadStatic vars + IIRC there is some optimisation to avoid opening the same repository multiple time during the request.\n\nI am not very familiar with all details. @hiesel@google.com do you see any problems with executing postops and fireRefChangeEvent in the non-request thread?",
+      "range": {
+        "startLine": 251,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "226f1cc4b791c79095dd941e796798d02f88e153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

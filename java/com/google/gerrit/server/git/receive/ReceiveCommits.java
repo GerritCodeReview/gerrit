@@ -137,6 +137,7 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -447,8 +448,11 @@ class ReceiveCommits {
   /** This object is for single use only. */
   private boolean used;
 
+  private final ExperimentFeatures experimentFeatures;
+
   @Inject
   ReceiveCommits(
+      ExperimentFeatures experimentFeatures,
       AccountResolver accountResolver,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
@@ -504,6 +508,7 @@ class ReceiveCommits {
       @Assisted AllRefsWatcher allRefsWatcher,
       @Nullable @Assisted MessageSender messageSender)
       throws IOException {
+    this.experimentFeatures = experimentFeatures;
     // Injected fields.
     this.accountResolver = accountResolver;
     this.allProjectsName = allProjectsName;
@@ -866,7 +871,8 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(false, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(
+                experimentFeatures, false, superprojectUpdateSubmissionListeners);
 
         submissionExecutor.execute(ImmutableList.of(bu));
 

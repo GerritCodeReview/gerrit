@@ -34,6 +34,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
@@ -67,9 +68,11 @@ public class DeleteDraftCommentsUtil {
   private final Provider<CommentJson> commentJsonProvider;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   public DeleteDraftCommentsUtil(
+      ExperimentFeatures experimentFeatures,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeQueryBuilder queryBuilder,
       Provider<InternalChangeQuery> queryProvider,
@@ -86,6 +89,7 @@ public class DeleteDraftCommentsUtil {
     this.commentJsonProvider = commentJsonProvider;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
+    this.experimentFeatures = experimentFeatures;
   }
 
   public ImmutableList<DeletedDraftCommentInfo> deleteDraftComments(
@@ -113,7 +117,7 @@ public class DeleteDraftCommentsUtil {
       // were,
       // all updates from this operation only happen in All-Users and thus are fully atomic, so
       // allowing partial failure would have little value.
-      BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
+      BatchUpdate.execute(experimentFeatures, updates.values(), ImmutableList.of(), false);
     }
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }

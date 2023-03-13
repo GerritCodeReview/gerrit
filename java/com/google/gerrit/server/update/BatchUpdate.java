@@ -32,11 +32,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -58,6 +61,8 @@ import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -89,7 +94,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -137,7 +144,15 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public static void execute(
-      Collection<BatchUpdate> updates, ImmutableList<BatchUpdateListener> listeners, boolean dryrun)
+      Collection<BatchUpdate> updates,
+      ImmutableList<BatchUpdateListener> listeners,
+      boolean dryrun) {}
+
+  public static void execute(
+      ExperimentFeatures experimentFeatures,
+      Collection<BatchUpdate> updates,
+      ImmutableList<BatchUpdateListener> listeners,
+      boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listeners);
     if (updates.isEmpty()) {
@@ -170,26 +185,93 @@ public class BatchUpdate implements AutoCloseable {
           h.close();
         }
       }
+      executeIndexingAndPostOps(experimentFeatures, updates, indexFutures, dryrun);
 
+    } catch (Exception e) {
+      wrapAndThrowException(e);
+    }
+  }
+
+  private static void executePostOps(
+      Map<Change.Id, ChangeData> changeDatas, Collection<BatchUpdate> updates, boolean dryrun)
+      throws Exception {
+    // Fire ref update events only after all mutations are finished, since callers may assume a
+    // patch set ref being created means the change was created, or a branch advancing meaning
+    // some changes were closed.
+    updates.forEach(BatchUpdate::fireRefChangeEvent);
+
+    if (!dryrun) {
+      for (BatchUpdate u : updates) {
+        u.executePostOps(changeDatas);
+      }
+    }
+  }
+
+  private static void executeIndexingAndPostOps(
+      ExperimentFeatures experimentFeatures,
+      Collection<BatchUpdate> updates,
+      List<ListenableFuture<ChangeData>> indexFutures,
+      boolean dryrun)
+      throws Exception {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING)) {
       Map<Change.Id, ChangeData> changeDatas =
           Futures.allAsList(indexFutures).get().stream()
               // filter out null values that were returned for change deletions
               .filter(Objects::nonNull)
               .collect(toMap(cd -> cd.change().getId(), Function.identity()));
 
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvent);
-
-      if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
-      }
-    } catch (Exception e) {
-      wrapAndThrowException(e);
+      executePostOps(changeDatas, updates, dryrun);
+      return;
     }
+    logOnError(
+        Futures.whenAllSucceed(indexFutures)
+            .call(
+                () -> {
+                  Map<Change.Id, ChangeData> changeDatas =
+                      Maps.newHashMapWithExpectedSize(indexFutures.size());
+                  boolean hasFailure = false;
+                  try {
+                    for (int i = 0; i < indexFutures.size(); i++) {
+                      ChangeData cd = Futures.getDone(indexFutures.get(i));
+                      changeDatas.put(cd.getId(), cd);
+                    }
+                  } catch (ExecutionException e) {
+                    logger.atWarning().withCause(e).log(
+                        "Could not execute index futures for ",
+                        updates.stream()
+                            .map(
+                                u ->
+                                    String.format(
+                                        "project: %s, refs: %s",
+                                        u.getProject(), u.getRefUpdates().keySet()))
+                            .collect(Collectors.joining(", ")));
+                    hasFailure = true;
+                  }
+                  if (hasFailure) {
+                    return false;
+                  }
+                  executePostOps(changeDatas, updates, dryrun);
+                  return true;
+                },
+                MoreExecutors.directExecutor()));
+  }
+
+  private static <T> void logOnError(ListenableFuture<T> result) {
+    Futures.addCallback(
+        result,
+        new FutureCallback<T>() {
+          @Override
+          public void onSuccess(T result) {
+            // Do nothing. The failure was already logged, if any
+          }
+
+          @Override
+          public void onFailure(Throwable t) {
+            logger.atWarning().withCause(t).log("Operation failed");
+          }
+        },
+        MoreExecutors.directExecutor());
   }
 
   private static void notifyAfterUpdateRepo(ImmutableList<BatchUpdateListener> listeners)
@@ -435,11 +517,13 @@ public class BatchUpdate implements AutoCloseable {
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
   // Batch operations doesn't need observer
   private AttentionSetObserver attentionSetObserver;
+  private ExperimentFeatures experimentFeatures;
 
   @Inject
   BatchUpdate(
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
+      ExperimentFeatures experimentFeatures,
       AccountCache accountCache,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory changeNotesFactory,
@@ -452,6 +536,7 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
+    this.experimentFeatures = experimentFeatures;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
@@ -476,11 +561,11 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), ImmutableList.of(listener), false);
+    execute(experimentFeatures, ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   public void execute() throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), ImmutableList.of(), false);
+    execute(experimentFeatures, ImmutableList.of(this), ImmutableList.of(), false);
   }
 
   public boolean isExecuted() {

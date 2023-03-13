@@ -5,6 +5,7 @@ junit_tests(
     name = "tests",
     srcs = glob(["*Test.java"]),
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:junit",

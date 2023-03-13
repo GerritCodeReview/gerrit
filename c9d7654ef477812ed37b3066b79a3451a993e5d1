@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fc8e508_fd845ec4",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-13T09:30:29Z",
+      "side": 1,
+      "message": "nit: should be set?",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 37
+      },
+      "revId": "c9d7654ef477812ed37b3066b79a3451a993e5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6abd55ce_fd94a40f",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-13T09:30:29Z",
+      "side": 1,
+      "message": "Is that correct? A parent group may have multiple subgroups, and some of them may not be in subgroupIds, (so not a key in parentsByChild).",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 61
+      },
+      "revId": "c9d7654ef477812ed37b3066b79a3451a993e5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

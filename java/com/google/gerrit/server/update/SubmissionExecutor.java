@@ -16,6 +16,7 @@ package com.google.gerrit.server.update;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import java.util.Collection;
 import java.util.Optional;
@@ -26,8 +27,13 @@ public class SubmissionExecutor {
   private final ImmutableList<SubmissionListener> submissionListeners;
   private final boolean dryrun;
   private ImmutableList<BatchUpdateListener> additionalListeners = ImmutableList.of();
+  private final ExperimentFeatures experimentFeatures;
 
-  public SubmissionExecutor(boolean dryrun, ImmutableList<SubmissionListener> submissionListeners) {
+  public SubmissionExecutor(
+      ExperimentFeatures experimentFeatures,
+      boolean dryrun,
+      ImmutableList<SubmissionListener> submissionListeners) {
+    this.experimentFeatures = experimentFeatures;
     this.dryrun = dryrun;
     this.submissionListeners = submissionListeners;
     if (dryrun) {
@@ -58,7 +64,7 @@ public class SubmissionExecutor {
                     .map(Optional::get)
                     .collect(Collectors.toList()))
             .build();
-    BatchUpdate.execute(updates, listeners, dryrun);
+    BatchUpdate.execute(experimentFeatures, updates, listeners, dryrun);
   }
 
   /**

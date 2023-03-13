@@ -62,6 +62,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
@@ -263,6 +264,8 @@ public class MergeOp implements AutoCloseable {
   private boolean dryrun;
   private TopicMetrics topicMetrics;
 
+  private final ExperimentFeatures experimentFeatures;
+
   @Inject
   MergeOp(
       ChangeMessagesUtil cmUtil,
@@ -282,7 +285,8 @@ public class MergeOp implements AutoCloseable {
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
       StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
-      MergeMetrics mergeMetrics) {
+      MergeMetrics mergeMetrics,
+      ExperimentFeatures experimentFeatures) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -301,6 +305,7 @@ public class MergeOp implements AutoCloseable {
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
     this.mergeMetrics = mergeMetrics;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -511,7 +516,8 @@ public class MergeOp implements AutoCloseable {
         }
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(
+                experimentFeatures, dryrun, superprojectUpdateSubmissionListeners);
         RetryTracker retryTracker = new RetryTracker();
         retryHelper
             .changeUpdate(

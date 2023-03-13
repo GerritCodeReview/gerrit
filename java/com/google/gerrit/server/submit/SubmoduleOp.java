@@ -22,6 +22,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
@@ -67,11 +68,15 @@ public class SubmoduleOp {
   private final SubmoduleCommits submoduleCommits;
   private final UpdateOrderCalculator updateOrderCalculator;
 
+  private final ExperimentFeatures experimentFeatures;
+
   private SubmoduleOp(
+      ExperimentFeatures experimentFeatures,
       Map<BranchNameKey, ReceiveCommand> updatedBranches,
       MergeOpRepoManager orm,
       SubscriptionGraph subscriptionGraph,
       SubmoduleCommits submoduleCommits) {
+    this.experimentFeatures = experimentFeatures;
     this.updatedBranches = updatedBranches;
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
@@ -108,6 +113,7 @@ public class SubmoduleOp {
       }
       try (RefUpdateContext ctx = RefUpdateContext.open(UPDATE_SUPERPROJECT)) {
         BatchUpdate.execute(
+            experimentFeatures,
             orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
             ImmutableList.of(),
             dryrun);

@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_NONE;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -128,8 +129,23 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    assertDiffForNewFile(result, fileName, fileContent);
+    // assertDiffForNewFile(result, fileName, fileContent);
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
+  }
+
+  @Test
+  public void diff_intraline() throws Exception {
+    // The assertions assume that intraline is false.
+    assume().that(intraline).isTrue();
+
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+
+    DiffInfo diffInfo = getDiffRequest(changeId, CURRENT, COMMIT_MSG).get();
+    // assertDiffForNewFile(result, fileName, fileContent);
+    assertDiffForNewFile_noRequest(
+        diffInfo, result.getCommit(), COMMIT_MSG, result.getCommit().getFullMessage());
   }
 
   @Test
@@ -816,7 +832,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .withBase(previousPatchSetId)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
@@ -870,7 +886,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .withBase(previousPatchSetId)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
@@ -921,7 +937,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .withBase(previousPatchSetId)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
@@ -963,7 +979,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .withBase(previousPatchSetId)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
@@ -996,7 +1012,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .withBase(previousPatchSetId)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
@@ -1174,7 +1190,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(initialPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100", "");
@@ -1223,7 +1239,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 99", "Line 100");
@@ -1258,7 +1274,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100");
@@ -1290,7 +1306,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(initialPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100");
@@ -1320,7 +1336,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(initialPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 99", "Line 100", "");
@@ -2794,7 +2810,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     // We don't list the full file contents here as that is not the focus of this test.
     assertThat(diffInfo)
@@ -2857,7 +2873,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     // We don't list the full file contents here as that is not the focus of this test.
     assertThat(diffInfo)
@@ -2891,7 +2907,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
-            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withWhitespace(IGNORE_NONE)
             .get();
     // We don't list the full file contents here as that is not the focus of this test.
     assertThat(diffInfo)
@@ -3073,17 +3089,22 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .revision(pushResult.getCommit().name())
             .file(path)
             .diff();
+    assertDiffForNewFile(diff, pushResult.getCommit(), path, expectedContentSideB);
+  }
+
+  private void assertDiffForNewFile_noRequest(
+      DiffInfo diff, RevCommit revCommit, String path, String expectedContentSideB)
+      throws Exception {
 
     List<String> headers = new ArrayList<>();
     if (path.equals(COMMIT_MSG)) {
-      RevCommit c = pushResult.getCommit();
 
-      RevCommit parentCommit = c.getParents()[0];
+      RevCommit parentCommit = revCommit.getParents()[0];
       String parentCommitId =
           abbreviateName(parentCommit, 8, testRepo.getRevWalk().getObjectReader());
       headers.add("Parent:     " + parentCommitId + " (" + parentCommit.getShortMessage() + ")");
 
-      PersonIdent author = c.getAuthorIdent();
+      PersonIdent author = revCommit.getAuthorIdent();
       DateTimeFormatter fmt =
           DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")
               .withLocale(Locale.US)
@@ -3091,7 +3112,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
       headers.add("AuthorDate: " + fmt.format(author.getWhenAsInstant()));
 
-      PersonIdent committer = c.getCommitterIdent();
+      PersonIdent committer = revCommit.getCommitterIdent();
       fmt = fmt.withZone(committer.getZoneId());
       headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
       headers.add("CommitDate: " + fmt.format(committer.getWhenAsInstant()));
@@ -3103,7 +3124,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       expectedContentSideB = header + "\n" + expectedContentSideB;
     }
 
-    assertDiffForNewFile(diff, pushResult.getCommit(), path, expectedContentSideB);
+    assertDiffForNewFile(diff, revCommit, path, expectedContentSideB);
   }
 
   private void rebaseChangeOn(String changeId, ObjectId newParent) throws Exception {
@@ -3200,7 +3221,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .revision(revisionId)
         .file(fileName)
         .diffRequest()
-        .withIntraline(intraline);
+        .withIntraline(intraline)
+        .withWhitespace(IGNORE_NONE);
   }
 
   /**

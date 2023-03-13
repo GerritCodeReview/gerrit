@@ -34,7 +34,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V74 =
       schema(
           /* version= */ 74,
-          ImmutableList.of(),
           ImmutableList.<IndexedField<ChangeData, ?>>of(
               ChangeField.ADDED_LINES_FIELD,
               ChangeField.APPROVAL_FIELD,

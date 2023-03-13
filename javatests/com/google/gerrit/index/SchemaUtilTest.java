@@ -15,12 +15,12 @@
 package com.google.gerrit.index;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
@@ -30,20 +30,14 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class SchemaUtilTest {
 
-  private static final FieldDef<String, String> TEST_DEF =
-      exact("test_id").stored().build(id -> id);
-
-  private static final FieldDef<String, String> OTHER_TEST_DEF =
-      exact("other_test_id").stored().build(id -> id);
-
   private static final IndexedField<String, String> TEST_FIELD =
       IndexedField.<String>stringBuilder("TestId").build(a -> a);
 
   private static final IndexedField<String, String> TEST_FIELD_DUPLICATE_NAME =
-      IndexedField.<String>stringBuilder(TEST_DEF.getName()).build(a -> a);
+      IndexedField.<String>stringBuilder("TestId").build(a -> a);
 
   private static final IndexedField<String, String>.SearchSpec TEST_FIELD_SPEC =
-      TEST_FIELD.exact(TEST_DEF.getName());
+      TEST_FIELD.exact("test_id");
 
   static class TestSchemas {
 
@@ -71,8 +65,10 @@ public class SchemaUtilTest {
 
   @Test
   public void schemaVersion_incrementedOnVersionUpgrades() {
-    Schema<String> initialSchemaVersion = schema(/* version= */ 1);
-    Schema<String> schemaVersionUpgrade = schema(initialSchemaVersion);
+    Schema<String> initialSchemaVersion =
+        schema(/* version= */ 1, ImmutableList.of(), ImmutableList.of());
+    Schema<String> schemaVersionUpgrade =
+        schema(initialSchemaVersion, ImmutableList.of(), ImmutableList.of());
     assertThat(initialSchemaVersion.getVersion()).isEqualTo(1);
     assertThat(schemaVersionUpgrade.getVersion()).isEqualTo(2);
   }
@@ -105,21 +101,6 @@ public class SchemaUtilTest {
     assertThat(getNameParts("")).isEmpty();
     assertThat(getNameParts("foO-bAr_Baz a.b@c/d"))
         .containsExactly("foo", "bar", "baz", "a", "b", "c", "d");
-  }
-
-  @Test
-  public void canAddFieldSpecAndFieldDef() {
-    Schema<String> schema0 =
-        new Schema.Builder<String>()
-            .version(0)
-            .addIndexedFields(TEST_FIELD)
-            .addSearchSpecs(TEST_FIELD_SPEC)
-            .add(OTHER_TEST_DEF)
-            .build();
-
-    assertThat(schema0.hasField(TEST_FIELD_SPEC)).isTrue();
-    assertThat(schema0.hasField(OTHER_TEST_DEF)).isTrue();
-    assertThat(schema0.getIndexFields().values()).contains(TEST_FIELD);
   }
 
   @Test
@@ -157,23 +138,6 @@ public class SchemaUtilTest {
   }
 
   @Test
-  public void canRemoveFieldDef() {
-    Schema<String> schema0 =
-        new Schema.Builder<String>()
-            .version(0)
-            .addIndexedFields(TEST_FIELD)
-            .addSearchSpecs(TEST_FIELD_SPEC)
-            .add(OTHER_TEST_DEF)
-            .build();
-
-    Schema<String> schema1 =
-        new Schema.Builder<String>().add(schema0).remove(OTHER_TEST_DEF).build();
-    assertThat(schema1.hasField(TEST_FIELD_SPEC)).isTrue();
-    assertThat(schema1.hasField(OTHER_TEST_DEF)).isFalse();
-    assertThat(schema1.getIndexFields().values()).contains(TEST_FIELD);
-  }
-
-  @Test
   public void addSearchWithoutStoredField_disallowed() {
     IllegalArgumentException thrown =
         assertThrows(
@@ -199,6 +163,20 @@ public class SchemaUtilTest {
   }
 
   @Test
+  public void addDuplicateIndexField_byName_disallowed() {
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new Schema.Builder<String>()
+                    .version(0)
+                    .addIndexedFields(TEST_FIELD)
+                    .addIndexedFields(TEST_FIELD_DUPLICATE_NAME)
+                    .build());
+    assertThat(thrown).hasMessageThat().contains("Multiple entries with same key: TestId");
+  }
+
+  @Test
   public void addDuplicateSearchSpec_disallowed() {
     IllegalArgumentException thrown =
         assertThrows(
@@ -211,37 +189,6 @@ public class SchemaUtilTest {
                     .addSearchSpecs(TEST_FIELD_SPEC)
                     .build());
     assertThat(thrown).hasMessageThat().contains("Multiple entries with same key: test_id");
-  }
-
-  @Test
-  public void addFieldDefWithDuplicateSearchName_disallowed() {
-    IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () ->
-                new Schema.Builder<String>()
-                    .version(0)
-                    .addIndexedFields(TEST_FIELD)
-                    .addSearchSpecs(TEST_FIELD_SPEC)
-                    .add(TEST_DEF)
-                    .build());
-    assertThat(thrown).hasMessageThat().contains("Multiple entries with same key: test_id");
-  }
-
-  @Test
-  public void addFieldDefWithDuplicateFieldName_disallowed() {
-    IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () ->
-                new Schema.Builder<String>()
-                    .version(0)
-                    .addIndexedFields(TEST_FIELD_DUPLICATE_NAME)
-                    .add(TEST_DEF)
-                    .build());
-    assertThat(thrown)
-        .hasMessageThat()
-        .isEqualTo("DuplicateKeys found [test_id], indexFields:[test_id], schemaFields: [test_id]");
   }
 
   @Test

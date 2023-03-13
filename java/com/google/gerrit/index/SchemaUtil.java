@@ -70,36 +70,8 @@ public class SchemaUtil {
     return ImmutableSortedMap.copyOf(schemas);
   }
 
-  @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
-    return new Schema.Builder<V>().version(0).add(fields).build();
-  }
-
-  @SafeVarargs
-  public static <V> Schema<V> schema(int version, FieldDef<V, ?>... fields) {
-    return new Schema.Builder<V>().version(version).add(fields).build();
-  }
-
-  public static <V> Schema<V> schema(int version, ImmutableList<FieldDef<V, ?>> fields) {
-    return new Schema.Builder<V>().version(version).add(fields).build();
-  }
-
-  @SafeVarargs
-  public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
-    return new Schema.Builder<V>().add(schema).add(moreFields).build();
-  }
-
-  public static <V> Schema<V> schema(
-      int version,
-      ImmutableList<FieldDef<V, ?>> fieldDefs,
-      ImmutableList<IndexedField<V, ?>> indexedFields,
-      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
-    return new Schema.Builder<V>()
-        .version(version)
-        .add(fieldDefs)
-        .addIndexedFields(indexedFields)
-        .addSearchSpecs(searchSpecs)
-        .build();
+  public static <V> Schema<V> schema(int version) {
+    return new Schema.Builder<V>().version(version).build();
   }
 
   public static <V> Schema<V> schema(
@@ -108,19 +80,6 @@ public class SchemaUtil {
       ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
     return new Schema.Builder<V>()
         .version(version)
-        .addIndexedFields(indexedFields)
-        .addSearchSpecs(searchSpecs)
-        .build();
-  }
-
-  public static <V> Schema<V> schema(
-      Schema<V> schema,
-      ImmutableList<FieldDef<V, ?>> fieldDefs,
-      ImmutableList<IndexedField<V, ?>> indexedFields,
-      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
-    return new Schema.Builder<V>()
-        .add(schema)
-        .add(fieldDefs)
         .addIndexedFields(indexedFields)
         .addSearchSpecs(searchSpecs)
         .build();
@@ -137,11 +96,14 @@ public class SchemaUtil {
         .build();
   }
 
+  public static <V> Schema<V> schema(Schema<V> schema) {
+    return new Schema.Builder<V>().add(schema).build();
+  }
+
   public static <V> Schema<V> schema(
-      ImmutableList<FieldDef<V, ?>> fieldDefs,
       ImmutableList<IndexedField<V, ?>> indexFields,
       ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
-    return schema(/* version= */ 0, fieldDefs, indexFields, searchSpecs);
+    return schema(/* version= */ 0, indexFields, searchSpecs);
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

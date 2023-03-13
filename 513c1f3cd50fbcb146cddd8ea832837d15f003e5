@@ -49,6 +49,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0b1717a_8f9e4d18",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "4efbef70_7398a5da",
+      "range": {
+        "startLine": 29,
+        "startChar": 61,
+        "endLine": 29,
+        "endChar": 62
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15454662_612c8657",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623ddf87_207d0809",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8faef935_d58686fe",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 7
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-10T08:27:14Z",
       "side": 1,
       "message": "nit: Why do you need the sorting (the map is small so in any case I\u0027d go with ImmutableMap)?",
+      "range": {
+        "startLine": 481,
+        "startChar": 18,
+        "endLine": 481,
+        "endChar": 24
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a832047_e65a5c4a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "The sorting is so that the commit-message generation is stable.",
+      "parentUuid": "8faef935_d58686fe",
       "range": {
         "startLine": 481,
         "startChar": 18,
@@ -83,6 +155,30 @@
       "writtenOn": "2023-03-10T08:27:14Z",
       "side": 1,
       "message": "values",
+      "range": {
+        "startLine": 739,
+        "startChar": 72,
+        "endLine": 739,
+        "endChar": 80
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77afd73f_db0cac48",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35ec385b_9364379f",
       "range": {
         "startLine": 739,
         "startChar": 72,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30184077_5868de74",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "I don\u0027t think this simplifies the logic because commit messages are parsed from newest to oldest.\n\nI\u0027d have to keep a separate \"toRemove\" list then and at the end remove those entries.\n\nI am open to changing",
+      "parentUuid": "23d485e4_1ab3be2e",
+      "range": {
+        "startLine": 740,
+        "startChar": 28,
+        "endLine": 740,
+        "endChar": 75
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da69b24e_793bd7ed",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 7
@@ -129,6 +249,30 @@
       "writtenOn": "2023-03-10T08:27:14Z",
       "side": 1,
       "message": "nit: remove. you already initialise with an empty map, so need to be nullable",
+      "range": {
+        "startLine": 296,
+        "startChar": 3,
+        "endLine": 296,
+        "endChar": 11
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2baf3db3_df372e82",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da69b24e_793bd7ed",
       "range": {
         "startLine": 296,
         "startChar": 3,
@@ -156,6 +300,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9476c34b_53776b8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Then this should return an empty map, no?",
+      "parentUuid": "1d5b76f3_0f1804a2",
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c58da6d_98efc9e6",
@@ -169,6 +331,30 @@
       "writtenOn": "2023-03-10T08:27:14Z",
       "side": 1,
       "message": "nit: addCustomValue(String key, String value) makes handling this a bit easier.",
+      "range": {
+        "startLine": 467,
+        "startChar": 14,
+        "endLine": 467,
+        "endChar": 28
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b50eb3f2_b0f2db83",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c58da6d_98efc9e6",
       "range": {
         "startLine": 467,
         "startChar": 14,
@@ -196,6 +382,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e299608a_86c369ab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec48a1e0_7aa54102",
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82f94dbb_e82a6c1f",
@@ -209,6 +413,24 @@
       "writtenOn": "2023-03-10T11:55:24Z",
       "side": 1,
       "message": "We need to add\n\n.put(\"keyedValues\", new TypeLiteral\u003cImmutableSortedMap\u003cString, String\u003e\u003e() {}.getType())\n\nto make this test pass.",
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5135d7_01b5f394",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-13T17:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f94dbb_e82a6c1f",
       "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

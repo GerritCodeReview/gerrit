@@ -215,7 +215,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
    * <p>This index is special in that ChangeData is a mutable object. Therefore we can't just hold
    * onto the object that the caller wanted us to index. We also can't just create a new ChangeData
    * from scratch because there are tests that assert that certain computations (e.g. diffs) are
-   * only done once. So we do what the prod indices do: We read and write fields using FieldDef.
+   * only done once. So we do what the prod indices do: We read and write fields using SchemaField.
    */
   public static class FakeChangeIndex
       extends AbstractFakeIndex<Change.Id, ChangeData, Map<String, Object>> implements ChangeIndex {

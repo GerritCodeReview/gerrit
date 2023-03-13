@@ -63,22 +63,6 @@ public class Schema<T> {
     }
 
     @SafeVarargs
-    public final Builder<T> add(FieldDef<T, ?>... fields) {
-      return add(ImmutableList.copyOf(fields));
-    }
-
-    public final Builder<T> add(ImmutableList<FieldDef<T, ?>> fields) {
-      this.searchFields.addAll(fields);
-      return this;
-    }
-
-    @SafeVarargs
-    public final Builder<T> remove(FieldDef<T, ?>... fields) {
-      this.searchFields.removeAll(Arrays.asList(fields));
-      return this;
-    }
-
-    @SafeVarargs
     public final Builder<T> addSearchSpecs(IndexedField<T, ?>.SearchSpec... searchSpecs) {
       return addSearchSpecs(ImmutableList.copyOf(searchSpecs));
     }

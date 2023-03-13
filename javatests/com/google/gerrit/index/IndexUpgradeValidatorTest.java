@@ -50,7 +50,6 @@ public class IndexUpgradeValidatorTest {
             ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.CHANGE_ID_SPEC)),
         schema(
             2,
-            ImmutableList.<FieldDef<ChangeData, ?>>of(),
             ImmutableList.<IndexedField<ChangeData, ?>>of(
                 ChangeField.OWNER_FIELD, ChangeField.CHANGE_ID_FIELD),
             ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(

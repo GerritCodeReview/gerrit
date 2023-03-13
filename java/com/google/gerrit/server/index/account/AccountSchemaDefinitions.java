@@ -34,7 +34,6 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V8 =
       schema(
           /* version= */ 8,
-          ImmutableList.of(),
           ImmutableList.of(
               AccountField.ID_FIELD,
               AccountField.ACTIVE_FIELD,

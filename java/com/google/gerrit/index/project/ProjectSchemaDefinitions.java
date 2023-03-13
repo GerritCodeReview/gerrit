@@ -50,7 +50,6 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   static final Schema<ProjectData> V2 =
       schema(
           V1,
-          ImmutableList.of(),
           ImmutableList.<IndexedField<ProjectData, ?>>of(
               ProjectField.STATE_FIELD, ProjectField.REF_STATE_FIELD),
           ImmutableList.<IndexedField<ProjectData, ?>.SearchSpec>of(

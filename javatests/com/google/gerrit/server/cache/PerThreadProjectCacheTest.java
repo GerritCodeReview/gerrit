@@ -25,7 +25,7 @@ public class PerThreadProjectCacheTest {
     try (PerThreadCache cache = PerThreadCache.create()) {
       PerThreadCache.Key<Project.NameKey> key =
           PerThreadCache.Key.create(Project.NameKey.class, Project.nameKey("test-project"));
-      PerThreadProjectCache.getOrCompute(key, () -> "cached");
+      String unused = PerThreadProjectCache.getOrCompute(key, () -> "cached");
       String value = PerThreadProjectCache.getOrCompute(key, () -> "directly served");
       assertThat(value).isEqualTo("cached");
     }
@@ -38,12 +38,12 @@ public class PerThreadProjectCacheTest {
       for (int i = 0; i < 50; i++) {
         PerThreadCache.Key<Project.NameKey> key =
             PerThreadCache.Key.create(Project.NameKey.class, Project.nameKey("test-project" + i));
-        PerThreadProjectCache.getOrCompute(key, () -> "cached");
+        String unused = PerThreadProjectCache.getOrCompute(key, () -> "cached");
       }
       // Assert that the value was not persisted
       PerThreadCache.Key<Project.NameKey> key =
           PerThreadCache.Key.create(Project.NameKey.class, "Project" + 1000);
-      PerThreadProjectCache.getOrCompute(key, () -> "new value");
+      String unused = PerThreadProjectCache.getOrCompute(key, () -> "new value");
       String value = PerThreadProjectCache.getOrCompute(key, () -> "directly served");
       assertThat(value).isEqualTo("directly served");
     }

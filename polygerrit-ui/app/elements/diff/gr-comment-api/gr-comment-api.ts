@@ -368,7 +368,7 @@ export class ChangeComments {
   /**
    * Computes the number of comment threads in a given file or patch.
    */
-  computeCommentThreadCount(
+  computeCommentThread(
     file: PatchSetFile | PatchNumOnly,
     ignorePatchsetLevelComments?: boolean
   ) {
@@ -383,7 +383,7 @@ export class ChangeComments {
     let threads = createCommentThreads(comments);
     if (ignorePatchsetLevelComments)
       threads = threads.filter(thread => !isPatchsetLevel(thread));
-    return threads.length;
+    return threads;
   }
 
   /**

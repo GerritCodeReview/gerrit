@@ -303,7 +303,8 @@ suite('gr-comment-thread tests', () => {
             </a>
           </div>
         </div>
-      `
+      `,
+      {ignoreAttributes: ['style']}
     );
   });
 

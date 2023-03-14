@@ -35,6 +35,15 @@ export class GrCommentsSummary extends LitElement {
   @property({type: Number})
   mentionCount = 0;
 
+  @property({type: Boolean})
+  fullChips = false;
+
+  @property({type: Boolean})
+  clickableChips = false;
+
+  @property({type: Boolean})
+  emptyWhenNoComments = false;
+
   @state()
   selfAccount?: AccountInfo;
 
@@ -96,6 +105,7 @@ export class GrCommentsSummary extends LitElement {
       !!countUnresolvedComments
     )
       return nothing;
+    if (this.emptyWhenNoComments) return nothing;
     return html`<span class="zeroState"> No comments</span>`;
   }
 
@@ -106,6 +116,7 @@ export class GrCommentsSummary extends LitElement {
       styleType=${SummaryChipStyles.WARNING}
       category=${CommentTabState.MENTIONS}
       icon="alternate_email"
+      .clickableChips=${this.clickableChips}
     >
       ${pluralize(this.mentionCount, 'mention')}</gr-summary-chip
     >`;
@@ -118,8 +129,11 @@ export class GrCommentsSummary extends LitElement {
       category=${CommentTabState.DRAFTS}
       icon="rate_review"
       iconFilled
+      .clickableChips=${this.clickableChips}
     >
-      ${pluralize(this.draftCount, 'draft')}</gr-summary-chip
+      ${this.fullChips
+        ? pluralize(this.draftCount, 'draft')
+        : this.draftCount}</gr-summary-chip
     >`;
   }
 
@@ -132,6 +146,7 @@ export class GrCommentsSummary extends LitElement {
       styleType=${SummaryChipStyles.WARNING}
       category=${CommentTabState.UNRESOLVED}
       ?hidden=${!countUnresolvedComments}
+      .clickableChips=${this.clickableChips}
     >
       <gr-avatar-stack .accounts=${unresolvedAuthors} imageSize="32">
         <gr-icon
@@ -142,7 +157,9 @@ export class GrCommentsSummary extends LitElement {
         >
         </gr-icon>
       </gr-avatar-stack>
-      ${countUnresolvedComments} unresolved</gr-summary-chip
+      ${this.fullChips
+        ? `${countUnresolvedComments} unresolved`
+        : `${countUnresolvedComments}`}</gr-summary-chip
     >`;
   }
 
@@ -151,8 +168,11 @@ export class GrCommentsSummary extends LitElement {
     return html` <gr-summary-chip
       styleType=${SummaryChipStyles.CHECK}
       category=${CommentTabState.SHOW_ALL}
+      .clickableChips=${this.clickableChips}
       icon="mark_chat_read"
-      >${countResolvedComments} resolved</gr-summary-chip
+      >${this.fullChips
+        ? `${countResolvedComments} resolved`
+        : `${countResolvedComments}`}</gr-summary-chip
     >`;
   }
 

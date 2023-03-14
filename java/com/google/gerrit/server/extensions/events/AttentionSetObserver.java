@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -73,7 +74,10 @@ public class AttentionSetObserver {
    * @param when is the time of the event
    */
   public void fire(
-      ChangeData changeData, AccountState accountState, AttentionSetUpdate update, Instant when) {
+      ChangeData changeData,
+      @Nullable AccountState accountState,
+      AttentionSetUpdate update,
+      Instant when) {
     if (listeners.isEmpty()) {
       return;
     }
@@ -107,7 +111,7 @@ public class AttentionSetObserver {
 
     public Event(
         ChangeInfo change,
-        AccountInfo editor,
+        @Nullable AccountInfo editor,
         Set<Integer> added,
         Set<Integer> removed,
         Instant when) {

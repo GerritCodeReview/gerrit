@@ -231,7 +231,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     downloadSchemes.runEach(
         extension -> {
           DownloadScheme scheme = extension.get();
-          if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
+          if (scheme.isEnabled() && !scheme.isHidden() && scheme.getUrl("${project}") != null) {
             info.schemes.put(extension.getExportName(), getDownloadSchemeInfo(scheme));
           }
         });

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.scenarios
 
-import static java.nio.charset.StandardCharsets.UTF_8
+import java.nio.charset.StandardCharsets.UTF_8
 import java.io.{File, IOException}
 import java.net.URLEncoder
 

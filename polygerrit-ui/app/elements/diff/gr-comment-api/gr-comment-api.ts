@@ -432,6 +432,23 @@ export class ChangeComments {
     return getCommentForPath(file.__path) + getCommentForPath(file.old_path);
   }
 
+  computeCommentsThreads(
+    patchRange: PatchRange,
+    path: string,
+    changeFileInfo?: FileInfo
+  ) {
+    const threads = this.getThreadsBySideForFile({path}, patchRange);
+    if (changeFileInfo?.old_path) {
+      threads.push(
+        ...this.getThreadsBySideForFile(
+          {path: changeFileInfo.old_path},
+          patchRange
+        )
+      );
+    }
+    return threads;
+  }
+
   /**
    * @param includeUnmodified Included unmodified status of the file in the
    * comment string or not. For files we opt of chip instead of a string.
@@ -446,15 +463,11 @@ export class ChangeComments {
     if (!path) return '';
     if (!patchRange) return '';
 
-    const threads = this.getThreadsBySideForFile({path}, patchRange);
-    if (changeFileInfo?.old_path) {
-      threads.push(
-        ...this.getThreadsBySideForFile(
-          {path: changeFileInfo.old_path},
-          patchRange
-        )
-      );
-    }
+    const threads = this.computeCommentsThreads(
+      patchRange,
+      path,
+      changeFileInfo
+    );
     const commentThreadCount = threads.filter(
       thread => !isDraftThread(thread)
     ).length;

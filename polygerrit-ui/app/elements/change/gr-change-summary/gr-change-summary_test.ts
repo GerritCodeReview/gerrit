@@ -63,7 +63,10 @@ suite('gr-change-summary test', () => {
             <tr>
               <td class="key">Comments</td>
               <td class="value">
-                <gr-comments-summary></gr-comments-summary>
+                <gr-comments-summary
+                  clickablechips=""
+                  fullchips=""
+                ></gr-comments-summary>
               </td>
             </tr>
           </tbody>

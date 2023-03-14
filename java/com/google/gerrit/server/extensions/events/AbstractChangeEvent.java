@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -28,7 +29,7 @@ public abstract class AbstractChangeEvent implements ChangeEvent {
   private final NotifyHandling notify;
 
   protected AbstractChangeEvent(
-      ChangeInfo change, AccountInfo who, Instant when, NotifyHandling notify) {
+      ChangeInfo change, @Nullable AccountInfo who, Instant when, NotifyHandling notify) {
     this.changeInfo = change;
     this.who = who;
     this.when = when;

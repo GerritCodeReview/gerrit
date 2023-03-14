@@ -44,6 +44,9 @@ export class GrCommentsSummary extends LitElement {
   @property({type: Boolean})
   emptyWhenNoComments = false;
 
+  @property({type: Boolean})
+  showAvatarForResolved = false;
+
   @state()
   selfAccount?: AccountInfo;
 
@@ -84,6 +87,9 @@ export class GrCommentsSummary extends LitElement {
     const unresolvedThreads = commentThreads.filter(isUnresolved);
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
+    const resolveAuthors = this.showAvatarForResolved
+      ? this.getAccounts(commentThreads.filter(isResolved))
+      : undefined;
     return html`
       ${this.renderZeroState(countResolvedComments, countUnresolvedComments)}
       ${this.renderDraftChip()} ${this.renderMentionChip()}
@@ -91,7 +97,7 @@ export class GrCommentsSummary extends LitElement {
         countUnresolvedComments,
         unresolvedAuthors
       )}
-      ${this.renderResolvedCommentsChip(countResolvedComments)}
+      ${this.renderResolvedCommentsChip(countResolvedComments, resolveAuthors)}
     `;
   }
 
@@ -163,8 +169,29 @@ export class GrCommentsSummary extends LitElement {
     >`;
   }
 
-  private renderResolvedCommentsChip(countResolvedComments: number) {
+  private renderResolvedCommentsChip(
+    countResolvedComments: number,
+    resolvedAuthors?: AccountInfo[]
+  ) {
     if (!countResolvedComments) return nothing;
+    if (resolvedAuthors) {
+      return html` <gr-summary-chip
+        styleType=${SummaryChipStyles.CHECK}
+        category=${CommentTabState.SHOW_ALL}
+        .clickableChips=${this.clickableChips}
+        ><gr-avatar-stack .accounts=${resolvedAuthors} imageSize="32">
+          <gr-icon
+            slot="fallback"
+            icon="chat_bubble"
+            filled
+            class="unresolvedIcon"
+          >
+          </gr-icon> </gr-avatar-stack
+        >${this.fullChips
+          ? `${countResolvedComments} resolved`
+          : `${countResolvedComments}`}</gr-summary-chip
+      >`;
+    }
     return html` <gr-summary-chip
       styleType=${SummaryChipStyles.CHECK}
       category=${CommentTabState.SHOW_ALL}

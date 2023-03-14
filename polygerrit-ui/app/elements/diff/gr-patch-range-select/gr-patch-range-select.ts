@@ -325,11 +325,7 @@ export class GrPatchRangeSelect extends LitElement {
   }
 
   private computeText(patchNum: PatchSetNum, prefix: string, sha: string) {
-    return (
-      `${prefix}${patchNum}` +
-      `${this.computePatchSetCommentsString(patchNum)}` +
-      ` | ${sha}`
-    );
+    return `${prefix}${patchNum} | ${sha}`;
   }
 
   private createDropdownEntry(
@@ -343,6 +339,12 @@ export class GrPatchRangeSelect extends LitElement {
       mobileText: this.computeMobileText(patchNum),
       bottomText: `${this.computePatchSetDescription(patchNum)}`,
       value: patchNum,
+      commentThreads: this.changeComments?.computeCommentThread(
+        {
+          patchNum,
+        },
+        true
+      ),
     };
     const date = this.computePatchSetDate(patchNum);
     if (date) {
@@ -417,12 +419,12 @@ export class GrPatchRangeSelect extends LitElement {
   computePatchSetCommentsString(patchNum: PatchSetNum): string {
     if (!this.changeComments) return '';
 
-    const commentThreadCount = this.changeComments.computeCommentThreadCount(
+    const commentThreadCount = this.changeComments.computeCommentThread(
       {
         patchNum,
       },
       true
-    );
+    ).length;
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
     const unresolvedCount = this.changeComments.computeUnresolvedNum(
@@ -480,9 +482,9 @@ export class GrPatchRangeSelect extends LitElement {
         previous: detail.patchNum,
         current: patchSetValue,
         latest: latestPatchNum,
-        commentCount: this.changeComments?.computeCommentThreadCount({
+        commentCount: this.changeComments?.computeCommentThread({
           patchNum: patchSetValue,
-        }),
+        }).length,
       });
       detail.patchNum = patchSetValue;
     } else {
@@ -490,9 +492,9 @@ export class GrPatchRangeSelect extends LitElement {
       this.reporting.reportInteraction('left-patchset-changed', {
         previous: detail.basePatchNum,
         current: patchSetValue,
-        commentCount: this.changeComments?.computeCommentThreadCount({
+        commentCount: this.changeComments?.computeCommentThread({
           patchNum: patchSetValue,
-        }),
+        }).length,
       });
       detail.basePatchNum = patchSetValue as BasePatchSetNum;
     }

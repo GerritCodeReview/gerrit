@@ -1872,14 +1872,14 @@ export class GrFileList extends LitElement {
       return '';
     }
     const commentThreadCount =
-      this.changeComments.computeCommentThreadCount({
+      this.changeComments.computeCommentThread({
         patchNum: this.patchRange.basePatchNum,
         path: file.__path,
-      }) +
-      this.changeComments.computeCommentThreadCount({
+      }).length +
+      this.changeComments.computeCommentThread({
         patchNum: this.patchRange.patchNum,
         path: file.__path,
-      });
+      }).length;
     return commentThreadCount === 0 ? '' : `${commentThreadCount}c`;
   }
 

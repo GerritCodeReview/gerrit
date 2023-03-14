@@ -48,6 +48,7 @@ import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -125,6 +126,8 @@ export class GrPatchRangeSelect extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -325,6 +328,11 @@ export class GrPatchRangeSelect extends LitElement {
   }
 
   private computeText(patchNum: PatchSetNum, prefix: string, sha: string) {
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.COMMENTS_CHIPS_IN_FILE_LIST)
+    ) {
+      return `${prefix}${patchNum} | ${sha}`;
+    }
     return (
       `${prefix}${patchNum}` +
       `${this.computePatchSetCommentsString(patchNum)}` +
@@ -344,6 +352,16 @@ export class GrPatchRangeSelect extends LitElement {
       bottomText: `${this.computePatchSetDescription(patchNum)}`,
       value: patchNum,
     };
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.COMMENTS_CHIPS_IN_FILE_LIST)
+    ) {
+      entry.commentThreads = this.changeComments?.computeCommentThreads(
+        {
+          patchNum,
+        },
+        true
+      );
+    }
     const date = this.computePatchSetDate(patchNum);
     if (date) {
       entry.date = date;
@@ -417,12 +435,12 @@ export class GrPatchRangeSelect extends LitElement {
   computePatchSetCommentsString(patchNum: PatchSetNum): string {
     if (!this.changeComments) return '';
 
-    const commentThreadCount = this.changeComments.computeCommentThreadCount(
+    const commentThreadCount = this.changeComments.computeCommentThreads(
       {
         patchNum,
       },
       true
-    );
+    ).length;
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
     const unresolvedCount = this.changeComments.computeUnresolvedNum(
@@ -480,9 +498,9 @@ export class GrPatchRangeSelect extends LitElement {
         previous: detail.patchNum,
         current: patchSetValue,
         latest: latestPatchNum,
-        commentCount: this.changeComments?.computeCommentThreadCount({
+        commentCount: this.changeComments?.computeCommentThreads({
           patchNum: patchSetValue,
-        }),
+        }).length,
       });
       detail.patchNum = patchSetValue;
     } else {
@@ -490,9 +508,9 @@ export class GrPatchRangeSelect extends LitElement {
       this.reporting.reportInteraction('left-patchset-changed', {
         previous: detail.basePatchNum,
         current: patchSetValue,
-        commentCount: this.changeComments?.computeCommentThreadCount({
+        commentCount: this.changeComments?.computeCommentThreads({
           patchNum: patchSetValue,
-        }),
+        }).length,
       });
       detail.basePatchNum = patchSetValue as BasePatchSetNum;
     }

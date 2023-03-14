@@ -911,27 +911,44 @@ suite('ChangeComments tests', () => {
         );
       });
 
-      test('computeCommentThreadCount', () => {
+      test('computeCommentThreads - check length', () => {
         assert.equal(
-          changeComments.computeCommentThreadCount({
+          changeComments.computeCommentThreads({
             patchNum: 2 as PatchSetNum,
             path: 'file/one',
-          }),
+          }).length,
           3
         );
-        assert.equal(
-          changeComments.computeCommentThreadCount({
+        assert.deepEqual(
+          changeComments.computeCommentThreads({
             patchNum: 1 as PatchSetNum,
             path: 'file/one',
           }),
-          0
+          []
         );
         assert.equal(
-          changeComments.computeCommentThreadCount({
+          changeComments.computeCommentThreads({
             patchNum: 2 as PatchSetNum,
             path: 'file/three',
-          }),
+          }).length,
           1
+        );
+      });
+
+      test('computeCommentThreads - check content', () => {
+        const expectedThreads: CommentThread[] = [
+          {
+            ...createCommentThread([{...comments[9], path: 'file/four'}]),
+          },
+          {
+            ...createCommentThread([{...comments[10], path: 'file/four'}]),
+          },
+        ];
+        assert.deepEqual(
+          changeComments.computeCommentThreads({
+            path: 'file/four',
+          }),
+          expectedThreads
         );
       });
 

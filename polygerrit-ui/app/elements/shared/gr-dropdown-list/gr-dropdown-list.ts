@@ -14,7 +14,7 @@ import '../gr-file-status/gr-file-status';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
-import {Timestamp} from '../../../types/common';
+import {CommentThread, Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -43,6 +43,7 @@ export interface DropdownItem {
   date?: Timestamp;
   disabled?: boolean;
   file?: NormalizedFileInfo;
+  commentThreads?: CommentThread[];
 }
 
 declare global {
@@ -252,6 +253,14 @@ export class GrDropdownList extends LitElement {
       <paper-item ?disabled=${item.disabled} data-value=${item.value}>
         <div class="topContent">
           <div>${item.text}</div>
+          ${when(
+            item.commentThreads,
+            () => html`<gr-comments-summary
+              .commentThreads=${item.commentThreads}
+              emptyWhenNoComments
+              showAvatarForResolved
+            ></gr-comments-summary>`
+          )}
           ${when(
             item.date,
             () => html`

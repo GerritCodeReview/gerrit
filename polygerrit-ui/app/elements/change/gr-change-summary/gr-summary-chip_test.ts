@@ -12,8 +12,9 @@ suite('gr-summary-chip test', () => {
   let element: GrSummaryChip;
   setup(async () => {
     element = await fixture(html`<gr-summary-chip
-      styleType=${SummaryChipStyles.WARNING}
-      category=${CommentTabState.DRAFTS}
+      .styleType=${SummaryChipStyles.WARNING}
+      .category=${CommentTabState.DRAFTS}
+      clickable
     ></gr-summary-chip>`);
   });
   test('is defined', () => {

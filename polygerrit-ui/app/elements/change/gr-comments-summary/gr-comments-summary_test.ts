@@ -15,7 +15,9 @@ suite('gr-comments-summary test', () => {
   let element: GrCommentsSummary;
 
   setup(async () => {
-    element = await fixture(html`<gr-comments-summary></gr-comments-summary>`);
+    element = await fixture(
+      html`<gr-comments-summary fullChips clickableChips></gr-comments-summary>`
+    );
   });
 
   test('is defined', () => {

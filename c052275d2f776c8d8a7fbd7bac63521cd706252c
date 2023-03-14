@@ -34,6 +34,24 @@
       "parentUuid": "7853676a_f99257bd",
       "revId": "c052275d2f776c8d8a7fbd7bac63521cd706252c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28c81fe9_c5f0372c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-14T09:43:55Z",
+      "side": 1,
+      "message": "Yes, the parent 2 was out of date due to a change in the commit message. Should be resolved now.",
+      "parentUuid": "6aef438e_79d6e839",
+      "revId": "c052275d2f776c8d8a7fbd7bac63521cd706252c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

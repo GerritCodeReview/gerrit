@@ -1153,7 +1153,7 @@ works across project inheritance, from the top down, so an administrator can
 use 'BLOCK' rules to enforce site-wide restrictions.
 
 For example, if a user in the 'Foo Users' group tries to push to
-'refs/heads/mater' with the permissions below, that user will be blocked
+'refs/heads/master' with the permissions below, that user will be blocked
 
 [options="header"]
 |=========================================================================

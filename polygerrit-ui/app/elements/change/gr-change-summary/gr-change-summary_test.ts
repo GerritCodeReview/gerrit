@@ -16,7 +16,6 @@ import {
   createDraft,
   createRun,
 } from '../../../test/test-data-generators';
-import {stubFlags} from '../../../test/test-utils';
 import {Timestamp} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -64,32 +63,7 @@ suite('gr-change-summary test', () => {
             <tr>
               <td class="key">Comments</td>
               <td class="value">
-                <gr-summary-chip
-                  category="drafts"
-                  icon="rate_review"
-                  iconFilled
-                  styletype="info"
-                >
-                  3 drafts
-                </gr-summary-chip>
-                <gr-summary-chip category="unresolved" styletype="warning">
-                  <gr-avatar-stack imageSize="32">
-                    <gr-icon
-                      class="unresolvedIcon"
-                      filled
-                      icon="chat_bubble"
-                      slot="fallback"
-                    ></gr-icon>
-                  </gr-avatar-stack>
-                  1 unresolved
-                </gr-summary-chip>
-                <gr-summary-chip
-                  category="show all"
-                  icon="mark_chat_read"
-                  styletype="check"
-                >
-                  1 resolved
-                </gr-summary-chip>
+                <gr-comments-summary></gr-comments-summary>
               </td>
             </tr>
           </tbody>
@@ -190,11 +164,6 @@ suite('gr-change-summary test', () => {
   });
 
   test('renders mentions summary', async () => {
-    stubFlags('isEnabled').returns(true);
-    // recreate element so that flag protected subscriptions are added
-    element = await fixture(html`<gr-change-summary></gr-change-summary>`);
-    await element.updateComplete;
-
     commentsModel.setState({
       drafts: {
         a: [
@@ -227,7 +196,8 @@ suite('gr-change-summary test', () => {
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     });
     await element.updateComplete;
-    const mentionSummary = queryAndAssert(element, '.mentionSummary');
+    const commentsSummary = queryAndAssert(element, 'gr-comments-summary');
+    const mentionSummary = queryAndAssert(commentsSummary, '.mentionSummary');
     // Only count occurrences in unresolved threads
     // Resolved threads are ignored hence mention chip count is 2
     assert.dom.equal(

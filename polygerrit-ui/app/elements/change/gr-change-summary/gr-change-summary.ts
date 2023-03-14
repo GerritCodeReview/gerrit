@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import './gr-checks-chip';
-import './gr-summary-chip';
-import '../../shared/gr-avatar/gr-avatar-stack';
+import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html, nothing} from 'lit';
@@ -29,19 +28,10 @@ import {
   isRunningOrScheduled,
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
-import {
-  getFirstComment,
-  getMentionedThreads,
-  hasHumanReply,
-  isResolved,
-  isRobotThread,
-  isUnresolved,
-} from '../../../utils/comment-util';
-import {pluralize} from '../../../utils/string-util';
+import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
 import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
-import {isDefined} from '../../../types/types';
 import {Tab} from '../../../constants/constants';
-import {ChecksTabState, CommentTabState} from '../../../types/events';
+import {ChecksTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -50,8 +40,6 @@ import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
-
-import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when.js';
 import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
@@ -263,14 +251,6 @@ export class GrChangeSummary extends LitElement {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
-        }
-        gr-avatar-stack {
-          --avatar-size: var(--line-height-small, 16px);
-          --stack-border-color: var(--warning-background);
-        }
-        .unresolvedIcon {
-          font-size: var(--line-height-small);
-          color: var(--warning-foreground);
         }
         /* The basics of .loadingSpin are defined in shared styles. */
         .loadingSpin {
@@ -544,105 +524,23 @@ export class GrChangeSummary extends LitElement {
   }
 
   override render() {
-    const commentThreads =
-      this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
-      [];
-    const countResolvedComments = commentThreads.filter(isResolved).length;
-    const unresolvedThreads = commentThreads.filter(isUnresolved);
-    const countUnresolvedComments = unresolvedThreads.length;
-    const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     return html`
       <div>
         <table>
           <tr>
             <td class="key">Comments</td>
             <td class="value">
-              ${this.renderZeroState(
-                countResolvedComments,
-                countUnresolvedComments
-              )}
-              ${this.renderDraftChip()} ${this.renderMentionChip()}
-              ${this.renderUnresolvedCommentsChip(
-                countUnresolvedComments,
-                unresolvedAuthors
-              )}
-              ${this.renderResolvedCommentsChip(countResolvedComments)}
+              <gr-comments-summary
+                .commentThreads=${this.commentThreads}
+                .draftCount=${this.draftCount}
+                .mentionCount=${this.mentionCount}
+              ></gr-comments-summary>
             </td>
           </tr>
           ${this.renderChecksSummary()}
         </table>
       </div>
     `;
-  }
-
-  private renderZeroState(
-    countResolvedComments: number,
-    countUnresolvedComments: number
-  ) {
-    if (
-      !!countResolvedComments ||
-      !!this.draftCount ||
-      !!countUnresolvedComments
-    )
-      return nothing;
-    return html`<span class="zeroState"> No comments</span>`;
-  }
-
-  private renderMentionChip() {
-    if (!this.mentionCount) return nothing;
-    return html` <gr-summary-chip
-      class="mentionSummary"
-      styleType=${SummaryChipStyles.WARNING}
-      category=${CommentTabState.MENTIONS}
-      icon="alternate_email"
-    >
-      ${pluralize(this.mentionCount, 'mention')}</gr-summary-chip
-    >`;
-  }
-
-  private renderDraftChip() {
-    if (!this.draftCount) return nothing;
-    return html` <gr-summary-chip
-      styleType=${SummaryChipStyles.INFO}
-      category=${CommentTabState.DRAFTS}
-      icon="rate_review"
-      iconFilled
-    >
-      ${pluralize(this.draftCount, 'draft')}</gr-summary-chip
-    >`;
-  }
-
-  private renderUnresolvedCommentsChip(
-    countUnresolvedComments: number,
-    unresolvedAuthors: AccountInfo[]
-  ) {
-    if (!countUnresolvedComments) return nothing;
-    return html` <gr-summary-chip
-      styleType=${SummaryChipStyles.WARNING}
-      category=${CommentTabState.UNRESOLVED}
-      ?hidden=${!countUnresolvedComments}
-    >
-      <gr-avatar-stack .accounts=${unresolvedAuthors} imageSize="32">
-        <gr-icon
-          slot="fallback"
-          icon="chat_bubble"
-          filled
-          class="unresolvedIcon"
-        >
-        </gr-icon>
-      </gr-avatar-stack>
-      ${countUnresolvedComments} unresolved</gr-summary-chip
-    >`;
-  }
-
-  private renderResolvedCommentsChip(countResolvedComments: number) {
-    if (!countResolvedComments) return nothing;
-    return html` <gr-summary-chip
-      styleType=${SummaryChipStyles.CHECK}
-      category=${CommentTabState.SHOW_ALL}
-      icon="mark_chat_read"
-      >${countResolvedComments} resolved</gr-summary-chip
-    >`;
   }
 
   private renderChecksSummary() {
@@ -675,13 +573,6 @@ export class GrChangeSummary extends LitElement {
         </div>
       </td>
     </tr>`;
-  }
-
-  getAccounts(commentThreads: CommentThread[]): AccountInfo[] {
-    return commentThreads
-      .map(getFirstComment)
-      .map(comment => comment?.author ?? this.selfAccount)
-      .filter(isDefined);
   }
 }
 

@@ -534,6 +534,8 @@ export class GrChangeSummary extends LitElement {
                 .commentThreads=${this.commentThreads}
                 .draftCount=${this.draftCount}
                 .mentionCount=${this.mentionCount}
+                showCommentCategoryName
+                clickableChips
               ></gr-comments-summary>
             </td>
           </tr>

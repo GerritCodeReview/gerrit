@@ -12,8 +12,9 @@ suite('gr-summary-chip test', () => {
   let element: GrSummaryChip;
   setup(async () => {
     element = await fixture(html`<gr-summary-chip
-      styleType=${SummaryChipStyles.WARNING}
-      category=${CommentTabState.DRAFTS}
+      .styleType=${SummaryChipStyles.WARNING}
+      .category=${CommentTabState.DRAFTS}
+      clickable
     ></gr-summary-chip>`);
   });
   test('is defined', () => {
@@ -27,6 +28,19 @@ suite('gr-summary-chip test', () => {
       /* HTML */ `<button class="font-small summaryChip warning">
         <slot> </slot>
       </button>`
+    );
+  });
+
+  test('renders as not clickable', async () => {
+    const element = await fixture(html`<gr-summary-chip
+      .styleType=${SummaryChipStyles.CHECK}
+      .category=${CommentTabState.SHOW_ALL}
+    ></gr-summary-chip>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<span class="check font-small summaryChip">
+        <slot> </slot>
+      </span>`
     );
   });
 });

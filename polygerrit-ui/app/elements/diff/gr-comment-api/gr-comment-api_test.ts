@@ -913,24 +913,24 @@ suite('ChangeComments tests', () => {
 
       test('computeCommentThreadCount', () => {
         assert.equal(
-          changeComments.computeCommentThreadCount({
+          changeComments.computeCommentThread({
             patchNum: 2 as PatchSetNum,
             path: 'file/one',
-          }),
+          }).length,
           3
         );
         assert.equal(
-          changeComments.computeCommentThreadCount({
+          changeComments.computeCommentThread({
             patchNum: 1 as PatchSetNum,
             path: 'file/one',
-          }),
+          }).length,
           0
         );
         assert.equal(
-          changeComments.computeCommentThreadCount({
+          changeComments.computeCommentThread({
             patchNum: 2 as PatchSetNum,
             path: 'file/three',
-          }),
+          }).length,
           1
         );
       });

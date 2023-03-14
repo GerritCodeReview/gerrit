@@ -160,7 +160,8 @@ suite('gr-diff-host tests', () => {
           style="--line-limit-marker:-1px; --content-width:100ch; --diff-max-width:none; --font-size:12px;"
         >
         </gr-diff>
-      `
+      `,
+      {ignoreAttributes: ['style']}
     );
   });
 

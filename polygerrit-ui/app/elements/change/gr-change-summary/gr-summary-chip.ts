@@ -34,6 +34,9 @@ export class GrSummaryChip extends LitElement {
   @property()
   category?: CommentTabState;
 
+  @property({type: Number})
+  clickable?: Boolean;
+
   private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
@@ -107,11 +110,19 @@ export class GrSummaryChip extends LitElement {
 
   override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
-    return html`<button class=${chipClass} @click=${this.handleClick}>
-      ${this.icon &&
+    if (this.clickable) {
+      return html`<button class=${chipClass} @click=${this.handleClick}>
+        ${this.renderIconAndSlot()}
+      </button>`;
+    } else {
+      return html`<span class=${chipClass}>${this.renderIconAndSlot()}</span>`;
+    }
+  }
+
+  renderIconAndSlot() {
+    return html` ${this.icon &&
       html`<gr-icon ?filled=${this.iconFilled} icon=${this.icon}></gr-icon>`}
-      <slot></slot>
-    </button>`;
+      <slot></slot>`;
   }
 
   private handleClick(e: MouseEvent) {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e68e8670_9a21c8f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-15T12:57:34Z",
+      "side": 1,
+      "message": "Done.\n\nI am not sure whether we need `REST_API_DISABLED` and would prefer to go ahead with the boolean.",
+      "parentUuid": "0db3c69d_2c285b6e",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71913eb4_72ea6d07",
@@ -52,6 +70,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5f6d940_6d72fdb5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-15T12:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71913eb4_72ea6d07",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72fb2f5_fb43c776",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-15T12:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4763e666_aedc0610",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12ca3315_f40c8b2d",
@@ -65,6 +119,30 @@
       "writtenOn": "2023-03-15T12:04:14Z",
       "side": 1,
       "message": "nit: While the server uses camelCase it will be converted to lowercase_underscore in the JSON, so this should be enable_robot_comments here.",
+      "range": {
+        "startLine": 1578,
+        "startChar": 2,
+        "endLine": 1578,
+        "endChar": 21
+      },
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81731dd2_f5be9dc4",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-15T12:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12ca3315_f40c8b2d",
       "range": {
         "startLine": 1578,
         "startChar": 2,

@@ -2214,9 +2214,13 @@ export class GrChangeView extends LitElement {
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
+<<<<<<< HEAD   (11579c Do not emit a SHOW_CHANGE event without a change)
         this.reloadPatchNumDependentResources(patchNumChanged).then(() => {
           this.sendShowChangeEvent();
         });
+=======
+        this.reloadPatchNumDependentResources();
+>>>>>>> CHANGE (3dae08 Fix "showchange" plugin event being triggered twice on patch)
       }
 
       // If there is no change in patchset or changeNum, such as when user goes

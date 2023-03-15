@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "564b9d19_5d1aecb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2023-03-15T10:19:15Z",
+      "side": 1,
+      "message": "Thank you for this patch Sven, that is a nice improvement to older releases :)",
+      "revId": "34b4352f73417572ce4b6d02bccfe54bbe98ee64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

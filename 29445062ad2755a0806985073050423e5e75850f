@@ -87,6 +87,24 @@
       "parentUuid": "3ebb10d8_9c2df9d3",
       "revId": "29445062ad2755a0806985073050423e5e75850f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899555fa_f56c0eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-15T14:16:12Z",
+      "side": 1,
+      "message": "This can be further simplified by using \n`RevWalk#isMergedIntoAny(RevCommit commit, Collection\u003cRef\u003e refs)`\nwhich already returns what we want to know",
+      "parentUuid": "8cede311_bc943ac5",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

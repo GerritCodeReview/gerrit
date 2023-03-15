@@ -2098,9 +2098,7 @@ export class GrChangeView extends LitElement {
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
-        this.reloadPatchNumDependentResources().then(() => {
-          this.sendShowChangeEvent();
-        });
+        this.reloadPatchNumDependentResources();
       }
 
       // If there is no change in patchset or changeNum, such as when user goes

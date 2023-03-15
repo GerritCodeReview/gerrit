@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db3c69d_2c285b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-15T12:04:14Z",
+      "side": 1,
+      "message": "Maybe add what\u0027s the motivation for this setting.\n\nI assume we intend to deprecate/remove the robot comment functionality in favour of checks. If so, it seems disabling robot comments in the UI is only the first step? \n\n[optional] In this case maybe the server config would better be an enum (UI_DISABLED), so that we can add further values later (e.g. REST_API_DISABLED).",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71913eb4_72ea6d07",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-15T12:04:14Z",
+      "side": 1,
+      "message": "[optional] Should we mention that this only disables robot comments in the UI, but not the robot comment server functionality (e.g. the robot comment REST API is still functioning)?",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4763e666_aedc0610",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-15T12:04:14Z",
+      "side": 1,
+      "message": "Please document the default value that applies if this parameter is not set.",
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ca3315_f40c8b2d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-15T12:04:14Z",
+      "side": 1,
+      "message": "nit: While the server uses camelCase it will be converted to lowercase_underscore in the JSON, so this should be enable_robot_comments here.",
+      "range": {
+        "startLine": 1578,
+        "startChar": 2,
+        "endLine": 1578,
+        "endChar": 21
+      },
+      "revId": "c2414570acc90cea28c26b650d4c33275d4b3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

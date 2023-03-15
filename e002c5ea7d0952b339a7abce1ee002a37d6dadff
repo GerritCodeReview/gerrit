@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68501875_30f7e16f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-summary-chip_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-15T11:34:41Z",
+      "side": 1,
+      "message": "can you add render test for non-clickable state that you are adding?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1d4e3b_cf2a88c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-comments-summary/gr-comments-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-15T11:34:41Z",
+      "side": 1,
+      "message": "got confused by this name. It is only controlling the text? Maybe `showCommentCategory` or similar name can better explain that it is adding `unresolved`/`resolved` text",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b420c503_3179c418",
+        "filename": "polygerrit-ui/app/elements/change/gr-comments-summary/gr-comments-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-15T11:34:41Z",
+      "side": 1,
+      "message": "combine early returns\n```suggestion\n    if (\n      this.emptyWhenNoComments ||\n      !!countResolvedComments ||\n      !!this.draftCount ||\n      !!countUnresolvedComments\n    )\n      return nothing;\n    return html`\u003cspan class\u003d\"zeroState\"\u003e No comments\u003c/span\u003e`;\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 0
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

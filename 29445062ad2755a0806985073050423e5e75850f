@@ -69,6 +69,24 @@
       "parentUuid": "4262dba9_8f44cfce",
       "revId": "29445062ad2755a0806985073050423e5e75850f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cede311_bc943ac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-15T13:44:25Z",
+      "side": 1,
+      "message": "Let\u0027s look at the test scenario in AbstractSubmit adding another (I think unrelated) branch x:\n\n```\n        M  -- mergeCommit (pushed for review and submitted)\n        | \\\nx -- X  |  S -- stable (pushed directly to refs/heads/stable)\n      \\ | /\n        I   -- master\n```\n\nWe are looking at submitting merge commit M to master.\nI understand that, to cover the case your fix handles, we need to check if S, which is a parent of the merge commit M, is merged into any branch (here stable). \nWhy do we need to loop over all existing branches to find this out ?\n\nWith git I would check if the result of this command is non-empty \n```\ngit branch --contains S\n```\n\nWith JGit I would implement it like this\n```\nboolean isMergedIntoAnyBranch(Repository repo, RevCommit commit) {\n  RefDatabase refDb \u003d repo.getRefDatabase();\n  Collection\u003cRef\u003e branches \u003d refDb.getRefsByPrefix(Constants.R_HEADS);\n  List\u003cRef\u003e matches \u003d revWalk.getMergedInto(commit, branches);\n  return matches.size() \u003e 0\n}\n```\n\nOr did I miss something ?",
+      "parentUuid": "3ebb10d8_9c2df9d3",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

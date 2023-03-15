@@ -18,7 +18,6 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -35,14 +34,12 @@ public class FakeChangeIndex implements ChangeIndex {
   static final Schema<ChangeData> V1 =
       schema(
           1,
-          ImmutableList.<FieldDef<ChangeData, ?>>of(),
           ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.STATUS_FIELD),
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.STATUS_SPEC));
 
   static final Schema<ChangeData> V2 =
       schema(
           2,
-          ImmutableList.of(),
           ImmutableList.<IndexedField<ChangeData, ?>>of(
               ChangeField.PATH_FIELD, ChangeField.STATUS_FIELD, ChangeField.UPDATED_FIELD),
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(

@@ -24,18 +24,17 @@ import java.util.List;
 public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   protected final DataSource<T> source;
 
-  private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
   private final int cardinality;
   private final IndexConfig indexConfig;
 
   public AndSource(Collection<? extends Predicate<T>> that, IndexConfig indexConfig) {
-    this(that, null, 0, indexConfig);
+    this(that, 0, indexConfig);
   }
 
   public AndSource(
       Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, IndexConfig indexConfig) {
-    this(that, isVisibleToPredicate, 0, indexConfig);
+    this(ImmutableList.of(that, isVisibleToPredicate), 0, indexConfig);
   }
 
   public AndSource(
@@ -43,17 +42,12 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
       IsVisibleToPredicate<T> isVisibleToPredicate,
       int start,
       IndexConfig indexConfig) {
-    this(ImmutableList.of(that), isVisibleToPredicate, start, indexConfig);
+    this(ImmutableList.of(that, isVisibleToPredicate), start, indexConfig);
   }
 
-  public AndSource(
-      Collection<? extends Predicate<T>> that,
-      IsVisibleToPredicate<T> isVisibleToPredicate,
-      int start,
-      IndexConfig indexConfig) {
+  public AndSource(Collection<? extends Predicate<T>> that, int start, IndexConfig indexConfig) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
-    this.isVisibleToPredicate = isVisibleToPredicate;
     this.start = start;
     this.indexConfig = indexConfig;
 
@@ -93,16 +87,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   }
 
   @Override
-  public boolean isMatchable() {
-    return isVisibleToPredicate != null || super.isMatchable();
-  }
-
-  @Override
   public boolean match(T object) {
-    if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
-      return false;
-    }
-
     if (super.isMatchable() && !super.match(object)) {
       return false;
     }

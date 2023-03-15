@@ -77,7 +77,7 @@ public class RebaseSorter {
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
-        if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+        if (n.getParentCount() > 1 && (!c.has(canMergeFlag) || !incoming.contains(c))) {
           if (isAlreadyMerged(c, n.change().getDest())) {
             rw.markUninteresting(c);
           } else {

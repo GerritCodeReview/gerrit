@@ -74,26 +74,28 @@ public class RebaseSorter {
         rw.markUninteresting(initialTip);
       }
 
-      CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
-      while ((c = rw.next()) != null) {
-        if (!c.has(canMergeFlag) || !incoming.contains(c)) {
-          if (isAlreadyMerged(c, n.change().getDest())) {
-            rw.markUninteresting(c);
-          } else {
-            // We cannot merge n as it would bring something we
-            // aren't permitted to merge at this time. Drop n.
-            //
-            n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
-            n.setStatusMessage(
-                CommitMergeStatus.createMissingDependencyMessage(
-                    caller, queryProvider, n.name(), c.name()));
+      if (n.getParentCount() > 1) {
+        CodeReviewCommit c;
+        while ((c = rw.next()) != null) {
+          if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+            if (isAlreadyMerged(c, n.change().getDest())) {
+              rw.markUninteresting(c);
+            } else {
+              // We cannot merge n as it would bring something we
+              // aren't permitted to merge at this time. Drop n.
+              //
+              n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
+              n.setStatusMessage(
+                  CommitMergeStatus.createMissingDependencyMessage(
+                      caller, queryProvider, n.name(), c.name()));
+            }
+            // Stop RevWalk because c is either a merged commit or a missing
+            // dependency. Not need to walk further.
+            break;
           }
-          // Stop RevWalk because c is either a merged commit or a missing
-          // dependency. Not need to walk further.
-          break;
+          contents.add(c);
         }
-        contents.add(c);
       }
 
       if (n.getStatusCode() == CommitMergeStatus.MISSING_DEPENDENCY) {

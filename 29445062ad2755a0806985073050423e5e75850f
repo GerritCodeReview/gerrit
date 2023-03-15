@@ -33,6 +33,24 @@
       "message": "So if I understand it correctly, in case of a change submit (RebaseIfNecessary) we would only have to this check, if the change includes a merge commit (it wouldn\u0027t do a rebase then) and we only would have to check whether that commit is in one of the two parents and not in all branches of the project. Am I correct? Since in our case the check runs on all branches (no early quit, since it is in no branch) and since it is no merge commit, changing that would safe a lot of time for the submit.",
       "revId": "29445062ad2755a0806985073050423e5e75850f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4262dba9_8f44cfce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-15T08:54:24Z",
+      "side": 1,
+      "message": "AFAICS it\u0027s a bit more complex if it\u0027s a \"Submit with parents\" submitting a change series. If the series contains a merge commit RebaseSubmitStrategy auto-creates a merge commit for the merge commit since it can\u0027t rebase merge commits. If there are more normal commits (with 1 parent) on top of the merge commit they are cherry-picked one by one (poor mans rebase implementation). \n\nI think all this is done since JGit doesn\u0027t provide an in-memory implementation of RebaseCommand (yet). AFAIK JGit\u0027s RebaseCommand supports --preserve-merges.",
+      "parentUuid": "649b9733_85740a4f",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

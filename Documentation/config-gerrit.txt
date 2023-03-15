@@ -1537,6 +1537,13 @@ link:https://bugs.chromium.org/p/gerrit/issues/detail?id=9877[issue
 +
 By default true.
 
+[[change.enableRobotComments]]change.enableRobotComments::
++
+Are robot comments enabled in the Gerrit UI? This setting allows phasing out
+robot comments.
++
+By default true.
+
 [[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
 +
 Maximum allowed size in characters of a robot comment. Robot comments which

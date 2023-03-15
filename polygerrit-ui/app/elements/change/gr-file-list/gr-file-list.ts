@@ -86,6 +86,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -949,31 +950,37 @@ export class GrFileList extends LitElement {
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const showDynamicColumns = this.computeShowDynamicColumns();
-    return html` <div class="header-row row" role="row">
-      <!-- endpoint: change-view-file-list-header-prepend -->
-      ${when(showPrependedDynamicColumns, () =>
-        this.renderPrependedHeaderEndpoints()
-      )}
-      ${this.renderFileStatus()}
-      <div class="path" role="columnheader">File</div>
-      <div class="comments desktop" role="columnheader">Comments</div>
-      <div class="comments mobile" role="columnheader" title="Comments">C</div>
-      ${when(
-        this.showSizeBars,
-        () => html`<div class="sizeBars desktop" role="columnheader">Size</div>`
-      )}
-      <div class="header-stats" role="columnheader">Delta</div>
-      <!-- endpoint: change-view-file-list-header -->
-      ${when(showDynamicColumns, () => this.renderDynamicHeaderEndpoints())}
-      <!-- Empty div here exists to keep spacing in sync with file rows. -->
-      <div
-        class="reviewed hideOnEdit"
-        ?hidden=${!this.loggedIn}
-        aria-hidden="true"
-      ></div>
-      <div class="editFileControls showOnEdit" aria-hidden="true"></div>
-      <div class="show-hide" aria-hidden="true"></div>
-    </div>`;
+    return html`
+      <div class="header-row row" role="row">
+        <!-- endpoint: change-view-file-list-header-prepend -->
+        ${when(showPrependedDynamicColumns, () =>
+          this.renderPrependedHeaderEndpoints()
+        )}
+        ${this.renderFileStatus()}
+        <div class="path" role="columnheader">File</div>
+        <div class="comments desktop" role="columnheader">Comments</div>
+        <div class="comments mobile" role="columnheader" title="Comments">
+          C
+        </div>
+        ${when(
+          this.showSizeBars,
+          () =>
+            html`<div class="sizeBars desktop" role="columnheader">Size</div>`
+        )}
+        <div class="header-stats" role="columnheader">Delta</div>
+        <!-- endpoint: change-view-file-list-header -->
+        ${when(showDynamicColumns, () => this.renderDynamicHeaderEndpoints())}
+        <!-- Empty div here exists to keep spacing in sync with file rows. -->
+        <div
+          class="reviewed hideOnEdit"
+          ?hidden=${!this.loggedIn}
+          aria-hidden="true"
+        ></div>
+        <div class="editFileControls showOnEdit" aria-hidden="true"></div>
+        <div class="show-hide" aria-hidden="true"></div>
+      </div>
+      ${when(false, () => html`<div>test</div>`)}
+    `;
   }
 
   private renderPrependedHeaderEndpoints() {

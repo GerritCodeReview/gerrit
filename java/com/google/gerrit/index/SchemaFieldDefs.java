@@ -24,8 +24,8 @@ public class SchemaFieldDefs {
    * Definition of a field stored in the secondary index.
    *
    * <p>{@link SchemaField}-s must not be changed once introduced to the codebase. Instead, a new
-   * FieldDef must be added and the old one removed from the schema (in two upgrade steps, see
-   * {@code com.google.gerrit.index.IndexUpgradeValidator}).
+   * {@link SchemaField} must be added and the old one removed from the schema (in two upgrade
+   * steps, see {@code com.google.gerrit.index.IndexUpgradeValidator}).
    *
    * @param <I> input type from which documents are created and search results are returned.
    * @param <T> type that should be extracted from the input object when converting to an index

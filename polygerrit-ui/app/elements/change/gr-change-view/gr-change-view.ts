@@ -2098,9 +2098,9 @@ export class GrChangeView extends LitElement {
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
-        // We call sendShowChangeEvent() within performPostLoadTasks,
-        // we don't need to do it here as well.
-        this.reloadPatchNumDependentResources();
+        this.reloadPatchNumDependentResources().then(() => {
+          this.sendShowChangeEvent();
+        });
       }
 
       // If there is no change in patchset or changeNum, such as when user goes
@@ -2144,7 +2144,7 @@ export class GrChangeView extends LitElement {
     this.initialLoadComplete = false;
     this.changeNum = this.viewState.changeNum;
     this.loadData(true).then(() => {
-      this.performPostLoadTasks();
+      this.performPostLoadTasks(true);
     });
 
     this.getPluginLoader()
@@ -2174,11 +2174,18 @@ export class GrChangeView extends LitElement {
     });
   }
 
-  private performPostLoadTasks() {
+  // The showChangeEvent is used to decide when to trigger
+  // the showchange event. We only want it once.
+  // For example when a patchset num is changed or when
+  // the change is first loaded.
+  // We don't want it triggered twice (e.g. no patch num set and it set internally)
+  private performPostLoadTasks(showChangeEvent?: boolean) {
     this.maybeShowReplyDialog();
     this.maybeShowRevertDialog();
 
-    this.sendShowChangeEvent();
+    if (showChangeEvent) {
+      this.sendShowChangeEvent();
+    }
 
     this.updateComplete.then(() => {
       this.maybeScrollToMessage(window.location.hash);

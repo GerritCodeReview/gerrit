@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ad6cf2b_1ad450d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-15T08:33:57Z",
+      "side": 1,
+      "message": "Conversation started on Discord:\n\nThomas:\nWe currently run into performance issues on one of our servers, if a change is submitted with the Rebase If Necessary strategy. We figured out that it spends 20 min looking whether the commit was merged into any branch (there are more than a 1000 branches in that project). This check was added by you quite some time ago (https://gerrit-review.googlesource.com/c/gerrit/+/91610). I don\u0027t understand the commit message. Could you help me clarify how your fix works? Thanks!\n\n\nSven:\nThat was an unclear commit message, sorry about that.\nBy \"prevents mergeing of a branch that is not a change.\"\nIt means that if the tip of a branch X wasn\u0027t the last patchset of any change (i.e. if it was updated or created through a direct push) and you merged branch X into another branch Z and pushed that merge-commit for review you weren\u0027t allowed to submit that change.\nThe issue was that the tip of branch X wasn\u0027t marked as uninteresting (since the tip wasn\u0027t created through the merge of a change) the merge strategy would interpret it as \"if I allow this merge-commit change to be merged it would also integrate n number of commits (branch X) that are unknown to this server\" and fail the merge attempt.\nWhen in doubt look at the test-case:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/91610/7/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

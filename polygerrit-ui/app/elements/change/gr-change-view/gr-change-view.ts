@@ -2086,7 +2086,11 @@ export class GrChangeView extends LitElement {
 
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
-    if (this.changeNum !== undefined && !forceReload) {
+    // We check if allPatchSets is defined. This is because if not
+    // then we shouldn't enter this if statement.
+    // Otherwise, this function is called twice and thus "showchange" is
+    // triggered twice.
+    if (this.changeNum !== undefined && !forceReload && this.allPatchSets) {
       if (!this.patchRange.patchNum) {
         this.patchRange = {
           ...this.patchRange,

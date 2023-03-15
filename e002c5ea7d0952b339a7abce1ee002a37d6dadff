@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f36af64_e158f9ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-summary-chip_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-15T11:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68501875_30f7e16f",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc1d4e3b_cf2a88c9",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a299569b_87133501",
+        "filename": "polygerrit-ui/app/elements/change/gr-comments-summary/gr-comments-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-15T11:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1d4e3b_cf2a88c9",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b420c503_3179c418",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-15T11:34:41Z",
       "side": 1,
       "message": "combine early returns\n```suggestion\n    if (\n      this.emptyWhenNoComments ||\n      !!countResolvedComments ||\n      !!this.draftCount ||\n      !!countUnresolvedComments\n    )\n      return nothing;\n    return html`\u003cspan class\u003d\"zeroState\"\u003e No comments\u003c/span\u003e`;\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 0
+      },
+      "revId": "e002c5ea7d0952b339a7abce1ee002a37d6dadff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e44d067f_2b1cca46",
+        "filename": "polygerrit-ui/app/elements/change/gr-comments-summary/gr-comments-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-15T11:53:10Z",
+      "side": 1,
+      "message": "Thanks for suggested edit. Applied with copy button",
+      "parentUuid": "b420c503_3179c418",
       "range": {
         "startLine": 102,
         "startChar": 0,

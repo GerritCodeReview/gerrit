@@ -21,4 +21,5 @@ public class ChangeConfigInfo {
   public int updateDelay;
   public Boolean submitWholeTopic;
   public String mergeabilityComputationBehavior;
+  public Boolean enableRobotComments;
 }

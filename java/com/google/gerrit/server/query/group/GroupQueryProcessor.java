@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
@@ -80,8 +81,8 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   @Override
   protected Predicate<InternalGroup> enforceVisibility(Predicate<InternalGroup> pred) {
     return new AndSource<>(
-        pred,
-        new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()),
+        ImmutableList.of(
+            pred, new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get())),
         start,
         indexConfig);
   }

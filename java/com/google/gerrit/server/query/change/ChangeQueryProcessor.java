@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
@@ -143,7 +144,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
-        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start, indexConfig);
+        ImmutableList.of(pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get())),
+        start,
+        indexConfig);
   }
 
   @Override

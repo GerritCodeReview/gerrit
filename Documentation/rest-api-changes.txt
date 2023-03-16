@@ -7633,18 +7633,19 @@ the length calculation, and thus it is possible for the edits to span newlines.
 
 [[diff-web-link-info]]
 === DiffWebLinkInfo
-The `DiffWebLinkInfo` entity describes a link on a diff screen to an
-external site.
+The `DiffWebLinkInfo` entity extends link:#web-link-info[WebLinkInfo] and
+describes a link on a diff screen to an external site.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |=======================
-|Field Name|Description
-|`name`     |The link name.
-|`url`      |The link URL.
-|`image_url`|URL to the icon of the link.
-|show_on_side_by_side_diff_view|
+|Field Name||Description
+|`name`     ||See link:#web-link-info[WebLinkInfo]
+|`tooltip`  |optional|See link:#web-link-info[WebLinkInfo]
+|`url`      ||See link:#web-link-info[WebLinkInfo]
+|`image_url`|optional|See link:#web-link-info[WebLinkInfo]
+|show_on_side_by_side_diff_view||
 Whether the web link should be shown on the side-by-side diff screen.
-|show_on_unified_diff_view|
+|show_on_unified_diff_view||
 Whether the web link should be shown on the unified diff screen.
 |=======================
 
@@ -8925,12 +8926,21 @@ to max values.
 
 [[web-link-info]]
 === WebLinkInfo
-The `WebLinkInfo` entity describes a link to an external site.
+The `WebLinkInfo` entity describes a link to an external site. Depending on the
+context and the provided data the UI may decide to show the link as a text link,
+a linkified icon, or both.
+
+If the `tooltip` is not provided, then the UI may fall back to showing something
+like "Open in External Tool".
+
+Weblinks will always be opened in a new tab.
 
 [options="header",cols="1,^1,5"]
 |========================
 |Field Name ||Description
-|`name`     ||The link name.
+|`name`     ||The text to be linkified.
+|`tooltip`  |optional|Tooltip to show when hovering over the link. Using "Open
+in $NAME_OF_EXTERNAL_TOOL" is a good option here.
 |`url`      ||The link URL.
 |`image_url`|optional|URL to the icon of the link.
 |========================

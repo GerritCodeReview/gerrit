@@ -1095,8 +1095,10 @@ export declare interface VotingRangeInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#web-link-info
  */
 export declare interface WebLinkInfo {
-  /** The link name. */
+  /** The text to be linkified. */
   name: string;
+  /** Tooltip to show when hovering over the link. */
+  tooltip?: string;
   /** The link URL. */
   url: string;
   /** URL to the icon of the link. */

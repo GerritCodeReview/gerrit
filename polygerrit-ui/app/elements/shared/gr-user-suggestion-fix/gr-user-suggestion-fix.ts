@@ -28,11 +28,9 @@ export class GrUserSuggetionFix extends LitElement {
   static override styles = [
     css`
       .header {
-        background-color: var(--user-suggestion-header-background);
-        color: var(--user-suggestion-header-color);
+        background-color: var(--background-color-primary);
         border: 1px solid var(--border-color);
-        border-bottom: 0;
-        padding: var(--spacing-xs) var(--spacing-s);
+        padding: var(--spacing-xs) var(--spacing-xl);
         display: flex;
         align-items: center;
         border-top-left-radius: var(--border-radius);
@@ -41,8 +39,8 @@ export class GrUserSuggetionFix extends LitElement {
       .header .title {
         flex: 1;
       }
-      gr-copy-clipboard {
-        --gr-copy-clipboard-icon-color: var(--user-suggestion-header-color);
+      .copyButton {
+        margin-right: var(--spacing-l);
       }
       code {
         max-width: var(--gr-formatted-text-prose-max-width, none);
@@ -71,21 +69,29 @@ export class GrUserSuggetionFix extends LitElement {
     if (!this.textContent) return nothing;
     const code = this.textContent;
     return html`<div class="header">
-        <div class="title">Suggested fix</div>
-        <div>
+        <div class="title">
+          <span>Suggested edit</span>
+          <a
+            href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
+            target="_blank"
+            ><gr-icon icon="help" title="read documentation"></gr-icon
+          ></a>
+        </div>
+        <div class="copyButton">
           <gr-copy-clipboard
             hideInput=""
             text=${code}
-            copyTargetName="Suggested fix"
+            copyTargetName="Suggested edit"
           ></gr-copy-clipboard>
         </div>
         <div>
           <gr-button
             secondary
+            flatten
             class="action show-fix"
             @click=${this.handleShowFix}
           >
-            Preview Fix
+            Show edit
           </gr-button>
         </div>
       </div>

@@ -43,7 +43,6 @@ import {
   AutocompleteCommitEvent,
   ValueChangedEvent,
 } from '../../../types/events';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -256,12 +255,7 @@ export class GrRepoAccess extends LitElement {
 
   private renderWebLinks(webLink: WebLinkInfo) {
     return html`
-      <a
-        class="weblink"
-        href=${webLink.url}
-        rel="noopener"
-        target=${ifDefined(webLink.target)}
-      >
+      <a class="weblink" href=${webLink.url} rel="noopener" target="_blank">
         ${webLink.name}
       </a>
     `;

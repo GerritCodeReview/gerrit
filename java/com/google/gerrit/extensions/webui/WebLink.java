@@ -15,16 +15,4 @@
 package com.google.gerrit.extensions.webui;
 
 /** Marks that the implementor has a method that provides a weblinkInfo */
-public interface WebLink {
-  /** Class that holds target defaults for WebLink anchors. */
-  class Target {
-    /** Opens the link in a new window or tab */
-    public static final String BLANK = "_blank";
-    /** Opens the link in the frame it was clicked. */
-    public static final String SELF = "_self";
-    /** Opens link in parent frame. */
-    public static final String PARENT = "_parent";
-    /** Opens link in the full body of the window. */
-    public static final String TOP = "_top";
-  }
-}
+public interface WebLink {}

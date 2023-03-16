@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8b3daa6_eb1cda04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-16T08:39:56Z",
+      "side": 1,
+      "message": "I can\u0027t really do a proper review of this, because it is a cherrypick of a master change, and as such it is really just a matter of testing this properly on 3.7. So this is your responsibility as the release manager.\n\nI would like to voice my concerns though that this is touching a fragile area of code. Even after testing thoroughly there is a certain chance that the patchset number information is not consistent throughout the app.\n\nYou should also consider, if reverting change 359874 is maybe the better approach, which you had identified as the culprit of the issue that you want to fix.\n\n@poucet@google.com FYI\n@luca.milanesio@gmail.com FYI",
+      "revId": "3c43704a21bcdc85229223ba2d8e50da65c4811f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

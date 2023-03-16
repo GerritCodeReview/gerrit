@@ -37,7 +37,6 @@ suite('gr-editor-view tests', () => {
 
   let savePathStub: sinon.SinonStub;
   let saveFileStub: sinon.SinonStub;
-  let changeDetailStub: sinon.SinonStub;
   let navigateStub: sinon.SinonStub;
   let storageService: StorageService;
 
@@ -45,7 +44,6 @@ suite('gr-editor-view tests', () => {
     element = await fixture(html`<gr-editor-view></gr-editor-view>`);
     savePathStub = stubRestApi('renameFileInChangeEdit');
     saveFileStub = stubRestApi('saveChangeEdit');
-    changeDetailStub = stubRestApi('getChangeDetail');
     navigateStub = sinon.stub(element, 'viewEditInChangeView');
     element.viewState = {
       ...createEditViewState(),
@@ -127,7 +125,6 @@ suite('gr-editor-view tests', () => {
 
   suite('viewStateChanged', () => {
     test('good view state proceed', async () => {
-      changeDetailStub.returns(Promise.resolve({}));
       const fileStub = sinon.stub(element, 'getFileData').callsFake(() => {
         element.content = 'text';
         element.newContent = 'text';
@@ -140,8 +137,6 @@ suite('gr-editor-view tests', () => {
 
       await element.updateComplete;
 
-      const changeNum = 42 as NumericChangeId;
-      assert.deepEqual(changeDetailStub.lastCall.args[0], changeNum);
       assert.isTrue(fileStub.called);
 
       return promises?.then(() => {

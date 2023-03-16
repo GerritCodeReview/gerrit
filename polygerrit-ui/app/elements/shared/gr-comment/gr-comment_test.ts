@@ -832,7 +832,7 @@ suite('gr-comment tests', () => {
       );
       element.editing = true;
     });
-    test('renders suggest fix button', () => {
+    test('renders suggest edit button', () => {
       assert.dom.equal(
         queryAndAssert(element, 'gr-button.suggestEdit'),
         /* HTML */ `<gr-button
@@ -841,7 +841,7 @@ suite('gr-comment tests', () => {
           role="button"
           tabindex="0"
         >
-          Suggest Fix
+          Suggest edit
         </gr-button> `
       );
     });

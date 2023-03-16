@@ -10,12 +10,12 @@ import {GrEtagDecorator} from './gr-etag-decorator';
 suite('gr-etag-decorator', () => {
   let etag: GrEtagDecorator;
 
-  const fakeRequest = (opt_etag?: string, opt_status?: number) => {
+  const fakeRequest = (etag?: string, status?: number) => {
     const headers = new Headers();
-    if (opt_etag) {
-      headers.set('etag', opt_etag);
+    if (etag) {
+      headers.set('etag', etag);
     }
-    const status = opt_status || 200;
+    status = status || 200;
     return {...new Response(), ok: true, status, headers};
   };
 

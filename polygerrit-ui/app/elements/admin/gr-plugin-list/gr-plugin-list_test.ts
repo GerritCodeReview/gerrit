@@ -390,7 +390,7 @@ suite('gr-plugin-list tests', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
       stubRestApi('getPlugins').callsFake(
-        (_filter, _pluginsPerPage, _opt_offset, errFn) => {
+        (_filter, _pluginsPerPage, _offset, errFn) => {
           if (errFn !== undefined) {
             errFn(response);
           }

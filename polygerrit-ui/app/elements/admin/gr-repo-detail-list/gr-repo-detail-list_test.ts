@@ -2303,7 +2303,7 @@ suite('gr-repo-detail-list', () => {
       test('fires page-error', async () => {
         const response = {status: 404} as Response;
         stubRestApi('getRepoBranches').callsFake(
-          (_filter, _repo, _reposBranchesPerPage, _opt_offset, errFn) => {
+          (_filter, _repo, _reposBranchesPerPage, _offset, errFn) => {
             if (errFn !== undefined) {
               errFn(response);
             }
@@ -2501,7 +2501,7 @@ suite('gr-repo-detail-list', () => {
       test('fires page-error', async () => {
         const response = {status: 404} as Response;
         stubRestApi('getRepoTags').callsFake(
-          (_filter, _repo, _reposTagsPerPage, _opt_offset, errFn) => {
+          (_filter, _repo, _reposTagsPerPage, _offset, errFn) => {
             if (errFn !== undefined) {
               errFn(response);
             }

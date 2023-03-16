@@ -18,29 +18,26 @@ public class DiffWebLinkInfo extends WebLinkInfo {
   public Boolean showOnSideBySideDiffView;
   public Boolean showOnUnifiedDiffView;
 
-  public static DiffWebLinkInfo forSideBySideDiffView(
-      String name, String imageUrl, String url, String target) {
-    return new DiffWebLinkInfo(name, imageUrl, url, target, true, false);
+  public static DiffWebLinkInfo forSideBySideDiffView(String name, String imageUrl, String url) {
+    return new DiffWebLinkInfo(name, imageUrl, url, true, false);
   }
 
-  public static DiffWebLinkInfo forUnifiedDiffView(
-      String name, String imageUrl, String url, String target) {
-    return new DiffWebLinkInfo(name, imageUrl, url, target, false, true);
+  public static DiffWebLinkInfo forUnifiedDiffView(String name, String imageUrl, String url) {
+    return new DiffWebLinkInfo(name, imageUrl, url, false, true);
   }
 
   public static DiffWebLinkInfo forSideBySideAndUnifiedDiffView(
-      String name, String imageUrl, String url, String target) {
-    return new DiffWebLinkInfo(name, imageUrl, url, target, true, true);
+      String name, String imageUrl, String url) {
+    return new DiffWebLinkInfo(name, imageUrl, url, true, true);
   }
 
   private DiffWebLinkInfo(
       String name,
       String imageUrl,
       String url,
-      String target,
       boolean showOnSideBySideDiffView,
       boolean showOnUnifiedDiffView) {
-    super(name, imageUrl, url, target);
+    super(name, imageUrl, url);
     this.showOnSideBySideDiffView = showOnSideBySideDiffView ? true : null;
     this.showOnUnifiedDiffView = showOnUnifiedDiffView ? true : null;
   }

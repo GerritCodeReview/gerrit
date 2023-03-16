@@ -14,24 +14,24 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.webui.WebLink.Target;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.Objects;
 
 public class WebLinkInfo {
   public String name;
   public String imageUrl;
   public String url;
-  public String target;
 
+  @InlineMe(replacement = "this(name, imageUrl, url)")
+  @Deprecated
   public WebLinkInfo(String name, String imageUrl, String url, String target) {
-    this.name = name;
-    this.imageUrl = imageUrl;
-    this.url = url;
-    this.target = target;
+    this(name, imageUrl, url);
   }
 
   public WebLinkInfo(String name, String imageUrl, String url) {
-    this(name, imageUrl, url, Target.SELF);
+    this.name = name;
+    this.imageUrl = imageUrl;
+    this.url = url;
   }
 
   @Override
@@ -42,13 +42,12 @@ public class WebLinkInfo {
     WebLinkInfo i = (WebLinkInfo) o;
     return Objects.equals(name, i.name)
         && Objects.equals(imageUrl, i.imageUrl)
-        && Objects.equals(url, i.url)
-        && Objects.equals(target, i.target);
+        && Objects.equals(url, i.url);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, imageUrl, url, target);
+    return Objects.hash(name, imageUrl, url);
   }
 
   @Override
@@ -60,8 +59,6 @@ public class WebLinkInfo {
         + imageUrl
         + ", url="
         + url
-        + ", target"
-        + target
         + "}";
   }
 

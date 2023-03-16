@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class WebLinkInfo {
   public String name;
+  public String tooltip;
   public String imageUrl;
   public String url;
 
@@ -41,13 +42,14 @@ public class WebLinkInfo {
     }
     WebLinkInfo i = (WebLinkInfo) o;
     return Objects.equals(name, i.name)
+        && Objects.equals(tooltip, i.tooltip)
         && Objects.equals(imageUrl, i.imageUrl)
         && Objects.equals(url, i.url);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, imageUrl, url);
+    return Objects.hash(name, tooltip, imageUrl, url);
   }
 
   @Override
@@ -55,6 +57,8 @@ public class WebLinkInfo {
     return getClass().getSimpleName()
         + "{name="
         + name
+        + ", tooltip="
+        + tooltip
         + ", imageUrl="
         + imageUrl
         + ", url="

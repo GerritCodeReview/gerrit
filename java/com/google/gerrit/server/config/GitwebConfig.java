@@ -383,7 +383,9 @@ public class GitwebConfig {
     }
 
     private WebLinkInfo link(String rest) {
-      return new WebLinkInfo(type.getLinkName(), null, url + rest);
+      WebLinkInfo webLink = new WebLinkInfo(type.getLinkName(), null, url + rest);
+      webLink.tooltip = "Open in GitWeb";
+      return webLink;
     }
 
     @Nullable

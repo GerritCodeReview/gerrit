@@ -39,6 +39,30 @@
       },
       "revId": "1294c00508f9cf24d5f587a160ba40ac6075f6c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f80abdc3_536c4155",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-16T15:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "748125d6_5318dc25",
+      "range": {
+        "startLine": 753,
+        "startChar": 6,
+        "endLine": 753,
+        "endChar": 23
+      },
+      "revId": "1294c00508f9cf24d5f587a160ba40ac6075f6c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

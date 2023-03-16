@@ -117,6 +117,11 @@ export class GrEditorView extends LitElement {
     });
     subscribe(
       this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
       () => this.getUserModel().editPreferences$,
       editPreferences => (this.editPrefs = editPreferences)
     );
@@ -336,15 +341,8 @@ export class GrEditorView extends LitElement {
     });
 
     const promises = [];
-    promises.push(this.getChangeDetail());
     promises.push(this.getFileData());
     return Promise.all(promises);
-  }
-
-  private async getChangeDetail() {
-    const changeNum = this.viewState?.changeNum;
-    assertIsDefined(changeNum, 'change number');
-    this.change = await this.restApiService.getChangeDetail(changeNum);
   }
 
   private navigateToChangeIfEdit() {

@@ -816,6 +816,22 @@ export class GrChangeActions
     this.topLevelPrimaryActions = this.topLevelActions.filter(
       action => action.__primary
     );
+    // Special case, that rebase is disabled for user, but
+    // rebase is possible on behalf of uploader.
+    if (
+      !this.topLevelActions.every(a => a.__key !== 'rebase') &&
+      this.revisionActions.rebase?.enabled_options?.includes(
+        'rebase_on_behalf_of_uploader'
+      )
+    ) {
+      const rebaseAction: UIActionInfo = {
+        ...this.revisionActions.rebase,
+        __key: 'rebase',
+        label: 'Rebase',
+        __type: ActionType.REVISION,
+      };
+      this.topLevelPrimaryActions.push(rebaseAction);
+    }
     this.topLevelSecondaryActions = this.topLevelActions.filter(
       action => !action.__primary
     );

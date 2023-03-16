@@ -256,6 +256,7 @@ export declare interface ActionInfo {
   label?: string; // Short title to display to a user describing the action
   title?: string; // Longer text to display describing the action
   enabled?: boolean; // not set if false
+  enabled_options?: string[];
 }
 
 export declare interface ActionNameToActionInfoMap {

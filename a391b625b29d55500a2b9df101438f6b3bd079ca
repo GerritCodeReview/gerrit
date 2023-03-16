@@ -16,6 +16,24 @@
       "message": "Should probably use the locals install Documentation?",
       "revId": "a391b625b29d55500a2b9df101438f6b3bd079ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57573ca3_64cb4c1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion-fix/gr-user-suggestion-fix.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-16T20:02:24Z",
+      "side": 1,
+      "message": "I think this is common pattern for Documentation. \nhttps://cs.opensource.google/search?q\u003dDocumentation%2Fuser-attention-set.html\u0026sq\u003d\u0026ss\u003dgerrit\n\nDo you see different example in code base?",
+      "parentUuid": "618e530e_3bde536f",
+      "revId": "a391b625b29d55500a2b9df101438f6b3bd079ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

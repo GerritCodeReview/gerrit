@@ -66,7 +66,7 @@ public class NotifyResolver {
     }
 
     public boolean shouldNotify() {
-      return !accounts().isEmpty() || handling().compareTo(NotifyHandling.NONE) > 0;
+      return !accounts().isEmpty() || !handling().equals(NotifyHandling.NONE);
     }
   }
 

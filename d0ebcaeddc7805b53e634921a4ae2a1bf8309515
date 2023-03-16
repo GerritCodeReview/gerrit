@@ -22,6 +22,63 @@
       },
       "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4239105b_8880e874",
+        "filename": "java/com/google/gerrit/index/project/IndexedProjectQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-16T16:42:45Z",
+      "side": 1,
+      "message": "Should this have an isMatchable() that calls pred.isMatchable()?",
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "906303b2_c6c95e0d",
+        "filename": "java/com/google/gerrit/index/project/IndexedProjectQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-16T16:42:45Z",
+      "side": 1,
+      "message": "Is there any real value in failing here instead of when calling pred.match()?",
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50a36e94_94adf9a8",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-16T16:42:45Z",
+      "side": 1,
+      "message": "Better to also remove any special constructors using IsVisibleToPredicate?",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 69
+      },
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

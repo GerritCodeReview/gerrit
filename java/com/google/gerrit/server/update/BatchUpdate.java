@@ -58,6 +58,8 @@ import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -423,6 +425,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<OpData<RepoOnlyOp>> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
+  private final ExperimentFeatures experimentFeatures;
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
@@ -449,6 +452,7 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       AttentionSetObserver attentionSetObserver,
+      ExperimentFeatures experimentFeatures,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
@@ -462,6 +466,7 @@ public class BatchUpdate implements AutoCloseable {
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.attentionSetObserver = attentionSetObserver;
+    this.experimentFeatures = experimentFeatures;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -661,6 +666,11 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  private boolean indexAsync() {
+    return experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING);
+  }
+
   private void fireRefChangeEvent() {
     if (batchRefUpdate != null) {
       gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
@@ -683,11 +693,13 @@ public class BatchUpdate implements AutoCloseable {
     private final NoteDbUpdateManager manager;
     private final boolean dryrun;
     private final Map<Change.Id, ChangeResult> results;
+    private final boolean indexAsync;
 
-    ChangesHandle(NoteDbUpdateManager manager, boolean dryrun) {
+    ChangesHandle(NoteDbUpdateManager manager, boolean dryrun, boolean indexAsync) {
       this.manager = manager;
       this.dryrun = dryrun;
       results = new HashMap<>();
+      this.indexAsync = indexAsync;
     }
 
     @Override
@@ -738,6 +750,17 @@ public class BatchUpdate implements AutoCloseable {
             throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
+      if (indexAsync) {
+        // We want to index asynchronously. However, the callers will await all
+        // index futures. This allows us to - even in synchronous case -
+        // parallelize indexing changes.
+        // Returning immediate futures for newly-created change data objects
+        // while letting the actual futures go will make actual indexing
+        // asynchronous.
+        return results.keySet().stream()
+            .map(cId -> Futures.immediateFuture(changeDataFactory.create(project, cId)))
+            .collect(toImmutableList());
+      }
       return indexFutures.build();
     }
   }
@@ -759,7 +782,8 @@ public class BatchUpdate implements AutoCloseable {
                 .setBatchUpdateListeners(batchUpdateListeners)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
-            dryrun);
+            dryrun,
+            indexAsync());
     getRefLogIdent().ifPresent(handle.manager::setRefLogIdent);
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

@@ -29,7 +29,7 @@ export interface ReportingService extends Finalizable {
     eventName: string,
     eventValue?: EventValue,
     eventDetails?: EventDetails,
-    opt_noLog?: boolean
+    noLog?: boolean
   ): void;
 
   appStarted(): void;

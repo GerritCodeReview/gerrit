@@ -144,7 +144,7 @@ suite('path-list-utl tests', () => {
     assert.equal(shortenedPath, expectedPath);
   });
 
-  test('truncatePath with opt_threshold', () => {
+  test('truncatePath with threshold', () => {
     let path = 'level1/level2/level3/level4/file.js';
     let shortenedPath = truncatePath(path, 2);
     // The expected path is truncated with an ellipsis.

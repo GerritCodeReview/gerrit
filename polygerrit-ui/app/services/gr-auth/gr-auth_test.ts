@@ -208,9 +208,9 @@ suite('gr-auth', () => {
 
     let getToken: sinon.SinonStub;
 
-    const makeToken = (opt_accessToken?: string) => {
+    const makeToken = (accessToken?: string) => {
       return {
-        access_token: opt_accessToken || 'zbaz',
+        access_token: accessToken || 'zbaz',
         expires_at: new Date(Date.now() + 10e8).getTime(),
       };
     };

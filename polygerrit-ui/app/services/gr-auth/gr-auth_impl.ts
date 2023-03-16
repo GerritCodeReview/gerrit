@@ -162,11 +162,11 @@ export class Auth implements AuthService, Finalizable {
   /**
    * Perform network fetch with authentication.
    */
-  fetch(url: string, opt_options?: AuthRequestInit): Promise<Response> {
+  fetch(url: string, options?: AuthRequestInit): Promise<Response> {
     const options: AuthRequestInitWithHeaders = {
       headers: new Headers(),
       ...this.defaultOptions,
-      ...opt_options,
+      ...options,
     };
     if (this.type === AuthType.ACCESS_TOKEN) {
       return this._getAccessToken().then(accessToken =>

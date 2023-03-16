@@ -1334,7 +1334,7 @@ export class GrDiffView extends LitElement {
     }
 
     idx += direction;
-    // Redirect to the change view if opt_noUp isn’t truthy and idx falls
+    // Redirect to the change view if noUp isn’t truthy and idx falls
     // outside the bounds of [0, fileList.length).
     if (idx < 0 || idx > fileList.length - 1) {
       return {up: true};

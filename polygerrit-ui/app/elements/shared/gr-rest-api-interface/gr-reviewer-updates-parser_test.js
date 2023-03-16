@@ -97,11 +97,11 @@ suite('gr-reviewer-updates-parser tests', () => {
     const date2 = '2017-01-26 12:11:55.000000000'; // Within threshold.
     const date3 = '2017-01-26 12:33:50.000000000';
     const date4 = '2017-01-26 12:44:50.000000000';
-    const makeItem = function(state, reviewer, opt_date, opt_author) {
+    const makeItem = function(state, reviewer, date, author) {
       return {
         reviewer,
-        updated: opt_date || date1,
-        updated_by: opt_author || reviewer1,
+        updated: date || date1,
+        updated_by: author || reviewer1,
         state,
       };
     };
@@ -173,9 +173,9 @@ suite('gr-reviewer-updates-parser tests', () => {
   test('format reviewer updates', () => {
     const reviewer1 = {_account_id: 1};
     const reviewer2 = {_account_id: 2};
-    const makeItem = function(prev, state, opt_reviewer) {
+    const makeItem = function(prev, state, reviewer) {
       return {
-        reviewer: opt_reviewer || reviewer1,
+        reviewer: reviewer || reviewer1,
         prev_state: prev,
         state,
       };

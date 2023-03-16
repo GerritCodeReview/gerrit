@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf5904a_a1fdc83c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-03-16T18:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72e8c47c_718c448f",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4239105b_8880e874",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-03-16T16:42:45Z",
       "side": 1,
       "message": "Should this have an isMatchable() that calls pred.isMatchable()?",
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af86ebda_8fbd99e2",
+        "filename": "java/com/google/gerrit/index/project/IndexedProjectQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-03-16T18:42:46Z",
+      "side": 1,
+      "message": "It is probably not needed as `Predicate` has an `isMatchable()` that returns `true` if the predicate is an instance of `Matchable`.",
+      "parentUuid": "4239105b_8880e874",
       "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08bb200a_6f6a3b4f",
+        "filename": "java/com/google/gerrit/index/project/IndexedProjectQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-03-16T18:42:46Z",
+      "side": 1,
+      "message": "I don\u0027t think so, other than to have a clear message. However, this  is consistent with `IndexedAccountQuery`, `IndexedChangeQuery`.",
+      "parentUuid": "906303b2_c6c95e0d",
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50a36e94_94adf9a8",
@@ -71,6 +131,30 @@
       "writtenOn": "2023-03-16T16:42:45Z",
       "side": 1,
       "message": "Better to also remove any special constructors using IsVisibleToPredicate?",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 69
+      },
+      "revId": "d0ebcaeddc7805b53e634921a4ae2a1bf8309515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed3d9da6_b779fa88",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-03-16T18:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50a36e94_94adf9a8",
       "range": {
         "startLine": 36,
         "startChar": 49,

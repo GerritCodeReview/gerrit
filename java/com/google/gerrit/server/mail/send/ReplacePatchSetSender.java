@@ -123,8 +123,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       reviewers.remove(fromId);
     }
     if (args.settings.sendNewPatchsetEmails) {
-      if (notify.handling() == NotifyHandling.ALL
-          || notify.handling() == NotifyHandling.OWNER_REVIEWERS) {
+      if (notify.handling().equals(NotifyHandling.ALL)
+          || notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)) {
         reviewers.stream().forEach(r -> add(RecipientType.TO, r));
         extraCC.stream().forEach(cc -> add(RecipientType.CC, cc));
       }

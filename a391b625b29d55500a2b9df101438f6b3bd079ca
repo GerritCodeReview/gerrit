@@ -34,6 +34,24 @@
       "parentUuid": "618e530e_3bde536f",
       "revId": "a391b625b29d55500a2b9df101438f6b3bd079ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7854840_1983db8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion-fix/gr-user-suggestion-fix.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-16T20:04:32Z",
+      "side": 1,
+      "message": "Oh nope. Presumed that we liked to link to the local documentation (as linking to googles uses the latest gerrit version and may not correspond to a gerrits install version).",
+      "parentUuid": "57573ca3_64cb4c1b",
+      "revId": "a391b625b29d55500a2b9df101438f6b3bd079ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

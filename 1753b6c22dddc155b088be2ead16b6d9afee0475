@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33843016_9abcb336",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-16T15:25:46Z",
+      "side": 1,
+      "message": "Maybe remove the comment. If we would comment on all the things that we are not doing, then the code would be quite cluttered. :-) For deletions of code it is typically sufficient to mention in the commit message why you are doing it.",
+      "range": {
+        "startLine": 2101,
+        "startChar": 8,
+        "endLine": 2102,
+        "endChar": 47
+      },
+      "revId": "1753b6c22dddc155b088be2ead16b6d9afee0475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

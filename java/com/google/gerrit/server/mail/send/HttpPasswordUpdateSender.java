@@ -50,7 +50,7 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
     setMessageId(
         messageIdGenerator.fromReasonAccountIdAndTimestamp(
             "HTTP_password_change", user.getAccountId(), TimeUtil.now()));
-    add(RecipientType.TO, user.getAccountId());
+    addByAccountId(RecipientType.TO, user.getAccountId());
   }
 
   @Override

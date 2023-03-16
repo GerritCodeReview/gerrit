@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b0bbc0_55570558",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-16T21:01:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there\u0027s a better fix. We want to trigger https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/models/change/change-model.ts#L269 i think.\n\nUsing fireReload fixed things for example when you click \"save and publish\" within an edit, the relation chain showed \"Not current\" against the change that you just edited.",
+      "revId": "a2e7f270349fb70737d90db595638418ef4d1f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

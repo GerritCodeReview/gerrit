@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29a51ba_1160b90e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-16T15:28:00Z",
+      "side": 1,
+      "message": "A note for the future: I don\u0027t think we would ever want to make this behavior the default. Users should expect to be able to find the update they just made if their update operation/cmd/API has completed (unless we have new APIs that are explicitly async). Gerrit has a few cases today where that\u0027s not always the case and some of that behavior can vary by index backend, but those cases lead to user confusion and I think should be fixed.",
+      "revId": "27fbba37eb3797eda587bb98bfd09ea73edcfc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

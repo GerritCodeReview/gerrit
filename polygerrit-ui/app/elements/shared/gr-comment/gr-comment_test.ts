@@ -450,7 +450,7 @@ suite('gr-comment tests', () => {
     assert.isTrue(stub.called);
     assert.deepEqual(stub.lastCall.args[0].detail, {
       side: 'REVISION',
-      number: element.comment!.line,
+      number: element.comment?.line,
     });
   });
 
@@ -832,7 +832,7 @@ suite('gr-comment tests', () => {
       );
       element.editing = true;
     });
-    test('renders suggest fix button', () => {
+    test('renders suggest edit button', () => {
       assert.dom.equal(
         queryAndAssert(element, 'gr-button.suggestEdit'),
         /* HTML */ `<gr-button
@@ -840,8 +840,9 @@ suite('gr-comment tests', () => {
           link=""
           role="button"
           tabindex="0"
+          title="This button copies the text to make a suggestion"
         >
-          Suggest Fix
+          <gr-icon icon="edit" id="icon" filled></gr-icon> Suggest edit
         </gr-button> `
       );
     });

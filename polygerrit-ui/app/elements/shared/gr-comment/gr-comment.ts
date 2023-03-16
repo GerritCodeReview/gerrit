@@ -494,6 +494,15 @@ export class GrComment extends LitElement {
           margin-left: var(--spacing-m);
           cursor: pointer;
         }
+        .suggestEdit {
+          /** same height as header */
+          --margin: calc(0px - var(--spacing-s));
+          margin-right: var(--spacing-s);
+        }
+        .suggestEdit gr-icon {
+          color: inherit;
+          margin-right: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -800,8 +809,9 @@ export class GrComment extends LitElement {
     return html`<gr-button
       link
       class="action suggestEdit"
+      title="This button copies the text to make a suggestion"
       @click=${this.createSuggestEdit}
-      >Suggest Fix</gr-button
+      ><gr-icon icon="edit" id="icon" filled></gr-icon> Suggest edit</gr-button
     >`;
   }
 

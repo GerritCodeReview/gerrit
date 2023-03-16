@@ -38,6 +38,6 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     setHeader("In-Reply-To", threadId);
     setHeader("References", threadId);
 
-    rcptToAuthors(RecipientType.TO);
+    addAuthors(RecipientType.TO);
   }
 }

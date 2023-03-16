@@ -63,7 +63,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     setListIdHeader();
     setHeader(FieldName.SUBJECT, "[Gerrit Code Review] Unable to process your email");
 
-    add(RecipientType.TO, to);
+    addByEmail(RecipientType.TO, to);
 
     if (!threadId.isEmpty()) {
       setHeader(MailHeader.REFERENCES.fieldName(), threadId);

@@ -1771,7 +1771,6 @@ public class RevisionIT extends AbstractDaemonTest {
       assertThat(patchSetLinkInfo.name).isEqualTo(expectedPatchSetLinkInfo.name);
       assertThat(patchSetLinkInfo.imageUrl).isEqualTo(expectedPatchSetLinkInfo.imageUrl);
       assertThat(patchSetLinkInfo.url).isEqualTo(expectedPatchSetLinkInfo.url);
-      assertThat(patchSetLinkInfo.target).isEqualTo(expectedPatchSetLinkInfo.target);
 
       assertThat(commitInfo.resolveConflictsWebLinks).hasSize(1);
       WebLinkInfo resolveCommentsLinkInfo =
@@ -1780,7 +1779,6 @@ public class RevisionIT extends AbstractDaemonTest {
       assertThat(resolveCommentsLinkInfo.imageUrl)
           .isEqualTo(expectedResolveConflictsLinkInfo.imageUrl);
       assertThat(resolveCommentsLinkInfo.url).isEqualTo(expectedResolveConflictsLinkInfo.url);
-      assertThat(resolveCommentsLinkInfo.target).isEqualTo(expectedResolveConflictsLinkInfo.target);
     }
   }
 

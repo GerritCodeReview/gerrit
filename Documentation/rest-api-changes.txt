@@ -8933,7 +8933,6 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`name`     ||The link name.
 |`url`      ||The link URL.
 |`image_url`|optional|URL to the icon of the link.
-|`target`   |optional|The target window in which the web link should be opened.
 |========================
 
 [[work-in-progress-input]]

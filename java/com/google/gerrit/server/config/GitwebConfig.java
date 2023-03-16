@@ -383,7 +383,7 @@ public class GitwebConfig {
     }
 
     private WebLinkInfo link(String rest) {
-      return new WebLinkInfo(type.getLinkName(), null, url + rest, null);
+      return new WebLinkInfo(type.getLinkName(), null, url + rest);
     }
 
     @Nullable

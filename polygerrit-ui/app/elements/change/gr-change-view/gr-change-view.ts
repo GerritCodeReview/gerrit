@@ -1436,7 +1436,6 @@ export class GrChangeView extends LitElement {
           <div class="relatedChanges">
             <gr-related-changes-list
               id="relatedChanges"
-              .change=${this.change}
               .mergeable=${this.mergeable}
             ></gr-related-changes-list>
           </div>

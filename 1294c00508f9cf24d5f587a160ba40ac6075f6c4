@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "341725c5_3da76d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-16T14:48:48Z",
+      "side": 1,
+      "message": "Very nice, thanks!",
+      "revId": "1294c00508f9cf24d5f587a160ba40ac6075f6c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748125d6_5318dc25",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-03-16T14:48:48Z",
+      "side": 1,
+      "message": "nit: please, add a comment like\n\nThe returned future is awaited in BatchUpdate#execute, making indexing, in fact, syncronous.\n\nWe return immediateFuture to the caller here to make is asynchronous. \nNote on changeData: this is needed in postOps, that are executed in the main thread. Which is why we need a separate instance here (i.e. not used in the indexing thread).  This leads to change data being loaded twice: once in indexing thread, once in post ops. This is fine, since we do not await the indexing with indexAsync option.\n\nYou cam change the wording, but I would like to capture the sense :)",
+      "range": {
+        "startLine": 753,
+        "startChar": 6,
+        "endLine": 753,
+        "endChar": 23
+      },
+      "revId": "1294c00508f9cf24d5f587a160ba40ac6075f6c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

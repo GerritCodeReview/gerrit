@@ -287,7 +287,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         psUtil.insert(
             ctx.getRevWalk(), ctx.getUpdate(psId), psId, commitId, newGroups, null, description);
 
-    if (ctx.getNotify(change.getId()).handling() != NotifyHandling.NONE) {
+    if (!ctx.getNotify(change.getId()).handling().equals(NotifyHandling.NONE)) {
       oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());
     }
 

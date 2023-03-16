@@ -62,7 +62,7 @@ public class MergedSender extends ReplyToChangeSender {
   public void setNotify(NotifyResolver.Result notify) {
     checkNotNull(notify);
     if (!stickyApprovalDiff.isEmpty()) {
-      if (notify.handling() != NotifyHandling.ALL) {
+      if (!notify.handling().equals(NotifyHandling.ALL)) {
         logger.atFine().log(
             "Requested to notify %s, but for change submission with sticky approval diff,"
                 + " Notify=ALL is enforced.",

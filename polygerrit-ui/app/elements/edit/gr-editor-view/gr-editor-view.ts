@@ -17,7 +17,11 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireTitleChange,
+  fireReload,
+} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -508,6 +512,10 @@ export class GrEditorView extends LitElement {
         )
         .then(() => {
           assertIsDefined(this.change, 'change');
+          // TODO: `forceReload: true` does not seem to work as expected: The patchset is not
+          // updated. Thus we are also calling `fireReload()` here. That can probably be
+          // cleaned up once the change-view was migrated to fully relying on the change model.
+          fireReload(this);
           this.getNavigation().setUrl(
             createChangeUrl({change: this.change, forceReload: true})
           );

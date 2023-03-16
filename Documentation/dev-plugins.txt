@@ -2209,7 +2209,6 @@ PatchSetWebLinks will appear to the right of the commit-SHA-1 in the UI.
 ----
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;;
-import com.google.gerrit.extensions.webui.WebLinkTarget;
 
 @Listen
 public class MyWeblinkPlugin implements PatchSetWebLink {
@@ -2222,8 +2221,7 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
    String commitMessage, String branchName) {
     return new WebLinkInfo(name,
         imageUrl,
-        String.format(placeHolderUrlProjectCommit, project, commit),
-        WebLinkTarget.BLANK);
+        String.format(placeHolderUrlProjectCommit, project, commit));
   }
 }
 ----

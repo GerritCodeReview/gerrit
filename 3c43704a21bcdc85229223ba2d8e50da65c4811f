@@ -33,6 +33,42 @@
       "message": "Did you verify this fixes the issue?",
       "revId": "3c43704a21bcdc85229223ba2d8e50da65c4811f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dac08a1_b47083da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-16T20:42:21Z",
+      "side": 1,
+      "message": "I have verified this fixed it.",
+      "parentUuid": "2ffe63aa_15b01a31",
+      "revId": "3c43704a21bcdc85229223ba2d8e50da65c4811f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a73d2bac_7fdfdcc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-16T20:42:21Z",
+      "side": 1,
+      "message": "I feel like reverting that change isn\u0027t an option because it basically makes edits useless (as it\u0027s hard to use without that change). I have tested thoroughly to ensure there is less likely to be a regression as much as possible.",
+      "parentUuid": "e8b3daa6_eb1cda04",
+      "revId": "3c43704a21bcdc85229223ba2d8e50da65c4811f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7542c2f0_4b508d96",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6704,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-16T10:07:31Z",
+      "side": 1,
+      "message": "Right, thanks for noticing. Fixed in https://gerrit-review.git.corp.google.com/c/gerrit/+/364197.",
+      "parentUuid": "469aecad_7fb3e127",
+      "range": {
+        "startLine": 6704,
+        "startChar": 17,
+        "endLine": 6704,
+        "endChar": 36
+      },
+      "revId": "3d082a88c14e89c74ab770d53a010509d7b561e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "993e37d4_16f1b003",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54aa3b23_dea96ad8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6717,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-16T10:07:31Z",
+      "side": 1,
+      "message": "Right, thanks for noticing. Fixed in https://gerrit-review.git.corp.google.com/c/gerrit/+/364197.",
+      "parentUuid": "993e37d4_16f1b003",
+      "range": {
+        "startLine": 6717,
+        "startChar": 17,
+        "endLine": 6717,
+        "endChar": 36
+      },
+      "revId": "3d082a88c14e89c74ab770d53a010509d7b561e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63e52351_f02aac2a",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-16T10:01:11Z",
       "side": 1,
       "message": "Here is `rebase_on_behalf_of_uploader`",
+      "range": {
+        "startLine": 307,
+        "startChar": 22,
+        "endLine": 307,
+        "endChar": 50
+      },
+      "revId": "3d082a88c14e89c74ab770d53a010509d7b561e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a7ebe3_35e2aa8c",
+        "filename": "java/com/google/gerrit/server/restapi/change/RebaseChain.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-16T10:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63e52351_f02aac2a",
       "range": {
         "startLine": 307,
         "startChar": 22,

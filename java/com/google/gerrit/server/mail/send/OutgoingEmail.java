@@ -166,7 +166,7 @@ public abstract class OutgoingEmail {
             logger.atFine().log(
                 "CC email sender %s because the email strategy of this user is %s",
                 fromUser.get().account().id(), CC_ON_OWN_COMMENTS);
-            add(RecipientType.CC, fromId);
+            addByAccountId(RecipientType.CC, fromId);
           } else if (isImpersonating) {
             // If we are impersonating a user, make sure they receive a CC of
             // this message regardless of email strategy, unless email notifications are explicitly
@@ -176,7 +176,7 @@ public abstract class OutgoingEmail {
                 "CC email sender %s because the email is sent on behalf of and email notifications"
                     + " are enabled for this user.",
                 fromUser.get().account().id());
-            add(RecipientType.CC, fromId);
+            addByAccountId(RecipientType.CC, fromId);
 
           } else if (!notify.accounts().containsValue(fromId) && rcptTo.remove(fromId)) {
             // If they don't want a copy, but we queued one up anyway,
@@ -331,7 +331,7 @@ public abstract class OutgoingEmail {
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : notify.accounts().keySet()) {
-      notify.accounts().get(recipientType).stream().forEach(a -> add(recipientType, a));
+      notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
     }
 
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
@@ -525,51 +525,25 @@ public abstract class OutgoingEmail {
     return true;
   }
 
-  /** Schedule this message for delivery to the listed address. */
-  protected final void addByEmail(RecipientType rt, Collection<Address> list) {
-    addByEmail(rt, list, false);
-  }
-
-  /** Schedule this message for delivery to the listed address. */
-  protected final void addByEmail(RecipientType rt, Collection<Address> list, boolean override) {
-    for (final Address id : list) {
-      add(rt, id, override);
-    }
-  }
-
-  /** Schedule delivery of this message to the given account. */
-  protected void add(RecipientType rt, Account.Id to) {
-    add(rt, to, false);
-  }
-
-  protected void add(RecipientType rt, Account.Id to, boolean override) {
-    try {
-      if (!rcptTo.contains(to) && isVisibleTo(to)) {
-        rcptTo.add(to);
-        add(rt, toAddress(to), override);
-      }
-    } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log("Error reading database for account: %s", to);
-    }
+  /**
+   * Adds a recipient that the email will be sent to.
+   *
+   * @param rt category of recipient (TO, CC, BCC)
+   * @param addr Name and email of the recipient.
+   */
+  public final void addByEmail(RecipientType rt, Address addr) {
+    addByEmail(rt, addr, false);
   }
 
   /**
-   * Returns whether this email is visible to the given account
+   * Adds a recipient that the email will be sent to.
    *
-   * @param to account.
-   * @throws PermissionBackendException thrown if checking a permission fails due to an error in the
-   *     permission backend
+   * @param rt category of recipient (TO, CC, BCC).
+   * @param addr Name and email of the recipient.
+   * @param override if the recipient was added previously and override is false no change is made
+   *   regardless of {@code rt}.
    */
-  protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
-    return true;
-  }
-
-  /** Schedule delivery of this message to the given account. */
-  protected final void add(RecipientType rt, Address addr) {
-    add(rt, addr, false);
-  }
-
-  protected final void add(RecipientType rt, Address addr, boolean override) {
+  public final void addByEmail(RecipientType rt, Address addr, boolean override) {
     if (addr != null && addr.email() != null && addr.email().length() > 0) {
       if (!args.validator.isValid(addr.email())) {
         logger.atWarning().log("Not emailing %s (invalid email address)", addr.email());
@@ -595,6 +569,46 @@ public abstract class OutgoingEmail {
         }
       }
     }
+  }
+
+  /**
+   * Adds a recipient that the email will be sent to.
+   *
+   * @param rt category of recipient (TO, CC, BCC)
+   * @param to Gerrit Account of the recipient.
+   */
+  protected void addByAccountId(RecipientType rt, Account.Id to) {
+    addByAccountId(rt, to, false);
+  }
+
+  /**
+   * Adds a recipient that the email will be sent to.
+   *
+   * @param rt category of recipient (TO, CC, BCC)
+   * @param to Gerrit Account of the recipient.
+   * @param override if the recipient was added previously and override is false no change is made
+   *   regardless of {@code rt}.
+   */
+  protected void addByAccountId(RecipientType rt, Account.Id to, boolean override) {
+    try {
+      if (!rcptTo.contains(to) && isVisibleTo(to)) {
+        rcptTo.add(to);
+        addByEmail(rt, toAddress(to), override);
+      }
+    } catch (PermissionBackendException e) {
+      logger.atSevere().withCause(e).log("Error reading database for account: %s", to);
+    }
+  }
+
+  /**
+   * Returns whether this email is visible to the given account
+   *
+   * @param to account.
+   * @throws PermissionBackendException thrown if checking a permission fails due to an error in the
+   *     permission backend
+   */
+  protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
+    return true;
   }
 
   @Nullable

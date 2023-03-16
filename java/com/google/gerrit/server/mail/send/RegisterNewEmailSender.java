@@ -54,7 +54,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] Email Verification");
-    add(RecipientType.TO, Address.create(addr));
+    addByEmail(RecipientType.TO, Address.create(addr));
   }
 
   @Override

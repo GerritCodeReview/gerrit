@@ -187,7 +187,7 @@ public class DeleteReviewerOp extends ReviewerOp {
       if (input.notify == null
           && currChange.isWorkInProgress()
           && !oldApprovals.isEmpty()
-          && notify.handling().compareTo(NotifyHandling.OWNER) < 0) {
+          && notify.handling().equals(NotifyHandling.NONE)) {
         // Override NotifyHandling from the context to notify owner if votes were removed on a WIP
         // change.
         notify = notify.withHandling(NotifyHandling.OWNER);

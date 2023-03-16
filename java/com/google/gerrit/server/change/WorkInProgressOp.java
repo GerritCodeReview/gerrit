@@ -124,7 +124,8 @@ public class WorkInProgressOp implements BatchUpdateOp {
     stateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (workInProgress
-        || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0
+        || notify.handling().equals(NotifyHandling.OWNER)
+        || notify.handling().equals(NotifyHandling.NONE)
         || !sendEmail) {
       return;
     }

@@ -211,7 +211,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     setChangeUrlHeader();
     setCommitIdHeader();
 
-    if (notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
+    if (notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || notify.handling().equals(NotifyHandling.ALL)) {
       try {
         addByEmail(
             RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));

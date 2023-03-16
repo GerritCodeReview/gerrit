@@ -33,8 +33,10 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+
 import java.io.IOException;
 import java.util.function.Consumer;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -60,7 +62,8 @@ public class ExternalIDCacheLoaderTest {
   private ExternalIdReader externalIdReaderSpy;
 
   private ExternalIdFactory externalIdFactory;
-  @Mock private AuthConfig authConfig;
+  @Mock
+  private AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
@@ -167,7 +170,7 @@ public class ExternalIDCacheLoaderTest {
     ObjectId firstState = insertExternalId(1, 1);
     ObjectId head;
     try (Repository repo = repoManager.openRepository(ALL_USERS);
-        RevWalk rw = new RevWalk(repo)) {
+         RevWalk rw = new RevWalk(repo)) {
       ExternalIdTestUtil.insertExternalIdWithKeyThatDoesntMatchNoteId(
           repo, rw, new PersonIdent("foo", "foo@bar.com"), Account.id(2), "test");
       head = repo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId();
@@ -211,17 +214,31 @@ public class ExternalIDCacheLoaderTest {
 
   @Test
   public void handlesParsingExternalIdsWithSameTimestamp() throws Exception {
-    ObjectId oldState = insertExternalId(1, 1);
-    ObjectId newState = insertExternalId(2, 1);
+
+    ObjectId oldState;
+    ObjectId newState;
+    ObjectId head;
+    int accountId = 1;
+    int externalKey = 0;
+    do {
+      oldState = insertExternalId(++externalKey, accountId);
+      externalIdCache.put(oldState, allFromGit(oldState));
+      newState = insertExternalId(++externalKey, accountId);
+      head = insertExternalId(++externalKey, accountId + 1 );
+    } while (!doCommitTimesMatch(oldState, newState));
+
+    assertThat(loader.load(head)).isEqualTo(allFromGit(head));
+//    assertThat(newState).isEqualTo(oldState);
+  }
+
+  private boolean doCommitTimesMatch(ObjectId first, ObjectId second) throws IOException {
     try (Repository repo = repoManager.openRepository(ALL_USERS);
          RevWalk rw = new RevWalk(repo)) {
 
-      assertThat(rw.parseCommit(newState).getCommitTime()).isEqualTo(rw.parseCommit(oldState).getCommitTime());
+      return rw.parseCommit(first).getCommitTime() == rw.parseCommit(second).getCommitTime();
     }
-    assertThat(newState).isEqualTo(oldState);
   }
 
-  private RevCommit revCommit(RevWalk rw, int externalId)
   private ExternalIdCacheLoader createLoader() {
     return new ExternalIdCacheLoader(
         repoManager,
@@ -283,7 +300,7 @@ public class ExternalIDCacheLoaderTest {
       ExternalIdNotes extIdNotes = ExternalIdNotes.load(ALL_USERS, repo, externalIdFactory, false);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
-          new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {
+               new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {
         metaDataUpdate.getCommitBuilder().setAuthor(updater);
         metaDataUpdate.getCommitBuilder().setCommitter(updater);
         return extIdNotes.commit(metaDataUpdate).getId();
@@ -301,8 +318,8 @@ public class ExternalIDCacheLoaderTest {
 
   private ImmutableList<String> allFilesInExternalIdRef() throws Exception {
     try (Repository repo = repoManager.openRepository(ALL_USERS);
-        TreeWalk treeWalk = new TreeWalk(repo);
-        RevWalk rw = new RevWalk(repo)) {
+         TreeWalk treeWalk = new TreeWalk(repo);
+         RevWalk rw = new RevWalk(repo)) {
       treeWalk.reset(
           rw.parseCommit(repo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId()).getTree());
       treeWalk.setRecursive(true);

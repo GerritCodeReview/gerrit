@@ -67,9 +67,9 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected void includeWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     try {
       Watchers matching = getWatchers(type, includeWatchersFromNotifyConfig);
-      add(RecipientType.TO, matching.to);
-      add(RecipientType.CC, matching.cc);
-      add(RecipientType.BCC, matching.bcc);
+      addWatchers(RecipientType.TO, matching.to);
+      addWatchers(RecipientType.CC, matching.cc);
+      addWatchers(RecipientType.BCC, matching.bcc);
     } catch (StorageException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
@@ -82,12 +82,12 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig);
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
-  protected void add(RecipientType type, WatcherList watcherList) {
+  protected void addWatchers(RecipientType type, WatcherList watcherList) {
     for (Account.Id user : watcherList.accounts) {
       addWatcher(type, user);
     }
     for (Address addr : watcherList.emails) {
-      add(type, addr);
+      addByEmail(type, addr);
     }
   }
 

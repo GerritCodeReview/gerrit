@@ -528,6 +528,46 @@ public abstract class OutgoingEmail {
    * Adds a recipient that the email will be sent to.
    *
    * @param rt category of recipient (TO, CC, BCC)
+   * @param addr Name and email of the recipient.
+   */
+  private final void addByEmail(RecipientType rt, Address addr) {
+    addByEmail(rt, addr, false);
+  }
+
+  /**
+   * Adds a recipient that the email will be sent to.
+   *
+   * @param rt category of recipient (TO, CC, BCC).
+   * @param addr Name and email of the recipient.
+   * @param override if the recipient was added previously and override is false no change is made
+   *     regardless of {@code rt}.
+   */
+  private final void addByEmail(RecipientType rt, Address addr, boolean override) {
+    try {
+      if (isRecipientAllowed(addr)) {
+        add(rt, addr, override);
+      }
+    } catch (PermissionBackendException e) {
+      logger.atSevere().withCause(e).log("Error checking permissions for email address: %s", addr);
+    }
+    add(rt, addr, override);
+  }
+
+  /**
+   * Returns whether this email is allowed to be sent to the given address
+   *
+   * @param addr email address of recipient.
+   * @throws PermissionBackendException thrown if checking a permission fails due to an error in the
+   *     permission backend
+   */
+  protected boolean isRecipientAllowed(Address addr) throws PermissionBackendException {
+    return true;
+  }
+
+  /**
+   * Adds a recipient that the email will be sent to.
+   *
+   * @param rt category of recipient (TO, CC, BCC)
    * @param to Gerrit Account of the recipient.
    */
   protected void addByAccountId(RecipientType rt, Account.Id to) {
@@ -544,45 +584,27 @@ public abstract class OutgoingEmail {
    */
   protected void addByAccountId(RecipientType rt, Account.Id to, boolean override) {
     try {
-      if (!rcptTo.contains(to) && isVisibleTo(to)) {
+      if (!rcptTo.contains(to) && isRecipientAllowed(to)) {
         rcptTo.add(to);
-        addByEmail(rt, toAddress(to), override);
+        add(rt, toAddress(to), override);
       }
     } catch (PermissionBackendException e) {
-      logger.atSevere().withCause(e).log("Error reading database for account: %s", to);
+      logger.atSevere().withCause(e).log("Error checking permissions for account: %s", to);
     }
   }
 
   /**
-   * Returns whether this email is visible to the given account
+   * Returns whether this email is allowed to be sent to the given account
    *
    * @param to account.
    * @throws PermissionBackendException thrown if checking a permission fails due to an error in the
    *     permission backend
    */
-  protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
+  protected boolean isRecipientAllowed(Account.Id to) throws PermissionBackendException {
     return true;
   }
 
-  /**
-   * Adds a recipient that the email will be sent to.
-   *
-   * @param rt category of recipient (TO, CC, BCC)
-   * @param addr Name and email of the recipient.
-   */
-  public final void addByEmail(RecipientType rt, Address addr) {
-    addByEmail(rt, addr, false);
-  }
-
-  /**
-   * Adds a recipient that the email will be sent to.
-   *
-   * @param rt category of recipient (TO, CC, BCC).
-   * @param addr Name and email of the recipient.
-   * @param override if the recipient was added previously and override is false no change is made
-   *     regardless of {@code rt}.
-   */
-  public final void addByEmail(RecipientType rt, Address addr, boolean override) {
+  private final void add(RecipientType rt, Address addr, boolean override) {
     if (addr != null && addr.email() != null && addr.email().length() > 0) {
       if (!args.validator.isValid(addr.email())) {
         logger.atWarning().log("Not emailing %s (invalid email address)", addr.email());

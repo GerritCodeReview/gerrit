@@ -60,11 +60,11 @@ export function send(
   restApiService: RestApiService,
   method: HttpMethod,
   url: string,
-  opt_callback?: (response: unknown) => void,
-  opt_payload?: RequestPayload
+  callback?: (response: unknown) => void,
+  payload?: RequestPayload
 ) {
   return restApiService
-    .send(method, url, opt_payload)
+    .send(method, url, payload)
     .then(response => {
       if (response.status < 200 || response.status >= 300) {
         return response.text().then((text: string | undefined) => {
@@ -79,8 +79,8 @@ export function send(
       }
     })
     .then(response => {
-      if (opt_callback) {
-        opt_callback(response);
+      if (callback) {
+        callback(response);
       }
       return response;
     });

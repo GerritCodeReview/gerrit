@@ -1191,7 +1191,7 @@ suite('gr-rest-api-service-impl tests', () => {
         ],
         [{_number: 3, project: 'test/test'}],
       ] as unknown as ParsedJSON);
-      // When opt_query instanceof Array, fetchJSON returns
+      // When query instanceof Array, fetchJSON returns
       // Array<Array<Object>>.
       await element.getChangesForMultipleQueries(undefined, []);
       assert.equal(Object.keys(element._projectLookup).length, 3);
@@ -1210,7 +1210,7 @@ suite('gr-rest-api-service-impl tests', () => {
         {_number: 3, project: 'test/test'},
       ] as unknown as ParsedJSON);
 
-      // When opt_query !instanceof Array, fetchJSON returns Array<Object>.
+      // When query !instanceof Array, fetchJSON returns Array<Object>.
       await element.getChanges();
       assert.equal(Object.keys(element._projectLookup).length, 3);
       const project1 = await element.getFromProjectLookup(1 as NumericChangeId);

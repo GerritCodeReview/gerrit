@@ -17,7 +17,7 @@ declare global {
 export declare interface Gerrit {
   install(
     callback: (plugin: PluginApi) => void,
-    opt_version?: string,
+    version?: string,
     src?: string
   ): void;
   styles: Styles;

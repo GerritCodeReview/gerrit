@@ -154,7 +154,7 @@ export function getChangeNumber(
 
 export function changeStatuses(
   change: ChangeInfo,
-  opt_options?: ChangeStatusesOptions
+  options?: ChangeStatusesOptions
 ): ChangeStates[] {
   const states = [];
   if (change.status === ChangeStatus.MERGED) {
@@ -163,10 +163,7 @@ export function changeStatuses(
   if (change.status === ChangeStatus.ABANDONED) {
     return [ChangeStates.ABANDONED];
   }
-  if (
-    change.mergeable === false ||
-    (opt_options && opt_options.mergeable === false)
-  ) {
+  if (change.mergeable === false || (options && options.mergeable === false)) {
     // 'mergeable' prop may not always exist (@see Issue 6819)
     states.push(ChangeStates.MERGE_CONFLICT);
   } else if (change.contains_git_conflicts) {
@@ -181,12 +178,12 @@ export function changeStatuses(
 
   // If there are any pre-defined statuses, only return those. Otherwise,
   // will determine the derived status.
-  if (states.length || !opt_options) {
+  if (states.length || !options) {
     return states;
   }
 
   // If no missing requirements, either active or ready to submit.
-  if (change.submittable && opt_options.submitEnabled) {
+  if (change.submittable && options.submitEnabled) {
     states.push(ChangeStates.READY_TO_SUBMIT);
   } else {
     // Otherwise it is active.

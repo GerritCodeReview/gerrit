@@ -90,10 +90,10 @@ suite('gr-registration-dialog tests', () => {
     return promise;
   }
 
-  function close(opt_action?: Function) {
+  function close(action?: Function) {
     const promise = listen('close');
-    if (opt_action) {
-      opt_action();
+    if (action) {
+      action();
     } else {
       queryAndAssert<GrButton>(element, '#closeButton').click();
     }

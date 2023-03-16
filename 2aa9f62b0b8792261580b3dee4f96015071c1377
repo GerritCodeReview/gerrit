@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729ac785_7a8b9e31",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-16T09:37:08Z",
+      "side": 1,
+      "message": "Please test deletions and changing values of existing keys.",
+      "revId": "2aa9f62b0b8792261580b3dee4f96015071c1377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cdcdb53_528cc46c",
+        "filename": "proto/cache.proto",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-16T09:37:08Z",
+      "side": 1,
+      "message": "please bump the version in ChangeNotesCache l.65",
+      "revId": "2aa9f62b0b8792261580b3dee4f96015071c1377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

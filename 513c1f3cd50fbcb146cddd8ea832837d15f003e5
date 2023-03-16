@@ -260,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65765c3d_abd5f868",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-16T09:37:08Z",
+      "side": 1,
+      "message": "I am fine with whatever you pick.",
+      "parentUuid": "30184077_5868de74",
+      "range": {
+        "startLine": 740,
+        "startChar": 28,
+        "endLine": 740,
+        "endChar": 75
+      },
+      "revId": "513c1f3cd50fbcb146cddd8ea832837d15f003e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da69b24e_793bd7ed",

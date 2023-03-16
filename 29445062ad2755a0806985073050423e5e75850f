@@ -105,6 +105,24 @@
       "parentUuid": "8cede311_bc943ac5",
       "revId": "29445062ad2755a0806985073050423e5e75850f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc456485_334aa644",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-16T12:10:00Z",
+      "side": 1,
+      "message": "But isn\u0027t that more or less exactly what is done here?\n`RevWalk#isMergedIntoAny` is semantically cleaner and uses higher level apis (and is therefore preferable). It should be used instead of the `isAlreadyMerged` method but I don\u0027t see that it solves your issue as it should have the same performance implication.\nThe current solution is:\n\n```\nfor each c in alreadyAccepted:\n  if M is merged into c:\n    return true;\n```\nWhere alreadyAccepted contains all the branch-tips [1].\n\nWithout knowing the implementation of RevWalk#isMergedIntoAny(RevCommit, Collection\u003cRef\u003e) I\u0027m guessing it pretty much does the same iteration.\n\np.s.\nYour first solution should have worse performance than these two as it always iterates through all branch-tips.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.7.1/java/com/google/gerrit/server/submit/MergeOp.java#758",
+      "parentUuid": "899555fa_f56c0eeb",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

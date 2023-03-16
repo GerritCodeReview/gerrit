@@ -2069,6 +2069,15 @@ Values can be specified using standard time unit abbreviations (`ms`, `sec`,
 +
 Default is 1 hour.
 
+[[core.usePerRequestRefCache]]core.usePerRequestRefCache::
++
+Use a per request (currently per request thread) ref cache. The ref cache uses
+jgit's RefDirectoryWritableSnapshot to ensure that packed refs are checked and
+potentially at least once per request (lazily) if needed. This helps reduce the
+overhead of checking if the packedrefs file is outdated.
++
+Default is false.
+
 [[download]]
 === Section download
 

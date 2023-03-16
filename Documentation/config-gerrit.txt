@@ -2069,6 +2069,16 @@ Values can be specified using standard time unit abbreviations (`ms`, `sec`,
 +
 Default is 1 hour.
 
+[[core.usePerRequestRefCache]]core.usePerRequestRefCache::
++
+Use a per request (currently per request thread) ref cache. The ref
+cache uses JGit's SnapshottingRefDirectory to ensure that packed
+refs are checked and potentially read at least once per request
+(lazily) if needed. This helps reduce the overhead of checking if
+the packed-refs file is outdated.
++
+Default is false.
+
 [[download]]
 === Section download
 
@@ -3618,7 +3628,7 @@ The guess is based on two elements: the projects most recently
 accessed in the cache and the list of LDAP groups included in their ACLs.
 +
 Please note that projects rarely used and thus not cached may be
-temporarily inaccessible by users even with LDAP membership and grants
+temporarily inaccessible by users even with LDAP membership and grantsper
 referenced in the ACLs.
 +
 By default, true.

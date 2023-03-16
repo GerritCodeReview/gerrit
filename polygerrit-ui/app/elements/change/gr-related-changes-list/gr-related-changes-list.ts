@@ -54,11 +54,11 @@ export enum Section {
 
 @customElement('gr-related-changes-list')
 export class GrRelatedChangesList extends LitElement {
-  @property({type: Object})
-  change?: ParsedChangeInfo;
-
   @property({type: Boolean})
   mergeable?: boolean;
+
+  @state()
+  change?: ParsedChangeInfo;
 
   @state()
   latestPatchNum?: PatchSetNumber;
@@ -87,6 +87,11 @@ export class GrRelatedChangesList extends LitElement {
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,

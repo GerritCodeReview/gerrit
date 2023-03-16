@@ -17,7 +17,11 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireTitleChange,
+  fireReload,
+} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -510,6 +514,7 @@ export class GrEditorView extends LitElement {
         )
         .then(() => {
           assertIsDefined(this.change, 'change');
+          fireReload(this);
           this.getNavigation().setUrl(
             createChangeUrl({change: this.change, forceReload: true})
           );

@@ -3,6 +3,37 @@
   "submitRequirementResults": [
     {
       "submitRequirement": {
+        "name": "Change-Is-Forward-Compatible",
+        "description": {
+          "value": "Changes to NoteDb or entities packages require careful consideration. Make sure your change is forward compatible and add the footer \u0027Forward-Compatible: checked\u0027 to your commit message"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\")"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "hasfooter:\"Forward-Compatible\""
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\""]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"hasfooter:\"Forward-Compatible\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
         "name": "Code-Review",
         "description": {
           "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
@@ -34,7 +65,7 @@
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "-branch:refs/meta/config"
+            "expressionString": "-branch:refs/meta/config file:\"^~(Documentation/.*)\""
           }
         },
         "submittabilityExpression": {
@@ -44,10 +75,72 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config file:\"^~(Documentation/.*)\""},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(Documentation/.*)\""],"failingAtoms":["branch:refs/meta/config"]}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Do-Not-Submit",
+        "description": {
+          "value": "Changes that have DO NOT SUBMIT in their commit message are not submittable."
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "is:false"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:false"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Documentation",
+        "description": {
+          "value": "All files in this change are in the \u0027Documentation\u0027 directory"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-file:\"^~(Documentation/.*)\""
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "is:true"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": true
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-file:\"^~(Documentation/.*)\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["file:\"^~(Documentation/.*)\""],"failingAtoms":[]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:true"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
@@ -69,7 +162,7 @@
           }
         },
         "submittabilityExpression": {
-          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
+          "expressionString": "label:Library-Compliance\u003dMAX AND -label:Library-Compliance\u003dMIN"
         },
         "overrideExpression": {},
         "allowOverrideInChildProjects": false
@@ -78,9 +171,46 @@
         "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
       },
       "overrideExpressionResult": {},
+      "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "No-Unresolved-Comments",
+        "description": {
+          "value": "Changes that have unresolved comments are not submittable. Unless overriden by adding the hashtag allow-unresolved-comments."
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "has:unresolved"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "-has:unresolved"
+        },
+        "overrideExpression": {
+          "value": {
+            "expressionString": "hashtag:allow-unresolved-comments"
+          }
+        },
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["has:unresolved"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {
+        "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
       "patchSetCommitId": "36797b4c9e37218b0baa7946202ab2609b646730",
       "legacy": {
         "value": false
@@ -96,7 +226,7 @@
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "-branch:refs/meta/config"
+            "expressionString": "-branch:refs/meta/config AND -hasfooter:\"Release-Notes\" AND -is:pure-revert"
           }
         },
         "submittabilityExpression": {
@@ -106,7 +236,7 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND -hasfooter:\"Release-Notes\" AND -is:pure-revert"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","hasfooter:\"Release-Notes\"","is:pure-revert"]}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["hasfooter:\"Release-Notes\""]}
@@ -158,7 +288,7 @@
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "-branch:refs/meta/config"
+            "expressionString": "-branch:refs/meta/config file:\"^~(Documentation/.*)\""
           }
         },
         "submittabilityExpression": {
@@ -168,7 +298,7 @@
         "allowOverrideInChildProjects": true
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config file:\"^~(Documentation/.*)\""},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(Documentation/.*)\""],"failingAtoms":["branch:refs/meta/config"]}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}

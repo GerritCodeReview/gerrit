@@ -278,7 +278,7 @@ export class ChangeModel extends Model<ChangeState> {
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.viewModel.changeNum$, this.reload$])
+      combineLatest([this.viewModel.changeNum$, this.reload$, this.viewModel.forceReload$])
         .pipe(
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {

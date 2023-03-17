@@ -21,6 +21,7 @@ import {
   isDraft,
   isDraftOrUnsaved,
   isUnsaved,
+  DraftState,
 } from '../../types/common';
 import {
   addPath,
@@ -59,9 +60,9 @@ export interface CommentState {
   comments?: PathToCommentsInfoMap;
   /** undefined means 'still loading' */
   robotComments?: {[path: string]: RobotCommentInfo[]};
-  // All drafts are DraftInfo objects and have __draft = true set.
-  // Drafts have an id and are known to the backend. Unsaved drafts
-  // (see UnsavedInfo) do NOT belong in the application model.
+  // All drafts are DraftInfo objects and have `__draft` state set.
+  // Draft state is either SAVED (known to the backend) or still SAVING.
+  // Unsaved drafts (see UnsavedInfo) do NOT belong in the application model.
   /** undefined means 'still loading' */
   drafts?: {[path: string]: DraftInfo[]};
   // Ported comments only affect `CommentThread` properties, not individual
@@ -558,6 +559,7 @@ export class CommentsModel extends Model<CommentState> {
       ...found,
       id: undefined,
       updated: undefined,
+      // Converting from DraftInfo to UnsavedInfo here.
       __draft: undefined,
       __unsaved: true,
     };
@@ -602,7 +604,7 @@ export class CommentsModel extends Model<CommentState> {
       ...draft,
       id: savedComment.id,
       updated: savedComment.updated,
-      __draft: true,
+      __draft: DraftState.SAVED,
       __unsaved: undefined,
     };
     timer.end({id: updatedDraft.id});

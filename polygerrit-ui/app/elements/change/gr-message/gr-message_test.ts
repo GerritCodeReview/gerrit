@@ -35,6 +35,7 @@ import {
   ReviewInputTag,
   Timestamp,
   UrlEncodedCommentId,
+  DraftState,
 } from '../../../types/common';
 import {
   ChangeMessageDeletedEventDetail,
@@ -817,7 +818,7 @@ suite('gr-message tests', () => {
               message: 'n',
               unresolved: false,
               path: '/PATCHSET_LEVEL',
-              __draft: true,
+              __draft: DraftState.SAVED,
             },
           ],
           patchNum: 1 as RevisionPatchSetNum,

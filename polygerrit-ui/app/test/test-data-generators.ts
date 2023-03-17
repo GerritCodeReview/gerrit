@@ -73,6 +73,7 @@ import {
   DraftInfo,
   ChangeMessage,
   UnsavedInfo,
+  DraftState,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -844,7 +845,7 @@ export function createComment(
 export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __draft: true,
+    __draft: DraftState.SAVED,
     ...extra,
   };
 }

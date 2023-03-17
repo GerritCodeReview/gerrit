@@ -77,6 +77,7 @@ import {
   PatchSetNumber,
   CommentThread,
   ChangeStates,
+  DraftState,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -154,7 +155,7 @@ suite('gr-change-view tests', () => {
           updated: '2018-02-13 22:48:48.018000000' as Timestamp,
           message: 'draft',
           unresolved: false,
-          __draft: true,
+          __draft: DraftState.SAVED,
           patch_set: 2 as RevisionPatchSetNum,
         },
       ],
@@ -257,7 +258,7 @@ suite('gr-change-view tests', () => {
           updated: '2018-02-15 22:48:48.018000000' as Timestamp,
           message: 'resolved draft',
           unresolved: false,
-          __draft: true,
+          __draft: DraftState.SAVED,
           patch_set: 2 as RevisionPatchSetNum,
         },
       ],

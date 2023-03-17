@@ -24,6 +24,7 @@ import {
 } from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
 import {
+  DraftState,
   PARENT,
   RevisionPatchSetNum,
   Timestamp,
@@ -131,7 +132,7 @@ suite('comment-util', () => {
       {
         id: 'new_draft' as UrlEncodedCommentId,
         message: 'i do not like either of you',
-        __draft: true,
+        __draft: DraftState.SAVED,
         updated: '2015-12-20 15:01:20.396000000' as Timestamp,
       },
       {
@@ -177,7 +178,7 @@ suite('comment-util', () => {
         {
           id: 'new_draft' as UrlEncodedCommentId,
           message: 'i do not like either of you' as UrlEncodedCommentId,
-          __draft: true,
+          __draft: DraftState.SAVED,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
           patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',

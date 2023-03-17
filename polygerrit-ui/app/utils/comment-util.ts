@@ -30,6 +30,7 @@ import {
   Comment,
   isUnsaved,
   CommentIdToCommentThreadMap,
+  DraftState,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -405,7 +406,7 @@ export function addPath<T>(comments: {[path: string]: T[]} = {}): {
 }
 
 /**
- * Add __draft:true to all drafts returned from server so that they can be told
+ * Add __draft:SAVED to all drafts returned from server so that they can be told
  * apart from published comments easily.
  */
 export function addDraftProp(
@@ -414,7 +415,7 @@ export function addDraftProp(
   const updated: {[path: string]: DraftInfo[]} = {};
   for (const filePath of Object.keys(draftsByPath)) {
     updated[filePath] = (draftsByPath[filePath] ?? []).map(draft => {
-      return {...draft, __draft: true};
+      return {...draft, __draft: DraftState.SAVED};
     });
   }
   return updated;

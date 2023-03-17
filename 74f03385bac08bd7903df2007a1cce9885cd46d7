@@ -16,6 +16,29 @@
       "message": "Since download-commands submodule is set to track master in stable-3.5 and onwards this patch needs to be applied to stable-3.5.",
       "revId": "74f03385bac08bd7903df2007a1cce9885cd46d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43c5c981_4066c806",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-17T12:13:05Z",
+      "side": 1,
+      "message": "Note to self, you have to save the changes in the IDE for them to be written to file...",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 77
+      },
+      "revId": "74f03385bac08bd7903df2007a1cce9885cd46d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

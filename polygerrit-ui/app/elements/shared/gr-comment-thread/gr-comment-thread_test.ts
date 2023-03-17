@@ -14,6 +14,7 @@ import {
   CommentInfo,
   RepoName,
   DraftInfo,
+  DraftState,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -58,7 +59,7 @@ const c3 = {
   message: 'stop it',
   updated: '2021-11-03 10:11:12.000000000' as Timestamp,
   in_reply_to: 'the-reply' as UrlEncodedCommentId,
-  __draft: true,
+  __draft: DraftState.SAVED,
 };
 
 const commentWithContext = {

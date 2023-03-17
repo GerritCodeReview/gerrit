@@ -24,7 +24,6 @@ import {
   RepoName,
   TagInfo,
   Timestamp,
-  TimezoneOffset,
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -73,7 +72,6 @@ function tagGenerator(counter: number) {
       name: 'Test User',
       email: 'test.user@gmail.com' as EmailAddress,
       date: '2017-09-19 14:54:00.000000000' as Timestamp,
-      tz: 540 as TimezoneOffset,
     },
   };
 }
@@ -2202,7 +2200,6 @@ suite('gr-repo-detail-list', () => {
           name: 'Test User',
           email: 'test.user@gmail.com' as EmailAddress,
           date: '2017-09-19 14:54:00.000000000' as Timestamp,
-          tz: 540 as TimezoneOffset,
         };
 
         assert.deepEqual((element.items as TagInfo[])![2].tagger, tagger);

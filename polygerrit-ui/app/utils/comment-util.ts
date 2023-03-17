@@ -31,6 +31,7 @@ import {
   isUnsaved,
   CommentIdToCommentThreadMap,
   DraftState,
+  isSaving,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -230,6 +231,12 @@ export function isRobotThread(thread: CommentThread): boolean {
 
 export function hasHumanReply(thread: CommentThread): boolean {
   return countComments(thread) > 1 && !isRobot(getLastComment(thread));
+}
+
+export function dateString(comment: Comment): Timestamp | string {
+  if (isUnsaved(comment)) return 'Unsaved';
+  if (isSaving(comment)) return 'Saving...';
+  return comment.updated ?? '';
 }
 
 export function lastUpdated(thread: CommentThread): Date | undefined {

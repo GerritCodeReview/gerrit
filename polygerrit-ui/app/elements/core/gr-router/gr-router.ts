@@ -291,6 +291,10 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
+  // While this array is not empty, the router will refuse to navigate to
+  // other pages, but instead show an alert.
+  private navigationBlockers: string[] = [];
+
   readonly page = new Page();
 
   constructor(
@@ -334,6 +338,14 @@ export class GrRouter implements Finalizable, NavigationService {
       }),
       this.routerModel.routerView$.subscribe(view => (this.view = view)),
     ];
+  }
+
+  blockNavigation(reason: string): void {
+    this.navigationBlockers.push(reason);
+  }
+
+  releaseNavigation(reason: string): void {
+    this.navigationBlockers = this.navigationBlockers.filter(r => r !== reason);
   }
 
   finalize(): void {
@@ -585,6 +597,17 @@ export class GrRouter implements Finalizable, NavigationService {
           this.redirect(toPath(pathname, searchParams));
           return;
         }
+      }
+      next();
+    });
+
+    this.page.registerRoute(/(.*)/, (_, next) => {
+      if (this.navigationBlockers.length > 0) {
+        fireAlert(
+          document,
+          `Navigation is blocked by: ${this.navigationBlockers}`
+        );
+        return;
       }
       next();
     });

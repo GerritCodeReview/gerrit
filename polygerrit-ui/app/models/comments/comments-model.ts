@@ -22,6 +22,7 @@ import {
   isDraftOrUnsaved,
   isUnsaved,
   DraftState,
+  ID_SAVING,
 } from '../../types/common';
 import {
   addPath,
@@ -51,9 +52,12 @@ import {
   map,
   shareReplay,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {createTimestamp} from '../../utils/date-util';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -225,7 +229,9 @@ export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
   const drafts = nextState.drafts;
   if (!drafts[draft.path]) drafts[draft.path] = [] as DraftInfo[];
   else drafts[draft.path] = [...drafts[draft.path]];
-  const index = drafts[draft.path].findIndex(d => d.id && d.id === draft.id);
+  const index = drafts[draft.path].findIndex(
+    d => (d.id && d.id === draft.id) || d.id === ID_SAVING
+  );
   if (index !== -1) {
     drafts[draft.path][index] = draft;
   } else {
@@ -297,6 +303,18 @@ export class CommentsModel extends Model<CommentState> {
   public readonly discardedDrafts$ = select(
     this.state$,
     commentState => commentState.discardedDrafts
+  );
+
+  public readonly savingInProgress$ = select(
+    this.drafts$.pipe(
+      tap(d =>
+        console.log(`asdf drafts$ ${Object.values(d ?? {}).flat().length}`)
+      )
+    ),
+    drafts =>
+      Object.values(drafts ?? {})
+        .flat()
+        .find(d => d.id === ID_SAVING) !== undefined
   );
 
   public readonly patchsetLevelDrafts$ = select(this.drafts$, drafts =>
@@ -419,9 +437,24 @@ export class CommentsModel extends Model<CommentState> {
     private readonly changeModel: ChangeModel,
     private readonly accountsModel: AccountsModel,
     private readonly restApiService: RestApiService,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly navigation: NavigationService
   ) {
     super(initialState);
+    console.log('asdf constructor');
+    this.subscriptions.push(
+      this.savingInProgress$.subscribe(savingInProgress => {
+        console.log(`asdf savingInProgress: ${savingInProgress}`);
+
+        if (savingInProgress) {
+          this.navigation.blockNavigation('draft still saving');
+          window.addEventListener('beforeunload', this.beforeUnloadHandler);
+        } else {
+          this.navigation.releaseNavigation('draft still saving');
+          window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        }
+      })
+    );
     this.subscriptions.push(
       this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
     );
@@ -456,6 +489,7 @@ export class CommentsModel extends Model<CommentState> {
   }
 
   override finalize() {
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
     document.removeEventListener('reload', this.reloadListener);
     super.finalize();
   }
@@ -579,6 +613,15 @@ export class CommentsModel extends Model<CommentState> {
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
     if (!draft.message?.trim()) throw new Error('Cannot save empty draft.');
 
+    const draftSaving = {
+      ...draft,
+      id: draft.id ?? ID_SAVING,
+      updated: createTimestamp(new Date()),
+      __draft: DraftState.SAVING,
+      __unsaved: undefined,
+    };
+    this.modifyState(s => setDraft(s, draftSaving));
+
     // Saving the change number as to make sure that the response is still
     // relevant when it comes back. The user maybe have navigated away.
     const changeNum = this.changeNum;
@@ -592,7 +635,7 @@ export class CommentsModel extends Model<CommentState> {
       draft
     );
     if (changeNum !== this.changeNum) throw new Error('change changed');
-    if (!result.ok) {
+    if (result.ok) {
       if (showToast) this.handleFailedDraftRequest();
       throw new Error(
         `Failed to save draft comment: ${JSON.stringify(result)}`
@@ -619,8 +662,11 @@ export class CommentsModel extends Model<CommentState> {
     assertIsDefined(this.changeNum, 'change number');
     assertIsDefined(draft, `draft not found by id ${draftId}`);
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
-
     if (!draft.message?.trim()) throw new Error('saved draft cant be empty');
+
+    // optimistic update
+    this.modifyState(s => deleteDraft(s, draft));
+
     // Saving the change number as to make sure that the response is still
     // relevant when it comes back. The user maybe have navigated away.
     const changeNum = this.changeNum;
@@ -636,12 +682,12 @@ export class CommentsModel extends Model<CommentState> {
     if (changeNum !== this.changeNum) throw new Error('change changed');
     if (!result.ok) {
       this.handleFailedDraftRequest();
+      await this.restoreDraft(draft.id);
       throw new Error(
         `Failed to discard draft comment: ${JSON.stringify(result)}`
       );
     }
     this.showEndRequest();
-    this.modifyState(s => deleteDraft(s, draft));
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
       fire(document, 'show-alert', {
@@ -718,4 +764,9 @@ export class CommentsModel extends Model<CommentState> {
       .flat()
       .find(d => d.id === id);
   }
+
+  private beforeUnloadHandler = (event: BeforeUnloadEvent) => {
+    event.preventDefault(); // Cancel the event (per the standard).
+    event.returnValue = ''; // Chrome requires returnValue to be set.
+  };
 }

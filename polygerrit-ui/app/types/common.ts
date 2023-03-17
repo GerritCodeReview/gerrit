@@ -105,7 +105,6 @@ import {
   SubmitTypeInfo,
   SuggestInfo,
   Timestamp,
-  TimezoneOffset,
   TopicName,
   UrlEncodedRepoName,
   UserConfigInfo,
@@ -200,7 +199,6 @@ export type {
   SubmitTypeInfo,
   SuggestInfo,
   Timestamp,
-  TimezoneOffset,
   TopicName,
   UrlEncodedRepoName,
   UserConfigInfo,
@@ -697,6 +695,8 @@ export enum ChangeStates {
   WIP = 'WIP',
 }
 
+export const ID_SAVING = 'still-saving' as UrlEncodedCommentId;
+
 export enum DraftState {
   SAVING = 'SAVING',
   SAVED = 'SAVED',
@@ -736,6 +736,12 @@ export function isDraft<T extends CommentBasics>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
   return !!x && !!(x as DraftInfo).__draft;
+}
+
+export function isSaving<T extends CommentBasics>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return isDraft(x) && x.__draft === DraftState.SAVING;
 }
 
 export function isUnsaved<T extends CommentBasics>(

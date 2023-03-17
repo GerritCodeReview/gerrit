@@ -11,6 +11,12 @@ const Duration = {
   DAY: 1000 * 60 * 60 * 24,
 };
 
+export function createTimestamp(date: Date): Timestamp {
+  const nanosecondSuffix = '.000000000';
+  return (formatDate(date, 'YYYY-MM-DD HH:mm:ss', 'UTC') +
+    nanosecondSuffix) as Timestamp;
+}
+
 export function parseDate(dateStr: Timestamp) {
   // Timestamps are given in UTC and have the format
   // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
@@ -96,8 +102,12 @@ interface DateTimeFormatParts {
   weekday?: string;
 }
 
-export function formatDate(date: Date, format: string) {
+export function formatDate(date: Date, format: string, timeZone?: string) {
   const options: Intl.DateTimeFormatOptions = {};
+  // If `timeZone` is not set, then the browser's/user's timezone is used.
+  if (timeZone) {
+    options.timeZone = timeZone;
+  }
   if (format.includes('MM')) {
     if (format.includes('MMM')) {
       options.month = 'short';

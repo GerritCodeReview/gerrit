@@ -13,14 +13,17 @@ import {
   isWithinHalfYear,
   formatDate,
   wasYesterday,
+  createTimestamp,
 } from './date-util';
 import {assert} from '@open-wc/testing';
 
 suite('date-util tests', () => {
-  suite('parseDate', () => {
-    test('parseDate server date', () => {
-      const parsed = parseDate('2015-09-15 20:34:00.000000000' as Timestamp);
+  suite('parseDate and createTimestamp', () => {
+    test('2015-09-15 20:34:00', () => {
+      const timestamp = '2015-09-15 20:34:00.000000000' as Timestamp;
+      const parsed = parseDate(timestamp);
       assert.equal('2015-09-15T20:34:00.000Z', parsed.toISOString());
+      assert.equal(timestamp, createTimestamp(parsed));
     });
   });
 

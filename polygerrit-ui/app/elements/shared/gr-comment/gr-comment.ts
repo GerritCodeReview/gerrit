@@ -33,6 +33,7 @@ import {
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   createUserFixSuggestion,
+  dateString,
   getContentInCommentRange,
   getUserSuggestion,
   hasUserSuggestion,
@@ -201,7 +202,7 @@ export class GrComment extends LitElement {
   @state()
   unresolved = true;
 
-  @property({type: Boolean})
+  @state()
   unableToSave = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
@@ -251,8 +252,11 @@ export class GrComment extends LitElement {
    */
   private originalUnresolved = false;
 
+  private uuid = Math.random().toString(36).substring(2);
+
   constructor() {
     super();
+    console.log(`asdf gr-comment new ${this.uuid}`);
     // Allow the shortcuts to bubble up so that GrReplyDialog can respond to
     // them as well.
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
@@ -333,11 +337,6 @@ export class GrComment extends LitElement {
         :host([collapsed]) {
           padding: var(--spacing-s) var(--spacing-m);
         }
-        :host([saving]) {
-          pointer-events: none;
-        }
-        :host([saving]) .actions,
-        :host([saving]) .robotActions,
         :host([saving]) .date {
           opacity: 0.5;
         }
@@ -508,6 +507,7 @@ export class GrComment extends LitElement {
   }
 
   override render() {
+    console.log(`asdf render ${this.unableToSave} ${this.uuid}`);
     if (isUnsaved(this.comment) && !this.editing) return;
     const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
     return html`
@@ -587,7 +587,7 @@ export class GrComment extends LitElement {
 
   private renderDraftLabel() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    let label = 'Draft';
+    let label = 'Draft ' + this.uuid + ' ';
     let tooltip =
       'This draft is only visible to you. ' +
       "To publish drafts, click the 'Reply' or 'Start review' button " +
@@ -596,6 +596,9 @@ export class GrComment extends LitElement {
       label += ' (Failed to save)';
       tooltip = 'Unable to save draft. Please try to save again.';
     }
+    console.log(
+      `asdf renderDraftLabel ${this.uuid} ${this.unableToSave} ${label}`
+    );
     return html`
       <gr-tooltip-content
         class="draftTooltip"
@@ -663,17 +666,17 @@ export class GrComment extends LitElement {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
     return html`
       <span class="patchset-text"> Patchset ${this.comment.patch_set}</span>
+      <span class="separator"></span>
     `;
   }
 
   private renderDate() {
-    if (!this.comment?.updated || this.collapsed) return;
+    if (!this.comment || this.collapsed) return;
     return html`
-      <span class="separator"></span>
       <span class="date" tabindex="0" @click=${this.handleAnchorClick}>
         <gr-date-formatter
           withTooltip
-          .dateStr=${this.comment.updated}
+          .dateStr=${dateString(this.comment)}
         ></gr-date-formatter>
       </span>
     `;
@@ -828,11 +831,7 @@ export class GrComment extends LitElement {
 
   private renderEditButton() {
     if (this.editing) return;
-    return html`<gr-button
-      link
-      ?disabled=${this.saving}
-      class="action edit"
-      @click=${this.edit}
+    return html`<gr-button link class="action edit" @click=${this.edit}
       >Edit</gr-button
     >`;
   }
@@ -887,7 +886,6 @@ export class GrComment extends LitElement {
         link
         secondary
         class="action show-fix"
-        ?disabled=${this.saving}
         @click=${() => this.handleShowFix()}
       >
         Show Fix
@@ -1172,6 +1170,9 @@ export class GrComment extends LitElement {
     try {
       this.autoSaving = this.rawSave(messageToSave, {showToast: false});
       await this.autoSaving;
+    } catch (e) {
+      this.unableToSave = true;
+      console.log(`asdf unable to autosave ${e}`);
     } finally {
       this.autoSaving = undefined;
     }
@@ -1191,6 +1192,9 @@ export class GrComment extends LitElement {
     try {
       this.saving = true;
       this.unableToSave = false;
+      if (!this.permanentEditingMode) {
+        this.editing = false;
+      }
       if (this.autoSaving) {
         this.comment = await this.autoSaving;
       }
@@ -1211,12 +1215,10 @@ export class GrComment extends LitElement {
           await this.rawSave(messageToSave, {showToast: true});
         }
       }
-      if (!this.permanentEditingMode) {
-        this.editing = false;
-      }
     } catch (e) {
+      this.editing = true;
       this.unableToSave = true;
-      throw e;
+      console.log(`asdf unable to save ${e}`);
     } finally {
       this.saving = false;
     }

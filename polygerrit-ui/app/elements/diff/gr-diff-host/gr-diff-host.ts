@@ -32,6 +32,7 @@ import {
   ChangeInfo,
   CommentThread,
   EDIT,
+  ID_SAVING,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -1048,7 +1049,11 @@ export class GrDiffHost extends LitElement {
     const threadEls = this.getThreadEls();
     for (const threadEl of threadEls) {
       if (threadEl.rootId) {
-        rootIdToThreadEl.set(threadEl.rootId, threadEl);
+        if (threadEl.rootId === ID_SAVING) {
+          unsavedThreadEls.push(threadEl);
+        } else {
+          rootIdToThreadEl.set(threadEl.rootId, threadEl);
+        }
       } else {
         // Unsaved thread els must have editing:true, just being defensive here.
         if (threadEl.editing) unsavedThreadEls.push(threadEl);

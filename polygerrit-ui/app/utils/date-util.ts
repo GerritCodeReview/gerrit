@@ -11,6 +11,12 @@ const Duration = {
   DAY: 1000 * 60 * 60 * 24,
 };
 
+export function createTimestamp(date: Date): Timestamp {
+  const nanosecondSuffix = '.000000000';
+  return (formatDate(date, 'YYYY-MM-DD HH:mm:ss') +
+    nanosecondSuffix) as Timestamp;
+}
+
 export function parseDate(dateStr: Timestamp) {
   // Timestamps are given in UTC and have the format
   // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents

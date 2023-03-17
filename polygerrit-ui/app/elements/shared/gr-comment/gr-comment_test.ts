@@ -21,6 +21,7 @@ import {
 import {
   AccountId,
   DraftInfo,
+  DraftState,
   EmailAddress,
   NumericChangeId,
   PatchSetNum,
@@ -271,7 +272,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = true;
+      (element.comment as DraftInfo).__draft = DraftState.SAVED;
       await element.updateComplete;
       assert.shadowDom.equal(
         element,
@@ -351,7 +352,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft in editing mode', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = true;
+      (element.comment as DraftInfo).__draft = DraftState.SAVED;
       element.editing = true;
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -465,7 +466,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: true,
+      __draft: DraftState.SAVED,
       message: 'hello world',
     };
     element.editing = true;
@@ -490,7 +491,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: true,
+      __draft: DraftState.SAVED,
       message: 'hello world',
     };
     element.editing = true;
@@ -540,7 +541,7 @@ suite('gr-comment tests', () => {
       element.changeNum = 42 as NumericChangeId;
       element.comment = {
         ...createComment(),
-        __draft: true,
+        __draft: DraftState.SAVED,
         path: '/path/to/file',
         line: 5,
       };
@@ -671,7 +672,7 @@ suite('gr-comment tests', () => {
       const saveStub = sinon.stub(commentsModel, 'saveDraft');
       element.comment = {
         ...createComment(),
-        __draft: true,
+        __draft: DraftState.SAVED,
         unresolved: false,
       };
       await element.updateComplete;
@@ -795,7 +796,7 @@ suite('gr-comment tests', () => {
       // Resolve auto-saving promise.
       savePromise.resolve({
         ...element.comment,
-        __draft: true,
+        __draft: DraftState.SAVED,
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:48.018000000' as Timestamp,
       });
@@ -819,7 +820,7 @@ suite('gr-comment tests', () => {
         },
         line: 5,
         path: 'test',
-        __draft: true,
+        __draft: DraftState.SAVED,
         message: 'hello world',
       };
       element = await fixture(

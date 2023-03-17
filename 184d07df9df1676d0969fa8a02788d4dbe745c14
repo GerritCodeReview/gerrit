@@ -34,6 +34,24 @@
       "parentUuid": "7221acc1_ded59b82",
       "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a27df44_7daab866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-17T15:21:20Z",
+      "side": 1,
+      "message": "Happy to wait for Edwin\u0027s input.\n\nBut for a bit of reasoning in the meantime, there is an existing permission check when we add accounts, ie. for a logged in user, we don\u0027t trust that if someone added them to the change they are now ok to view the change, which is why I think the check for non-accounts is missing erroneously.",
+      "parentUuid": "b8aef053_cc43d865",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

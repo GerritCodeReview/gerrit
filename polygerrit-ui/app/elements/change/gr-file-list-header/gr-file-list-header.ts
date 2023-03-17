@@ -20,8 +20,6 @@ import {
   PatchSetNum,
   CommitInfo,
   ServerInfo,
-  RevisionInfo,
-  NumericChangeId,
   BasePatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -72,9 +70,6 @@ export class GrFileListHeader extends LitElement {
   change: ChangeInfo | undefined;
 
   @property({type: String})
-  changeNum?: NumericChangeId;
-
-  @property({type: String})
   changeUrl?: string;
 
   @property({type: Object})
@@ -91,9 +86,6 @@ export class GrFileListHeader extends LitElement {
 
   @property({type: String})
   filesExpanded?: FilesExpandedState;
-
-  @property({type: Object})
-  revisionInfo?: RevisionInfo;
 
   @state() patchNum?: PatchSetNum;
 
@@ -289,12 +281,6 @@ export class GrFileListHeader extends LitElement {
           <div class="patchInfoContent">
             <gr-patch-range-select
               id="rangeSelect"
-              .changeNum=${this.changeNum}
-              .patchNum=${this.patchNum}
-              .basePatchNum=${this.basePatchNum}
-              .availablePatches=${this.allPatchSets}
-              .revisions=${this.change.revisions}
-              .revisionInfo=${this.revisionInfo}
               @patch-range-change=${this.handlePatchChange}
             >
             </gr-patch-range-select>

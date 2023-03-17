@@ -193,6 +193,30 @@
       },
       "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a4b425f_64593aab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-17T13:53:40Z",
+      "side": 1,
+      "message": "As the type is a short though, we\u0027d also have to check 2-digit scores, etc. though, no? Also `+` is optional.\n\nI think it\u0027d be a bit more fragile, even though in practice I don\u0027t know how many setups will allow \u003e 1 digit scores.\n\nI\u0027m not sure how we\u0027d check the character after the last digit of the vote.",
+      "parentUuid": "174824a6_1f070855",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

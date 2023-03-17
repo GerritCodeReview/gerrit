@@ -2134,7 +2134,12 @@ export class GrChangeView extends LitElement {
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
       }
+      // We need to fire this 'reload' event in order to trigger change-model
+      // to update 'change'.
       fireReload(this);
+      // But because the 'reload' event is looked at in this element as well.
+      // That is fired before hand so we have to call loadData() again.
+      this.loadData();
       return;
     }
 

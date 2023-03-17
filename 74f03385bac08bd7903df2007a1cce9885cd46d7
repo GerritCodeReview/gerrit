@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6825e68d_638cee56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-17T08:01:36Z",
+      "side": 1,
+      "message": "Since download-commands submodule is set to track master in stable-3.5 and onwards this patch needs to be applied to stable-3.5.",
+      "revId": "74f03385bac08bd7903df2007a1cce9885cd46d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

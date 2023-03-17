@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7221acc1_ded59b82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-03-17T15:04:27Z",
+      "side": 1,
+      "message": "From the code point of view, the change LGTM. However, I am unsure if the existing behavior is wrong.\nIIRC, in some cases the change is visible to an account if an account is explicitly added as a reviewer to the change (not 100% sure here); with e-mails it might be the same idea. (so, an e-mail is send and user can register to view it).\n\nI think @ekempin@google.com knows better about it.",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

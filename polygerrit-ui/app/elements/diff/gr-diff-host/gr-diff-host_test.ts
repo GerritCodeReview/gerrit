@@ -33,6 +33,7 @@ import {
   BasePatchSetNum,
   BlameInfo,
   CommentRange,
+  DraftState,
   EDIT,
   ImageInfo,
   NumericChangeId,
@@ -1282,7 +1283,7 @@ suite('gr-diff-host tests', () => {
           path: element.path,
           patch_set: 3 as RevisionPatchSetNum,
           line: 13,
-          __draft: true,
+          __draft: DraftState.SAVED,
         },
       ]);
       element.threads = [draftThread];

@@ -177,6 +177,24 @@
       "parentUuid": "24dcf4ff_4f380c1c",
       "revId": "29445062ad2755a0806985073050423e5e75850f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73541a50_cffee92c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-17T15:07:18Z",
+      "side": 1,
+      "message": "Could we make any assumptions regarding the branches we are looking for that could at least decrease impact?\ne.g.\n* \"Newer\" branches are more likely to be merged into other branches -\u003e sort `alreadyAccepted` by commit-date of the tip.",
+      "parentUuid": "ce30c76a_5ee77a26",
+      "revId": "29445062ad2755a0806985073050423e5e75850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

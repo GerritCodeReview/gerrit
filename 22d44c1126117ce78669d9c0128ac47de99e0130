@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32b05219_3278aa96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-17T08:16:50Z",
+      "side": 1,
+      "message": "`Release-Notes: skip`",
+      "revId": "22d44c1126117ce78669d9c0128ac47de99e0130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

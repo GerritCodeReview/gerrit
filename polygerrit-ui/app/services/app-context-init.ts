@@ -162,7 +162,8 @@ export function createAppDependencies(
           resolver(changeModelToken),
           resolver(accountsModelToken),
           appContext.restApiService,
-          appContext.reportingService
+          appContext.reportingService,
+          resolver(navigationToken)
         ),
     ],
     [

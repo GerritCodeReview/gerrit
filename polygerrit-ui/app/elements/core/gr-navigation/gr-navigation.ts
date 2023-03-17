@@ -26,4 +26,17 @@ export interface NavigationService {
    * page.redirect() eventually just calls `window.history.replaceState()`.
    */
   replaceUrl(url: string): void;
+
+  /**
+   * You can ask the router to block all navigation to other pages for a while,
+   * e.g. while there are unsaved comments. You must make sure to call
+   * `releaseNavigation()` with the same string shortly after to unblock the
+   * router.
+   */
+  blockNavigation(reason: string): void;
+
+  /**
+   * See `blockNavigation()`.
+   */
+  releaseNavigation(reason: string): void;
 }

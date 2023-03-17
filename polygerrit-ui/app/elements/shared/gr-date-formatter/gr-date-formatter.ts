@@ -189,7 +189,7 @@ export class GrDateFormatter extends LitElement {
     }
     const date = parseDate(this.dateStr as Timestamp);
     if (!isValidDate(date)) {
-      return '';
+      return 'saving';
     }
     if (this.relative) {
       return fromNow(date, this.relativeOptionNoAgo);

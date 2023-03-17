@@ -697,9 +697,11 @@ export enum ChangeStates {
   WIP = 'WIP',
 }
 
+export const ID_SAVING = 'still-saving' as UrlEncodedCommentId;
+
 export enum DraftState {
-  SAVING,
-  SAVED,
+  SAVING = 'SAVING',
+  SAVED = 'SAVED',
 }
 
 export interface DraftCommentProps {

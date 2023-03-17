@@ -697,11 +697,16 @@ export enum ChangeStates {
   WIP = 'WIP',
 }
 
+export enum DraftState {
+  SAVING = 'SAVING',
+  SAVED = 'SAVED',
+}
+
 export interface DraftCommentProps {
-  // This must be true for all drafts. Drafts received from the backend will be
-  // modified immediately with __draft:true before allowing them to get into
+  // This must be set for all drafts. Drafts received from the backend will be
+  // modified immediately with __draft:SAVED before allowing them to get into
   // the application state.
-  __draft: boolean;
+  __draft: DraftState;
 }
 
 export interface UnsavedCommentProps {

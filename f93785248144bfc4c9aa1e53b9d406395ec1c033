@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da815d29_796c4e30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-17T08:16:08Z",
+      "side": 1,
+      "message": "Maybe better: `Release-Notes: skip`.",
+      "revId": "f93785248144bfc4c9aa1e53b9d406395ec1c033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05421571_e958cd86",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-17T08:16:08Z",
+      "side": 1,
+      "message": "`forceReload` should actually cause the same reload that you are triggering with `fireReload`. So there is something fishy going on here.\n\nPlease add a TODO to clean this up. Something like:\n```\nTODO: `forceReload: true` does not seem to work as expected: The patchset is not\nupdated. Thus we are also calling `fireReload()` here. That can probably be\ncleaned up once the change-view was migrated to fully relying on the change model.\n```",
+      "revId": "f93785248144bfc4c9aa1e53b9d406395ec1c033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

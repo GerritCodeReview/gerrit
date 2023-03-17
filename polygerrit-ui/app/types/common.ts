@@ -698,8 +698,8 @@ export enum ChangeStates {
 }
 
 export enum DraftState {
-  SAVING,
-  SAVED,
+  SAVING = 'SAVING',
+  SAVED = 'SAVED',
 }
 
 export interface DraftCommentProps {

@@ -333,11 +333,6 @@ export class GrComment extends LitElement {
         :host([collapsed]) {
           padding: var(--spacing-s) var(--spacing-m);
         }
-        :host([saving]) {
-          pointer-events: none;
-        }
-        :host([saving]) .actions,
-        :host([saving]) .robotActions,
         :host([saving]) .date {
           opacity: 0.5;
         }
@@ -828,11 +823,7 @@ export class GrComment extends LitElement {
 
   private renderEditButton() {
     if (this.editing) return;
-    return html`<gr-button
-      link
-      ?disabled=${this.saving}
-      class="action edit"
-      @click=${this.edit}
+    return html`<gr-button link class="action edit" @click=${this.edit}
       >Edit</gr-button
     >`;
   }
@@ -887,7 +878,6 @@ export class GrComment extends LitElement {
         link
         secondary
         class="action show-fix"
-        ?disabled=${this.saving}
         @click=${() => this.handleShowFix()}
       >
         Show Fix
@@ -1191,6 +1181,9 @@ export class GrComment extends LitElement {
     try {
       this.saving = true;
       this.unableToSave = false;
+      if (!this.permanentEditingMode) {
+        this.editing = false;
+      }
       if (this.autoSaving) {
         this.comment = await this.autoSaving;
       }
@@ -1211,10 +1204,8 @@ export class GrComment extends LitElement {
           await this.rawSave(messageToSave, {showToast: true});
         }
       }
-      if (!this.permanentEditingMode) {
-        this.editing = false;
-      }
     } catch (e) {
+      this.editing = true;
       this.unableToSave = true;
       throw e;
     } finally {

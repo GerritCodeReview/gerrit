@@ -16,6 +16,24 @@
       "message": "Maybe better: `Release-Notes: skip`.",
       "revId": "8301ea31a8083101ab630e164d9db6ea37bde359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d80b4a08_b1613f63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-17T19:53:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "eeb59c70_482660b0",
+      "revId": "8301ea31a8083101ab630e164d9db6ea37bde359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

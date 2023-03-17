@@ -299,6 +299,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.checksRunsSelected ?? new Set<string>()
   );
 
+  public readonly forceReload$ = select(
+    this.state$,
+    state => state?.forceReload
+  );
+
   constructor() {
     super(undefined);
     this.state$.subscribe(s => {

@@ -41,10 +41,13 @@
     "lit": "^2.2.3",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
-    "resemblejs": "^4.0.0",
+    "resemblejs": "^4.1.0",
     "rxjs": "^6.6.7",
     "safevalues": "^0.3.1",
     "web-vitals": "^3.0.0"
+  },
+  "resolutions": {
+    "canvas": "2.11.0"
   },
   "license": "Apache-2.0",
   "private": true

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b93b8549_1fcd8235",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-19T14:48:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to fix the license error. That package isn\u0027t really a package but also using nonPackages does not fix it (its like it\u0027s own package).",
+      "revId": "da6e264b26e5e35324420a925e572d7bfab10b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0cd53f4_6c564bfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-19T15:47:28Z",
+      "side": 1,
+      "message": "Ohh... we do https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#L2137 so i\u0027m not sure why that\u0027s not triggering the reload$",
+      "revId": "dc4e2e211ac11854dc26b9e775a86dde9ff2c811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03c61175_3664c90b",

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e728f66a_603cb2bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-19T16:17:23Z",
+      "side": 1,
+      "message": "So if i added this.loadData() under that fireReload, it works. We listen to the reload event in that element but that seems to be triggered before change-model is, so i think change is outdated in loadData when that is fired.",
+      "parentUuid": "a0cd53f4_6c564bfa",
+      "revId": "dc4e2e211ac11854dc26b9e775a86dde9ff2c811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03c61175_3664c90b",

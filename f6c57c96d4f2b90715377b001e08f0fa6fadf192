@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc476758_f0706da9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-19T16:59:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there\u0027s a better fix. As described in my earlier comment. What happens here is the reload event is triggered, but the listeners gets triggered before the change-model, thus loadData looks at an older \u0027change\u0027. The \u0027change\u0027 is updated after.",
+      "revId": "f6c57c96d4f2b90715377b001e08f0fa6fadf192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

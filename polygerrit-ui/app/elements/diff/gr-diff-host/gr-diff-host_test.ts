@@ -1486,7 +1486,7 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [
             {
-              a: [new Array(501).join('*')],
+              a: [Array.from({length: 501}).fill('*')],
             },
           ],
         })
@@ -1542,7 +1542,7 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [
             {
-              a: [new Array(501).join('*')],
+              a: [Array.from({length: 501}).fill('*')],
             },
           ],
         })

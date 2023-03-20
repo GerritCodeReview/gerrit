@@ -105,7 +105,7 @@ suite('gr-list-view tests', () => {
 
   test('next button', async () => {
     element.itemsPerPage = 25;
-    element.items = new Array(26);
+    element.items = Array.from({length: 26});
     element.loading = false;
     await element.updateComplete;
 
@@ -116,7 +116,7 @@ suite('gr-list-view tests', () => {
     assert.isFalse(element.hideNextArrow());
     element.items = [];
     assert.isTrue(element.hideNextArrow());
-    element.items = new Array(4);
+    element.items = Array.from({length: 4});
     assert.isTrue(element.hideNextArrow());
   });
 

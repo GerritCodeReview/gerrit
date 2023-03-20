@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f1bda7_b74964d0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-20T08:29:22Z",
+      "side": 1,
+      "message": "Wrap lines at 80 characters.",
+      "revId": "a66b074010a54c9bace6003b59720db19b2257a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

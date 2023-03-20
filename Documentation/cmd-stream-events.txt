@@ -311,9 +311,11 @@ comment:: Review comment cover message.
 
 === Project Head Updated
 
-Sent when project's head is updated.
+Sent when project's head is updated
 
 type:: "project-head-updated"
+
+projectName:: The project which had its HEAD updated
 
 oldHead:: The old project head name
 

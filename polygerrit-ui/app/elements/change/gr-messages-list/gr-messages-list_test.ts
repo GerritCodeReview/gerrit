@@ -53,8 +53,8 @@ const createComment = function () {
   };
 };
 
-const randomMessage = function (opt_params?: ChangeMessageInfo) {
-  const params = opt_params || ({} as ChangeMessageInfo);
+const randomMessage = function (params?: ChangeMessageInfo) {
+  params = params || ({} as ChangeMessageInfo);
   const author1 = {
     _account_id: 1115495 as AccountId,
     name: 'Andrew Bonventre',

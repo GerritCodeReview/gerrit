@@ -1974,13 +1974,13 @@ suite('gr-reply-dialog tests', () => {
 
     const mapReviewer = function (
       reviewer: AccountInfo,
-      opt_state?: ReviewerState
+      state?: ReviewerState
     ) {
       const result: ReviewerInput = {
         reviewer: reviewer._account_id as AccountId,
       };
-      if (opt_state) {
-        result.state = opt_state;
+      if (state) {
+        result.state = state;
       }
       return result;
     };

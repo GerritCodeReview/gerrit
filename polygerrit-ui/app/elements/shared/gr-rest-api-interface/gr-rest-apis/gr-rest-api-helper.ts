@@ -414,9 +414,7 @@ s   */
 
     const params: Array<string | number | boolean> = [];
     for (const [p, paramValue] of Object.entries(fetchParams)) {
-      // TODO(TS): Replace == null with === and check for null and undefined
-      // eslint-disable-next-line eqeqeq
-      if (paramValue == null) {
+      if (paramValue === null || paramValue === undefined) {
         params.push(this.encodeRFC5987(p));
         continue;
       }

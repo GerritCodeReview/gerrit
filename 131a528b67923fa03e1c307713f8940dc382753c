@@ -33,6 +33,24 @@
       "message": "this change breaks the following tests in SubmoduleSubscriptionsWholeTopicMergeIT:\n- twoProjectsMultipleBranchesWholeTopic\n- sameProjectDifferentBranchDifferentPaths\n- projectNoSubscriptionWholeTopic\nfor configs rebaseAlways and rebaseNecessary",
       "revId": "131a528b67923fa03e1c307713f8940dc382753c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f74a1c_26d572d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-20T07:46:14Z",
+      "side": 1,
+      "message": "Yes, I noticed. Looks like that we have to mark commits created by submodule subscription as uninteresting as well.",
+      "parentUuid": "eda848d3_e42a3d8a",
+      "revId": "131a528b67923fa03e1c307713f8940dc382753c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

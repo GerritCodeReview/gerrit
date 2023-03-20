@@ -687,9 +687,7 @@ export class GrRelatedChangesList extends LitElement {
     while (pos >= 0) {
       const commit: CommitId = commits[pos].commit;
       connected.push(commit);
-      // TODO(TS): Ensure that both (commit and changeRevision) are string and use === instead
-      // eslint-disable-next-line eqeqeq
-      if (commit == changeRevision) {
+      if (commit === changeRevision) {
         break;
       }
       pos--;

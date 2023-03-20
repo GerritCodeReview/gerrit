@@ -27,17 +27,24 @@ suite('gr-user-suggestion-fix tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `<div class="header">
-          <div class="title">Suggested fix</div>
-          <div>
+          <div class="title">
+            <span>Suggested edit</span>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
+              target="_blank"
+              ><gr-icon icon="help" title="read documentation"></gr-icon
+            ></a>
+          </div>
+          <div class="copyButton">
             <gr-copy-clipboard
               hideinput=""
               text="Hello World"
-              copytargetname="Suggested fix"
+              copytargetname="Suggested edit"
             ></gr-copy-clipboard>
           </div>
           <div>
-            <gr-button class="action show-fix" secondary=""
-              >Preview Fix</gr-button
+            <gr-button class="action show-fix" secondary="" flatten=""
+              >Show edit</gr-button
             >
           </div>
         </div>

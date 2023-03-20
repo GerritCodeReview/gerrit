@@ -71,7 +71,7 @@ const randomMessage = function (params?: ChangeMessageInfo) {
 };
 
 function generateRandomMessages(count: number) {
-  return new Array(count)
+  return Array.from({length: count})
     .fill(undefined)
     .map(() => randomMessage()) as ChangeMessageInfo[];
 }

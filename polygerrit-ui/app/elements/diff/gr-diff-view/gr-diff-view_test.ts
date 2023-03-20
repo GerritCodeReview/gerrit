@@ -51,7 +51,7 @@ import {CursorMoveResult} from '../../../api/core';
 import {Side} from '../../../api/diff';
 import {Files, GrDiffView} from './gr-diff-view';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {SinonFakeTimers, SinonStub} from 'sinon';
+import {SinonFakeTimers, SinonStub, SinonStubbedMember} from 'sinon';
 import {
   changeModelToken,
   ChangeModel,
@@ -76,6 +76,7 @@ import {
   changeViewModelToken,
 } from '../../../models/views/change';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 function createComment(
   id: string,
@@ -97,7 +98,7 @@ suite('gr-diff-view tests', () => {
     let element: GrDiffView;
     let clock: SinonFakeTimers;
     let diffCommentsStub;
-    let getDiffRestApiStub: SinonStub;
+    let getDiffRestApiStub: SinonStubbedMember<RestApiService['getDiff']>;
     let navToChangeStub: SinonStub;
     let navToDiffStub: SinonStub;
     let navToEditStub: SinonStub;

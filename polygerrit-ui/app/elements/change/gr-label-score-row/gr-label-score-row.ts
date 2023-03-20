@@ -168,7 +168,7 @@ export class GrLabelScoreRow extends LitElement {
   // Render blank cells so that all same value votes are aligned
   private renderBlankItems(position: string) {
     const blankItemCount = this.computeBlankItemsCount(position);
-    return new Array(blankItemCount)
+    return Array.from({length: blankItemCount})
       .fill('')
       .map(
         () => html`

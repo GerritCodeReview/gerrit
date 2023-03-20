@@ -141,7 +141,10 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('computeRelativeIndex', () => {
-    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.sections = [
+      {results: Array.from({length: 1})},
+      {results: Array.from({length: 2})},
+    ];
 
     let selectedChangeIndex = 0;
     assert.equal(
@@ -228,7 +231,10 @@ suite('gr-change-list basic tests', () => {
 
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
-    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.sections = [
+      {results: Array.from({length: 1})},
+      {results: Array.from({length: 2})},
+    ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();
     element.config = createServerInfo();
@@ -300,7 +306,10 @@ suite('gr-change-list basic tests', () => {
       queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
 
     sinon.stub(element, 'computeLabelNames');
-    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.sections = [
+      {results: Array.from({length: 1})},
+      {results: Array.from({length: 2})},
+    ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();
     element.config = createServerInfo();

@@ -77,6 +77,7 @@ import {
 } from '../../../models/views/change';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 
 function createComment(
   id: string,
@@ -99,9 +100,9 @@ suite('gr-diff-view tests', () => {
     let clock: SinonFakeTimers;
     let diffCommentsStub;
     let getDiffRestApiStub: SinonStubbedMember<RestApiService['getDiff']>;
-    let navToChangeStub: SinonStub;
-    let navToDiffStub: SinonStub;
-    let navToEditStub: SinonStub;
+    let navToChangeStub: SinonStubbedMember<ChangeModel['navigateToChange']>;
+    let navToDiffStub: SinonStubbedMember<ChangeModel['navigateToDiff']>;
+    let navToEditStub: SinonStubbedMember<ChangeModel['navigateToEdit']>;
     let changeModel: ChangeModel;
     let viewModel: ChangeViewModel;
     let commentsModel: CommentsModel;
@@ -537,8 +538,11 @@ suite('gr-diff-view tests', () => {
       element.basePatchNum = 5 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffAgainstBase();
-      const expected = [{path: 'some/path.txt'}, 10, PARENT];
-      assert.deepEqual(navToDiffStub.lastCall.args, expected);
+      assert.deepEqual(navToDiffStub.lastCall.args, [
+        {path: 'some/path.txt'},
+        10 as RevisionPatchSetNum,
+        PARENT,
+      ]);
     });
 
     test('diff against latest', async () => {
@@ -548,8 +552,11 @@ suite('gr-diff-view tests', () => {
       element.basePatchNum = 5 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffAgainstLatest();
-      const expected = [{path: 'foo'}, 12, 5];
-      assert.deepEqual(navToDiffStub.lastCall.args, expected);
+      assert.deepEqual(navToDiffStub.lastCall.args, [
+        {path: 'foo'},
+        12 as RevisionPatchSetNum,
+        5 as BasePatchSetNum,
+      ]);
     });
 
     test('handleDiffBaseAgainstLeft', async () => {
@@ -565,8 +572,11 @@ suite('gr-diff-view tests', () => {
       });
       await element.updateComplete;
       element.handleDiffBaseAgainstLeft();
-      const expected = [{path: 'foo'}, 1, PARENT];
-      assert.deepEqual(navToDiffStub.lastCall.args, expected);
+      assert.deepEqual(navToDiffStub.lastCall.args, [
+        {path: 'foo'},
+        1 as RevisionPatchSetNum,
+        PARENT,
+      ]);
     });
 
     test('handleDiffRightAgainstLatest', async () => {
@@ -576,8 +586,11 @@ suite('gr-diff-view tests', () => {
       element.basePatchNum = 1 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffRightAgainstLatest();
-      const expected = [{path: 'foo'}, 10, 3];
-      assert.deepEqual(navToDiffStub.lastCall.args, expected);
+      assert.deepEqual(navToDiffStub.lastCall.args, [
+        {path: 'foo'},
+        10 as RevisionPatchSetNum,
+        3 as BasePatchSetNum,
+      ]);
     });
 
     test('handleDiffBaseAgainstLatest', async () => {
@@ -586,8 +599,11 @@ suite('gr-diff-view tests', () => {
       element.basePatchNum = 1 as BasePatchSetNum;
       await element.updateComplete;
       element.handleDiffBaseAgainstLatest();
-      const expected = [{path: 'some/path.txt'}, 10, PARENT];
-      assert.deepEqual(navToDiffStub.lastCall.args, expected);
+      assert.deepEqual(navToDiffStub.lastCall.args, [
+        {path: 'some/path.txt'},
+        10 as RevisionPatchSetNum,
+        PARENT,
+      ]);
     });
 
     test('A fires an error event when not logged in', async () => {
@@ -1669,12 +1685,16 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('switching files', () => {
-      let dispatchEventStub: SinonStub;
-      let navToFileStub: SinonStub;
-      let moveToPreviousChunkStub: SinonStub;
-      let moveToNextChunkStub: SinonStub;
-      let isAtStartStub: SinonStub;
-      let isAtEndStub: SinonStub;
+      let dispatchEventStub: SinonStubbedMember<Element['dispatchEvent']>;
+      let navToFileStub: SinonStubbedMember<GrDiffView['navToFile']>;
+      let moveToPreviousChunkStub: SinonStubbedMember<
+        GrDiffCursor['moveToPreviousChunk']
+      >;
+      let moveToNextChunkStub: SinonStubbedMember<
+        GrDiffCursor['moveToNextChunk']
+      >;
+      let isAtStartStub: SinonStubbedMember<GrDiffCursor['isAtStart']>;
+      let isAtEndStub: SinonStubbedMember<GrDiffCursor['isAtEnd']>;
       let nowStub: SinonStub;
 
       setup(() => {

@@ -16,6 +16,24 @@
       "message": "This seems to be my fault. To make the build in Gerrit core work with my change that touched Gerrit core and the download-commands plugin, I updated the submodule manually. This seems to have broken the submodule subscription. Sorry for that!",
       "revId": "2ae93ee0f4fa2a04adad3e6f0a54cbaf4470903c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de2fa30_89da639a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:39:59Z",
+      "side": 1,
+      "message": "Strange that that should break the submodule subscription.\nIt\u0027s broken for stable-3.5 also and there it was me who manually updated the submodule, so I\u0027m equally to blame in that case 😊.",
+      "parentUuid": "2b2ff9ed_19cd1cd7",
+      "revId": "2ae93ee0f4fa2a04adad3e6f0a54cbaf4470903c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

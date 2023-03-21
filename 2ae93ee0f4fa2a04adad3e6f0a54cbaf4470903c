@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b2ff9ed_19cd1cd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-21T14:48:17Z",
+      "side": 1,
+      "message": "This seems to be my fault. To make the build in Gerrit core work with my change that touched Gerrit core and the download-commands plugin, I updated the submodule manually. This seems to have broken the submodule subscription. Sorry for that!",
+      "revId": "2ae93ee0f4fa2a04adad3e6f0a54cbaf4470903c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

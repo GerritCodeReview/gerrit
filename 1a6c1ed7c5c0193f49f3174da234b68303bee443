@@ -22,6 +22,30 @@
       },
       "revId": "1a6c1ed7c5c0193f49f3174da234b68303bee443",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4fe592e_9f5c41dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-21T11:02:58Z",
+      "side": 1,
+      "message": "getDiffRestApiStub was wrongly typed hence did not catch the error. 😞\nFixed the typing now.",
+      "parentUuid": "83ca7b42_88bf06aa",
+      "range": {
+        "startLine": 1489,
+        "startChar": 18,
+        "endLine": 1489,
+        "endChar": 53
+      },
+      "revId": "1a6c1ed7c5c0193f49f3174da234b68303bee443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

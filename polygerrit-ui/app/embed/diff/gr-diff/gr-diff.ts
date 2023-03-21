@@ -316,7 +316,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
         }
         .diffContainer {
           max-width: var(--diff-max-width, none);
-          display: flex;
           font-family: var(--monospace-font-family);
         }
         table {

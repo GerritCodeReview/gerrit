@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36629a64_9adb1515",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:37:19Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this. From what I recall you wouldn\u0027t end up here if `c` is the latest patch-set of a merged change. Am I remembering wrong?\nAnyhow, this optimization isn\u0027t mentioned in the commit-message.",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fba52945_b9497f9e",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:37:19Z",
+      "side": 1,
+      "message": "If it only makes sense to perform this check when there\u0027s a merge in the list of commits to be submitted, wouldn\u0027t it make sense performance-wise to check for this first?\n\n`if (toSortContainsMerge\n              \u0026\u0026 (isAlreadyMergedInSameBranch(c, n.change().getDest()) || isAlreadyMergedInAnyBranch(c)))`",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 74
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fea5cb8_8a28bd0b",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:37:19Z",
+      "side": 1,
+      "message": "`isMergedInBranchAsSubmittedChange` or similar.\n\n* This method won\u0027t find commits that aren\u0027t patch-sets of merged changes.\n* `InSameBranch` doesn\u0027t make sense to me in this context since it reads \"merged in same branch as `dest`\", when it\u0027s really \"merged in `dest`\".",
+      "range": {
+        "startLine": 131,
+        "startChar": 18,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "709c6abc_0e13fc2e",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:37:19Z",
+      "side": 1,
+      "message": "nit: Wouldn\u0027t this theoretically also include changes where `commit` isn\u0027t the latest patch-set?\nIf so would we need to filter such changes from `changes`?",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "907be60d_3c4acb03",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T15:37:19Z",
+      "side": 1,
+      "message": "Let the index do the filtering?\n```suggestion\n    List\u003cChangeData\u003e changes \u003d queryProvider.get().byBranchCommit(dest, commit);\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 51,
+        "endLine": 132,
+        "endChar": 59
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

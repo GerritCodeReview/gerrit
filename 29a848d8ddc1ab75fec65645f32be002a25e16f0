@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cfc963d_30d25d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71aeba7c_0ad66895",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "236292dc_94ee3037",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38792c05_c9b77b71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "236292dc_94ee3037",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a721535_fd644984",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-20T22:16:17Z",
       "side": 1,
       "message": "nit: packed-refs",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f457a40_598c785e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a721535_fd644984",
       "range": {
         "startLine": 13,
         "startChar": 7,
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "745973a5_7dc125fe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2074,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fd86c10_2d6cf161",
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "404be639_b784efa6",
@@ -117,6 +207,24 @@
       "writtenOn": "2023-03-20T22:16:17Z",
       "side": 1,
       "message": "nit: Should go first in the file?",
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6253b63f_24158ea0",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadRefDbCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "404be639_b784efa6",
       "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +246,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f9b9eee_6afc407e",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadRefDbCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c60d1bb6_a2cbff4d",
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca081f9_d2a9b5d3",
@@ -155,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64352a1_9850dd83",
+        "filename": "java/com/google/gerrit/server/git/DynamicRefDbRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca081f9_d2a9b5d3",
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc79d6f9_ddb28752",
@@ -168,6 +312,30 @@
       "writtenOn": "2023-03-20T22:16:17Z",
       "side": 1,
       "message": "nit: Maybe `refDatabaseProvider`?",
+      "range": {
+        "startLine": 29,
+        "startChar": 55,
+        "endLine": 29,
+        "endChar": 66
+      },
+      "revId": "29a848d8ddc1ab75fec65645f32be002a25e16f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae909c9c_47d7ed01",
+        "filename": "java/com/google/gerrit/server/git/DynamicRefDbRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-21T14:44:45Z",
+      "side": 1,
+      "message": "Used Supplier instead of Provider.",
+      "parentUuid": "cc79d6f9_ddb28752",
       "range": {
         "startLine": 29,
         "startChar": 55,

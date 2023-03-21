@@ -46,7 +46,7 @@ import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-bu
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
-import {SinonStub} from 'sinon';
+import {SinonStub, SinonStubbedMember} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -54,11 +54,12 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken, UserModel} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
   let account = createAccountDetailWithId(1);
-  let getDiffRestApiStub: SinonStub;
+  let getDiffRestApiStub: SinonStubbedMember<RestApiService['getDiff']>;
   let userModel: UserModel;
 
   setup(async () => {
@@ -1486,7 +1487,7 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [
             {
-              a: [new Array(501).join('*')],
+              a: ['*'.repeat(501)],
             },
           ],
         })
@@ -1542,7 +1543,7 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [
             {
-              a: [new Array(501).join('*')],
+              a: ['*'.repeat(501)],
             },
           ],
         })

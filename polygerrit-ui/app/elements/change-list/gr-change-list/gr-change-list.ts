@@ -229,7 +229,7 @@ export class GrChangeList extends LitElement {
   }
 
   private calculateStartIndices(sections: ChangeListSection[]): number[] {
-    const startIndices: number[] = new Array(sections.length).fill(0);
+    const startIndices = Array.from<number>({length: sections.length}).fill(0);
     for (let i = 1; i < sections.length; ++i) {
       startIndices[i] = startIndices[i - 1] + sections[i - 1].results.length;
     }

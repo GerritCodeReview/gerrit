@@ -10,14 +10,18 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {GrCreateFileEditDialog} from './gr-create-file-edit-dialog';
 import {stubRestApi, waitUntilCalled} from '../../../test/test-utils';
 import {BranchName, RepoName} from '../../../api/rest-api';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {testResolver} from '../../../test/common-test-setup';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {
+  NavigationService,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 suite('gr-create-file-edit-dialog', () => {
   let element: GrCreateFileEditDialog;
-  let createChangeStub: SinonStub;
-  let setUrlStub: SinonStub;
+  let createChangeStub: SinonStubbedMember<RestApiService['createChange']>;
+  let setUrlStub: SinonStubbedMember<NavigationService['setUrl']>;
 
   setup(async () => {
     createChangeStub = stubRestApi('createChange').resolves(createChange());

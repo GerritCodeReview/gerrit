@@ -5,7 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-message';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {
+  NavigationService,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {
   createAccountWithIdNameAndEmail,
   createChange,
@@ -39,7 +42,7 @@ import {
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
@@ -423,7 +426,7 @@ suite('gr-message tests', () => {
     });
 
     suite('uploaded patchset X message navigates to X - 1 vs  X', () => {
-      let setUrlStub: SinonStub;
+      let setUrlStub: SinonStubbedMember<NavigationService['setUrl']>;
       setup(() => {
         element.change = {...createChange(), revisions: createRevisions(4)};
         setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');

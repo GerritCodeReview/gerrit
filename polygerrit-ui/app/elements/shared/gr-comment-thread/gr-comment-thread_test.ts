@@ -26,12 +26,15 @@ import {
   createAccountDetailWithId,
   createThread,
 } from '../../../test/test-data-generators';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';
-import {commentsModelToken} from '../../../models/comments/comments-model';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../../../models/comments/comments-model';
 import {testResolver} from '../../../test/common-test-setup';
 
 const c1 = {
@@ -310,7 +313,7 @@ suite('gr-comment-thread tests', () => {
 
   suite('action button clicks', () => {
     let savePromise: MockPromise<DraftInfo>;
-    let stub: SinonStub;
+    let stub: SinonStubbedMember<CommentsModel['saveDraft']>;
 
     setup(async () => {
       savePromise = mockPromise<DraftInfo>();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8375adf7_fc6e6bc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-21T14:26:13Z",
+      "side": 1,
+      "message": "The improvement for the RebaseSorter I did (https://gerrit-review.googlesource.com/c/gerrit/+/364134) caused these tests to fail. Debugging showed that the tests were actually not behaving correctly.",
+      "revId": "9f4fb9c4226825034e6edecd9a7bcba1808e44eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

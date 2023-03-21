@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {
   AccountId,
   BranchName,
@@ -13,7 +13,10 @@ import {
   RepoName,
   TopicName,
 } from '../../api/rest-api';
-import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
+import {
+  NavigationService,
+  navigationToken,
+} from '../../elements/core/gr-navigation/gr-navigation';
 import '../../test/common-test-setup';
 import {testResolver} from '../../test/common-test-setup';
 import {createChange} from '../../test/test-data-generators';
@@ -78,7 +81,7 @@ suite('search view state tests', () => {
   });
 
   suite('query based navigation', () => {
-    let replaceUrlStub: SinonStub;
+    let replaceUrlStub: SinonStubbedMember<NavigationService['replaceUrl']>;
     let model: SearchViewModel;
 
     setup(() => {

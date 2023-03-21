@@ -7,18 +7,21 @@ import '../../../test/common-test-setup';
 import './gr-plugin-host';
 import {GrPluginHost} from './gr-plugin-host';
 import {fixture, html, assert} from '@open-wc/testing';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {
   ConfigModel,
   configModelToken,
 } from '../../../models/config/config-model';
 import {testResolver} from '../../../test/common-test-setup';
-import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-plugin-host tests', () => {
   let element: GrPluginHost;
-  let loadPluginsStub: SinonStub;
+  let loadPluginsStub: SinonStubbedMember<PluginLoader['loadPlugins']>;
   let configModel: ConfigModel;
 
   setup(async () => {

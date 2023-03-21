@@ -54,6 +54,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken, UserModel} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 suite('gr-diff-host tests', () => {
@@ -817,7 +818,7 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('reportDiff', () => {
-    let reportStub: SinonStub;
+    let reportStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
     setup(async () => {
       element = await fixture(html`<gr-diff-host></gr-diff-host>`);

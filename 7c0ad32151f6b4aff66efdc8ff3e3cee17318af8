@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45a81ee_e7dc8f06",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-21T15:52:13Z",
+      "side": 1,
+      "message": "which information does repeating this comment add ?\ninstead you could append \"in both repos\" to the comment in line 707",
+      "revId": "7c0ad32151f6b4aff66efdc8ff3e3cee17318af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de99da4_fccbaef7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-21T15:52:13Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "7c0ad32151f6b4aff66efdc8ff3e3cee17318af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

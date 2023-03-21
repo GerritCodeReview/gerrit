@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1feaa809_e730f9f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T14:46:49Z",
+      "side": 1,
+      "message": "I would delete this, the lines at 25-27 explains this in a much clearer fashion.",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "9f4fb9c4226825034e6edecd9a7bcba1808e44eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8375adf7_fc6e6bc3",
@@ -14,6 +37,29 @@
       "writtenOn": "2023-03-21T14:26:13Z",
       "side": 1,
       "message": "The improvement for the RebaseSorter I did (https://gerrit-review.googlesource.com/c/gerrit/+/364134) caused these tests to fail. Debugging showed that the tests were actually not behaving correctly.",
+      "revId": "9f4fb9c4226825034e6edecd9a7bcba1808e44eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b58cf116_149f898b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-21T14:46:49Z",
+      "side": 1,
+      "message": "```suggestion\n    // bootstrap the master branch\n```",
+      "range": {
+        "startLine": 788,
+        "startChar": 21,
+        "endLine": 788,
+        "endChar": 24
+      },
       "revId": "9f4fb9c4226825034e6edecd9a7bcba1808e44eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

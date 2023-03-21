@@ -37,7 +37,7 @@ import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
@@ -745,7 +745,7 @@ suite('gr-comment tests', () => {
   suite('auto saving', () => {
     let clock: sinon.SinonFakeTimers;
     let savePromise: MockPromise<DraftInfo>;
-    let saveStub: SinonStub;
+    let saveStub: SinonStubbedMember<CommentsModel['saveDraft']>;
 
     setup(async () => {
       clock = sinon.useFakeTimers();

@@ -1490,7 +1490,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
       Set<BranchNameKey> destinations = getDestinationList(git, account).getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
-        return new DestinationPredicate(destinations, value);
+        return new BranchSetIndexPredicate(FIELD_DESTINATION + ":" + value, destinations);
       }
     } catch (RepositoryNotFoundException e) {
       throw new QueryParseException(

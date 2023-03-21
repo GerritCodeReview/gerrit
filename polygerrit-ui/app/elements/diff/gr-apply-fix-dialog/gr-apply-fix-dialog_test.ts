@@ -5,7 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-apply-fix-dialog';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {
+  NavigationService,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
 import {PatchSetNum} from '../../../types/common';
@@ -20,12 +23,12 @@ import {DiffInfo} from '../../../types/diff';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
-import {SinonStub} from 'sinon';
+import {SinonStubbedMember} from 'sinon';
 import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
-  let setUrlStub: SinonStub;
+  let setUrlStub: SinonStubbedMember<NavigationService['setUrl']>;
 
   const TWO_FIXES: OpenFixPreviewEventDetail = {
     patchNum: 2 as PatchSetNum,

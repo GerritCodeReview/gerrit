@@ -46,7 +46,7 @@ import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-bu
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
-import {SinonStub} from 'sinon';
+import {SinonStub, SinonStubbedMember} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -54,6 +54,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken, UserModel} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -816,7 +817,7 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('reportDiff', () => {
-    let reportStub: SinonStub;
+    let reportStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
     setup(async () => {
       element = await fixture(html`<gr-diff-host></gr-diff-host>`);

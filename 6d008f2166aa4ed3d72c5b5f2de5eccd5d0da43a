@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41379470_42444939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-21T16:03:27Z",
+      "side": 1,
+      "message": "add a link to the change which implemented this check ?",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36629a64_9adb1515",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9
@@ -43,6 +60,23 @@
         "endLine": 83,
         "endChar": 74
       },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ce80ed_b0c89857",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-21T16:03:27Z",
+      "side": 1,
+      "message": "I think additional performance improvements are possible here:\n\nWe should pass all branches to RevWalk#isMergedInto(RevCommit, Collection\u003cRef\u003e) in one go instead of looping over all branches and running isMergedInto for each branch individually.\n\nIn addition RevWalk#isMergedIntoAny(RevCommit commit, Collection\u003cRef\u003e refs) could be improved to exit early when it found a first Ref the commit is merged into.",
       "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

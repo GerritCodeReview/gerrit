@@ -32,7 +32,7 @@ import {ChangeInfo, NumericChangeId, TopicName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-topic-flow';
-import type {GrChangeListTopicFlow} from './gr-change-list-topic-flow';
+import {GrChangeListTopicFlow} from './gr-change-list-topic-flow';
 
 suite('gr-change-list-topic-flow tests', () => {
   let element: GrChangeListTopicFlow;

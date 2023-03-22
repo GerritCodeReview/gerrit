@@ -41,7 +41,7 @@ import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import './gr-change-list-reviewer-flow';
-import type {GrChangeListReviewerFlow} from './gr-change-list-reviewer-flow';
+import {GrChangeListReviewerFlow} from './gr-change-list-reviewer-flow';
 
 const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),

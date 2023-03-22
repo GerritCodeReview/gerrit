@@ -19,7 +19,7 @@ import {
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import './gr-change-list-action-bar';
-import type {GrChangeListActionBar} from './gr-change-list-action-bar';
+import {GrChangeListActionBar} from './gr-change-list-action-bar';
 
 const change1 = {...createChange(), _number: 1 as NumericChangeId, actions: {}};
 const change2 = {...createChange(), _number: 2 as NumericChangeId, actions: {}};

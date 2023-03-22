@@ -65,6 +65,8 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {isOwner} from '../../../utils/change-util';
+import {waitForEventOnce} from '../../../utils/event-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -177,9 +179,9 @@ suite('gr-reply-dialog tests', () => {
     );
   }
 
-  function interceptSaveReview() {
+  function interceptSaveReview(): Promise<ReviewInput> {
     let resolver: (review: ReviewInput) => void;
-    const promise = new Promise(resolve => {
+    const promise = new Promise<ReviewInput>(resolve => {
       resolver = resolve;
     });
     stubSaveReview((review: ReviewInput) => {
@@ -257,7 +259,7 @@ suite('gr-reply-dialog tests', () => {
                     <span> No changes to the attention set. </span>
                     <gr-tooltip-content
                       has-tooltip=""
-                      title="Edit attention set changes"
+                      title="Modify the attention set by adding a comment or use the account hovercard in the change page."
                     >
                       <gr-button
                         aria-disabled="true"
@@ -598,6 +600,7 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [];
     element.draftCommentThreads = draftThreads;
     element.includeComments = includeComments;
+    element.isOwner = isOwner(change, element.account);
 
     await element.updateComplete;
 
@@ -1067,6 +1070,7 @@ suite('gr-reply-dialog tests', () => {
     // If the change is "work in progress" and the owner sends a reply, then
     // add all reviewers.
     element.canBeStarted = true;
+    element.isOwner = isOwner(element.change, element.account);
     element.computeNewAttention();
     await element.updateComplete;
     assert.sameMembers(
@@ -1076,6 +1080,7 @@ suite('gr-reply-dialog tests', () => {
 
     // ... but not when someone else replies.
     element.account = {_account_id: 4 as AccountId};
+    element.isOwner = isOwner(element.change, element.account);
     element.computeNewAttention();
     assert.sameMembers([...element.newAttentionSet], []);
   });
@@ -1636,10 +1641,10 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('chooseFocusTarget', () => {
-    element.account = undefined;
+    element.isOwner = false;
     assert.equal(element.chooseFocusTarget(), element.FocusTarget.BODY);
 
-    element.account = element.change!.owner;
+    element.isOwner = true;
     assert.equal(element.chooseFocusTarget(), element.FocusTarget.REVIEWERS);
 
     element.change!.reviewers.REVIEWER = [createAccountWithId(314)];
@@ -2087,16 +2092,26 @@ suite('gr-reply-dialog tests', () => {
     pressKey(element, Key.ENTER);
   });
 
-  test('emit send on ctrl+enter key', async () => {
-    // required so that "Send" button is enabled
+  test('send and start review on ctrl+enter for owner', async () => {
     element.canBeStarted = true;
+    element.isOwner = true;
     await element.updateComplete;
 
-    stubSaveReview(() => undefined);
-    const promise = mockPromise();
-    element.addEventListener('send', () => promise.resolve());
+    const savePromise = interceptSaveReview();
     pressKey(element, Key.ENTER, Modifier.CTRL_KEY);
-    await promise;
+    const reviewInput = await savePromise;
+    assert.isTrue(reviewInput.ready);
+  });
+
+  test('save on ctrl+enter for reviewer', async () => {
+    element.canBeStarted = true;
+    element.isOwner = false;
+    await element.updateComplete;
+
+    const savePromise = interceptSaveReview();
+    pressKey(element, Key.ENTER, Modifier.CTRL_KEY);
+    const reviewInput = await savePromise;
+    assert.isUndefined(reviewInput.ready);
   });
 
   test('computeMessagePlaceholder', async () => {
@@ -2112,14 +2127,14 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('computeSendButtonLabel', async () => {
+  test('sendButton text', async () => {
     element.canBeStarted = false;
     await element.updateComplete;
-    assert.equal(element.sendButtonLabel, 'Send');
+    assert.equal(element.sendButton?.innerText, 'SEND');
 
     element.canBeStarted = true;
     await element.updateComplete;
-    assert.equal(element.sendButtonLabel, 'Send and Start review');
+    assert.equal(element.sendButton?.innerText, 'SEND AND START REVIEW');
   });
 
   test('handle400Error reviewers and CCs', async () => {
@@ -2239,7 +2254,7 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  test('computeSendButtonDisabled_canBeStarted', () => {
+  test('isSendDisabled_canBeStarted', () => {
     // Mock canBeStarted
     element.canBeStarted = true;
     element.draftCommentThreads = [];
@@ -2250,10 +2265,10 @@ suite('gr-reply-dialog tests', () => {
     element.disabled = false;
     element.commentEditing = false;
     element.account = makeAccount();
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_allFalse', () => {
+  test('isSendDisabled_allFalse', () => {
     // Mock everything false
     element.canBeStarted = false;
     element.draftCommentThreads = [];
@@ -2264,10 +2279,10 @@ suite('gr-reply-dialog tests', () => {
     element.disabled = false;
     element.commentEditing = false;
     element.account = makeAccount();
-    assert.isTrue(element.computeSendButtonDisabled());
+    assert.isTrue(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_draftCommentsSend', () => {
+  test('isSendDisabled_draftCommentsSend', () => {
     // Mock nonempty comment draft array; with sending comments.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2278,10 +2293,10 @@ suite('gr-reply-dialog tests', () => {
     element.disabled = false;
     element.commentEditing = false;
     element.account = makeAccount();
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_draftCommentsDoNotSend', () => {
+  test('isSendDisabled_draftCommentsDoNotSend', () => {
     // Mock nonempty comment draft array; without sending comments.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2293,10 +2308,10 @@ suite('gr-reply-dialog tests', () => {
     element.commentEditing = false;
     element.account = makeAccount();
 
-    assert.isTrue(element.computeSendButtonDisabled());
+    assert.isTrue(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_changeMessage', () => {
+  test('isSendDisabled_changeMessage', () => {
     // Mock nonempty change message.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2308,10 +2323,10 @@ suite('gr-reply-dialog tests', () => {
     element.commentEditing = false;
     element.account = makeAccount();
 
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabledreviewersChanged', () => {
+  test('isSendDisabledreviewersChanged', () => {
     // Mock reviewers mutated.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2323,10 +2338,10 @@ suite('gr-reply-dialog tests', () => {
     element.commentEditing = false;
     element.account = makeAccount();
 
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_labelsChanged', () => {
+  test('isSendDisabled_labelsChanged', () => {
     // Mock labels changed.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2338,10 +2353,10 @@ suite('gr-reply-dialog tests', () => {
     element.commentEditing = false;
     element.account = makeAccount();
 
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_dialogDisabled', () => {
+  test('isSendDisabled_dialogDisabled', () => {
     // Whole dialog is disabled.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2353,10 +2368,10 @@ suite('gr-reply-dialog tests', () => {
     element.commentEditing = false;
     element.account = makeAccount();
 
-    assert.isTrue(element.computeSendButtonDisabled());
+    assert.isTrue(element.isSendDisabled());
   });
 
-  test('computeSendButtonDisabled_existingVote', async () => {
+  test('isSendDisabled_existingVote', async () => {
     const account = createAccountWithId();
     (
       element.change!.labels![StandardLabels.CODE_REVIEW]! as DetailedLabelInfo
@@ -2372,7 +2387,7 @@ suite('gr-reply-dialog tests', () => {
     element.account = account;
 
     // User has already voted.
-    assert.isFalse(element.computeSendButtonDisabled());
+    assert.isFalse(element.isSendDisabled());
   });
 
   test('_submit blocked when no mutations exist', async () => {
@@ -2428,19 +2443,19 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('send button updates state as text is typed in patchset comment', async () => {
-      assert.isTrue(element.computeSendButtonDisabled());
+      assert.isTrue(element.isSendDisabled());
 
       queryAndAssert<GrComment>(element, '#patchsetLevelComment').messageText =
         'hello';
       await waitUntil(() => element.patchsetLevelDraftMessage === 'hello');
 
-      assert.isFalse(element.computeSendButtonDisabled());
+      assert.isFalse(element.isSendDisabled());
 
       queryAndAssert<GrComment>(element, '#patchsetLevelComment').messageText =
         '';
       await waitUntil(() => element.patchsetLevelDraftMessage === '');
 
-      assert.isTrue(element.computeSendButtonDisabled());
+      assert.isTrue(element.isSendDisabled());
     });
 
     test('sending patchset level comment', async () => {

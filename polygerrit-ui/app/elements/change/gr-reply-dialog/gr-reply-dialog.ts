@@ -121,7 +121,7 @@ import {
 import {customElement, property, state, query} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
+import {hasHumanReviewer} from '../../../utils/change-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {
   CommentEditingChangedDetail,
@@ -301,9 +301,6 @@ export class GrReplyDialog extends LitElement {
   reviewerPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @state()
-  sendButtonLabel?: string;
-
-  @state()
   savingComments = false;
 
   @state()
@@ -343,6 +340,9 @@ export class GrReplyDialog extends LitElement {
 
   @state()
   patchsetLevelComment?: UnsavedInfo | DraftInfo;
+
+  @state()
+  isOwner = false;
 
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
@@ -588,11 +588,15 @@ export class GrReplyDialog extends LitElement {
     this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
-      () => this.submit()
+      () => {
+        this.isOwner ? this.sendClickHandler() : this.saveClickHandler();
+      }
     );
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
-      () => this.submit()
+      () => {
+        this.isOwner ? this.sendClickHandler() : this.saveClickHandler();
+      }
     );
 
     subscribe(
@@ -616,6 +620,11 @@ export class GrReplyDialog extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
     );
     subscribe(
       this,
@@ -712,7 +721,6 @@ export class GrReplyDialog extends LitElement {
     }
     if (changedProperties.has('canBeStarted')) {
       this.computeMessagePlaceholder();
-      this.computeSendButtonLabel();
     }
     if (changedProperties.has('sendDisabled')) {
       this.sendDisabledChanged();
@@ -1216,8 +1224,10 @@ export class GrReplyDialog extends LitElement {
               primary
               ?disabled=${this.sendDisabled}
               class="action send"
-              @click=${this.sendTapHandler}
-              >${this.sendButtonLabel}
+              @click=${this.sendClickHandler}
+              >${this.canBeStarted
+                ? ButtonLabels.SEND + ' and ' + ButtonLabels.START_REVIEW
+                : ButtonLabels.SEND}
             </gr-button>
           </gr-tooltip-content>
         </div>
@@ -1473,14 +1483,9 @@ export class GrReplyDialog extends LitElement {
   }
 
   chooseFocusTarget() {
-    if (!isOwner(this.change, this.account)) return FocusTarget.BODY;
+    if (!this.isOwner) return FocusTarget.BODY;
     if (hasHumanReviewer(this.change)) return FocusTarget.BODY;
     return FocusTarget.REVIEWERS;
-  }
-
-  isOwner(account?: AccountInfo, change?: ParsedChangeInfo | ChangeInfo) {
-    if (!account || !change || !change.owner) return false;
-    return account._account_id === change.owner._account_id;
   }
 
   handle400Error(r?: Response | null) {
@@ -1606,7 +1611,6 @@ export class GrReplyDialog extends LitElement {
       ? this.draftCommentThreads
       : [];
     const hasVote = !!this.labelsChanged;
-    const isOwner = this.isOwner(this.account, this.change);
     const isUploader = this.uploader?._account_id === this.account._account_id;
 
     this.attentionCcsCount = removeServiceUsers(this.ccs).length;
@@ -1640,7 +1644,7 @@ export class GrReplyDialog extends LitElement {
         .filter(
           r =>
             isAccountNewlyAdded(r, ReviewerState.REVIEWER, this.change) ||
-            (this.canBeStarted && isOwner)
+            (this.canBeStarted && this.isOwner)
         )
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
@@ -1649,7 +1653,7 @@ export class GrReplyDialog extends LitElement {
         if (this.uploader?._account_id && !isUploader) {
           newAttention.add(this.uploader._account_id);
         }
-        if (this.change.owner?._account_id && !isOwner) {
+        if (this.change.owner?._account_id && !this.isOwner) {
           newAttention.add(this.change.owner._account_id);
         }
       }
@@ -1677,18 +1681,11 @@ export class GrReplyDialog extends LitElement {
   }
 
   computeShowAttentionTip() {
-    if (
-      !this.account ||
-      !this.change?.owner ||
-      !this.currentAttentionSet ||
-      !this.newAttentionSet
-    )
-      return false;
-    const isOwner = this.account._account_id === this.change.owner._account_id;
+    if (!this.currentAttentionSet || !this.newAttentionSet) return false;
     const addedIds = [...this.newAttentionSet].filter(
       id => !this.currentAttentionSet.has(id)
     );
-    return isOwner && addedIds.length > 2;
+    return this.isOwner && addedIds.length > 2;
   }
 
   computeCommentAccounts(threads: CommentThread[]) {
@@ -1828,8 +1825,8 @@ export class GrReplyDialog extends LitElement {
     this.rebuildReviewerArrays();
   }
 
-  saveClickHandler(e: Event) {
-    e.preventDefault();
+  private saveClickHandler(e?: Event) {
+    e?.preventDefault();
     if (!this.ccsList?.submitEntryText()) {
       // Do not proceed with the save if there is an invalid email entry in
       // the text field of the CC entry.
@@ -1838,8 +1835,8 @@ export class GrReplyDialog extends LitElement {
     this.send(this.includeComments, false);
   }
 
-  sendTapHandler(e: Event) {
-    e.preventDefault();
+  private sendClickHandler(e?: Event) {
+    e?.preventDefault();
     this.submit();
   }
 
@@ -1963,12 +1960,6 @@ export class GrReplyDialog extends LitElement {
   _reload() {
     fireReload(this, true);
     this.cancel();
-  }
-
-  computeSendButtonLabel() {
-    this.sendButtonLabel = this.canBeStarted
-      ? ButtonLabels.SEND + ' and ' + ButtonLabels.START_REVIEW
-      : ButtonLabels.SEND;
   }
 
   computeSendButtonTooltip(canBeStarted?: boolean, commentEditing?: boolean) {

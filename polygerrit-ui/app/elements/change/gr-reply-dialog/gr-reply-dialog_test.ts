@@ -65,6 +65,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {isOwner} from '../../../utils/change-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -598,6 +599,7 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [];
     element.draftCommentThreads = draftThreads;
     element.includeComments = includeComments;
+    element.isOwner = isOwner(change, element.account);
 
     await element.updateComplete;
 
@@ -1067,6 +1069,7 @@ suite('gr-reply-dialog tests', () => {
     // If the change is "work in progress" and the owner sends a reply, then
     // add all reviewers.
     element.canBeStarted = true;
+    element.isOwner = isOwner(element.change, element.account);
     element.computeNewAttention();
     await element.updateComplete;
     assert.sameMembers(
@@ -1076,6 +1079,7 @@ suite('gr-reply-dialog tests', () => {
 
     // ... but not when someone else replies.
     element.account = {_account_id: 4 as AccountId};
+    element.isOwner = isOwner(element.change, element.account);
     element.computeNewAttention();
     assert.sameMembers([...element.newAttentionSet], []);
   });
@@ -1636,10 +1640,10 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('chooseFocusTarget', () => {
-    element.account = undefined;
+    element.isOwner = false;
     assert.equal(element.chooseFocusTarget(), element.FocusTarget.BODY);
 
-    element.account = element.change!.owner;
+    element.isOwner = true;
     assert.equal(element.chooseFocusTarget(), element.FocusTarget.REVIEWERS);
 
     element.change!.reviewers.REVIEWER = [createAccountWithId(314)];
@@ -2112,14 +2116,14 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('computeSendButtonLabel', async () => {
+  test('sendButton text', async () => {
     element.canBeStarted = false;
     await element.updateComplete;
-    assert.equal(element.sendButtonLabel, 'Send');
+    assert.equal(element.sendButton?.innerText, 'SEND');
 
     element.canBeStarted = true;
     await element.updateComplete;
-    assert.equal(element.sendButtonLabel, 'Send and Start review');
+    assert.equal(element.sendButton?.innerText, 'SEND AND START REVIEW');
   });
 
   test('handle400Error reviewers and CCs', async () => {

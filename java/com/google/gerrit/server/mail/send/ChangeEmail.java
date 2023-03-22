@@ -214,11 +214,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     if (notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)
         || notify.handling().equals(NotifyHandling.ALL)) {
       try {
-        addByEmail(
-            RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));
-        addByEmail(
-            RecipientType.CC,
-            changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
+        changeData.reviewersByEmail().byState(ReviewerStateInternal.CC).stream()
+            .forEach(address -> addByEmail(RecipientType.CC, address));
+        changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).stream()
+            .forEach(address -> addByEmail(RecipientType.CC, address));
       } catch (StorageException e) {
         throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
       }
@@ -376,9 +375,9 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(RecipientType rt) {
+  protected void addAuthors(RecipientType rt) {
     for (Account.Id id : authors) {
-      add(rt, id);
+      addByAccountId(rt, id);
     }
   }
 
@@ -390,7 +389,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
       if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
-        super.add(RecipientType.BCC, e.getKey());
+        super.addByAccountId(RecipientType.BCC, e.getKey());
       }
     }
   }
@@ -414,7 +413,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     try {
       for (Account.Id id : changeData.reviewers().all()) {
-        add(RecipientType.CC, id);
+        addByAccountId(RecipientType.CC, id);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that reviewed updated change");
@@ -430,7 +429,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     try {
       for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
-        add(RecipientType.CC, id);
+        addByAccountId(RecipientType.CC, id);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that commented on updated change");
@@ -438,7 +437,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected void add(RecipientType rt, Account.Id to) {
+  protected void addByAccountId(RecipientType rt, Account.Id to) {
     addRecipient(rt, to, /* isWatcher= */ false);
   }
 
@@ -462,7 +461,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     if (emailOnlyAuthors && !authors.contains(to)) {
       return;
     }
-    super.add(rt, to);
+    super.addByAccountId(rt, to);
   }
 
   @Override

@@ -173,6 +173,7 @@ export class GrTextarea extends LitElement {
     if (this.code) {
       this.classList.add('code');
     }
+
   }
 
   static override styles = [
@@ -214,9 +215,10 @@ export class GrTextarea extends LitElement {
       }
       #hiddenText {
         display: block;
+        padding: 5px;
         float: left;
         position: absolute;
-        visibility: hidden;
+        visibility: visible;
         width: 100%;
         white-space: pre-wrap;
       }
@@ -225,14 +227,18 @@ export class GrTextarea extends LitElement {
 
   override render() {
     return html`
-      <div id="hiddenText"></div>
+      <div id="hiddenText">
+            <span id="smartcompose" style="margin: visibility: visible;">FOO BAR!</span>
+            </div>
       <!-- When the autocomplete is open, the span is moved at the end of
       hiddenText in order to correctly position the dropdown. After being moved,
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
-      <span id="caratSpan"></span>
+      <span id="caratSpan" style="color: #949494;"></span>
+
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
       <iron-autogrow-textarea
         id="textarea"
+        style="background: none;"
         class=${classMap({noBorder: this.hideBorder})}
         .autocomplete=${this.autocomplete}
         .placeholder=${this.placeholder}
@@ -274,6 +280,7 @@ export class GrTextarea extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues) {
+  //console.log(changedProperties);
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
       // Add to updated because we want this.textarea.selectionStart and
@@ -322,6 +329,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleEscKey(e: KeyboardEvent) {
+    console.log('handleEscKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -331,6 +339,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleUpKey(e: KeyboardEvent) {
+    console.log('handleUpKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -341,6 +350,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleDownKey(e: KeyboardEvent) {
+    console.log('handleDownKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -351,17 +361,17 @@ export class GrTextarea extends LitElement {
   }
 
   private handleTabKey(e: KeyboardEvent) {
-    // Tab should have normal behavior if the picker is closed.
-    if (!this.isDropdownVisible()) {
-      return;
-    }
+    console.log('handleTabKey!');
     e.preventDefault();
     e.stopPropagation();
-    this.setValue(this.getVisibleDropdown().getCurrentText());
+
+    this.text = this.text + this.caratSpan!.innerHTML;
+    this.caratSpan!.innerHTML = '';
   }
 
   // private but used in test
   handleEnterByKey(e: KeyboardEvent) {
+    console.log('handleEnterByKey!');
     // Enter should have newline behavior if the picker is closed. Also make
     // sure that shortcuts aren't clobbered.
     if (!this.isDropdownVisible()) {
@@ -371,7 +381,6 @@ export class GrTextarea extends LitElement {
 
     e.preventDefault();
     e.stopPropagation();
-    this.setValue(this.getVisibleDropdown().getCurrentText());
   }
 
   // private but used in test
@@ -421,14 +430,13 @@ export class GrTextarea extends LitElement {
    */
   updateCaratPosition() {
     if (typeof this.textarea!.value === 'string') {
-      this.hiddenText!.textContent = this.textarea!.value.substr(
-        0,
-        this.textarea!.selectionStart
-      );
+      this.hiddenText!.innerHTML = '<span style="visibility: hidden;">' + this.textarea!.value + '</span>';
     }
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
+    //console.log(caratSpan);
+    //caratSpan.innerHTML = "foo!!!"
     return caratSpan;
   }
 
@@ -554,9 +562,39 @@ export class GrTextarea extends LitElement {
 
   // Private but used in tests.
   async handleTextChanged() {
+    console.log("AWESOME!");
+
+
+
+
+
+
     await this.computeSuggestions();
     this.openOrResetDropdown();
+    this.updateCaratPosition();
     this.focus();
+
+
+
+
+
+    // ML MAGIC !!!!!.
+    // if%20(!keyedValues.containsKey(key))%20%7B%0A%20%20%20keyedValues.put(key%2C%20value)%3B%0A%7D%0A---%0AYou%20can
+    const inputStr =`if (!keyedValues.containsKey(key)) {
+       keyedValues.put(key, value);
+    }
+    ---
+    You can`;
+    const mlURL = 'https://llamas-endpoint-server-prod.corp.google.com/api/1675733561542?id=%2Fsax%2Fllmau%2Fulm_340b_q&temperature=0.1&input_string=' + encodeURIComponent(inputStr);
+    console.log(mlURL);
+    const response = await fetch(mlURL, {
+      credentials: 'include',
+      method: 'GET'
+    }).then(res => res.json());
+    const mlAuto = response.messages[0].text.split('\n')[0];
+    console.log(mlAuto);
+    this.caratSpan!.innerHTML = mlAuto;
+    console.log(response);
   }
 
   private openEmojiDropdown() {

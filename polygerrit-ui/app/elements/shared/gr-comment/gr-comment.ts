@@ -277,7 +277,7 @@ export class GrComment extends LitElement {
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
     });
-    this.messagePlaceholder = 'Mention others with @';
+    this.messagePlaceholder = '';
     subscribe(
       this,
       () => this.getUserModel().account$,
@@ -706,6 +706,7 @@ export class GrComment extends LitElement {
     if (!this.editing || this.collapsed) return;
     return html`
       <gr-textarea
+        style="background-color: #FFF";
         id="editTextarea"
         class="editMessage"
         autocomplete="on"

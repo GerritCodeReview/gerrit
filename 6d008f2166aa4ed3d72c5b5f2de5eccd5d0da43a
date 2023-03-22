@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5be0959_0d512211",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-22T08:58:53Z",
+      "side": 1,
+      "message": "Missing `Release-Notes:` footer.",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36629a64_9adb1515",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

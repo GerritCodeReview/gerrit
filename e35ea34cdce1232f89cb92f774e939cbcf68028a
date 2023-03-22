@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d9cdd5_6dbb860d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-22T19:46:29Z",
+      "side": 1,
+      "message": "Add test for the logic?",
+      "revId": "e35ea34cdce1232f89cb92f774e939cbcf68028a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd93fcc_a0decad9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-22T19:46:29Z",
+      "side": 1,
+      "message": "nit: click handler having an event that is optional does not seem optimal.\n\nReading it is a bit confusing, why exactly is the event optional in the click handler?\n\nmaybe extract the core logic in another method so that the click handler can maintain it\u0027s non-optional arg?\n\nI did not find anything in the style guide so feel free to Ack if you think it does not hurt readability too much. 😊",
+      "range": {
+        "startLine": 1828,
+        "startChar": 10,
+        "endLine": 1828,
+        "endChar": 36
+      },
+      "revId": "e35ea34cdce1232f89cb92f774e939cbcf68028a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

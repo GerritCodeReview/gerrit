@@ -16,9 +16,11 @@ import {
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {Key} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
+import { Observable } from 'rxjs';
 import {fire} from '../../../utils/event-util';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {Subject} from 'rxjs';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
@@ -28,6 +30,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {assert} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {debounceTime, map} from 'rxjs/operators';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 
@@ -88,9 +91,14 @@ export class GrTextarea extends LitElement {
 
   @property() autocomplete?: string;
 
+  @property() selectedCode?: string;
+
   @property({type: Boolean}) disabled?: boolean;
 
   @property({type: Number}) rows?: number;
+
+  @property() observable?: Observable;
+
 
   @property({type: Number}) maxRows?: number;
 
@@ -159,6 +167,11 @@ export class GrTextarea extends LitElement {
     this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEscKey(e), {
       preventDefault: false,
     });
+
+    this.observable = new Observable();
+
+    const result = this.mlTrigger!.pipe(debounceTime(1500));
+    result.subscribe(x => this.mlMagic());
   }
 
   override disconnectedCallback() {
@@ -173,6 +186,7 @@ export class GrTextarea extends LitElement {
     if (this.code) {
       this.classList.add('code');
     }
+
   }
 
   static override styles = [
@@ -214,9 +228,10 @@ export class GrTextarea extends LitElement {
       }
       #hiddenText {
         display: block;
+        padding: 5px;
         float: left;
         position: absolute;
-        visibility: hidden;
+        visibility: visible;
         width: 100%;
         white-space: pre-wrap;
       }
@@ -225,14 +240,18 @@ export class GrTextarea extends LitElement {
 
   override render() {
     return html`
-      <div id="hiddenText"></div>
+      <div id="hiddenText">
+            <span id="smartcompose" style="margin: visibility: visible;">FOO BAR!</span>
+            </div>
       <!-- When the autocomplete is open, the span is moved at the end of
       hiddenText in order to correctly position the dropdown. After being moved,
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
-      <span id="caratSpan"></span>
+      <span id="caratSpan" style="color: #949494;"></span>
+
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
       <iron-autogrow-textarea
         id="textarea"
+        style="background: none;"
         class=${classMap({noBorder: this.hideBorder})}
         .autocomplete=${this.autocomplete}
         .placeholder=${this.placeholder}
@@ -274,6 +293,7 @@ export class GrTextarea extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues) {
+  //console.log(changedProperties);
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
       // Add to updated because we want this.textarea.selectionStart and
@@ -292,6 +312,11 @@ export class GrTextarea extends LitElement {
 
   getNativeTextarea() {
     return this.textarea!.textarea;
+  }
+
+  test(t : String) {
+    console.log("test" + t);
+    this.selectedCode = t;
   }
 
   override focus() {
@@ -322,6 +347,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleEscKey(e: KeyboardEvent) {
+    console.log('handleEscKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -331,6 +357,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleUpKey(e: KeyboardEvent) {
+    console.log('handleUpKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -341,6 +368,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleDownKey(e: KeyboardEvent) {
+    console.log('handleDownKey!');
     if (!this.isDropdownVisible()) {
       return;
     }
@@ -351,17 +379,17 @@ export class GrTextarea extends LitElement {
   }
 
   private handleTabKey(e: KeyboardEvent) {
-    // Tab should have normal behavior if the picker is closed.
-    if (!this.isDropdownVisible()) {
-      return;
-    }
+    console.log('handleTabKey!');
     e.preventDefault();
     e.stopPropagation();
-    this.setValue(this.getVisibleDropdown().getCurrentText());
+
+    this.text = this.text + this.caratSpan!.innerHTML;
+    this.caratSpan!.innerHTML = '';
   }
 
   // private but used in test
   handleEnterByKey(e: KeyboardEvent) {
+    console.log('handleEnterByKey!');
     // Enter should have newline behavior if the picker is closed. Also make
     // sure that shortcuts aren't clobbered.
     if (!this.isDropdownVisible()) {
@@ -371,7 +399,6 @@ export class GrTextarea extends LitElement {
 
     e.preventDefault();
     e.stopPropagation();
-    this.setValue(this.getVisibleDropdown().getCurrentText());
   }
 
   // private but used in test
@@ -421,14 +448,13 @@ export class GrTextarea extends LitElement {
    */
   updateCaratPosition() {
     if (typeof this.textarea!.value === 'string') {
-      this.hiddenText!.textContent = this.textarea!.value.substr(
-        0,
-        this.textarea!.selectionStart
-      );
+      this.hiddenText!.innerHTML = '<span style="visibility: hidden;">' + this.textarea!.value + '</span>';
     }
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
+    //console.log(caratSpan);
+    //caratSpan.innerHTML = "foo!!!"
     return caratSpan;
   }
 
@@ -556,7 +582,43 @@ export class GrTextarea extends LitElement {
   async handleTextChanged() {
     await this.computeSuggestions();
     this.openOrResetDropdown();
+    this.updateCaratPosition();
     this.focus();
+
+
+
+    if (this.text.endsWith('.')) {
+      return;
+    }
+
+    this.caratSpan!.innerHTML = '';
+    this.mlTrigger.next();
+  }
+
+  private mlTrigger = new Subject();
+
+  async mlMagic() {
+      // ML MAGIC !!!!!.
+      // if%20(!keyedValues.containsKey(key))%20%7B%0A%20%20%20keyedValues.put(key%2C%20value)%3B%0A%7D%0A---%0AYou%20can
+      console.log("selected code" + this.selectedCode!);
+//       `if (!keyedValues.containsKey(key)) {
+//                keyedValues.put(key, value);
+//             }
+//             ---
+//             You can`
+      const inputStr = (this.selectedCode + '\n---\n' + this.text).trim();
+      console.log("sending this to ML overlords: \n" + inputStr);
+
+      const mlURL = 'https://llamas-endpoint-server-prod.corp.google.com/api/1675733561542?id=%2Fsax%2Fllmau%2Fulm_340b_q&temperature=0&input_string=' + encodeURIComponent(inputStr);
+      console.log(mlURL);
+      const response = await fetch(mlURL, {
+        credentials: 'include',
+        method: 'GET'
+      }).then(res => res.json());
+      const mlAuto = response.messages[0].text.split('\n')[0];
+      console.log(mlAuto);
+      this.caratSpan!.innerHTML = ' ' + mlAuto;
+      console.log(response);
   }
 
   private openEmojiDropdown() {

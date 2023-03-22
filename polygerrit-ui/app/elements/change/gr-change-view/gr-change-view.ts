@@ -2399,7 +2399,7 @@ export class GrChangeView extends LitElement {
           fire(this, 'hide-alert', {});
         });
     }
-    this.change = newChange;
+    this.getChangeModel().updateStateChange(change);
   }
 
   // Private but used in tests.

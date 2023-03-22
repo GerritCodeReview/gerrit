@@ -32,7 +32,7 @@ import {ChangeInfo, NumericChangeId, Hashtag} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-hashtag-flow';
-import type {GrChangeListHashtagFlow} from './gr-change-list-hashtag-flow';
+import {GrChangeListHashtagFlow} from './gr-change-list-hashtag-flow';
 
 suite('gr-change-list-hashtag-flow tests', () => {
   let element: GrChangeListHashtagFlow;

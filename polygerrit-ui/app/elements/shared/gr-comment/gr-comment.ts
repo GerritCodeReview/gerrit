@@ -277,7 +277,7 @@ export class GrComment extends LitElement {
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
     });
-    this.messagePlaceholder = 'Mention others with @';
+    this.messagePlaceholder = '';
     subscribe(
       this,
       () => this.getUserModel().account$,
@@ -701,15 +701,15 @@ export class GrComment extends LitElement {
     if (!isRobot(this.comment) || this.collapsed) return;
     return html`<div class="robotId">${this.comment.author?.name}</div>`;
   }
-
+//  commentedCode=${await this.getCommentedCode()}
   private renderEditingTextarea() {
     if (!this.editing || this.collapsed) return;
     return html`
       <gr-textarea
+        style="background-color: #FFF";
         id="editTextarea"
         class="editMessage"
         autocomplete="on"
-        code=""
         ?disabled=${this.saving}
         rows="4"
         .placeholder=${this.messagePlaceholder}
@@ -987,12 +987,22 @@ export class GrComment extends LitElement {
   }
 
   /** Enter editing mode. */
-  private edit() {
+  private async edit() {
+  const selectedCode = await this.getCommentedCode();
+  console.log(selectedCode);
+//    this.textarea.test(selectedCode);
+
+    setTimeout(() => this.textarea.test(selectedCode), 0);
+
+
     if (!isDraftOrUnsaved(this.comment)) {
       throw new Error('Cannot edit published comment.');
     }
     if (this.editing) return;
     this.editing = true;
+
+
+
   }
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
@@ -1072,6 +1082,7 @@ export class GrComment extends LitElement {
 
   override focus() {
     this.textarea?.focus();
+    console.log('focus');
   }
 
   private handleEsc() {
@@ -1128,7 +1139,7 @@ export class GrComment extends LitElement {
   async createSuggestEdit(e: MouseEvent) {
     e.stopPropagation();
     const line = await this.getCommentedCode();
-    this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
+    this.messageText += `foo`;
   }
 
   async getCommentedCode() {

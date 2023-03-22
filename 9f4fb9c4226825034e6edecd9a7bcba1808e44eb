@@ -48,6 +48,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec6d73e_383d522f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-22T08:58:35Z",
+      "side": 1,
+      "message": "Missing `Release-Notes:` footer.",
+      "revId": "9f4fb9c4226825034e6edecd9a7bcba1808e44eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8375adf7_fc6e6bc3",

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "060cdfe8_63795a2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-22T21:19:04Z",
+      "side": 1,
+      "message": "I don\u0027t see any use cases added as of PS12. Am I missing them somewhere?\n\nIt doesn\u0027t have to be a comprehensive list of reasons (maybe you can express the internal ones in a generic way?), but there should be sufficient justification in this message for why we\u0027re adding a feature not used by core and how we expect that feature to be used. Additionally, if this is intended for plugins, please update the dev-plugins doc with how to use it.\n\nAnd maybe I\u0027m wrong here, but adding this functionality feels like a fairly significant architectural decision. For example, what\u0027s to stop someone from using this feature to treat change metarefs as a database for whatever they want? Or is that the intent (other comments about CI systems storing data in Gerrit suggest to me that it\u0027s not the intent)? In what ways is this new storage expected to (not) scale? What about indexing? It doesn\u0027t look like this change adds support for indexing this new data, but will that be needed in the future?\n\nOverall, I don\u0027t want this change submitted without maintainers having the discussion on the maintainability of this change.",
+      "parentUuid": "d2db5d22_d4c668bb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8594b274_1cbf010a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-22T03:21:10Z",
+      "side": 1,
+      "message": "This looks good, but needs the JGit changes merged upstream.",
+      "revId": "121b33f737f88e14eac76f5c026e0a87c04cedd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

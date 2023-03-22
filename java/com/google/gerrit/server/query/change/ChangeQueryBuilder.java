@@ -490,7 +490,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
-  private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private final Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -1465,16 +1465,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     String name = null;
     Account.Id account = null;
 
-    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      // [name=]<name>
-      if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
-        name = inputArgs.keyValue.get(ARG_ID_NAME).value();
-      } else if (inputArgs.positional.size() == 1) {
-        name = Iterables.getOnlyElement(inputArgs.positional);
-      } else if (inputArgs.positional.size() > 1) {
-        throw new QueryParseException("Error parsing named destination: " + value);
-      }
+    // [name=]<name>
+    if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
+      name = inputArgs.keyValue.get(ARG_ID_NAME).value();
+    } else if (inputArgs.positional.size() == 1) {
+      name = Iterables.getOnlyElement(inputArgs.positional);
+    } else if (inputArgs.positional.size() > 1) {
+      throw new QueryParseException("Error parsing named destination: " + value);
+    }
 
+    try {
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
         Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
@@ -1488,7 +1488,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      Set<BranchNameKey> destinations = getDestinationList(git, account).getDestinations(name);
+      Set<BranchNameKey> destinations = getDestinationList(account).getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
         return new BranchSetIndexPredicate(FIELD_DESTINATION + ":" + value, destinations);
       }
@@ -1501,20 +1501,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     throw new QueryParseException("Unknown named destination: " + name);
   }
 
-  protected DestinationList getDestinationList(Repository git, Account.Id account)
+  protected DestinationList getDestinationList(Account.Id account)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
     DestinationList dl = destinationListByAccount.get(account);
     if (dl == null) {
-      dl = loadDestinationList(git, account);
+      dl = loadDestinationList(account);
       destinationListByAccount.put(account, dl);
     }
     return dl;
   }
 
-  protected DestinationList loadDestinationList(Repository git, Account.Id account)
+  protected DestinationList loadDestinationList(Account.Id account)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
     VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
-    d.load(args.allUsersName, git);
+    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
+      d.load(args.allUsersName, git);
+    }
     return d.getDestinationList();
   }
 

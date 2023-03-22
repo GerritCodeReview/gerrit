@@ -42,7 +42,7 @@
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^4.0.0",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.8.0",
     "safevalues": "^0.3.1",
     "web-vitals": "^3.0.0"
   },

@@ -498,8 +498,7 @@ export class ChangeModel extends Model<ChangeState> {
     });
   }
 
-  // Private but used in tests.
-  updateStateChange(change?: ParsedChangeInfo) {
+  public updateStateChange(change?: ParsedChangeInfo) {
     this.updateState({
       change,
       loadingStatus:

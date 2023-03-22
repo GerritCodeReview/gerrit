@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f57076f_c054ec23",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-22T16:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e062fdb7_ab7dcdfc",
+      "range": {
+        "startLine": 29,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48f4672d_a9856bb1",
@@ -60,6 +84,30 @@
       "writtenOn": "2023-03-13T17:26:36Z",
       "side": 1,
       "message": "You can simplify this with `keyedValues.putIfAbsent(key, value)`",
+      "range": {
+        "startLine": 741,
+        "startChar": 8,
+        "endLine": 743,
+        "endChar": 9
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32fd25fe_3bbda5ce",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-22T16:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48f4672d_a9856bb1",
       "range": {
         "startLine": 741,
         "startChar": 8,

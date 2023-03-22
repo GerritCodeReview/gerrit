@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62177f50_afd0df98",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-22T08:41:10Z",
+      "side": 1,
+      "message": "+1\nNot entirely related to this change but one comment for the entire section, as Matthias wrote, would make more sense.\nAnd if you change the comments I would also use something more descriptive than `bootstrap the * branch` like `get branch tips` or `set up branch tips`.",
+      "parentUuid": "b45a81ee_e7dc8f06",
+      "revId": "7c0ad32151f6b4aff66efdc8ff3e3cee17318af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4de99da4_fccbaef7",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 4

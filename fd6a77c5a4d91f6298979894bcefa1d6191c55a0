@@ -16,6 +16,24 @@
       "message": "Please test \"interesting\" values:\n\n- value contains \\n\n- value contains \u003d\n- value contains :",
       "revId": "fd6a77c5a4d91f6298979894bcefa1d6191c55a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e7c95f0_3c313152",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-23T09:27:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "811bf95e_1a0ba683",
+      "revId": "fd6a77c5a4d91f6298979894bcefa1d6191c55a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -135,6 +135,11 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       private RefUpdateContextValidator() {}
 
       public void validateRefUpdateContext(ReceiveCommand cmd) {
+        String refName = cmd.getRefName();
+
+        if (RefUpdateContextCollector.enabled()) {
+          RefUpdateContextCollector.register(refName, RefUpdateContext.getOpenedContexts());
+        }
         if (TestActionRefUpdateContext.isOpen()
             || RefUpdateContext.hasOpen(OFFLINE_OPERATION)
             || RefUpdateContext.hasOpen(INIT_REPO)
@@ -142,8 +147,6 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
           // The action can touch any refs in these contexts.
           return;
         }
-
-        String refName = cmd.getRefName();
 
         Optional<ImmutableList<RefUpdateType>> allowedRefUpdateTypes =
             RefUpdateContextValidator.INSTANCE.getAllowedRefUpdateTypes(refName);

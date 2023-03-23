@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache;
 
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -39,6 +40,7 @@ public class PerThreadProjectCache {
 
   private PerThreadProjectCache() {}
 
+  @CanIgnoreReturnValue
   public static <T> T getOrCompute(PerThreadCache.Key<Project.NameKey> key, Supplier<T> loader) {
     PerThreadCache perThreadCache = PerThreadCache.get();
     if (perThreadCache != null) {

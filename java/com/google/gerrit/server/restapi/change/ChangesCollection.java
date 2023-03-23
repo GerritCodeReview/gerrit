@@ -83,7 +83,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   /**
-   * Parses {@link ChangeResource} from {@link Change.Id}
+   * Parses {@link ChangeResource} from {@link com.google.gerrit.entities.Change.Id}
    *
    * <p>Reads the change from index, since project is unknown.
    */
@@ -106,7 +106,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   /**
-   * Parses {@link ChangeResource} from {@link Change.Id} in {@code project} at {@code metaRevId}
+   * Parses {@link ChangeResource} from {@link com.google.gerrit.entities.Change.Id} in {@code
+   * project} at {@code metaRevId}
    *
    * <p>Read change from ChangeNotesCache, so the method can be used upon creation, when the change
    * might not be yet available in the index.
@@ -123,7 +124,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   /**
-   * Parses {@link ChangeResource} from {@link Change.Id}
+   * Parses {@link ChangeResource} from {@link com.google.gerrit.entities.Change.Id}
    *
    * <p>Reads the change from index, since project is unknown.
    */

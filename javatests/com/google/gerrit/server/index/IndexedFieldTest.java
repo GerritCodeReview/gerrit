@@ -61,7 +61,6 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /** Tests for {@link com.google.gerrit.index.IndexedField} */
-@SuppressWarnings("serial")
 @RunWith(Theories.class)
 public class IndexedFieldTest {
 

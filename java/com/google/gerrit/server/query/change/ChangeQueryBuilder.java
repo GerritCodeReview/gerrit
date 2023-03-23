@@ -65,6 +65,7 @@ import com.google.gerrit.server.account.DestinationList;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.QueryList;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -490,7 +491,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
-  private Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private final Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private final Map<Account.Id, QueryList> queryListByAccount = new HashMap<>();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -1414,16 +1416,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     String name = null;
     Account.Id account = null;
 
-    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      // [name=]<name>
-      if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
-        name = inputArgs.keyValue.get(ARG_ID_NAME).value();
-      } else if (inputArgs.positional.size() == 1) {
-        name = Iterables.getOnlyElement(inputArgs.positional);
-      } else if (inputArgs.positional.size() > 1) {
-        throw new QueryParseException("Error parsing named query: " + value);
-      }
+    // [name=]<name>
+    if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
+      name = inputArgs.keyValue.get(ARG_ID_NAME).value();
+    } else if (inputArgs.positional.size() == 1) {
+      name = Iterables.getOnlyElement(inputArgs.positional);
+    } else if (inputArgs.positional.size() > 1) {
+      throw new QueryParseException("Error parsing named query: " + value);
+    }
 
+    try {
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
         Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
@@ -1437,9 +1439,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      VersionedAccountQueries q = VersionedAccountQueries.forUser(account);
-      q.load(args.allUsersName, git);
-      String query = q.getQueryList().getQuery(name);
+      String query = getQueryList(account).getQuery(name);
       if (query != null) {
         return parse(query);
       }
@@ -1450,6 +1450,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException("Error parsing named query: " + value, e);
     }
     throw new QueryParseException("Unknown named query: " + name);
+  }
+
+  protected QueryList getQueryList(Account.Id account) throws ConfigInvalidException, IOException {
+    QueryList ql = queryListByAccount.get(account);
+    if (ql == null) {
+      ql = loadQueryList(account);
+      queryListByAccount.put(account, ql);
+    }
+    return ql;
+  }
+
+  protected QueryList loadQueryList(Account.Id account) throws ConfigInvalidException, IOException {
+    VersionedAccountQueries q = VersionedAccountQueries.forUser(account);
+    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
+      q.load(args.allUsersName, git);
+    }
+    return q.getQueryList();
   }
 
   @Operator
@@ -1465,16 +1482,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     String name = null;
     Account.Id account = null;
 
-    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      // [name=]<name>
-      if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
-        name = inputArgs.keyValue.get(ARG_ID_NAME).value();
-      } else if (inputArgs.positional.size() == 1) {
-        name = Iterables.getOnlyElement(inputArgs.positional);
-      } else if (inputArgs.positional.size() > 1) {
-        throw new QueryParseException("Error parsing named destination: " + value);
-      }
+    // [name=]<name>
+    if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
+      name = inputArgs.keyValue.get(ARG_ID_NAME).value();
+    } else if (inputArgs.positional.size() == 1) {
+      name = Iterables.getOnlyElement(inputArgs.positional);
+    } else if (inputArgs.positional.size() > 1) {
+      throw new QueryParseException("Error parsing named destination: " + value);
+    }
 
+    try {
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
         Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
@@ -1488,7 +1505,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      Set<BranchNameKey> destinations = getDestinationList(git, account).getDestinations(name);
+      Set<BranchNameKey> destinations = getDestinationList(account).getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
         return new BranchSetIndexPredicate(FIELD_DESTINATION + ":" + value, destinations);
       }
@@ -1501,20 +1518,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     throw new QueryParseException("Unknown named destination: " + name);
   }
 
-  protected DestinationList getDestinationList(Repository git, Account.Id account)
+  protected DestinationList getDestinationList(Account.Id account)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
     DestinationList dl = destinationListByAccount.get(account);
     if (dl == null) {
-      dl = loadDestinationList(git, account);
+      dl = loadDestinationList(account);
       destinationListByAccount.put(account, dl);
     }
     return dl;
   }
 
-  protected DestinationList loadDestinationList(Repository git, Account.Id account)
+  protected DestinationList loadDestinationList(Account.Id account)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
     VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
-    d.load(args.allUsersName, git);
+    try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
+      d.load(args.allUsersName, git);
+    }
     return d.getDestinationList();
   }
 

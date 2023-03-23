@@ -41,7 +41,9 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.RefUpdateContextCollector;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -54,11 +56,15 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private ProjectOperations projectOperations;
+
+  @Rule
+  public RefUpdateContextCollector refUpdateContextCollector = new RefUpdateContextCollector();
 
   @Before
   public void blockAnonymous() throws Exception {
@@ -226,6 +232,25 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
         eventRecorder.getChangeMergedEvents(project.get(), "refs/heads/master", 2);
     assertThat(changeMergedEvents.get(0).newRev).isEqualTo(r.getPatchSet().commitId().name());
     assertThat(changeMergedEvents.get(1).newRev).isEqualTo(r.getPatchSet().commitId().name());
+  }
+
+  @Test
+  public void pushAutoclosesChanges_changeMetaInAutoClosesChangesContext() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
+    PushOneCommit.Result r = push("refs/for/master", PushOneCommit.SUBJECT, "one.txt", "One");
+    String refPrefix = r.getChange().getId().toRefPrefix();
+    assertThat(refUpdateContextCollector.getRefsByUpdateType(RefUpdateType.DIRECT_PUSH)).isEmpty();
+    assertThat(refUpdateContextCollector.getRefsByUpdateType(RefUpdateType.AUTO_CLOSE_CHANGES))
+        .isEmpty();
+    git().push().setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master")).call();
+    assertThat(refUpdateContextCollector.getRefsByUpdateType(RefUpdateType.DIRECT_PUSH))
+        .containsExactly("refs/heads/master", refPrefix + "meta");
+    assertThat(refUpdateContextCollector.getRefsByUpdateType(RefUpdateType.AUTO_CLOSE_CHANGES))
+        .containsExactly(refPrefix + "meta");
   }
 
   @Test

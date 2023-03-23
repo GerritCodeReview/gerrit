@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6621a8c0_e98f82f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-03-23T08:50:24Z",
+      "side": 1,
+      "message": "(test please ignore)",
+      "parentUuid": "47328310_e46b0145",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

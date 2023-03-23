@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505769f7_2d4c68bc",
+        "filename": "java/com/google/gerrit/extensions/common/WebLinkInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-23T09:53:05Z",
+      "side": 1,
+      "message": "[Optional] Maybe we could remove the unused parameter or add a TODO. I know this might entail adaptation of some (?) plugins. Leaving as optional.",
+      "revId": "e3de64803d2bd1a9c6650fcb682970cd243288aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

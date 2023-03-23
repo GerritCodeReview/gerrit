@@ -52,6 +52,75 @@
       "parentUuid": "b8aef053_cc43d865",
       "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e285591_8aa24872",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T14:20:59Z",
+      "side": 1,
+      "message": "Thanks for fixing this. Adding reviewers by email (that do not have a Gerrit account) is only possible on changes that are visible to anonymous users. So the issue that you are fixing here is:\n\n1. change is visible to anonymous users\n2. a reviewer is added by email\n3. the permissions are changed so that the change is no longer visible to anonymous users\n4. the existing reviewer by email is still notified for updates on the change, although they shouldn\u0027t\n\nMaybe you could add this to the commit message?\n\nThe fix looks good, but the tests still need a little rework.",
+      "parentUuid": "8a27df44_7daab866",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c2faf0_4e163d4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T14:20:59Z",
+      "side": 1,
+      "message": "Sorry for taking that long to review this change.",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bde22eb2_24962ca7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T14:20:59Z",
+      "side": 1,
+      "message": "I think this test isn\u0027t quite working yet (e.g. this test passes even if ChangeEmail.isRecipientAllowed(Address) is changed to always return true).\n\nThis is because:\n1. Adding a reviewer by email is only allowed on changes that are visible to anonymous users [1]. This is checked at [2].\n\n2. Due to this adding reviewers by email from stageReviewableChange() fails. \n\n3. The change has no reviewer by email, hence the ChangeEmail.isRecipientAllowed(Address) is not even called.\n\nTo fix this you would need to call stageReviewableChange() before revoking the permissions. Then the reviewer by email can be added (because the change is visible to anonymous users), then after revoking the permissions the existing reviewer by email should not get notified.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-project-config.html#reviewer.enableByEmail\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ReviewerModifier.java#414",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44f5ca3d_07958a2b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T14:20:59Z",
+      "side": 1,
+      "message": "Adding a reviewer by email to a non-visible change is not possible. This is only allowed for changes that are visible to anonymous users [1]. Trying to add this reviewer by emails gets rejected at [2]. So this doesn\u0027t send an email since it\u0027s a no-op.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-project-config.html#reviewer.enableByEmail\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ReviewerModifier.java#414",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

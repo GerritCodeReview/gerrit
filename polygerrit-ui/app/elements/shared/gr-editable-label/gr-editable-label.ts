@@ -120,6 +120,7 @@ export class GrEditableLabel extends LitElement {
         .inputContainer {
           background-color: var(--dialog-background-color);
           padding: var(--spacing-m);
+          white-space: nowrap;
         }
         /* This makes inputContainer on one line. */
         .inputContainer gr-autocomplete,

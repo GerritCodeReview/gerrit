@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8609a89_f3892939",
+        "filename": "java/com/google/gerrit/testing/RefUpdateContextCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T15:20:13Z",
+      "side": 1,
+      "message": "These seem to be unused, maybe drop them?",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "ff621e93156884efce5f284c6c5584da068a703c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

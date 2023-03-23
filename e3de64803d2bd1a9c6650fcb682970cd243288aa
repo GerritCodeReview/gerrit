@@ -16,6 +16,24 @@
       "message": "[Optional] Maybe we could remove the unused parameter or add a TODO. I know this might entail adaptation of some (?) plugins. Leaving as optional.",
       "revId": "e3de64803d2bd1a9c6650fcb682970cd243288aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64dc12f_0b8ada8c",
+        "filename": "java/com/google/gerrit/extensions/common/WebLinkInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-23T10:14:14Z",
+      "side": 1,
+      "message": "Change [1] already migrated all known callers off this method, but I suppose the method was left as it is to give some grace period for unknown callers.\n\nThe same method without this parameter already exists, so the only option would be to drop this, which I think is fine doing. I\u0027ve uploaded a follow-up change for this: https://gerrit-review.git.corp.google.com/c/gerrit/+/365595\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/364415",
+      "parentUuid": "505769f7_2d4c68bc",
+      "revId": "e3de64803d2bd1a9c6650fcb682970cd243288aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70d68d73_379ec450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-23T19:29:58Z",
+      "side": 1,
+      "message": "Thank you for adding samples of what sort of data this could be used for.\n\nI think that some important pieces are still missing. Who is the actor for the use cases. i.e. who will be allowed to store or use this data? It seems there aren\u0027t really any APIs documented either, and that makes this something that as is is not maintainable by the community. Without real world use cases, community members cannot know whether this design can be altered without breaking something. For example, how can we determine that this data belongs on the meta-ref and not some other ref along side it? How can we determine who should be able to read this data, i.e. does having access to the meta-ref mean you should be able to read it. If someone proposed to move this data elsewhere, would that break something, and how would we know?",
+      "parentUuid": "6621a8c0_e98f82f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

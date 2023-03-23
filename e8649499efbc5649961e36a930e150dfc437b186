@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "277a38de_abf2bdcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-23T19:29:58Z",
+      "side": 1,
+      "message": "Is this enforceable somehow?",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "89868a01_2e591613",

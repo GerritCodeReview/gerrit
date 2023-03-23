@@ -195,6 +195,7 @@ import com.google.gerrit.server.update.SubmissionListener;
 import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -891,7 +892,10 @@ class ReceiveCommits {
                   case UPDATE:
                   case UPDATE_NONFASTFORWARD:
                     Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
-                    autoCloseChanges(c, closeProgress);
+                    try (RefUpdateContext ctx =
+                        RefUpdateContext.open(RefUpdateType.AUTO_CLOSE_CHANGES)) {
+                      autoCloseChanges(c, closeProgress);
+                    }
                     closeProgress.end();
                     break;
 

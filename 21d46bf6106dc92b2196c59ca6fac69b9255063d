@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d26e9eda_e656ee69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-23T08:36:30Z",
+      "side": 1,
+      "message": "Was there a specific issue that you wanted to fix?",
+      "revId": "21d46bf6106dc92b2196c59ca6fac69b9255063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff19c50_4d79cc6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-23T08:36:30Z",
+      "side": 1,
+      "message": "The `Release-Notes:` footer is only for changes that every Gerrit admin wants to read when upgrading to a new version of Gerrit. In 99% of the cases you want to set this to `skip`. This is a bit cumbersome, but it still makes us think about the release notes and helps the release manager when creating the release notes.",
+      "revId": "21d46bf6106dc92b2196c59ca6fac69b9255063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d7f14e_4fcb6d47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-23T08:36:30Z",
+      "side": 1,
+      "message": "Please use `GerritFE` as a reviewer in the future. That will assign two reviewers from the Google frontend team on a round-robin fashion. Thus the review load and knowledge is better distributed. :-)",
+      "revId": "21d46bf6106dc92b2196c59ca6fac69b9255063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4040af81_dd2fe154",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2402,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-23T08:36:30Z",
+      "side": 1,
+      "message": "`updateStateChange()` is private to the model. If you are trying to access it, then this is an indication that you probably want to move a larger chunk of code into the model. And that is indeed the case here. The entire method `handleToggleAttentionSet()` belongs into the model.",
+      "range": {
+        "startLine": 2402,
+        "startChar": 26,
+        "endLine": 2402,
+        "endChar": 43
+      },
+      "revId": "21d46bf6106dc92b2196c59ca6fac69b9255063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

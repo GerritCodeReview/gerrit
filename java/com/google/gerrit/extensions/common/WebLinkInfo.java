@@ -23,6 +23,7 @@ public class WebLinkInfo {
   public String imageUrl;
   public String url;
 
+  @SuppressWarnings("unused")
   @InlineMe(replacement = "this(name, imageUrl, url)")
   @Deprecated
   public WebLinkInfo(String name, String imageUrl, String url, String target) {

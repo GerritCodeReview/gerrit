@@ -113,6 +113,8 @@ public class RefUpdateContext implements AutoCloseable {
      * <p>If a plugin updates one of a special refs - it must also open a nested context.
      */
     PLUGIN,
+    /** A ref is updated as a part of auto-close-changes. */
+    AUTO_CLOSE_CHANGES
   }
 
   /** Opens a provided context. */

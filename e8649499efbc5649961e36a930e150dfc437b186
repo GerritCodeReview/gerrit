@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89868a01_2e591613",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-23T09:28:27Z",
+      "side": 1,
+      "message": "I voted code-style +1 because I google-java-formatted all the files and there\u0027s no diff.  So I think something\u0027s wonky with the code-style checker.",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.errorprone.annotations.InlineMe;
 import java.util.Objects;
 
 public class WebLinkInfo {
@@ -22,13 +21,6 @@ public class WebLinkInfo {
   public String tooltip;
   public String imageUrl;
   public String url;
-
-  @SuppressWarnings("unused")
-  @InlineMe(replacement = "this(name, imageUrl, url)")
-  @Deprecated
-  public WebLinkInfo(String name, String imageUrl, String url, String target) {
-    this(name, imageUrl, url);
-  }
 
   public WebLinkInfo(String name, String imageUrl, String url) {
     this.name = name;

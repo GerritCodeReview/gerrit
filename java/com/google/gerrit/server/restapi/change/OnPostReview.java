@@ -18,6 +18,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public interface OnPostReview {
    * Allows implementors to return a message that should be included into the change message that is
    * posted on post review.
    *
+   * @param when the timestamp at which the review is posted
    * @param user the user that posts the review
    * @param changeNotes the change on which post review is performed
    * @param patchSet the patch set on which post review is performed
@@ -37,6 +39,7 @@ public interface OnPostReview {
    *     {@link Optional#empty()} if the change message should not be extended
    */
   default Optional<String> getChangeMessageAddOn(
+      Instant when,
       IdentifiedUser user,
       ChangeNotes changeNotes,
       PatchSet patchSet,

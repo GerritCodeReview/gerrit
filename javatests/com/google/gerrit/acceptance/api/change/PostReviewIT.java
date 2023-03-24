@@ -86,6 +86,7 @@ import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1064,6 +1065,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     @Override
     public Optional<String> getChangeMessageAddOn(
+        Instant when,
         IdentifiedUser user,
         ChangeNotes changeNotes,
         PatchSet patchSet,

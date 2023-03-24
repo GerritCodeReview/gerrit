@@ -1035,7 +1035,8 @@ public class PostReviewOp implements BatchUpdateOp {
     onPostReviews.runEach(
         onPostReview ->
             onPostReview
-                .getChangeMessageAddOn(user, ctx.getNotes(), ps, oldApprovals, approvals)
+                .getChangeMessageAddOn(
+                    ctx.getWhen(), user, ctx.getNotes(), ps, oldApprovals, approvals)
                 .ifPresent(
                     pluginMessage ->
                         pluginMessages.add(

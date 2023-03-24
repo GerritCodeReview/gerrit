@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cc89e61_a07753e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-24T12:33:04Z",
+      "side": 1,
+      "message": "Added to the description, amended the tests.\n\nThank you for explanation. I didn\u0027t know that, that\u0027s how it worked. Aside from the edgecase you pointed out, I think the change\u0027s biggest benefit is that email system doesn\u0027t actually need to know the fine details of how permission check works when modifying change. This improves isolation and makes it more robust (and hopefully easier to understand/read)",
+      "parentUuid": "6e285591_8aa24872",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bde22eb2_24962ca7",
@@ -106,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deeaab1d_24f83c69",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-24T12:33:04Z",
+      "side": 1,
+      "message": "Good catch, I thought to test with always `return false` but didn\u0027t `return true` 😊\n\nMoved Removal of permissions to after the `stageReviewableChange`. Did the same for the comment related test lower down.",
+      "parentUuid": "bde22eb2_24962ca7",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44f5ca3d_07958a2b",
@@ -119,6 +155,24 @@
       "writtenOn": "2023-03-23T14:20:59Z",
       "side": 1,
       "message": "Adding a reviewer by email to a non-visible change is not possible. This is only allowed for changes that are visible to anonymous users [1]. Trying to add this reviewer by emails gets rejected at [2]. So this doesn\u0027t send an email since it\u0027s a no-op.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-project-config.html#reviewer.enableByEmail\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ReviewerModifier.java#414",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b46bea_8fe6438e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-24T12:33:04Z",
+      "side": 1,
+      "message": "Makes sense. Deleted the comment, between the two other tests added the behaviour is still covered.",
+      "parentUuid": "44f5ca3d_07958a2b",
       "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

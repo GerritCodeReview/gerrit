@@ -50,5 +50,5 @@ export interface AuthService extends Finalizable {
   /**
    * Perform network fetch with authentication.
    */
-  fetch(url: string, opt_options?: AuthRequestInit): Promise<Response>;
+  fetch(url: string, options?: AuthRequestInit): Promise<Response>;
 }

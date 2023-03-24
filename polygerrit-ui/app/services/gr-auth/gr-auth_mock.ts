@@ -57,7 +57,7 @@ export class GrAuthMock implements AuthService {
 
   setup(_getToken: GetTokenCallback, _defaultOptions: DefaultAuthOptions) {}
 
-  fetch(_url: string, _opt_options?: AuthRequestInit): Promise<Response> {
+  fetch(_url: string, _options?: AuthRequestInit): Promise<Response> {
     return Promise.resolve(new Response());
   }
 }

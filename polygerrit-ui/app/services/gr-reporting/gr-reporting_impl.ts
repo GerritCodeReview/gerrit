@@ -131,8 +131,8 @@ export function initErrorReporter(reportingService: ReportingService) {
   };
   // TODO(dmfilippov): TS-fix-any unclear what is context
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const catchErrors = function (opt_context?: any) {
-    const context = opt_context || window;
+  const catchErrors = function (context?: any) {
+    context = context || window;
     const oldOnError = context.onerror;
     context.onerror = (
       event: Event | string,
@@ -387,18 +387,18 @@ export class GrReporting implements ReportingService, Finalizable {
       // We cache until metrics plugin is loaded
       this.pending.push([eventInfo, noLog]);
       if (this._isMetricsPluginLoaded()) {
-        this.pending.forEach(([eventInfo, opt_noLog]) => {
-          this._reportEvent(eventInfo, opt_noLog);
+        this.pending.forEach(([eventInfo, noLog]) => {
+          this._reportEvent(eventInfo, noLog);
         });
         this.pending = [];
       }
     }
   }
 
-  private _reportEvent(eventInfo: EventInfo, opt_noLog?: boolean) {
+  private _reportEvent(eventInfo: EventInfo, noLog?: boolean) {
     const {type, value, name, eventDetails} = eventInfo;
     document.dispatchEvent(new CustomEvent(type, {detail: eventInfo}));
-    if (opt_noLog) {
+    if (noLog) {
       return;
     }
     if (type !== ERROR.TYPE) {

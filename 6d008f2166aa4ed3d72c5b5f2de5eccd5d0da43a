@@ -148,6 +148,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81530763_4c1b8379",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-24T15:40:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9aa22962_aa799127",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fba52945_b9497f9e",
@@ -225,6 +249,30 @@
       "writtenOn": "2023-03-24T14:33:36Z",
       "side": 1,
       "message": "Since this check is only interesting, if the commit was added to the current history by a merge, wouldn\u0027t it be enough to check the branches that were merged into the target branch by those merge commits?\n\nE.g. if a change merges `dev` into `master`, wouldn\u0027t it be enough to look for this commit in `dev`, but not in `production`?\n\nSince we have a list of all changes to be submitted, we could collect those branches and loop through those instead.",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f8c68e_886b2948",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-24T15:40:45Z",
+      "side": 1,
+      "message": "But FWICT at this level we only know which commits are parent of the merge commit, not which branches they are or were tips of. Hence the need to look through all branches.",
+      "parentUuid": "0ddfb2c0_d907a6da",
       "range": {
         "startLine": 118,
         "startChar": 32,
@@ -371,6 +419,30 @@
         "startChar": 51,
         "endLine": 132,
         "endChar": 59
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768b0743_3035b8f9",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-24T15:40:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b6b96115_da4a7f1d",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 28
       },
       "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

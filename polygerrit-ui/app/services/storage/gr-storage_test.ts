@@ -11,7 +11,7 @@ import {GrStorageService} from './gr-storage_impl';
 suite('gr-storage tests', () => {
   let grStorage: GrStorageService;
 
-  function mockStorage(opt_quotaExceeded: boolean): Storage {
+  function mockStorage(quotaExceeded: boolean): Storage {
     return {
       getItem(key: string) {
         return (this as any)[key];
@@ -20,7 +20,7 @@ suite('gr-storage tests', () => {
         delete (this as any)[key];
       },
       setItem(key: string, value: string) {
-        if (opt_quotaExceeded) {
+        if (quotaExceeded) {
           throw new DOMException('error', 'QuotaExceededError');
         }
         (this as any)[key] = value;

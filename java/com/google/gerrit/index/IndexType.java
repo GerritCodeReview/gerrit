@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -51,7 +52,7 @@ public class IndexType {
     if (Strings.isNullOrEmpty(value)) {
       return Optional.empty();
     }
-    value = value.toUpperCase().replace("-", "_");
+    value = value.toUpperCase(Locale.US).replace("-", "_");
     IndexType type = new IndexType(value);
     if (!Strings.isNullOrEmpty(System.getenv(ENV_VAR))) {
       checkArgument(
@@ -67,7 +68,7 @@ public class IndexType {
   }
 
   public IndexType(@Nullable String type) {
-    this.type = type == null ? getDefault() : type.toLowerCase();
+    this.type = type == null ? getDefault() : type.toLowerCase(Locale.US);
   }
 
   public static String getDefault() {

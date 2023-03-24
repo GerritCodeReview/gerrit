@@ -1042,7 +1042,7 @@ public class ChangeField {
 
   public static String formatLabel(
       String label, int value, @Nullable Account.Id accountId, @Nullable Integer count) {
-    return label.toLowerCase()
+    return label.toLowerCase(Locale.US)
         + (value >= 0 ? "+" : "")
         + value
         + (accountId != null ? "," + formatAccount(accountId) : "")
@@ -1055,7 +1055,7 @@ public class ChangeField {
 
   public static String formatLabel(
       String label, String value, @Nullable Account.Id accountId, @Nullable Integer count) {
-    return label.toLowerCase()
+    return label.toLowerCase(Locale.US)
         + "="
         + value
         + (accountId != null ? "," + formatAccount(accountId) : "")
@@ -1567,7 +1567,7 @@ public class ChangeField {
         continue;
       }
       for (SubmitRecord.Label label : rec.labels) {
-        String sl = label.status.toString() + ',' + label.label.toLowerCase();
+        String sl = label.status.toString() + ',' + label.label.toLowerCase(Locale.US);
         result.add(sl);
         String slc = sl + ',';
         if (label.appliedBy != null) {
@@ -1596,28 +1596,28 @@ public class ChangeField {
           result.add(
               SubmitRecord.Label.Status.OK.name()
                   + ","
-                  + srResult.submitRequirement().name().toLowerCase());
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
           result.add(
               SubmitRecord.Label.Status.MAY.name()
                   + ","
-                  + srResult.submitRequirement().name().toLowerCase());
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
           break;
         case UNSATISFIED:
           result.add(
               SubmitRecord.Label.Status.NEED.name()
                   + ","
-                  + srResult.submitRequirement().name().toLowerCase());
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
           result.add(
               SubmitRecord.Label.Status.REJECT.name()
                   + ","
-                  + srResult.submitRequirement().name().toLowerCase());
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
           break;
         case NOT_APPLICABLE:
         case ERROR:
           result.add(
               SubmitRecord.Label.Status.IMPOSSIBLE.name()
                   + ","
-                  + srResult.submitRequirement().name().toLowerCase());
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
       }
     }
     return result;

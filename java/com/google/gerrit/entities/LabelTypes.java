@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,11 +39,11 @@ public class LabelTypes {
   }
 
   public Optional<LabelType> byLabel(LabelId labelId) {
-    return Optional.ofNullable(byLabel().get(labelId.get().toLowerCase()));
+    return Optional.ofNullable(byLabel().get(labelId.get().toLowerCase(Locale.US)));
   }
 
   public Optional<LabelType> byLabel(String labelName) {
-    return Optional.ofNullable(byLabel().get(labelName.toLowerCase()));
+    return Optional.ofNullable(byLabel().get(labelName.toLowerCase(Locale.US)));
   }
 
   private Map<String, LabelType> byLabel() {
@@ -52,7 +53,7 @@ public class LabelTypes {
           Map<String, LabelType> l = new HashMap<>();
           if (labelTypes != null) {
             for (LabelType t : labelTypes) {
-              l.put(t.getName().toLowerCase(), t);
+              l.put(t.getName().toLowerCase(Locale.US), t);
             }
           }
           byLabel = l;

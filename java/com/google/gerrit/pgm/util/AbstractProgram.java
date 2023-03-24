@@ -18,6 +18,7 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlers;
 import java.io.StringWriter;
+import java.util.Locale;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 
@@ -35,7 +36,7 @@ public abstract class AbstractProgram {
     if (0 < dot) {
       n = n.substring(dot + 1);
     }
-    return n.toLowerCase();
+    return n.toLowerCase(Locale.US);
   }
 
   public final int main(String[] argv) throws Exception {

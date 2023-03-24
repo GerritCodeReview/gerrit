@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.util.Locale;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.Entity;
 import org.apache.james.mime4j.dom.Message;
@@ -90,7 +91,7 @@ public class RawMailParser {
 
     // Add additional headers
     mimeMessage.getHeader().getFields().stream()
-        .filter(f -> !MAIN_HEADERS.contains(f.getName().toLowerCase()))
+        .filter(f -> !MAIN_HEADERS.contains(f.getName().toLowerCase(Locale.US)))
         .forEach(f -> messageBuilder.addAdditionalHeader(f.getName() + ": " + f.getBody()));
 
     // Add text and html body parts

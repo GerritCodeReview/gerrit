@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -114,14 +115,14 @@ public class IdentifiedUserTest {
   @Test
   public void emailsExistence() {
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[0])).isTrue();
-    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1].toLowerCase())).isTrue();
+    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1].toLowerCase(Locale.US))).isTrue();
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1])).isTrue();
-    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1].toUpperCase())).isTrue();
+    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1].toUpperCase(Locale.US))).isTrue();
     /* assert again to test cached email address by IdentifiedUser.validEmails */
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1])).isTrue();
 
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[2])).isTrue();
-    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[2].toLowerCase())).isTrue();
+    assertThat(identifiedUser.hasEmailAddress(TEST_CASES[2].toLowerCase(Locale.US))).isTrue();
 
     assertThat(identifiedUser.hasEmailAddress("non-exist@email.com")).isFalse();
     /* assert again to test cached email address by IdentifiedUser.invalidEmails */

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import java.util.Locale;
+
 public enum GerritTopMenu {
   ALL,
   MY,
@@ -25,6 +27,6 @@ public enum GerritTopMenu {
   public final String menuName;
 
   GerritTopMenu() {
-    menuName = name().substring(0, 1) + name().substring(1).toLowerCase();
+    menuName = name().substring(0, 1) + name().substring(1).toLowerCase(Locale.US);
   }
 }

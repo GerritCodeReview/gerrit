@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
+import java.util.Locale;
 
 /**
  * Whether to enable/disable tests using SSH by inspecting the global environment.
@@ -43,7 +44,7 @@ public enum SshMode {
     if (Strings.isNullOrEmpty(value)) {
       return YES;
     }
-    value = value.toUpperCase();
+    value = value.toUpperCase(Locale.US);
     SshMode mode = Enums.getIfPresent(SshMode.class, value).orNull();
     if (!Strings.isNullOrEmpty(System.getenv(ENV_VAR))) {
       checkArgument(

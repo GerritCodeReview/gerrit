@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.IntStream;
 import org.junit.Before;
@@ -336,7 +337,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, user1.username() + " example");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, user4.email().toLowerCase());
+    reviewers = suggestReviewers(changeId, user4.email().toLowerCase(Locale.US));
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.get(0).account.email).isEqualTo(user4.email());
   }

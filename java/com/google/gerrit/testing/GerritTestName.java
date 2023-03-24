@@ -15,6 +15,7 @@
 package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
+import java.util.Locale;
 import org.junit.BeforeClass;
 import org.junit.rules.TestName;
 import org.junit.rules.TestRule;
@@ -30,7 +31,7 @@ public class GerritTestName implements TestRule {
   }
 
   public String getSanitizedMethodName() {
-    String name = delegate.getMethodName().toLowerCase();
+    String name = delegate.getMethodName().toLowerCase(Locale.US);
     name =
         CharMatcher.inRange('a', 'z')
             .or(CharMatcher.inRange('A', 'Z'))

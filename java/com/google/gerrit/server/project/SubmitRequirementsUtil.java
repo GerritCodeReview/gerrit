@@ -28,6 +28,7 @@ import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -142,10 +143,12 @@ public class SubmitRequirementsUtil {
             // (projectConfigRequirements should not contain legacy entries)
             // TODO(ghareeb): remove the filter statement
             .filter(entry -> !entry.getValue().isLegacy())
-            .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
+            .collect(
+                Collectors.toMap(
+                    sr -> sr.getKey().name().toLowerCase(Locale.US), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {
-      String srName = legacy.getKey().name().toLowerCase();
+      String srName = legacy.getKey().name().toLowerCase(Locale.US);
       SubmitRequirementResult projectConfigResult = requirementsByName.get(srName);
       SubmitRequirementResult legacyResult = legacy.getValue();
       // If there's no project config requirement with the same name as the legacy requirement

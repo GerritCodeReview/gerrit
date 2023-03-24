@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
@@ -213,7 +214,7 @@ public class ParameterizedString {
         new Function() {
           @Override
           String apply(String a) {
-            return a.toLowerCase();
+            return a.toLowerCase(Locale.US);
           }
         });
     m.put(
@@ -221,7 +222,7 @@ public class ParameterizedString {
         new Function() {
           @Override
           String apply(String a) {
-            return a.toUpperCase();
+            return a.toUpperCase(Locale.US);
           }
         });
     m.put(

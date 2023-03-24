@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 import org.bouncycastle.openpgp.PGPPublicKey;
@@ -80,7 +81,7 @@ public class PublicKeyStoreTest {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
     String objId = keyObjectId(key.getKeyID()).name();
     assertEquals("ed0625dc46328a8c000000000000000000000000", objId);
-    assertEquals(keyIdToString(key.getKeyID()).toLowerCase(), objId.substring(8, 16));
+    assertEquals(keyIdToString(key.getKeyID()).toLowerCase(Locale.US), objId.substring(8, 16));
   }
 
   @Test

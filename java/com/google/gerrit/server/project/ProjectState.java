@@ -56,6 +56,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -380,7 +381,7 @@ public class ProjectState {
     Map<String, SubmitRequirement> requirements = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {
       for (SubmitRequirement requirement : s.getConfig().getSubmitRequirementSections().values()) {
-        String lowerName = requirement.name().toLowerCase();
+        String lowerName = requirement.name().toLowerCase(Locale.US);
         SubmitRequirement old = requirements.get(lowerName);
         if (old == null || old.allowOverrideInChildProjects()) {
           requirements.put(lowerName, requirement);
@@ -395,7 +396,7 @@ public class ProjectState {
     Map<String, LabelType> types = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
-        String lower = type.getName().toLowerCase();
+        String lower = type.getName().toLowerCase(Locale.US);
         LabelType old = types.get(lower);
         if (old == null || old.isCanOverride()) {
           types.put(lower, type);
@@ -449,11 +450,11 @@ public class ProjectState {
   public List<CommentLinkInfo> getCommentLinks() {
     Map<String, CommentLinkInfo> cls = new LinkedHashMap<>();
     for (CommentLinkInfo cl : commentLinks) {
-      cls.put(cl.name.toLowerCase(), cl);
+      cls.put(cl.name.toLowerCase(Locale.US), cl);
     }
     for (ProjectState s : treeInOrder()) {
       for (StoredCommentLinkInfo cl : s.getConfig().getCommentLinkSections().values()) {
-        String name = cl.getName().toLowerCase();
+        String name = cl.getName().toLowerCase(Locale.US);
         if (cl.getOverrideOnly()) {
           CommentLinkInfo parent = cls.get(name);
           if (parent == null) {

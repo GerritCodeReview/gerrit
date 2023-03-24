@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.inject.Inject;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, ApprovalQueryBuilder> {
@@ -113,7 +114,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   private static <T extends Enum<T>> Optional<T> parseEnumValue(Class<T> clazz, String value) {
     return Optional.ofNullable(
-        Enums.getIfPresent(clazz, value.toUpperCase().replace('-', '_')).orNull());
+        Enums.getIfPresent(clazz, value.toUpperCase(Locale.US).replace('-', '_')).orNull());
   }
 
   private <T extends Enum<T>> String formatEnumValues(Class<T> clazz) {

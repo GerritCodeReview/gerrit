@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -207,7 +208,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     return globalSubmitRequirements.stream()
         .collect(
             toImmutableMap(
-                globalRequirement -> globalRequirement.name().toLowerCase(), Function.identity()));
+                globalRequirement -> globalRequirement.name().toLowerCase(Locale.US),
+                Function.identity()));
   }
 
   /** Evaluate the predicate recursively using change data. */

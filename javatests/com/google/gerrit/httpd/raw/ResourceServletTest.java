@@ -40,6 +40,7 @@ import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
 import org.junit.Before;
@@ -331,7 +332,7 @@ public class ResourceServletTest {
   }
 
   private static void assertCacheable(FakeHttpServletResponse res, boolean revalidate) {
-    String header = res.getHeader("Cache-Control").toLowerCase();
+    String header = res.getHeader("Cache-Control").toLowerCase(Locale.US);
     assertThat(header).contains("public");
     if (revalidate) {
       assertThat(header).contains("must-revalidate");

@@ -41,6 +41,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.TagCommand;
@@ -490,12 +491,14 @@ public class PushOneCommit {
     public void assertMessage(String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(refUpdate).isNotNull();
-      assertThat(message(refUpdate).toLowerCase()).contains(expectedMessage.toLowerCase());
+      assertThat(message(refUpdate).toLowerCase(Locale.US))
+          .contains(expectedMessage.toLowerCase(Locale.US));
     }
 
     public void assertNotMessage(String message) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertThat(message(refUpdate).toLowerCase()).doesNotContain(message.toLowerCase());
+      assertThat(message(refUpdate).toLowerCase(Locale.US))
+          .doesNotContain(message.toLowerCase(Locale.US));
     }
 
     public String getMessage() {

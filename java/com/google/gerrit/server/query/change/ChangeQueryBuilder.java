@@ -102,6 +102,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -1104,7 +1105,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     // submit record status, interpret as a submit record query.
     int eq = name.indexOf('=');
     if (eq > 0) {
-      String statusName = name.substring(eq + 1).toUpperCase();
+      String statusName = name.substring(eq + 1).toUpperCase(Locale.US);
       if (!isInt(statusName) && !MagicLabelValue.tryParse(statusName).isPresent()) {
         SubmitRecord.Label.Status status =
             Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();

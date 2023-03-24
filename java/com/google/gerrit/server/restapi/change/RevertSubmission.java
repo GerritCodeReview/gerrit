@@ -85,6 +85,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -196,7 +197,8 @@ public class RevertSubmission
     }
     if (topic == null) {
       return String.format(
-          "revert-%s-%s", submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase());
+          "revert-%s-%s",
+          submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase(Locale.US));
     }
     return topic;
   }

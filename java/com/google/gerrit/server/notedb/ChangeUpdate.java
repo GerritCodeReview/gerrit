@@ -95,6 +95,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -741,7 +742,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (status != null) {
-      addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
+      addFooter(msg, FOOTER_STATUS, status.name().toLowerCase(Locale.US));
       if (status.equals(Change.Status.ABANDONED)) {
         clearAttentionSet("Change was abandoned");
       }
@@ -1129,7 +1130,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private void addPatchSetFooter(StringBuilder sb, PatchSet.Id ps) {
     addFooter(sb, FOOTER_PATCH_SET).append(ps.get());
     if (psState != null) {
-      sb.append(" (").append(psState.name().toLowerCase()).append(')');
+      sb.append(" (").append(psState.name().toLowerCase(Locale.US)).append(')');
     }
     sb.append('\n');
   }

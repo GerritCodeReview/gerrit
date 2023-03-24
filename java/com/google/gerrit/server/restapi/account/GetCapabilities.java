@@ -45,6 +45,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
@@ -124,7 +125,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   private boolean want(String name) {
-    return query == null || query.contains(name.toLowerCase());
+    return query == null || query.contains(name.toLowerCase(Locale.US));
   }
 
   private void addRanges(Map<String, Object> have, AccountLimits limits) {

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Server wide capabilities. Represented as {@link Permission} objects.
@@ -162,7 +163,7 @@ public class GlobalCapability {
 
     NAMES_LC = new ArrayList<>(NAMES_ALL.size());
     for (String name : NAMES_ALL) {
-      NAMES_LC.add(name.toLowerCase());
+      NAMES_LC.add(name.toLowerCase(Locale.US));
     }
   }
 
@@ -173,7 +174,7 @@ public class GlobalCapability {
 
   /** Returns true if the name is recognized as a capability name. */
   public static boolean isGlobalCapability(String varName) {
-    return NAMES_LC.contains(varName.toLowerCase());
+    return NAMES_LC.contains(varName.toLowerCase(Locale.US));
   }
 
   /** Returns true if the capability should have a range attached. */

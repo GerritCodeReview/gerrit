@@ -26,6 +26,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import org.eclipse.jgit.lib.Config;
@@ -73,13 +74,14 @@ public class IndexVersions {
    *     if any of the specified schema versions doesn't exist
    */
   public static <V> ImmutableList<Integer> get(SchemaDefinitions<V> schemaDef) {
-    String envVar = schemaDef.getName().toUpperCase() + "_INDEX_VERSIONS";
+    String envVar = schemaDef.getName().toUpperCase(Locale.US) + "_INDEX_VERSIONS";
     String value = System.getenv(envVar);
     if (!Strings.isNullOrEmpty(value)) {
       return get(schemaDef, "env variable " + envVar, value);
     }
 
-    String systemProperty = "gerrit.index." + schemaDef.getName().toLowerCase() + ".versions";
+    String systemProperty =
+        "gerrit.index." + schemaDef.getName().toLowerCase(Locale.US) + ".versions";
     value = System.getProperty(systemProperty);
     return get(schemaDef, "system property " + systemProperty, value);
   }
@@ -138,7 +140,10 @@ public class IndexVersions {
                 i -> {
                   Config cfg = baseConfig;
                   cfg.setInt(
-                      "index", "lucene", schemaDef.getName().toLowerCase() + "TestVersion", i);
+                      "index",
+                      "lucene",
+                      schemaDef.getName().toLowerCase(Locale.US) + "TestVersion",
+                      i);
                   return cfg;
                 }));
   }

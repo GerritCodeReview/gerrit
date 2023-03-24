@@ -171,7 +171,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void addHeader(String name, String value) {
-    headers.put(name.toLowerCase(), value);
+    headers.put(name.toLowerCase(Locale.US), value);
   }
 
   @Override
@@ -181,7 +181,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public boolean containsHeader(String name) {
-    return headers.containsKey(name.toLowerCase());
+    return headers.containsKey(name.toLowerCase(Locale.US));
   }
 
   @Override
@@ -232,13 +232,13 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void setHeader(String name, String value) {
-    headers.removeAll(name.toLowerCase());
+    headers.removeAll(name.toLowerCase(Locale.US));
     addHeader(name, value);
   }
 
   @Override
   public void setIntHeader(String name, int value) {
-    headers.removeAll(name.toLowerCase());
+    headers.removeAll(name.toLowerCase(Locale.US));
     addIntHeader(name, value);
   }
 
@@ -262,7 +262,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public String getHeader(String name) {
-    return Iterables.getFirst(headers.get(requireNonNull(name.toLowerCase())), null);
+    return Iterables.getFirst(headers.get(requireNonNull(name.toLowerCase(Locale.US))), null);
   }
 
   @Override
@@ -272,7 +272,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public Collection<String> getHeaders(String name) {
-    return headers.get(requireNonNull(name.toLowerCase()));
+    return headers.get(requireNonNull(name.toLowerCase(Locale.US)));
   }
 
   public byte[] getActualBody() {

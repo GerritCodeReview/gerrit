@@ -94,6 +94,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -242,7 +243,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(user5.email, user5);
     assertQuery("email:" + user5.email, user5);
-    assertQuery("email:" + user5.email.toUpperCase(), user5);
+    assertQuery("email:" + user5.email.toUpperCase(Locale.US), user5);
   }
 
   @Test
@@ -289,7 +290,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(user1.username, user1);
     assertQuery("username:" + user1.username, user1);
-    assertQuery("username:" + user1.username.toUpperCase(), user1);
+    assertQuery("username:" + user1.username.toUpperCase(Locale.US), user1);
   }
 
   @Test

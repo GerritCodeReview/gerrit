@@ -26,6 +26,7 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Locale;
 
 /** Parses a query string meant to be applied to project objects. */
 public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQueryBuilderImpl>
@@ -72,7 +73,7 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
     }
     ProjectState parsedState;
     try {
-      parsedState = ProjectState.valueOf(state.replace('-', '_').toUpperCase());
+      parsedState = ProjectState.valueOf(state.replace('-', '_').toUpperCase(Locale.US));
     } catch (IllegalArgumentException e) {
       throw error("state operator must be either 'active' or 'read-only'", e);
     }

@@ -949,7 +949,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdNotes.insert(extId);
     extIdNotes.commit(md);
     assertThat(getAccountId(extIdNotes, scheme, id)).isEqualTo(accountId.get());
-    assertThat(getExternalId(extIdNotes, scheme, id.toLowerCase()).isPresent()).isFalse();
+    assertThat(getExternalId(extIdNotes, scheme, id.toLowerCase(Locale.US)).isPresent()).isFalse();
   }
 
   private void testCaseInsensitiveExternalIdKey(
@@ -959,7 +959,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     extIdNotes.insert(extId);
     extIdNotes.commit(md);
     assertThat(getAccountId(extIdNotes, scheme, id)).isEqualTo(accountId.get());
-    assertThat(getAccountId(extIdNotes, scheme, id.toLowerCase())).isEqualTo(accountId.get());
+    assertThat(getAccountId(extIdNotes, scheme, id.toLowerCase(Locale.US)))
+        .isEqualTo(accountId.get());
   }
 
   /**

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -149,7 +150,7 @@ public class ChangeUtil {
   }
 
   public static String status(Change c) {
-    return c != null ? c.getStatus().name().toLowerCase() : "deleted";
+    return c != null ? c.getStatus().name().toLowerCase(Locale.US) : "deleted";
   }
 
   private static final Pattern LINK_CHANGE_ID_PATTERN = Pattern.compile("I[0-9a-f]{40}");

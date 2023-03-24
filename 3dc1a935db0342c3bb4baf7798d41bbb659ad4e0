@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e4d0aa8_1ce385a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-24T10:12:26Z",
+      "side": 1,
+      "message": "I was curious to know if it makes a big difference using another Locale. I think not until all our upper/lower conversions aren\u0027t for english characters this won\u0027t be a problem.",
+      "revId": "3dc1a935db0342c3bb4baf7798d41bbb659ad4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

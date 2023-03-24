@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dfa76872_a56e3986",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-24T11:19:02Z",
+      "side": 1,
+      "message": "I see, reminds me of how fun it is to fix stuff in the submit-code.\nI don\u0027t know if we have to solve it if we can mitigate it first.\nAdd a ticket to the bug-tracker that explains your findings for now?\n\nAdd a comment about this here? The submit-code is so complex that you are generally very grateful for all the hints you can get.\n\n```suggestion\n          /* We shouldn\u0027t end up here if c is the latest patch-set of a merged \n           * change, but due to what seems like a race-condition we sometimes do.\n           * When this happens we don\u0027t want to risk doing a full rev-walk if\n           * the information we\u0027re after is available in the index.\n           */\n          if (isAlreadyMergedInSameBranch(c, n.change().getDest())\n```",
+      "parentUuid": "2e6b3c42_327bbbcb",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fba52945_b9497f9e",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

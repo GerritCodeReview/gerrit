@@ -19,6 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
@@ -35,15 +36,21 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -222,15 +229,46 @@ public class ExternalIDCacheLoaderTest {
     int externalKey = 0;
     do {
       oldState = insertExternalId(++externalKey, accountId);
-      externalIdCache.put(oldState, allFromGit(oldState));
       newState = insertExternalId(++externalKey, accountId);
       head = insertExternalId(++externalKey, accountId + 1 );
     } while (!doCommitTimesMatch(oldState, newState));
+    externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
 //    assertThat(newState).isEqualTo(oldState);
   }
 
+  @Test
+  public void foo() throws Exception {
+    Repository repo = repoManager.openRepository(ALL_USERS);
+//    AllExternalIds oldExternalIds = null;
+
+//    ObjectId oldState = insertExternalId(0, 1);
+    ObjectId newState = insertExternalId(2, 3);
+
+    RevWalk rw = new RevWalk(repo);
+    RevCommit rev = rw.parseCommit(newState);
+
+    TreeWalk tw = new TreeWalk(repo);
+    tw.setFilter(TreeFilter.ANY_DIFF);
+    tw.setRecursive(true);
+    tw.reset(rev.getTree());
+    tw.next();
+
+    java.util.Map<ObjectId, ObjectId> additions = new HashMap<>();
+    additions.put(fileNameToObjectId(tw.getPathString()), newState.toObjectId());
+
+    AllExternalIds oldExternalIds = AllExternalIds.create(Stream.<ExternalId>builder().add(externalId(2,3)).build());
+
+    Set<ObjectId> removals = new HashSet<>();
+    AllExternalIds allExternalIds =
+        loader.buildAllExternalIds(repo, oldExternalIds, additions, removals);
+    assertThat(allExternalIds).isNotNull();
+  }
+
+  private static ObjectId fileNameToObjectId(String path) {
+    return ObjectId.fromString(CharMatcher.is('/').removeFrom(path));
+  }
   private boolean doCommitTimesMatch(ObjectId first, ObjectId second) throws IOException {
     try (Repository repo = repoManager.openRepository(ALL_USERS);
          RevWalk rw = new RevWalk(repo)) {

@@ -207,7 +207,7 @@ public class ExternalIdCacheLoader {
    * @param additions map of name to blob ID for each external ID that should be added
    * @param removals set of name {@link ObjectId}s that should be removed
    */
-  private AllExternalIds buildAllExternalIds(
+  public AllExternalIds buildAllExternalIds(
       Repository repo,
       AllExternalIds oldExternalIds,
       Map<ObjectId, ObjectId> additions,

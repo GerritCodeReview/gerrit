@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeSizeBucket;
@@ -465,7 +466,18 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
+  protected boolean isRecipientAllowed(Address addr) throws PermissionBackendException {
+    if (!projectState.statePermitsRead()) {
+      return false;
+    }
+    return args.permissionBackend
+        .user(args.anonymousUser.get())
+        .change(changeData)
+        .test(ChangePermission.READ);
+  }
+
+  @Override
+  protected boolean isRecipientAllowed(Account.Id to) throws PermissionBackendException {
     if (!projectState.statePermitsRead()) {
       return false;
     }

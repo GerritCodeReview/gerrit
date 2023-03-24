@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e6b3c42_327bbbcb",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T06:28:23Z",
+      "side": 1,
+      "message": "You are right. My bad.\nBut it actually sometimes ends up in there. I managed to reproduce that issue once on my local machine during debugging. When it occurred, `c` was the top-most commit of a change series (i.e. equal to `n`) consisting of two changes that required a rebase to submit. I ended up in line 82 (PS9) (where I had set a breakpoint), but when I checked the result of the conditions in line 81, it shouldn\u0027t have, i.e. `!c.has(canMergeFlag) || !incoming.contains(c)` returned `false`. So there seems to be a race. That would also fit the observations on our productive systems, where we see performance issues during peak load times and where the issue occurs sporadicly. I can however not find any place in the code, where the `incoming`-set would be changed after it is initially created. The `RevWalk` is shared, since the `OpenRepo` is cached, but the `canMergeFlag` is never removed, it is only set. Thus, it shouldn\u0027t be an issue that the RevWalk is not thread safe, since I also saw the correct commit `c`, i.e. the start of the RevWalk didn\u0027t change.\nWhen I tried to reproduce again, I was unable to do so.\nSo while my change would mitigate the issue, it does not solve the real problem. I will try to figure out what might cause this.",
+      "parentUuid": "36629a64_9adb1515",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fba52945_b9497f9e",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

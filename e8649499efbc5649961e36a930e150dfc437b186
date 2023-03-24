@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e5de1a_834dfb5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-24T16:00:04Z",
+      "side": 1,
+      "message": "If the intent of line 24 is meant to be document an expectation of the usage of this \"API\", then it seems that it belongs in actual dev API docs and/or API javadocs.",
+      "parentUuid": "b43cbce1_b036dd67",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "89868a01_2e591613",

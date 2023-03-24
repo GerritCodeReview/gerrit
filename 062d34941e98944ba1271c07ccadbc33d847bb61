@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f342ea41_4d138c57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-24T16:00:04Z",
+      "side": 1,
+      "message": "Thanks. \n\n\u003e I would love to hear what future concerns you\u0027re worried about.\n\nI am mostly worried about the lack of API dev docs or javadocs to describe the intent and usage patterns of this. If this were an internal feature to support something specific in Gerrit, the intent and evolution of the data management would be mostly tied to the feature it was supporting, so evolving how and where the data gets stored would be guided by the desires of that feature, and the documentation expectation would be pretty low (if existent at all). However, in this case, you seem to be adding a data API that is more generic, and not tied to a specific feature in Gerrit? Such a thing is generally then aimed at external developer (non-core Gerrit) usage, such as plugin developers? As such, I think the expectation generally is that features like this deserves some documentation, maybe some API javadocs, likely some dev docs, and ideally also an example intent and usage in those docs. Can you add those?\n\n\u003e This data is intended to be publicly accessible \n\nData on a change meta-ref is generally NOT \"publicly accessible\", its access tends to be restricted to those who can see that change? I suspect that is what you meant, and this might be valuable to hash out clearly in those API docs.",
+      "parentUuid": "18e3d04e_fc338f38",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

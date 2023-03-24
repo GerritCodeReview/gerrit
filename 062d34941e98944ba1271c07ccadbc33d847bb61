@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18e3d04e_fc338f38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-24T09:59:53Z",
+      "side": 1,
+      "message": "The actor could either be plugins, or other systems that need access to this metadata.\n\nI would love to hear what future concerns you\u0027re worried about.  In theory people could already shove data inside of hashtags if they wanted to, it just would appear on the UI.\n\nThis data is intended to be publicly accessible and will be part of the ChangeInfo message.\n\nIn our internal world, we need to keep track of an ID for another system and associate it with the given change.  There will be an API that allows other systems  to set metadata, as well as upon Change Creation. And the metadata will be surfaced as part ChangeInfo objects.",
+      "parentUuid": "70d68d73_379ec450",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

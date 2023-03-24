@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b43cbce1_b036dd67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-24T09:59:53Z",
+      "side": 1,
+      "message": "I don\u0027t see an easy way to enforce this.",
+      "parentUuid": "277a38de_abf2bdcd",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "89868a01_2e591613",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17

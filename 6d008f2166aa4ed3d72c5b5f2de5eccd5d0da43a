@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa60b0eb_d0d2bdcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5be0959_0d512211",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36629a64_9adb1515",
@@ -108,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aa22962_aa799127",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "I will open a ticket. The code is indeed very complex and since the issue can\u0027t be reproduced well in a development context, this is hard to track.",
+      "parentUuid": "dfa76872_a56e3986",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fba52945_b9497f9e",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9
@@ -119,6 +161,30 @@
       "writtenOn": "2023-03-21T15:37:19Z",
       "side": 1,
       "message": "If it only makes sense to perform this check when there\u0027s a merge in the list of commits to be submitted, wouldn\u0027t it make sense performance-wise to check for this first?\n\n`if (toSortContainsMerge\n              \u0026\u0026 (isAlreadyMergedInSameBranch(c, n.change().getDest()) || isAlreadyMergedInAnyBranch(c)))`",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 74
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4b1e02_26506c36",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "There is at least one other case where c is not mergeable: If it is an outdated patchset of a submitted change earlier in the change series. In that case, we still want to do the `isAlreadyMergedInSameBranch` check and mark the commit as uninteresting. Thus, we have to do this check this late.",
+      "parentUuid": "fba52945_b9497f9e",
       "range": {
         "startLine": 82,
         "startChar": 10,
@@ -148,6 +214,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ddfb2c0_d907a6da",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "Since this check is only interesting, if the commit was added to the current history by a merge, wouldn\u0027t it be enough to check the branches that were merged into the target branch by those merge commits?\n\nE.g. if a change merges `dev` into `master`, wouldn\u0027t it be enough to look for this commit in `dev`, but not in `production`?\n\nSince we have a list of all changes to be submitted, we could collect those branches and loop through those instead.",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fea5cb8_8a28bd0b",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9
@@ -159,6 +248,30 @@
       "writtenOn": "2023-03-21T15:37:19Z",
       "side": 1,
       "message": "`isMergedInBranchAsSubmittedChange` or similar.\n\n* This method won\u0027t find commits that aren\u0027t patch-sets of merged changes.\n* `InSameBranch` doesn\u0027t make sense to me in this context since it reads \"merged in same branch as `dest`\", when it\u0027s really \"merged in `dest`\".",
+      "range": {
+        "startLine": 131,
+        "startChar": 18,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862d4b73_e46c1afa",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fea5cb8_8a28bd0b",
       "range": {
         "startLine": 131,
         "startChar": 18,
@@ -205,6 +318,54 @@
       "writtenOn": "2023-03-21T15:37:19Z",
       "side": 1,
       "message": "Let the index do the filtering?\n```suggestion\n    List\u003cChangeData\u003e changes \u003d queryProvider.get().byBranchCommit(dest, commit);\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 51,
+        "endLine": 132,
+        "endChar": 59
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b96115_da4a7f1d",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "Yes, it would find older patchsets.\nThis is currently expected by at least one test, which expects an error by an outdated patchset to be handled in a specific way. However, I believe directly noticing the missing dependency at this point would be better. I will fix that in a separate change.",
+      "parentUuid": "709c6abc_0e13fc2e",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4074627_2fbcb4aa",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-24T14:33:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907be60d_3c4acb03",
       "range": {
         "startLine": 132,
         "startChar": 51,

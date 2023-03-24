@@ -1385,6 +1385,33 @@ body.
   The change could not be rebased due to a path conflict during merge.
 ----
 
+Rebasing a change is allowed for the change owner, users with the
+link:access-control.html#category_rebase[Rebase] permission and users
+with the link:access-control.html#category_submit[Submit] permission.
+
+In addition, the rebaser or the original uploader, if rebasing is done
+on behalf of the uploader (see `rebase_on_behalf_of_uploader` option in
+link:#rebase-input[RebaseInput]), needs to have all permissions that
+are required to create the new patch set:
+
+* the link:access-control.html#category_push[Push] permission
+* the link:access-control.html#category_add_patch_set[Add Patch Set]
+  permission (only if the user is not the change owner)
+* the link:access-control.html#category_forge_author[Forge Author]
+  permission (only if the commit author is forged)
+* the link:access-control.html#category_forge_server[Forge Server]
+  permission (only if the commit author is the server identity)
+
+The same permissions were required for the upload of the original patch
+set. This means if the rebase is done on behalf of the uploader these
+permission checks should just pass, unless the uploader lost
+permissions after the upload of the original patch set. In this case
+rebasing on behalf of the uploader is not possible and a normal rebase
+(on behalf of the rebaser) must be done, which means that the rebaser
+becomes the uploader and takes over the change. If self approvals are
+disallowed, this means that the rebaser can no longer approve the
+change (as approvals of the uploader are ignored).
+
 [[rebase-chain]]
 === Rebase Chain
 --

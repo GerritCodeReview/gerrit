@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfe22fc2_ddf50506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-24T12:45:59Z",
+      "side": 1,
+      "message": "Thanks for updating the commit message! \n\n\u003e  I think the change\u0027s biggest benefit is that email system doesn\u0027t actually\n\u003e need to know the fine details of how permission check works when modifying \n\u003e change. This improves isolation and makes it more robust (and hopefully\n\u003e easier to understand/read)\n\nOh yes! I definitely agree to this!",
+      "parentUuid": "4cc89e61_a07753e0",
+      "revId": "184d07df9df1676d0969fa8a02788d4dbe745c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bde22eb2_24962ca7",

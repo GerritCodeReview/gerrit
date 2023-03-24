@@ -150,7 +150,7 @@ public class AccountField {
           .build(
               a -> {
                 String preferredEmail = a.account().preferredEmail();
-                return preferredEmail != null ? preferredEmail.toLowerCase() : null;
+                return preferredEmail != null ? preferredEmail.toLowerCase(Locale.US) : null;
               });
 
   public static final IndexedField<AccountState, String>.SearchSpec

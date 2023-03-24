@@ -115,8 +115,8 @@ public abstract class EmailHeader {
         byte[] buf = new String(Character.toChars(cp)).getBytes(UTF_8);
         for (byte b : buf) {
           r.append('=');
-          r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
-          r.append(Integer.toHexString(b & 0x0f).toUpperCase());
+          r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase(Locale.US));
+          r.append(Integer.toHexString(b & 0x0f).toUpperCase(Locale.US));
         }
 
       } else {

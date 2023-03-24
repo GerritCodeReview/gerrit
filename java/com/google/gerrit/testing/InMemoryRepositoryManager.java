@@ -49,6 +49,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableSet;
@@ -303,6 +304,6 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   private static String normalize(Project.NameKey name) {
-    return name.get().toLowerCase();
+    return name.get().toLowerCase(Locale.US);
   }
 }

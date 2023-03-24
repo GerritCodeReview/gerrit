@@ -202,14 +202,14 @@ public class ChangePredicates {
   public static Predicate<ChangeData> hashtag(String hashtag) {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
-        ChangeField.HASHTAG_SPEC, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+        ChangeField.HASHTAG_SPEC, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes tagged with the provided {@code hashtag}. */
   public static Predicate<ChangeData> fuzzyHashtag(String hashtag) {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
-        ChangeField.FUZZY_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+        ChangeField.FUZZY_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase(Locale.US));
   }
 
   /**
@@ -218,7 +218,7 @@ public class ChangePredicates {
   public static Predicate<ChangeData> prefixHashtag(String hashtag) {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
-        ChangeField.PREFIX_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+        ChangeField.PREFIX_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes that modified the provided {@code file}. */

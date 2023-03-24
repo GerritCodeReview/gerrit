@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.git.ObjectIds;
+import java.util.Locale;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -61,7 +62,8 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     PushOneCommit.Result m = push("refs/heads/master", "1", "f", "1");
     PushOneCommit.Result c = push("refs/for/stable", "2", "f", "2");
 
-    assertThat(c.getMessage().toLowerCase()).doesNotContain(implicitMergeOf(m.getCommit()));
+    assertThat(c.getMessage().toLowerCase(Locale.US))
+        .doesNotContain(implicitMergeOf(m.getCommit()));
   }
 
   @Test
@@ -74,7 +76,8 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
     PushOneCommit.Result m = push("refs/heads/master", "1", "f", "1");
     PushOneCommit.Result c = push("refs/for/master", "2", "f", "2");
 
-    assertThat(c.getMessage().toLowerCase()).doesNotContain(implicitMergeOf(m.getCommit()));
+    assertThat(c.getMessage().toLowerCase(Locale.US))
+        .doesNotContain(implicitMergeOf(m.getCommit()));
   }
 
   private String implicitMergeOf(ObjectId commit) throws Exception {

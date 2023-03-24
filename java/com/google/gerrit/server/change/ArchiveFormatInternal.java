@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.ArchiveCommand.Format;
@@ -47,7 +48,7 @@ public enum ArchiveFormatInternal {
   }
 
   public String getShortName() {
-    return name().toLowerCase();
+    return name().toLowerCase(Locale.US);
   }
 
   public String getMimeType() {

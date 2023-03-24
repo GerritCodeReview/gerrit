@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
@@ -106,7 +107,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
 
   static ExternalId findGpgKey(String str, Iterable<ExternalId> existingExtIds)
       throws ResourceNotFoundException {
-    str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
+    str = CharMatcher.whitespace().removeFrom(str).toUpperCase(Locale.US);
     if ((str.length() != 8 && str.length() != 40)
         || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
       throw new ResourceNotFoundException(str);

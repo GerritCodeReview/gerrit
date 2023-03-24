@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -82,7 +83,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       if (strs.length != 0) {
         Map<Long, Fingerprint> fps = Maps.newHashMapWithExpectedSize(strs.length);
         for (String str : strs) {
-          str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
+          str = CharMatcher.whitespace().removeFrom(str).toUpperCase(Locale.US);
           Fingerprint fp = new Fingerprint(BaseEncoding.base16().decode(str));
           fps.put(fp.getId(), fp);
         }

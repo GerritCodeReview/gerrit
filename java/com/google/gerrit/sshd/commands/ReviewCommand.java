@@ -56,6 +56,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -358,7 +359,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private static String asOptionName(LabelType type) {
-    return "--" + type.getName().toLowerCase();
+    return "--" + type.getName().toLowerCase(Locale.US);
   }
 
   private static Option newApproveOption(LabelType type, String usage) {

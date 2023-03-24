@@ -20,12 +20,13 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import java.util.Locale;
 import java.util.Set;
 
 public class SubmitRecordPredicate extends ChangeIndexPredicate {
   public static Predicate<ChangeData> create(
       String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
-    String lowerLabel = label.toLowerCase();
+    String lowerLabel = label.toLowerCase(Locale.US);
     if (accounts == null || accounts.isEmpty()) {
       return new SubmitRecordPredicate(status.name() + ',' + lowerLabel);
     }

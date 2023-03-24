@@ -36,6 +36,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -351,7 +352,8 @@ public abstract class IndexedField<I, T> {
 
     private static String checkName(String name) {
       String allowedCharacters = "abcdefghijklmnopqrstuvwxyz0123456789_";
-      CharMatcher m = CharMatcher.anyOf(allowedCharacters + allowedCharacters.toUpperCase());
+      CharMatcher m =
+          CharMatcher.anyOf(allowedCharacters + allowedCharacters.toUpperCase(Locale.US));
       checkArgument(name != null && m.matchesAllOf(name), "illegal field name: %s", name);
       return name;
     }

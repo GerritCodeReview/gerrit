@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -83,12 +84,13 @@ public class EmailValidatorIT extends AbstractDaemonTest {
           continue;
         }
         if (tld.startsWith(UNSUPPORTED_PREFIX)) {
-          String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
+          String test =
+              "test@example." + tld.toLowerCase(Locale.US).substring(UNSUPPORTED_PREFIX.length());
           assertWithMessage("expected invalid TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isFalse();
         } else {
-          String test = "test@example." + tld.toLowerCase();
+          String test = "test@example." + tld.toLowerCase(Locale.US);
           assertWithMessage("failed to validate TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isTrue();

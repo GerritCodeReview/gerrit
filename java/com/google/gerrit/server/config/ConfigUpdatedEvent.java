@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
@@ -139,7 +140,7 @@ public class ConfigUpdatedEvent {
 
     @Override
     public String toString() {
-      return StringUtils.capitalize(name().toLowerCase());
+      return StringUtils.capitalize(name().toLowerCase(Locale.US));
     }
   }
 

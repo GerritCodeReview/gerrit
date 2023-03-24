@@ -33,6 +33,7 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,8 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
         updates.asMap().entrySet().stream()
             .collect(
                 Collectors.toMap(
-                    e -> e.getKey().name().toLowerCase(), e -> toEntryInfos(e.getValue()))));
+                    e -> e.getKey().name().toLowerCase(Locale.US),
+                    e -> toEntryInfos(e.getValue()))));
   }
 
   private static List<ConfigUpdateEntryInfo> toEntryInfos(

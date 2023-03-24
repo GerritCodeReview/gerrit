@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
+import java.util.Locale;
 import org.junit.Test;
 
 public class PutUsernameIT extends AbstractDaemonTest {
@@ -46,7 +47,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   public void setExistingCaseInsensitive_Conflict() throws Exception {
     UsernameInput in = new UsernameInput();
-    in.username = admin.username().toUpperCase();
+    in.username = admin.username().toUpperCase(Locale.US);
     adminRestSession
         .put("/accounts/" + accountCreator.create().id().get() + "/username", in)
         .assertConflict();

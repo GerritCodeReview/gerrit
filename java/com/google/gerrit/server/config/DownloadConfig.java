@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
@@ -101,7 +102,7 @@ public class DownloadConfig {
   @Nullable
   private static String toCoreScheme(String s) {
     try {
-      Field f = CoreDownloadSchemes.class.getField(s.toUpperCase());
+      Field f = CoreDownloadSchemes.class.getField(s.toUpperCase(Locale.US));
       int m = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
       if ((f.getModifiers() & m) == m && f.getType() == String.class) {
         return (String) f.get(null);

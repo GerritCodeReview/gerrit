@@ -46,6 +46,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Locale;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -65,7 +66,8 @@ public class AbandonIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).abandon();
     ChangeInfo info = get(changeId, MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("abandoned");
 
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).abandon());
@@ -82,13 +84,17 @@ public class AbandonIT extends AbstractDaemonTest {
 
     ChangeInfo info = get(a.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("deadbeef");
 
     info = get(b.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("deadbeef");
   }
 
   @Test
@@ -292,7 +298,8 @@ public class AbandonIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).restore();
     ChangeInfo info = get(changeId, MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("restored");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
+        .contains("restored");
 
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).restore());

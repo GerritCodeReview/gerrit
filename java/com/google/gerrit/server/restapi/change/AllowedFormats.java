@@ -22,6 +22,7 @@ import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Locale;
 import java.util.Set;
 
 @Singleton
@@ -36,7 +37,7 @@ public class AllowedFormats {
       for (String ext : format.getSuffixes()) {
         exts.put(ext, format);
       }
-      exts.put(format.name().toLowerCase(), format);
+      exts.put(format.name().toLowerCase(Locale.US), format);
     }
     extensions = exts.build();
 

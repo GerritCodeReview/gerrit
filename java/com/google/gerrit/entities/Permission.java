@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 /** A single permission within an {@link AccessSection} of a project. */
@@ -64,37 +65,37 @@ public abstract class Permission implements Comparable<Permission> {
 
   static {
     NAMES_LC = new ArrayList<>();
-    NAMES_LC.add(ABANDON.toLowerCase());
-    NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
-    NAMES_LC.add(CREATE.toLowerCase());
-    NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
-    NAMES_LC.add(CREATE_TAG.toLowerCase());
-    NAMES_LC.add(DELETE.toLowerCase());
-    NAMES_LC.add(DELETE_CHANGES.toLowerCase());
-    NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
-    NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
-    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
-    NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
-    NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
-    NAMES_LC.add(FORGE_SERVER.toLowerCase());
-    NAMES_LC.add(LABEL.toLowerCase());
-    NAMES_LC.add(LABEL_AS.toLowerCase());
-    NAMES_LC.add(REMOVE_LABEL.toLowerCase());
-    NAMES_LC.add(OWNER.toLowerCase());
-    NAMES_LC.add(PUSH.toLowerCase());
-    NAMES_LC.add(PUSH_MERGE.toLowerCase());
-    NAMES_LC.add(READ.toLowerCase());
-    NAMES_LC.add(REBASE.toLowerCase());
-    NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
-    NAMES_LC.add(REVERT.toLowerCase());
-    NAMES_LC.add(SUBMIT.toLowerCase());
-    NAMES_LC.add(SUBMIT_AS.toLowerCase());
-    NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase());
-    NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
+    NAMES_LC.add(ABANDON.toLowerCase(Locale.US));
+    NAMES_LC.add(ADD_PATCH_SET.toLowerCase(Locale.US));
+    NAMES_LC.add(CREATE.toLowerCase(Locale.US));
+    NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase(Locale.US));
+    NAMES_LC.add(CREATE_TAG.toLowerCase(Locale.US));
+    NAMES_LC.add(DELETE.toLowerCase(Locale.US));
+    NAMES_LC.add(DELETE_CHANGES.toLowerCase(Locale.US));
+    NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase(Locale.US));
+    NAMES_LC.add(EDIT_HASHTAGS.toLowerCase(Locale.US));
+    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase(Locale.US));
+    NAMES_LC.add(FORGE_AUTHOR.toLowerCase(Locale.US));
+    NAMES_LC.add(FORGE_COMMITTER.toLowerCase(Locale.US));
+    NAMES_LC.add(FORGE_SERVER.toLowerCase(Locale.US));
+    NAMES_LC.add(LABEL.toLowerCase(Locale.US));
+    NAMES_LC.add(LABEL_AS.toLowerCase(Locale.US));
+    NAMES_LC.add(REMOVE_LABEL.toLowerCase(Locale.US));
+    NAMES_LC.add(OWNER.toLowerCase(Locale.US));
+    NAMES_LC.add(PUSH.toLowerCase(Locale.US));
+    NAMES_LC.add(PUSH_MERGE.toLowerCase(Locale.US));
+    NAMES_LC.add(READ.toLowerCase(Locale.US));
+    NAMES_LC.add(REBASE.toLowerCase(Locale.US));
+    NAMES_LC.add(REMOVE_REVIEWER.toLowerCase(Locale.US));
+    NAMES_LC.add(REVERT.toLowerCase(Locale.US));
+    NAMES_LC.add(SUBMIT.toLowerCase(Locale.US));
+    NAMES_LC.add(SUBMIT_AS.toLowerCase(Locale.US));
+    NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase(Locale.US));
+    NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase(Locale.US));
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
-    LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
-    REMOVE_LABEL_INDEX = NAMES_LC.indexOf(Permission.REMOVE_LABEL.toLowerCase());
+    LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase(Locale.US));
+    REMOVE_LABEL_INDEX = NAMES_LC.indexOf(Permission.REMOVE_LABEL.toLowerCase(Locale.US));
   }
 
   /** Returns true if the name is recognized as a permission name. */
@@ -102,7 +103,7 @@ public abstract class Permission implements Comparable<Permission> {
     return isLabel(varName)
         || isLabelAs(varName)
         || isRemoveLabel(varName)
-        || NAMES_LC.contains(varName.toLowerCase());
+        || NAMES_LC.contains(varName.toLowerCase(Locale.US));
   }
 
   public static boolean hasRange(String varName) {
@@ -226,7 +227,7 @@ public abstract class Permission implements Comparable<Permission> {
       return REMOVE_LABEL_INDEX;
     }
 
-    int index = NAMES_LC.indexOf(a.getName().toLowerCase());
+    int index = NAMES_LC.indexOf(a.getName().toLowerCase(Locale.US));
     return 0 <= index ? index : NAMES_LC.size();
   }
 

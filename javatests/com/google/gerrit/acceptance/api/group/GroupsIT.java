@@ -114,6 +114,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -463,7 +464,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createDuplicateInternalGroupCaseInsensitiveName() throws Exception {
     String dupGroupName = name("dupGroupA");
-    String dupGroupNameLowerCase = name("dupGroupA").toLowerCase();
+    String dupGroupNameLowerCase = name("dupGroupA").toLowerCase(Locale.US);
     gApi.groups().create(dupGroupName);
     gApi.groups().create(dupGroupNameLowerCase);
     assertThat(gApi.groups().list().getAsMap().keySet()).contains(dupGroupName);

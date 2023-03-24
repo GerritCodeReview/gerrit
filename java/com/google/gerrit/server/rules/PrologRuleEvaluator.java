@@ -51,6 +51,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -381,7 +382,7 @@ public class PrologRuleEvaluator {
 
     String typeName = typeTerm.name();
     try {
-      return SubmitTypeRecord.OK(SubmitType.valueOf(typeName.toUpperCase()));
+      return SubmitTypeRecord.OK(SubmitType.valueOf(typeName.toUpperCase(Locale.US)));
     } catch (IllegalArgumentException e) {
       return typeError(
           "Submit type rule "

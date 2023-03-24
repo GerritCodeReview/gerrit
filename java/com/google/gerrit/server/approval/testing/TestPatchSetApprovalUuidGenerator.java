@@ -20,6 +20,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import java.time.Instant;
+import java.util.Locale;
 import javax.inject.Singleton;
 
 /**
@@ -44,6 +45,6 @@ public class TestPatchSetApprovalUuidGenerator implements PatchSetApprovalUuidGe
                 value,
                 invocationCount)
             .replace("-", "_")
-            .toLowerCase());
+            .toLowerCase(Locale.US));
   }
 }

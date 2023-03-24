@@ -26,6 +26,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Objects;
@@ -74,11 +75,11 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
   }
 
   public static String canonicalize(Change.Status status) {
-    return status.name().toLowerCase();
+    return status.name().toLowerCase(Locale.US);
   }
 
   public static Predicate<ChangeData> parse(String value) throws QueryParseException {
-    String lower = value.toLowerCase();
+    String lower = value.toLowerCase(Locale.US);
     NavigableMap<String, Predicate<ChangeData>> head = PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
       // Assume no statuses share a common prefix so we can only walk one entry.

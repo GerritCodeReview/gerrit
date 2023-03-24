@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Locale;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -176,7 +177,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
     assertThat(resolve(existingUsername)).containsExactly(idWithUsername);
     assertThat(resolve(existingMixedCaseUsername)).containsExactly(idWithMixedCaseUsername);
-    assertThat(resolve(existingMixedCaseUsername.toLowerCase()))
+    assertThat(resolve(existingMixedCaseUsername.toLowerCase(Locale.US)))
         .containsExactly(idWithMixedCaseUsername);
   }
 

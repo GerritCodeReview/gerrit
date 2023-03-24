@@ -79,6 +79,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -159,7 +160,7 @@ class GitwebServlet extends HttpServlet {
 
     if (!_env.envMap.containsKey("SystemRoot")) {
       String os = System.getProperty("os.name");
-      if (os != null && os.toLowerCase().contains("windows")) {
+      if (os != null && os.toLowerCase(Locale.US).contains("windows")) {
         String sysroot = System.getenv("SystemRoot");
         if (sysroot == null || sysroot.isEmpty()) {
           sysroot = "C:\\WINDOWS";
@@ -576,7 +577,7 @@ class GitwebServlet extends HttpServlet {
 
     for (String name : getHeaderNames(req)) {
       final String value = req.getHeader(name);
-      env.set("HTTP_" + name.toUpperCase().replace('-', '_'), value);
+      env.set("HTTP_" + name.toUpperCase(Locale.US).replace('-', '_'), value);
     }
 
     Project.NameKey nameKey = projectState.getNameKey();

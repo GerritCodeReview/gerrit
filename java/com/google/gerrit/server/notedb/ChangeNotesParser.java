@@ -93,6 +93,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -760,7 +761,7 @@ class ChangeNotesParser {
       throw expectedOneFooter(FOOTER_STATUS, statusLines);
     }
     Change.Status status =
-        Enums.getIfPresent(Change.Status.class, statusLines.get(0).toUpperCase()).orNull();
+        Enums.getIfPresent(Change.Status.class, statusLines.get(0).toUpperCase(Locale.US)).orNull();
     if (status == null) {
       throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
     }
@@ -802,7 +803,7 @@ class ChangeNotesParser {
       PatchSetState state =
           Enums.getIfPresent(
                   PatchSetState.class,
-                  withParens.substring(1, withParens.length() - 1).toUpperCase())
+                  withParens.substring(1, withParens.length() - 1).toUpperCase(Locale.US))
               .orNull();
       if (state != null) {
         return state;

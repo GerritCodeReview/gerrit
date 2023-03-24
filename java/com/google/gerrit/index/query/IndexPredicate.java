@@ -23,6 +23,7 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -117,7 +118,8 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
   }
 
   private static ImmutableSet<String> tokenizeString(String value) {
-    return StreamSupport.stream(FULL_TEXT_SPLITTER.split(value.toLowerCase()).spliterator(), false)
+    return StreamSupport.stream(
+            FULL_TEXT_SPLITTER.split(value.toLowerCase(Locale.US)).spliterator(), false)
         .filter(s -> !s.trim().isEmpty())
         .collect(toImmutableSet());
   }

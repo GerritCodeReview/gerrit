@@ -285,6 +285,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0848c7a1_a99a1826",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-25T21:22:16Z",
+      "side": 1,
+      "message": "with commit-graph and Kyle\u0027s series https://git.eclipse.org/r/c/jgit/jgit/+/187541 we have a good chance to speedup isMergedInto considerably",
+      "parentUuid": "38f8c68e_886b2948",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fea5cb8_8a28bd0b",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

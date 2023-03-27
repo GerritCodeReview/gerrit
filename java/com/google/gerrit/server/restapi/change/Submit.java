@@ -43,11 +43,11 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.server.BranchUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -198,7 +198,7 @@ public class Submit
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-    } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
+    } else if (!BranchUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
           String.format("destination branch \"%s\" not found.", change.getDest().branch()));
     } else if (!rsrc.getPatchSet().id().equals(change.currentPatchSetId())) {

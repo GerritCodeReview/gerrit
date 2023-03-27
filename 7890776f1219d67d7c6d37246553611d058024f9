@@ -16,6 +16,24 @@
       "message": "How is extracting BranchUtil from ProjectUtil related to sanitize the project name on parsing? Should this rather be a separate change?",
       "revId": "7890776f1219d67d7c6d37246553611d058024f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f33200_4c93e3d9",
+        "filename": "java/com/google/gerrit/server/BranchUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1087240
+      },
+      "writtenOn": "2023-03-27T09:42:59Z",
+      "side": 1,
+      "message": "I added a sentence about the reason into the commit message.\n\nI thought about splitting it into 2 changes, but the size of the change is small, so I decided to keep everything in a single change.",
+      "parentUuid": "7ba93374_de6d1478",
+      "revId": "7890776f1219d67d7c6d37246553611d058024f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

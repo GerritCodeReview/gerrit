@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c7741fc_452a9804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T16:10:32Z",
+      "side": 1,
+      "message": "Awesome! thanks for the detailed clarifications here and in commit message.",
+      "parentUuid": "adbf7ac7_62393f09",
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1e207cc_e77b7792",
@@ -108,6 +126,30 @@
       "side": 1,
       "message": "I have moved this into DefaultPermissionBackend. When you ask whether the use has the VIEW_SECONDARY_EMAILS capability, it now also checks for the MODIFY_ACCOUNT capability.",
       "parentUuid": "c1e207cc_e77b7792",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 83
+      },
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a88b74_170167af",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T16:10:32Z",
+      "side": 1,
+      "message": "Ack. Thanks for moving!",
+      "parentUuid": "a1862291_48b96cb5",
       "range": {
         "startLine": 103,
         "startChar": 6,

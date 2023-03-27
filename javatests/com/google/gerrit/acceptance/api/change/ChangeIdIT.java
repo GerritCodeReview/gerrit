@@ -54,6 +54,28 @@ public class ChangeIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void projectChangeNumberReturnsChangeWhenProjectEndsWithSlash() throws Exception {
+    Project.NameKey p = projectOperations.newProject().create();
+    ChangeInfo ci = gApi.changes().create(new ChangeInput(p.get(), "master", "msg")).get();
+
+    ChangeInfo changeInfo = gApi.changes().id(p.get() + "/", ci._number).get();
+
+    assertThat(changeInfo.changeId).isEqualTo(ci.changeId);
+    assertThat(changeInfo.project).isEqualTo(p.get());
+  }
+
+  @Test
+  public void projectChangeNumberReturnsChangeWhenProjectEndsWithDotGit() throws Exception {
+    Project.NameKey p = projectOperations.newProject().create();
+    ChangeInfo ci = gApi.changes().create(new ChangeInput(p.get(), "master", "msg")).get();
+
+    ChangeInfo changeInfo = gApi.changes().id(p.get() + ".git", ci._number).get();
+
+    assertThat(changeInfo.changeId).isEqualTo(ci.changeId);
+    assertThat(changeInfo.project).isEqualTo(p.get());
+  }
+
+  @Test
   public void wrongProjectInProjectChangeNumberReturnsNotFound() throws Exception {
     ResourceNotFoundException thrown =
         assertThrows(

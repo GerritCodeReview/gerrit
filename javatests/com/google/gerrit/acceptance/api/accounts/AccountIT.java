@@ -991,14 +991,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetEmailsOfOtherAccountWithoutModifyAccount() throws Exception {
+  public void cannotGetEmailsOfOtherAccountWithoutViewSecondaryEmailsAndWithoutModifyAccount()
+      throws Exception {
     String email = "preferred2@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.accounts().id(foo.id().get()).getEmails());
-    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
+    assertThat(thrown).hasMessageThat().contains("view secondary emails not permitted");
   }
 
   @Test

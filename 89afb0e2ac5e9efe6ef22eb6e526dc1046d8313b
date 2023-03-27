@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "740cbd56_fca20992",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T11:51:47Z",
+      "side": 1,
+      "message": "Is the new permission conditioned on the user having account visibility over the other user?",
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76902423_353cccf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T11:51:47Z",
+      "side": 1,
+      "message": "After reading commit message I first thought this change is about resolving accounts from emails, for example when someone adds a reviewer by email. I understood it as:\n1) If I have account visibility, I can add by primary email\n2) only if I have (global account global capability or the new capability added in this change) then I can add a reviewer by secondary email.\n\nAfter checking tests, I think this also affects API /accounts/\u003caccount-identifier\u003e/emails/ (list account emails). So Q1: which operations will be affected by this change?\n\nAnother point: Q2- Will I get \"View secondary email not permitted\" only if the user has secondary email or always (i.e. what if user does not have secondary email)?\n\nA general note: can we simplify viewing and make secondary emails visible if account is visible?",
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e207cc_e77b7792",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T11:51:47Z",
+      "side": 1,
+      "message": "This condition multiple times. Can we extract it in a utility instead?\n\n(like in your #private boolean canViewSecondaryEmails() in AccountQueryBuilder)",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 83
+      },
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

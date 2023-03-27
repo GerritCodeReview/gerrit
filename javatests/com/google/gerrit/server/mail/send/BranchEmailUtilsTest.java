@@ -15,12 +15,12 @@
 package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.mail.send.NotificationEmail.getInstanceAndProjectName;
-import static com.google.gerrit.server.mail.send.NotificationEmail.getShortProjectName;
+import static com.google.gerrit.server.mail.send.BranchEmailUtils.getInstanceAndProjectName;
+import static com.google.gerrit.server.mail.send.BranchEmailUtils.getShortProjectName;
 
 import org.junit.Test;
 
-public class NotificationEmailTest {
+public class BranchEmailUtilsTest {
   @Test
   public void instanceAndProjectName() throws Exception {
     assertThat(getInstanceAndProjectName("test", "/my/api")).isEqualTo("test/api");

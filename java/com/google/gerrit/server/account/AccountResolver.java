@@ -434,16 +434,17 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input, CurrentUser asUser) throws IOException {
-      boolean canSeeSecondaryEmails = false;
+      boolean canViewSecondaryEmails = false;
       try {
-        if (permissionBackend.user(asUser).test(GlobalPermission.MODIFY_ACCOUNT)) {
-          canSeeSecondaryEmails = true;
+        if (permissionBackend.user(asUser).test(GlobalPermission.VIEW_SECONDARY_EMAILS)
+            || permissionBackend.user(asUser).test(GlobalPermission.MODIFY_ACCOUNT)) {
+          canViewSecondaryEmails = true;
         }
       } catch (PermissionBackendException e) {
         // remains false
       }
 
-      if (canSeeSecondaryEmails) {
+      if (canViewSecondaryEmails) {
         return toAccountStates(emails.getAccountFor(input));
       }
 
@@ -549,15 +550,16 @@ public class AccountResolver {
       // up with a reasonable result list.
       // TODO(dborowitz): This doesn't match the documentation; consider whether it's possible to be
       // more strict here.
-      boolean canSeeSecondaryEmails = false;
+      boolean canViewSecondaryEmails = false;
       try {
-        if (permissionBackend.user(asUser).test(GlobalPermission.MODIFY_ACCOUNT)) {
-          canSeeSecondaryEmails = true;
+        if (permissionBackend.user(asUser).test(GlobalPermission.VIEW_SECONDARY_EMAILS)
+            || permissionBackend.user(asUser).test(GlobalPermission.MODIFY_ACCOUNT)) {
+          canViewSecondaryEmails = true;
         }
       } catch (PermissionBackendException e) {
         // remains false
       }
-      return accountQueryProvider.get().byDefault(input, canSeeSecondaryEmails).stream();
+      return accountQueryProvider.get().byDefault(input, canViewSecondaryEmails).stream();
     }
 
     @Override

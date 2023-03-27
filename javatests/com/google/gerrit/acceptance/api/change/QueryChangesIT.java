@@ -549,6 +549,19 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @Test
   public void changesFoundWhenQueryingBySecondaryEmailWithModifyAccountCapability()
       throws Exception {
+    testCangesFoundWhenQueryingBySecondaryEmailWithModifyAccountCapability(
+        GlobalCapability.MODIFY_ACCOUNT);
+  }
+
+  @Test
+  public void changesFoundWhenQueryingBySecondaryEmailWithViewSecondaryEmailsCapability()
+      throws Exception {
+    testCangesFoundWhenQueryingBySecondaryEmailWithModifyAccountCapability(
+        GlobalCapability.VIEW_SECONDARY_EMAILS);
+  }
+
+  private void testCangesFoundWhenQueryingBySecondaryEmailWithModifyAccountCapability(
+      String globalCapability) throws Exception {
     String secondaryOwnerEmail = "owner-secondary@example.com";
     Account.Id owner =
         accountOperations
@@ -574,7 +587,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     projectOperations
         .allProjectsForUpdate()
-        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .add(allowCapability(globalCapability).group(REGISTERED_USERS))
         .update();
 
     requestScopeOperations.setApiUser(user.id());

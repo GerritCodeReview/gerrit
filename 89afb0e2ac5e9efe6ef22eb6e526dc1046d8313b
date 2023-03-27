@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c54a49_84532bb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-27T14:41:59Z",
+      "side": 1,
+      "message": "The new permission doesn\u0027t change anything about account visibility.\nIf the account is not visible you can\u0027t see it with this permission.\n\nWhat the new permission allows you is to lookup a visible account by secondary email. If you can\u0027t see secondary emails trying to lookup a visible account by secondary email results in a not found.\n\nI\u0027ve added this to the commit message now.",
+      "parentUuid": "740cbd56_fca20992",
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76902423_353cccf9",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adbf7ac7_62393f09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-27T14:41:59Z",
+      "side": 1,
+      "message": "\u003e After reading commit message I first thought this change is about resolving \n\u003e accounts from emails,\n\nYes exactly, it\u0027s about resolving secondary emails to account :)\n\n\u003e for example when someone adds a reviewer by email. I\n\u003e understood it as:\n\u003e 1) If I have account visibility, I can add by primary email\n\nyes\n\n\u003e 2) only if I have (global account global capability or the new capability added\n\u003e in this change) then I can add a reviewer by secondary email.\n\nYes\n\n* if you can see the account, but you can\u0027t see secondary emails, you cannot add the reviewer by secondary email\n* if you can see the account and you can see secondary emails, you can add the reviewer by secondary email\n* if you can\u0027t see the account, no matter if you have the new permission or not, you cannot add the reviewer by secondary email\n\n\u003e \n\u003e After checking tests, I think this also affects API /accounts/\u003caccount-identifier\u003e/emails/ (list account emails). So Q1: which operations will be affected by this change?\n\nIt affects resolving a secondary email to an account. \n\n* if you can see the account, but you can\u0027t see secondary emails, the secondary email cannot be resolved\n* if you can see the account and you can see secondary emails, the secondary email can be resolved\n* if you can\u0027t see the account, no matter if you have the new permission or not, none of its emails can be resolved\n\nI\u0027ve updated the commit message to make this clearer.\n\n\u003e \n\u003e Another point: Q2- Will I get \"View secondary email not permitted\" only if the\n\u003e user has secondary email or always (i.e. what if user does not have secondary\n\u003e email)?\n\nSorry, that this was phrased confusingly. This is the error message that you get if you ask Gerrit for secondary emails and you you can\u0027t view secondary emails. It doesn\u0027t matter if the user actually has secondary emails, you may still ask for them.\n\nFixed in the commit message.\n\n\u003e \n\u003e A general note: can we simplify viewing and make secondary emails visible if account is visible?\n\nThis question is unrelated to this change. At the moment we can\u0027t make secondary emails visible if the account is visible, because the secondary emails may contain deadnames that must not be exposed. Long-term we may consider removing secondary emails that represent deadnames and then make all emails visible to users that can see the account.",
+      "parentUuid": "76902423_353cccf9",
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1e207cc_e77b7792",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-03-27T11:51:47Z",
       "side": 1,
       "message": "This condition multiple times. Can we extract it in a utility instead?\n\n(like in your #private boolean canViewSecondaryEmails() in AccountQueryBuilder)",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 83
+      },
+      "revId": "89afb0e2ac5e9efe6ef22eb6e526dc1046d8313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1862291_48b96cb5",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-27T14:41:59Z",
+      "side": 1,
+      "message": "I have moved this into DefaultPermissionBackend. When you ask whether the use has the VIEW_SECONDARY_EMAILS capability, it now also checks for the MODIFY_ACCOUNT capability.",
+      "parentUuid": "c1e207cc_e77b7792",
       "range": {
         "startLine": 103,
         "startChar": 6,

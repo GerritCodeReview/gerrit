@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "193ed906_0adcd0cd",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-27T07:13:25Z",
+      "side": 1,
+      "message": "I have a totally different understanding.\nThe `isAlreadyMergedInAnyBranch` check that caused the performance issue was put in place because this would valuate to true for the parent of a merge if the parent wasn\u0027t a merged change, and that happened alwasy.\nThe `toSortContainsMerge` was added so that we don\u0027t do the expensive `isAlredyMergedInAnyBranch` check if the submitted commits doesn\u0027t contain a merge.\nThe race condition issue were this is true without a merge is handled by `isMergeInBranchAsSubmittedChange`.",
+      "range": {
+        "startLine": 85,
+        "startChar": 25,
+        "endLine": 88,
+        "endChar": 77
+      },
+      "revId": "691b5f146d2858dd844b0e2cc832f277e104c025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2280620_923080bb",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-27T07:13:25Z",
+      "side": 1,
+      "message": "This doesn\u0027t compute for me. I would opt for something like:\n```\nIn some cases we can end up here even though the change is mergeable.\na) Due to a race condition we might end up here even though the commit is the\nlatest patchset of a merged change. Do this check first since it can be done with\nan inexpensive index lookup.\nb) The commit is is merged into an existing branch and it is a parent of the latest\npatchset of a change that is submitted and it isn\u0027t the result of a merged change.\nThis potentially requires a is-merged-into check for all branches in the project\nand is potentially very expensive. Since it is expensive only perform the check\nif the condition is met i.e. when there\u0027s a merge commit among the submitted\nchanges.\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 93,
+        "endChar": 52
+      },
+      "revId": "691b5f146d2858dd844b0e2cc832f277e104c025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3ae3e8e_b8d641d6",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 11

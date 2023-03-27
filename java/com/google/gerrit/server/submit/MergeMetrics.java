@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -28,6 +29,8 @@ import com.google.inject.Provider;
 
 /** Metrics are recorded when a change is merged (aka submitted). */
 public class MergeMetrics {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder;
 
   // TODO: This metric is for measuring the impact of allowing users to rebase changes on behalf of
@@ -81,12 +84,19 @@ public class MergeMetrics {
     // impersonated. Impersonating the uploader is only allowed on rebase by rebasing on behalf of
     // the uploader. Hence if the current patch set has different accounts as uploader and real
     // uploader we can assume that it was created by rebase on behalf of the uploader.
-    return !cd.currentPatchSet().uploader().equals(cd.currentPatchSet().realUploader());
+    boolean isRebaseOnBehalfOfUploader =
+        !cd.currentPatchSet().uploader().equals(cd.currentPatchSet().realUploader());
+    logger.atFine().log("isRebaseOnBehalfOfUploader = %s", isRebaseOnBehalfOfUploader);
+    return isRebaseOnBehalfOfUploader;
   }
 
   private boolean hasCodeReviewApprovalOfRealUploader(ChangeData cd) {
-    return cd.currentApprovals().stream()
-        .anyMatch(psa -> psa.accountId().equals(cd.currentPatchSet().realUploader()));
+    boolean hasCodeReviewApprovalOfRealUploader =
+        cd.currentApprovals().stream()
+            .anyMatch(psa -> psa.accountId().equals(cd.currentPatchSet().realUploader()));
+    logger.atFine().log(
+        "hasCodeReviewApprovalOfRealUploader = %s", hasCodeReviewApprovalOfRealUploader);
+    return hasCodeReviewApprovalOfRealUploader;
   }
 
   private boolean ignoresCodeReviewApprovalsOfUploader(ChangeData cd) {
@@ -105,6 +115,9 @@ public class MergeMetrics {
   }
 
   private boolean ignoresCodeReviewApprovalsOfUploader(Predicate<ChangeData> predicate) {
+    logger.atFine().log(
+        "predicate = (%s) %s (child count = %d)",
+        predicate.getClass().getName(), predicate.toString(), predicate.getChildCount());
     if (predicate.getChildCount() == 0) {
       // Submit requirements may require a Code-Review approval but ignore approvals by the
       // uploader. This is done by using a label predicate with 'user=non_uploader' or

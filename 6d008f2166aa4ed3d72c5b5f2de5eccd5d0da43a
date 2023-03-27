@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16064cbf_a23c7eff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-27T07:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41379470_42444939",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5be0959_0d512211",
@@ -297,6 +315,48 @@
       "side": 1,
       "message": "with commit-graph and Kyle\u0027s series https://git.eclipse.org/r/c/jgit/jgit/+/187541 we have a good chance to speedup isMergedInto considerably",
       "parentUuid": "38f8c68e_886b2948",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 47
+      },
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ac3e70_2887dd6e",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-27T07:47:39Z",
+      "side": 1,
+      "message": "I would do that in a separate change, since this will be a larger effort:\n\n- We need a Collection of Refs instead of RevCommits\n- isMergedIntoAny currently does not have an early stop, if it found any hit and thus at the moment wouldn\u0027t safe us computation time",
+      "parentUuid": "b7ce80ed_b0c89857",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb8b7823_4700ba1e",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-27T07:47:39Z",
+      "side": 1,
+      "message": "Right :-(. And we can\u0027t walk up the commit graph.",
+      "parentUuid": "0848c7a1_a99a1826",
       "range": {
         "startLine": 118,
         "startChar": 32,

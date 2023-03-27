@@ -8,6 +8,7 @@ java_library(
     name = "entities",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/server:project_util",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",

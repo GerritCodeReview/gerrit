@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.server.ProjectUtil;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public abstract class Project {
 
     /** Parse a Project.NameKey out of a string representation. */
     public static NameKey parse(String str) {
-      return nameKey(KeyUtil.decode(str));
+      return nameKey(ProjectUtil.sanitizeProjectName(KeyUtil.decode(str)));
     }
 
     private final String name;

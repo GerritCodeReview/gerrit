@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ba93374_de6d1478",
+        "filename": "java/com/google/gerrit/server/BranchUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-27T09:36:25Z",
+      "side": 1,
+      "message": "How is extracting BranchUtil from ProjectUtil related to sanitize the project name on parsing? Should this rather be a separate change?",
+      "revId": "7890776f1219d67d7c6d37246553611d058024f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

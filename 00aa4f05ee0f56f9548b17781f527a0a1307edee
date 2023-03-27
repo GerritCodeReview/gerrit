@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17193f6e_d8288cc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-27T12:39:47Z",
+      "side": 1,
+      "message": "@ekempin@google.com\nDo you remember why this is `||` as in\n\"If it doesn\u0027t have the can-merge flag OR if it has the can-merge flag but isn\u0027t one of the commits that this request is trying to submit\"\nand not `\u0026\u0026` as in:\n\"If it doesn\u0027t have the can-merge flag and isn\u0027t one of the commits that this request is trying to submit\"",
+      "revId": "00aa4f05ee0f56f9548b17781f527a0a1307edee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.change.EqualsLabelPredicates.type;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class MagicLabelPredicates {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class PostFilterMagicLabelPredicate extends PostFilterPredicate<ChangeData> {
     private static class PostFilterMatcher extends Matcher {
       public PostFilterMatcher(
@@ -177,6 +180,7 @@ public class MagicLabelPredicates {
     }
 
     public boolean ignoresUploaderApprovals() {
+      logger.atFine().log("account = %d", account.get());
       return account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
           || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
     }

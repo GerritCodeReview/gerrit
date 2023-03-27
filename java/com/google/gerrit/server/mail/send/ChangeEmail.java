@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeSizeBucket;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -43,6 +44,7 @@ import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import com.google.gerrit.server.mail.send.ProjectWatch.Watchers.WatcherList;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOptions;
@@ -78,7 +80,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends NotificationEmail {
+public abstract class ChangeEmail extends OutgoingEmail {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -100,6 +102,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected PatchSetInfo patchSetInfo;
   protected String changeMessage;
   protected Instant timestamp;
+  protected BranchNameKey branch;
 
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
@@ -107,12 +110,13 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected boolean emailOnlyAttentionSetIfEnabled;
 
   protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
-    super(args, messageClass, changeData.change().getDest());
+    super(args, messageClass);
     this.changeData = changeData;
     change = changeData.change();
     emailOnlyAuthors = false;
     emailOnlyAttentionSetIfEnabled = true;
     currentAttentionSet = getAttentionSet();
+    branch = changeData.change().getDest();
   }
 
   @Override
@@ -202,6 +206,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     super.init();
+    BranchEmailUtils.setListIdHeader(this, branch);
     if (timestamp != null) {
       setHeader(FieldName.DATE, timestamp);
     }
@@ -395,7 +400,36 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  @Override
+  /** Include users and groups that want notification of events. */
+  protected void includeWatchers(NotifyType type) {
+    includeWatchers(type, true);
+  }
+
+  /** Include users and groups that want notification of events. */
+  protected void includeWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
+    try {
+      Watchers matching = getWatchers(type, includeWatchersFromNotifyConfig);
+      addWatchers(RecipientType.TO, matching.to);
+      addWatchers(RecipientType.CC, matching.cc);
+      addWatchers(RecipientType.BCC, matching.bcc);
+    } catch (StorageException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+      logger.atWarning().withCause(err).log("Cannot BCC watchers for %s", type);
+    }
+  }
+
+  /** Add users or email addresses to the TO, CC, or BCC list. */
+  protected void addWatchers(RecipientType type, WatcherList watcherList) {
+    for (Account.Id user : watcherList.accounts) {
+      addWatcher(type, user);
+    }
+    for (Address addr : watcherList.emails) {
+      addByEmail(type, addr);
+    }
+  }
+
   protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     if (!NotifyHandling.ALL.equals(notify.handling())) {
       return new Watchers();
@@ -443,7 +477,6 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** This bypasses the EmailStrategy.ATTENTION_SET_ONLY strategy when adding the recipient. */
-  @Override
   protected void addWatcher(RecipientType rt, Account.Id to) {
     addRecipient(rt, to, /* isWatcher= */ true);
   }
@@ -517,6 +550,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
+    BranchEmailUtils.addBranchData(this, args, branch);
 
     soyContext.put("changeId", change.getKey().get());
     soyContext.put("coverLetter", getCoverLetter());

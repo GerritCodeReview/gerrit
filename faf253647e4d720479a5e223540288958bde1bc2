@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f44ab2fa_21008b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T16:04:27Z",
+      "side": 1,
+      "message": "nit: please remove.",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29f5a3db_7fd561e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T16:04:27Z",
+      "side": 1,
+      "message": "LGTM. I only left two small comments.",
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b756794_70921468",
+        "filename": "java/com/google/gerrit/server/mail/send/BranchEmailUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-27T16:04:27Z",
+      "side": 1,
+      "message": "Can this be an inner class in ChangeEmail (the only caller?), or maybe just add the methods directly there?\n\nMaking it a standalone class is giving it more importance than what it should get and also I don\u0027t expect the static methods to be used from outside the mail package.",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

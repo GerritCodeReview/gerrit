@@ -661,6 +661,26 @@ public abstract class OutgoingEmail {
     soyContext.put("email", soyContextEmailData);
   }
 
+  /** Mutable map of parameters passed into email templates when rendering. */
+  public Map<String, Object> getSoyContext() {
+    return this.soyContext;
+  }
+
+  // TODO: It's not clear why we need this explicit separation. Probably worth
+  // simplifying.
+  /** Mutable content of `email` parameter in the templates. */
+  public Map<String, Object> getSoyContextEmailData() {
+    return this.soyContextEmailData;
+  }
+
+  /**
+   * Add a line to email footer with additional information. Typically, in the form of {@literal
+   * <key>: <value>}.
+   */
+  public void addFooter(String footer) {
+    footers.add(footer);
+  }
+
   private String getInstanceName() {
     return args.instanceNameProvider.get();
   }

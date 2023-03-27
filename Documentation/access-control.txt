@@ -1417,8 +1417,8 @@ Implies the following capabilities:
 
 Allow to link:cmd-set-account.html[modify accounts over the ssh prompt].
 This capability allows the granted group members to modify any user account
-setting. In addition this capability is required to view secondary emails
-of other accounts.
+setting. In addition this capability allows to view secondary emails of other
+accounts.
 
 [[capability_priority]]
 === Priority
@@ -1520,7 +1520,8 @@ setting.
 
 This capability allows to view all accounts but not all account data.
 E.g. secondary emails of all accounts can only be viewed with the
-link:#capability_modifyAccount[Modify Account] capability.
+link:#capability_viewSecondaryEmails[View Secondary Emails] capability
+or the link:#capability_modifyAccount[Modify Account] capability.
 
 
 [[capability_viewCaches]]
@@ -1551,6 +1552,15 @@ Allow viewing the list of installed plugins.
 Allow querying for status of Gerrit's internal task queue.  This capability
 allows the granted group to
 link:cmd-show-queue.html[look at the Gerrit task queue via ssh].
+
+
+[[capability_viewSecondaryEmails]]
+=== View Secondary Emails
+
+Allows viewing secondary emails of other accounts.
+
+Users with the link:#capability_modifyAccount[Modify Account] capability have
+this capbility implicitly.
 
 
 [[reference]]

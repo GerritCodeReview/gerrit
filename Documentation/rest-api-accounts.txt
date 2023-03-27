@@ -2316,6 +2316,9 @@ capability.
 link:access-control.html#capability_viewPlugins[View Plugins] capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewQueue[View Queue] capability.
+|`viewSecondaryEmails`|not set if `false`|Whether the user has the
+link:access-control.html#capability_viewSecondaryEmails[View Secondary
+Emails] capability.
 |=================================
 
 [[contributor-agreement-info]]

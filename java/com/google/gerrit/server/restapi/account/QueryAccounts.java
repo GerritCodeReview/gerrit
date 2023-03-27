@@ -173,7 +173,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
     boolean modifyAccountCapabilityChecked = false;
     if (options.contains(ListAccountsOption.ALL_EMAILS)) {
-      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+      if (!permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
+        permissionBackend.currentUser().check(GlobalPermission.VIEW_SECONDARY_EMAILS);
+      }
       modifyAccountCapabilityChecked = true;
       fillOptions.add(FillOptions.EMAIL);
       fillOptions.add(FillOptions.SECONDARY_EMAILS);
@@ -185,7 +187,8 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       if (modifyAccountCapabilityChecked) {
         fillOptions.add(FillOptions.SECONDARY_EMAILS);
       } else {
-        if (permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
+        if (permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)
+            || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
           fillOptions.add(FillOptions.SECONDARY_EMAILS);
         }
       }

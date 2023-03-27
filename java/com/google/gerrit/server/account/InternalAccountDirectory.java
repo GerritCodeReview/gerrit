@@ -96,12 +96,13 @@ public class InternalAccountDirectory extends AccountDirectory {
       return;
     }
 
-    boolean canModifyAccount = false;
+    boolean canViewSecondaryEmails = false;
     Account.Id currentUserId = null;
     if (self.get().isIdentifiedUser()) {
       currentUserId = self.get().getAccountId();
-      if (permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
-        canModifyAccount = true;
+      if (permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)
+          || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
+        canViewSecondaryEmails = true;
       }
     }
 
@@ -115,7 +116,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       if (state != null) {
         if (!options.contains(FillOptions.SECONDARY_EMAILS)
             || Objects.equals(currentUserId, state.account().id())
-            || canModifyAccount) {
+            || canViewSecondaryEmails) {
           fill(info, accountStates.get(id), options);
         } else {
           // user is not allowed to see secondary emails

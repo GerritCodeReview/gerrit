@@ -151,7 +151,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
   @Operator
   public Predicate<AccountState> email(String email)
       throws PermissionBackendException, QueryParseException {
-    if (canSeeSecondaryEmails()) {
+    if (canViewSecondaryEmails()) {
       return AccountPredicates.emailIncludingSecondaryEmails(email);
     }
 
@@ -185,7 +185,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
   @Operator
   public Predicate<AccountState> name(String name)
       throws PermissionBackendException, QueryParseException {
-    if (canSeeSecondaryEmails()) {
+    if (canViewSecondaryEmails()) {
       return AccountPredicates.equalsNameIncludingSecondaryEmails(name);
     }
 
@@ -210,7 +210,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
   @Override
   protected Predicate<AccountState> defaultField(String query) {
     Predicate<AccountState> defaultPredicate =
-        AccountPredicates.defaultPredicate(args.schema(), checkedCanSeeSecondaryEmails(), query);
+        AccountPredicates.defaultPredicate(args.schema(), checkedCanViewSecondaryEmails(), query);
     if (query.startsWith("cansee:")) {
       try {
         return cansee(query.substring(7));
@@ -233,13 +233,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     return args.getIdentifiedUser().getAccountId();
   }
 
-  private boolean canSeeSecondaryEmails() throws PermissionBackendException, QueryParseException {
-    return args.permissionBackend.user(args.getUser()).test(GlobalPermission.MODIFY_ACCOUNT);
+  private boolean canViewSecondaryEmails() throws PermissionBackendException, QueryParseException {
+    return args.permissionBackend.user(args.getUser()).test(GlobalPermission.VIEW_SECONDARY_EMAILS)
+        || args.permissionBackend.user(args.getUser()).test(GlobalPermission.MODIFY_ACCOUNT);
   }
 
-  private boolean checkedCanSeeSecondaryEmails() {
+  private boolean checkedCanViewSecondaryEmails() {
     try {
-      return canSeeSecondaryEmails();
+      return canViewSecondaryEmails();
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Permission check failed");
       return false;

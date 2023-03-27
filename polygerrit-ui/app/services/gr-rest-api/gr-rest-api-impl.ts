@@ -1676,9 +1676,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<NameToProjectInfoMap | undefined> {
     const params = {
-      m: inputVal,
       n: MAX_PROJECT_RESULTS,
       type: 'ALL',
+      ...(inputVal.charAt(0) === '^' ? {r: inputVal} : {m: inputVal}),
     };
     if (n) {
       params.n = n;

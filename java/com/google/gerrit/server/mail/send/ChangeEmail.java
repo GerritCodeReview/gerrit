@@ -108,6 +108,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
   protected boolean emailOnlyAttentionSetIfEnabled;
+  // Watchers ignore attention set rules.
+  protected Set<Account.Id> watchers = new HashSet<>();
 
   protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
     super(args, messageClass);
@@ -421,16 +423,17 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
-  protected void addWatchers(RecipientType type, WatcherList watcherList) {
+  private void addWatchers(RecipientType type, WatcherList watcherList) {
+    watchers.addAll(watcherList.accounts);
     for (Account.Id user : watcherList.accounts) {
-      addWatcher(type, user);
+      addByAccountId(type, user);
     }
     for (Address addr : watcherList.emails) {
       addByEmail(type, addr);
     }
   }
 
-  protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
+  private final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     if (!NotifyHandling.ALL.equals(notify.handling())) {
       return new Watchers();
     }
@@ -472,37 +475,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   @Override
-  protected void addByAccountId(RecipientType rt, Account.Id to) {
-    addRecipient(rt, to, /* isWatcher= */ false);
-  }
-
-  /** This bypasses the EmailStrategy.ATTENTION_SET_ONLY strategy when adding the recipient. */
-  protected void addWatcher(RecipientType rt, Account.Id to) {
-    addRecipient(rt, to, /* isWatcher= */ true);
-  }
-
-  private void addRecipient(RecipientType rt, Account.Id to, boolean isWatcher) {
-    if (!isWatcher) {
-      Optional<AccountState> accountState = args.accountCache.get(to);
-      if (emailOnlyAttentionSetIfEnabled
-          && accountState.isPresent()
-          && accountState.get().generalPreferences().getEmailStrategy()
-              == EmailStrategy.ATTENTION_SET_ONLY
-          && !currentAttentionSet.contains(to)) {
-        return;
-      }
-    }
-    if (emailOnlyAuthors && !authors.contains(to)) {
-      return;
-    }
-    super.addByAccountId(rt, to);
-  }
-
-  @Override
   protected boolean isRecipientAllowed(Address addr) throws PermissionBackendException {
     if (!projectState.statePermitsRead()) {
       return false;
     }
+
     return args.permissionBackend
         .user(args.anonymousUser.get())
         .change(changeData)
@@ -514,6 +491,20 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (!projectState.statePermitsRead()) {
       return false;
     }
+    if (emailOnlyAuthors && !authors.contains(to)) {
+      return false;
+    }
+    if (!watchers.contains(to)) {
+      Optional<AccountState> accountState = args.accountCache.get(to);
+      if (emailOnlyAttentionSetIfEnabled
+          && accountState.isPresent()
+          && accountState.get().generalPreferences().getEmailStrategy()
+              == EmailStrategy.ATTENTION_SET_ONLY
+          && !currentAttentionSet.contains(to)) {
+        return false;
+      }
+    }
+
     return args.permissionBackend.absentUser(to).change(changeData).test(ChangePermission.READ);
   }
 

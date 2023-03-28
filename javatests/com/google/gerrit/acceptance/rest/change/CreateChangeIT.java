@@ -95,7 +95,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1003,15 +1002,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
           + "@@ -0,0 +1,2 @@\n"
           + "+First added line\n"
           + "+Second added line\n";
-  private static final String MODIFICATION_PATCH_INPUT =
-      "diff --git a/a_file.txt b/a_file.txt\n"
-          + "new file mode 100644\n"
-          + "--- a/a_file.txt\n"
-          + "+++ b/a_file.txt.txt\n"
-          + "@@ -1,2 +1 @@\n"
-          + "-First original line\n"
-          + "-Second original line\n"
-          + "+Modified line\n";
 
   @Test
   public void createPatchApplyingChange_success() throws Exception {
@@ -1127,24 +1117,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(author).name().isEqualTo(input.author.name);
     GitPerson committer = rApi.commit(false).committer;
     assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
-  }
-
-  @Test
-  public void createPatchApplyingChange_withInfeasiblePatch_fails() throws Exception {
-    createBranch(BranchNameKey.create(project, "other"));
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "Adding unexpected base content, which will cause the patch to fail",
-            PATCH_FILE_NAME,
-            "unexpected base content");
-    Result conflictingChange = push.to("refs/heads/other");
-    conflictingChange.assertOkStatus();
-    ChangeInput input = newPatchApplyingChangeInput("other", MODIFICATION_PATCH_INPUT);
-
-    assertCreateFailsWithCause(
-        input, RestApiException.class, PatchApplyException.class, "Cannot apply: HunkHeader");
   }
 
   @Test

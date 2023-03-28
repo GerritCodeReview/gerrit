@@ -51,6 +51,8 @@ public @interface TestProjectInput {
 
   InheritableBoolean requireSignedPush() default InheritableBoolean.INHERIT;
 
+  InheritableBoolean createNewChangeForAllNotInTarget() default InheritableBoolean.INHERIT;
+
   // Fields specific to acceptance test behavior.
 
   /** Username to use for initial clone, passed to {@link AccountCreator}. */

@@ -614,6 +614,7 @@ public abstract class AbstractDaemonTest {
       in.rejectEmptyCommit = ann.rejectEmptyCommit();
       in.enableSignedPush = ann.enableSignedPush();
       in.requireSignedPush = ann.requireSignedPush();
+      in.createNewChangeForAllNotInTarget = ann.createNewChangeForAllNotInTarget();
     } else {
       // Defaults should match TestProjectConfig, omitting nullable values.
       in.createEmptyCommit = true;

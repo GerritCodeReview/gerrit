@@ -88,4 +88,35 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
         change3.getChangeId(),
         headAfterThirdSubmit.name());
   }
+
+  @Test
+  @TestProjectInput(createNewChangeForAllNotInTarget = InheritableBoolean.TRUE)
+  public void submitWithCreateNewChangeForAllNotInTarget() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result commit =
+        createCommitAndPush(
+            testRepo,
+            "refs/heads/dev",
+            "submitWithCreateNewChangeForAllNotInTarget",
+            "a.txt",
+            "aaa\nbbb\nccc\nddd\n");
+    RevCommit devHead = projectOperations.project(project).getHead("dev");
+    assertThat(devHead.name()).isEqualTo(commit.getCommit().name());
+
+    PushOneCommit.Result change =
+        createCommitAndPush(
+            testRepo,
+            "refs/for/master",
+            "submitWithCreateNewChangeForAllNotInTarget",
+            "b.txt",
+            "aaa\nbbb\nccc\nddd\n");
+    approve(change.getChangeId());
+    approve(commit.getChangeId());
+    submit(change.getChangeId());
+    RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
+
+    assertRefUpdatedEvents(initialHead, headAfterSubmit);
+    assertChangeMergedEvents(
+        commit.getChangeId(), headAfterSubmit.name(), change.getChangeId(), headAfterSubmit.name());
+  }
 }

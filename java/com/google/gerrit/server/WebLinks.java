@@ -102,6 +102,30 @@ public class WebLinks {
   }
 
   /**
+   * Returns links for patch sets
+   *
+   * @param project Project name.
+   * @param commit SHA1 of commit.
+   * @param commitMessage the commit message of the commit.
+   * @param branchName branch of the commit.
+   * @param changeKey change Identifier for this change
+   * @param numericChangeId the numeric changeID for this change
+   */
+  public ImmutableList<WebLinkInfo> getPatchSetLinks(
+      Project.NameKey project,
+      String commit,
+      String commitMessage,
+      String branchName,
+      String changeKey,
+      int numericChangeId) {
+    return filterLinks(
+        patchSetLinks,
+        webLink ->
+            webLink.getPatchSetWebLink(
+                project.get(), commit, commitMessage, branchName, changeKey, numericChangeId));
+  }
+
+  /**
    * Returns links for resolving conflicts
    *
    * @param project Project name.

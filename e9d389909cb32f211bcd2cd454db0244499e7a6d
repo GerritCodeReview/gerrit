@@ -16,6 +16,24 @@
       "message": "Please add a header like in https://gerrit.googlesource.com/gerrit/+/2e96f4a9d260e7c9a7bd7ac68d312b39202f96f8/java/com/google/gerrit/server/mail/send/ChangeEmail.java#1",
       "revId": "e9d389909cb32f211bcd2cd454db0244499e7a6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c14da83_3982d2d5",
+        "filename": "java/com/google/gerrit/server/mail/send/BranchEmailUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-28T08:52:29Z",
+      "side": 1,
+      "message": "Marking unresolved.",
+      "parentUuid": "ff108bac_528e060a",
+      "revId": "e9d389909cb32f211bcd2cd454db0244499e7a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

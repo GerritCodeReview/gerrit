@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "918e24c3_928ab516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-28T09:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3468d6f8_63af09d7",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "89868a01_2e591613",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17
@@ -102,6 +120,24 @@
       "writtenOn": "2023-03-28T08:00:17Z",
       "side": 1,
       "message": "Please add JavaDoc here with the considerations we discussed in other comments.\n\nMy proposal is:\n\n```\n/*\n\nCustom values are small key value pairs. They can be used to associate the change with external, potentially proprietary systems (e.g. Bug trackers) without requiring dedicated fields in Gerrit-core.\n\nThis data is visible to everyone who can see the change. It must not contain personally identify-able information.\n */\n ```",
+      "revId": "e8649499efbc5649961e36a930e150dfc437b186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deace388_dfc5e277",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-03-28T09:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d32e60d_c846b0f4",
       "revId": "e8649499efbc5649961e36a930e150dfc437b186",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

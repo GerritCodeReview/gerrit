@@ -1539,6 +1539,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> a(String who) throws QueryParseException {
+    return author(who);
+  }
+
+  @Operator
   public Predicate<ChangeData> author(String who) throws QueryParseException {
     return getAuthorOrCommitterPredicate(
         who.trim(), ChangePredicates::exactAuthor, ChangePredicates::author);

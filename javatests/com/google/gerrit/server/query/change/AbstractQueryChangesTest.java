@@ -676,8 +676,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byAuthorExact_byAlias() throws Exception {
+    byAuthorOrCommitterExact("a:");
+  }
+
+  @Test
   public void byAuthorFullText() throws Exception {
     byAuthorOrCommitterFullText("author:");
+  }
+
+  @Test
+  public void byAuthorFullText_byAlias() throws Exception {
+    byAuthorOrCommitterFullText("a:");
   }
 
   @Test

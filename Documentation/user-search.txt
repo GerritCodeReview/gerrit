@@ -647,7 +647,7 @@ Changes where 'USER' has commented on the change more recently than the
 last update (comment or patch set) from the change owner.
 
 [[author]]
-author:'AUTHOR'::
+author:'AUTHOR', a:'AUTHOR'::
 +
 Changes where 'AUTHOR' is the author of the current patch set. 'AUTHOR' may be
 the author's exact email address, or part of the name or email address. The

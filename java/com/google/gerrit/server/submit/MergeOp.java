@@ -97,6 +97,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -123,6 +125,7 @@ public class MergeOp implements AutoCloseable {
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
       SUBMIT_RULE_OPTIONS.toBuilder().recomputeOnClosedChanges(true).build();
+  private static final int SUBMIT_LOCK_WAIT_TIMEOUT_SECONDS = 60;
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -242,6 +245,7 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
+  private final SubmitLock submitLock;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -276,7 +280,8 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
+      SubmitLock submitLock) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -294,6 +299,7 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
+    this.submitLock = submitLock;
   }
 
   @Override
@@ -454,9 +460,40 @@ public class MergeOp implements AutoCloseable {
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
+   * @throws SubmitLockFailedException if the submit for the change is already locked by another
+   *     thread.
    * @return the merged change
    */
   public Change merge(
+      Change change,
+      IdentifiedUser caller,
+      boolean checkSubmitRules,
+      SubmitInput submitInput,
+      boolean dryrun)
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException, SubmitLockFailedException {
+    Lock acquiredSubmitLock = null;
+    if (!dryrun) {
+      Lock requiredSubmitLock = submitLock.get(change);
+      try {
+        if (!requiredSubmitLock.tryLock(SUBMIT_LOCK_WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+          throw new SubmitLockFailedException(change);
+        }
+        acquiredSubmitLock = requiredSubmitLock;
+      } catch (InterruptedException e) {
+        throw new SubmitLockFailedException(change, e);
+      }
+    }
+    try {
+      return doMerge(change, caller, checkSubmitRules, submitInput, dryrun);
+    } finally {
+      if (acquiredSubmitLock != null) {
+        acquiredSubmitLock.unlock();
+      }
+    }
+  }
+
+  private Change doMerge(
       Change change,
       IdentifiedUser caller,
       boolean checkSubmitRules,
@@ -519,8 +556,10 @@ public class MergeOp implements AutoCloseable {
         ChangeSet filteredNoteDbChangeSet =
             new ChangeSet(filteredChanges, /* hiddenChanges= */ ImmutableList.of());
 
-        // Count cross-project submissions outside of the retry loop. The chance of a single project
-        // failing increases with the number of projects, so the failure count would be inflated if
+        // Count cross-project submissions outside of the retry loop. The chance of a single
+        // project
+        // failing increases with the number of projects, so the failure count would be inflated
+        // if
         // this metric were incremented inside of integrateIntoHistory.
         int projects = filteredNoteDbChangeSet.projects().size();
         if (projects > 1) {
@@ -567,7 +606,8 @@ public class MergeOp implements AutoCloseable {
           topicMetrics.topicSubmissionsCompleted.increment();
         }
 
-        // It's expected that callers invoke this method only for open changes and that the provided
+        // It's expected that callers invoke this method only for open changes and that the
+        // provided
         // change either gets updated to merged or that this method fails with an exception. For
         // safety, fall-back to return the provided change if there was no update for this change
         // (e.g. caller provided a change that was already merged).

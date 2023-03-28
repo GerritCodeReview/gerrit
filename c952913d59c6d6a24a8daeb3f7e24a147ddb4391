@@ -16,6 +16,24 @@
       "message": "Thanks! Can you link to the bug?",
       "revId": "c952913d59c6d6a24a8daeb3f7e24a147ddb4391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32187992_1b88d8ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-28T07:37:50Z",
+      "side": 1,
+      "message": "Sure, thanks for the reminder. Done.",
+      "parentUuid": "7c3f055b_6e7e3a73",
+      "revId": "c952913d59c6d6a24a8daeb3f7e24a147ddb4391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

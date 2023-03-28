@@ -386,6 +386,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0ac5a48_5ff2f7e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-28T14:05:49Z",
+      "side": 1,
+      "message": "I don\u0027t want to put words in your mouth, but it does not sound like the intent is to use this from core, is that correct? I think that if the intent is to access it from a fork, a plugin, a libmodule, or really any code that is external to core, no matter what linking mechanism is used, then it would likely be expected to be covered by the dev plugin docs as that generally covers APIs meant for external from core users.",
+      "parentUuid": "315dffaa_c00cf0d8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

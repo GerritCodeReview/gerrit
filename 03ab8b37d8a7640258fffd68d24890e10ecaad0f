@@ -18,6 +18,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f293f288_c553a859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T11:34:24Z",
+      "side": 1,
+      "message": "@ab",
+      "revId": "03ab8b37d8a7640258fffd68d24890e10ecaad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5969ee67_e90a6be5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T11:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5693b3ee_6361b17e",
+      "revId": "03ab8b37d8a7640258fffd68d24890e10ecaad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8eb879a0_fb4b5698",
@@ -31,6 +66,30 @@
       "writtenOn": "2023-03-28T10:09:03Z",
       "side": 1,
       "message": "can you reset the suggestions to [] so that we can get rid of the stale response similar to GrAutocomplete?",
+      "range": {
+        "startLine": 481,
+        "startChar": 4,
+        "endLine": 481,
+        "endChar": 5
+      },
+      "revId": "03ab8b37d8a7640258fffd68d24890e10ecaad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f89f7bb_19391343",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T11:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb879a0_fb4b5698",
       "range": {
         "startLine": 481,
         "startChar": 4,

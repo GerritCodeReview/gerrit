@@ -84,6 +84,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+<<<<<<< HEAD   (9ad7c8 Merge changes I90c4ac50,Ieca0293c,I24976a02 into stable-3.5)
+=======
+import org.eclipse.jgit.api.errors.PatchFormatException;
+>>>>>>> CHANGE (6c31b1 Update JGit to 5166ded098)
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -922,6 +926,145 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+<<<<<<< HEAD   (9ad7c8 Merge changes I90c4ac50,Ieca0293c,I24976a02 into stable-3.5)
+=======
+  public void createChangeWithBothMergeAndPatch_fails() throws Exception {
+    ChangeInput input = newMergeChangeInput("foo", "master", "");
+    input.patch = new ApplyPatchInput();
+    assertCreateFails(
+        input, BadRequestException.class, "Only one of `merge` and `patch` arguments can be set");
+  }
+
+  private static final String PATCH_FILE_NAME = "a_file.txt";
+  private static final String PATCH_NEW_FILE_CONTENT = "First added line\nSecond added line\n";
+  private static final String PATCH_INPUT =
+      "diff --git a/a_file.txt b/a_file.txt\n"
+          + "new file mode 100644\n"
+          + "index 0000000..f0eec86\n"
+          + "--- /dev/null\n"
+          + "+++ b/a_file.txt\n"
+          + "@@ -0,0 +1,2 @@\n"
+          + "+First added line\n"
+          + "+Second added line\n";
+
+  @Test
+  public void createPatchApplyingChange_success() throws Exception {
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", PATCH_INPUT);
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo("apply patch to other\n\nChange-Id: " + info.changeId + "\n");
+  }
+
+  @Test
+  public void createPatchApplyingChange_fromGerritPatch_success() throws Exception {
+    String head = getHead(repo(), HEAD).name();
+    createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
+    PushOneCommit.Result baseCommit =
+        createChange("Add file", PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+    baseCommit.assertOkStatus();
+    BinaryResult originalPatch = gApi.changes().id(baseCommit.getChangeId()).current().patch();
+    createBranchWithRevision(BranchNameKey.create(project, "other"), head);
+    ChangeInput input = newPatchApplyingChangeInput("other", originalPatch.asString());
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+  }
+
+  @Test
+  public void createPatchApplyingChange_fromGerritPatchUsingRest_success() throws Exception {
+    String head = getHead(repo(), HEAD).name();
+    createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
+    PushOneCommit.Result baseCommit =
+        createChange("Add file", PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+    baseCommit.assertOkStatus();
+    createBranchWithRevision(BranchNameKey.create(project, "other"), head);
+    RestResponse patchResp =
+        userRestSession.get("/changes/" + baseCommit.getChangeId() + "/revisions/current/patch");
+    patchResp.assertOK();
+    String originalPatch = new String(Base64.decode(patchResp.getEntityContent()), UTF_8);
+    ChangeInput input = newPatchApplyingChangeInput("other", originalPatch);
+
+    ChangeInfo info = assertCreateSucceedsUsingRest(input);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+  }
+
+  @Test
+  public void createPatchApplyingChange_withParentChange_success() throws Exception {
+    Result change = createChange();
+    ChangeInput input = newPatchApplyingChangeInput("other", PATCH_INPUT);
+    input.baseChange = change.getChangeId();
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    assertThat(gApi.changes().id(info.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(change.getCommit().getId().name());
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+  }
+
+  @Test
+  public void createPatchApplyingChange_withParentCommit_success() throws Exception {
+    createBranch(BranchNameKey.create(project, "other"));
+    Result baseChange = createChange("refs/heads/other");
+    PushOneCommit.Result ignoredCommit = createChange();
+    ignoredCommit.assertOkStatus();
+    ChangeInput input = newPatchApplyingChangeInput("other", PATCH_INPUT);
+    input.baseCommit = baseChange.getCommit().getId().name();
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    assertThat(gApi.changes().id(info.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(input.baseCommit);
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+  }
+
+  @Test
+  public void createPatchApplyingChange_withEmptyTip_fails() throws Exception {
+    ChangeInput input = newPatchApplyingChangeInput("foo", "patch");
+    input.newBranch = true;
+    assertCreateFails(
+        input, BadRequestException.class, "Cannot apply patch on top of an empty tree");
+  }
+
+  @Test
+  public void createPatchApplyingChange_fromBadPatch_fails() throws Exception {
+    final String invalidPatch = "@@ -2,2 +2,3 @@ a\n" + " b\n" + "+c\n" + " d";
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", invalidPatch);
+    assertCreateFailsWithCause(
+        input, BadRequestException.class, PatchFormatException.class, "Format error");
+  }
+
+  @Test
+  public void createPatchApplyingChange_withAuthorOverride_success() throws Exception {
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", PATCH_INPUT);
+    input.author = new AccountInput();
+    input.author.email = "gerritlessjane@invalid";
+    // This is an email address that doesn't exist as account on the Gerrit server.
+    input.author.name = "Gerritless Jane";
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    RevisionApi rApi = gApi.changes().id(info.id).current();
+    GitPerson author = rApi.commit(false).author;
+    assertThat(author).email().isEqualTo(input.author.email);
+    assertThat(author).name().isEqualTo(input.author.name);
+    GitPerson committer = rApi.commit(false).committer;
+    assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
+  }
+
+  @Test
+>>>>>>> CHANGE (6c31b1 Update JGit to 5166ded098)
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);

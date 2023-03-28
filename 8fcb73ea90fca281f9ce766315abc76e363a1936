@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19bf3aad_6806c0c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-28T10:09:03Z",
+      "side": 1,
+      "message": "this term is a bit unclear\n\"last suggestion dropdown\".\n\nWhen using shown, we are probably talking about the user\u0027s perspective so showing a \"dropdown\" does not really fit perfectly.\n\nI guess you meant suggestions for the latest query?",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "8fcb73ea90fca281f9ce766315abc76e363a1936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

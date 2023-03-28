@@ -95,7 +95,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1144,7 +1144,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = newPatchApplyingChangeInput("other", MODIFICATION_PATCH_INPUT);
 
     assertCreateFailsWithCause(
-        input, RestApiException.class, PatchApplyException.class, "Cannot apply: HunkHeader");
+        input, RestApiException.class, GitAPIException.class, "Cannot apply: HunkHeader");
   }
 
   @Test

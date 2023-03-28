@@ -434,6 +434,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fc4feb1_5ca415be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-28T14:36:18Z",
+      "side": 1,
+      "message": "\u003e For this specific use-case, the production will be through CreateChange, so that\u0027s part of core.  The consumption will get it from ChangeInfo object and then use it in a plugin.\n\nAgain, not trying to put words in your mouth, it sounds like the intention is to expose this via existing public core APIs then? If that is indeed the case, then the expectation is generally that this change not be merged without the changes which modify those public APIs, and the documentation of those APIs is updated to reflect this new functionality.",
+      "parentUuid": "e55754a1_d0b23d30",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

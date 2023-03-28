@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9857660e_3280b292",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-28T21:02:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f258565_016f5055",
+      "range": {
+        "startLine": 809,
+        "startChar": 0,
+        "endLine": 811,
+        "endChar": 80
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0c36f20_bf2fc802",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-03-27T07:47:32Z",
       "side": 1,
       "message": "What does this represent in the copied approvals labels?",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f92883_feaff263",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-28T21:02:10Z",
+      "side": 1,
+      "message": "This is a positive lookbehind - it allows us to match on `\u003e` (i.e. the final character of an identity) but only split (i.e. exclude) on the `,`, which is not included in the lookbehind. This saves us from having to add the final `\u003e` to each identity except the last one.",
+      "parentUuid": "d0c36f20_bf2fc802",
       "range": {
         "startLine": 849,
         "startChar": 20,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be133fc_900b64c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T08:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f44ab2fa_21008b46",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29f5a3db_7fd561e8",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "422955b3_28356202",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T08:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29f5a3db_7fd561e8",
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b756794_70921468",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-03-27T16:04:27Z",
       "side": 1,
       "message": "Can this be an inner class in ChangeEmail (the only caller?), or maybe just add the methods directly there?\n\nMaking it a standalone class is giving it more importance than what it should get and also I don\u0027t expect the static methods to be used from outside the mail package.",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb49eda8_8f491734",
+        "filename": "java/com/google/gerrit/server/mail/send/BranchEmailUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T08:36:03Z",
+      "side": 1,
+      "message": "Changed the class and method to package private. So it is not used outside package and doesn\u0027t seem as \"important\"\n\nI would keep the class itself separate, it\u0027s well insulated as a set of utility methods and ChangeEmail is a pretty long file already. \n\n+ the existing tests only cover the utility methods anyway (the other tests are in *IT.java files)",
+      "parentUuid": "6b756794_70921468",
       "range": {
         "startLine": 12,
         "startChar": 13,

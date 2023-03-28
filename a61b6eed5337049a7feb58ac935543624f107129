@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb77128_43df528f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-03-28T13:52:47Z",
+      "side": 1,
+      "message": "IIUC, this change fixes an issue for a very rare use-case:\n\"Create a new change for every commit not in the target branch\" \u003d TRUE\n\nAt the same time, it spoils the performance of the default and most common use-case where this option is FALSE.\n\nTo keep the code correct and also maintain good performance for the default case we should still mark all refs/heads/* as uninteresting when this option is FALSE.",
+      "revId": "a61b6eed5337049a7feb58ac935543624f107129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -108,6 +108,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -1258,6 +1264,29 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(r.getChange().getMergedOn().get()).isEqualTo(change.getSubmitted());
   }
 
+  @Test
+  public void concurrentSubmitIsBlocked() throws Exception {
+    PushOneCommit.Result change = createChange();
+    String changeId = change.getChangeId();
+    approve(changeId);
+
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    CountDownLatch latch = new CountDownLatch(2);
+    Future<ChangeInfo> f1 = submitWithLatch(changeId, executor, latch);
+    latch.countDown();
+    Future<ChangeInfo> f2 = submitWithLatch(changeId, executor, latch);
+    latch.countDown();
+    ExecutionException thrown =
+        assertThrows(
+            ExecutionException.class,
+            () -> {
+              f1.get();
+              f2.get();
+            });
+    assertThat(thrown).hasCauseThat().isInstanceOf(ResourceConflictException.class);
+    assertThat(thrown).hasCauseThat().hasMessageThat().isEqualTo("change is merged");
+  }
+
   @Override
   protected void updateProjectInput(ProjectInput in) {
     in.submitType = getSubmitType();
@@ -1299,6 +1328,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit.run();
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertMerged(change.changeId);
+  }
+
+  private Future<ChangeInfo> submitWithLatch(
+      String changeId, ExecutorService executor, CountDownLatch latch) {
+    Callable<ChangeInfo> submit =
+        new Callable<>() {
+          @Override
+          public ChangeInfo call() throws Exception {
+            requestScopeOperations.setApiUser(admin.id());
+            latch.await();
+            return gApi.changes().id(changeId).current().submit(new SubmitInput());
+          }
+        };
+    return executor.submit(submit);
   }
 
   protected void assertSubmittable(String changeId) throws Throwable {

@@ -34,6 +34,24 @@
       "parentUuid": "ff108bac_528e060a",
       "revId": "e9d389909cb32f211bcd2cd454db0244499e7a6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aa70c99_b1a936e2",
+        "filename": "java/com/google/gerrit/server/mail/send/BranchEmailUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-28T09:42:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c14da83_3982d2d5",
+      "revId": "e9d389909cb32f211bcd2cd454db0244499e7a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

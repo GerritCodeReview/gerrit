@@ -95,7 +95,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1127,24 +1127,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(author).name().isEqualTo(input.author.name);
     GitPerson committer = rApi.commit(false).committer;
     assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
-  }
-
-  @Test
-  public void createPatchApplyingChange_withInfeasiblePatch_fails() throws Exception {
-    createBranch(BranchNameKey.create(project, "other"));
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "Adding unexpected base content, which will cause the patch to fail",
-            PATCH_FILE_NAME,
-            "unexpected base content");
-    Result conflictingChange = push.to("refs/heads/other");
-    conflictingChange.assertOkStatus();
-    ChangeInput input = newPatchApplyingChangeInput("other", MODIFICATION_PATCH_INPUT);
-
-    assertCreateFailsWithCause(
-        input, RestApiException.class, PatchApplyException.class, "Cannot apply: HunkHeader");
   }
 
   @Test

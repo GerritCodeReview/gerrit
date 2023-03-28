@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc748ed4_f72ed9f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-28T13:09:59Z",
+      "side": 1,
+      "message": "nit: suggestions\nDropdown being cleared is a bit confusing.",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "64484646ebaf499738a537093631dea237477369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

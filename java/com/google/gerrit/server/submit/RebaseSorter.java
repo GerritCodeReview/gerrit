@@ -65,8 +65,12 @@ public class RebaseSorter {
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
+    logger.atFine().log(
+        "Starting sort for commits %s of all incoming commits %s using initial tip %s",
+        sort, incoming, initialTip.getName());
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
+      logger.atFine().log("Starting sort for incoming commit %s", n.getId().name());
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
@@ -77,7 +81,12 @@ public class RebaseSorter {
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
-        if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+        boolean hasCanMergeFlag = c.has(canMergeFlag);
+        boolean isIncomingCommit = incoming.contains(c);
+        logger.atFine().log(
+            "Checking dependent commit %s. Can be merged: %s; Is an incoming commit: %s",
+            c.getId().name(), hasCanMergeFlag, isIncomingCommit);
+        if (!hasCanMergeFlag || !isIncomingCommit) {
           if (isAlreadyMerged(c, n.change().getDest())) {
             rw.markUninteresting(c);
           } else {

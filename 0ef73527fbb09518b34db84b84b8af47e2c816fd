@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b147227c_f330be7a",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-28T08:30:08Z",
+      "side": 1,
+      "message": "Also log `initialTip`?\nIf `initialTip` is null, for whatever reason, the rev-walk would just continue down the commit graph until initial commit.\nWhich would result in a:\n```\nfor each commit c1 in repo:\n  for each commit c2 reachable from c1:\n```\nscenario.",
+      "revId": "0ef73527fbb09518b34db84b84b8af47e2c816fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

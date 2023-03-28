@@ -465,13 +465,13 @@ suite('gr-textarea tests', () => {
       {value: '😢', match: 'tear'},
       {value: '😂', match: 'tears'},
     ];
-    element.formatSuggestions(matchedSuggestions);
+    let suggestions = element.formatSuggestions(matchedSuggestions);
     assert.deepEqual(
       [
         {value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
         {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'},
       ],
-      element.suggestions
+      suggestions
     );
   });
 

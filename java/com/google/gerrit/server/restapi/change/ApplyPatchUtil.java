@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jgit.api.errors.PatchApplyException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -67,10 +67,9 @@ public final class ApplyPatchUtil {
       PatchApplier applier = new PatchApplier(repo, tip, oi);
       PatchApplier.Result applyResult = applier.applyPatch(patchStream);
       return applyResult.getTreeId();
-    } catch (PatchFormatException e) {
-      throw new BadRequestException("Invalid patch format: " + input.patch, e);
-    } catch (PatchApplyException e) {
-      throw RestApiException.wrap("Cannot apply patch: " + input.patch, e);
+    } catch (GitAPIException e) {
+      // TODO(nitzan) - write better error handling here.
+      throw new BadRequestException("Cannot apply patch: " + input.patch, e);
     }
   }
 

@@ -207,6 +207,7 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.ConfiguredSubscriptionGraphFactory;
 import com.google.gerrit.server.submit.GitModules;
 import com.google.gerrit.server.submit.MergeSuperSetComputation;
+import com.google.gerrit.server.submit.SubmitModule;
 import com.google.gerrit.server.submit.SubmitStrategy;
 import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
@@ -286,6 +287,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new FileInfoJsonModule());
     install(ThreadLocalRequestContext.module());
     install(new ApprovalModule());
+    install(new SubmitModule());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

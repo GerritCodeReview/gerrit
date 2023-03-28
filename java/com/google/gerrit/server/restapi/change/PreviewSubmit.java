@@ -39,6 +39,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.gerrit.server.submit.SubmitLockFailedException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -116,7 +117,11 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     @SuppressWarnings("resource") // Returned BinaryResult takes ownership and handles closing.
     MergeOp op = mergeOpProvider.get();
     try {
-      op.merge(change, caller, false, new SubmitInput(), true);
+      try {
+        op.merge(change, caller, false, new SubmitInput(), true);
+      } catch (SubmitLockFailedException e) {
+        // Ignore since we are doing a dryrun submit.
+      }
       BinaryResult bin = new SubmitPreviewResult(op, f, maxBundleSize);
       bin.disableGzip()
           .setContentType(f.getMimeType())

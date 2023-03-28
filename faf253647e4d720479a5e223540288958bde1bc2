@@ -128,6 +128,30 @@
       },
       "revId": "faf253647e4d720479a5e223540288958bde1bc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de583252_718e34e3",
+        "filename": "java/com/google/gerrit/server/mail/send/BranchEmailUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-03-28T08:52:10Z",
+      "side": 1,
+      "message": "Ack. Thanks for handling.",
+      "parentUuid": "cb49eda8_8f491734",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "faf253647e4d720479a5e223540288958bde1bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

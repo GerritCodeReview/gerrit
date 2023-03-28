@@ -242,6 +242,7 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
+  private final SubmitLock submitLock;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -276,7 +277,8 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
+      SubmitLock submitLock) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -294,6 +296,7 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
+    this.submitLock = submitLock;
   }
 
   @Override
@@ -536,6 +539,10 @@ public class MergeOp implements AutoCloseable {
                 updateFactory -> {
                   long attempt = retryTracker.lastAttemptNumber + 1;
                   boolean isRetry = attempt > 1;
+                  
+                  submitLock.get(filteredNoteDbChangeSet.changes());
+                  
+                  
                   if (isRetry) {
                     logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
                     this.ts = TimeUtil.nowTs();

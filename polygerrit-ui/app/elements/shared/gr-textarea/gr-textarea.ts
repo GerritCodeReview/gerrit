@@ -475,14 +475,19 @@ export class GrTextarea extends LitElement {
   }
 
   private async computeSuggestions() {
+    this.suggestions = [];
     if (this.currentSearchString === undefined) {
-      this.suggestions = [];
       return;
     }
+    const searchString = this.currentSearchString;
+    let suggestions: (Item | EmojiSuggestion)[] = [];
     if (this.isEmojiDropdownActive()) {
-      this.computeEmojiSuggestions(this.currentSearchString);
+      suggestions = this.computeEmojiSuggestions(this.currentSearchString);
     } else if (this.isMentionsDropdownActive()) {
-      await this.computeReviewerSuggestions();
+      suggestions = await this.computeReviewerSuggestions();
+    }
+    if (searchString === this.currentSearchString) {
+      this.suggestions = suggestions;
     }
   }
 
@@ -570,7 +575,7 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  formatSuggestions(matchedSuggestions: EmojiSuggestion[]) {
+  formatSuggestions(matchedSuggestions: EmojiSuggestion[]): EmojiSuggestion[] {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
       assert(isEmojiSuggestion(suggestion), 'malformed suggestion');
@@ -578,28 +583,27 @@ export class GrTextarea extends LitElement {
       suggestion.text = `${suggestion.value} ${suggestion.match}`;
       suggestions.push(suggestion);
     }
-    this.suggestions = suggestions;
+    return suggestions;
   }
 
   // private but used in test
-  computeEmojiSuggestions(suggestionsText?: string) {
+  computeEmojiSuggestions(suggestionsText?: string): EmojiSuggestion[] {
     if (suggestionsText === undefined) {
-      this.suggestions = [];
-      return;
+      return [];
     }
     if (!suggestionsText.length) {
-      this.formatSuggestions(ALL_SUGGESTIONS);
+      return this.formatSuggestions(ALL_SUGGESTIONS);
     } else {
       const matches = ALL_SUGGESTIONS.filter(suggestion =>
         suggestion.match.includes(suggestionsText)
       ).slice(0, MAX_ITEMS_DROPDOWN);
-      this.formatSuggestions(matches);
+      return this.formatSuggestions(matches);
     }
   }
 
   // TODO(dhruvsri): merge with getAccountSuggestions in account-util
-  async computeReviewerSuggestions() {
-    this.suggestions = (
+  async computeReviewerSuggestions(): Promise<Item[]> {
+    return (
       (await this.restApiService.getSuggestedAccounts(
         this.currentSearchString ?? '',
         /* number= */ 15,

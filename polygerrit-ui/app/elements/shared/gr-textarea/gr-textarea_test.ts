@@ -6,8 +6,16 @@
 import '../../../test/common-test-setup';
 import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
-import {ItemSelectedEventDetail} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {pressKey, stubRestApi, waitUntil} from '../../../test/test-utils';
+import {
+  Item,
+  ItemSelectedEventDetail,
+} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {
+  mockPromise,
+  pressKey,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
@@ -120,6 +128,98 @@ suite('gr-textarea tests', () => {
       assert.isFalse(element.mentionsSuggestions!.isHidden);
     });
 
+    test('mention suggestions cleared before request returns', async () => {
+      const promise = mockPromise<Item[]>();
+      stubRestApi('getSuggestedAccounts').returns(promise);
+      element.textarea!.focus();
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.suggestions = [
+        {dataValue: 'prior@google.com', text: 'Prior suggestion'},
+      ];
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '@';
+
+      await element.updateComplete;
+      assert.equal(element.suggestions.length, 0);
+
+      promise.resolve([
+        createAccountWithEmail('abc@google.com'),
+        createAccountWithEmail('abcdef@google.com'),
+      ]);
+      await waitUntil(() => element.suggestions.length !== 0);
+      assert.deepEqual(element.suggestions, [
+        {
+          dataValue: 'abc@google.com',
+          text: 'abc@google.com <abc@google.com>',
+        },
+        {
+          dataValue: 'abcdef@google.com',
+          text: 'abcdef@google.com <abcdef@google.com>',
+        },
+      ]);
+    });
+
+    test('mention dropdown shows suggestion for latest text', async () => {
+      const promise1 = mockPromise<Item[]>();
+      const promise2 = mockPromise<Item[]>();
+      const suggestionStub = stubRestApi('getSuggestedAccounts');
+      suggestionStub.returns(promise1);
+      element.textarea!.focus();
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '@';
+      await element.updateComplete;
+      assert.equal(element.currentSearchString, '');
+
+      suggestionStub.returns(promise2);
+      element.text = '@abc@google.com';
+      // None of suggestions returned yet.
+      assert.equal(element.suggestions.length, 0);
+      await element.updateComplete;
+      assert.equal(element.currentSearchString, 'abc@google.com');
+
+      promise2.resolve([
+        createAccountWithEmail('abc@google.com'),
+        createAccountWithEmail('abcdef@google.com'),
+      ]);
+
+      await waitUntil(() => element.suggestions.length !== 0);
+      assert.deepEqual(element.suggestions, [
+        {
+          dataValue: 'abc@google.com',
+          text: 'abc@google.com <abc@google.com>',
+        },
+        {
+          dataValue: 'abcdef@google.com',
+          text: 'abcdef@google.com <abcdef@google.com>',
+        },
+      ]);
+
+      promise1.resolve([
+        createAccountWithEmail('dce@google.com'),
+        createAccountWithEmail('defcba@google.com'),
+      ]);
+      // Empty the event queue.
+      await new Promise<void>(resolve => {
+        setTimeout(() => resolve());
+      });
+      // Suggestions didn't change
+      assert.deepEqual(element.suggestions, [
+        {
+          dataValue: 'abc@google.com',
+          text: 'abc@google.com <abc@google.com>',
+        },
+        {
+          dataValue: 'abcdef@google.com',
+          text: 'abcdef@google.com <abcdef@google.com>',
+        },
+      ]);
+    });
+
     test('emoji selector does not open when previous char is \n', async () => {
       element.textarea!.focus();
       await waitUntil(() => element.textarea!.focused === true);
@@ -195,21 +295,25 @@ suite('gr-textarea tests', () => {
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
       element.text = '@h';
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
       element.text = '@h ';
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
       element.text = '@h :';
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
       element.text = '@h :D';
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
@@ -465,13 +569,13 @@ suite('gr-textarea tests', () => {
       {value: '😢', match: 'tear'},
       {value: '😂', match: 'tears'},
     ];
-    element.formatSuggestions(matchedSuggestions);
+    const suggestions = element.formatSuggestions(matchedSuggestions);
     assert.deepEqual(
       [
         {value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
         {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'},
       ],
-      element.suggestions
+      suggestions
     );
   });
 

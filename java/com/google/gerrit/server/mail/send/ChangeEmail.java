@@ -479,6 +479,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (!projectState.statePermitsRead()) {
       return false;
     }
+    if (emailOnlyAuthors) {
+      return false;
+    }
 
     return args.permissionBackend
         .user(args.anonymousUser.get())

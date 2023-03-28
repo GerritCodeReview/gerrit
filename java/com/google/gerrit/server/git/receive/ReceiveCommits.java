@@ -183,6 +183,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.ReplyAttentionSetUpdates;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
+import com.google.gerrit.server.submit.SubmitLockFailedException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -2866,6 +2867,9 @@ class ReceiveCommits {
             RecipientType.BCC,
             new NotifyInfo(magicBranch.notifyBcc.stream().map(Object::toString).collect(toList())));
         op.merge(tipChange, user, false, submitInput, false);
+      } catch (SubmitLockFailedException e) {
+        throw new ResourceConflictException(
+            String.format("Submit of change %s already in progress.", tipChange.getId()), e);
       }
     }
   }

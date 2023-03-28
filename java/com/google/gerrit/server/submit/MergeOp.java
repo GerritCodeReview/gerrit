@@ -101,6 +101,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -127,6 +129,7 @@ public class MergeOp implements AutoCloseable {
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
       SUBMIT_RULE_OPTIONS.toBuilder().recomputeOnClosedChanges(true).build();
+  private static final int SUBMIT_LOCK_WAIT_TIMEOUT_SECONDS = 10;
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -247,6 +250,7 @@ public class MergeOp implements AutoCloseable {
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
   private final MergeMetrics mergeMetrics;
+  private final SubmitLock submitLock;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -282,7 +286,8 @@ public class MergeOp implements AutoCloseable {
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
       StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
-      MergeMetrics mergeMetrics) {
+      MergeMetrics mergeMetrics,
+      SubmitLock submitLock) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -301,6 +306,7 @@ public class MergeOp implements AutoCloseable {
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
     this.mergeMetrics = mergeMetrics;
+    this.submitLock = submitLock;
   }
 
   @Override
@@ -435,9 +441,43 @@ public class MergeOp implements AutoCloseable {
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
+   * @throws SubmitLockFailedException if the submit for the change is already locked by another
+   *     thread.
    * @return the merged change
    */
   public Change merge(
+      Change change,
+      IdentifiedUser caller,
+      boolean checkSubmitRules,
+      SubmitInput submitInput,
+      boolean dryrun)
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException, SubmitLockFailedException {
+    if (dryrun) {
+      return doMerge(change, caller, checkSubmitRules, submitInput, dryrun);
+    }
+
+    Lock acquiredSubmitLock = acquireSubmitLock(change);
+    try {
+      return doMerge(change, caller, checkSubmitRules, submitInput, dryrun);
+    } finally {
+      acquiredSubmitLock.unlock();
+    }
+  }
+
+  private Lock acquireSubmitLock(Change change) throws SubmitLockFailedException {
+    Lock requiredSubmitLock = submitLock.get(change);
+    try {
+      if (!requiredSubmitLock.tryLock(SUBMIT_LOCK_WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+        throw new SubmitLockFailedException(change);
+      }
+      return requiredSubmitLock;
+    } catch (InterruptedException e) {
+      throw new SubmitLockFailedException(change, e);
+    }
+  }
+
+  private Change doMerge(
       Change change,
       IdentifiedUser caller,
       boolean checkSubmitRules,

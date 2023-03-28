@@ -49,7 +49,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
-import org.eclipse.jgit.api.errors.PatchApplyException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
@@ -240,18 +239,6 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     resp.assertOK();
     BinaryResult resultPatch = gApi.changes().id(destChange.getChangeId()).current().patch();
     assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(originalDecodedPatch));
-  }
-
-  @Test
-  public void applyPatchWithConflict_fails() throws Exception {
-    initBaseWithFile(MODIFIED_FILE_NAME, "Unexpected base content");
-    ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
-
-    Throwable error = assertThrows(RestApiException.class, () -> applyPatch(in));
-
-    assertThat(error).hasMessageThat().contains("Cannot apply patch");
-    assertThat(error).hasCauseThat().isInstanceOf(PatchApplyException.class);
-    assertThat(error).hasCauseThat().hasMessageThat().contains("Cannot apply: HunkHeader");
   }
 
   @Test

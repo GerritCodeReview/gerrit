@@ -34,6 +34,24 @@
       "parentUuid": "17193f6e_d8288cc5",
       "revId": "00aa4f05ee0f56f9548b17781f527a0a1307edee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9d93ce5_b7ab94da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-28T08:42:10Z",
+      "side": 1,
+      "message": "Thanks Edwin.",
+      "parentUuid": "9ec1c6d8_63953372",
+      "revId": "00aa4f05ee0f56f9548b17781f527a0a1307edee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

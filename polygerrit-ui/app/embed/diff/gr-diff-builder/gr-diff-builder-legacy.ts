@@ -313,7 +313,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       // For unified diff, this method will be called with number set to 0 for
       // the empty line number column for added/removed lines. This should not
       // be announced to the screenreader.
-      if (number > 0) {
+      if (number !== 'FILE' && number > 0) {
         if (line.type === GrDiffLineType.REMOVE) {
           button.setAttribute('aria-label', `${number} removed`);
         } else if (line.type === GrDiffLineType.ADD) {

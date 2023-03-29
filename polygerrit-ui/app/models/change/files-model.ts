@@ -155,7 +155,8 @@ export class FilesModel extends Model<FilesState> {
       ),
       this.subscribeToFiles(
         (psLeft, _) => {
-          if (psLeft === PARENT || psLeft <= 0) return undefined;
+          if (psLeft === PARENT || (psLeft as PatchSetNumber) <= 0)
+            return undefined;
           return {basePatchNum: PARENT, patchNum: psLeft as PatchSetNumber};
         },
         files => {
@@ -164,7 +165,8 @@ export class FilesModel extends Model<FilesState> {
       ),
       this.subscribeToFiles(
         (psLeft, psRight) => {
-          if (psLeft === PARENT || psLeft <= 0) return undefined;
+          if (psLeft === PARENT || (psLeft as PatchSetNumber) <= 0)
+            return undefined;
           return {basePatchNum: PARENT, patchNum: psRight as PatchSetNumber};
         },
         files => {

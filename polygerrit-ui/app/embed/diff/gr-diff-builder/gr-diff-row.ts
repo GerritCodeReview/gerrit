@@ -309,7 +309,7 @@ export class GrDiffRow extends LitElement {
     // For unified diff, this method will be called with number set to 0 for
     // the empty line number column for added/removed lines. This should not
     // be announced to the screenreader.
-    if (lineNumber <= 0) return undefined;
+    if (lineNumber === 'LOST' || lineNumber <= 0) return undefined;
 
     switch (line.type) {
       case GrDiffLineType.REMOVE:

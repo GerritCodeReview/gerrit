@@ -132,8 +132,14 @@ function splitGroupInTwo(
     const after = [];
     for (const line of group.lines) {
       if (
-        (line.beforeNumber && line.beforeNumber < leftSplit) ||
-        (line.afterNumber && line.afterNumber < rightSplit)
+        (line.beforeNumber &&
+          line.beforeNumber !== 'FILE' &&
+          line.beforeNumber !== 'LOST' &&
+          line.beforeNumber < leftSplit) ||
+        (line.afterNumber &&
+          line.afterNumber !== 'FILE' &&
+          line.afterNumber !== 'LOST' &&
+          line.afterNumber < rightSplit)
       ) {
         before.push(line);
       } else {

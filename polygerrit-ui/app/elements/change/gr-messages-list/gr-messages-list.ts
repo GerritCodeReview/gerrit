@@ -21,6 +21,8 @@ import {
   PatchSetNum,
   VotingRangeInfo,
   isRobot,
+  EDIT,
+  PARENT,
 } from '../../../types/common';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
@@ -154,13 +156,25 @@ function computeRevision(
   message: CombinedMessage,
   allMessages: CombinedMessage[]
 ): PatchSetNum | undefined {
-  if (message._revision_number && message._revision_number > 0)
+  if (
+    message._revision_number !== undefined &&
+    message._revision_number !== 0 &&
+    message._revision_number !== PARENT &&
+    message._revision_number !== EDIT
+  ) {
     return message._revision_number;
+  }
   let revision: PatchSetNum = 0 as PatchSetNum;
   for (const m of allMessages) {
     if (m.date > message.date) break;
-    if (m._revision_number && m._revision_number > revision)
+    if (
+      m._revision_number !== undefined &&
+      m._revision_number !== 0 &&
+      message._revision_number !== PARENT &&
+      message._revision_number !== EDIT
+    ) {
       revision = m._revision_number;
+    }
   }
   return revision > 0 ? revision : undefined;
 }

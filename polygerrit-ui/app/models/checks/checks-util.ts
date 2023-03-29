@@ -472,7 +472,11 @@ export function createAttemptMap(runs: CheckRunApi[]) {
       );
     }
     value.isSingleAttempt = false;
-    if (run.attempt > value.latestAttempt) {
+    if (
+      value.latestAttempt !== 'all' &&
+      value.latestAttempt !== 'latest' &&
+      run.attempt > value.latestAttempt
+    ) {
       value.latestAttempt = run.attempt;
     }
     value.attempts.push(detail);

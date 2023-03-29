@@ -576,6 +576,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d15e39_3d08ed05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-29T18:50:16Z",
+      "side": 1,
+      "message": "And to add to that a bit more... It is good to have a policy of \"no dead code\" in the project, and if this were to get merged without any users (again, I am assuming you cannot use it without the follow on changes), that would be merging \"dead code\".",
+      "parentUuid": "4db13678_f651de9c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e062fdb7_ab7dcdfc",

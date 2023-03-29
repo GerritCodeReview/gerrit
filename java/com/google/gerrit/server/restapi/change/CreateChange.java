@@ -108,6 +108,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.patch.PatchApplier;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -405,14 +406,17 @@ public class CreateChange
           if (mergeTip == null) {
             throw new BadRequestException("Cannot apply patch on top of an empty tree.");
           }
-          ObjectId treeId = ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
+          PatchApplier.Result applyResult =
+              ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
+          ObjectId treeId = applyResult.getTreeId();
           String appliedPatchCommitMessage =
               getCommitMessage(
                   ApplyPatchUtil.buildCommitMessage(
                       input.subject,
                       ImmutableList.of(),
                       input.patch.patch,
-                      ApplyPatchUtil.getResultPatch(git, reader, mergeTip, rw.lookupTree(treeId))),
+                      ApplyPatchUtil.getResultPatch(git, reader, mergeTip, rw.lookupTree(treeId)),
+                      applyResult.getErrors()),
                   me);
           c =
               rw.parseCommit(

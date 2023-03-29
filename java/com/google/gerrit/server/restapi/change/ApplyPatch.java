@@ -69,6 +69,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.PatchApplier;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -157,7 +158,9 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
         }
         baseCommit = revWalk.parseCommit(latestPatchset.getParent(0));
       }
-      ObjectId treeId = ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
+      PatchApplier.Result applyResult =
+          ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
+      ObjectId treeId = applyResult.getTreeId();
 
       Instant now = TimeUtil.now();
       PersonIdent committerIdent = user.get().newCommitterIdent(now, serverZoneId);
@@ -175,7 +178,8 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               messageWithNoFooters,
               footerLines,
               input.patch.patch,
-              ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)));
+              ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)),
+              applyResult.getErrors());
 
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(

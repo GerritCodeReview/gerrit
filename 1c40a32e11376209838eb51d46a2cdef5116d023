@@ -134,6 +134,30 @@
       },
       "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff73fb86_a31279dd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-29T15:27:33Z",
+      "side": 1,
+      "message": "I\u0027ll look into this.",
+      "parentUuid": "b391c659_d82adaee",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

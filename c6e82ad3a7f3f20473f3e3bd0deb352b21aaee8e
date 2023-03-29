@@ -93,6 +93,30 @@
       },
       "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dac3d5d_c0449364",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-29T15:27:33Z",
+      "side": 1,
+      "message": "Good shout - approval parsing is fine on stable-3.5, but copied approval parsing throws. I\u0027ve added a test case for each as I couldn\u0027t see any.",
+      "parentUuid": "fee4d57f_aafaa949",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 86
+      },
+      "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b13f4e_0b89386a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-29T14:55:14Z",
+      "side": 1,
+      "message": "m instead of message?",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 13
+      },
+      "revId": "221b372dd61853432d5a0b0bdf19bc2701886349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce775a44_28e8a380",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-29T14:55:14Z",
+      "side": 1,
+      "message": "Why is \"as\" required here, but wasn\u0027t required in other places? Are we missing type annotation somewhere?",
+      "range": {
+        "startLine": 158,
+        "startChar": 35,
+        "endLine": 158,
+        "endChar": 61
+      },
+      "revId": "221b372dd61853432d5a0b0bdf19bc2701886349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

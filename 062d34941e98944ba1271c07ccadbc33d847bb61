@@ -552,6 +552,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db13678_f651de9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-29T18:18:01Z",
+      "side": 1,
+      "message": "\u003e Is there a strong reason these need to be submitted together?\n\nFrom the description of the use cases that you gave, this is not usable without the follow on changes (not even minimally). That being the case, it would be potentially premature to submit this now since it may not actually do what you need it to do. We have learned that as a general practice while it is good to sometimes split things which should likely be merged together into smaller changes for easier review, it is still generally better not to submit any of those pieces which don\u0027t \"stand on their own\", or fulfill at least some small use case, no matter how small that is, without the changes which make it do so.\n\nSo the question really should be, why do you want to submit this early, what do you gain from that? Does this fulfill some smaller use case that you have not described to us as is without the follow on change? If so, then it might make sense, but it likely should be justified that way then.",
+      "parentUuid": "ded8047b_55b6f94b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e062fdb7_ab7dcdfc",

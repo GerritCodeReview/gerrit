@@ -28,14 +28,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.Patch;
 import org.eclipse.jgit.patch.PatchApplier;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -55,20 +56,31 @@ public final class ApplyPatchUtil {
    * @throws IOException if unable to create the jgit PatchApplier object
    * @throws RestApiException for any other failure
    */
-  public static ObjectId applyPatch(
+  public static PatchApplier.Result applyPatch(
       Repository repo, ObjectInserter oi, ApplyPatchInput input, RevCommit mergeTip)
       throws IOException, RestApiException {
     checkNotNull(mergeTip);
     RevTree tip = mergeTip.getTree();
-    InputStream patchStream =
-        new ByteArrayInputStream(decodeIfNecessary(input.patch).getBytes(StandardCharsets.UTF_8));
+    Patch patch = new Patch();
+    try (InputStream patchStream =
+        new ByteArrayInputStream(decodeIfNecessary(input.patch).getBytes(StandardCharsets.UTF_8))) {
+      patch.parse(patchStream);
+      if (!patch.getErrors().isEmpty()) {
+        throw new BadRequestException(
+            "Invalid patch format. Got the following errors:\n"
+                + patch.getErrors().stream()
+                    .map(Objects::toString)
+                    .collect(Collectors.joining("\n"))
+                + "\nFor the patch:\n"
+                + input.patch);
+      }
+    }
     try {
       PatchApplier applier = new PatchApplier(repo, tip, oi);
-      PatchApplier.Result applyResult = applier.applyPatch(patchStream);
-      return applyResult.getTreeId();
-    } catch (GitAPIException e) {
-      // TODO(nitzan) - write better error handling here.
-      throw new BadRequestException("Cannot apply patch: " + input.patch, e);
+      PatchApplier.Result applyResult = applier.applyPatch(patch);
+      return applyResult;
+    } catch (IOException e) {
+      throw RestApiException.wrap("Cannot apply patch: " + input.patch, e);
     }
   }
 
@@ -79,9 +91,12 @@ public final class ApplyPatchUtil {
    *
    * <ol>
    *   <li>Provided {@code message}.
-   *   <li>In case the result change's patch is not the same as the original patch - a warning
-   *       message which includes the diff; as well as the original patch's header if available, or
-   *       the full original patch otherwise.
+   *   <li>In case of errors while applying the patch - a warning message which includes the errors;
+   *       as well as the original patch's header if available, or the full original patch
+   *       otherwise.
+   *   <li>If there are no explicit errors, but the result change's patch is not the same as the
+   *       original patch - a warning message which includes the diff; as well as the original
+   *       patch's header if available, or the full original patch otherwise.
    *   <li>The provided {@code footerLines}, if any.
    * </ol>
    *
@@ -93,23 +108,43 @@ public final class ApplyPatchUtil {
    * @throws BadRequestException if the commit message cannot be sanitized
    */
   public static String buildCommitMessage(
-      String message, List<FooterLine> footerLines, String originalPatch, String resultPatch)
+      String message,
+      List<FooterLine> footerLines,
+      String originalPatch,
+      String resultPatch,
+      List<PatchApplier.Result.Error> errors)
       throws BadRequestException {
-    String decodedOriginalPatch = decodeIfNecessary(originalPatch);
     StringBuilder res = new StringBuilder(message.trim());
-    Optional<String> patchDiff = verifyAppliedPatch(decodedOriginalPatch, resultPatch);
-    if (!patchDiff.isEmpty()) {
+
+    boolean appendOriginalPatch = false;
+    String decodedOriginalPatch = decodeIfNecessary(originalPatch);
+    if (!errors.isEmpty()) {
       res.append(
-          "\n\nNOTE FOR REVIEWERS - original patch and result patch are not identical."
-              + "\nPLEASE REVIEW CAREFULLY.\nDiffs between the patches:\n"
-              + patchDiff.get());
+          "\n\nNOTE FOR REVIEWERS - errors occurred while applying the patch."
+              + "\nPLEASE REVIEW CAREFULLY.\nErrors:\n"
+              + errors.stream().map(Objects::toString).collect(Collectors.joining("\n")));
+      appendOriginalPatch = true;
+    } else {
+      // Only surface the diff if no explicit errors occurred.
+      Optional<String> patchDiff = verifyAppliedPatch(decodedOriginalPatch, resultPatch);
+      if (!patchDiff.isEmpty()) {
+        res.append(
+            "\n\nNOTE FOR REVIEWERS - original patch and result patch are not identical."
+                + "\nPLEASE REVIEW CAREFULLY.\nDiffs between the patches:\n "
+                + patchDiff.get());
+        appendOriginalPatch = true;
+      }
     }
-    Optional<String> originalPatchHeader = DiffUtil.getPatchHeader(decodedOriginalPatch);
-    if (!patchDiff.isEmpty()) {
+
+    if (appendOriginalPatch) {
+      Optional<String> originalPatchHeader = DiffUtil.getPatchHeader(decodedOriginalPatch);
+      String patchDescription =
+          (originalPatchHeader.isEmpty() ? decodedOriginalPatch : originalPatchHeader.get()).trim();
       res.append(
-          "\n\nOriginal patch:\n"
-              + (originalPatchHeader.isEmpty() ? decodedOriginalPatch : originalPatchHeader.get()));
+          "\n\nOriginal patch:\n "
+              + patchDescription.substring(0, Math.min(patchDescription.length(), 1024)));
     }
+
     if (!footerLines.isEmpty()) {
       res.append('\n');
     }

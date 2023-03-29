@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8fb5b82_300b7450",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-03-29T13:48:11Z",
+      "side": 1,
+      "message": "this leaves the hunk headers, ie.\n\n```\n@@ -1784,12 +1784,46 @@ static int refs_read_special_head(struct ref_store *ref_store,\n```\n\nalone, right? Wouldn\u0027t they be very prone to differ across versions?",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 10
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fcaa738_c45bf4f4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-03-29T13:48:11Z",
+      "side": 1,
+      "message": "opt: I actually had to look where this was coming from (it seems untested, which seems fine since it is a fallback). Could do with a more extensive comment.\n\n\u003cedit\u003e\n\nas discussed in person: the line-numbers can cause false-positives.\n\nFor now: \n\n* trim the hunk headers from the patch\n\n* Applying a patch twice that adds a new file should fail in the second round. This might need some changes in JGit.",
+      "range": {
+        "startLine": 128,
+        "startChar": 61,
+        "endLine": 128,
+        "endChar": 62
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3a936e_e8263133",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-03-29T13:48:11Z",
+      "side": 1,
+      "message": "this is dup from the other test; since you have the code only once, only need to test it once.\n\nYou could check for substring \"errors occurred\" and leave the detailed testing for the other test. (saves time if you want to tweak the format of the message.)",
+      "range": {
+        "startLine": 1148,
+        "startChar": 11,
+        "endLine": 1154,
+        "endChar": 11
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

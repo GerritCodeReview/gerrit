@@ -2213,15 +2213,18 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;;
 @Listen
 public class MyWeblinkPlugin implements PatchSetWebLink {
   private String name = "MyLink";
-  private String placeHolderUrlProjectCommit = "http://my.tool.com/project=%s/commit=%s";
+  private String placeHolderUrlProjectCommit =
+  "http://my.tool.com/project=%s/commit=%s/changeKey=%s/numericChangeId=%s";
   private String imageUrl = "http://placehold.it/16x16.gif";
 
   @Override
   public WebLinkInfo getPatchSetWebLink(String projectName, String commit,
-   String commitMessage, String branchName) {
+   String commitMessage, String branchName, String changeKey, int
+   numericChangeId) {
     return new WebLinkInfo(name,
         imageUrl,
-        String.format(placeHolderUrlProjectCommit, project, commit));
+        String.format(placeHolderUrlProjectCommit, project, commit, changeKey,
+	numericChangeId));
   }
 }
 ----

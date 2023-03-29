@@ -66,7 +66,8 @@ public class GetCommit implements RestReadView<RevisionResource> {
                   addLinks,
                   /* fillCommit= */ true,
                   rsrc.getChange().getDest().branch(),
-                  rsrc.getChange().getKey().get());
+                  rsrc.getChange().getKey().get(),
+                  rsrc.getChange().getId().get());
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, DAYS));

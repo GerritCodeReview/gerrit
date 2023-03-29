@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f5898be_0983e62e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-29T10:50:47Z",
+      "side": 1,
+      "message": "I know this is a WIP but here\u0027s my suggestion of a commit-message:\n\n```\nSet uninteresting branches based on project configuration\n\nThe set of uninteresting branches varies depending on whether the \"Create a new\nchange for every commit not in target\" is set or not.\nIf it is not set all branches are uninteresting since you aren\u0027t allowed to push\nthe same commit for review on two different branches.\nIf it is set there are a lot more edge-cases to consider which potentially\nrequires a lot of rev-walking which in turn potentially comes with a significant\nperformance impact.\nNot having to take the penalty for uninteresting edge-cases is the preferred\nbehavior.\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 85
+      },
+      "revId": "e82f1970d76bac599715479515b1d3a2d6d51525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83cd32c_0deea1ec",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-29T10:50:47Z",
+      "side": 1,
+      "message": "Unrelated nl.",
+      "revId": "e82f1970d76bac599715479515b1d3a2d6d51525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

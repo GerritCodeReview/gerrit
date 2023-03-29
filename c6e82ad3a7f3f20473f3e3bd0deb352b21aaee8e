@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17488109_1350a00e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-29T13:49:06Z",
+      "side": 1,
+      "message": "```suggestion\n    // The first part of the condition checks whether the footer has the following format:\n    //   Copied-Label: \u003cLABEL\u003e\u003dVOTE \u003cGerrit Account\u003e,\u003cGerrit Real Account\u003e :\"\u003cTAG\u003e\"\n    //   Weird tag that contains uuid delimiter. The uuid is actually not present.\n    if ((tagStart !\u003d -1 \u0026\u0026 separatorIndex \u003e tagStart) ||\n\n    // The second part of the condition allows us to distinguish the following two lines:\n    //   Label2\u003d+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 \u003c1@gerrit\u003e\n    //   Label2\u003d+1 User Name (company_name, department) \u003c2@gerrit\u003e\n        (line.indexOf(\u0027 \u0027) \u003c separatorIndex)) {\n```",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 816,
+        "endChar": 96
+      },
+      "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3f1303f_20f2e779",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
         "patchSetId": 13
@@ -14,6 +37,30 @@
       "writtenOn": "2023-03-29T05:09:43Z",
       "side": 1,
       "message": "is the following line possible:\n```\n+ \"Label: Label1\u003d+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 (company_name, department) \u003c1@gerrit\u003e \\n\"\n```\nshould we check it also for copied approvals?",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 86
+      },
+      "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee4d57f_aafaa949",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-29T13:49:06Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a3f1303f_20f2e779",
       "range": {
         "startLine": 178,
         "startChar": 12,

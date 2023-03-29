@@ -110,6 +110,30 @@
       },
       "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b391c659_d82adaee",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-29T13:49:06Z",
+      "side": 1,
+      "message": "Have you checked the performance impact of positive look behind regex here? This code is used *a lot* in Gerrit and the whole purpose of this complex logic was to avoid complex regex.\n\nCan you also add a comment and an example here?",
+      "parentUuid": "66f92883_feaff263",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

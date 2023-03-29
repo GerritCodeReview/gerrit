@@ -158,6 +158,30 @@
       },
       "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "384e8142_442e3720",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-29T15:52:14Z",
+      "side": 1,
+      "message": "You are right - it\u0027s 3-5x slower. Tested with:\n```\nimport java.util.*;\nimport java.lang.*;\n\npublic class MyClass {\n    private static void test (String regex, int repetitions) {\n        long startTime \u003d System.currentTimeMillis();\n        for (int i \u003d 0; i \u003c repetitions; i++) {\n            String str \u003d \"Gerrit User 1 (name,with, comma) \u003c1@gerrit\u003e,Gerrit User 2 (name,with, comma) \u003c2@gerrit\u003e\\n\";\n            str.split(regex);\n        }\n        long endTime \u003d System.currentTimeMillis();\n        System.out.println(\"Execution time: \" + Long.toString(endTime - startTime));\n    }\n\n    public static void main (String[] args) throws java.lang.Exception {\n        test(\",\", 1000000);\n        test(\"\u003e,\", 1000000);\n        test(\"(?\u003c\u003d\u003e),\", 1000000);\n    }\n}\n```\nGives:\n```\nExecution time: 501\nExecution time: 810\nExecution time: 1929\n```\nThe second iteration is ~2x slower (this was a slightly faster run than most times).\n\nI suppose to maintain performance we could:\n* split on comma\n* loop through the elements\n* join two consecutive elements with a comma if the previous element doesn\u0027t end with a `\u003e`\n\nIt\u0027s pretty ugly (also just thinking out loud, so there may well be problems with the algorithm), but it\u0027ll be faster.",
+      "parentUuid": "ff73fb86_a31279dd",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

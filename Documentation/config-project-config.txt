@@ -457,11 +457,6 @@ since they find the linear history easier to read.
 NOTE: Rebasing merge commits is not supported. If a change with a merge commit
 is submitted the link:#merge_if_necessary[merge if necessary] submit action is
 applied.
-+
-When rebasing the patchset, Gerrit automatically appends onto the end of the
-commit message a short summary of the change's approvals, and a URL link back
-to the change in the web UI (see link:#submit-footers[below]). If a fast-forward
-is done no footers are added.
 
 [[rebase_always]]
 * 'rebase always':

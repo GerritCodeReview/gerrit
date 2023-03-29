@@ -105,8 +105,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected BranchNameKey branch;
 
   protected ProjectState projectState;
-  protected Set<Account.Id> authors;
-  protected boolean emailOnlyAuthors;
+  private Set<Account.Id> authors;
+  private boolean emailOnlyAuthors;
   protected boolean emailOnlyAttentionSetIfEnabled;
   // Watchers ignore attention set rules.
   protected Set<Account.Id> watchers = new HashSet<>();
@@ -199,7 +199,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
         }
       }
     }
-    authors = getAuthors();
 
     try {
       stars = changeData.stars();
@@ -384,7 +383,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
   protected void addAuthors(RecipientType rt) {
-    for (Account.Id id : authors) {
+    for (Account.Id id : getAuthors()) {
       addByAccountId(rt, id);
     }
   }
@@ -511,8 +510,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return args.permissionBackend.absentUser(to).change(changeData).test(ChangePermission.READ);
   }
 
-  /** Find all users who are authors of any part of this change. */
+  /** Lazily finds all users who are authors of any part of this change. */
   protected Set<Account.Id> getAuthors() {
+    if (this.authors != null) {
+      return this.authors;
+    }
     Set<Account.Id> authors = new HashSet<>();
 
     switch (notify.handling()) {
@@ -538,7 +540,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
         break;
     }
 
-    return authors;
+    return this.authors = authors;
   }
 
   @Override

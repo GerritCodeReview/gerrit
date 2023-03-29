@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f1303f_20f2e779",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-29T05:09:43Z",
+      "side": 1,
+      "message": "is the following line possible:\n```\n+ \"Label: Label1\u003d+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 (company_name, department) \u003c1@gerrit\u003e \\n\"\n```\nshould we check it also for copied approvals?",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 86
+      },
+      "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

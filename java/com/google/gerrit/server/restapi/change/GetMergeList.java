@@ -90,7 +90,8 @@ public class GetMergeList implements RestReadView<RevisionResource> {
                 addLinks,
                 /* fillCommit= */ true,
                 rsrc.getChange().getDest().branch(),
-                rsrc.getChange().getKey().get()));
+                rsrc.getChange().getKey().get(),
+                rsrc.getChange().getId().get()));
       }
       return createResponse(rsrc, result);
     }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e2b6474_ae3029c3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-29T14:49:43Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "17488109_1350a00e",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 816,
+        "endChar": 96
+      },
+      "revId": "c6e82ad3a7f3f20473f3e3bd0deb352b21aaee8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f1303f_20f2e779",

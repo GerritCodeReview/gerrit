@@ -169,26 +169,32 @@ public class DiffUtil {
   }
 
   public static String cleanPatch(final String patch) {
-    String res = patch;
-    if (res.contains("\ndiff --git")) {
-      // Remove the header
-      res = res.substring(patch.lastIndexOf("\ndiff --git"), patch.length() - 1);
-    }
+    String res = removePatchHeader(patch);
     return res
-        // Remove "index NN..NN lines
+        // Remove "index NN..NN" lines
         .replaceAll("(?m)^index.*", "")
+        // Remove hunk-headers lines
+        .replaceAll("(?m)^@@ .*", "")
         // Remove empty lines
         .replaceAll("\n+", "\n")
         // Trim
         .trim();
   }
 
+  public static String removePatchHeader(final String patch) {
+    String res = patch.trim();
+    if (!res.startsWith("diff --") && res.contains("\ndiff --")) {
+      return res.substring(patch.indexOf("\ndiff --"), patch.length() - 1);
+    }
+    return res;
+  }
+
   public static Optional<String> getPatchHeader(final String patch) {
-    if (!patch.contains("\ndiff --git")) {
+    if (patch.startsWith("diff --")) {
       return Optional.empty();
     }
     return Optional.ofNullable(
-        Strings.emptyToNull(patch.trim().substring(0, patch.lastIndexOf("\ndiff --git"))));
+        Strings.emptyToNull(patch.trim().substring(0, patch.indexOf("\ndiff --git"))));
   }
 
   public static String cleanPatch(BinaryResult bin) throws IOException {

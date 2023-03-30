@@ -175,6 +175,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
   protected void init() throws EmailException {
+    super.init();
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject()).orElse(null);
     } else {
@@ -206,29 +207,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }
 
-    super.init();
     BranchEmailUtils.setListIdHeader(this, branch);
     if (timestamp != null) {
       setHeader(FieldName.DATE, timestamp);
     }
-    setChangeSubjectHeader();
     setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());
     setHeader(MailHeader.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
     setHeader(MailHeader.PROJECT.fieldName(), "" + change.getProject());
     setChangeUrlHeader();
     setCommitIdHeader();
-
-    if (notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || notify.handling().equals(NotifyHandling.ALL)) {
-      try {
-        changeData.reviewersByEmail().byState(ReviewerStateInternal.CC).stream()
-            .forEach(address -> addByEmail(RecipientType.CC, address));
-        changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).stream()
-            .forEach(address -> addByEmail(RecipientType.CC, address));
-      } catch (StorageException e) {
-        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
-      }
-    }
   }
 
   private void setChangeUrlHeader() {
@@ -390,7 +377,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (!NotifyHandling.ALL.equals(notify.handling())) {
+    if (!NotifyHandling.ALL.equals(getNotify().handling())) {
       return;
     }
 
@@ -433,7 +420,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   private final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
-    if (!NotifyHandling.ALL.equals(notify.handling())) {
+    if (!NotifyHandling.ALL.equals(getNotify().handling())) {
       return new Watchers();
     }
 
@@ -443,8 +430,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(notify.handling())
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
+    if (!NotifyHandling.ALL.equals(getNotify().handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
       return;
     }
 
@@ -459,8 +446,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Users who were added as reviewers to this change. */
   protected void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(notify.handling())
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
+    if (!NotifyHandling.ALL.equals(getNotify().handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
       return;
     }
 
@@ -517,7 +504,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
     Set<Account.Id> authors = new HashSet<>();
 
-    switch (notify.handling()) {
+    switch (getNotify().handling()) {
       case NONE:
         break;
       case ALL:
@@ -544,8 +531,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     BranchEmailUtils.addBranchData(this, args, branch);
 
     soyContext.put("changeId", change.getKey().get());
@@ -604,6 +591,19 @@ public abstract class ChangeEmail extends OutgoingEmail {
       soyContext.put(
           "attentionSet",
           currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableList()));
+    }
+
+    setChangeSubjectHeader();
+    if (getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || getNotify().handling().equals(NotifyHandling.ALL)) {
+      try {
+        this.changeData.reviewersByEmail().byState(ReviewerStateInternal.CC).stream()
+            .forEach(address -> addByEmail(RecipientType.CC, address));
+        this.changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).stream()
+            .forEach(address -> addByEmail(RecipientType.CC, address));
+      } catch (StorageException e) {
+        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
+      }
     }
   }
 

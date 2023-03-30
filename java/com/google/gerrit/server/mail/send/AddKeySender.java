@@ -90,8 +90,8 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContextEmailData.put("email", getEmail());
     soyContextEmailData.put("gpgKeys", getGpgKeys());
     soyContextEmailData.put("keyType", getKeyType());

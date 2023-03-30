@@ -68,25 +68,6 @@ public abstract class NewChangeSender extends ChangeEmail {
     super.init();
     String threadId = getChangeMessageThreadId();
     setHeader("References", threadId);
-
-    switch (notify.handling()) {
-      case NONE:
-      case OWNER:
-        break;
-      case ALL:
-      default:
-        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
-        extraCCByEmail.stream().forEach(cc -> addByEmail(RecipientType.CC, cc));
-        // $FALL-THROUGH$
-      case OWNER_REVIEWERS:
-        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
-        reviewersByEmail.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
-        removedReviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
-        removedByEmailReviewers.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
-        break;
-    }
-
-    addAuthors(RecipientType.CC);
   }
 
   @Override
@@ -125,10 +106,28 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContext.put("ownerName", getNameFor(change.getOwner()));
     soyContextEmailData.put("reviewerNames", getReviewerNames());
     soyContextEmailData.put("removedReviewerNames", getRemovedReviewerNames());
+
+    switch (getNotify().handling()) {
+      case NONE:
+      case OWNER:
+        break;
+      case ALL:
+      default:
+        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
+        extraCCByEmail.stream().forEach(cc -> addByEmail(RecipientType.CC, cc));
+        // $FALL-THROUGH$
+      case OWNER_REVIEWERS:
+        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
+        reviewersByEmail.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
+        removedReviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
+        removedByEmailReviewers.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
+        break;
+    }
+    addAuthors(RecipientType.CC);
   }
 }

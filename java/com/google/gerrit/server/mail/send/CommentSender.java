@@ -172,15 +172,6 @@ public class CommentSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || notify.handling().equals(NotifyHandling.ALL)) {
-      ccAllApprovals();
-    }
-    if (notify.handling().equals(NotifyHandling.ALL)) {
-      bccStarredBy();
-      includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
-    }
-
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.
     setHeader(MailHeader.COMMENT_DATE.fieldName(), timestamp);
@@ -519,8 +510,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     boolean hasComments;
     try (Repository repo = getRepository()) {
       List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
@@ -551,6 +542,15 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (Account.Id account : getReplyAccounts()) {
       footers.add(MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + getNameEmailFor(account));
+    }
+
+    if (getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || getNotify().handling().equals(NotifyHandling.ALL)) {
+      ccAllApprovals();
+    }
+    if (getNotify().handling().equals(NotifyHandling.ALL)) {
+      bccStarredBy();
+      includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
     }
   }
 

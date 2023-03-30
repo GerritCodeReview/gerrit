@@ -34,8 +34,8 @@ public class RevertedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
 
     ccAllApprovals();
     bccStarredBy();

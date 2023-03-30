@@ -31,8 +31,8 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
 
     final String threadId = getChangeMessageThreadId();
     setHeader("In-Reply-To", threadId);

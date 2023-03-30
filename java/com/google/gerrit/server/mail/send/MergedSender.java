@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
@@ -61,29 +60,17 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  public void setNotify(NotifyResolver.Result notify) {
-    checkNotNull(notify);
-    if (!stickyApprovalDiff.isEmpty()) {
-      if (!notify.handling().equals(NotifyHandling.ALL)) {
-        logger.atFine().log(
-            "Requested to notify %s, but for change submission with sticky approval diff,"
-                + " Notify=ALL is enforced.",
-            notify.handling().name());
-      }
-      this.notify = NotifyResolver.Result.create(NotifyHandling.ALL, notify.accounts());
-    } else {
-      this.notify = notify;
-    }
-  }
-
-  @Override
   protected void init() throws EmailException {
     super.init();
 
-    ccAllApprovals();
-    bccStarredBy();
-    includeWatchers(NotifyType.ALL_COMMENTS);
-    includeWatchers(NotifyType.SUBMITTED_CHANGES);
+    NotifyResolver.Result notify = getNotify();
+    if (!stickyApprovalDiff.isEmpty() && !notify.handling().equals(NotifyHandling.ALL)) {
+      logger.atFine().log(
+          "Requested to notify %s, but for change submission with sticky approval diff,"
+              + " Notify=ALL is enforced.",
+          notify.handling().name());
+      setNotify(NotifyResolver.Result.create(NotifyHandling.ALL, notify.accounts()));
+    }
   }
 
   @Override
@@ -157,13 +144,18 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContextEmailData.put("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
       soyContextEmailData.put("stickyApprovalDiff", stickyApprovalDiff.get());
       soyContextEmailData.put(
           "stickyApprovalDiffHtml", getDiffTemplateData(stickyApprovalDiff.get()));
     }
+
+    ccAllApprovals();
+    bccStarredBy();
+    includeWatchers(NotifyType.ALL_COMMENTS);
+    includeWatchers(NotifyType.SUBMITTED_CHANGES);
   }
 }

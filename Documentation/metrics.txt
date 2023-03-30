@@ -204,6 +204,8 @@ setting.
    Whether the rebase was done on behalf of the uploader.
 ** `rebase_chain`:
    Whether a chain was rebased.
+** `allow_conflicts`:
+   Whether the rebase was done with allowing conflicts.
 * `change/submitted_with_rebaser_approval`: Number of rebased changes that were
   submitted with a Code-Review approval of the rebaser that would not have been
   submittable if the rebase was not done on behalf of the uploader.

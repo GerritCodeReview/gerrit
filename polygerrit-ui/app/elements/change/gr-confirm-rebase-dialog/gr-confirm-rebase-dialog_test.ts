@@ -9,7 +9,6 @@ import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
 import {
   pressKey,
   queryAndAssert,
-  stubFlags,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
@@ -23,7 +22,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
 
   setup(async () => {
-    stubFlags('isEnabled').returns(true);
     element = await fixture(
       html`<gr-confirm-rebase-dialog></gr-confirm-rebase-dialog>`
     );

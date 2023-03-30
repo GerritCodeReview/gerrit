@@ -171,6 +171,17 @@ suite('gr-repo-list tests', () => {
       await element.getRepos();
       assert.equal(element.repos.length, 1);
     });
+
+    test('display repos by query search', async () => {
+      const repoStub = stubRestApi('getRepos');
+      const repos = [createRepo('test', 0)];
+      repoStub.withArgs('inname:test', 25).returns(Promise.resolve(repos));
+      element.filter = 'inname:test';
+      element.reposPerPage = 25;
+      element.offset = 0;
+      await element.getRepos();
+      assert.equal(element.repos.length, 1);
+    });
   });
 
   suite('loading', () => {

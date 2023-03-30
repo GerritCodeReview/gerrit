@@ -34,7 +34,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.notes.NoteMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -60,8 +59,6 @@ public class NotesBranchUtil {
   private RevWalk revWalk;
   private ObjectReader reader;
   private boolean overwrite;
-
-  private ReviewNoteMerger noteMerger;
 
   @Inject
   public NotesBranchUtil(
@@ -164,24 +161,8 @@ public class NotesBranchUtil {
 
   private void addAllNotes(NoteMap notes) throws IOException {
     for (Note n : notes) {
-      if (ours.contains(n)) {
-        // Merge the existing and the new note as if they are both new,
-        // means: base == null
-        // There is no really a common ancestry for these two note revisions
-        ObjectId noteContent =
-            getNoteMerger().merge(null, n, ours.getNote(n), reader, inserter).getData();
-        ours.set(n, noteContent);
-      } else {
-        ours.set(n, n.getData());
-      }
+      ours.set(n, n.getData());
     }
-  }
-
-  private NoteMerger getNoteMerger() {
-    if (noteMerger == null) {
-      noteMerger = new ReviewNoteMerger();
-    }
-    return noteMerger;
   }
 
   private void loadBase(String notesBranch) throws IOException {

@@ -122,16 +122,6 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       //
       reviewers.remove(fromId);
     }
-    if (args.settings.sendNewPatchsetEmails) {
-      if (notify.handling().equals(NotifyHandling.ALL)
-          || notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)) {
-        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
-        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
-      }
-      addAuthors(RecipientType.CC);
-    }
-    bccStarredBy();
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
   }
 
   @Override
@@ -170,8 +160,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
     soyContextEmailData.put("outdatedApprovals", formatOutdatedApprovals());
 
@@ -183,6 +173,17 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       soyContext.put(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
+
+    if (args.settings.sendNewPatchsetEmails) {
+      if (getNotify().handling().equals(NotifyHandling.ALL)
+          || getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)) {
+        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
+        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
+      }
+      addAuthors(RecipientType.CC);
+    }
+    bccStarredBy();
+    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
   }
 
   /**

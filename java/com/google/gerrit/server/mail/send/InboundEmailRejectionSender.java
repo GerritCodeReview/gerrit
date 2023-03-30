@@ -63,8 +63,6 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     setListIdHeader();
     setHeader(FieldName.SUBJECT, "[Gerrit Code Review] Unable to process your email");
 
-    addByEmail(RecipientType.TO, to);
-
     if (!threadId.isEmpty()) {
       setHeader(MailHeader.REFERENCES.fieldName(), threadId);
     }
@@ -87,8 +85,10 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
+
+    addByEmail(RecipientType.TO, to);
   }
 }

@@ -33,8 +33,8 @@ public class ModifyReviewerSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
 
     ccExistingReviewers();
   }

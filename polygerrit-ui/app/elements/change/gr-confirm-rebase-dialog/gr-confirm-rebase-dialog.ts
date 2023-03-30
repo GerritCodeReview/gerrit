@@ -23,7 +23,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
@@ -109,8 +108,6 @@ export class GrConfirmRebaseDialog
   parentInput!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -258,11 +255,7 @@ export class GrConfirmRebaseDialog
             >
           </div>
           ${when(
-            this.flagsService.isEnabled(
-              KnownExperimentId.REBASE_ON_BEHALF_OF_UPLOADER
-            ) &&
-              !this.isOwner &&
-              this.allowConflicts,
+            !this.isOwner && this.allowConflicts,
             () =>
               html`<span class="message"
                 >Rebase cannot be done on behalf of the uploader when allowing
@@ -396,13 +389,6 @@ export class GrConfirmRebaseDialog
   }
 
   private rebaseOnBehalfOfUploader() {
-    if (
-      !this.flagsService.isEnabled(
-        KnownExperimentId.REBASE_ON_BEHALF_OF_UPLOADER
-      )
-    ) {
-      return false;
-    }
     if (this.allowConflicts) return false;
     return true;
   }

@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../../shared/gr-account-chip/gr-account-chip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
@@ -10,6 +11,8 @@ import {
   NumericChangeId,
   BranchName,
   ChangeActionDialog,
+  AccountDetailInfo,
+  AccountInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -26,6 +29,7 @@ import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {userModelToken} from '../../../models/user/user-model';
 
 export interface RebaseChange {
   name: string;
@@ -86,9 +90,6 @@ export class GrConfirmRebaseDialog
   @state()
   allowConflicts = false;
 
-  @state()
-  isOwner = false;
-
   @query('#rebaseOnParentInput')
   private rebaseOnParentInput!: HTMLInputElement;
 
@@ -107,17 +108,30 @@ export class GrConfirmRebaseDialog
   @query('#parentInput')
   parentInput!: GrAutocomplete;
 
+  @state()
+  account?: AccountDetailInfo;
+
+  @state()
+  uploader?: AccountInfo;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
     this.query = input => this.getChangeSuggestions(input);
     subscribe(
       this,
-      () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      () => this.getUserModel().account$,
+      x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestUploader$,
+      x => (this.uploader = x)
     );
   }
 
@@ -157,6 +171,9 @@ export class GrConfirmRebaseDialog
       }
       .rebaseOption {
         margin: var(--spacing-m) 0;
+      }
+      .rebaseOnBehalfMsg {
+        margin-top: var(--spacing-m);
       }
     `,
   ];
@@ -255,7 +272,7 @@ export class GrConfirmRebaseDialog
             >
           </div>
           ${when(
-            !this.isOwner && this.allowConflicts,
+            !this.isUserLatestUploader() && this.allowConflicts,
             () =>
               html`<span class="message"
                 >Rebase cannot be done on behalf of the uploader when allowing
@@ -275,6 +292,14 @@ export class GrConfirmRebaseDialog
                 />
                 <label for="rebaseChain">Rebase all ancestors</label>
               </div>`
+          )}
+          ${when(
+            !this.isUserLatestUploader(),
+            () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of the uploader: <gr-account-chip
+                .account=${this.allowConflicts ? this.account : this.uploader}
+                .hideHovercard=${true}
+              ></gr-account-chip
+              ><span></div>`
           )}
         </div>
       </gr-dialog>
@@ -308,6 +333,11 @@ export class GrConfirmRebaseDialog
         this.recentChanges = changes;
         return this.recentChanges;
       });
+  }
+
+  isUserLatestUploader() {
+    if (!this.account || !this.uploader) return true;
+    return this.account._account_id === this.uploader._account_id;
   }
 
   getRecentChanges() {

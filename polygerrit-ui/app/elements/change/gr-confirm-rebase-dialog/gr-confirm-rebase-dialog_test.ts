@@ -9,21 +9,33 @@ import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
 import {
   pressKey,
   queryAndAssert,
-  stubFlags,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {NumericChangeId, BranchName} from '../../../types/common';
-import {createChangeViewChange} from '../../../test/test-data-generators';
+import {NumericChangeId, BranchName, Timestamp} from '../../../types/common';
+import {
+  createAccountWithEmail,
+  createChangeViewChange,
+} from '../../../test/test-data-generators';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
+import {
+  changeModelToken,
+  LoadingStatus,
+} from '../../../models/change/change-model';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
 
   setup(async () => {
-    stubFlags('isEnabled').returns(true);
+    const userModel = testResolver(userModelToken);
+    userModel.setAccount({
+      ...createAccountWithEmail('abc@def.com'),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    });
     element = await fixture(
       html`<gr-confirm-rebase-dialog></gr-confirm-rebase-dialog>`
     );
@@ -88,6 +100,27 @@ suite('gr-confirm-rebase-dialog tests', () => {
           </div>
         </div>
       </gr-dialog> `
+    );
+  });
+
+  test('for reviewer it shows that rebase is done on behalf of uploader', async () => {
+    const changeModel = testResolver(changeModelToken);
+    const change = {
+      ...createChangeViewChange(),
+    };
+    changeModel.setState({
+      loadingStatus: LoadingStatus.LOADED,
+      change,
+    });
+    element.branch = 'test' as BranchName;
+    await element.updateComplete;
+    const rebaseOnBehalfMsg = queryAndAssert(element, '.rebaseOnBehalfMsg');
+    assert.dom.equal(
+      rebaseOnBehalfMsg,
+      /* HTML */ `<div class="rebaseOnBehalfMsg">
+        Rebase will be done on behalf of the uploader:
+        <gr-account-chip> </gr-account-chip> <span> </span>
+      </div>`
     );
   });
 

@@ -16,6 +16,24 @@
       "message": "Can you raise a bug for this issue on the Gerrit Code Review issue tracker?\nIf this bug impacts also v3.5.x, can you move the change there and then merge it up to master?",
       "revId": "bb46838732b99a508daaf1ee37f2079827b2efbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9923166a_daf3d2b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-03-30T20:24:00Z",
+      "side": 1,
+      "message": "I think it affect since 3.1. Should I start from the oldest or from 3.5?",
+      "parentUuid": "3d0a0af6_15f015ea",
+      "revId": "bb46838732b99a508daaf1ee37f2079827b2efbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

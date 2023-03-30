@@ -97,6 +97,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -457,6 +458,8 @@ public class MergeOp implements AutoCloseable {
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
+   * @throws SubmitLockFailedException if the submit for the change is already locked by another
+   *     thread.
    * @return the merged change
    */
   public Change merge(
@@ -466,125 +469,133 @@ public class MergeOp implements AutoCloseable {
       SubmitInput submitInput,
       boolean dryrun)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
-    this.submitInput = submitInput;
-    this.notify =
-        notifyResolver.resolve(
-            firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
-    this.dryrun = dryrun;
-    this.caller = caller;
-    this.ts = TimeUtil.nowTs();
-    this.submissionId = new SubmissionId(change);
+          PermissionBackendException, SubmitLockFailedException {
+    Lock acquiredSubmitLock = submitLock.get(change);
+    if (!dryrun && !acquiredSubmitLock.tryLock()) {
+      throw new SubmitLockFailedException(change);
+    }
+    try {
+      this.submitInput = submitInput;
+      this.notify =
+          notifyResolver.resolve(
+              firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
+      this.dryrun = dryrun;
+      this.caller = caller;
+      this.ts = TimeUtil.nowTs();
+      this.submissionId = new SubmissionId(change);
 
-    try (TraceContext traceContext =
-        TraceContext.open()
-            .addTag(RequestId.Type.SUBMISSION_ID, new RequestId(submissionId.toString()))) {
-      openRepoManager();
+      try (TraceContext traceContext =
+          TraceContext.open()
+              .addTag(RequestId.Type.SUBMISSION_ID, new RequestId(submissionId.toString()))) {
+        openRepoManager();
 
-      logger.atFine().log("Beginning integration of %s", change);
-      try {
-        ChangeSet indexBackedChangeSet =
-            mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
-        if (!indexBackedChangeSet.ids().contains(change.getId())) {
-          // indexBackedChangeSet contains only open changes, if the change is missing in this set
-          // it might be that the change was concurrently submitted in the meantime.
-          change = changeDataFactory.create(change).reloadChange();
-          if (!change.isNew()) {
-            throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+        logger.atFine().log("Beginning integration of %s", change);
+        try {
+          ChangeSet indexBackedChangeSet =
+              mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(change, caller);
+          if (!indexBackedChangeSet.ids().contains(change.getId())) {
+            // indexBackedChangeSet contains only open changes, if the change is missing in this set
+            // it might be that the change was concurrently submitted in the meantime.
+            change = changeDataFactory.create(change).reloadChange();
+            if (!change.isNew()) {
+              throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+            }
+            throw new IllegalStateException(
+                String.format("change %s missing from %s", change.getId(), indexBackedChangeSet));
           }
-          throw new IllegalStateException(
-              String.format("change %s missing from %s", change.getId(), indexBackedChangeSet));
-        }
 
-        if (indexBackedChangeSet.furtherHiddenChanges()) {
-          throw new AuthException(
-              "A change to be submitted with " + change.getId() + " is not visible");
-        }
-        logger.atFine().log("Calculated to merge %s", indexBackedChangeSet);
-
-        // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
-        ChangeSet noteDbChangeSet = reloadChanges(indexBackedChangeSet);
-
-        // At this point, any change that isn't new can be filtered out since they were only here
-        // in the first place due to stale index.
-        List<ChangeData> filteredChanges = new ArrayList<>();
-        for (ChangeData changeData : noteDbChangeSet.changes()) {
-          if (!changeData.change().getStatus().equals(Status.NEW)) {
-            logger.atFine().log(
-                "Change %s has status %s due to stale index, so it is skipped during submit",
-                changeData.getId().toString(), changeData.change().getStatus().name());
-            continue;
+          if (indexBackedChangeSet.furtherHiddenChanges()) {
+            throw new AuthException(
+                "A change to be submitted with " + change.getId() + " is not visible");
           }
-          filteredChanges.add(changeData);
+          logger.atFine().log("Calculated to merge %s", indexBackedChangeSet);
+
+          // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
+          ChangeSet noteDbChangeSet = reloadChanges(indexBackedChangeSet);
+
+          // At this point, any change that isn't new can be filtered out since they were only here
+          // in the first place due to stale index.
+          List<ChangeData> filteredChanges = new ArrayList<>();
+          for (ChangeData changeData : noteDbChangeSet.changes()) {
+            if (!changeData.change().getStatus().equals(Status.NEW)) {
+              logger.atFine().log(
+                  "Change %s has status %s due to stale index, so it is skipped during submit",
+                  changeData.getId().toString(), changeData.change().getStatus().name());
+              continue;
+            }
+            filteredChanges.add(changeData);
+          }
+
+          // There are no hidden changes (or else we would have thrown AuthException above).
+          ChangeSet filteredNoteDbChangeSet =
+              new ChangeSet(filteredChanges, /* hiddenChanges= */ ImmutableList.of());
+
+          // Count cross-project submissions outside of the retry loop. The chance of a single
+          // project
+          // failing increases with the number of projects, so the failure count would be inflated
+          // if
+          // this metric were incremented inside of integrateIntoHistory.
+          int projects = filteredNoteDbChangeSet.projects().size();
+          if (projects > 1) {
+            topicMetrics.topicSubmissions.increment();
+          }
+
+          SubmissionExecutor submissionExecutor =
+              new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
+          RetryTracker retryTracker = new RetryTracker();
+          retryHelper
+              .changeUpdate(
+                  "integrateIntoHistory",
+                  updateFactory -> {
+                    long attempt = retryTracker.lastAttemptNumber + 1;
+                    boolean isRetry = attempt > 1;
+                    if (isRetry) {
+                      logger.atFine().log(
+                          "Retrying, attempt #%d; skipping merged changes", attempt);
+                      this.ts = TimeUtil.nowTs();
+                      openRepoManager();
+                    }
+                    this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
+                    if (checkSubmitRules) {
+                      logger.atFine().log("Checking submit rules and state");
+                      checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
+                    } else {
+                      logger.atFine().log("Bypassing submit rules");
+                      bypassSubmitRules(filteredNoteDbChangeSet, isRetry);
+                    }
+                    integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
+                    return null;
+                  })
+              .listener(retryTracker)
+              // Up to the entire submit operation is retried, including possibly many projects.
+              // Multiply the timeout by the number of projects we're actually attempting to
+              // submit. Times 2 to retry more persistently, to increase success rate.
+              .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size() * 2)
+              // By default, we only retry lock failures. Here it's better to also retry unexpected
+              // runtime exceptions.
+              .retryOn(t -> t instanceof RuntimeException)
+              .call();
+          submissionExecutor.afterExecutions(orm);
+
+          if (projects > 1) {
+            topicMetrics.topicSubmissionsCompleted.increment();
+          }
+
+          // It's expected that callers invoke this method only for open changes and that the
+          // provided
+          // change either gets updated to merged or that this method fails with an exception. For
+          // safety, fall-back to return the provided change if there was no update for this change
+          // (e.g. caller provided a change that was already merged).
+          return updatedChanges.containsKey(change.getId())
+              ? updatedChanges.get(change.getId())
+              : change;
+        } catch (IOException e) {
+          // Anything before the merge attempt is an error
+          throw new StorageException(e);
         }
-
-        // There are no hidden changes (or else we would have thrown AuthException above).
-        ChangeSet filteredNoteDbChangeSet =
-            new ChangeSet(filteredChanges, /* hiddenChanges= */ ImmutableList.of());
-
-        // Count cross-project submissions outside of the retry loop. The chance of a single project
-        // failing increases with the number of projects, so the failure count would be inflated if
-        // this metric were incremented inside of integrateIntoHistory.
-        int projects = filteredNoteDbChangeSet.projects().size();
-        if (projects > 1) {
-          topicMetrics.topicSubmissions.increment();
-        }
-
-        SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
-        RetryTracker retryTracker = new RetryTracker();
-        retryHelper
-            .changeUpdate(
-                "integrateIntoHistory",
-                updateFactory -> {
-                  long attempt = retryTracker.lastAttemptNumber + 1;
-                  boolean isRetry = attempt > 1;
-                  
-                  submitLock.get(filteredNoteDbChangeSet.changes());
-                  
-                  
-                  if (isRetry) {
-                    logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
-                    this.ts = TimeUtil.nowTs();
-                    openRepoManager();
-                  }
-                  this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
-                  if (checkSubmitRules) {
-                    logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
-                  } else {
-                    logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRules(filteredNoteDbChangeSet, isRetry);
-                  }
-                  integrateIntoHistory(filteredNoteDbChangeSet, submissionExecutor);
-                  return null;
-                })
-            .listener(retryTracker)
-            // Up to the entire submit operation is retried, including possibly many projects.
-            // Multiply the timeout by the number of projects we're actually attempting to
-            // submit. Times 2 to retry more persistently, to increase success rate.
-            .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size() * 2)
-            // By default, we only retry lock failures. Here it's better to also retry unexpected
-            // runtime exceptions.
-            .retryOn(t -> t instanceof RuntimeException)
-            .call();
-        submissionExecutor.afterExecutions(orm);
-
-        if (projects > 1) {
-          topicMetrics.topicSubmissionsCompleted.increment();
-        }
-
-        // It's expected that callers invoke this method only for open changes and that the provided
-        // change either gets updated to merged or that this method fails with an exception. For
-        // safety, fall-back to return the provided change if there was no update for this change
-        // (e.g. caller provided a change that was already merged).
-        return updatedChanges.containsKey(change.getId())
-            ? updatedChanges.get(change.getId())
-            : change;
-      } catch (IOException e) {
-        // Anything before the merge attempt is an error
-        throw new StorageException(e);
       }
+    } finally {
+      acquiredSubmitLock.unlock();
     }
   }
 

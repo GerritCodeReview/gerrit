@@ -14,14 +14,9 @@
 
 package com.google.gerrit.server.submit;
 
-import java.util.Collection;
-import java.util.Set;
+import com.google.gerrit.entities.Change;
 import java.util.concurrent.locks.Lock;
 
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.server.query.change.ChangeData;
-
 public interface SubmitLock {
-    public Lock get(ChangeData cd);
-    public Set<Lock> get(Collection<ChangeData> cds);
+  public Lock get(Change c);
 }

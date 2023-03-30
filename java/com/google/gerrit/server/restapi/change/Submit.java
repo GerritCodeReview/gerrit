@@ -63,6 +63,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeSuperSet;
+import com.google.gerrit.server.submit.SubmitLockFailedException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -216,6 +217,9 @@ public class Submit
           String.format(
               "change %s of project %s unexpectedly had status %s after submit attempt",
               updatedChange.getId(), updatedChange.getProject(), updatedChange.getStatus()));
+    } catch (SubmitLockFailedException e) {
+      throw new ResourceConflictException(
+          String.format("Submit of change %s already in process.", rsrc.getChange().getId()), e);
     }
   }
 

@@ -14,18 +14,12 @@
 
 package com.google.gerrit.server.submit;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.stream.Collectors;
-
 import com.google.common.util.concurrent.Striped;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import autovaluegson.factory.shaded.com.google.common.collect.Sets;
+import java.util.concurrent.locks.Lock;
 
 @Singleton
 public class StripedSubmitLock implements SubmitLock {
@@ -37,12 +31,7 @@ public class StripedSubmitLock implements SubmitLock {
   }
 
   @Override
-public Lock get(ChangeData cd) {
-      return lock.get(cd.getId());
-  }
-
-  @Override
-public Set<Lock> get(Collection<ChangeData> cds) {
-      return Sets.newHashSet(lock.bulkGet(cds.stream().map(cd -> cd.getId()).collect(Collectors.toSet())));
+  public Lock get(Change c) {
+    return lock.get(c.getId());
   }
 }

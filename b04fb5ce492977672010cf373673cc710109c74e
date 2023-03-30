@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08fdedc5_e21cab69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-30T13:33:35Z",
+      "side": 1,
+      "message": "That was the case from the beginning, but it got broken over the years. What about `Fix LDAP \"Remember me\" default checked value in login form`?",
+      "range": {
+        "startLine": 36,
+        "startChar": 15,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "b04fb5ce492977672010cf373673cc710109c74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5acd6ce3_f2193392",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-30T13:33:35Z",
+      "side": 1,
+      "message": "Cool finding, would it be worth fixing this in stable-3.5, which is the earliest supported branch?",
+      "revId": "b04fb5ce492977672010cf373673cc710109c74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

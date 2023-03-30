@@ -69,7 +69,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     String threadId = getChangeMessageThreadId();
     setHeader("References", threadId);
 
-    switch (notify.handling()) {
+    switch (getNotify().handling()) {
       case NONE:
       case OWNER:
         break;

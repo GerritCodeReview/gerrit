@@ -172,11 +172,11 @@ public class CommentSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (notify.handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || notify.handling().equals(NotifyHandling.ALL)) {
+    if (getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || getNotify().handling().equals(NotifyHandling.ALL)) {
       ccAllApprovals();
     }
-    if (notify.handling().equals(NotifyHandling.ALL)) {
+    if (getNotify().handling().equals(NotifyHandling.ALL)) {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
     }

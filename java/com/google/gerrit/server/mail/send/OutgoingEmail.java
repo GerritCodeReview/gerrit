@@ -62,34 +62,43 @@ public abstract class OutgoingEmail {
   private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected String messageClass;
+  private String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
-  private final Map<String, EmailHeader> headers;
+  private final Map<String, EmailHeader> headers = new LinkedHashMap<>();;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private final Set<Address> smtpBccRcptTo = new HashSet<>();
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
   private MessageIdGenerator.MessageId messageId;
-  protected Map<String, Object> soyContext;
-  protected Map<String, Object> soyContextEmailData;
-  protected List<String> footers;
-  protected final EmailArguments args;
-  protected Account.Id fromId;
-  protected NotifyResolver.Result notify = NotifyResolver.Result.all();
+  private Map<String, Object> soyContext = new HashMap<>();
+  private Map<String, Object> soyContextEmailData = new LinkedHashMap<>();
+  private List<String> footers = new ArrayList<>();
+  private final EmailArguments args;
+  private Account.Id fromId;
+  private NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   protected OutgoingEmail(EmailArguments args, String messageClass) {
     this.args = args;
     this.messageClass = messageClass;
-    this.headers = new LinkedHashMap<>();
   }
 
   public void setFrom(Account.Id id) {
     fromId = id;
   }
 
+  /**
+   * Set how widely the email notification is allowed to be sent.
+   */
   public void setNotify(NotifyResolver.Result notify) {
     this.notify = requireNonNull(notify);
+  }
+
+  /**
+   * Returns the setting that controls how widely the email notification is allowed to be sent.
+   */
+  public void getNotify(NotifyResolver.Result notify) {
+    return this.notify;
   }
 
   public void setMessageId(MessageIdGenerator.MessageId messageId) {
@@ -131,6 +140,7 @@ public abstract class OutgoingEmail {
     }
 
     init();
+    setupSoyContext();
     if (messageId == null) {
       throw new IllegalStateException("All emails must have a messageId");
     }
@@ -320,8 +330,6 @@ public abstract class OutgoingEmail {
    * @throws EmailException if an error occurred.
    */
   protected void init() throws EmailException {
-    setupSoyContext();
-
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, Instant.now());
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
@@ -647,13 +655,9 @@ public abstract class OutgoingEmail {
   }
 
   protected void setupSoyContext() {
-    soyContext = new HashMap<>();
-    footers = new ArrayList<>();
-
     soyContext.put("messageClass", messageClass);
     soyContext.put("footers", footers);
 
-    soyContextEmailData = new HashMap<>();
     soyContextEmailData.put("settingsUrl", getSettingsUrl());
     soyContextEmailData.put("instanceName", getInstanceName());
     soyContextEmailData.put("gerritHost", getGerritHost());

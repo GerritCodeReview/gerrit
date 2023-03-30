@@ -46,6 +46,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79ee6aff_9bb7cbd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-30T21:20:09Z",
+      "side": 1,
+      "message": "\u003e I have tested again on gerrit-3.4 and gerrit-3.5 and it was possible to use the query. I am sorry for the confusion earlier saying that the bug appeared on gerrit-3.5.\n\nCan you add that information to the Issue 16823, indicating the exact steps and, if you can, a shot video? Did you find any pointer in Gerrit documentation saying that the Lucene query syntax is supported on the projects filter box?\n\nI\u0027ll then try to reproduce it locally.",
+      "parentUuid": "f8866e84_395b298d",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

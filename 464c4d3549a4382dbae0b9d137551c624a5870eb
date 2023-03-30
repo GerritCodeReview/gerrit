@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99e146db_8bc54c61",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-03-30T14:58:45Z",
+      "side": 1,
+      "message": "This whole method is hard to read because it tries to only have one place where it calls doMerge. If we give up that and handle dryrun first then the code will get simpler:\n\n```\n  if (dryrun) {\n    return doMerge(...)\n  }\n  \n  Lock submitLock \u003d submitLock.get(change);\n  try {\n    if (!submitLock.tryLock(...)) {\n      throw new SubmitLockFailedException(change);\n    }\n  } catch (InterruptedException e) {\n    throw new SubmitLockFailedException(change, e);\n  }\n  try {\n    return doMerge(...);\n  } finally {\n    submitLock.unlock();\n  }\n```\n\nThe code fragment which acquires the lock and handles the InterruptedException can be moved to own method which further improves readability:\n\n```\n  if (dryrun) {\n    return doMerge(...)\n  }\n  \n  Lock submitLock \u003d acquireSubmitLock(change);\n  try {\n    return doMerge(...);\n  } finally {\n    submitLock.unlock();\n  }\n  \nprivate Lock acquireSubmitLock(change) throws SubmitLockFailedException {\n  Lock submitLock \u003d submitLock.get(change);\n  try {\n    if (!submitLock.tryLock(...)) {\n      throw new SubmitLockFailedException(change);\n    }\n    return submitLock;\n  } catch (InterruptedException e) {\n    throw new SubmitLockFailedException(change, e);\n  }\n}\n\n```",
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb7d0524_4b0e7a56",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 5

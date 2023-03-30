@@ -21,6 +21,8 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_REAL_USER;
+import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Iterables;
@@ -37,6 +39,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -1025,8 +1029,22 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
   @Test
   public void testSubmittedWithRebaserApprovalMetric() throws Exception {
+    allowVotingOnCodeReviewToAllUsers();
+
+    createVerifiedLabel();
+    allowVotingOnVerifiedToAllUsers();
+
     // Require a Code-Review approval from a non-uploader for submit.
     try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName(TestLabels.verified().getName())
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          String.format("label:%s=MAX", TestLabels.verified().getName())))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
       u.getConfig()
           .upsertSubmitRequirement(
               SubmitRequirement.builder()
@@ -1056,7 +1074,10 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeToBeTheNewBase.get())
+        .current()
+        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
     testMetricMaker.reset();
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
@@ -1068,8 +1089,10 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
     // Approve the change as the rebaser.
-    allowVotingOnCodeReviewToAllUsers();
-    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeToBeRebased.get())
+        .current()
+        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
 
     // The change is submittable because the approval is from a user (the rebaser) that is not the
     // uploader.
@@ -1133,6 +1156,29 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 .ref("refs/*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))
+        .update();
+  }
+
+  private void createVerifiedLabel() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+                  LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"))
+              .setCopyCondition("is:MIN");
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+  }
+
+  private void allowVotingOnVerifiedToAllUsers() {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.verified().getName())
+                .ref("refs/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
         .update();
   }
 

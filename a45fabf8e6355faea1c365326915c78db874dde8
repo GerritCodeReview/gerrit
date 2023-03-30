@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47fd83bf_2c22205b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-30T20:48:52Z",
+      "side": 1,
+      "message": "should this be rebase?",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88f0b13_9c8127a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-30T20:48:52Z",
+      "side": 1,
+      "message": "I thought there was a checkbox \"Rebase on behalf of uploader\".\n\nWhat happened to this checkbox?\nI don\u0027t see it on this change. (https://imgur.com/a/vtA3ADO)\n\nIs this WAI? Am I missing some condition to see it or has that been removed? I don\u0027t see it here as well. (https://imgur.com/a/BESgYBp).\n\nOverall I am a bit confused with the user experience here.\n\n\u003e When a user is not the latest uploader\n\nThis is how the commit message starts. So I am assume someone who is not the latest uploader wants to rebase the change but not become the new uploader?\n\nThis seems like the core issue Change 361355 was supposed to address?",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

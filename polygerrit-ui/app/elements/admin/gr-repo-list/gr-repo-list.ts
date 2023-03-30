@@ -234,9 +234,7 @@ export class GrRepoList extends LitElement {
     // Late response.
     if (filter !== this.filter || !repos) return;
 
-    this.repos = repos.filter(repo =>
-      repo.name.toLowerCase().includes(filter.toLowerCase())
-    );
+    this.repos = repos;
     this.loading = false;
 
     return repos;

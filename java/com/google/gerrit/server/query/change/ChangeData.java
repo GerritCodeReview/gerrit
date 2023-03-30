@@ -451,6 +451,7 @@ public class ChangeData {
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
   private Integer parentCount;
+  private Integer resolvedCommentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
@@ -1127,6 +1128,53 @@ public class ChangeData {
     return publishedComments;
   }
 
+<<<<<<< PATCH SET (a6f0b8c0b222320ae0ae6442c18db37bd2a650af Count both resolved and unresolved comment threads)
+  public Collection<RobotComment> robotComments() {
+    if (robotComments == null) {
+      if (!lazyload()) {
+        return Collections.emptyList();
+      }
+      robotComments = commentsUtil.robotCommentsByChange(notes());
+    }
+    return robotComments;
+  }
+
+  private void countComments() {
+    List<Comment> comments = publishedComments().stream().collect(toList());
+
+    ImmutableSet<CommentThread<Comment>> commentThreads =
+        CommentThreads.forComments(comments).getThreads();
+    unresolvedCommentCount =
+        (int) commentThreads.stream().filter(CommentThread::unresolved).count();
+    resolvedCommentCount = (int) commentThreads.stream().count() - unresolvedCommentCount;
+  }
+
+  @Nullable
+  public Integer resolvedCommentCount() {
+    if (resolvedCommentCount == null) {
+      if (!lazyload()) {
+        return null;
+      }
+
+      countComments();
+    }
+
+    return resolvedCommentCount;
+  }
+
+||||||| BASE
+  public Collection<RobotComment> robotComments() {
+    if (robotComments == null) {
+      if (!lazyload()) {
+        return Collections.emptyList();
+      }
+      robotComments = commentsUtil.robotCommentsByChange(notes());
+    }
+    return robotComments;
+  }
+
+=======
+>>>>>>> BASE      (c4e9c3632635867f2af5e2418f411ce3434acbbd Overwrite review notes instead of merging)
   @Nullable
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
@@ -1134,12 +1182,24 @@ public class ChangeData {
         return null;
       }
 
+<<<<<<< PATCH SET (a6f0b8c0b222320ae0ae6442c18db37bd2a650af Count both resolved and unresolved comment threads)
+      countComments();
+||||||| BASE
+      List<Comment> comments =
+          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+
+      ImmutableSet<CommentThread<Comment>> commentThreads =
+          CommentThreads.forComments(comments).getThreads();
+      unresolvedCommentCount =
+          (int) commentThreads.stream().filter(CommentThread::unresolved).count();
+=======
       List<Comment> comments = publishedComments().stream().collect(toList());
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
       unresolvedCommentCount =
           (int) commentThreads.stream().filter(CommentThread::unresolved).count();
+>>>>>>> BASE      (c4e9c3632635867f2af5e2418f411ce3434acbbd Overwrite review notes instead of merging)
     }
 
     return unresolvedCommentCount;

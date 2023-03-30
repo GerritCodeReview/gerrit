@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ab1345_bceab3ab",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-30T20:02:05Z",
+      "side": 1,
+      "message": "Is it possible to add a test for this?\n\nhttps://github.com/GerritCodeReview/gerrit/blob/98cc13be91ce6345d88fe84bacd15588d3e9676c/polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts#L804\n\nOnly to prevent a future regression.",
+      "revId": "5b94e491aef79c29c0dd715c1c5b62b39758c28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "030d4dbc_f9a01e15",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-03-30T20:02:05Z",
+      "side": 1,
+      "message": "Preferably a new line here please.",
+      "revId": "5b94e491aef79c29c0dd715c1c5b62b39758c28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

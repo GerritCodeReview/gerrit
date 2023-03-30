@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b6da442_6e36877e",
+        "filename": "java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2023-03-30T14:38:09Z",
+      "side": 1,
+      "message": "it even says `overwrite` here, not `merge`.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 26
+      },
+      "revId": "db9605fd646296fccb740f2bdc843de550d11757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

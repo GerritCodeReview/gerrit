@@ -22,6 +22,30 @@
       },
       "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8963ee46_3761f707",
+        "filename": "java/com/google/gerrit/server/git/DynamicRefDbRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T23:01:28Z",
+      "side": 1,
+      "message": "yes, this could be done, we should add some tests",
+      "parentUuid": "89357ffc_de0c9606",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

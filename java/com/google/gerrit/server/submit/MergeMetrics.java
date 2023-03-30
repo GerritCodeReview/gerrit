@@ -106,9 +106,18 @@ public class MergeMetrics {
             submitRequirementChangequeryBuilder
                 .get()
                 .parse(submitRequirement.submittabilityExpression().expressionString());
-        return ignoresCodeReviewApprovalsOfUploader(predicate);
+        boolean ignoresCodeReviewApprovalsOfUploader =
+            ignoresCodeReviewApprovalsOfUploader(predicate);
+        logger.atFine().log(
+            "ignoresCodeReviewApprovalsOfUploader = %s", ignoresCodeReviewApprovalsOfUploader);
+        if (ignoresCodeReviewApprovalsOfUploader) {
+          return true;
+        }
       } catch (QueryParseException e) {
-        return false;
+        logger.atFine().log(
+            "Failed to parse submit requirement expression %s: %s",
+            submitRequirement.submittabilityExpression().expressionString(), e.getMessage());
+        // ignore and inspect the next submit requirement
       }
     }
     return false;

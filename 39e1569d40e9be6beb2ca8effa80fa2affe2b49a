@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3235f2c8_a6dd891e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T22:33:37Z",
+      "side": 1,
+      "message": "SnapshottingRefDirectory",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "923c3967_629b819d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T22:33:37Z",
+      "side": 1,
+      "message": "this log seems to be outdated",
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd43e076_6b264a4b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T22:33:37Z",
+      "side": 1,
+      "message": "this needs to be updated",
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

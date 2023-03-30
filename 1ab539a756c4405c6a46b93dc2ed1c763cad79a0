@@ -118,6 +118,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95f0e879_473bdfd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-03-30T21:55:41Z",
+      "side": 1,
+      "message": "\u003e It would be also useful if you could run a Gerrit v2.16 with GWT UI and see how that behaves. The PolyGerrit UI is supposed to be consistent with the GWT UI on that field.\n2.16 GWT UI does not support queries, however PolyGerrit UI supports queries. Currently PolyGerrit UI sends the query request, it just does not display, because of filter. I will include HAR files and screenshots in the issue.",
+      "parentUuid": "e40f8ac6_a1f1c1b7",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

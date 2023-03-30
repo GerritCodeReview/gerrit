@@ -70,6 +70,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2004c9a_aae67646",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-03-30T21:28:25Z",
+      "side": 1,
+      "message": "I am a new colleague in Ericsson, while working on the new feature I found this bug. Can you add me to monorail, so that I can post my findings.\nI can provide screenshot, since it does not looks like it require video.\nIn the Issue my colleague posted a line of code, which indicate a support for project queries. \nI did not find the documentation for this feature.",
+      "parentUuid": "79ee6aff_9bb7cbd3",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

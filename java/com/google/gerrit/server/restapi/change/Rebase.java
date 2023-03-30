@@ -127,7 +127,7 @@ public class Rebase
         bu.addOp(change.getId(), rebaseOp);
         bu.execute();
 
-        rebaseMetrics.countRebase(input.onBehalfOfUploader);
+        rebaseMetrics.countRebase(input.onBehalfOfUploader, input.allowConflicts);
 
         ChangeInfo changeInfo = json.create(OPTIONS).format(change.getProject(), change.getId());
         changeInfo.containsGitConflicts =

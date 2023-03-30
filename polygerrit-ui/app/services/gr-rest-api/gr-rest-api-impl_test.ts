@@ -886,6 +886,14 @@ suite('gr-rest-api-service-impl tests', () => {
       );
     });
 
+    test('use regex', () => {
+      element.getRepos('^test', 25);
+      assert.equal(
+        fetchCacheURLStub.lastCall.args[0].url,
+        '/projects/?n=26&S=0&d=&r=%5Etest'
+      );
+    });
+
     test('with hyphen', () => {
       element.getRepos('foo-bar', 25);
       assert.equal(
@@ -1593,9 +1601,9 @@ suite('gr-rest-api-service-impl tests', () => {
       const probePathMock = sinon.stub(element, 'probePath').resolves(true);
       const docsBaseUrl = await element.getDocsBaseUrl(undefined);
       assert.isTrue(
-        probePathMock.calledWith('test91/Documentation/index.html')
+        probePathMock.calledWith('test92/Documentation/index.html')
       );
-      assert.equal(docsBaseUrl, 'test91/Documentation');
+      assert.equal(docsBaseUrl, 'test92/Documentation');
     });
 
     test('no doc config', async () => {
@@ -1606,9 +1614,9 @@ suite('gr-rest-api-service-impl tests', () => {
       };
       const docsBaseUrl = await element.getDocsBaseUrl(config);
       assert.isTrue(
-        probePathMock.calledWith('test92/Documentation/index.html')
+        probePathMock.calledWith('test93/Documentation/index.html')
       );
-      assert.equal(docsBaseUrl, 'test92/Documentation');
+      assert.equal(docsBaseUrl, 'test93/Documentation');
     });
 
     test('has doc config', async () => {
@@ -1626,7 +1634,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const probePathMock = sinon.stub(element, 'probePath').resolves(false);
       const docsBaseUrl = await element.getDocsBaseUrl(undefined);
       assert.isTrue(
-        probePathMock.calledWith('test94/Documentation/index.html')
+        probePathMock.calledWith('test95/Documentation/index.html')
       );
       assert.isNotOk(docsBaseUrl);
     });

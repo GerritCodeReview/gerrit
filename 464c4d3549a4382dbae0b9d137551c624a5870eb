@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcb17982_5526b709",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-30T14:44:32Z",
+      "side": 1,
+      "message": "\"... since this exception isn\u0027t thrown for dry-run submits.\"?",
+      "range": {
+        "startLine": 123,
+        "startChar": 18,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38647a99_470650be",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-30T14:44:32Z",
+      "side": 1,
+      "message": "This feels like a long time for a user to wait. Personally I\u0027d prefer to get the error after a couple of seconds and try again manually.\nIf that doesn\u0027t makes sense could we make it configurable in a follow-up? Like `change.concurrentSubmitTimeout`?",
+      "range": {
+        "startLine": 128,
+        "startChar": 62,
+        "endLine": 128,
+        "endChar": 64
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb7d0524_4b0e7a56",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-30T14:44:32Z",
+      "side": 1,
+      "message": "Strange unrelated indentation.",
+      "range": {
+        "startLine": 559,
+        "startChar": 1,
+        "endLine": 562,
+        "endChar": 13
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebb6d2e8_9f6c357d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-30T14:44:32Z",
+      "side": 1,
+      "message": "Strange unrelated indentation",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 19
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63392be_ad1baecc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-03-30T14:44:32Z",
+      "side": 1,
+      "message": "```\n    ResourceConflictException thrown \u003d\n        assertThrows(ResourceConflictException.class, () -\u003e f2.get());\n    assertThat(thrown).hasMessageThat().isEqualTo(\"change is merged\");\n```",
+      "range": {
+        "startLine": 1420,
+        "startChar": 0,
+        "endLine": 1427,
+        "endChar": 5
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

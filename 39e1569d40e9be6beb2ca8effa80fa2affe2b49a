@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d29b889_87720e00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-30T22:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3235f2c8_a6dd891e",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "923c3967_629b819d",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c09d75d_3800c778",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-30T22:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "923c3967_629b819d",
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd43e076_6b264a4b",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-03-30T22:33:37Z",
       "side": 1,
       "message": "this needs to be updated",
+      "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a905b9b9_a21b2f4a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-03-30T22:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd43e076_6b264a4b",
       "revId": "39e1569d40e9be6beb2ca8effa80fa2affe2b49a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

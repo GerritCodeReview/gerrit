@@ -62,9 +62,9 @@ public abstract class OutgoingEmail {
   private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected String messageClass;
+  private String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
-  private final Map<String, EmailHeader> headers;
+  private final Map<String, EmailHeader> headers = new LinkedHashMap<>();;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private final Set<Address> smtpBccRcptTo = new HashSet<>();
   private Address smtpFromAddress;
@@ -76,20 +76,29 @@ public abstract class OutgoingEmail {
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
-  protected NotifyResolver.Result notify = NotifyResolver.Result.all();
+  private NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   protected OutgoingEmail(EmailArguments args, String messageClass) {
     this.args = args;
     this.messageClass = messageClass;
-    this.headers = new LinkedHashMap<>();
   }
 
   public void setFrom(Account.Id id) {
     fromId = id;
   }
 
+  /**
+   * Set how widely the email notification is allowed to be sent.
+   */
   public void setNotify(NotifyResolver.Result notify) {
     this.notify = requireNonNull(notify);
+  }
+
+  /**
+   * Returns the setting that controls how widely the email notification is allowed to be sent.
+   */
+  public NotifyResolver.Result getNotify() {
+    return this.notify;
   }
 
   public void setMessageId(MessageIdGenerator.MessageId messageId) {
@@ -131,6 +140,7 @@ public abstract class OutgoingEmail {
     }
 
     init();
+    populateEmailContent();
     if (messageId == null) {
       throw new IllegalStateException("All emails must have a messageId");
     }
@@ -320,7 +330,9 @@ public abstract class OutgoingEmail {
    * @throws EmailException if an error occurred.
    */
   protected void init() throws EmailException {
-    setupSoyContext();
+    soyContext = new HashMap<>();
+    footers = new ArrayList<>();
+    soyContextEmailData = new HashMap<>();
 
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, Instant.now());
@@ -328,10 +340,6 @@ public abstract class OutgoingEmail {
     headers.put(FieldName.TO, new EmailHeader.AddressList());
     headers.put(FieldName.CC, new EmailHeader.AddressList());
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
-
-    for (RecipientType recipientType : notify.accounts().keySet()) {
-      notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
-    }
 
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
     footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
@@ -646,14 +654,13 @@ public abstract class OutgoingEmail {
     return Address.create(account.fullName(), e);
   }
 
-  protected void setupSoyContext() {
-    soyContext = new HashMap<>();
-    footers = new ArrayList<>();
+  protected void populateEmailContent() {
+    for (RecipientType recipientType : notify.accounts().keySet()) {
+      notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
+    }
 
     soyContext.put("messageClass", messageClass);
     soyContext.put("footers", footers);
-
-    soyContextEmailData = new HashMap<>();
     soyContextEmailData.put("settingsUrl", getSettingsUrl());
     soyContextEmailData.put("instanceName", getInstanceName());
     soyContextEmailData.put("gerritHost", getGerritHost());

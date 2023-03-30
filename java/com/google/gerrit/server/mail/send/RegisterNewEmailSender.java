@@ -70,8 +70,8 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContextEmailData.put("emailRegistrationToken", getEmailRegistrationToken());
     soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }

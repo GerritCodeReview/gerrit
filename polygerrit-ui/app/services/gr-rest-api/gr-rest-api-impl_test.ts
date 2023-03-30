@@ -886,6 +886,14 @@ suite('gr-rest-api-service-impl tests', () => {
       );
     });
 
+    test('use regex', () => {
+      element.getRepos('%5Etest', 25);
+      assert.equal(
+        fetchCacheURLStub.lastCall.args[0].url,
+        '/projects/?n=26&S=0&d=&r=^test'
+      );
+    });
+
     test('with hyphen', () => {
       element.getRepos('foo-bar', 25);
       assert.equal(

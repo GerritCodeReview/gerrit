@@ -1471,6 +1471,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ];
     }
 
+    if (filter.charAt(0) === '^') {
+      return [
+        false,
+        `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+          `&d=&r=${encodedFilter}`,
+      ];
+    }
+
     return [
       false,
       `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&d=&m=${encodedFilter}`,

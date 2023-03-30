@@ -61,8 +61,6 @@ public class NotesBranchUtil {
   private ObjectReader reader;
   private boolean overwrite;
 
-  private ReviewNoteMerger noteMerger;
-
   @Inject
   public NotesBranchUtil(
       @GerritPersonIdent PersonIdent gerritIdent,
@@ -164,24 +162,8 @@ public class NotesBranchUtil {
 
   private void addAllNotes(NoteMap notes) throws IOException {
     for (Note n : notes) {
-      if (ours.contains(n)) {
-        // Merge the existing and the new note as if they are both new,
-        // means: base == null
-        // There is no really a common ancestry for these two note revisions
-        ObjectId noteContent =
-            getNoteMerger().merge(null, n, ours.getNote(n), reader, inserter).getData();
-        ours.set(n, noteContent);
-      } else {
-        ours.set(n, n.getData());
-      }
+      ours.set(n, n.getData());
     }
-  }
-
-  private NoteMerger getNoteMerger() {
-    if (noteMerger == null) {
-      noteMerger = new ReviewNoteMerger();
-    }
-    return noteMerger;
   }
 
   private void loadBase(String notesBranch) throws IOException {

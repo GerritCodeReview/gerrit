@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772b1262_90fd9429",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2023-03-30T14:05:47Z",
+      "side": 1,
+      "message": "This is required for change I6585c2b1 in the reviewnotes plugin.",
+      "revId": "cf25d96f088fd615a9885ffcab502e8781a070ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23dd340a_a8843191",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-30T09:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b13f4e_0b89386a",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 13
+      },
+      "revId": "221b372dd61853432d5a0b0bdf19bc2701886349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce775a44_28e8a380",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-29T14:55:14Z",
       "side": 1,
       "message": "Why is \"as\" required here, but wasn\u0027t required in other places? Are we missing type annotation somewhere?",
+      "range": {
+        "startLine": 158,
+        "startChar": 35,
+        "endLine": 158,
+        "endChar": 61
+      },
+      "revId": "221b372dd61853432d5a0b0bdf19bc2701886349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b7feb4_c1f5a3d7",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-30T09:54:49Z",
+      "side": 1,
+      "message": "The issue is in the messy type definitions [here](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/api/rest-api.ts;l\u003d811-827;drc\u003d25c47811fd4f6cfee8cf164517b835f7c255ae76)\n\nIf we had the simpler way:\n`export type BasePatchSetNum \u003d PatchSetNumber | \"Parent\";`\n\nthen this `if (psLeft \u003d\u003d\u003d \"Parent\")` would let typescript figure out the right side here can only be numeric already (ie. narrowed to PatchSetNumber).\n\nBut instead we define a type for the parent and then a value that is an instance of that type:\n```\nexport type ParentPatchSet \u003d BrandType\u003c\u0027PARENT\u0027, \u0027_patchSet\u0027\u003e;\nexport const PARENT \u003d \u0027PARENT\u0027 as ParentPatchSet;\n```\n\nSo typescript doesn\u0027t figure out that checking for the instance means it can\u0027t be the type in general, and doesn\u0027t narrow. So the right side needs to cast (as done in surrounding lines).\n\nThe other changes in this CL are about LineNumber and other types that don\u0027t have this issue.",
+      "parentUuid": "ce775a44_28e8a380",
       "range": {
         "startLine": 158,
         "startChar": 35,

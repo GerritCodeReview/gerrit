@@ -56,6 +56,8 @@ public class MergedSender extends ReplyToChangeSender {
     super(args, "merged", newChangeData(args, project, changeId));
     labelTypes = changeData.getLabelTypes();
     this.stickyApprovalDiff = stickyApprovalDiff;
+    // We want to send the submit email even if the "send only when in attention set" is enabled.
+    emailOnlyAttentionSetIfEnabled = false;
   }
 
   @Override
@@ -76,9 +78,6 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Override
   protected void init() throws EmailException {
-    // We want to send the submit email even if the "send only when in attention set" is enabled.
-    emailOnlyAttentionSetIfEnabled = false;
-
     super.init();
 
     ccAllApprovals();

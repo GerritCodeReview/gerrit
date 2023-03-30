@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f0723ec_e8e5c076",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2846,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T23:11:09Z",
+      "side": 1,
+      "message": "progress",
+      "range": {
+        "startLine": 2846,
+        "startChar": 58,
+        "endLine": 2846,
+        "endChar": 65
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcb17982_5526b709",
         "filename": "java/com/google/gerrit/server/restapi/change/PreviewSubmit.java",
         "patchSetId": 5
@@ -19,6 +42,29 @@
         "startChar": 18,
         "endLine": 123,
         "endChar": 52
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6d984a_887d59c6",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T23:11:09Z",
+      "side": 1,
+      "message": "progress",
+      "range": {
+        "startLine": 222,
+        "startChar": 56,
+        "endLine": 222,
+        "endChar": 63
       },
       "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -105,6 +151,52 @@
         "startChar": 0,
         "endLine": 610,
         "endChar": 19
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "436084c0_4d49d804",
+        "filename": "java/com/google/gerrit/server/submit/StripedSubmitLock.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T23:11:09Z",
+      "side": 1,
+      "message": "That\u0027s a huge factor considering that many changes are submitted individually and submits are only a small fractions of requests in flight. I think the sum of sshd and httpd thread pool sizes is already generous",
+      "range": {
+        "startLine": 30,
+        "startChar": 79,
+        "endLine": 30,
+        "endChar": 83
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b208f52_14a2f5cc",
+        "filename": "java/com/google/gerrit/server/submit/SubmitLockFailedException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-03-30T23:11:09Z",
+      "side": 1,
+      "message": "progress",
+      "range": {
+        "startLine": 33,
+        "startChar": 83,
+        "endLine": 33,
+        "endChar": 90
       },
       "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

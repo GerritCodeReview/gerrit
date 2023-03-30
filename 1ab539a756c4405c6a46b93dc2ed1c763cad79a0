@@ -22,6 +22,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8866e84_395b298d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-03-30T21:14:50Z",
+      "side": 1,
+      "message": "I have tested again on gerrit-3.4 and gerrit-3.5 and it was possible to use the query. I am sorry for the confusion earlier saying that the bug appeared on gerrit-3.5.",
+      "parentUuid": "31ca12d8_14082233",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

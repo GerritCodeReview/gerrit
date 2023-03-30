@@ -142,6 +142,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f4ec71_02f019b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-03-30T22:14:40Z",
+      "side": 1,
+      "message": "2.16 GWT UI does not support queries, however PolyGerrit UI supports queries. Currently PolyGerrit UI sends the query request, it just does not display, because of filter. I will include HAR files and screenshots in the issue.",
+      "parentUuid": "95f0e879_473bdfd3",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

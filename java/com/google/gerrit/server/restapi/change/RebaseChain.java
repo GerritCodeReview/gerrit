@@ -208,7 +208,7 @@ public class RebaseChain
       }
     }
 
-    rebaseMetrics.countRebaseChain(input.onBehalfOfUploader);
+    rebaseMetrics.countRebaseChain(input.onBehalfOfUploader, input.allowConflicts);
 
     RebaseChainInfo res = new RebaseChainInfo();
     res.rebasedChanges = new ArrayList<>();

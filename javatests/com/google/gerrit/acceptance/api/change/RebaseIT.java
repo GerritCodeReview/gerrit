@@ -665,10 +665,15 @@ public class RebaseIT {
           extensionRegistry.newRegistration().add(wipStateChangedListener)) {
         RebaseInput rebaseInput = new RebaseInput();
         rebaseInput.allowConflicts = true;
+        testMetricMaker.reset();
         ChangeInfo changeInfo =
             gApi.changes().id(changeId).revision(patchSet.name()).rebaseAsInfo(rebaseInput);
         assertThat(changeInfo.containsGitConflicts).isTrue();
         assertThat(changeInfo.workInProgress).isTrue();
+
+        // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+        assertThat(testMetricMaker.getCount("change/count_rebases", false, false, true))
+            .isEqualTo(1);
       }
       assertThat(wipStateChangedListener.invoked).isTrue();
       assertThat(wipStateChangedListener.wip).isTrue();
@@ -790,11 +795,12 @@ public class RebaseIT {
       // Rebase the second change
       testMetricMaker.reset();
       rebaseCallWithInput.call(r2.getChangeId(), new RebaseInput());
-      // field1 is on_behalf_of_uploader, field2 is rebase_chain
-      assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(1);
-      assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(0);
-      assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
-      assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(0);
+      // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false))
+          .isEqualTo(1);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, true, false)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, true, false)).isEqualTo(0);
     }
 
     @Test
@@ -1249,11 +1255,12 @@ public class RebaseIT {
       testMetricMaker.reset();
       verifyRebaseChainResponse(
           gApi.changes().id(r4.getChangeId()).rebaseChain(), false, r2, r3, r4);
-      // field1 is on_behalf_of_uploader, field2 is rebase_chain
-      assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(1);
-      assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(0);
-      assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
-      assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(0);
+      // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, true, false)).isEqualTo(1);
+      assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false))
+          .isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, true, false)).isEqualTo(0);
+      assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(0);
     }
 
     private void verifyRebaseChainResponse(

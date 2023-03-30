@@ -88,8 +88,8 @@ public class DeleteKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContextEmailData.put("email", getEmail());
     soyContextEmailData.put("gpgKeyFingerprints", getGpgKeyFingerprints());
     soyContextEmailData.put("keyType", getKeyType());

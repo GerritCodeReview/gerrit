@@ -157,8 +157,8 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContextEmailData.put("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
       soyContextEmailData.put("stickyApprovalDiff", stickyApprovalDiff.get());

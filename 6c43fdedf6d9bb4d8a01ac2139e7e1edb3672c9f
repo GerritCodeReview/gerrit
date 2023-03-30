@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6155646a_70bf6ea3",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-03-30T09:28:55Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be done when dryrun is true, according to the commit message.",
+      "revId": "6c43fdedf6d9bb4d8a01ac2139e7e1edb3672c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "420c3191_7234b27d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-03-30T09:28:55Z",
+      "side": 1,
+      "message": "optional: To make lock handling more readable rename the old merge method to doMerge and here only handle locking and call doMerge",
+      "revId": "6c43fdedf6d9bb4d8a01ac2139e7e1edb3672c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77315be3_2003b877",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-03-30T09:28:55Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be done when dryrun is true",
+      "revId": "6c43fdedf6d9bb4d8a01ac2139e7e1edb3672c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

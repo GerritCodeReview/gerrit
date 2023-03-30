@@ -175,6 +175,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
   protected void init() throws EmailException {
+    super.init();
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject()).orElse(null);
     } else {
@@ -206,7 +207,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }
 
-    super.init();
     BranchEmailUtils.setListIdHeader(this, branch);
     if (timestamp != null) {
       setHeader(FieldName.DATE, timestamp);

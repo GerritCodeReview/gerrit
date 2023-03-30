@@ -94,6 +94,30 @@
       },
       "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e40f8ac6_a1f1c1b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-30T21:32:48Z",
+      "side": 1,
+      "message": "\u003e I am a new colleague in Ericsson, while working on the new feature I found this bug. Can you add me to monorail, so that I can post my findings.\n\nDone.\n\n\u003e I can provide screenshot, since it does not looks like it require video.\n\nSure, can you also record your HAR file and upload it?\n(that contains all the browser communications with the server)\n\n\u003e In the Issue my colleague posted a line of code, which indicate a support for project queries. \n\u003e I did not find the documentation for this feature.\n\nIt would be also useful if you could run a Gerrit v2.16 with GWT UI and see how that behaves. The PolyGerrit UI is supposed to be consistent with the GWT UI on that field.",
+      "parentUuid": "d2004c9a_aae67646",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -451,6 +451,7 @@ public class ChangeData {
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
   private Integer parentCount;
+  private Integer resolvedCommentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
@@ -1127,6 +1128,29 @@ public class ChangeData {
     return publishedComments;
   }
 
+  private void countComments() {
+    List<Comment> comments = publishedComments().stream().collect(toList());
+
+    ImmutableSet<CommentThread<Comment>> commentThreads =
+        CommentThreads.forComments(comments).getThreads();
+    unresolvedCommentCount =
+        (int) commentThreads.stream().filter(CommentThread::unresolved).count();
+    resolvedCommentCount = (int) commentThreads.stream().count() - unresolvedCommentCount;
+  }
+
+  @Nullable
+  public Integer resolvedCommentCount() {
+    if (resolvedCommentCount == null) {
+      if (!lazyload()) {
+        return null;
+      }
+
+      countComments();
+    }
+
+    return resolvedCommentCount;
+  }
+
   @Nullable
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
@@ -1134,12 +1158,7 @@ public class ChangeData {
         return null;
       }
 
-      List<Comment> comments = publishedComments().stream().collect(toList());
-
-      ImmutableSet<CommentThread<Comment>> commentThreads =
-          CommentThreads.forComments(comments).getThreads();
-      unresolvedCommentCount =
-          (int) commentThreads.stream().filter(CommentThread::unresolved).count();
+      countComments();
     }
 
     return unresolvedCommentCount;

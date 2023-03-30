@@ -69,7 +69,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     String threadId = getChangeMessageThreadId();
     setHeader("References", threadId);
 
-    switch (notify.handling()) {
+    switch (getNotify().handling()) {
       case NONE:
       case OWNER:
         break;
@@ -125,8 +125,8 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContext.put("ownerName", getNameFor(change.getOwner()));
     soyContextEmailData.put("reviewerNames", getReviewerNames());
     soyContextEmailData.put("removedReviewerNames", getRemovedReviewerNames());

@@ -85,10 +85,4 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
       appendHtml(soyHtmlTemplate("InboundEmailRejectionHtml_" + reason.name()));
     }
   }
-
-  @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
-    footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
-  }
 }

@@ -90,8 +90,8 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
   }
 }

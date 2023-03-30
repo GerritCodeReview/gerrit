@@ -47,8 +47,8 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() {
+    super.populateEmailContent();
     soyContext.put("attentionSetUser", getNameFor(attentionSetUser));
     soyContext.put("reason", reason);
   }

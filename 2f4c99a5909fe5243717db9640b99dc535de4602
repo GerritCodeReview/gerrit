@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2aac47_ee9235e9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-31T09:16:45Z",
+      "side": 1,
+      "message": "Why do we create local variable?",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1044eced_3c2680a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-03-31T09:16:45Z",
+      "side": 1,
+      "message": "Will all the links without a text, simply say \"browse\"?\n\nWould it make sense to show the link in that case instead (or as part of tooltip `title`)? Or just the hostname from the link path, if the link it too long.",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

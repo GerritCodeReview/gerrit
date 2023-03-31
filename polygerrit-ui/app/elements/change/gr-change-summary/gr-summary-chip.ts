@@ -66,7 +66,7 @@ export class GrSummaryChip extends LitElement {
           border-color: var(--info-foreground);
           background: var(--info-background);
         }
-        .summaryChip.info:hover {
+        button.summaryChip.info:hover {
           background: var(--info-background-hover);
           box-shadow: var(--elevation-level-1);
         }
@@ -80,7 +80,7 @@ export class GrSummaryChip extends LitElement {
           border-color: var(--warning-foreground);
           background: var(--warning-background);
         }
-        .summaryChip.warning:hover {
+        button.summaryChip.warning:hover {
           background: var(--warning-background-hover);
           box-shadow: var(--elevation-level-1);
         }
@@ -94,7 +94,7 @@ export class GrSummaryChip extends LitElement {
           border-color: var(--gray-foreground);
           background: var(--gray-background);
         }
-        .summaryChip.check:hover {
+        button.summaryChip.check:hover {
           background: var(--gray-background-hover);
           box-shadow: var(--elevation-level-1);
         }

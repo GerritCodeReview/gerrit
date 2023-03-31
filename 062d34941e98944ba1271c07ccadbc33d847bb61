@@ -626,6 +626,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "682df0c4_ddbf36ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T16:29:55Z",
+      "side": 1,
+      "message": "\u003e an internal system writing a short identifier which needs to be associated to the change\n\nI\u0027ve seen it mentioned a few times how similar this new key-value storage functionality is to hashtags. Maybe it would help to document in the commit message why that hashtag functionality isn\u0027t sufficient (I assume) to meet this use case you have. If you agree, could you add that please?",
+      "parentUuid": "de96ccfe_9696c46a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e062fdb7_ab7dcdfc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteFooters.java",
         "patchSetId": 10

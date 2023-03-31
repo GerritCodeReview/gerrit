@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e738215_61693172",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T16:29:55Z",
+      "side": 1,
+      "message": "This should mention being able to retrieve the map via the change query/info APIs.",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ce329034_a264f693",
@@ -32,6 +49,64 @@
       "side": 1,
       "message": "I can\u0027t, the change got deleted.",
       "parentUuid": "ce329034_a264f693",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0df4b3f_4e8ddf99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T16:29:55Z",
+      "side": 1,
+      "message": "That\u0027s unfortunately, but seems entirely preventable. Why are changes being deleted like that? Deleting from version control is typically frowned upon, and I think if there\u0027s been any kind discussion on a change, we shouldn\u0027t be deleting unless there\u0027s a security or privacy concern.\n\nFor this specific instance, maybe you have a copy of the comments in email?",
+      "parentUuid": "962da383_2d3ae415",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5a6bcb_50f3cc1f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6948,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T16:29:55Z",
+      "side": 1,
+      "message": "This doesn\u0027t have any text relating it to the change, so it\u0027s confusingly vague. Can you tie it to the change somehow? How did these key/values get added to the change?",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd1a6c1_66cee0d1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6957,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T16:29:55Z",
+      "side": 1,
+      "message": "accidental edit?",
+      "range": {
+        "startLine": 6957,
+        "startChar": 8,
+        "endLine": 6957,
+        "endChar": 9
+      },
       "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

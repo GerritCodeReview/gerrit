@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57569692_e3e0096c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5a2c508_6084a599",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcd6a85b_fa8b27fe",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-31T09:20:11Z",
       "side": 1,
       "message": "this one?",
+      "range": {
+        "startLine": 707,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 0
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6783336b_e7afdc10",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcd6a85b_fa8b27fe",
       "range": {
         "startLine": 707,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a2315c_817e9ce2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d2aac47_ee9235e9",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1044eced_3c2680a6",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-03-31T09:16:45Z",
       "side": 1,
       "message": "Will all the links without a text, simply say \"browse\"?\n\nWould it make sense to show the link in that case instead (or as part of tooltip `title`)? Or just the hostname from the link path, if the link it too long.",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e9349f_d2463c7b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Removed. I have changed the code to render nothing, if no name is provided.",
+      "parentUuid": "1044eced_3c2680a6",
       "range": {
         "startLine": 56,
         "startChar": 43,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a56d54_3ebeefd5",
+        "filename": "polygerrit-ui/app/utils/weblink-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d5931dd9_d5b789b4",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "660b36e4_304f052c",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-03-31T09:17:16Z",
       "side": 1,
       "message": "is url empty string a real case with special handling somewhere?\ngr-weblink has\n```\nif (!info.url) return nothing;\n```\n\nmaybe special handling should also be in gr-weblink?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41007cc1_752910de",
+        "filename": "polygerrit-ui/app/utils/weblink-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-03-31T10:17:13Z",
+      "side": 1,
+      "message": "Empty string is not a real case. Changed the code.",
+      "parentUuid": "660b36e4_304f052c",
       "range": {
         "startLine": 19,
         "startChar": 0,

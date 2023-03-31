@@ -23,6 +23,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -241,10 +242,8 @@ public class ExternalIDCacheLoaderTest {
   @Test
   public void foo() throws Exception {
     Repository repo = repoManager.openRepository(ALL_USERS);
-//    AllExternalIds oldExternalIds = null;
 
-//    ObjectId oldState = insertExternalId(0, 1);
-    ObjectId newState = insertExternalId(2, 3);
+    ObjectId newState = insertExternalId(1, 1);
 
     RevWalk rw = new RevWalk(repo);
     RevCommit rev = rw.parseCommit(newState);
@@ -254,11 +253,13 @@ public class ExternalIDCacheLoaderTest {
     tw.setRecursive(true);
     tw.reset(rev.getTree());
     tw.next();
+    String path = tw.getPathString();
+    ObjectId blob = tw.getObjectId(0);
 
     java.util.Map<ObjectId, ObjectId> additions = new HashMap<>();
-    additions.put(fileNameToObjectId(tw.getPathString()), newState.toObjectId());
+    additions.put(fileNameToObjectId(path), blob);
 
-    AllExternalIds oldExternalIds = AllExternalIds.create(Stream.<ExternalId>builder().add(externalId(2,3)).build());
+    AllExternalIds oldExternalIds = AllExternalIds.create(Stream.<ExternalId>builder().add(externalId(1,1)).build());
 
     Set<ObjectId> removals = new HashSet<>();
     AllExternalIds allExternalIds =

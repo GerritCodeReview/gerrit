@@ -9,7 +9,7 @@ import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {stubReporting} from '../../../test/test-utils';
+import {queryAll, stubReporting} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
   EDIT,
@@ -322,28 +322,11 @@ suite('gr-patch-range-select tests', () => {
 
   test('filesWeblinks', async () => {
     element.filesWeblinks = {
-      meta_a: [
-        {
-          name: 'foo',
-          url: 'f.oo',
-        },
-      ],
-      meta_b: [
-        {
-          name: 'bar',
-          url: 'ba.r',
-        },
-      ],
+      meta_a: [{name: 'foo', url: 'f.oo'}],
+      meta_b: [{name: 'bar', url: 'ba.r'}],
     };
     await element.updateComplete;
-    assert.equal(
-      queryAndAssert(element, 'a[href="f.oo"]').textContent!.trim(),
-      'foo'
-    );
-    assert.equal(
-      queryAndAssert(element, 'a[href="ba.r"]').textContent!.trim(),
-      'bar'
-    );
+    assert.equal(queryAll(element, 'gr-weblink').length, 2);
   });
 
   test('computePatchSetCommentsString', () => {

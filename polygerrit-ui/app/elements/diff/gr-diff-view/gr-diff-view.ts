@@ -12,6 +12,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-weblink/gr-weblink';
 import '../../shared/revision-info/revision-info';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -48,7 +49,7 @@ import {
   ServerInfo,
   CommentMap,
 } from '../../../types/common';
-import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
 import {FileRange, ParsedChangeInfo} from '../../../types/types';
 import {
   FilesWebLinks,
@@ -89,7 +90,6 @@ import {
   ChangeChildView,
   changeViewModelToken,
 } from '../../../models/views/change';
-import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
@@ -225,7 +225,7 @@ export class GrDiffView extends LitElement {
   private isImageDiff?: boolean;
 
   @state()
-  private editWeblinks?: GeneratedWebLink[];
+  private editWeblinks?: WebLinkInfo[];
 
   @state()
   private filesWeblinks?: FilesWebLinks;
@@ -935,11 +935,7 @@ export class GrDiffView extends LitElement {
         () => html`
           <span class="separator"></span>
           ${this.editWeblinks!.map(
-            weblink => html`
-              <a target="_blank" href=${ifDefined(weblink.url)}
-                >${weblink.name}</a
-              >
-            `
+            weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
           )}
         `
       )}
@@ -1084,7 +1080,7 @@ export class GrDiffView extends LitElement {
   }
 
   private onEditWeblinksChanged(
-    e: ValueChangedEvent<GeneratedWebLink[] | undefined>
+    e: ValueChangedEvent<WebLinkInfo[] | undefined>
   ) {
     this.editWeblinks = e.detail.value;
   }

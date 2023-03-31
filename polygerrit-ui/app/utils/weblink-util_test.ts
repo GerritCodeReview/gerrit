@@ -16,17 +16,20 @@ suite('weblink util tests', () => {
   test('getCodeBrowserWeblink', () => {
     assert.deepEqual(
       getCodeBrowserWeblink([
-        {name: 'gitweb'},
-        {name: 'gitiles'},
-        {name: 'browse'},
-        {name: 'test'},
+        {name: 'gitweb', url: 'http://www.test.com'},
+        {name: 'gitiles', url: 'http://www.test.com'},
+        {name: 'browse', url: 'http://www.test.com'},
+        {name: 'test', url: 'http://www.test.com'},
       ]),
-      {name: 'gitiles'}
+      {name: 'gitiles', url: 'http://www.test.com'}
     );
 
     assert.deepEqual(
-      getCodeBrowserWeblink([{name: 'gitweb'}, {name: 'test'}]),
-      {name: 'gitweb'}
+      getCodeBrowserWeblink([
+        {name: 'gitweb', url: 'http://www.test.com'},
+        {name: 'test', url: 'http://www.test.com'},
+      ]),
+      {name: 'gitweb', url: 'http://www.test.com'}
     );
   });
 

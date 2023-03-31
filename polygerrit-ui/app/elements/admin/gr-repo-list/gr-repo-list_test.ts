@@ -90,14 +90,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test0"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -110,14 +103,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test1"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -130,14 +116,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test2"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -150,14 +129,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test3"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -170,14 +142,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test4"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -190,14 +155,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test5"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -210,14 +168,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test6"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -230,14 +181,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test7"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -250,14 +194,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test8"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -270,14 +207,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test9"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -290,14 +220,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test10"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -310,14 +233,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test11"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -330,14 +246,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test12"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -350,14 +259,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test13"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -370,14 +272,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test14"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -390,14 +285,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test15"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -410,14 +298,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test16"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -430,14 +311,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test17"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -450,14 +324,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test18"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -470,14 +337,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test19"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -490,14 +350,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test20"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -510,14 +363,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test21"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -530,14 +376,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test22"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -550,14 +389,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test23"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -570,14 +402,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <a
-                      class="webLink"
-                      href="https://phabricator.example.org/r/project/test24"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      diffusion
-                    </a>
+                    <gr-weblink></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>

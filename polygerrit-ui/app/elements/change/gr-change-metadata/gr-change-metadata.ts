@@ -16,6 +16,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../../shared/gr-weblink/gr-weblink';
 import '../gr-submit-requirements/gr-submit-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
@@ -47,6 +48,7 @@ import {
   RepoName,
   RevisionInfo,
   ServerInfo,
+  WebLinkInfo,
 } from '../../../types/common';
 import {assertIsDefined, assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
@@ -76,10 +78,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
 import {when} from 'lit/directives/when.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
-import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
+import {getChangeWeblinks} from '../../../utils/weblink-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
@@ -182,7 +183,7 @@ export class GrChangeMetadata extends LitElement {
       gr-editable-label {
         max-width: 9em;
       }
-      .webLink {
+      gr-weblink {
         display: block;
       }
       gr-account-chip[disabled],
@@ -703,16 +704,7 @@ export class GrChangeMetadata extends LitElement {
     return html`<section id="webLinks">
       <span class="title">Links</span>
       <span class="value">
-        ${webLinks.map(
-          link => html`<a
-            href=${ifDefined(link.url)}
-            class="webLink"
-            rel="noopener"
-            target="_blank"
-          >
-            ${link.name}
-          </a>`
-        )}
+        ${webLinks.map(info => html`<gr-weblink .info=${info}></gr-weblink>`)}
       </span>
     </section>`;
   }
@@ -741,7 +733,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   // private but used in test
-  computeWebLinks(): GeneratedWebLink[] {
+  computeWebLinks(): WebLinkInfo[] {
     return getChangeWeblinks(this.commitInfo?.web_links, this.serverConfig);
   }
 

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b105cb02_8909e13a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-31T19:14:32Z",
+      "side": 1,
+      "message": "The [1] was included in v3.4 and v3.5, where the search was working as shown by the screenshots in Issue 16823. Are you sure that was the culprit?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ca12d8_14082233",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -158,6 +181,30 @@
       "side": 1,
       "message": "2.16 GWT UI does not support queries, however PolyGerrit UI supports queries. Currently PolyGerrit UI sends the query request, it just does not display, because of filter. I will include HAR files and screenshots in the issue.",
       "parentUuid": "95f0e879_473bdfd3",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1ab539a756c4405c6a46b93dc2ed1c763cad79a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3489da9c_c4165621",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-31T19:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2f4ec71_02f019b1",
       "range": {
         "startLine": 25,
         "startChar": 0,

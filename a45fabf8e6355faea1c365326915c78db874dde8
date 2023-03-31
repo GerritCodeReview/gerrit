@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48284453_ffddb90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T07:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47fd83bf_2c22205b",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a88f0b13_9c8127a3",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e607c6ed_dc84668e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T07:33:38Z",
+      "side": 1,
+      "message": "Yes, there was checkbox, but then it was decided in UX discussion that we will set by default to true.\n\nWhen you are uploader, you don\u0027t see any message. It\u0027s only for reviewer (or others who are not uploader(owner)) to be assured that rebase will be on behalf of uploader.",
+      "parentUuid": "a88f0b13_9c8127a3",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72b48529_d5ac818c",
@@ -84,6 +132,24 @@
       "writtenOn": "2023-03-30T21:03:44Z",
       "side": 1,
       "message": "Can you please add a test?",
+      "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcc1066_bfa8cf7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T07:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b48529_d5ac818c",
       "revId": "a45fabf8e6355faea1c365326915c78db874dde8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

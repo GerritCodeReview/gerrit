@@ -16,6 +16,24 @@
       "message": "[Optional] Add a test with conflicts and make sure counter is calculated correctly.",
       "revId": "67c6a16ebf703f64b9b8b9ecb1225dbcc4e1d2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "983d0483_b0a8c00d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseChainOnBehalfOfUploaderIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-31T10:47:49Z",
+      "side": 0,
+      "message": "I think it\u0027s sufficient that this is covered by the new assertions in the RebaseIt#rebaseWithConflict_conflictsAllowed test.\n\nRebaseChainOnBehalfOfUploaderIT only tests the behaviour / aspects that are related to \u0027on_behalf_of_uploader \u003d true\u0027, all other features are only tested in RebaseIT.",
+      "parentUuid": "20cb9e38_59a88638",
+      "revId": "67c6a16ebf703f64b9b8b9ecb1225dbcc4e1d2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

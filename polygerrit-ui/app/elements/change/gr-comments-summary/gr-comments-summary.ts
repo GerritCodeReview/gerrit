@@ -136,6 +136,9 @@ export class GrCommentsSummary extends LitElement {
       icon="rate_review"
       iconFilled
       .clickable=${this.clickableChips}
+      title=${this.showCommentCategoryName
+        ? nothing
+        : pluralize(this.draftCount, 'draft')}
     >
       ${this.showCommentCategoryName
         ? pluralize(this.draftCount, 'draft')
@@ -153,6 +156,9 @@ export class GrCommentsSummary extends LitElement {
       category=${CommentTabState.UNRESOLVED}
       ?hidden=${!countUnresolvedComments}
       .clickable=${this.clickableChips}
+      title=${this.showCommentCategoryName
+        ? nothing
+        : `${countUnresolvedComments} unresolved`}
     >
       <gr-avatar-stack .accounts=${unresolvedAuthors} imageSize="32">
         <gr-icon
@@ -179,6 +185,9 @@ export class GrCommentsSummary extends LitElement {
         styleType=${SummaryChipStyles.CHECK}
         category=${CommentTabState.SHOW_ALL}
         .clickable=${this.clickableChips}
+        title=${this.showCommentCategoryName
+          ? nothing
+          : `${countResolvedComments} resolved`}
         icon="mark_chat_read"
         ><gr-avatar-stack .accounts=${resolvedAuthors} imageSize="32">
           <gr-icon
@@ -198,6 +207,9 @@ export class GrCommentsSummary extends LitElement {
       category=${CommentTabState.SHOW_ALL}
       .clickable=${this.clickableChips}
       icon="mark_chat_read"
+      title=${this.showCommentCategoryName
+        ? nothing
+        : `${countResolvedComments} resolved`}
       >${this.showCommentCategoryName
         ? `${countResolvedComments} resolved`
         : `${countResolvedComments}`}</gr-summary-chip

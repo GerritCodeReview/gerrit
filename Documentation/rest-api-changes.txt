@@ -6736,7 +6736,7 @@ link:access-control.html#category_rebase[Rebase] permission.
 |`rebase:chain`|`rebase`|
 Present if the user can rebase the chain. +
 This is the case if the calling user can rebase each change in the
-chain.+
+chain.
 Rebasing a change is allowed for the change owner and users with the
 link:access-control.html#category_submit[Submit] or
 link:access-control.html#category_rebase[Rebase] permission if they
@@ -6744,7 +6744,7 @@ have the link:access-control.html#category_push[Push] permission.
 |`rebase:chain`|`rebase_on_behalf_of_uploader`|
 Present if the user can rebase the chain on behalf of the uploader. +
 This is the case if the calling user can rebase each change in the
-chain on behalf of the uploader.+
+chain on behalf of the uploader.
 Rebasing a change on behalf of the uploader is allowed for the change
 owner and users with the link:access-control.html#category_submit[Submit]
 or link:access-control.html#category_rebase[Rebase] permission.

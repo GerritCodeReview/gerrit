@@ -179,6 +179,7 @@ export class GrCommentsSummary extends LitElement {
         styleType=${SummaryChipStyles.CHECK}
         category=${CommentTabState.SHOW_ALL}
         .clickable=${this.clickableChips}
+        icon="mark_chat_read"
         ><gr-avatar-stack .accounts=${resolvedAuthors} imageSize="32">
           <gr-icon
             slot="fallback"

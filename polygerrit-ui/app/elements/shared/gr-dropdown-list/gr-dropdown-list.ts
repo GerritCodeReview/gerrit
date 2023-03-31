@@ -166,6 +166,9 @@ export class GrDropdownList extends LitElement {
             --selection-background-color
           );
         }
+        gr-comments-summary {
+          padding-left: var(--spacing-s);
+        }
         @media only screen and (max-width: 50em) {
           gr-select {
             display: var(--gr-select-style-display, inline);
@@ -252,15 +255,17 @@ export class GrDropdownList extends LitElement {
     return html`
       <paper-item ?disabled=${item.disabled} data-value=${item.value}>
         <div class="topContent">
-          <div>${item.text}</div>
-          ${when(
-            item.commentThreads,
-            () => html`<gr-comments-summary
-              .commentThreads=${item.commentThreads}
-              emptyWhenNoComments
-              showAvatarForResolved
-            ></gr-comments-summary>`
-          )}
+          <div>
+            <span>${item.text}</span>
+            ${when(
+              item.commentThreads,
+              () => html`<gr-comments-summary
+                .commentThreads=${item.commentThreads}
+                emptyWhenNoComments
+                showAvatarForResolved
+              ></gr-comments-summary>`
+            )}
+          </div>
           ${when(
             item.date,
             () => html`

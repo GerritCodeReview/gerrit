@@ -37,6 +37,15 @@ suite('gr-commit-info tests', () => {
     };
     await element.updateComplete;
 
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <gr-weblink imageandtext=""> </gr-weblink>
+          <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
+        </div>
+      `
+    );
     const weblink = queryAndAssert(element, 'gr-weblink');
     assert.shadowDom.equal(
       weblink,
@@ -57,6 +66,15 @@ suite('gr-commit-info tests', () => {
     };
     await element.updateComplete;
 
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <gr-weblink imageandtext=""> </gr-weblink>
+          <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
+        </div>
+      `
+    );
     const weblink = queryAndAssert(element, 'gr-weblink');
     assert.shadowDom.equal(
       weblink,

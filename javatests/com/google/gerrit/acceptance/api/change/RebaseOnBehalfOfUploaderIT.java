@@ -1128,11 +1128,11 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
-    // field1 is on_behalf_of_uploader, field2 is rebase_chain
-    assertThat(testMetricMaker.getCount("change/count_rebases", true, false)).isEqualTo(1);
-    assertThat(testMetricMaker.getCount("change/count_rebases", false, false)).isEqualTo(0);
-    assertThat(testMetricMaker.getCount("change/count_rebases", true, true)).isEqualTo(0);
-    assertThat(testMetricMaker.getCount("change/count_rebases", false, true)).isEqualTo(0);
+    // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(1);
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, true, false)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, true, false)).isEqualTo(0);
   }
 
   private void allowPermissionToAllUsers(String permission) {

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -24,7 +24,7 @@ import com.google.inject.Singleton;
 /** Metrics for the rebase REST endpoints ({@link Rebase} and {@link RebaseChain}). */
 @Singleton
 public class RebaseMetrics {
-  private final Counter2<Boolean, Boolean> countRebases;
+  private final Counter3<Boolean, Boolean, Boolean> countRebases;
 
   @Inject
   public RebaseMetrics(MetricMaker metricMaker) {
@@ -37,18 +37,25 @@ public class RebaseMetrics {
                 .build(),
             Field.ofBoolean("rebase_chain", (metadataBuilder, isRebaseChain) -> {})
                 .description("Whether a chain was rebased.")
+                .build(),
+            Field.ofBoolean("allow_conflicts", (metadataBuilder, allow_conflicts) -> {})
+                .description("Whether the rebase was done with allowing conflicts.")
                 .build());
   }
 
-  public void countRebase(boolean isOnBehalfOfUploader) {
-    countRebase(isOnBehalfOfUploader, /* isRebaseChain= */ false);
+  public void countRebase(boolean isOnBehalfOfUploader, boolean allowConflicts) {
+    countRebase(isOnBehalfOfUploader, /* isRebaseChain= */ false, allowConflicts);
   }
 
-  public void countRebaseChain(boolean isOnBehalfOfUploader) {
-    countRebase(isOnBehalfOfUploader, /* isRebaseChain= */ true);
+  public void countRebaseChain(boolean isOnBehalfOfUploader, boolean allowConflicts) {
+    countRebase(isOnBehalfOfUploader, /* isRebaseChain= */ true, allowConflicts);
   }
 
-  private void countRebase(boolean isOnBehalfOfUploader, boolean isRebaseChain) {
-    countRebases.increment(/* field1= */ isOnBehalfOfUploader, /* field2= */ isRebaseChain);
+  private void countRebase(
+      boolean isOnBehalfOfUploader, boolean isRebaseChain, boolean allowConflicts) {
+    countRebases.increment(
+        /* field1= */ isOnBehalfOfUploader,
+        /* field2= */ isRebaseChain,
+        /* field3= */ allowConflicts);
   }
 }

@@ -16,6 +16,24 @@
       "message": "Update to 5166ded098 was done in:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/366456\n\nDid you mean to update to another version?\n\nAlso, why did you put me as an author?\n\nThanks!",
       "revId": "ad284383e4edcfcf9e3cd53f6d39361feee99542",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c126a0e_14e4e96f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-03-31T15:51:19Z",
+      "side": 1,
+      "message": "\u003e Update to 5166ded098 was done in:\n\u003e https://gerrit-review.git.corp.google.com/c/gerrit/+/366456\n\u003e \n\u003e Did you mean to update to another version?\n\nThe current change is to update Jgit for stable-3.5. 366456 did it on master.\n\u003e \n\u003e Also, why did you put me as an author?\n\n366456 was cherry-picked to stable-3.5 and Gerrit\u0027s cherry-pick API does that.\n\u003e \n\u003e Thanks!",
+      "parentUuid": "7a66773b_1062df3e",
+      "revId": "ad284383e4edcfcf9e3cd53f6d39361feee99542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

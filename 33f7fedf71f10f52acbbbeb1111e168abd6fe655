@@ -22,6 +22,30 @@
       },
       "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e224d68_5a790985",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T07:44:36Z",
+      "side": 1,
+      "message": "condition !isUserLatestUploader is when this.account !\u003d\u003d this.uploader\n\nthis.uploader is mostly owner. this.account can be owner or reviewer or somebody else.\n\n\nSo if reviewer opens rebase dialog, they see owner\u003duploader in gr-account-chip. However if reviewer picks allowConflicts option, we do not do on behalf of uploader (it\u0027s not supported and it will not be supported) we will do on behalf of reviewer\u003dthis.account.\n\nShould I rename method isUserLatestUploader? WDYT about `isCurrentUserEqualToLatestUploader()`?",
+      "parentUuid": "ebd5fd7d_ed545a06",
+      "range": {
+        "startLine": 299,
+        "startChar": 32,
+        "endLine": 299,
+        "endChar": 77
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

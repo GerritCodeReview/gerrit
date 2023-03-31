@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5a2c508_6084a599",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-31T09:17:16Z",
+      "side": 1,
+      "message": "unused clsas? Same in other files, I didn\u0027t check all",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d2aac47_ee9235e9",
         "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
         "patchSetId": 2
@@ -42,6 +65,52 @@
         "startChar": 43,
         "endLine": 56,
         "endChar": 52
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5931dd9_d5b789b4",
+        "filename": "polygerrit-ui/app/utils/weblink-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-31T09:17:16Z",
+      "side": 1,
+      "message": "obsolete line since weblinks param is now weblinkinfo which must have a url? This will be the same as normal return case now?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "660b36e4_304f052c",
+        "filename": "polygerrit-ui/app/utils/weblink-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-03-31T09:17:16Z",
+      "side": 1,
+      "message": "is url empty string a real case with special handling somewhere?\ngr-weblink has\n```\nif (!info.url) return nothing;\n```\n\nmaybe special handling should also be in gr-weblink?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 34
       },
       "revId": "2f4c99a5909fe5243717db9640b99dc535de4602",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

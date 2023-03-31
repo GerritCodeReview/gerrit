@@ -97,6 +97,7 @@ public class Rebase
       rsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       rsrc = rebaseUtil.onBehalfOf(rsrc, input);
     } else {
+      input.onBehalfOfUploader = false;
       rsrc.permissions().check(ChangePermission.REBASE);
     }
 

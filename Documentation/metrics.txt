@@ -202,6 +202,9 @@ setting.
 * `change/count_rebases`: Total number of rebases
 ** `on_behalf_of_uploader`:
    Whether the rebase was done on behalf of the uploader.
+   If the uploader does a rebase with '`on_behalf_of_uploader = true`', the flag
+   is ignored and a normal rebase is done, hence such rebases are recorded as
+   '`on_behalf_of_uploader` = false`'.
 ** `rebase_chain`:
    Whether a chain was rebased.
 ** `allow_conflicts`:

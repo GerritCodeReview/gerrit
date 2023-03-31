@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a593bd84_2cffca31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T08:15:56Z",
+      "side": 1,
+      "message": "Thanks a lot for adding the tests!",
+      "revId": "1f17919a93c7196ba18f5bd3fd562d565de3fb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ad65c9_ee437069",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T08:15:56Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 275,
+        "startChar": 13,
+        "endLine": 275,
+        "endChar": 52
+      },
+      "revId": "1f17919a93c7196ba18f5bd3fd562d565de3fb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

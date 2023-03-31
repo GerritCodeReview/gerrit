@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5f51212_d1089bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-31T10:54:03Z",
+      "side": 1,
+      "message": "\u003e Why would the uploader do that? Is this possible from the web UI?\n\nThe UI always sets on_behalf_of_uploader \u003d true, the uploader has no choice to unset it.\n\n\u003e Unrelated Q: how does one rebase on behalf of someone else from web UI? Or is it \u003e automatic (i.e. if I click on rebase when I\u0027m not the change uploader it\n\u003e automatically does that)\n\nIt\u0027s automatic, the UI always sets on_behalf_of_uploader \u003d true, unless you check the \"Allow Conflicts\" option (in this case the request is always done with on_behalf_of_uploader \u003d false as in this case on_behalf_of_uploader \u003d true is not supported).",
+      "parentUuid": "599cbbef_68d4c2a7",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "012b61e3577dc5db03708df90142561c3465c5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91ed37bf_3a6748d2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseChainOnBehalfOfUploaderIT.java",
         "patchSetId": 1

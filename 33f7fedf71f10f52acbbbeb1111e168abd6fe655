@@ -46,6 +46,76 @@
       },
       "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17e7836c_07cdd5aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T07:48:11Z",
+      "side": 1,
+      "message": "Ohh okay.\nI understand, played around with this a bit.\n\nOnce I check the \"allow conflicts\" then I can rebase but not as uploader.\nSorry, still ramping up with the UX of this feature. 😊\n\nI think leaving a comment is fine. The UX makes sense once I am aware of it.",
+      "parentUuid": "ebd5fd7d_ed545a06",
+      "range": {
+        "startLine": 299,
+        "startChar": 32,
+        "endLine": 299,
+        "endChar": 77
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51fc73bd_fd480038",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T07:48:11Z",
+      "side": 1,
+      "message": "can you add a test that the chip changes from uploader to reviewer when the  \"allowConflicts\" checkbox is ticked.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 35
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8be18caf_a0063ec2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T07:48:11Z",
+      "side": 1,
+      "message": "is it possible to assert the accountId of the account in the chip here?\nIn this test you can verify that the Id is of the reviewer.\n\nThen you can add to the test, check the allow conflicts checkbox and verify that now the Id refers to the reviewer.",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 24
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

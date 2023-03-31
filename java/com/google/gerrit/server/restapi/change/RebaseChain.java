@@ -136,6 +136,7 @@ public class RebaseChain
 
     CurrentUser user = tipRsrc.getUser();
 
+    boolean anyRebaseOnBehalfOfUploader = false;
     List<Change.Id> upToDateAncestors = new ArrayList<>();
     Map<Change.Id, RebaseChangeOp> rebaseOps = new LinkedHashMap<>();
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
@@ -161,6 +162,7 @@ public class RebaseChain
               && !revRsrc.getPatchSet().uploader().equals(revRsrc.getAccountId())) {
             revRsrc = rebaseUtil.onBehalfOf(revRsrc, input);
             revRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
+            anyRebaseOnBehalfOfUploader = true;
           } else {
             revRsrc.permissions().check(ChangePermission.REBASE);
           }
@@ -208,7 +210,7 @@ public class RebaseChain
       }
     }
 
-    rebaseMetrics.countRebaseChain(input.onBehalfOfUploader, input.allowConflicts);
+    rebaseMetrics.countRebaseChain(anyRebaseOnBehalfOfUploader, input.allowConflicts);
 
     RebaseChainInfo res = new RebaseChainInfo();
     res.rebasedChanges = new ArrayList<>();

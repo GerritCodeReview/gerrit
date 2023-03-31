@@ -253,7 +253,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -322,7 +322,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -391,7 +391,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -460,7 +460,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -529,7 +529,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -598,7 +598,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -667,7 +667,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -736,7 +736,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -805,7 +805,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -874,7 +874,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -943,7 +943,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1012,7 +1012,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1081,7 +1081,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1150,7 +1150,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1219,7 +1219,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1288,7 +1288,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1357,7 +1357,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1426,7 +1426,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1495,7 +1495,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1564,7 +1564,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1633,7 +1633,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1702,7 +1702,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1771,7 +1771,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1840,7 +1840,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink></gr-weblink>
+                      <gr-weblink both></gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button

@@ -90,7 +90,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -103,7 +103,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -116,7 +116,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -129,7 +129,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -142,7 +142,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -155,7 +155,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -168,7 +168,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -181,7 +181,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -194,7 +194,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -207,7 +207,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -220,7 +220,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -233,7 +233,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -246,7 +246,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -259,7 +259,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -272,7 +272,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -285,7 +285,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -298,7 +298,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -311,7 +311,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -324,7 +324,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -337,7 +337,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -350,7 +350,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -363,7 +363,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -376,7 +376,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -389,7 +389,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -402,7 +402,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink></gr-weblink>
+                    <gr-weblink both></gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>

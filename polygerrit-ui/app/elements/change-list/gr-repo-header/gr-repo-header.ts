@@ -50,7 +50,9 @@ export class GrRepoHeader extends LitElement {
     if (!webLinks) return;
     return html`<div>
       <span class="browse">Browse:</span>
-      ${webLinks.map(info => html`<gr-weblink .info=${info}></gr-weblink>`)}
+      ${webLinks.map(
+        info => html`<gr-weblink both .info=${info}></gr-weblink>`
+      )}
     </div> `;
   }
 

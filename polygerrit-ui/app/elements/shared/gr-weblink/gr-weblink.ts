@@ -20,6 +20,9 @@ export class GrWeblink extends LitElement {
   @property({type: Object})
   info?: WebLinkInfo;
 
+  @property({type: Boolean})
+  both = false;
+
   static override get styles() {
     return [
       css`
@@ -31,7 +34,11 @@ export class GrWeblink extends LitElement {
         a {
           color: var(--link-color);
         }
+        :host([both]) img {
+          margin-right: var(--spacing-s);
+        }
         img {
+          vertical-align: top;
           width: var(--line-height-normal);
           height: var(--line-height-normal);
         }
@@ -51,7 +58,9 @@ export class GrWeblink extends LitElement {
         >
           ${when(
             this.info.image_url,
-            () => html`<img src=${this.info!.image_url!} />`,
+            () => html`<img src=${this.info!.image_url!} />`
+          )}${when(
+            !this.info.image_url || this.both,
             () => html`<span>${this.info!.name}</span>`
           )}
         </gr-tooltip-content>

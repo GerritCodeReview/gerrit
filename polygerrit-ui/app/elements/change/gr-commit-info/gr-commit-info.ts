@@ -61,7 +61,7 @@ export class GrCommitInfo extends LitElement {
     const commit = this.commitInfo?.commit;
     if (!commit) return nothing;
     return html` <div class="container">
-      <gr-weblink .info=${this.getWeblink(commit)}></gr-weblink>
+      <gr-weblink both .info=${this.getWeblink(commit)}></gr-weblink>
       <gr-copy-clipboard
         hastooltip
         .buttonTitle=${'Copy full SHA to clipboard'}
@@ -84,6 +84,7 @@ export class GrCommitInfo extends LitElement {
       this.commitInfo?.web_links,
       this.serverConfig
     );
-    return {name, url: primaryLink?.url ?? createSearchUrl({query: name})};
+    if (primaryLink) return {...primaryLink, name};
+    return {name, url: createSearchUrl({query: name})};
   }
 }

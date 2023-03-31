@@ -6,12 +6,11 @@
 import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {ChangeInfo, ChangeStates} from '../../../types/common';
+import {ChangeInfo, ChangeStates, WebLinkInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createSearchUrl} from '../../../models/views/search';
-import {GeneratedWebLink} from '../../../utils/weblink-util';
 
 export const WIP_TOOLTIP =
   "This change isn't ready to be reviewed or submitted. " +
@@ -47,7 +46,7 @@ export class GrChangeStatus extends LitElement {
   revertedChange?: ChangeInfo;
 
   @property({type: Object})
-  resolveWeblinks?: GeneratedWebLink[] = [];
+  resolveWeblinks?: WebLinkInfo[] = [];
 
   static override get styles() {
     return [

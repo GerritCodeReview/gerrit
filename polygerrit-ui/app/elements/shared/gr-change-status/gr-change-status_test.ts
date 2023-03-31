@@ -80,7 +80,7 @@ suite('gr-change-status tests', () => {
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('merged'));
-    element.resolveWeblinks = [{url: 'http://google.com'}];
+    element.resolveWeblinks = [{name: 'browse', url: 'http://google.com'}];
     element.status = ChangeStates.MERGED;
     assert.isFalse(element.showResolveIcon());
   });
@@ -117,7 +117,7 @@ suite('gr-change-status tests', () => {
   test('merge conflict with resolve link', () => {
     const status = ChangeStates.MERGE_CONFLICT;
     const url = 'http://google.com';
-    const weblinks = [{url}];
+    const weblinks = [{name: 'browse', url}];
 
     element.revertedChange = undefined;
     element.resolveWeblinks = weblinks;

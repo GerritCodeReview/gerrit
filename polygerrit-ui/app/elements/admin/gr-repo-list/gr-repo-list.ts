@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-weblink/gr-weblink';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
@@ -169,12 +170,8 @@ export class GrRepoList extends LitElement {
     return webLinks.map(link => this.renderWebLink(link));
   }
 
-  private renderWebLink(link: WebLinkInfo) {
-    return html`
-      <a href=${link.url} class="webLink" rel="noopener" target="_blank">
-        ${link.name}
-      </a>
-    `;
+  private renderWebLink(info: WebLinkInfo) {
+    return html`<gr-weblink .info=${info}></gr-weblink>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

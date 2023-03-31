@@ -47,6 +47,7 @@ import {
   RepoName,
   RevisionInfo,
   ServerInfo,
+  WebLinkInfo,
 } from '../../../types/common';
 import {assertIsDefined, assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
@@ -79,7 +80,7 @@ import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
-import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
+import {getChangeWeblinks} from '../../../utils/weblink-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
@@ -741,7 +742,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   // private but used in test
-  computeWebLinks(): GeneratedWebLink[] {
+  computeWebLinks(): WebLinkInfo[] {
     return getChangeWeblinks(this.commitInfo?.web_links, this.serverConfig);
   }
 

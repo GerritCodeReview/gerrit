@@ -44,6 +44,7 @@ import {
   DiffInfo,
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
+  WebLinkInfo,
 } from '../../../types/diff';
 import {
   CreateCommentEventDetail,
@@ -95,7 +96,6 @@ import {
   noAwait,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
-import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
@@ -128,7 +128,7 @@ declare global {
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
-    'edit-weblinks-changed': ValueChangedEvent<GeneratedWebLink[] | undefined>;
+    'edit-weblinks-changed': ValueChangedEvent<WebLinkInfo[] | undefined>;
     'files-weblinks-changed': ValueChangedEvent<FilesWebLinks | undefined>;
     'is-image-diff-changed': ValueChangedEvent<boolean>;
     // Fired when the user selects a line (See gr-diff).
@@ -188,13 +188,13 @@ export class GrDiffHost extends LitElement {
   }
 
   @state()
-  private _editWeblinks?: GeneratedWebLink[];
+  private _editWeblinks?: WebLinkInfo[];
 
   get editWeblinks() {
     return this._editWeblinks;
   }
 
-  set editWeblinks(editWeblinks: GeneratedWebLink[] | undefined) {
+  set editWeblinks(editWeblinks: WebLinkInfo[] | undefined) {
     if (this._editWeblinks === editWeblinks) return;
     this._editWeblinks = editWeblinks;
     fire(this, 'edit-weblinks-changed', {value: editWeblinks});

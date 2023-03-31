@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-weblink/gr-weblink';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -27,6 +28,7 @@ import {
   RevisionInfo,
   RevisionPatchSetNum,
   Timestamp,
+  WebLinkInfo,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
@@ -42,9 +44,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {GeneratedWebLink} from '../../../utils/weblink-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
@@ -65,8 +65,8 @@ export interface PatchRangeChangeDetail {
 export type PatchRangeChangeEvent = CustomEvent<PatchRangeChangeDetail>;
 
 export interface FilesWebLinks {
-  meta_a: GeneratedWebLink[];
-  meta_b: GeneratedWebLink[];
+  meta_a: WebLinkInfo[];
+  meta_b: WebLinkInfo[];
 }
 
 declare global {
@@ -188,6 +188,9 @@ export class GrPatchRangeSelect extends LitElement {
           --trigger-style-text-color: var(--deemphasized-text-color);
           --trigger-style-font-family: var(--font-family);
         }
+        .filesWeblinks gr-weblink {
+          vertical-align: baseline;
+        }
         @media screen and (max-width: 50em) {
           .filesWeblinks {
             display: none;
@@ -234,15 +237,11 @@ export class GrPatchRangeSelect extends LitElement {
     `;
   }
 
-  private renderWeblinks(fileLinks?: GeneratedWebLink[]) {
+  private renderWeblinks(fileLinks?: WebLinkInfo[]) {
     if (!fileLinks) return;
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
-        weblink => html`
-          <a target="_blank" rel="noopener" href=${ifDefined(weblink.url)}>
-            ${weblink.name}
-          </a>
-        `
+        weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
       )}</span
     > `;
   }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0559421_3859c369",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T07:51:16Z",
+      "side": 1,
+      "message": "This text needs to be updated then.\nIt\u0027s no longer \"uploader\" if \"allowConflicts\" checkbox is checked.\nhttps://imgur.com/a/8So2eni\n\nOtherwise we get a message like this.\n\nCannot be done on behalf of uploader.\nWill be done on behalf of uploader.\n\nI think this clarification at this point will make the next condition a lot clearer.",
+      "range": {
+        "startLine": 298,
+        "startChar": 77,
+        "endLine": 298,
+        "endChar": 99
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ebd5fd7d_ed545a06",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
         "patchSetId": 4

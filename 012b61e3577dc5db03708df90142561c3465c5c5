@@ -93,6 +93,30 @@
       },
       "revId": "012b61e3577dc5db03708df90142561c3465c5c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d3fb28_5124dfab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseChainOnBehalfOfUploaderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-03-31T10:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91ed37bf_3a6748d2",
+      "range": {
+        "startLine": 1252,
+        "startChar": 42,
+        "endLine": 1252,
+        "endChar": 43
+      },
+      "revId": "012b61e3577dc5db03708df90142561c3465c5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I\u0027ll defer to the Gerrit team on if there\u0027s any test coverage that should be added here.  I\u0027m not seeing many(any?) existing places to add test coverage.",
       "revId": "bf4bd7515d751a872bb40f47c1b5bcdb5306e54e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6930109c_e0a6581a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-03-31T16:01:14Z",
+      "side": 1,
+      "message": "Patrick seems to be OOO for a bit, adding Edwin instead",
+      "parentUuid": "9b3e6a7c_c805c178",
+      "revId": "bf4bd7515d751a872bb40f47c1b5bcdb5306e54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

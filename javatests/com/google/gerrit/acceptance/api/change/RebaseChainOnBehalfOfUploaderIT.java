@@ -1239,6 +1239,25 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(0);
     assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false)).isEqualTo(0);
     assertThat(testMetricMaker.getCount("change/count_rebases", false, true, false)).isEqualTo(0);
+
+    // Create and submit another change so that we can rebase the change once again.
+    requestScopeOperations.setApiUser(approver);
+    Change.Id changeToBeTheNewBase2 =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
+
+    // Rebase the change once again, this time as the uploader.
+    // If the uploader sets on_behalf_of_uploader = true, the flag is ignored and a normal rebase is
+    // done, hence the metric should count this as a a rebase with on_behalf_of_uploader = false.
+    requestScopeOperations.setApiUser(uploader);
+    testMetricMaker.reset();
+    gApi.changes().id(changeToBeRebased2.get()).rebaseChain(rebaseInput);
+    // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, true, false)).isEqualTo(1);
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, true, false)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false)).isEqualTo(0);
+    assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(0);
   }
 
   private void assertRebase(

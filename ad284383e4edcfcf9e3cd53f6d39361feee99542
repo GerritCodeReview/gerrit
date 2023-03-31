@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a66773b_1062df3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-03-31T07:32:50Z",
+      "side": 1,
+      "message": "Update to 5166ded098 was done in:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/366456\n\nDid you mean to update to another version?\n\nAlso, why did you put me as an author?\n\nThanks!",
+      "revId": "ad284383e4edcfcf9e3cd53f6d39361feee99542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b202e2f8_20a4f007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T20:43:25Z",
+      "side": 1,
+      "message": "nit: You should also mention that you\u0027ve improved the query for b) to filter on the branch as well as the commit.",
+      "revId": "e9e22f0eb581b7c6a54774434c6f7ea7451f92fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ef57ea_0fe07600",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T20:43:25Z",
+      "side": 1,
+      "message": "Do we have a `mergedByBranchCommit()` so that you don\u0027t need the `isMerged()` check either? If we did, you could do a `ChangeFinder.findOne()` kind of thing where we tell the query engine we only need a single matching result.",
+      "range": {
+        "startLine": 131,
+        "startChar": 51,
+        "endLine": 131,
+        "endChar": 65
+      },
+      "revId": "e9e22f0eb581b7c6a54774434c6f7ea7451f92fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

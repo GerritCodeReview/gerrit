@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebd5fd7d_ed545a06",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-03-31T07:38:31Z",
+      "side": 1,
+      "message": "why is this condition here?\nIf we are saying `!this.isUserLatestUploader()` is true then we should not pass `this.uploader` here?\n\nOtherwise is it possible we are passing `this.uploader` which is set from `latestUploader$` and then `!this.isUserLatestUploader()` is also true?",
+      "range": {
+        "startLine": 299,
+        "startChar": 32,
+        "endLine": 299,
+        "endChar": 77
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

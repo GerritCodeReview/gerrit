@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb8bfe4_c6a97d56",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T08:12:40Z",
+      "side": 1,
+      "message": "Nice catch, thanks fixed.",
+      "parentUuid": "a0559421_3859c369",
+      "range": {
+        "startLine": 298,
+        "startChar": 77,
+        "endLine": 298,
+        "endChar": 99
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebd5fd7d_ed545a06",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f37fd431_e1475107",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e224d68_5a790985",
+      "range": {
+        "startLine": 299,
+        "startChar": 32,
+        "endLine": 299,
+        "endChar": 77
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51fc73bd_fd480038",
@@ -118,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "498ec4fe_b2549243",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51fc73bd_fd480038",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 35
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8be18caf_a0063ec2",
@@ -131,6 +203,30 @@
       "writtenOn": "2023-03-31T07:48:11Z",
       "side": 1,
       "message": "is it possible to assert the accountId of the account in the chip here?\nIn this test you can verify that the Id is of the reviewer.\n\nThen you can add to the test, check the allow conflicts checkbox and verify that now the Id refers to the reviewer.",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 24
+      },
+      "revId": "33f7fedf71f10f52acbbbeb1111e168abd6fe655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0582d68b_beec0953",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-03-31T08:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be18caf_a0063ec2",
       "range": {
         "startLine": 122,
         "startChar": 9,

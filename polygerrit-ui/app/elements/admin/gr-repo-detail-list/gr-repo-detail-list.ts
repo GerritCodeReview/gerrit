@@ -9,6 +9,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-weblink/gr-weblink';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {GrCreatePointerDialog} from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
@@ -335,12 +336,8 @@ export class GrRepoDetailList extends LitElement {
     `;
   }
 
-  private renderWeblink(link: WebLinkInfo) {
-    return html`
-      <a href=${link.url} class="webLink" rel="noopener" target="_blank">
-        (${link.name})
-      </a>
-    `;
+  private renderWeblink(info: WebLinkInfo) {
+    return html`<gr-weblink .info=${info}></gr-weblink>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

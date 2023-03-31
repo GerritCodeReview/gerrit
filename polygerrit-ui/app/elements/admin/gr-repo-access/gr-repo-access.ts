@@ -47,6 +47,7 @@ import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {createRepoUrl, RepoDetailView} from '../../../models/views/repo';
+import '../../shared/gr-weblink/gr-weblink';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -209,7 +210,9 @@ export class GrRepoAccess extends LitElement {
           </h3>
           <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
             History:
-            ${this.weblinks?.map(webLink => this.renderWebLinks(webLink))}
+            ${this.weblinks?.map(
+              info => html`<gr-weblink .info=${info}></gr-weblink>`
+            )}
           </div>
           ${this.sections?.map((section, index) =>
             this.renderPermissionSections(section, index)
@@ -250,14 +253,6 @@ export class GrRepoAccess extends LitElement {
           </div>
         </div>
       </div>
-    `;
-  }
-
-  private renderWebLinks(webLink: WebLinkInfo) {
-    return html`
-      <a class="weblink" href=${webLink.url} rel="noopener" target="_blank">
-        ${webLink.name}
-      </a>
     `;
   }
 

@@ -91,7 +91,7 @@ suite('gr-dropdown-list tests', () => {
               tabindex="-1"
             >
               <div class="topContent">
-                <div>Top Text 1</div>
+                <div><span>Top Text 1</span></div>
               </div>
             </paper-item>
             <paper-item
@@ -103,7 +103,7 @@ suite('gr-dropdown-list tests', () => {
               tabindex="0"
             >
               <div class="topContent">
-                <div>Top Text 2</div>
+                <div><span>Top Text 2</span></div>
               </div>
               <div class="bottomContent">
                 <div>Bottom Text 2</div>
@@ -119,7 +119,7 @@ suite('gr-dropdown-list tests', () => {
               tabindex="-1"
             >
               <div class="topContent">
-                <div>Top Text 3</div>
+                <div><span>Top Text 3</span></div>
                 <gr-date-formatter> </gr-date-formatter>
               </div>
               <div class="bottomContent">
@@ -231,7 +231,8 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(items[0].dataset.value, element.items[0].value as any);
     assert.equal(mobileItems[0].value, element.items[0].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[0], '.topContent div').innerText,
+      queryAndAssert<HTMLDivElement>(items[0], '.topContent div span')
+        .innerText,
       element.items[0].text
     );
 
@@ -250,7 +251,8 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(items[1].dataset.value, element.items[1].value as any);
     assert.equal(mobileItems[1].value, element.items[1].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[1], '.topContent div').innerText,
+      queryAndAssert<HTMLDivElement>(items[1], '.topContent div span')
+        .textContent,
       element.items[1].text
     );
 
@@ -273,7 +275,8 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(items[2].dataset.value, element.items[2].value as any);
     assert.equal(mobileItems[2].value, element.items[2].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[2], '.topContent div').innerText,
+      queryAndAssert<HTMLDivElement>(items[2], '.topContent div span')
+        .innerText,
       element.items[2].text
     );
 

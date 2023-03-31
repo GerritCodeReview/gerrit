@@ -369,6 +369,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba5ad26c_f09dec0e",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-03-31T20:48:05Z",
+      "side": 1,
+      "message": "\u003e - isMergedIntoAny currently does not have an early stop, if it found any hit and thus at the moment wouldn\u0027t safe us computation time\n\nAre you sure it doesn\u0027t? It passes `GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND` to `getMergedInto()` specifically so that it does return early. See [1] where this was introduced to JGit.\n\n[1] 176439: Introduce getMergedInto(RevCommit commit, Collection\u003cRef\u003e refs) | https://git.eclipse.org/r/c/jgit/jgit/+/176439",
+      "parentUuid": "28ac3e70_2887dd6e",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fea5cb8_8a28bd0b",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

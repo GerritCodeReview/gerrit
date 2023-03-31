@@ -166,7 +166,7 @@ export class GrConfirmRebaseDialog
         display: block;
         width: 100%;
       }
-      .rebaseCheckbox:first-of-type {
+      .rebaseCheckbox {
         margin-top: var(--spacing-m);
       }
       .rebaseOption {

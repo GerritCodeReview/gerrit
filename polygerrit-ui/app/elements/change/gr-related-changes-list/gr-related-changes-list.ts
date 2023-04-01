@@ -89,11 +89,6 @@ export class GrRelatedChangesList extends LitElement {
     super();
     subscribe(
       this,
-      () => this.getChangeModel().change$,
-      x => (this.change = x)
-    );
-    subscribe(
-      this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );

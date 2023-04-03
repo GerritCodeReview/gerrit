@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b32827e_cdc7ab64",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-04-03T10:09:56Z",
+      "side": 1,
+      "message": "how come this doesn\u0027t appear in any test cases?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 69
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9fd007d_98b97957",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-04-03T10:09:56Z",
+      "side": 1,
+      "message": "consider a name that is more clear to someone unfamiliar with the internals. \"both of what?\"",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2306c6c8_39729885",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-04-03T10:09:56Z",
+      "side": 1,
+      "message": "add screenshot of `both` mode in commit message",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

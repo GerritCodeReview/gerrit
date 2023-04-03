@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1398b7a_404a0d2c",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-04-03T08:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8fb5b82_300b7450",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 10
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fcaa738_c45bf4f4",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c85701c_1d35cf79",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-04-03T08:39:46Z",
+      "side": 1,
+      "message": "Done.\nJGit change was done in:\nhttps://git.eclipse.org/r/c/jgit/jgit/+/200976",
+      "parentUuid": "2fcaa738_c45bf4f4",
+      "range": {
+        "startLine": 128,
+        "startChar": 61,
+        "endLine": 128,
+        "endChar": 62
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e3a936e_e8263133",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-29T13:48:11Z",
       "side": 1,
       "message": "this is dup from the other test; since you have the code only once, only need to test it once.\n\nYou could check for substring \"errors occurred\" and leave the detailed testing for the other test. (saves time if you want to tweak the format of the message.)",
+      "range": {
+        "startLine": 1148,
+        "startChar": 11,
+        "endLine": 1154,
+        "endChar": 11
+      },
+      "revId": "6ab763ec2f1d9d2cf8610cdc0a244c49af0c4bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb47492f_8346258e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-04-03T08:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e3a936e_e8263133",
       "range": {
         "startLine": 1148,
         "startChar": 11,

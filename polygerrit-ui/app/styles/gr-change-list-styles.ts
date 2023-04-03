@@ -138,6 +138,7 @@ export const changeListStyles = css`
     }
     .groupTitle,
     .leftPadding,
+    .selection,
     .status,
     .repo,
     .branch,

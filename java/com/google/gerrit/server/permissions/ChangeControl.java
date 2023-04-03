@@ -187,6 +187,17 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
+  /** Can this user edit the custom keyed values? */
+  private boolean canEditCustomKeyedValues() {
+    return isOwner() // owner (aka creator) of the change can edit custom keyed values
+        || refControl.isOwner() // branch owner can edit custom keyed values
+        || getProjectControl().isOwner() // project owner can edit custom keyed values
+        || refControl.canPerform(
+            Permission
+                .EDIT_CUSTOM_KEYED_VALUES) // user can edit custom keyed values on a specific ref
+        || getProjectControl().isAdmin();
+  }
+
   private boolean isPrivateVisible(ChangeData cd) {
     if (isOwner()) {
       logger.atFine().log(
@@ -291,6 +302,8 @@ class ChangeControl {
             return canEditDescription();
           case EDIT_HASHTAGS:
             return canEditHashtags();
+          case EDIT_CUSTOM_KEYED_VALUES:
+            return canEditCustomKeyedValues();
           case EDIT_TOPIC_NAME:
             return canEditTopicName();
           case REBASE:

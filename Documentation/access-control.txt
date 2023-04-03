@@ -951,6 +951,20 @@ The change owner, branch owners, project owners, and site administrators
 can always edit or remove hashtags (even without having the `Edit Hashtags`
 access right assigned).
 
+
+[[category_edit_custom_keyed_values]]
+=== Edit Custom Keyed Values
+
+This category permits users to add or remove
+custom keyed values on a change that is uploaded for review. Custom Keyed Values
+are used by plugins to store extra data. They are not surfaced in the UI, unless
+a plugin explicitly does so.
+
+The change owner, branch owners, project owners, and site administrators
+can always edit or remove custom keyed values (even without having the
+`Edit Custom Keyed Values` access right assigned).
+
+
 [[example_roles]]
 == Examples of typical roles in a project
 

@@ -52,6 +52,24 @@
       "parentUuid": "779859ca_733dafc4",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d39ec5ad_af5bfa31",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-03T14:11:27Z",
+      "side": 1,
+      "message": "But!? [If those two tests](https://gerrit-review.googlesource.com/c/gerrit/+/366462/5/javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java#759) doesn\u0027t fail with this patch when `createNewChangeForAllNotInTarget` isn\u0027t set then I don\u0027t understand anything...\nThat suggests to me that the whole extra \"Is merged into any branch\" step is unnecessary. Or am I missing something?.",
+      "parentUuid": "7c4f497d_d0bd9c90",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

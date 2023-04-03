@@ -387,6 +387,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ed466e5_e72f477b",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T08:33:13Z",
+      "side": 1,
+      "message": "You are correct. I somehow missed that ...",
+      "parentUuid": "ba5ad26c_f09dec0e",
+      "revId": "6d008f2166aa4ed3d72c5b5f2de5eccd5d0da43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fea5cb8_8a28bd0b",
         "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
         "patchSetId": 9

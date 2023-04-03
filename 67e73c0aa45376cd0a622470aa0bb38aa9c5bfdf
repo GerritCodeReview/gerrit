@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47cb734d_e687bb7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "Maybe something like \"Provide change number to plugins that provide patch set links\" would be better?\n\nCurrently it sounds like this change is changing all web links, but it\u0027s only touching the patch set web link.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f78287_649fbde5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "Thanks for the change!",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb46e5cc_76a40678",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "I think long term all implementors should be adapted to implement the new method, hence I would suggest marking this method as deprecated.",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ace955_f04d896d",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "Please adapt the example implementation in dev-plugins.txt to use this new method.",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9e2186_e5efb77d",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "This method is no longer called and should be dropped.",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c4cadaa_7382a998",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "maybe call this just \"changeId\" to be consistent with how the same parameter is called for the getDiffLinks method below",
+      "range": {
+        "startLine": 120,
+        "startChar": 10,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf704ae_1d1fd5ef",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-03T09:30:45Z",
+      "side": 1,
+      "message": "maybe just pass in Change now",
+      "range": {
+        "startLine": 172,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

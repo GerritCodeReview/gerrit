@@ -50,6 +50,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d9cdcaa3_ad4f8e92",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1158466
+      },
+      "writtenOn": "2023-04-03T11:46:28Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "range": {
+        "startLine": 186,
+        "startChar": 25,
+        "endLine": 186,
+        "endChar": 30
+      },
+      "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a078dfb1_5a2031bc",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 6

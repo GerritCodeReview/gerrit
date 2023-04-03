@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -26,8 +27,10 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
+import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.Map;
 import org.junit.Test;
 
 public class ChangeProtoConverterTest {
@@ -284,6 +287,9 @@ public class ChangeProtoConverterTest {
                 .put("currentPatchSetId", int.class)
                 .put("subject", String.class)
                 .put("topic", String.class)
+                .put(
+                    "customKeyedValues",
+                    new TypeLiteral<ImmutableList<Map.Entry<String, String>>>() {}.getType())
                 .put("originalSubject", String.class)
                 .put("submissionId", String.class)
                 .put("isPrivate", boolean.class)

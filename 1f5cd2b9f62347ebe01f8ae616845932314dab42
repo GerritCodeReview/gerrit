@@ -16,6 +16,24 @@
       "message": "This test does not end up using `isAlreadyMergedInAnyBranch(c)`, since `!c.has(canMergeFlag) || !incoming.contains(c)` evaluates to false for all changes.\n\n@sven.selberg@axis.com do you have a scenario in mind, which could be used to test this?",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779859ca_733dafc4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-03T08:46:19Z",
+      "side": 1,
+      "message": "IIUC the test-case [submitMergeOfNonChangeBranchTip](https://gerrit-review.googlesource.com/c/gerrit/+/366462/2/javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java#759) from the [change where the functionality of isAlreadymergedInAnyBranch was introduced](https://gerrit-review.googlesource.com/c/gerrit/+/91610) should test this. I.e. with this commit that test-case \"should\" only pass with `@TestProjectInput(createNewChangeForAllNotInTarget \u003d InheritableBoolean.TRUE)`.",
+      "parentUuid": "37460580_c4ab7029",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

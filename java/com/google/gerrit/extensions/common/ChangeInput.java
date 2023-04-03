@@ -38,6 +38,7 @@ public class ChangeInput {
   public String baseCommit;
   public Boolean newBranch;
   public Map<String, String> validationOptions;
+  public Map<String, String> customKeyedValues;
   public MergeInput merge;
   public ApplyPatchInput patch;
 

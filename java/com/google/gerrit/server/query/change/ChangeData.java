@@ -331,7 +331,7 @@ public class ChangeData {
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
-  private Map<String, String> customKeyedValues;
+  private ImmutableMap<String, String> customKeyedValues;
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.
@@ -1015,8 +1015,7 @@ public class ChangeData {
       if (!change().isClosed() && submitRecords.size() == 1) {
         // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
         submitRecords.put(
-            options
-                .toBuilder()
+            options.toBuilder()
                 .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
                 .build(),
             records);

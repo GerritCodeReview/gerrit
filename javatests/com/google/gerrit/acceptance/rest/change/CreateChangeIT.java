@@ -1296,6 +1296,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void createChangeWithCustomKeyedValues() throws Exception {
+    ChangeInput changeInput = new ChangeInput();
+    changeInput.project = project.get();
+    changeInput.branch = "master";
+    changeInput.subject = "A change";
+    changeInput.status = ChangeStatus.NEW;
+    changeInput.customKeyedValues = ImmutableMap.of("key", "value");
+
+    ChangeInfo result = assertCreateSucceeds(changeInput);
+    assertThat(result.customKeyedValues).containsExactly("key", "value");
+  }
+
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
     in.project = project.get();

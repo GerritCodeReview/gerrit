@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -181,8 +182,12 @@ public class CreateChange
 
   @Override
   public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
-      throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+      throws IOException,
+          InvalidChangeOperationException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
+          ConfigInvalidException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -193,7 +198,10 @@ public class CreateChange
   /** Creates the changes in the given project. This is public for reuse in the project API. */
   public Response<ChangeInfo> execute(
       BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -332,7 +340,10 @@ public class CreateChange
       IdentifiedUser me,
       ProjectState projectState,
       BatchUpdate.Factory updateFactory)
-      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
           UpdateException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       logger.atFine().log(
@@ -447,6 +458,15 @@ public class CreateChange
           ins.setValidationOptions(validationOptions.build());
         }
 
+        if (input.customKeyedValues != null) {
+          ImmutableMap.Builder<String, String> customKeyedValues = ImmutableMap.builder();
+          input
+              .customKeyedValues
+              .entrySet()
+              .forEach(e -> customKeyedValues.put(e.getKey(), e.getValue()));
+          ins.setCustomKeyedValues(customKeyedValues.build());
+        }
+
         try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
           bu.setRepository(git, rw, oi);
           bu.setNotify(
@@ -493,7 +513,9 @@ public class CreateChange
       @Nullable PatchSet basePatchSet,
       @Nullable String baseCommit,
       @Nullable MergeInput mergeInput)
-      throws BadRequestException, IOException, UnprocessableEntityException,
+      throws BadRequestException,
+          IOException,
+          UnprocessableEntityException,
           ResourceConflictException {
     if (basePatchSet != null) {
       return basePatchSet.commitId();

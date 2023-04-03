@@ -52,6 +52,8 @@ import {
   ConfigParameterInfo,
   ConfigParameterInfoBase,
   ContributorAgreementInfo,
+  CustomKey,
+  CustomKeyedValues,
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
@@ -1109,6 +1111,15 @@ export interface SshKeyInfo {
   algorithm: string;
   comment?: string;
   valid: boolean;
+}
+
+/**
+ * The CustomKeyedValuesInput entity contains information about hashtags to add to, and/or remove from, a change
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#custom-keyed-values-input
+ */
+export interface CustomKeyedValuesInput {
+  add?: CustomKeyedValues;
+  remove?: CustomKey[];
 }
 
 /**

@@ -720,7 +720,7 @@ public class BatchUpdate implements AutoCloseable {
       checkArgument(old == null, "result for change %s already set: %s", id, old);
     }
 
-    void execute() throws IOException {
+  void execute() throws IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
       BatchUpdate.this.executed = manager.isExecuted();
       BatchUpdate.this.attentionSetUpdates = manager.attentionSetUpdates();

@@ -88,6 +88,24 @@
       "parentUuid": "d39ec5ad_af5bfa31",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77e8f484_6252c339",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-03T14:28:33Z",
+      "side": 1,
+      "message": "If the tests pass they pass!",
+      "parentUuid": "b5a5fae1_b363f115",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -445,6 +446,15 @@ public class CreateChange
               .entrySet()
               .forEach(e -> validationOptions.put(e.getKey(), e.getValue()));
           ins.setValidationOptions(validationOptions.build());
+        }
+
+        if (input.customKeyedValues != null) {
+          ImmutableMap.Builder<String, String> customKeyedValues = ImmutableMap.builder();
+          input
+              .customKeyedValues
+              .entrySet()
+              .forEach(e -> customKeyedValues.put(e.getKey(), e.getValue()));
+          ins.setCustomKeyedValues(customKeyedValues.build());
         }
 
         try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {

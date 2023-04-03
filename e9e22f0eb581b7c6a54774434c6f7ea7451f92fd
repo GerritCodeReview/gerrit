@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0f7961_be114ab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T07:59:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b202e2f8_20a4f007",
+      "revId": "e9e22f0eb581b7c6a54774434c6f7ea7451f92fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7ef57ea_0fe07600",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-03-31T20:43:25Z",
       "side": 1,
       "message": "Do we have a `mergedByBranchCommit()` so that you don\u0027t need the `isMerged()` check either? If we did, you could do a `ChangeFinder.findOne()` kind of thing where we tell the query engine we only need a single matching result.",
+      "range": {
+        "startLine": 131,
+        "startChar": 51,
+        "endLine": 131,
+        "endChar": 65
+      },
+      "revId": "e9e22f0eb581b7c6a54774434c6f7ea7451f92fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ec824d_3353a239",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T07:59:29Z",
+      "side": 1,
+      "message": "I wasn\u0027t able to find an existing internal query method for that usecase. There seems to be only either `branch:` or `is:merged`. Let me add that in a separate change.",
+      "parentUuid": "f7ef57ea_0fe07600",
       "range": {
         "startLine": 131,
         "startChar": 51,

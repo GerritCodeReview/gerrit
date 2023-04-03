@@ -91,6 +91,7 @@ public class DefaultPermissionMappings {
       ImmutableBiMap.<ChangePermission, String>builder()
           .put(ChangePermission.READ, Permission.READ)
           .put(ChangePermission.ABANDON, Permission.ABANDON)
+          .put(ChangePermission.EDIT_CUSTOM_KEYED_VALUES, Permission.EDIT_CUSTOM_KEYED_VALUES)
           .put(ChangePermission.EDIT_HASHTAGS, Permission.EDIT_HASHTAGS)
           .put(ChangePermission.EDIT_TOPIC_NAME, Permission.EDIT_TOPIC_NAME)
           .put(ChangePermission.REMOVE_REVIEWER, Permission.REMOVE_REVIEWER)

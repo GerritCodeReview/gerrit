@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.CustomKeyedValuesEditedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -81,6 +82,7 @@ public class StreamEventsApiListener
         CommentAddedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
+        CustomKeyedValuesEditedListener,
         NewProjectCreatedListener,
         ReviewerAddedListener,
         ReviewerDeletedListener,
@@ -101,6 +103,8 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), CustomKeyedValuesEditedListener.class)
+          .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), PrivateStateChangedListener.class)
           .to(StreamEventsApiListener.class);
@@ -233,9 +237,9 @@ public class StreamEventsApiListener
   }
 
   @Nullable
-  String[] hashtagArray(Collection<String> hashtags) {
-    if (hashtags != null && !hashtags.isEmpty()) {
-      return Sets.newHashSet(hashtags).toArray(new String[hashtags.size()]);
+  String[] hashArray(Collection<String> collection) {
+    if (collection != null && !collection.isEmpty()) {
+      return Sets.newHashSet(collection).toArray(new String[collection.size()]);
     }
     return null;
   }
@@ -342,9 +346,28 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.editor = accountAttributeSupplier(ev.getWho());
-      event.hashtags = hashtagArray(ev.getHashtags());
-      event.added = hashtagArray(ev.getAddedHashtags());
-      event.removed = hashtagArray(ev.getRemovedHashtags());
+      event.hashtags = hashArray(ev.getHashtags());
+      event.added = hashArray(ev.getAddedHashtags());
+      event.removed = hashArray(ev.getRemovedHashtags());
+
+      dispatcher.run(d -> d.postEvent(change, event));
+    } catch (StorageException e) {
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
+    }
+  }
+
+  @Override
+  public void onCustomKeyedValuesEdited(CustomKeyedValuesEditedListener.Event ev) {
+    try {
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      CustomKeyedValuesChangedEvent event = new CustomKeyedValuesChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change, notes);
+      event.editor = accountAttributeSupplier(ev.getWho());
+      event.customKeyedValues = ev.getCustomKeyedValues();
+      event.added = ev.getAddedCustomKeyedValues();
+      event.removed = hashArray(ev.getRemovedCustomKeys());
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {

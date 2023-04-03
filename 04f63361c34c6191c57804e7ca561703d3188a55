@@ -22,6 +22,47 @@
       },
       "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f244a67d_1573fc9d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1158466
+      },
+      "writtenOn": "2023-04-03T11:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99014cb5_a43a8569",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a078dfb1_5a2031bc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1158466
+      },
+      "writtenOn": "2023-04-03T11:43:29Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

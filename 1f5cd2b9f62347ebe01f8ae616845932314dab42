@@ -70,6 +70,24 @@
       "parentUuid": "7c4f497d_d0bd9c90",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a5fae1_b363f115",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-03T14:26:28Z",
+      "side": 1,
+      "message": "I don\u0027t get it, but perhaps I don\u0027t have to...",
+      "parentUuid": "d39ec5ad_af5bfa31",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

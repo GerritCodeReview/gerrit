@@ -1458,7 +1458,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): [boolean, string] {
     const defaultFilter = '';
     offset = offset || 0;
-    filter ??= defaultFilter;
+    filter = filter && !filter.endsWith(':') ? filter : defaultFilter;
     const encodedFilter = encodeURIComponent(filter);
 
     if (filter.includes(':')) {

@@ -44,6 +44,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
@@ -74,7 +75,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -515,6 +518,36 @@ public class RebaseIT {
         assertThat(testCommitValidationListener.receiveEvent.pushOptions)
             .containsExactly("key", "value");
       }
+    }
+
+    @Test
+    public void rebaseChangeWhenChecksRefExists() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result r = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Create checks ref
+      try (TestRepository<Repository> testRepo =
+          new TestRepository<>(repoManager.openRepository(project))) {
+        testRepo.update(
+            RefNames.changeRefPrefix(r2.getChange().getId()) + "checks",
+            testRepo.commit().message("Empty commit"));
+      }
+
+      // Rebase the second change
+      rebaseCall.call(r2.getChangeId());
+
+      verifyRebaseForChange(
+          r2.getChange().getId(),
+          r.getCommit().name(),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
     }
 
     protected void verifyRebaseForChange(
@@ -1230,6 +1263,39 @@ public class RebaseIT {
       assertThat(rebaseActionInfo.enabled).isTrue();
       assertThat(rebaseActionInfo.enabledOptions)
           .containsExactly("rebase", "rebase_on_behalf_of_uploader");
+    }
+
+    @Test
+    public void rebaseChainWhenChecksRefExists() throws Exception {
+      // Create changes with the following hierarchy:
+      // * HEAD
+      //   * r1
+      //   * r2
+      //     * r3
+      PushOneCommit.Result r = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+      PushOneCommit.Result r3 = createChange();
+
+      // Create checks ref
+      try (TestRepository<Repository> testRepo =
+          new TestRepository<>(repoManager.openRepository(project))) {
+        testRepo.update(
+            RefNames.changeRefPrefix(r2.getChange().getId()) + "checks",
+            testRepo.commit().message("Empty commit"));
+      }
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Add an approval whose score should be copied on trivial rebase
+      gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+      gApi.changes().id(r3.getChangeId()).current().review(ReviewInput.recommend());
+
+      // Rebase the chain through r3.
+      verifyRebaseChainResponse(gApi.changes().id(r3.getChangeId()).rebaseChain(), false, r2, r3);
     }
 
     @Test

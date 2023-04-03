@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -193,6 +194,7 @@ public class PatchSetUtil {
       Optional<PatchSet.Id> latestPendingPatchSet =
           refUpdates.keySet().stream()
               .map(r -> PatchSet.Id.fromRef(changeId.toRefPrefix() + r))
+              .filter(Objects::nonNull)
               .max(PatchSet.Id::compareTo);
       if (latestPendingPatchSet.isPresent()) {
         return ctx.getRevWalk().parseCommit(refUpdates.get(latestPendingPatchSet.get().getId()));

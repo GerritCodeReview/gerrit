@@ -52,6 +52,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -689,7 +690,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewersAreNotAddedForNoReasonBecauseOfAnUpdate() throws Exception {
+  public void reviewersAreNotAddedForNoReasonBecauseOfAHashtagUpdate() throws Exception {
     PushOneCommit.Result r = createChange();
     // implictly adds the user to the attention set when adding as reviewer
     change(r).addReviewer(user.email());
@@ -699,6 +700,24 @@ public class AttentionSetIT extends AbstractDaemonTest {
     HashtagsInput hashtagsInput = new HashtagsInput();
     hashtagsInput.add = ImmutableSet.of("tag");
     change(r).setHashtags(hashtagsInput);
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed");
+  }
+
+  @Test
+  public void reviewersAreNotAddedForNoReasonBecauseOfACustomKeyedValuesUpdate() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // implictly adds the user to the attention set when adding as reviewer
+    change(r).addReviewer(user.email());
+
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
+
+    CustomKeyedValuesInput customKeyedValuesInput = new CustomKeyedValuesInput();
+    customKeyedValuesInput.add = ImmutableMap.of("key1", "value1");
+    change(r).setCustomKeyedValues(customKeyedValuesInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());

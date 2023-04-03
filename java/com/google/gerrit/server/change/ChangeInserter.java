@@ -26,6 +26,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
@@ -138,6 +139,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
+  private ImmutableMap<String, String> customKeyedValues = ImmutableMap.of();
   private boolean validate = true;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
@@ -220,6 +222,7 @@ public class ChangeInserter implements InsertChangeOp {
     change.setWorkInProgress(workInProgress);
     change.setReviewStarted(!workInProgress);
     change.setRevertOf(revertOf);
+    change.setCustomKeyedValues(customKeyedValues);
     return change;
   }
 
@@ -346,6 +349,13 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @CanIgnoreReturnValue
+  public ChangeInserter setCustomKeyedValues(ImmutableMap<String, String> customKeyedValues) {
+    requireNonNull(customKeyedValues, "customKeyedValues may not be null");
+    this.customKeyedValues = customKeyedValues;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
   public ChangeInserter setValidationOptions(
       ImmutableListMultimap<String, String> validationOptions) {
     requireNonNull(validationOptions, "validationOptions may not be null");
@@ -463,6 +473,11 @@ public class ChangeInserter implements InsertChangeOp {
       update.setTopic(change.getTopic());
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());
+    }
+    if (change.getCustomKeyedValues() != null) {
+      for (Map.Entry<String, String> entry : change.getCustomKeyedValues().entrySet()) {
+        update.addCustomKeyedValue(entry.getKey(), entry.getValue());
+      }
     }
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);

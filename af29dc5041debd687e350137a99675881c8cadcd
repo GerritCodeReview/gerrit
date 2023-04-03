@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a60bf140_a9a184ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-03T10:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b32827e_cdc7ab64",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 69
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9fd007d_98b97957",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a92c18f_11a9c2fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-03T10:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fd007d_98b97957",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2306c6c8_39729885",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-03T10:09:56Z",
       "side": 1,
       "message": "add screenshot of `both` mode in commit message",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "af29dc5041debd687e350137a99675881c8cadcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c56c1c_a9417fa3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-weblink/gr-weblink.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-03T10:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2306c6c8_39729885",
       "range": {
         "startLine": 37,
         "startChar": 0,

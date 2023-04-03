@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.SetCherryPickOp;
+import com.google.gerrit.server.change.SetCustomKeyedValuesOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.SetTopicOp;
@@ -216,6 +217,7 @@ public class ChangeRestApiModule extends RestApiModule {
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetCherryPickOp.Factory.class);
+    factory(SetCustomKeyedValuesOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
     factory(SetTopicOp.Factory.class);
     factory(SetPrivateOp.Factory.class);

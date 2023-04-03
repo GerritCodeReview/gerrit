@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -100,6 +101,26 @@ public class EventDeserializerTest {
     assertThat(e.added).isEqualTo(orig.added);
     assertThat(e.removed).isEqualTo(orig.removed);
     assertThat(e.hashtags).isEqualTo(orig.hashtags);
+  }
+
+  @Test
+  public void customKeyedValuesChangedEvent() {
+    Change change = newChange();
+    CustomKeyedValuesChangedEvent orig = new CustomKeyedValuesChangedEvent(change);
+    orig.change = asChangeAttribute(change);
+    orig.editor = newAccount("editor");
+    orig.added = ImmutableMap.of("key1", "value1");
+    orig.removed = new String[] {"removed"};
+    orig.customKeyedValues = ImmutableMap.of("key2", "value2");
+
+    CustomKeyedValuesChangedEvent e = roundTrip(orig);
+
+    assertThat(e).isNotNull();
+    assertSameChangeEvent(e, orig);
+    assertSameAccount(e.editor, orig.editor);
+    assertThat(e.added).isEqualTo(orig.added);
+    assertThat(e.removed).isEqualTo(orig.removed);
+    assertThat(e.customKeyedValues).isEqualTo(orig.customKeyedValues);
   }
 
   @Test

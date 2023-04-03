@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
@@ -80,6 +82,7 @@ import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetChange;
+import com.google.gerrit.server.restapi.change.GetCustomKeyedValues;
 import com.google.gerrit.server.restapi.change.GetHashtags;
 import com.google.gerrit.server.restapi.change.GetMetaDiff;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
@@ -90,6 +93,7 @@ import com.google.gerrit.server.restapi.change.ListChangeDrafts;
 import com.google.gerrit.server.restapi.change.ListChangeRobotComments;
 import com.google.gerrit.server.restapi.change.ListReviewers;
 import com.google.gerrit.server.restapi.change.Move;
+import com.google.gerrit.server.restapi.change.PostCustomKeyedValues;
 import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
 import com.google.gerrit.server.restapi.change.PostReviewers;
@@ -151,6 +155,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<GetMetaDiff> getMetaDiffProvider;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final PostCustomKeyedValues postCustomKeyedValues;
+  private final GetCustomKeyedValues getCustomKeyedValues;
   private final AttentionSet attentionSet;
   private final AttentionSetApiImpl.Factory attentionSetApi;
   private final AddToAttentionSet addToAttentionSet;
@@ -201,6 +207,8 @@ class ChangeApiImpl implements ChangeApi {
       Provider<GetMetaDiff> getMetaDiffProvider,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      PostCustomKeyedValues postCustomKeyedValues,
+      GetCustomKeyedValues getCustomKeyedValues,
       AttentionSet attentionSet,
       AttentionSetApiImpl.Factory attentionSetApi,
       AddToAttentionSet addToAttentionSet,
@@ -249,6 +257,8 @@ class ChangeApiImpl implements ChangeApi {
     this.getMetaDiffProvider = getMetaDiffProvider;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.postCustomKeyedValues = postCustomKeyedValues;
+    this.getCustomKeyedValues = getCustomKeyedValues;
     this.attentionSet = attentionSet;
     this.attentionSetApi = attentionSetApi;
     this.addToAttentionSet = addToAttentionSet;
@@ -564,6 +574,24 @@ class ChangeApiImpl implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public void setCustomKeyedValues(CustomKeyedValuesInput input) throws RestApiException {
+    try {
+      postCustomKeyedValues.apply(change, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot post custom keyed values", e);
+    }
+  }
+
+  @Override
+  public ImmutableMap<String, String> getCustomKeyedValues() throws RestApiException {
+    try {
+      return getCustomKeyedValues.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get custom keyed values", e);
     }
   }
 

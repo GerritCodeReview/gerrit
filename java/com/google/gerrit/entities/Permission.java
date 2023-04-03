@@ -36,6 +36,7 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String DELETE = "delete";
   public static final String DELETE_CHANGES = "deleteChanges";
   public static final String DELETE_OWN_CHANGES = "deleteOwnChanges";
+  public static final String EDIT_CUSTOM_KEYED_VALUES = "editCustomKeyedValues";
   public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_TOPIC_NAME = "editTopicName";
   public static final String FORGE_AUTHOR = "forgeAuthor";
@@ -73,6 +74,7 @@ public abstract class Permission implements Comparable<Permission> {
     NAMES_LC.add(DELETE.toLowerCase(Locale.US));
     NAMES_LC.add(DELETE_CHANGES.toLowerCase(Locale.US));
     NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase(Locale.US));
+    NAMES_LC.add(EDIT_CUSTOM_KEYED_VALUES.toLowerCase(Locale.US));
     NAMES_LC.add(EDIT_HASHTAGS.toLowerCase(Locale.US));
     NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase(Locale.US));
     NAMES_LC.add(FORGE_AUTHOR.toLowerCase(Locale.US));

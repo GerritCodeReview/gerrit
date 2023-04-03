@@ -26,6 +26,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
+import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import org.junit.Test;
@@ -284,6 +285,9 @@ public class ChangeProtoConverterTest {
                 .put("currentPatchSetId", int.class)
                 .put("subject", String.class)
                 .put("topic", String.class)
+                .put(
+                    "customKeyedValues",
+                    new TypeLiteral<ImmutableMap<String, String>>() {}.getType())
                 .put("originalSubject", String.class)
                 .put("submissionId", String.class)
                 .put("isPrivate", boolean.class)

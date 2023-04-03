@@ -38,6 +38,7 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    */
   ABANDON,
   EDIT_DESCRIPTION,
+  EDIT_CUSTOM_KEYED_VALUES,
   EDIT_HASHTAGS,
   EDIT_TOPIC_NAME,
   REMOVE_REVIEWER,

@@ -648,6 +648,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "020489ef_19d05fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-03T07:40:45Z",
+      "side": 1,
+      "message": "Internal identifies do not belong in the UI.",
+      "parentUuid": "682df0c4_ddbf36ad",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "062d34941e98944ba1271c07ccadbc33d847bb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e062fdb7_ab7dcdfc",

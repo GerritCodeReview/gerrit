@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "932b1cbc_f1af3d97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-03T07:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e738215_61693172",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce329034_a264f693",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 22
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6348604f_188f1462",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-03T07:40:45Z",
+      "side": 1,
+      "message": "Deleting versions of code that do not actually get submitted seems a weird thing to frown upon. We do it numerous of times in our local clients.\n\nWorking with stacked changes is unfortunately non-trivial, which is why I decided to flatten the stack.  There were only two comments, both addressed.\n\nThe two comments were:\n\n```\ncustomValues leads me to think this is a List or a Set, perhaps this should be something like customValueByField, or valueByCustomKey?\n```\n\nWhich I have addressed by changing the name of the field to `customKeyedValues`.\n\n```\nSince the ChangeInfo gets populated on multi change queries (I think?), and this info is not in the index, we probably want a switch to request this so that it is not turned on by default. Without a switch it would slow down queries which should only use fast data from the index.\n```\n\nWhich I have addressed by adding a request-flag",
+      "parentUuid": "f0df4b3f_4e8ddf99",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b5a6bcb_50f3cc1f",
@@ -88,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c10726b2_9b9379be",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6948,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-03T07:40:45Z",
+      "side": 1,
+      "message": "It will be done through CreateChange, but I will update the documentation when I add that part.",
+      "parentUuid": "2b5a6bcb_50f3cc1f",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd1a6c1_66cee0d1",
@@ -101,6 +155,30 @@
       "writtenOn": "2023-03-31T16:29:55Z",
       "side": 1,
       "message": "accidental edit?",
+      "range": {
+        "startLine": 6957,
+        "startChar": 8,
+        "endLine": 6957,
+        "endChar": 9
+      },
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28134f5a_e0c9d34a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6957,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-03T07:40:45Z",
+      "side": 1,
+      "message": "Yep",
+      "parentUuid": "6cd1a6c1_66cee0d1",
       "range": {
         "startLine": 6957,
         "startChar": 8,

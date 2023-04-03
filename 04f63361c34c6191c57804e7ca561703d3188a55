@@ -63,6 +63,29 @@
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
       "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "346d7e0f_a9d8380f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-03T11:46:21Z",
+      "side": 1,
+      "message": "return?",
+      "range": {
+        "startLine": 457,
+        "startChar": 5,
+        "endLine": 457,
+        "endChar": 15
+      },
+      "revId": "04f63361c34c6191c57804e7ca561703d3188a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

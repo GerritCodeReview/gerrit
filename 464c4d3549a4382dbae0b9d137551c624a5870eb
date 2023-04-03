@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0932203_159f36b4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2846,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0723ec_e8e5c076",
+      "range": {
+        "startLine": 2846,
+        "startChar": 58,
+        "endLine": 2846,
+        "endChar": 65
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcb17982_5526b709",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-30T14:44:32Z",
       "side": 1,
       "message": "\"... since this exception isn\u0027t thrown for dry-run submits.\"?",
+      "range": {
+        "startLine": 123,
+        "startChar": 18,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b58b5d_88400cb7",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bcb17982_5526b709",
       "range": {
         "startLine": 123,
         "startChar": 18,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "164f503f_4cc3c12b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e6d984a_887d59c6",
+      "range": {
+        "startLine": 222,
+        "startChar": 56,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38647a99_470650be",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-03-30T14:44:32Z",
       "side": 1,
       "message": "This feels like a long time for a user to wait. Personally I\u0027d prefer to get the error after a couple of seconds and try again manually.\nIf that doesn\u0027t makes sense could we make it configurable in a follow-up? Like `change.concurrentSubmitTimeout`?",
+      "range": {
+        "startLine": 128,
+        "startChar": 62,
+        "endLine": 128,
+        "endChar": 64
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876836ae_1262a009",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done.\n\nThere is only one reason to wait at all and that is when Striped tries to get a lock that is being hold by a submit of a different change, which can happen, if the computed hashes for both lock keys are the same. Waiting for a bit reduces the risk throwing the SubmitLockException, which might be confusing to users. In almost all other cases the submit either succeeds or with some issue that will require further actions by the client, e.g. resolve conflicts. Thus, I think a configuration doesn\u0027t make sense here.",
+      "parentUuid": "38647a99_470650be",
       "range": {
         "startLine": 128,
         "startChar": 62,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7876ccf6_bfef6756",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99e146db_8bc54c61",
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb7d0524_4b0e7a56",
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9252f0bb_5eda3bce",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb7d0524_4b0e7a56",
+      "range": {
+        "startLine": 559,
+        "startChar": 1,
+        "endLine": 562,
+        "endChar": 13
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebb6d2e8_9f6c357d",
@@ -146,6 +284,30 @@
       "writtenOn": "2023-03-30T14:44:32Z",
       "side": 1,
       "message": "Strange unrelated indentation",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 19
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de4c0fa_ddefe78d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebb6d2e8_9f6c357d",
       "range": {
         "startLine": 609,
         "startChar": 0,
@@ -202,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8008d110_18e82527",
+        "filename": "java/com/google/gerrit/server/submit/SubmitLockFailedException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b208f52_14a2f5cc",
+      "range": {
+        "startLine": 33,
+        "startChar": 83,
+        "endLine": 33,
+        "endChar": 90
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f63392be_ad1baecc",
@@ -215,6 +401,30 @@
       "writtenOn": "2023-03-30T14:44:32Z",
       "side": 1,
       "message": "```\n    ResourceConflictException thrown \u003d\n        assertThrows(ResourceConflictException.class, () -\u003e f2.get());\n    assertThat(thrown).hasMessageThat().isEqualTo(\"change is merged\");\n```",
+      "range": {
+        "startLine": 1420,
+        "startChar": 0,
+        "endLine": 1427,
+        "endChar": 5
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0448ca6_cff53aba",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T11:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f63392be_ad1baecc",
       "range": {
         "startLine": 1420,
         "startChar": 0,

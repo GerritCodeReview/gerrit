@@ -34,6 +34,24 @@
       "parentUuid": "37460580_c4ab7029",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4f497d_d0bd9c90",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T13:42:59Z",
+      "side": 1,
+      "message": "It is actually the test AbstractSubmit.submitChangeWhenParentOfOtherBranchTip() that verifies it.\n\nSince the test I added here did not add any further value, I will remove it.",
+      "parentUuid": "779859ca_733dafc4",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

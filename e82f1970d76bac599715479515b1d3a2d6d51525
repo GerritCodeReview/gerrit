@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "522c97fa_cd5e575a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T08:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f5898be_0983e62e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 85
+      },
+      "revId": "e82f1970d76bac599715479515b1d3a2d6d51525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b83cd32c_0deea1ec",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-03-29T10:50:47Z",
       "side": 1,
       "message": "Unrelated nl.",
+      "revId": "e82f1970d76bac599715479515b1d3a2d6d51525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234612eb_a2dd4348",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T08:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b83cd32c_0deea1ec",
       "revId": "e82f1970d76bac599715479515b1d3a2d6d51525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

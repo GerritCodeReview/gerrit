@@ -88,7 +88,6 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   private static final String MODIFIED_FILE_NEW_CONTENT = "Modified line\n";
   private static final String MODIFIED_FILE_DIFF =
       "diff --git a/modified_file.txt b/modified_file.txt\n"
-          + "new file mode 100644\n"
           + "--- a/modified_file.txt\n"
           + "+++ b/modified_file.txt\n"
           + "@@ -1,2 +1 @@\n"

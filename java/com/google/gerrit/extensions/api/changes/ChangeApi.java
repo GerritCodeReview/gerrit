@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -336,6 +337,16 @@ public interface ChangeApi {
    * @return hashtags
    */
   Set<String> getHashtags() throws RestApiException;
+
+  /** Set custom keyed values on a change */
+  void setCustomKeyedValues(CustomKeyedValuesInput input) throws RestApiException;
+
+  /**
+   * Gets the custom keyed values on a change.
+   *
+   * @return customKeyedValues
+   */
+  ImmutableMap<String, String> getCustomKeyedValues() throws RestApiException;
 
   /**
    * Manage the attention set.
@@ -716,6 +727,16 @@ public interface ChangeApi {
 
     @Override
     public Set<String> getHashtags() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setCustomKeyedValues(CustomKeyedValuesInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ImmutableMap<String, String> getCustomKeyedValues() throws RestApiException {
       throw new NotImplementedException();
     }
 

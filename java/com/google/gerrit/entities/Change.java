@@ -17,6 +17,7 @@ package com.google.gerrit.entities;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -492,6 +493,9 @@ public final class Change {
   /** References the source change and patchset that this change was cherry-picked from. */
   @Nullable private PatchSet.Id cherryPickOf;
 
+  /** Custom keyed values that were provided during change creation. */
+  @Nullable private ImmutableMap<String, String> customKeyedValues;
+
   Change() {}
 
   public Change(
@@ -523,6 +527,7 @@ public final class Change {
     reviewStarted = other.reviewStarted;
     revertOf = other.revertOf;
     cherryPickOf = other.cherryPickOf;
+    customKeyedValues = other.customKeyedValues;
   }
 
   /** 32 bit integer identity for a change. */
@@ -711,6 +716,14 @@ public final class Change {
 
   public void setCherryPickOf(@Nullable PatchSet.Id cherryPickOf) {
     this.cherryPickOf = cherryPickOf;
+  }
+
+  public void setCustomKeyedValues(ImmutableMap<String, String> customKeyedValues) {
+    this.customKeyedValues = customKeyedValues;
+  }
+
+  public ImmutableMap<String, String> getCustomKeyedValues() {
+    return customKeyedValues;
   }
 
   @Override

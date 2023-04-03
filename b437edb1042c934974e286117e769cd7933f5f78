@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes footer",
       "revId": "b437edb1042c934974e286117e769cd7933f5f78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e61c8fc_ec964b43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-04-03T19:02:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ffaff5_83123223",
+      "revId": "b437edb1042c934974e286117e769cd7933f5f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

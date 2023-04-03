@@ -140,6 +140,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         ChangeNotes notes, CurrentUser user, Instant when, Comparator<String> labelNameComparator);
   }
 
+  public static final int MAX_CUSTOM_KEY_LENGTH = 100;
+  public static final int MAX_CUSTOM_KEYED_VALUE_LENGTH = 1000;
+  public static final int MAX_CUSTOM_KEYED_VALUES = 100;
+
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
@@ -465,11 +469,20 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
-  public void addCustomKeyedValue(String key, String value) {
+  public void addCustomKeyedValue(String key, String value) throws ValidationException {
+    if (key.length() > MAX_CUSTOM_KEY_LENGTH) {
+      throw new ValidationException("Custom Key is too long.");
+    }
+    if (value.length() > MAX_CUSTOM_KEYED_VALUE_LENGTH) {
+      throw new ValidationException("Custom Keyed value is too long.");
+    }
     this.customKeyedValues.put(key, value);
   }
 
-  public void deleteCustomKeyedValue(String key) {
+  public void deleteCustomKeyedValue(String key) throws ValidationException {
+    if (key.length() > MAX_CUSTOM_KEY_LENGTH) {
+      throw new ValidationException("Custom Key is too long.");
+    }
     this.customKeyedValues.put(key, "");
   }
 

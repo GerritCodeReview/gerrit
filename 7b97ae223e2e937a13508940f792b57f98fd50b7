@@ -16,6 +16,23 @@
       "message": "I hope this change make search easier",
       "revId": "7b97ae223e2e937a13508940f792b57f98fd50b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9695cc_fd3da5fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-03T21:33:10Z",
+      "side": 1,
+      "message": "Move to stable-3.8?",
+      "revId": "7b97ae223e2e937a13508940f792b57f98fd50b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

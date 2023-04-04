@@ -95,7 +95,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -1002,6 +1001,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
           + "@@ -0,0 +1,2 @@\n"
           + "+First added line\n"
           + "+Second added line\n";
+  private static final String MODIFICATION_PATCH_INPUT =
+      "diff --git a/a_file.txt b/a_file.txt\n"
+          + "new file mode 100644\n"
+          + "--- a/a_file.txt\n"
+          + "+++ b/a_file.txt.txt\n"
+          + "@@ -1,2 +1 @@\n"
+          + "-First original line\n"
+          + "-Second original line\n"
+          + "+Modified line\n";
 
   @Test
   public void createPatchApplyingChange_success() throws Exception {
@@ -1097,8 +1105,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     final String invalidPatch = "@@ -2,2 +2,3 @@ a\n" + " b\n" + "+c\n" + " d";
     createBranch(BranchNameKey.create(project, "other"));
     ChangeInput input = newPatchApplyingChangeInput("other", invalidPatch);
-    assertCreateFailsWithCause(
-        input, BadRequestException.class, PatchFormatException.class, "Format error");
+    assertCreateFails(input, BadRequestException.class, "Invalid patch format");
   }
 
   @Test
@@ -1117,6 +1124,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(author).name().isEqualTo(input.author.name);
     GitPerson committer = rApi.commit(false).committer;
     assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
+  }
+
+  @Test
+  public void createPatchApplyingChange_withConflicts_appendErrorsToCommitMessage()
+      throws Exception {
+    createBranch(BranchNameKey.create(project, "other"));
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Adding unexpected base content, which will cause errors",
+            PATCH_FILE_NAME,
+            "unexpected base content");
+    Result conflictingChange = push.to("refs/heads/other");
+    conflictingChange.assertOkStatus();
+    ChangeInput input = newPatchApplyingChangeInput("other", MODIFICATION_PATCH_INPUT);
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    assertThat(info.revisions.get(info.currentRevision).commit.message).contains("errors occurred");
   }
 
   @Test
@@ -1347,17 +1374,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
       throws Exception {
     Throwable thrown = assertThrows(errType, () -> gApi.changes().create(in));
     assertThat(thrown).hasMessageThat().contains(errSubstring);
-  }
-
-  private void assertCreateFailsWithCause(
-      ChangeInput in,
-      Class<? extends RestApiException> errType,
-      Class<? extends Exception> causeType,
-      String causeSubstring)
-      throws Exception {
-    Throwable thrown = assertThrows(errType, () -> gApi.changes().create(in));
-    assertThat(thrown).hasCauseThat().isInstanceOf(causeType);
-    assertThat(thrown).hasCauseThat().hasMessageThat().contains(causeSubstring);
   }
 
   // TODO(davido): Expose setting of account preferences in the API

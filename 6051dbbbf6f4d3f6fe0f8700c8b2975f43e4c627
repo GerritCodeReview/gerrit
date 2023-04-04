@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce14dd41_a643bd5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-04T19:59:14Z",
+      "side": 1,
+      "message": "\u003e ```\n\u003e Since the ChangeInfo gets populated on multi change queries (I think?), and this info is not in the index, we probably want a switch to request this so that it is not turned on by default. Without a switch it would slow down queries which should only use fast data from the index.\n\u003e ```\n\u003e Which I have addressed by adding a request-flag\n\nI do not see this flag documented in the user docs.",
+      "parentUuid": "6348604f_188f1462",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b5a6bcb_50f3cc1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 22

@@ -46,6 +46,29 @@
       },
       "revId": "a30b5b4759c2b02127187ff49c8121a0faed9a8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cdf8f9d_8e81ee16",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1087240
+      },
+      "writtenOn": "2023-04-04T15:03:24Z",
+      "side": 0,
+      "message": "Another test, please ignore.",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "a30b5b4759c2b02127187ff49c8121a0faed9a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

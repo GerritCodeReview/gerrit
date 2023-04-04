@@ -124,6 +124,24 @@
       "parentUuid": "77e8f484_6252c339",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3363d30_c6eae59c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-04T08:25:21Z",
+      "side": 1,
+      "message": "Thanks for the explanation.",
+      "parentUuid": "d5cd87d5_32b086de",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

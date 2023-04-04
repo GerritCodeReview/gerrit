@@ -33,6 +33,7 @@ public class PrologModule extends FactoryModule {
   protected void configure() {
     install(new EnvironmentModule());
     install(new RulesCacheModule(config));
+    bind(RulesCache.class);
     bind(PrologEnvironment.Args.class);
     factory(PrologRuleEvaluator.Factory.class);
 

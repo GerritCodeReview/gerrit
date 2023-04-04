@@ -493,7 +493,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (!projectState.statePermitsRead()) {
       return false;
     }
-    if (emailOnlyAuthors && !authors.contains(to)) {
+    if (emailOnlyAuthors && !getAuthors().contains(to)) {
       return false;
     }
     if (!watchers.contains(to)) {

@@ -136,6 +136,13 @@ export class GrDashboardView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getUserModel().preferences$,
+      prefs => {
+        this.preferences = prefs ?? {};
+      }
+    );
+    subscribe(
+      this,
       () => this.getViewModel().state$,
       x => {
         this.viewState = x;
@@ -160,7 +167,6 @@ export class GrDashboardView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.loadPreferences();
     document.addEventListener(
       'visibilitychange',
       this.visibilityChangeListener
@@ -329,18 +335,6 @@ export class GrDashboardView extends LitElement {
         }}
       ></gr-create-change-help>
     `;
-  }
-
-  private loadPreferences() {
-    return this.restApiService.getLoggedIn().then(loggedIn => {
-      if (loggedIn) {
-        this.restApiService.getPreferences().then(preferences => {
-          this.preferences = preferences;
-        });
-      } else {
-        this.preferences = {};
-      }
-    });
   }
 
   // private but used in test

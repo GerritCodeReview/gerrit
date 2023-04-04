@@ -178,7 +178,7 @@ copying to the test site:
 NOTE: To learn why using `java -jar` isn't sufficient, see
 <<special_bazel_java_version,this explanation>>.
 
-NOTE: When launching the daemong this way, the settings from the `[container]` section from the
+NOTE: When launching the daemon this way, the settings from the `[container]` section from the
 `$GERRIT_SITE/etc/gerrit.config` are not honored.
 
 To debug the Gerrit server of this test site:

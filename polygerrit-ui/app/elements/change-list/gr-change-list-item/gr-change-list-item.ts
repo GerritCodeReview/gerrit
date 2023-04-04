@@ -44,6 +44,7 @@ import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {configModelToken} from '../../../models/config/config-model';
 
 enum ChangeSize {
   XS = 10,
@@ -87,9 +88,6 @@ export class GrChangeListItem extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  @property({type: Object})
-  config?: ServerInfo;
-
   /** Name of the section in the change-list. Used for reporting. */
   @property({type: String})
   sectionName?: string;
@@ -113,6 +111,9 @@ export class GrChangeListItem extends LitElement {
   // private but used in tests
   @property({type: Boolean, reflect: true}) checked = false;
 
+  @state()
+  config?: ServerInfo;
+
   @state() private dynamicCellEndpoints?: string[];
 
   private readonly reporting = getAppContext().reportingService;
@@ -120,6 +121,8 @@ export class GrChangeListItem extends LitElement {
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -140,6 +143,13 @@ export class GrChangeListItem extends LitElement {
       this,
       () => this.getUserModel().loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.config = config;
+      }
     );
   }
 

@@ -98,7 +98,7 @@ port, bypassing the HTTP server used by browsers.
 User authentication is handled by identity realms. Gerrit supports the
 following types of authentication:
 
-* OpenId (see link:http://openid.net/developers/specs/[OpenID Specifications,role=external,window=_blank])
+* OpenID (see link:http://openid.net/developers/specs/[OpenID Specifications,role=external,window=_blank])
 * OAuth2
 * LDAP
 * Google accounts (on googlesource.com)
@@ -373,7 +373,7 @@ Gerrit supports the Git wire protocol, and an API (one API for HTTP,
 and one for SSH).
 
 The git wire protocol does a client/server negotiation to avoid
-sending too much data. This negotation occupies a CPU, so the number
+sending too much data. This negotiation occupies a CPU, so the number
 of concurrent push/fetch operations should be capped by the number of
 CPUs.
 

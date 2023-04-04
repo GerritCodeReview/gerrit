@@ -31,13 +31,13 @@ indicates that the Bazel plugin couldn't find Java 11.
 === Installation of IntelliJ IDEA
 
 Please refer to the
-link:https://www.jetbrains.com/help/idea/installation-guide.html[installation guide provided by Jetbrains,role=external,window=_blank]
+link:https://www.jetbrains.com/help/idea/installation-guide.html[installation guide provided by JetBrains,role=external,window=_blank]
 to install it on your platform. Make sure to install a version compatible with
 the Bazel plugin as mentioned above.
 
 == Installation of the Bazel plugin
 
-The plugin is usually installed using the Jetbrains plugin repository as shown
+The plugin is usually installed using the JetBrains plugin repository as shown
 in the steps below, but it's also possible to
 link:https://github.com/bazelbuild/intellij[build it from source].
 

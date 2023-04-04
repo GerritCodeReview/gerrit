@@ -264,7 +264,6 @@ export class GrChangeList extends LitElement {
         .labelNames=${labelNames}
         .dynamicHeaderEndpoints=${this.dynamicHeaderEndpoints}
         .isCursorMoving=${this.isCursorMoving}
-        .config=${this.config}
         .account=${this.account}
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,

@@ -9,7 +9,7 @@ import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
 import {CLOSED, YOUR_TURN} from '../../../utils/dashboard-util';
 import {getAppContext} from '../../../services/app-context';
-import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
+import {ChangeInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -66,9 +66,6 @@ export class GrChangeListSection extends LitElement {
 
   @property({type: Object})
   changeSection!: ChangeListSection;
-
-  @property({type: Object})
-  config?: ServerInfo;
 
   @property({type: Boolean})
   isCursorMoving = false;
@@ -325,7 +322,6 @@ export class GrChangeListSection extends LitElement {
         .account=${this.account}
         .selected=${selected}
         .change=${change}
-        .config=${this.config}
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}

@@ -982,6 +982,27 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void robotRepliesDoNotAddToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addReviewer(user.email());
+
+    TestAccount robot =
+        accountCreator.create(
+            "robot1",
+            "robot1@example.com",
+            "Ro Bot",
+            "Ro",
+            ServiceUserClassifier.SERVICE_USERS,
+            "Administrators");
+    requestScopeOperations.setApiUser(robot.id());
+
+    ReviewInput reviewInput = new ReviewInput();
+    change(r).current().review(reviewInput);
+
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
+  }
+
+  @Test
   public void repliesDoNotAddOwnerWhenChangeIsClosed() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).abandon();

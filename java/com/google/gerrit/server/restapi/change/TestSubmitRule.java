@@ -32,7 +32,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
-import com.google.gerrit.server.rules.prolog.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -40,7 +39,6 @@ import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final ChangeData.Factory changeDataFactory;
-  private final RulesCache rules;
   private final AccountLoader.Factory accountInfoFactory;
   private final ProjectCache projectCache;
   private final PrologSubmitRuleUtil prologSubmitRuleUtil;
@@ -51,12 +49,10 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   @Inject
   TestSubmitRule(
       ChangeData.Factory changeDataFactory,
-      RulesCache rules,
       AccountLoader.Factory infoFactory,
       ProjectCache projectCache,
       PrologSubmitRuleUtil prologSubmitRuleUtil) {
     this.changeDataFactory = changeDataFactory;
-    this.rules = rules;
     this.accountInfoFactory = infoFactory;
     this.projectCache = projectCache;
     this.prologSubmitRuleUtil = prologSubmitRuleUtil;
@@ -71,7 +67,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     if (input.rule == null) {
       throw new BadRequestException("rule is required");
     }
-    if (!rules.isProjectRulesEnabled()) {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);

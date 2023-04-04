@@ -391,6 +391,46 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneWithoutManualRebase() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
+
+    // for rebase if necessary, otherwise, the manual rebase of change2 will
+    // fail since change1 would be merged as fast forward
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change = createChange();
+    submit(change.getChangeId());
+
+    submit(change1.getChangeId());
+    submit(change2.getChangeId());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneRemovingChangeFromChain() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
+    PushOneCommit.Result change3 = createChange("subject 3", "fileName 3", "content 3");
+
+    // for rebase if necessary, otherwise, the manual rebase of change2 will
+    // fail since change1 would be merged as fast forward
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change = createChange();
+    submit(change.getChangeId());
+
+    testRepo.reset(initialHead);
+    testRepo.cherryPick(change2.getCommit());
+    pushHead(testRepo, "refs/for/master");
+    submit(change2.getChangeId());
+
+    approve(change1.getChangeId());
+    submit(change3.getChangeId());
+  }
+
+  @Test
   public void dependencyOnOutdatedPatchSetPreventsRebase() throws Throwable {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");

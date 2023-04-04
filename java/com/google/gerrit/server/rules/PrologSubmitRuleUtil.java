@@ -22,4 +22,6 @@ public interface PrologSubmitRuleUtil {
   SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters);
 
   SubmitRecord evaluateDryRun(ChangeData cd, String ruleToTest, boolean skipFilters);
+
+  boolean isProjectRulesEnabled();
 }

@@ -25,9 +25,12 @@ import javax.inject.Inject;
 public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   private final PrologRule prologRule;
 
+  private final RulesCache rulesCache;
+
   @Inject
-  public PrologSubmitRuleUtilImpl(PrologRule prologRule) {
+  public PrologSubmitRuleUtilImpl(PrologRule prologRule, RulesCache rulesCache) {
     this.prologRule = prologRule;
+    this.rulesCache = rulesCache;
   }
 
   public SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters) {
@@ -36,6 +39,10 @@ public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
 
   public SubmitRecord evaluateDryRun(ChangeData cd, String ruleToTest, boolean skipFilters) {
     return evaluate(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
+  }
+
+  public boolean isProjectRulesEnabled() {
+    return rulesCache.isProjectRulesEnabled();
   }
 
   private SubmitRecord evaluate(ChangeData cd, PrologOptions opts) {

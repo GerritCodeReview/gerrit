@@ -40,7 +40,7 @@ public class RebaseSorter {
   private final CurrentUser caller;
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
-  private final RevCommit initialTip;
+  private final Set<RevCommit> uninterestingBranchTips;
   private final Set<RevCommit> alreadyAccepted;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Set<CodeReviewCommit> incoming;
@@ -48,7 +48,7 @@ public class RebaseSorter {
   public RebaseSorter(
       CurrentUser caller,
       CodeReviewRevWalk rw,
-      RevCommit initialTip,
+      Set<RevCommit> uninterestingBranchTips,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
       Provider<InternalChangeQuery> queryProvider,
@@ -56,7 +56,7 @@ public class RebaseSorter {
     this.caller = caller;
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
-    this.initialTip = initialTip;
+    this.uninterestingBranchTips = uninterestingBranchTips;
     this.alreadyAccepted = alreadyAccepted;
     this.queryProvider = queryProvider;
     this.incoming = incoming;
@@ -70,15 +70,16 @@ public class RebaseSorter {
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
-      if (initialTip != null) {
-        rw.markUninteresting(initialTip);
+      for (RevCommit uninterestingBranchTip : uninterestingBranchTips) {
+        rw.markUninteresting(uninterestingBranchTip);
       }
 
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
-          if (isAlreadyMerged(c, n.change().getDest())) {
+          if (isMergedInBranchAsSubmittedChange(c, n.change().getDest())
+              || isAlreadyMergedInAnyBranch(c)) {
             rw.markUninteresting(c);
           } else {
             // We cannot merge n as it would bring something we
@@ -108,7 +109,7 @@ public class RebaseSorter {
     return sorted;
   }
 
-  private boolean isAlreadyMerged(CodeReviewCommit commit, BranchNameKey dest) throws IOException {
+  private boolean isAlreadyMergedInAnyBranch(CodeReviewCommit commit) throws IOException {
     try (CodeReviewRevWalk mirw = CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
       mirw.reset();
       mirw.markStart(commit);
@@ -120,20 +121,22 @@ public class RebaseSorter {
           return true;
         }
       }
-
-      // check if the commit associated change is merged in the same branch
-      List<ChangeData> changes = queryProvider.get().byCommit(commit);
-      for (ChangeData change : changes) {
-        if (change.change().isMerged() && change.change().getDest().equals(dest)) {
-          logger.atFine().log(
-              "Dependency %s associated with merged change %s.", commit.getName(), change.getId());
-          return true;
-        }
-      }
       return false;
     } catch (StorageException e) {
       throw new IOException(e);
     }
+  }
+
+  private boolean isMergedInBranchAsSubmittedChange(CodeReviewCommit commit, BranchNameKey dest) {
+    List<ChangeData> changes = queryProvider.get().byBranchCommit(dest, commit.getId().getName());
+    for (ChangeData change : changes) {
+      if (change.change().isMerged()) {
+        logger.atFine().log(
+            "Dependency %s associated with merged change %s.", commit.getName(), change.getId());
+        return true;
+      }
+    }
+    return false;
   }
 
   private static <T> T removeOne(Collection<T> c) {

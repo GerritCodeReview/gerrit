@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.project;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.project.ProjectQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndexCollection;
@@ -82,8 +83,8 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   @Override
   protected Predicate<ProjectData> enforceVisibility(Predicate<ProjectData> pred) {
     return new AndSource<>(
-        pred,
-        new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()),
+        ImmutableList.of(
+            pred, new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get())),
         start,
         indexConfig);
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.rules.prolog;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.rules.prolog.RulesCache.RulesCacheModule;
 import org.eclipse.jgit.lib.Config;
@@ -35,6 +36,7 @@ public class PrologModule extends FactoryModule {
     bind(PrologEnvironment.Args.class);
     factory(PrologRuleEvaluator.Factory.class);
 
+    bind(PrologSubmitRuleUtil.class).to(PrologSubmitRuleUtilImpl.class);
     bind(SubmitRule.class).annotatedWith(Exports.named("PrologRule")).to(PrologRule.class);
   }
 

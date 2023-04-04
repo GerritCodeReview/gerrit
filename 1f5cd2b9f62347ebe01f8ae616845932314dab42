@@ -106,6 +106,24 @@
       "parentUuid": "b5a5fae1_b363f115",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5cd87d5_32b086de",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-04T07:17:46Z",
+      "side": 1,
+      "message": "Lets look at the test `submitMergeOfNonChangeBranchTip()`:\n\nDebugging with this change:\n\n```\n    // M  -- mergeCommit (pushed for review and submitted)\n    // | \\\n    // |  S -- stable (pushed directly to refs/heads/stable)\n    // | /\n    // I   -- master\n    \n    alreadyAccepted: [S(stable), I(master)]\n    uninterestingBranchTips: [S(stable), I(master)]\n    incoming: [M(mergeChange)]\n    toSort: [M(mergeChange)]\n    \u003d\u003e I and S will be marked as uninteresting \u003d\u003e RevWalk rw will only reach M.\n    sort[0] (n): M(mergeChange)\n    c[0]: M(mergeChange) (c.has(canMergeFlag): true; incoming.contains(c): true)\n    \u003d\u003e isAlreadyMergedInAnyBranch(c) is not reached\n    \n    Done.\n```\n\nThis works, because stable is a branch tip, which is marked uninteresting and thus the sort only cares about the merge commit. At a later point (RebaseSubmitStrategy L113) it detects. a merge and switches to MergeIfNecessaryOp.\n\nAs a comparison the same before this change:\n\n```\n    // M  -- mergeCommit (pushed for review and submitted)\n    // | \\\n    // |  S -- stable (pushed directly to refs/heads/stable)\n    // | /\n    // I   -- master\n    \n    alreadyAccepted: [S(stable), I(master)]\n    initialTip: I(master)\n    incoming: [M(mergeChange)]\n    toSort: [M(mergeChange)]\n    \u003d\u003e I will be marked as uninteresting \u003d\u003e RevWalk rw will reach M and S.\n    sort[0] (n): M(mergeChange)\n    c[0]: M(mergeChange) (c.has(canMergeFlag): true; incoming.contains(c): true)\n    \u003d\u003e isAlreadyMergedInAnyBranch(c) is not reached\n    c[1]: S(stable) (c.has(canMergeFlag): false; incoming.contains(c): false)\n    \u003d\u003e isAlreadyMergedInAnyBranch(c) is reached\n    \u003d\u003e S(stable) is marked as uninteresting\n    \n    Done.\n```\n\nThus, this case is handled by marking S as uninteresting from the start.\n\nThe test case `submitChangeWhenParentOfOtherBranchTip` is different. With this change:\n\n```\n    // Chain of two commits\n    // Push both to topic-branch\n    // Push the first commit for review and submit\n    //\n    // C2 -- tip of topic branch\n    //  |\n    // C1 -- pushed for review\n    //  |\n    // C0 -- Master\n    //\n    enableCreateNewChangeForAllNotInTarget();\n    \n    alreadyAccepted: [C0(master), C2(topic)]\n    uninterestingBranchTips: [C0(master)]\n    incoming: [Change1 (C1 as change)]\n    toSort: [Change1 (C1 as change)]\n    \u003d\u003e C0(master) will be marked as uninteresting \u003d\u003e RevWalk rw will reach C1.\n    sort[0] (n): Change1 (C1 as change)\n    c[0]: Change1 (C1 as change) (c.has(canMergeFlag): true; incoming.contains(c): true)\n    \u003d\u003e isAlreadyMergedInAnyBranch(c) is not reached\n    \n    Done.\n```\n\nThis is exactly equal to what happens without this change.\nIf we disable `enableCreateNewChangeForAllNotInTarget`, this test fails already while validating the change.\n\nIf I let `uninterestingBranchTips\u003d\u003dalreadyAccepted` (the state before your fix in 2016), the test fails:\n\n```\n    // Chain of two commits\n    // Push both to topic-branch\n    // Push the first commit for review and submit\n    //\n    // C2 -- tip of topic branch\n    //  |\n    // C1 -- pushed for review\n    //  |\n    // C0 -- Master\n    //\n    enableCreateNewChangeForAllNotInTarget();\n    \n    alreadyAccepted: [C0(master), C2(topic)]\n    uninterestingBranchTips: [C0(master), C2(topic)]\n    incoming: [Change1 (C1 as change)]\n    toSort: [Change1 (C1 as change)]\n    \u003d\u003e C0(master) and , C2(topic) will be marked as uninteresting \u003d\u003e RevWalk rw will reach no commit\n    \u003d\u003e the sorter returns an empty list\n    \u003d\u003e NullPointerException: change 1: change not processed by merge strategy\n    \n    Done.\n```\n\nI hope that helps wrapping your head round it a bit. I also have to do the debugging and write it down. Otherwise, I only get confused.",
+      "parentUuid": "77e8f484_6252c339",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,7 +34,11 @@ import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
+<<<<<<< HEAD
 import com.google.gerrit.server.rules.PrologRule;
+=======
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
+>>>>>>> 946e562057 (PrologRule: make class package private)
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -49,7 +53,7 @@ public class SubmitRuleEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ProjectCache projectCache;
-  private final PrologRule prologRule;
+  private final PrologSubmitRuleUtil prologSubmitRuleUtil;
   private final PluginSetContext<SubmitRule> submitRules;
   private final Timer0 submitRuleEvaluationLatency;
   private final Timer0 submitTypeEvaluationLatency;
@@ -64,12 +68,12 @@ public class SubmitRuleEvaluator {
   @Inject
   private SubmitRuleEvaluator(
       ProjectCache projectCache,
-      PrologRule prologRule,
+      PrologSubmitRuleUtil prologSubmitRuleUtil,
       PluginSetContext<SubmitRule> submitRules,
       MetricMaker metricMaker,
       @Assisted SubmitRuleOptions options) {
     this.projectCache = projectCache;
-    this.prologRule = prologRule;
+    this.prologSubmitRuleUtil = prologSubmitRuleUtil;
     this.submitRules = submitRules;
     this.submitRuleEvaluationLatency =
         metricMaker.newTimer(
@@ -184,7 +188,7 @@ public class SubmitRuleEvaluator {
         throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
       }
 
-      return prologRule.getSubmitType(cd);
+      return prologSubmitRuleUtil.getSubmitType(cd);
     }
   }
 }

@@ -17,11 +17,12 @@ package com.google.gerrit.server.rules.prolog;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Singleton;
 import javax.inject.Inject;
 
 @Singleton
-public class PrologSubmitRuleUtilImpl {
+public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   private final PrologRule prologRule;
 
   @Inject
@@ -29,15 +30,15 @@ public class PrologSubmitRuleUtilImpl {
     this.prologRule = prologRule;
   }
 
-  public SubmitTypeRecord getSubmitType(ChangeData cd, PrologOptions opts) {
-    return prologRule.getSubmitType(cd, opts);
+  public SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters) {
+    return prologRule.getSubmitType(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
   }
 
-  public SubmitTypeRecord getSubmitType(ChangeData cd) {
-    return prologRule.getSubmitType(cd);
+  public SubmitRecord evaluateDryRun(ChangeData cd, String ruleToTest, boolean skipFilters) {
+    return evaluate(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
   }
 
-  public SubmitRecord evaluate(ChangeData cd, PrologOptions opts) {
+  private SubmitRecord evaluate(ChangeData cd, PrologOptions opts) {
     return prologRule.evaluate(cd, opts);
   }
 }

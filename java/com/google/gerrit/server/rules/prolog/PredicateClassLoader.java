@@ -20,13 +20,12 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.util.Collection;
 
 /** Loads the classes for Prolog predicates. */
-public class PredicateClassLoader extends ClassLoader {
+class PredicateClassLoader extends ClassLoader {
 
   private final SetMultimap<String, ClassLoader> packageClassLoaderMap =
       LinkedHashMultimap.create();
 
-  public PredicateClassLoader(
-      PluginSetContext<PredicateProvider> predicateProviders, ClassLoader parent) {
+  PredicateClassLoader(PluginSetContext<PredicateProvider> predicateProviders, ClassLoader parent) {
     super(parent);
 
     predicateProviders.runEach(

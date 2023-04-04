@@ -17,12 +17,9 @@ package com.google.gerrit.server.rules;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.prolog.PrologOptions;
 
 public interface PrologSubmitRuleUtil {
-  SubmitTypeRecord getSubmitType(ChangeData cd, PrologOptions opts);
+  SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters);
 
-  SubmitTypeRecord getSubmitType(ChangeData cd);
-
-  SubmitRecord evaluate(ChangeData cd, PrologOptions opts);
+  SubmitRecord evaluateDryRun(ChangeData cd, String ruleToTest, boolean skipFilters);
 }

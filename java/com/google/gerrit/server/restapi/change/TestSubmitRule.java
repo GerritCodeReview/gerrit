@@ -32,7 +32,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
-import com.google.gerrit.server.rules.prolog.PrologOptions;
 import com.google.gerrit.server.rules.prolog.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
@@ -84,8 +83,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitRecord record =
-        prologSubmitRuleUtil.evaluate(
-            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
+        prologSubmitRuleUtil.evaluateDryRun(cd, input.rule, input.filters == Filters.SKIP);
 
     AccountLoader accounts = accountInfoFactory.create(true);
     TestSubmitRuleInfo out = newSubmitRuleInfo(record, accounts);

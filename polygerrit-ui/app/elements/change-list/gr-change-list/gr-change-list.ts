@@ -37,6 +37,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
+import {configModelToken} from '../../../models/config/config-model';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -125,11 +126,11 @@ export class GrChangeList extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  private readonly restApiService = getAppContext().restApiService;
-
   private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = new ShortcutController(this);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -167,13 +168,17 @@ export class GrChangeList extends LitElement {
       () => this.getUserModel().preferences$,
       x => (this.preferences = x)
     );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.config = config;
+      }
+    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.restApiService.getConfig().then(config => {
-      this.config = config;
-    });
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {

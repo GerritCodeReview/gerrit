@@ -649,9 +649,6 @@ public abstract class OutgoingEmail {
     return Address.create(account.fullName(), e);
   }
 
-  // TODO: Remove after the plugin usage is renamed to populateEmailContent.
-  protected void setupSoyContext() {};
-
   protected void populateEmailContent() throws EmailException {
     for (RecipientType recipientType : notify.accounts().keySet()) {
       notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
@@ -664,8 +661,6 @@ public abstract class OutgoingEmail {
     soyContextEmailData.put("gerritHost", getGerritHost());
     soyContextEmailData.put("gerritUrl", getGerritUrl());
     soyContext.put("email", soyContextEmailData);
-
-    setupSoyContext();
   }
 
   /** Mutable map of parameters passed into email templates when rendering. */

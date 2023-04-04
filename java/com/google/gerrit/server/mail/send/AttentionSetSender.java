@@ -40,8 +40,8 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContext.put("attentionSetUser", getNameFor(attentionSetUser));
-    soyContext.put("reason", reason);
+    addSoyParam("attentionSetUser", getNameFor(attentionSetUser));
+    addSoyParam("reason", reason);
 
     ccAllApprovals();
     bccStarredBy();

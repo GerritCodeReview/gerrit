@@ -80,7 +80,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
+    addSoyEmailDataParam("reviewerNames", getReviewerNames());
 
     ccAllApprovals();
     bccStarredBy();

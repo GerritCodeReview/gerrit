@@ -37,25 +37,22 @@ class BranchEmailUtils {
 
   /** Add branch information to soy template params. */
   static void addBranchData(OutgoingEmail email, EmailArguments args, BranchNameKey branch) {
-    Map<String, Object> soyContext = email.getSoyContext();
-    Map<String, Object> soyContextEmailData = email.getSoyContextEmailData();
-
     String projectName = branch.project().get();
-    soyContext.put("projectName", projectName);
+    email.addSoyParam("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
-    soyContext.put("shortProjectName", getShortProjectName(projectName));
+    email.addSoyParam("shortProjectName", getShortProjectName(projectName));
 
     // instanceAndProjectName is the instance's name followed by the abbreviated project path
-    soyContext.put(
+    email.addSoyParam(
         "instanceAndProjectName",
         getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
-    soyContext.put("addInstanceNameInSubject", args.addInstanceNameInSubject);
+    email.addSoyParam("addInstanceNameInSubject", args.addInstanceNameInSubject);
 
-    soyContextEmailData.put("sshHost", getSshHost(email.getGerritHost(), args.sshAddresses));
+    email.addSoyEmailDataParam("sshHost", getSshHost(email.getGerritHost(), args.sshAddresses));
 
     Map<String, String> branchData = new HashMap<>();
     branchData.put("shortName", branch.shortName());
-    soyContext.put("branch", branchData);
+    email.addSoyParam("branch", branchData);
 
     email.addFooter(MailHeader.PROJECT.withDelimiter() + branch.project().get());
     email.addFooter(MailHeader.BRANCH.withDelimiter() + branch.shortName());

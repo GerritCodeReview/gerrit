@@ -117,6 +117,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
+    Account.Id fromId = getFrom();
     if (fromId != null) {
       // Don't call yourself a reviewer of your own patch set.
       //
@@ -136,7 +137,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   public ImmutableList<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      if (id.equals(fromId)) {
+      if (id.equals(getFrom())) {
         continue;
       }
       names.add(getNameFor(id));
@@ -162,15 +163,15 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
-    soyContextEmailData.put("outdatedApprovals", formatOutdatedApprovals());
+    addSoyEmailDataParam("reviewerNames", getReviewerNames());
+    addSoyEmailDataParam("outdatedApprovals", formatOutdatedApprovals());
 
     if (isChangeNoLongerSubmittable()) {
-      soyContext.put("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
-      soyContext.put(
+      addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      addSoyParam(
           "oldSubmitRequirements",
           formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
-      soyContext.put(
+      addSoyParam(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
 

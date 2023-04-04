@@ -72,8 +72,8 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("emailRegistrationToken", getEmailRegistrationToken());
-    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+    addSoyEmailDataParam("emailRegistrationToken", getEmailRegistrationToken());
+    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }
 
   private String getEmailRegistrationToken() {

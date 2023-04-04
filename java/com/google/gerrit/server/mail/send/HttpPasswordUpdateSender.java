@@ -70,9 +70,9 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
-    soyContextEmailData.put("operation", operation);
+    addSoyEmailDataParam("email", getEmail());
+    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+    addSoyEmailDataParam("operation", operation);
   }
 
   private String getEmail() {

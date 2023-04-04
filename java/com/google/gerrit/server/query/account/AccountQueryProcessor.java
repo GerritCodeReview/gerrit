@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -78,7 +79,9 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   @Override
   protected Predicate<AccountState> enforceVisibility(Predicate<AccountState> pred) {
     return new AndSource<>(
-        pred, new AccountIsVisibleToPredicate(accountControlFactory.get()), start, indexConfig);
+        ImmutableList.of(pred, new AccountIsVisibleToPredicate(accountControlFactory.get())),
+        start,
+        indexConfig);
   }
 
   @Override

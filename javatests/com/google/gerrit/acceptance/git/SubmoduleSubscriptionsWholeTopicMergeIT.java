@@ -461,17 +461,19 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
     allowMatchingSubmoduleSubscription(subKey, "refs/heads/dev", superKey, "refs/heads/master");
 
-    ObjectId devHead = pushChangeTo(subRepo, "dev");
+    ObjectId revMasterBranch = pushChangeTo(subRepo, "master");
+    ObjectId revDevBranch = pushChangeTo(subRepo, "dev");
     Config config = new Config();
     prepareSubmoduleConfigEntry(config, subKey, nameKey("sub-master"), "master");
     prepareSubmoduleConfigEntry(config, subKey, nameKey("sub-dev"), "dev");
     pushSubmoduleConfig(superRepo, "master", config);
 
+    subRepo.reset(revMasterBranch);
     ObjectId subMasterId =
         pushChangeTo(
             subRepo, "refs/for/master", "some message", "b.txt", "content b", "same-topic");
 
-    subRepo.reset(devHead);
+    subRepo.reset(revDevBranch);
     ObjectId subDevId =
         pushChangeTo(
             subRepo, "refs/for/dev", "some message in dev", "b.txt", "content b", "same-topic");
@@ -673,14 +675,16 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     TestRepository<?> repoA = cloneProject(keyA);
     TestRepository<?> repoB = cloneProject(keyB);
-    // bootstrap the dev branch
-    ObjectId a0 = pushChangeTo(repoA, "dev");
 
-    // bootstrap the dev branch
-    ObjectId b0 = pushChangeTo(repoB, "dev");
+    // Create master- and dev branches in both repositories
+    ObjectId revMasterBranchA = pushChangeTo(repoA, "master");
+    ObjectId revMasterBranchB = pushChangeTo(repoB, "master");
+    ObjectId revDevBranchA = pushChangeTo(repoA, "dev");
+    ObjectId revDevBranchB = pushChangeTo(repoB, "dev");
 
     // create a change for master branch in repo a
-    ObjectId aHead =
+    repoA.reset(revMasterBranchA);
+    ObjectId revMasterChangeA =
         pushChangeTo(
             repoA,
             "refs/for/master",
@@ -690,7 +694,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "same-topic");
 
     // create a change for master branch in repo b
-    ObjectId bHead =
+    repoB.reset(revMasterBranchB);
+    ObjectId revMasterChangeB =
         pushChangeTo(
             repoB,
             "refs/for/master",
@@ -700,8 +705,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "same-topic");
 
     // create a change for dev branch in repo a
-    repoA.reset(a0);
-    ObjectId aDevHead =
+    repoA.reset(revDevBranchA);
+    ObjectId revDevChangeA =
         pushChangeTo(
             repoA,
             "refs/for/dev",
@@ -711,8 +716,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "same-topic");
 
     // create a change for dev branch in repo b
-    repoB.reset(b0);
-    ObjectId bDevHead =
+    repoB.reset(revDevBranchB);
+    ObjectId revDevChangeB =
         pushChangeTo(
             repoB,
             "refs/for/dev",
@@ -721,12 +726,12 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "some message in b dev.txt",
             "same-topic");
 
-    approve(getChangeId(repoA, aHead).get());
-    approve(getChangeId(repoB, bHead).get());
-    approve(getChangeId(repoA, aDevHead).get());
-    approve(getChangeId(repoB, bDevHead).get());
+    approve(getChangeId(repoA, revMasterChangeA).get());
+    approve(getChangeId(repoB, revMasterChangeB).get());
+    approve(getChangeId(repoA, revDevChangeA).get());
+    approve(getChangeId(repoB, revDevChangeB).get());
 
-    gApi.changes().id(getChangeId(repoA, aDevHead).get()).current().submit();
+    gApi.changes().id(getChangeId(repoA, revDevChangeA).get()).current().submit();
     assertThat(projectOperations.project(keyA).getHead("refs/heads/master").getShortMessage())
         .contains("some message in a master.txt");
     assertThat(projectOperations.project(keyA).getHead("refs/heads/dev").getShortMessage())
@@ -746,8 +751,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     // bootstrap the dev branch
     pushChangeTo(repoA, "dev");
 
-    // bootstrap the dev branch
-    ObjectId b0 = pushChangeTo(repoB, "dev");
+    // Create master- and dev branches in repo b
+    ObjectId revMasterBranch = pushChangeTo(repoB, "master");
+    ObjectId revDevBranch = pushChangeTo(repoB, "dev");
 
     allowMatchingSubmoduleSubscription(keyB, "refs/heads/master", keyA, "refs/heads/master");
     allowMatchingSubmoduleSubscription(keyB, "refs/heads/dev", keyA, "refs/heads/dev");
@@ -756,7 +762,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     createSubmoduleSubscription(repoA, "dev", keyB, "dev");
 
     // create a change for master branch in repo b
-    ObjectId bHead =
+    repoB.reset(revMasterBranch);
+    ObjectId revMasterChange =
         pushChangeTo(
             repoB,
             "refs/for/master",
@@ -766,8 +773,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "same-topic");
 
     // create a change for dev branch in repo b
-    repoB.reset(b0);
-    ObjectId bDevHead =
+    repoB.reset(revDevBranch);
+    ObjectId revDevChange =
         pushChangeTo(
             repoB,
             "refs/for/dev",
@@ -776,9 +783,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
             "some message in b dev.txt",
             "same-topic");
 
-    approve(getChangeId(repoB, bHead).get());
-    approve(getChangeId(repoB, bDevHead).get());
-    gApi.changes().id(getChangeId(repoB, bHead).get()).current().submit();
+    approve(getChangeId(repoB, revMasterChange).get());
+    approve(getChangeId(repoB, revDevChange).get());
+    gApi.changes().id(getChangeId(repoB, revMasterChange).get()).current().submit();
 
     expectToHaveSubmoduleState(repoA, "master", keyB, repoB, "master");
     expectToHaveSubmoduleState(repoA, "dev", keyB, repoB, "dev");

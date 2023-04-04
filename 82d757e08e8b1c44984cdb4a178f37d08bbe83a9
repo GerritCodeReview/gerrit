@@ -22,6 +22,30 @@
       },
       "revId": "82d757e08e8b1c44984cdb4a178f37d08bbe83a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be7a733e_3264a151",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-04T21:41:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06bcbe22_90ab2395",
+      "range": {
+        "startLine": 64,
+        "startChar": 18,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "82d757e08e8b1c44984cdb4a178f37d08bbe83a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

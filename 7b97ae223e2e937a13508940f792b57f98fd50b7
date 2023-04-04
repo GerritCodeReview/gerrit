@@ -69,6 +69,24 @@
       "parentUuid": "f2e5d9e2_71158fe0",
       "revId": "7b97ae223e2e937a13508940f792b57f98fd50b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2643d202_15cd5695",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-04-04T13:29:15Z",
+      "side": 1,
+      "message": "I hope this change will improve the experience with query search.\n\n\"Also need the Release-Notes: footer.\"\nDone.",
+      "parentUuid": "32ceb55f_affe6827",
+      "revId": "7b97ae223e2e937a13508940f792b57f98fd50b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

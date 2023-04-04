@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.server.rules.prolog.PrologEnvironment;
+import com.google.gerrit.server.rules.prolog.PrologModule;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;

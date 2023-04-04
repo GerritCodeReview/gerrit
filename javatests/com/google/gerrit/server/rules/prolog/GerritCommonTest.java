@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -22,6 +22,9 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.prolog.PrologEnvironment;
+import com.google.gerrit.server.rules.prolog.PrologTestCase;
+import com.google.gerrit.server.rules.prolog.StoredValues;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;

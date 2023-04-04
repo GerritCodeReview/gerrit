@@ -34,7 +34,7 @@ import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
-import com.google.gerrit.server.rules.PrologRule;
+import com.google.gerrit.server.rules.prolog.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

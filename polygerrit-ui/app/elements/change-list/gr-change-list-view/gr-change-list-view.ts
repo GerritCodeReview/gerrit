@@ -11,7 +11,6 @@ import {
   AccountId,
   ChangeInfo,
   EmailAddress,
-  PreferencesInput,
   RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
@@ -48,9 +47,6 @@ export class GrChangeListView extends LitElement {
 
   // private but used in test
   @state() loggedIn = false;
-
-  // private but used in test
-  @state() preferences?: PreferencesInput;
 
   // private but used in test
   @state() changesPerPage?: number;
@@ -133,11 +129,6 @@ export class GrChangeListView extends LitElement {
       () => this.getUserModel().preferenceChangesPerPage$,
       x => (this.changesPerPage = x)
     );
-    subscribe(
-      this,
-      () => this.getUserModel().preferences$,
-      x => (this.preferences = x)
-    );
   }
 
   static override get styles() {
@@ -194,7 +185,6 @@ export class GrChangeListView extends LitElement {
         <gr-change-list
           .account=${this.account}
           .changes=${this.changes}
-          .preferences=${this.preferences}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}

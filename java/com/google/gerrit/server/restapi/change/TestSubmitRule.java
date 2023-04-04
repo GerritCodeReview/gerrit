@@ -31,8 +31,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.prolog.PrologOptions;
-import com.google.gerrit.server.rules.prolog.PrologRule;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.gerrit.server.rules.prolog.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
@@ -44,7 +43,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   private final RulesCache rules;
   private final AccountLoader.Factory accountInfoFactory;
   private final ProjectCache projectCache;
-  private final PrologRule prologRule;
+  private final PrologSubmitRuleUtil prologSubmitRuleUtil;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -55,12 +54,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       RulesCache rules,
       AccountLoader.Factory infoFactory,
       ProjectCache projectCache,
-      PrologRule prologRule) {
+      PrologSubmitRuleUtil prologSubmitRuleUtil) {
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
     this.projectCache = projectCache;
-    this.prologRule = prologRule;
+    this.prologSubmitRuleUtil = prologSubmitRuleUtil;
   }
 
   @Override
@@ -84,8 +83,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitRecord record =
-        prologRule.evaluate(
-            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
+        prologSubmitRuleUtil.evaluateDryRun(cd, input.rule, input.filters == Filters.SKIP);
 
     AccountLoader accounts = accountInfoFactory.create(true);
     TestSubmitRuleInfo out = newSubmitRuleInfo(record, accounts);

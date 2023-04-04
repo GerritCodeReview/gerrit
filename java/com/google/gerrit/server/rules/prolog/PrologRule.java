@@ -27,7 +27,7 @@ import com.google.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
-public class PrologRule implements SubmitRule {
+class PrologRule implements SubmitRule {
   private final PrologRuleEvaluator.Factory factory;
   private final ProjectCache projectCache;
 

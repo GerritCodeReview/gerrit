@@ -70,6 +70,30 @@
       },
       "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ba5d37_975b33cd",
+        "filename": "java/com/google/gerrit/server/git/DynamicRefDbRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-04T19:47:24Z",
+      "side": 1,
+      "message": "I want to clarify that since this is now turned on by default, the functionality in this change will be tested in all of the existing Gerrit tests which use the LocalDiskRepositoryManager.",
+      "parentUuid": "feefe97c_df60ee2d",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

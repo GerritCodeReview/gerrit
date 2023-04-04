@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc5ab9a_a5f7f3c9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1087240
+      },
+      "writtenOn": "2023-04-04T15:01:20Z",
+      "side": 0,
+      "message": "Test commit, please ignore.",
+      "range": {
+        "startLine": 45,
+        "startChar": 30,
+        "endLine": 45,
+        "endChar": 48
+      },
+      "revId": "a30b5b4759c2b02127187ff49c8121a0faed9a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

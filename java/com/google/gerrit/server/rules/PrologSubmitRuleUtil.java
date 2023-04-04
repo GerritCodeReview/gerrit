@@ -35,4 +35,7 @@ public interface PrologSubmitRuleUtil {
 
   /** Evaluates a submit rule. */
   SubmitRecord evaluate(ChangeData cd, String ruleToTest, boolean skipFilters);
+
+  /** Returns true if prolog rules are enabled for the project. */
+  boolean isProjectRulesEnabled();
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b7769fc_cabe5c29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-04T09:07:49Z",
+      "side": 1,
+      "message": "You could use the first characters from the change ID in commit messages, like I7382430e8, which is automatically hyperlinked and is also shorter.",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 82
+      },
+      "revId": "53f82326f9889daeb3c2fef1763507a70b90f819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

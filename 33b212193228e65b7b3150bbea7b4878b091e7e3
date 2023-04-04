@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0744545_c4ae0e68",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-04T19:18:11Z",
+      "side": 1,
+      "message": "This goes in the core section, not the dashboard section.",
+      "range": {
+        "startLine": 2070,
+        "startChar": 0,
+        "endLine": 2078,
+        "endChar": 16
+      },
+      "revId": "33b212193228e65b7b3150bbea7b4878b091e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

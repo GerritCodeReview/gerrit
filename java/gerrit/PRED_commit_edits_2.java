@@ -21,7 +21,7 @@ import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.filediff.TaggedEdit;
-import com.google.gerrit.server.rules.StoredValues;
+import com.google.gerrit.server.rules.prolog.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;

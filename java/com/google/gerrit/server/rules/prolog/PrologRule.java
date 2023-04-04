@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
@@ -21,6 +21,7 @@ import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;

@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.rules.RulesCache.RulesCacheModule;
+import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.rules.prolog.RulesCache.RulesCacheModule;
 import org.eclipse.jgit.lib.Config;
 
 public class PrologModule extends FactoryModule {

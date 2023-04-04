@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;

@@ -29,9 +29,9 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.PrologOptions;
-import com.google.gerrit.server.rules.PrologRule;
-import com.google.gerrit.server.rules.RulesCache;
+import com.google.gerrit.server.rules.prolog.PrologOptions;
+import com.google.gerrit.server.rules.prolog.PrologRule;
+import com.google.gerrit.server.rules.prolog.RulesCache;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 

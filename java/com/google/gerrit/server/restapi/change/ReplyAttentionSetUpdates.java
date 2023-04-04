@@ -199,8 +199,9 @@ public class ReplyAttentionSetUpdates {
       }
       return;
     }
-    // The rest of the conditions only apply if the change is ready for review.
-    if (!readyForReview) {
+    // The rest of the conditions only apply if the change is ready for review and reply is not
+    // posted by a bot.
+    if (!readyForReview || serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
       return;
     }
 

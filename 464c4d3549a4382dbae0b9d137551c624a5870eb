@@ -365,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75eb0168_a65e6e96",
+        "filename": "java/com/google/gerrit/server/submit/StripedSubmitLock.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-04T11:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "435bd8f1_4484ce19",
+      "range": {
+        "startLine": 30,
+        "startChar": 79,
+        "endLine": 30,
+        "endChar": 83
+      },
+      "revId": "464c4d3549a4382dbae0b9d137551c624a5870eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b208f52_14a2f5cc",

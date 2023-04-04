@@ -46,6 +46,30 @@
       },
       "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feefe97c_df60ee2d",
+        "filename": "java/com/google/gerrit/server/git/DynamicRefDbRepository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-04T19:19:06Z",
+      "side": 1,
+      "message": "I\u0027m marking this resolved as we can do this refactor as follow-on changes when the JGit support w/tests is added.",
+      "parentUuid": "8963ee46_3761f707",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "35c408d82f13afe4786a7d877c52c1b63c38cb80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

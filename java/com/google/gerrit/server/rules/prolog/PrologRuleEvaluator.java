@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;

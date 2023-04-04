@@ -6,7 +6,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.StoredValues;
+import com.google.gerrit.server.rules.prolog.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;

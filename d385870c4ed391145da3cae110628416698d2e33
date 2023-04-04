@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f1ccf8b_635ef10b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-04T10:05:40Z",
+      "side": 1,
+      "message": "Thanks for the detailed commit message!",
+      "revId": "d385870c4ed391145da3cae110628416698d2e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48f66cdb_8d4c32a1",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-04T10:05:40Z",
+      "side": 1,
+      "message": "This is fine, but it would also be OK to drop this method right away and add the plugin change to the same topic as this change, so that both changes get submitted together.",
+      "revId": "d385870c4ed391145da3cae110628416698d2e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

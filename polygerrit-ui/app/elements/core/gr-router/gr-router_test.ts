@@ -403,7 +403,7 @@ suite('gr-router tests', () => {
         view: GerritView.SEARCH,
         query: 'project:foo/bar/baz',
         offset: undefined,
-      });
+      } as AppElementParams);
 
       ctx.params[1] = '123';
       ctx.params[2] = '123';
@@ -411,7 +411,7 @@ suite('gr-router tests', () => {
         view: GerritView.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
-      });
+      } as AppElementParams);
     });
 
     test('handleQueryLegacySuffixRoute', () => {
@@ -429,7 +429,8 @@ suite('gr-router tests', () => {
       assertctxToParams(ctx, 'handleChangeIdQueryRoute', {
         view: GerritView.SEARCH,
         query: 'I0123456789abcdef0123456789abcdef01234567',
-      });
+        offset: undefined,
+      } as AppElementParams);
     });
 
     suite('handleRegisterRoute', () => {

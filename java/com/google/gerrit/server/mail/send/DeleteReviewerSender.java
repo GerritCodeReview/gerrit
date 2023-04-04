@@ -55,18 +55,6 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-
-    ccAllApprovals();
-    bccStarredBy();
-    ccExistingReviewers();
-    includeWatchers(NotifyType.ALL_COMMENTS);
-    reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
-    reviewersByEmail.stream().forEach(address -> addByEmail(RecipientType.TO, address));
-  }
-
-  @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("DeleteReviewer"));
     if (useHtml()) {
@@ -90,8 +78,15 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
+
+    ccAllApprovals();
+    bccStarredBy();
+    ccExistingReviewers();
+    includeWatchers(NotifyType.ALL_COMMENTS);
+    reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
+    reviewersByEmail.stream().forEach(address -> addByEmail(RecipientType.TO, address));
   }
 }

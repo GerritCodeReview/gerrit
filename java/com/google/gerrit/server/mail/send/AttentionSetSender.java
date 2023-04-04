@@ -29,15 +29,6 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
     super(args, messageClass, ChangeEmail.newChangeData(args, project, changeId));
   }
 
-  @Override
-  protected void init() throws EmailException {
-    super.init();
-
-    ccAllApprovals();
-    bccStarredBy();
-    ccExistingReviewers();
-  }
-
   public void setAttentionSetUser(Account.Id attentionSetUser) {
     this.attentionSetUser = attentionSetUser;
   }
@@ -47,9 +38,13 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
+  protected void populateEmailContent() throws EmailException {
+    super.populateEmailContent();
     soyContext.put("attentionSetUser", getNameFor(attentionSetUser));
     soyContext.put("reason", reason);
+
+    ccAllApprovals();
+    bccStarredBy();
+    ccExistingReviewers();
   }
 }

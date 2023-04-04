@@ -108,9 +108,9 @@ public abstract class NewChangeSender extends ChangeEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContext.put("ownerName", getNameFor(change.getOwner()));
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
-    soyContextEmailData.put("removedReviewerNames", getRemovedReviewerNames());
+    addSoyParam("ownerName", getNameFor(change.getOwner()));
+    addSoyEmailDataParam("reviewerNames", getReviewerNames());
+    addSoyEmailDataParam("removedReviewerNames", getRemovedReviewerNames());
 
     switch (getNotify().handling()) {
       case NONE:

@@ -90,11 +90,11 @@ public class DeleteKeySender extends OutgoingEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("gpgKeyFingerprints", getGpgKeyFingerprints());
-    soyContextEmailData.put("keyType", getKeyType());
-    soyContextEmailData.put("sshKey", getSshKey());
-    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+    addSoyEmailDataParam("email", getEmail());
+    addSoyEmailDataParam("gpgKeyFingerprints", getGpgKeyFingerprints());
+    addSoyEmailDataParam("keyType", getKeyType());
+    addSoyEmailDataParam("sshKey", getSshKey());
+    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }
 
   private String getEmail() {

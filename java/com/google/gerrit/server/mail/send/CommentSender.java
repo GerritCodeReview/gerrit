@@ -515,24 +515,24 @@ public class CommentSender extends ReplyToChangeSender {
     boolean hasComments;
     try (Repository repo = getRepository()) {
       List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
-      soyContext.put("commentFiles", files);
+      addSoyParam("commentFiles", files);
       hasComments = !files.isEmpty();
     }
 
-    soyContext.put(
+    addSoyParam(
         "patchSetCommentBlocks", commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
-    soyContext.put("labels", getLabelVoteSoyData(labels));
-    soyContext.put("commentCount", inlineComments.size());
-    soyContext.put("commentTimestamp", getCommentTimestamp());
-    soyContext.put(
+    addSoyParam("labels", getLabelVoteSoyData(labels));
+    addSoyParam("commentCount", inlineComments.size());
+    addSoyParam("commentTimestamp", getCommentTimestamp());
+    addSoyParam(
         "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
     if (isChangeNoLongerSubmittable()) {
-      soyContext.put("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
-      soyContext.put(
+      addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      addSoyParam(
           "oldSubmitRequirements",
           formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
-      soyContext.put(
+      addSoyParam(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
 

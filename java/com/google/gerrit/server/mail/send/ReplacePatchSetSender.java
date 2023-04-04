@@ -162,15 +162,15 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("reviewerNames", getReviewerNames());
-    soyContextEmailData.put("outdatedApprovals", formatOutdatedApprovals());
+    addSoyEmailDataParam("reviewerNames", getReviewerNames());
+    addSoyEmailDataParam("outdatedApprovals", formatOutdatedApprovals());
 
     if (isChangeNoLongerSubmittable()) {
-      soyContext.put("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
-      soyContext.put(
+      addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      addSoyParam(
           "oldSubmitRequirements",
           formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
-      soyContext.put(
+      addSoyParam(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
 

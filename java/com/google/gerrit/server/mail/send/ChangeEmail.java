@@ -535,16 +535,16 @@ public abstract class ChangeEmail extends OutgoingEmail {
     super.populateEmailContent();
     BranchEmailUtils.addBranchData(this, args, branch);
 
-    soyContext.put("changeId", change.getKey().get());
-    soyContext.put("coverLetter", getCoverLetter());
-    soyContext.put("fromName", getNameFor(fromId));
-    soyContext.put("fromEmail", getNameEmailFor(fromId));
-    soyContext.put("diffLines", getDiffTemplateData(getUnifiedDiff()));
+    addSoyParam("changeId", change.getKey().get());
+    addSoyParam("coverLetter", getCoverLetter());
+    addSoyParam("fromName", getNameFor(fromId));
+    addSoyParam("fromEmail", getNameEmailFor(fromId));
+    addSoyParam("diffLines", getDiffTemplateData(getUnifiedDiff()));
 
-    soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
-    soyContextEmailData.put("changeDetail", getChangeDetail());
-    soyContextEmailData.put("changeUrl", getChangeUrl());
-    soyContextEmailData.put("includeDiff", getIncludeDiff());
+    addSoyEmailDataParam("unifiedDiff", getUnifiedDiff());
+    addSoyEmailDataParam("changeDetail", getChangeDetail());
+    addSoyEmailDataParam("changeUrl", getChangeUrl());
+    addSoyEmailDataParam("includeDiff", getIncludeDiff());
 
     Map<String, String> changeData = new HashMap<>();
 
@@ -561,17 +561,17 @@ public abstract class ChangeEmail extends OutgoingEmail {
     changeData.put(
         "sizeBucket",
         ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
-    soyContext.put("change", changeData);
+    addSoyParam("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.number());
     patchSetData.put("refName", patchSet.refName());
-    soyContext.put("patchSet", patchSetData);
+    addSoyParam("patchSet", patchSetData);
 
     Map<String, Object> patchSetInfoData = new HashMap<>();
     patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
-    soyContext.put("patchSetInfo", patchSetInfoData);
+    addSoyParam("patchSetInfo", patchSetInfoData);
 
     footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
     footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
@@ -588,7 +588,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
     if (!currentAttentionSet.isEmpty()) {
       // We need names rather than account ids / emails to make it user readable.
-      soyContext.put(
+      addSoyParam(
           "attentionSet",
           currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableList()));
     }

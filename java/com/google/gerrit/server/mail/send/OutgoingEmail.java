@@ -62,7 +62,7 @@ public abstract class OutgoingEmail {
   private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected String messageClass;
+  private String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
   private final Map<String, EmailHeader> headers = new LinkedHashMap<>();;
   private final Set<Address> smtpRcptTo = new HashSet<>();
@@ -71,8 +71,8 @@ public abstract class OutgoingEmail {
   private StringBuilder textBody;
   private StringBuilder htmlBody;
   private MessageIdGenerator.MessageId messageId;
-  protected Map<String, Object> soyContext;
-  protected Map<String, Object> soyContextEmailData;
+  private Map<String, Object> soyContext;
+  private Map<String, Object> soyContextEmailData;
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
@@ -654,25 +654,23 @@ public abstract class OutgoingEmail {
       notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
     }
 
-    soyContext.put("messageClass", messageClass);
-    soyContext.put("footers", footers);
-    soyContextEmailData.put("settingsUrl", getSettingsUrl());
-    soyContextEmailData.put("instanceName", getInstanceName());
-    soyContextEmailData.put("gerritHost", getGerritHost());
-    soyContextEmailData.put("gerritUrl", getGerritUrl());
-    soyContext.put("email", soyContextEmailData);
+    addSoyParam("messageClass", messageClass);
+    addSoyParam("footers", footers);
+    addSoyEmailDataParam("settingsUrl", getSettingsUrl());
+    addSoyEmailDataParam("instanceName", getInstanceName());
+    addSoyEmailDataParam("gerritHost", getGerritHost());
+    addSoyEmailDataParam("gerritUrl", getGerritUrl());
+    addSoyParam("email", soyContextEmailData);
   }
 
-  /** Mutable map of parameters passed into email templates when rendering. */
-  public Map<String, Object> getSoyContext() {
-    return this.soyContext;
+  /** Adds param to the data map passed into soy when rendering templates. */
+  public void addSoyParam(String key, Object value) {
+    soyContext.put(key, value);
   }
 
-  // TODO: It's not clear why we need this explicit separation. Probably worth
-  // simplifying.
-  /** Mutable content of `email` parameter in the templates. */
-  public Map<String, Object> getSoyContextEmailData() {
-    return this.soyContextEmailData;
+  /** Adds entry to the `email` param passed to the soy when rendering templates. */
+  public void addSoyEmailDataParam(String key, Object value) {
+    soyContextEmailData.put(key, value);
   }
 
   /**

@@ -30,23 +30,19 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
-import com.google.gerrit.server.rules.prolog.RulesCache;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final ChangeData.Factory changeDataFactory;
-  private final RulesCache rules;
   private final PrologSubmitRuleUtil prologSubmitRuleUtil;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(
-      ChangeData.Factory changeDataFactory, RulesCache rules, PrologSubmitRuleUtil prologRule) {
+  TestSubmitType(ChangeData.Factory changeDataFactory, PrologSubmitRuleUtil prologRule) {
     this.changeDataFactory = changeDataFactory;
-    this.rules = rules;
     this.prologSubmitRuleUtil = prologRule;
   }
 
@@ -59,7 +55,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     if (input.rule == null) {
       throw new BadRequestException("rule is required");
     }
-    if (!rules.isProjectRulesEnabled()) {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);

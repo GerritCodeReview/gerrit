@@ -33,6 +33,24 @@
       "message": "This is fine, but it would also be OK to drop this method right away and add the plugin change to the same topic as this change, so that both changes get submitted together.",
       "revId": "d385870c4ed391145da3cae110628416698d2e33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b996c888_67db6505",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-04T10:09:14Z",
+      "side": 1,
+      "message": "Ah, right, forgot that topics exist. Will use them next time",
+      "parentUuid": "48f66cdb_8d4c32a1",
+      "revId": "d385870c4ed391145da3cae110628416698d2e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

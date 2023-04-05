@@ -139,23 +139,10 @@ export class GrLabelInfo extends LitElement {
   override render() {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
-    const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
-      .filter(reviewer => {
-        if (this.showAllReviewers) {
-          if (isDetailedLabelInfo(labelInfo)) {
-            return canReviewerVote(labelInfo, reviewer);
-          } else {
-            // isQuickLabelInfo
-            return hasVoted(labelInfo, reviewer);
-          }
-        } else {
-          // !showAllReviewers
-          return hasVoted(labelInfo, reviewer);
-        }
-      })
-      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
     return html`<div>
-      ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
+      ${this.computeVoters(labelInfo).map(reviewer =>
+        this.renderReviewerVote(reviewer)
+      )}
     </div>`;
   }
 
@@ -218,6 +205,30 @@ export class GrLabelInfo extends LitElement {
         <gr-icon icon="delete" filled></gr-icon>
       </gr-button>
     </gr-tooltip-content>`;
+  }
+
+  // private but used in test
+  computeVoters(labelInfo: LabelInfo) {
+    const allReviewers = this.change?.reviewers['REVIEWER'] ?? [];
+    return allReviewers
+      .concat(this.change?.reviewers['CC'] ?? [])
+      .filter(reviewer => {
+        if (this.showAllReviewers) {
+          if (
+            isDetailedLabelInfo(labelInfo) &&
+            allReviewers.includes(reviewer)
+          ) {
+            return canReviewerVote(labelInfo, reviewer);
+          } else {
+            // isQuickLabelInfo
+            return hasVoted(labelInfo, reviewer);
+          }
+        } else {
+          // !showAllReviewers
+          return hasVoted(labelInfo, reviewer);
+        }
+      })
+      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
   }
 
   /**

@@ -141,6 +141,30 @@
       },
       "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32232465_8d142006",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-04-05T14:59:46Z",
+      "side": 1,
+      "message": "actually, already exists, https://gerrit.googlesource.com/gerrit/+blame/b3ff02356d77bc88330300a38639d5974ab1d121/java/com/google/gerrit/extensions/restapi/RestApiException.java#24",
+      "parentUuid": "dc07062d_3feaa5a4",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "7eabafb214f38d2f6d7808ef213e02d0efcf0934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

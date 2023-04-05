@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;

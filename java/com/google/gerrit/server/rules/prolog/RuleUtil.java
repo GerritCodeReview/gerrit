@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.server.rules.prolog;
 
 import org.eclipse.jgit.lib.Config;
 
 /** Provides utility methods for configuring and running Prolog rules inside Gerrit. */
-public class RuleUtil {
+class RuleUtil {
 
   /**
    * Returns the reduction limit to be applied to the Prolog machine to prevent infinite loops and
    * other forms of computational overflow.
    */
-  public static int reductionLimit(Config gerritConfig) {
+  static int reductionLimit(Config gerritConfig) {
     int limit = gerritConfig.getInt("rules", null, "reductionLimit", 100000);
     return limit <= 0 ? Integer.MAX_VALUE : limit;
   }
@@ -33,7 +33,7 @@ public class RuleUtil {
    * loops and other forms of computational overflow. The compiled reduction limit should be used
    * when user-provided Prolog code is compiled by the interpreter before the limit gets applied.
    */
-  public static int compileReductionLimit(Config gerritConfig) {
+  static int compileReductionLimit(Config gerritConfig) {
     int limit =
         gerritConfig.getInt(
             "rules",

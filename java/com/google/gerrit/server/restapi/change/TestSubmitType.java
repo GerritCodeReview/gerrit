@@ -29,25 +29,21 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.PrologOptions;
-import com.google.gerrit.server.rules.PrologRule;
-import com.google.gerrit.server.rules.RulesCache;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final ChangeData.Factory changeDataFactory;
-  private final RulesCache rules;
-  private final PrologRule prologRule;
+  private final PrologSubmitRuleUtil prologSubmitRuleUtil;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(ChangeData.Factory changeDataFactory, RulesCache rules, PrologRule prologRule) {
+  TestSubmitType(ChangeData.Factory changeDataFactory, PrologSubmitRuleUtil prologRule) {
     this.changeDataFactory = changeDataFactory;
-    this.rules = rules;
-    this.prologRule = prologRule;
+    this.prologSubmitRuleUtil = prologRule;
   }
 
   @Override
@@ -59,15 +55,14 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     if (input.rule == null) {
       throw new BadRequestException("rule is required");
     }
-    if (!rules.isProjectRulesEnabled()) {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     SubmitTypeRecord rec =
-        prologRule.getSubmitType(
-            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
+        prologSubmitRuleUtil.getSubmitType(cd, input.rule, input.filters == Filters.SKIP);
 
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format("rule produced invalid result: %s", rec));

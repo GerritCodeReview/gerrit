@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.server.rules;
+package com.google.gerrit.acceptance.server.rules.prolog;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -23,8 +23,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.PrologOptions;
-import com.google.gerrit.server.rules.PrologRuleEvaluator;
+import com.google.gerrit.server.rules.prolog.PrologOptions;
+import com.google.gerrit.server.rules.prolog.PrologRuleEvaluator;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

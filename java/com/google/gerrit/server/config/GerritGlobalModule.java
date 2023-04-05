@@ -205,9 +205,8 @@ import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule.DefaultSubmitRuleModule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule.IgnoreSelfApprovalRuleModule;
-import com.google.gerrit.server.rules.PrologModule;
-import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.rules.prolog.PrologModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.ConfiguredSubscriptionGraphFactory;
 import com.google.gerrit.server.submit.GitModules;
@@ -252,7 +251,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(SINGLETON);
 
     bind(IdGenerator.class);
-    bind(RulesCache.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
     install(AccountCacheImpl.module());
     install(BatchUpdate.module());

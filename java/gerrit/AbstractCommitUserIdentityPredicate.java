@@ -17,7 +17,7 @@ package gerrit;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.Emails;
-import com.google.gerrit.server.rules.PrologEnvironment;
+import com.google.gerrit.server.rules.prolog.PrologEnvironment;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

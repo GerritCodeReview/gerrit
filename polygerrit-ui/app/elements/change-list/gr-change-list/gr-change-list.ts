@@ -35,6 +35,8 @@ import {ValueChangedEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {subscribe} from '../../lit/subscription-controller';
+import {userModelToken} from '../../../models/user/user-model';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -112,7 +114,7 @@ export class GrChangeList extends LitElement {
   @property({type: Array})
   visibleChangeTableColumns?: string[];
 
-  @property({type: Object})
+  @state()
   preferences?: PreferencesInput;
 
   @property({type: Boolean})
@@ -132,6 +134,8 @@ export class GrChangeList extends LitElement {
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private cursor = new GrCursorManager();
 
@@ -158,6 +162,11 @@ export class GrChangeList extends LitElement {
       this.toggleCheckbox()
     );
     this.shortcuts.addGlobal({key: Key.ENTER}, () => this.openChange());
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      x => (this.preferences = x)
+    );
   }
 
   override connectedCallback() {

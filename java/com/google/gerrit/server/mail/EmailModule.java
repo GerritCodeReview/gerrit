@@ -14,28 +14,35 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.mail.send.AbandonedSender;
+import com.google.gerrit.server.mail.send.AbandonedChangeEmail;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.ModifyReviewerSender;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.inject.Inject;
 
 public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
-    factory(AbandonedSender.Factory.class);
     factory(AddKeySender.Factory.class);
     factory(ModifyReviewerSender.Factory.class);
     factory(CommentSender.Factory.class);
@@ -51,5 +58,32 @@ public class EmailModule extends FactoryModule {
     factory(RevertedSender.Factory.class);
     factory(AddToAttentionSetSender.Factory.class);
     factory(RemoveFromAttentionSetSender.Factory.class);
+  }
+
+  public static class AbandonedChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final AbandonedChangeEmail abandonedChangeEmail;
+
+    @Inject
+    public AbandonedChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        AbandonedChangeEmail abandonedChangeEmail) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.abandonedChangeEmail = abandonedChangeEmail;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(args.newChangeData(project, changeId), abandonedChangeEmail);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("abandon", changeEmail);
+    }
   }
 }

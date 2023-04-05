@@ -92,11 +92,11 @@ public class AddKeySender extends OutgoingEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("gpgKeys", getGpgKeys());
-    soyContextEmailData.put("keyType", getKeyType());
-    soyContextEmailData.put("sshKey", getSshKey());
-    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+    addSoyEmailDataParam("email", getEmail());
+    addSoyEmailDataParam("gpgKeys", getGpgKeys());
+    addSoyEmailDataParam("keyType", getKeyType());
+    addSoyEmailDataParam("sshKey", getSshKey());
+    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }
 
   private String getEmail() {

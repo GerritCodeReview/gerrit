@@ -87,8 +87,6 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
-
     addByEmail(RecipientType.TO, to);
   }
 }

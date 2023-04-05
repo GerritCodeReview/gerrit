@@ -145,11 +145,10 @@ public class MergedSender extends ReplyToChangeSender {
   @Override
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
-    soyContextEmailData.put("approvals", getApprovals());
+    addSoyEmailDataParam("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
-      soyContextEmailData.put("stickyApprovalDiff", stickyApprovalDiff.get());
-      soyContextEmailData.put(
-          "stickyApprovalDiffHtml", getDiffTemplateData(stickyApprovalDiff.get()));
+      addSoyEmailDataParam("stickyApprovalDiff", stickyApprovalDiff.get());
+      addSoyEmailDataParam("stickyApprovalDiffHtml", getDiffTemplateData(stickyApprovalDiff.get()));
     }
 
     ccAllApprovals();

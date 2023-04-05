@@ -121,18 +121,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     branch = changeData.change().getDest();
   }
 
-  @Override
-  public void setFrom(Account.Id id) {
-    super.setFrom(id);
-
-    // Is the from user in an email squelching group?
-    try {
-      args.permissionBackend.absentUser(id).check(GlobalPermission.EMAIL_REVIEWERS);
-    } catch (AuthException | PermissionBackendException e) {
-      emailOnlyAuthors = true;
-    }
-  }
-
   public void setPatchSet(PatchSet ps) {
     patchSet = ps;
   }
@@ -176,6 +164,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
   @Override
   protected void init() throws EmailException {
     super.init();
+    // Is the from user in an email squelching group?
+    try {
+      args.permissionBackend.absentUser(getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
+    } catch (AuthException | PermissionBackendException e) {
+      emailOnlyAuthors = true;
+    }
+
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject()).orElse(null);
     } else {
@@ -535,16 +530,16 @@ public abstract class ChangeEmail extends OutgoingEmail {
     super.populateEmailContent();
     BranchEmailUtils.addBranchData(this, args, branch);
 
-    soyContext.put("changeId", change.getKey().get());
-    soyContext.put("coverLetter", getCoverLetter());
-    soyContext.put("fromName", getNameFor(fromId));
-    soyContext.put("fromEmail", getNameEmailFor(fromId));
-    soyContext.put("diffLines", getDiffTemplateData(getUnifiedDiff()));
+    addSoyParam("changeId", change.getKey().get());
+    addSoyParam("coverLetter", getCoverLetter());
+    addSoyParam("fromName", getNameFor(getFrom()));
+    addSoyParam("fromEmail", getNameEmailFor(getFrom()));
+    addSoyParam("diffLines", getDiffTemplateData(getUnifiedDiff()));
 
-    soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
-    soyContextEmailData.put("changeDetail", getChangeDetail());
-    soyContextEmailData.put("changeUrl", getChangeUrl());
-    soyContextEmailData.put("includeDiff", getIncludeDiff());
+    addSoyEmailDataParam("unifiedDiff", getUnifiedDiff());
+    addSoyEmailDataParam("changeDetail", getChangeDetail());
+    addSoyEmailDataParam("changeUrl", getChangeUrl());
+    addSoyEmailDataParam("includeDiff", getIncludeDiff());
 
     Map<String, String> changeData = new HashMap<>();
 
@@ -561,34 +556,34 @@ public abstract class ChangeEmail extends OutgoingEmail {
     changeData.put(
         "sizeBucket",
         ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
-    soyContext.put("change", changeData);
+    addSoyParam("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.number());
     patchSetData.put("refName", patchSet.refName());
-    soyContext.put("patchSet", patchSetData);
+    addSoyParam("patchSet", patchSetData);
 
     Map<String, Object> patchSetInfoData = new HashMap<>();
     patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
-    soyContext.put("patchSetInfo", patchSetInfoData);
+    addSoyParam("patchSetInfo", patchSetInfoData);
 
-    footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
-    footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
-    footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
-    footers.add(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
+    addFooter(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
+    addFooter(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
+    addFooter(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
+    addFooter(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
-      footers.add(MailHeader.REVIEWER.withDelimiter() + reviewer);
+      addFooter(MailHeader.REVIEWER.withDelimiter() + reviewer);
     }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
-      footers.add(MailHeader.CC.withDelimiter() + reviewer);
+      addFooter(MailHeader.CC.withDelimiter() + reviewer);
     }
     for (Account.Id attentionUser : currentAttentionSet) {
-      footers.add(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
+      addFooter(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
     }
     if (!currentAttentionSet.isEmpty()) {
       // We need names rather than account ids / emails to make it user readable.
-      soyContext.put(
+      addSoyParam(
           "attentionSet",
           currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableList()));
     }

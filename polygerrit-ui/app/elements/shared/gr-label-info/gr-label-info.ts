@@ -66,8 +66,9 @@ export class GrLabelInfo extends LitElement {
   mutable = false;
 
   /**
-   * if true - show all reviewers that can vote on label
-   * if false - show only reviewers that voted on label
+   * if true - show all CC and reviewers who already voted and reviewers who can
+   * vote on label.
+   * if false - show only all CC and reviewers who already voted
    */
   @property({type: Boolean})
   showAllReviewers = true;
@@ -139,23 +140,10 @@ export class GrLabelInfo extends LitElement {
   override render() {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
-    const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
-      .filter(reviewer => {
-        if (this.showAllReviewers) {
-          if (isDetailedLabelInfo(labelInfo)) {
-            return canReviewerVote(labelInfo, reviewer);
-          } else {
-            // isQuickLabelInfo
-            return hasVoted(labelInfo, reviewer);
-          }
-        } else {
-          // !showAllReviewers
-          return hasVoted(labelInfo, reviewer);
-        }
-      })
-      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
     return html`<div>
-      ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
+      ${this.computeVoters(labelInfo).map(reviewer =>
+        this.renderReviewerVote(reviewer)
+      )}
     </div>`;
   }
 
@@ -218,6 +206,40 @@ export class GrLabelInfo extends LitElement {
         <gr-icon icon="delete" filled></gr-icon>
       </gr-button>
     </gr-tooltip-content>`;
+  }
+
+  /**
+   * if showAllReviewers = true  @return all CC and reviewers who already voted
+   * and reviewers who can vote on label
+   * Btw. if label is QuickLabelInfo we cannot provide list of reviewers who can
+   * vote on label
+   *
+   * if showAllReviewers = false @return just all CC and reviewers who already
+   * voted
+   *
+   * private but used in test
+   */
+  computeVoters(labelInfo: LabelInfo) {
+    const allReviewers = this.change?.reviewers['REVIEWER'] ?? [];
+    return allReviewers
+      .concat(this.change?.reviewers['CC'] ?? [])
+      .filter(account => {
+        if (this.showAllReviewers) {
+          if (
+            isDetailedLabelInfo(labelInfo) &&
+            allReviewers.includes(account)
+          ) {
+            return canReviewerVote(labelInfo, account);
+          } else {
+            // labelInfo is QuickLabelInfo or account is from CC
+            return hasVoted(labelInfo, account);
+          }
+        } else {
+          // !showAllReviewers
+          return hasVoted(labelInfo, account);
+        }
+      })
+      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
   }
 
   /**

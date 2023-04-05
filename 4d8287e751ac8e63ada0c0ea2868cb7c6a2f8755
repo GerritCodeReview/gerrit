@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db93b9d0_c15e522e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "can you add a comment explaining what exactly this method is supposed to return and cover the cases when the person who voted is a reviewer and CC when showAllReviewers is true/false?\n\nThis name makes it seems like it\u0027s just computing accounts that voted on the change but that is not the case I think?\n\nThere are three variables here \u003cReviewer/CC, showAllReviewers \u003d true/false, DetailedLabelInfo vs QuickLabelInfo\u003e and I am not sure how these variables are affecting the method.\n\n\nIf `showAllReviewers` is true and it\u0027s not a DetailedLabelInfo then we just end up running `hasVoted` checks?\nSo maybe `showAllReviewers` should check that it\u0027s a DetailedLabelInfo otherwise I am not sure how this property is being enforced.",
+      "range": {
+        "startLine": 211,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 15
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33129aca_af7fcb1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "replace with `account`? it\u0027s not just a reviewer anymore.\n\nWe can also avoid the code below\n`allReviewers.includes(reviewer)` which is very confusing(why is a `reviewer` not in `allReviewers`?",
+      "range": {
+        "startLine": 215,
+        "startChar": 14,
+        "endLine": 215,
+        "endChar": 22
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2b88410_c91f1fbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "should this be renamed to `showAllVoters`?\nsince this includes CC as well now?\n\nThe comment on the property is:\n\n`if true - show all reviewers that can vote on label` but I am not sure if that is intended to cover only reviewers and not CC.",
+      "range": {
+        "startLine": 216,
+        "startChar": 17,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fc98c57_20c19727",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "`this.change?.reviewers[\u0027CC\u0027] ` is concatenated to `allReviewers` but it\u0027s value is not updated.\n\nSo this check when running for CCs will return false.\n\nIs that expected? Are you checking this account is actually a reviewer?",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 33
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9395b5d_5877b9ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "perhaps `canVote`?\nThe method below is called `hasVoted` and not `hasReviewerVoted` so we would be more consistent with the naming.\n\nBut this flow is only triggered for a reviewer and not for CCs so perhaps the name is intentional?",
+      "range": {
+        "startLine": 221,
+        "startChar": 19,
+        "endLine": 221,
+        "endChar": 34
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a637bc5e_469528a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "can you elaborate on this comment as well.\nNow I think this flow is triggered if `isDetailedLabelInfo(labelInfo)` is true and the account is `CC` so I am not sure we can always say `isQuickLabelInfo` is true?",
+      "range": {
+        "startLine": 223,
+        "startChar": 15,
+        "endLine": 223,
+        "endChar": 31
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74589117_58774201",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-05T20:17:38Z",
+      "side": 1,
+      "message": "why is this?\ntest name says show all who can vote but this CC can vote and we do not show it?",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94968313_f5d5c330",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-05T16:14:32Z",
+      "side": 0,
+      "message": "There is no reason for removing this footer. It\u0027s used in gr-apply-fix. I will do change to fix this.",
+      "revId": "b90d85b1d6932ba0a84b7483a30337cfb75c53e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

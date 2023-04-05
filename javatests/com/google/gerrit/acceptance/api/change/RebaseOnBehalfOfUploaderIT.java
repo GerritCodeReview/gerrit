@@ -1103,6 +1103,86 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submittedWithRebaserApprovalMetricIsNotIncreasedIfANonRebaserApprovalIsPresent()
+      throws Exception {
+    allowVotingOnCodeReviewToAllUsers();
+
+    createVerifiedLabel();
+    allowVotingOnVerifiedToAllUsers();
+
+    // Require a Code-Review approval from a non-uploader for submit.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName(TestLabels.verified().getName())
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          String.format("label:%s=MAX", TestLabels.verified().getName())))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName(TestLabels.codeReview().getName())
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          String.format(
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
+      u.save();
+    }
+
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    String uploaderEmail = "uploader@example.com";
+    Account.Id uploader = accountOperations.newAccount().preferredEmail(uploaderEmail).create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    // Create two changes both with the same parent
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes()
+        .id(changeToBeTheNewBase.get())
+        .current()
+        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+    testMetricMaker.reset();
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
+
+    // Rebase it on behalf of the uploader
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+
+    // Approve the change as the rebaser.
+    gApi.changes()
+        .id(changeToBeRebased.get())
+        .current()
+        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+
+    // Approve the change as another user.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
+
+    // Due to the second approval the change would also be submittable if the approval of the
+    // rebaser would be ignored due to the rebaser being the uploader.
+    allowPermissionToAllUsers(Permission.SUBMIT);
+    testMetricMaker.reset();
+    gApi.changes().id(changeToBeRebased.get()).current().submit();
+    assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
+  }
+
+  @Test
   public void testCountRebasesMetric() throws Exception {
     allowPermissionToAllUsers(Permission.REBASE);
 

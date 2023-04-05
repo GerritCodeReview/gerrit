@@ -57,15 +57,19 @@ public class MergeMetrics {
   public void countChangesThatWereSubmittedWithRebaserApproval(ChangeData cd) {
     if (isRebaseOnBehalfOfUploader(cd)
         && hasCodeReviewApprovalOfRealUploader(cd)
+        && !hasCodeReviewApprovalOfUserThatIsNotTheRealUploader(cd)
         && ignoresCodeReviewApprovalsOfUploader(cd)) {
       // 1. The patch set that is being submitted was created by rebasing on behalf of the uploader.
       // The uploader of the patch set is the original uploader on whom's behalf the rebase was
       // done. The real uploader is the user that did the rebase on behalf of the uploader (e.g. by
       // clicking on the rebase button).
       //
-      // 2. The change has Code-Review approvals of the real uploader (aka the rebaser).
+      // 2. The change has a Code-Review approval of the real uploader (aka the rebaser).
       //
-      // 3. Code-Review approvals of the uploader are ignored.
+      // 3. The change doesn't have a Code-Review approval of any other user (a user that is not the
+      // real uploader).
+      //
+      // 4. Code-Review approvals of the uploader are ignored.
       //
       // If instead of a rebase on behalf of the uploader a normal rebase would have been done the
       // rebaser would have been the uploader of the patch set. In this case the Code-Review
@@ -97,6 +101,16 @@ public class MergeMetrics {
     logger.atFine().log(
         "hasCodeReviewApprovalOfRealUploader = %s", hasCodeReviewApprovalOfRealUploader);
     return hasCodeReviewApprovalOfRealUploader;
+  }
+
+  private boolean hasCodeReviewApprovalOfUserThatIsNotTheRealUploader(ChangeData cd) {
+    boolean hasCodeReviewApprovalOfUserThatIsNotTheRealUploader =
+        cd.currentApprovals().stream()
+            .anyMatch(psa -> !psa.accountId().equals(cd.currentPatchSet().realUploader()));
+    logger.atFine().log(
+        "hasCodeReviewApprovalOfUserThatIsNotTheRealUploader = %s",
+        hasCodeReviewApprovalOfUserThatIsNotTheRealUploader);
+    return hasCodeReviewApprovalOfUserThatIsNotTheRealUploader;
   }
 
   private boolean ignoresCodeReviewApprovalsOfUploader(ChangeData cd) {

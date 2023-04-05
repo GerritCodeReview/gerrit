@@ -19,6 +19,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.lab
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
@@ -36,6 +37,8 @@ import java.util.Set;
 
 /** Access control management for a user accessing a single change. */
 class ChangeControl {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final RefControl refControl;
   private final ChangeData changeData;
 
@@ -185,10 +188,36 @@ class ChangeControl {
   }
 
   private boolean isPrivateVisible(ChangeData cd) {
-    return isOwner()
-        || isReviewer(cd)
-        || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)
-        || getUser().isInternalUser();
+    if (isOwner()) {
+      logger.atFine().log(
+          "%s can see private change %s because this user is the change owner",
+          getUser().getLoggableName(), cd.getId());
+      return true;
+    }
+
+    if (isReviewer(cd)) {
+      logger.atFine().log(
+          "%s can see private change %s because this user is a reviewer",
+          getUser().getLoggableName(), cd.getId());
+      return true;
+    }
+
+    if (refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)) {
+      logger.atFine().log(
+          "%s can see private change %s because this user can view private changes",
+          getUser().getLoggableName(), cd.getId());
+      return true;
+    }
+
+    if (getUser().isInternalUser()) {
+      logger.atFine().log(
+          "%s can see private change %s because this user is an internal user",
+          getUser().getLoggableName(), cd.getId());
+      return true;
+    }
+
+    logger.atFine().log("%s cannot see private change %s", getUser().getLoggableName(), cd.getId());
+    return false;
   }
 
   private class ForChangeImpl extends ForChange {

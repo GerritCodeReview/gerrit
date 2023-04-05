@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4fdd9bd_e940a483",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-05T17:57:01Z",
+      "side": 1,
+      "message": "FYI: It was accidentally removed in https://gerrit-review.git.corp.google.com/c/gerrit/+/323790/5/polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts#b133\n\nLuckily now we have dom tests.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "7566a570ef5b6fa14ddaefd22da6b9f741759bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

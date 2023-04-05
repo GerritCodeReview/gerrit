@@ -23,7 +23,7 @@ import {getAppContext} from '../../../services/app-context';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
@@ -37,6 +37,7 @@ import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {fireReload} from '../../../utils/event-util';
+import {when} from 'lit/directives/when.js';
 
 interface FilePreview {
   filepath: string;
@@ -89,6 +90,9 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   diffPrefs?: DiffPreferencesInfo;
+
+  @state()
+  loading = false;
 
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
@@ -158,6 +162,8 @@ export class GrApplyFixDialog extends LitElement {
       <dialog id="applyFixModal" tabindex="-1">
         <gr-dialog
           id="applyFixDialog"
+          ?loading=${this.loading}
+          .loadingLabel=${'Creating preview ...'}
           .confirmLabel=${this.isApplyFixLoading ? 'Saving...' : 'Apply Fix'}
           .confirmTooltip=${this.computeTooltip()}
           ?disabled=${this.computeDisableApplyFixButton()}
@@ -206,28 +212,41 @@ export class GrApplyFixDialog extends LitElement {
   }
 
   private renderFooter() {
-    const id = this.selectedFixIdx;
     const fixCount = this.fixSuggestions?.length ?? 0;
-    if (fixCount < 2) return;
+    const reasonForDisabledApplyButton = this.computeTooltip();
+    if (fixCount < 2 && !reasonForDisabledApplyButton) return nothing;
+    return html`<div slot="footer" class="fix-picker">
+      ${when(fixCount >= 2, () =>
+        this.renderNavForMultipleSuggestedFixes(fixCount)
+      )}
+      ${this.renderWarning(reasonForDisabledApplyButton)}
+    </div>`;
+  }
+
+  private renderNavForMultipleSuggestedFixes(fixCount: number) {
+    const id = this.selectedFixIdx;
     return html`
-      <div slot="footer" class="fix-picker">
-        <span>Suggested fix ${id + 1} of ${fixCount}</span>
-        <gr-button
-          id="prevFix"
-          @click=${this.onPrevFixClick}
-          ?disabled=${id === 0}
-        >
-          <gr-icon icon="chevron_left"></gr-icon>
-        </gr-button>
-        <gr-button
-          id="nextFix"
-          @click=${this.onNextFixClick}
-          ?disabled=${id === fixCount - 1}
-        >
-          <gr-icon icon="chevron_right"></gr-icon>
-        </gr-button>
-      </div>
+      <span>Suggested fix ${id + 1} of ${fixCount}</span>
+      <gr-button
+        id="prevFix"
+        @click=${this.onPrevFixClick}
+        ?disabled=${id === 0}
+      >
+        <gr-icon icon="chevron_left"></gr-icon>
+      </gr-button>
+      <gr-button
+        id="nextFix"
+        @click=${this.onNextFixClick}
+        ?disabled=${id === fixCount - 1}
+      >
+        <gr-icon icon="chevron_right"></gr-icon>
+      </gr-button>
     `;
+  }
+
+  private renderWarning(message: string) {
+    if (!message) return nothing;
+    return html`<span><gr-icon icon="info"></gr-icon>${message}</span>`;
   }
 
   /**
@@ -246,7 +265,9 @@ export class GrApplyFixDialog extends LitElement {
 
   private async showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
     this.currentFix = fixSuggestion;
+    this.loading = true;
     await this.fetchFixPreview(fixSuggestion);
+    this.loading = false;
   }
 
   private async fetchFixPreview(fixSuggestion: FixSuggestionInfo) {
@@ -333,7 +354,7 @@ export class GrApplyFixDialog extends LitElement {
     const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
     return latestPatchNum !== this.patchNum
-      ? 'Fix can only be applied to the latest patchset'
+      ? 'You cannot apply this fix because it is from a previous patchset'
       : '';
   }
 

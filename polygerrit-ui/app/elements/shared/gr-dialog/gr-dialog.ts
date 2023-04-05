@@ -152,6 +152,7 @@ export class GrDialog extends LitElement {
               <span class="loadingLabel"> ${this.loadingLabel} </span>
             `
           )}
+          <slot name="footer"></slot>
           <div class="flex-space"></div>
           <gr-button
             id="cancel"

@@ -36,6 +36,7 @@ suite('gr-dialog tests', () => {
           </div>
         </main>
         <footer>
+          <slot name="footer"></slot>
           <div class="flex-space"></div>
           <gr-button
             aria-disabled="false"
@@ -81,6 +82,7 @@ suite('gr-dialog tests', () => {
           <span class="loadingSpin" aria-label="Loading!!" role="progressbar">
           </span>
           <span class="loadingLabel"> Loading!! </span>
+          <slot name="footer"></slot>
           <div class="flex-space"></div>
           <gr-button
             aria-disabled="false"

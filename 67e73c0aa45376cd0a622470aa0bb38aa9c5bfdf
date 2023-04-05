@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f3e4a2da_73e7be3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Done (slightly modified due to line width)",
+      "parentUuid": "47cb734d_e687bb7e",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "29f78287_649fbde5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "677ddb63_e256ebb0",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb46e5cc_76a40678",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63ace955_f04d896d",
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6bc4616_3d814753",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63ace955_f04d896d",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9e2186_e5efb77d",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-04-03T09:30:45Z",
       "side": 1,
       "message": "This method is no longer called and should be dropped.",
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e385567_546fc2b5",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9e2186_e5efb77d",
       "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +193,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bdfd090_73b89e94",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c4cadaa_7382a998",
+      "range": {
+        "startLine": 120,
+        "startChar": 10,
+        "endLine": 120,
+        "endChar": 25
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baf704ae_1d1fd5ef",
@@ -128,6 +230,30 @@
       "writtenOn": "2023-04-03T09:30:45Z",
       "side": 1,
       "message": "maybe just pass in Change now",
+      "range": {
+        "startLine": 172,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "67e73c0aa45376cd0a622470aa0bb38aa9c5bfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ef508b_c1073efc",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1158732
+      },
+      "writtenOn": "2023-04-05T17:56:16Z",
+      "side": 1,
+      "message": "Will leave for now (our team is leaning towards deprecating this plugin soon anyways)",
+      "parentUuid": "baf704ae_1d1fd5ef",
       "range": {
         "startLine": 172,
         "startChar": 6,

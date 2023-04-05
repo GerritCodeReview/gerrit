@@ -18,6 +18,8 @@ PROJECT_UTIL_SRC = [
     "ProjectUtil.java",
 ]
 
+PROLOG_SRC = ["rules/prolog/*.java"]
+
 java_library(
     name = "constants",
     srcs = CONSTANTS_SRC,
@@ -40,7 +42,8 @@ java_library(
     name = "server",
     srcs = glob(
         ["**/*.java"],
-        exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC + PROJECT_UTIL_SRC,
+        exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC +
+                  PROJECT_UTIL_SRC + PROLOG_SRC,
     ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
@@ -162,6 +165,7 @@ java_library(
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
+        "//java/com/google/gerrit/server/rules/prolog",
         "//lib:blame-cache",
         "//lib:guava",
         "//lib:jgit",

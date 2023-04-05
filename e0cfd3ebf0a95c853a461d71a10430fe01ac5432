@@ -16,6 +16,24 @@
       "message": "[optional] Should this class maybe be moved into com.google.gerrit.acceptance.server.rules.prolog too?",
       "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a33a264_205f1687",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-05T13:38:31Z",
+      "side": 1,
+      "message": "Right. Moved together with RulesIT (which also contains prolog-related logic) to the prolog package with Ibd8c5362927d8f. PTAL.\n\nThanks a lot for reviewing all the changes.",
+      "parentUuid": "aebf8fc3_7ba5ece5",
+      "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

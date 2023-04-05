@@ -15,6 +15,8 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AnonymousUser;
@@ -51,6 +53,7 @@ import com.google.inject.Singleton;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -163,5 +166,15 @@ public class EmailArguments {
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
     this.currentUserProvider = currentUserProvider;
     this.retryHelper = retryHelper;
+  }
+
+  /** Fetch ChangeData for the specified change. */
+  public ChangeData newChangeData(Project.NameKey project, Change.Id id) {
+    return changeDataFactory.create(project, id);
+  }
+
+  /** Fetch ChangeData for specified change and revision. */
+  public ChangeData newChangeData(Project.NameKey project, Change.Id id, ObjectId metaId) {
+    return changeDataFactory.create(changeNotesFactory.createChecked(project, id, metaId));
   }
 }

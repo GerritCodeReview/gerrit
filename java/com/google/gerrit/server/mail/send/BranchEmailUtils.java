@@ -25,6 +25,7 @@ import java.util.Map;
 /** Contains utils for email notification related to the events on project+branch. */
 class BranchEmailUtils {
 
+  // TODO: Remove after all usages are migrated to OutgoingEmailNew.
   /** Set a reasonable list id so that filters can be used to sort messages. */
   static void setListIdHeader(OutgoingEmail email, BranchNameKey branch) {
     email.setHeader(
@@ -35,8 +36,42 @@ class BranchEmailUtils {
     }
   }
 
+  /** Set a reasonable list id so that filters can be used to sort messages. */
+  static void setListIdHeader(OutgoingEmailNew email, BranchNameKey branch) {
+    email.setHeader(
+        "List-Id",
+        "<gerrit-" + branch.project().get().replace('/', '-') + "." + email.getGerritHost() + ">");
+    if (email.getSettingsUrl() != null) {
+      email.setHeader("List-Unsubscribe", "<" + email.getSettingsUrl() + ">");
+    }
+  }
+
+  // TODO: Remove after all usages are migrated to OutgoingEmailNew.
   /** Add branch information to soy template params. */
   static void addBranchData(OutgoingEmail email, EmailArguments args, BranchNameKey branch) {
+    String projectName = branch.project().get();
+    email.addSoyParam("projectName", projectName);
+    // shortProjectName is the project name with the path abbreviated.
+    email.addSoyParam("shortProjectName", getShortProjectName(projectName));
+
+    // instanceAndProjectName is the instance's name followed by the abbreviated project path
+    email.addSoyParam(
+        "instanceAndProjectName",
+        getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
+    email.addSoyParam("addInstanceNameInSubject", args.addInstanceNameInSubject);
+
+    email.addSoyEmailDataParam("sshHost", getSshHost(email.getGerritHost(), args.sshAddresses));
+
+    Map<String, String> branchData = new HashMap<>();
+    branchData.put("shortName", branch.shortName());
+    email.addSoyParam("branch", branchData);
+
+    email.addFooter(MailHeader.PROJECT.withDelimiter() + branch.project().get());
+    email.addFooter(MailHeader.BRANCH.withDelimiter() + branch.shortName());
+  }
+
+  /** Add branch information to soy template params. */
+  static void addBranchData(OutgoingEmailNew email, EmailArguments args, BranchNameKey branch) {
     String projectName = branch.project().get();
     email.addSoyParam("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.

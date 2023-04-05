@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2be1c710_67a4c659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-05T14:39:14Z",
+      "side": 1,
+      "message": "\u003e It\u0027s documented in the rest-api docs. Could you specify what other docs you mean\n\nCould you point me to the line # because I don\u0027t see any mention of a specific flag that needs to be added to get these fields?\n\nDoes this affect ssh queries at all? If not, should it? If yes, it likely should be documented?",
+      "parentUuid": "8046bd9d_ef398bf8",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b5a6bcb_50f3cc1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 22

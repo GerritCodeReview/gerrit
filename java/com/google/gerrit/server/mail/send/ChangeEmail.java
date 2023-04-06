@@ -109,7 +109,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
   private boolean emailOnlyAuthors;
   protected boolean emailOnlyAttentionSetIfEnabled;
   // Watchers ignore attention set rules.
-  protected Set<Account.Id> watchers = new HashSet<>();
+  protected Set<Account.Id> watcherAccounts = new HashSet<>();
+  // Watcher can only be an email if it's specified in notify section of ProjectConfig.
+  protected Set<Address> watcherEmails = new HashSet<>();
 
   protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
     super(args, messageClass);
@@ -405,10 +407,12 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
   private void addWatchers(RecipientType type, WatcherList watcherList) {
-    watchers.addAll(watcherList.accounts);
+    watcherAccounts.addAll(watcherList.accounts);
     for (Account.Id user : watcherList.accounts) {
       addByAccountId(type, user);
     }
+
+    watcherEmails.addAll(watcherList.emails);
     for (Address addr : watcherList.emails) {
       addByEmail(type, addr);
     }
@@ -464,7 +468,16 @@ public abstract class ChangeEmail extends OutgoingEmail {
       return false;
     }
 
-    return true;
+    // If the email is a watcher email, skip permission check. An email can only be a watcher if
+    // it is specified in notify section of ProjectConfig, so we trust that the recipient is
+    // allowed.
+    if (watcherEmails.contains(addr)) {
+      return true;
+    }
+    return args.permissionBackend
+        .user(args.anonymousUser.get())
+        .change(changeData)
+        .test(ChangePermission.READ);
   }
 
   @Override
@@ -475,7 +488,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (emailOnlyAuthors && !getAuthors().contains(to)) {
       return false;
     }
-    if (!watchers.contains(to)) {
+    // Watchers ignore AttentionSet rules.
+    if (!watcherAccounts.contains(to)) {
       Optional<AccountState> accountState = args.accountCache.get(to);
       if (emailOnlyAttentionSetIfEnabled
           && accountState.isPresent()

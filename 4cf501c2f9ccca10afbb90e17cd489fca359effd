@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4035ea_da8513bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-06T07:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "042cd32d_7a527fb4",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "4cf501c2f9ccca10afbb90e17cd489fca359effd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41c67cd7_f653000e",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-04-06T07:43:10Z",
       "side": 1,
       "message": "Maybe anyway add a reference to the change that introduced the issue (something like \"Not a pure rollback of change I6853ccdac ...\").",
+      "revId": "4cf501c2f9ccca10afbb90e17cd489fca359effd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3066d92d_47f18b15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-06T07:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41c67cd7_f653000e",
       "revId": "4cf501c2f9ccca10afbb90e17cd489fca359effd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -100,6 +100,21 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotRebaseOnBehalfOfUploaderWithCommitterEmail() throws Exception {
+    Account.Id uploader = accountOperations.newAccount().create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    rebaseInput.committerEmail = "admin@example.com";
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId.get()).rebase(rebaseInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("committer_email and on_behalf_of_uploader are mutually exclusive");
+  }
+
+  @Test
   public void cannotRebaseNonCurrentPatchSetOnBehalfOfUploader() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
     Change.Id changeId = changeOperations.newChange().owner(uploader).create();

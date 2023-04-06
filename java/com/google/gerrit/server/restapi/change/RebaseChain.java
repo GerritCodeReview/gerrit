@@ -127,6 +127,10 @@ public class RebaseChain
         throw new BadRequestException(
             "allow_conflicts and on_behalf_of_uploader are mutually exclusive");
       }
+      if (input.committerEmail != null) {
+        throw new BadRequestException(
+            "committer_email and on_behalf_of_uploader are mutually exclusive");
+      }
     } else {
       tipRsrc.permissions().check(ChangePermission.REBASE);
     }

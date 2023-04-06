@@ -36,10 +36,12 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestMetricMaker;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
@@ -97,6 +99,7 @@ public class RebaseIT {
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
     @Inject protected TestMetricMaker testMetricMaker;
+    @Inject protected AccountOperations accountOperations;
 
     @FunctionalInterface
     protected interface RebaseCall {
@@ -138,6 +141,65 @@ public class RebaseIT {
 
       // Rebasing the second change again should fail
       verifyChangeIsUpToDate(r2);
+    }
+
+    @Test
+    public void rebaseWithCommitterEmail() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result r1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Create new user with a secondary email and with permission to rebase
+      Account.Id userWithSecondaryEmail =
+          accountOperations
+              .newAccount()
+              .preferredEmail("preferred@domain.org")
+              .addSecondaryEmail("secondary@domain.org")
+              .create();
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.REBASE).ref("refs/heads/master").group(REGISTERED_USERS))
+          .update();
+
+      // Rebase the second change as the new user with its secondary email
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "secondary@domain.org";
+      requestScopeOperations.setApiUser(userWithSecondaryEmail);
+      rebaseCallWithInput.call(r2.getChangeId(), ri);
+      assertThat(r2.getChange().getCommitter().getEmailAddress()).isEqualTo(ri.committerEmail);
+    }
+
+    @Test
+    public void rebaseWithInvalidCommitterEmail() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result c1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result c2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(c1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Rebase the second change with invalid committer email
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "invalid@example.com";
+      ResourceConflictException thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> rebaseCallWithInput.call(c2.getChangeId(), ri));
+      assertThat(thrown)
+          .hasMessageThat()
+          .contains(
+              String.format(
+                  "Committer email %s is not among registered emails", ri.committerEmail));
     }
 
     @Test
@@ -1034,6 +1096,47 @@ public class RebaseIT {
           gApi.changes().id(r5.getChangeId()).rebaseChain(), false, r2, r3, r4, r5);
 
       verifyRebaseForChange(r5.getChange().getId(), r4.getChange().getId(), false);
+    }
+
+    @Test
+    public void rebaseChainWithCommitterEmail() throws Exception {
+      // Create changes with the following hierarchy:
+      // * HEAD
+      //   * r1
+      //   * r2
+      //     * r3
+
+      PushOneCommit.Result r = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+      PushOneCommit.Result r3 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Create new user with a secondary email and with permission to rebase
+      Account.Id userWithSecondaryEmail =
+          accountOperations
+              .newAccount()
+              .preferredEmail("preferred@domain.org")
+              .addSecondaryEmail("secondary@domain.org")
+              .create();
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.REBASE).ref("refs/heads/master").group(REGISTERED_USERS))
+          .update();
+
+      // Rebase the chain through r3 with the new user and with its secondary email.
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "secondary@domain.org";
+      requestScopeOperations.setApiUser(userWithSecondaryEmail);
+      gApi.changes().id(r3.getChangeId()).rebaseChain(ri);
+
+      assertThat(r3.getChange().getCommitter().getEmailAddress()).isEqualTo(ri.committerEmail);
+      assertThat(r2.getChange().getCommitter().getEmailAddress()).isEqualTo(ri.committerEmail);
     }
 
     @Test

@@ -8170,6 +8170,10 @@ This means this option cannot be combined with the `allow_conflicts` option. +
 In addition, rebasing on behalf of the uploader is only supported for the
 current patch set of a change. +
 If the caller is the uploader this flag is ignored and a normal rebase is done.
+|`committer_email`|optional|
+Rebase is committed using this email address. Only the registered emails
+of the calling user are considered valid. This option cannot be combined with the
+`on_behalf_of_uploader` option.
 |`validation_options`   |optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation

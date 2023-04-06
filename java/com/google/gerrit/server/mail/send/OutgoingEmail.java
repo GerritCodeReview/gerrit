@@ -653,6 +653,13 @@ public abstract class OutgoingEmail {
     return Address.create(account.fullName(), e);
   }
 
+  /**
+   * Populate the email content.
+   *
+   * <p>Subclasses may override this method to populate further email content.
+   *
+   * @throws EmailException thrown if there is an error while populating the email content
+   */
   protected void populateEmailContent() throws EmailException {
     for (RecipientType recipientType : notify.accounts().keySet()) {
       notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));

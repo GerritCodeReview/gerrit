@@ -89,19 +89,19 @@ public class CommentSender extends ReplyToChangeSender {
     /** Returns a web link to a comment for a change. */
     @Nullable
     public String getCommentLink(String uuid) {
-      return args.urlFormatter.get().getInlineCommentView(change, uuid).orElse(null);
+      return args.urlFormatter.get().getInlineCommentView(getChange(), uuid).orElse(null);
     }
 
     /** Returns a web link to the comment tab view of a change. */
     @Nullable
     public String getCommentsTabLink() {
-      return args.urlFormatter.get().getCommentsTabView(change).orElse(null);
+      return args.urlFormatter.get().getCommentsTabView(getChange()).orElse(null);
     }
 
     /** Returns a web link to the findings tab view of a change. */
     @Nullable
     public String getFindingsTabLink() {
-      return args.urlFormatter.get().getFindingsTabView(change).orElse(null);
+      return args.urlFormatter.get().getFindingsTabView(getChange()).orElse(null);
     }
 
     /**
@@ -174,7 +174,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.
-    setHeader(MailHeader.COMMENT_DATE.fieldName(), timestamp);
+    setHeader(MailHeader.COMMENT_DATE.fieldName(), getTimestamp());
 
     if (incomingEmailEnabled) {
       if (replyToAddress == null) {
@@ -232,7 +232,7 @@ public class CommentSender extends ReplyToChangeSender {
                 "Cannot load %s from %s in %s",
                 c.key.filename,
                 modifiedFiles.values().iterator().next().newCommitId().name(),
-                projectState.getName());
+                getProjectState().getName());
             currentGroup.fileData = null;
           }
         }
@@ -317,7 +317,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.getPublishedHumanComment(changeData.notes(), key);
+      return commentsUtil.getPublishedHumanComment(getChangeData().notes(), key);
     } catch (StorageException e) {
       logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();
@@ -503,7 +503,7 @@ public class CommentSender extends ReplyToChangeSender {
   @Nullable
   private Repository getRepository() {
     try {
-      return args.server.openRepository(projectState.getNameKey());
+      return args.server.openRepository(getProjectState().getNameKey());
     } catch (IOException e) {
       return null;
     }
@@ -550,7 +550,8 @@ public class CommentSender extends ReplyToChangeSender {
     }
     if (getNotify().handling().equals(NotifyHandling.ALL)) {
       bccStarredBy();
-      includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
+      includeWatchers(
+          NotifyType.ALL_COMMENTS, !getChange().isWorkInProgress() && !getChange().isPrivate());
     }
   }
 
@@ -566,7 +567,7 @@ public class CommentSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s before the update is %s",
-        change.getId(), isSubmittablePreUpdate);
+        getChange().getId(), isSubmittablePreUpdate);
     if (!isSubmittablePreUpdate) {
       return false;
     }
@@ -576,7 +577,7 @@ public class CommentSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s after the update is %s",
-        change.getId(), isSubmittablePostUpdate);
+        getChange().getId(), isSubmittablePostUpdate);
     return !isSubmittablePostUpdate;
   }
 
@@ -644,6 +645,6 @@ public class CommentSender extends ReplyToChangeSender {
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
     return MailProcessingUtil.rfcDateformatter.format(
-        ZonedDateTime.ofInstant(timestamp, ZoneId.of("UTC")));
+        ZonedDateTime.ofInstant(getTimestamp(), ZoneId.of("UTC")));
   }
 }

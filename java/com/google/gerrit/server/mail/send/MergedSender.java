@@ -52,10 +52,10 @@ public class MergedSender extends ReplyToChangeSender {
       @Assisted Change.Id changeId,
       @Assisted Optional<String> stickyApprovalDiff) {
     super(args, "merged", newChangeData(args, project, changeId));
-    labelTypes = changeData.getLabelTypes();
+    labelTypes = getChangeData().getLabelTypes();
     this.stickyApprovalDiff = stickyApprovalDiff;
     // We want to send the submit email even if the "send only when in attention set" is enabled.
-    emailOnlyAttentionSetIfEnabled = false;
+    setEmailOnlyAttentionSetIfEnabled(false);
   }
 
   @Override
@@ -85,7 +85,8 @@ public class MergedSender extends ReplyToChangeSender {
     try {
       Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
-      for (PatchSetApproval ca : args.approvalsUtil.byPatchSet(changeData.notes(), patchSet.id())) {
+      for (PatchSetApproval ca :
+          args.approvalsUtil.byPatchSet(getChangeData().notes(), getPatchSet().id())) {
         Optional<LabelType> lt = labelTypes.byLabel(ca.labelId());
         if (!lt.isPresent()) {
           continue;

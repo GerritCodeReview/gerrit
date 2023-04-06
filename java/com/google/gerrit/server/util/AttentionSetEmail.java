@@ -18,7 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
@@ -86,7 +85,7 @@ public class AttentionSetEmail {
     this.asyncSender =
         new AsyncSender(
             requestContext,
-            ctx.getIdentifiedUser(),
+            ctx.getUser(),
             sender,
             messageId,
             ctx.getNotify(change.getId()),
@@ -108,7 +107,7 @@ public class AttentionSetEmail {
    */
   private static class AsyncSender implements Runnable, RequestContext {
     private final ThreadLocalRequestContext requestContext;
-    private final IdentifiedUser user;
+    private final CurrentUser user;
     private final AttentionSetSender sender;
     private final MessageIdGenerator.MessageId messageId;
     private final NotifyResolver.Result notify;
@@ -118,7 +117,7 @@ public class AttentionSetEmail {
 
     AsyncSender(
         ThreadLocalRequestContext requestContext,
-        IdentifiedUser user,
+        CurrentUser user,
         AttentionSetSender sender,
         MessageIdGenerator.MessageId messageId,
         NotifyResolver.Result notify,

@@ -141,6 +141,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a78703fb_cb38245c",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T11:41:31Z",
+      "side": 1,
+      "message": "No, I can not. Adding a user to the AS with an internal user does not work completely. An exception is thrown and no mail is sent: Here is part of the stack-trace:\n[WorkQueue-2[java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2d8941ac[Not completed, task \u003d java.util.concurrent.Executors$RunnableAdapter@6f5d8ad2[Wr apped task \u003d com.google.gerrit.server.logging.LoggingContextAwareRunnable@3f29737c]]]] ERROR com.google.gerrit.server.change.ReaddOwnerUtil : Failed to readd owners for changes in project apps/larod java.lang.UnsupportedOperationException: InternalUser is not an IdentifiedUser at com.google.gerrit.server.CurrentUser.asIdentifiedUser(CurrentUser.java:119) at com.google.gerrit.server.update.Context.getIdentifiedUser(Context.java:112) at com.google.gerrit.server.util.AttentionSetEmail.\u003cinit\u003e(AttentionSetEmail.java:89) at com.google.gerrit.server.util.AttentionSetEmail$$FastClassByGuice$$916287243.GUICE$TRAMPOLINE(\u003cgenerated\u003e) at com.google.gerrit.server.util.AttentionSetEmail$$FastClassByGuice$$916287243.apply(\u003cgenerated\u003e) at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:82) at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:114) at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91) at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:296) at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1100) at com.google.inject.assistedinject.FactoryProvider2.invoke(FactoryProvider2.java:878) at com.sun.proxy.$Proxy184.create(Unknown Source) at com.google.gerrit.server.change.AddToAttentionSetOp.postUpdate(AddToAttentionSetOp.java:101....",
+      "parentUuid": "91ef444c_cd310d1c",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "186f608b_dbebe399",
         "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
         "patchSetId": 4

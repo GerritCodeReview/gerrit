@@ -165,6 +165,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9acbe675_9348d945",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T12:33:12Z",
+      "side": 1,
+      "message": "This looks like a bug in AttentionSetEmail to me. Can you try this with [1]?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/368139",
+      "parentUuid": "a78703fb_cb38245c",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "186f608b_dbebe399",
         "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
         "patchSetId": 4

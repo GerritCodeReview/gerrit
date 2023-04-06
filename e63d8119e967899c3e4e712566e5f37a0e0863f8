@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf19bb2_1922b907",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "To avoid confusion with code owners, maybe better always say \u0027change owner\u0027.",
+      "range": {
+        "startLine": 1733,
+        "startChar": 73,
+        "endLine": 1733,
+        "endChar": 78
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9096b7a1_f6daab5e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027(\u0027",
+      "range": {
+        "startLine": 1734,
+        "startChar": 36,
+        "endLine": 1734,
+        "endChar": 37
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04827b92_24c788c5",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "nit: an",
+      "range": {
+        "startLine": 201,
+        "startChar": 43,
+        "endLine": 201,
+        "endChar": 44
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e96ccf1_33cb6827",
+        "filename": "java/com/google/gerrit/server/change/AttentionSetOwnerAdder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "If retrying never happens, why use RetryHelper? \nWouldn\u0027t it be better in this case to get BatchUpdate.Factory injected and use it directly?",
+      "range": {
+        "startLine": 81,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 24
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45b9e2b_c9873f76",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "nit: mailSender is not necessarily a username, but can be any account identifier (e.g. for some Gerrit installation like the ones at Google accounts even don\u0027t have usernames)",
+      "range": {
+        "startLine": 92,
+        "startChar": 42,
+        "endLine": 92,
+        "endChar": 50
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ef444c_cd310d1c",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "Could you just use the internal user instead?\n\nGet InternalUser.Factory injected and then call the create() method.",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "186f608b_dbebe399",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "Instead of implementing this on your own, maybe better get ServiceUserClassifier injected.",
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1718455_bd533f35",
+        "filename": "java/com/google/gerrit/server/config/AttentionSetConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-06T11:16:31Z",
+      "side": 1,
+      "message": "nit: line too long, please wrap",
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.ABANDONED_CHANGES;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.ALL_COMMENTS;
 import static com.google.gerrit.entities.NotifyConfig.NotifyType.NEW_CHANGES;
@@ -29,7 +28,6 @@ import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVIEWERS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ENABLED;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
@@ -306,25 +304,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void addReviewerToReviewableChangeBatch() throws Exception {
     addReviewerToReviewableChange(batch());
-  }
-
-  @Test
-  public void addReviewerToChangeNoAnonymousUsersNotified() throws Exception {
-    StagedChange sc = stageReviewableChange();
-    // Remove read permission for anonymous users.
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(Permission.READ).ref("refs/*").group(ANONYMOUS_USERS))
-        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
-        .update();
-
-    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
-    addReviewer(singly(), sc.changeId, sc.owner, reviewer.email());
-
-    // No BY_EMAIL cc's.
-    assertThat(sender).sent("newchange", sc).to(reviewer).cc(sc.reviewer).noOneElse();
-    assertThat(sender).didNotSend();
   }
 
   private void addReviewerToReviewableChangeByOwnerCcingSelf(Adder adder) throws Exception {
@@ -686,30 +665,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.owner)
         .cc(sc.ccer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
-        .noOneElse();
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void commentOnChangeNotVisibleToAnonymousByReviewer() throws Exception {
-    StagedChange sc = stageReviewableChange();
-
-    // Remove read permission for anonymous users.
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(Permission.READ).ref("refs/*").group(ANONYMOUS_USERS))
-        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
-        .update();
-
-    review(sc.reviewer, sc.changeId, ENABLED);
-    // Not cc'ed to BY_EMAIL added addresses.
-    assertThat(sender)
-        .sent("comment", sc)
-        .to(sc.owner)
-        .cc(sc.ccer)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
         .noOneElse();

@@ -346,6 +346,18 @@ The following SR can be configured:
   applicableIf = branch:^refs/heads/release/.*
 ----
 
+[[require-footer-example]]
+=== Require a footer Example
+
+It's possible to use a submit requirement to require a footer to be present in
+the commit message.
+
+----
+[submit-requirement "Bug-Footer"]
+  description = Changes must include a 'Bug' footer
+  applicableIf = -branch:refs/meta/config AND -hasfooter:\"Bug\"
+  submittableIf = hasfooter:\"Bug\"
+----
 
 [[test-submit-requirements]]
 == Testing Submit Requirements

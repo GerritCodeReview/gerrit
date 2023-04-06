@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce4958af_a00b390b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-06T13:24:07Z",
+      "side": 1,
+      "message": "params[1] is actually the `changeNumber` parsed from the URL.\nThe query params in it\u0027s entirety are stored in `ctx.queryString`.",
+      "parentUuid": "f15e0fea_1b804825",
+      "range": {
+        "startLine": 1404,
+        "startChar": 44,
+        "endLine": 1404,
+        "endChar": 50
+      },
+      "revId": "71067549eca363a17f8affdef44a3b8b579c032f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77225941_aa907614",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-06T12:31:52Z",
       "side": 1,
       "message": "Nit: I think instead of concatenating, just making it part of the template literal might look a bit better.",
+      "range": {
+        "startLine": 1405,
+        "startChar": 10,
+        "endLine": 1405,
+        "endChar": 67
+      },
+      "revId": "71067549eca363a17f8affdef44a3b8b579c032f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01152529_d9218c92",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1405,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-06T13:24:07Z",
+      "side": 1,
+      "message": "I did not make it a part of template since the second part is optional.\nkeeping as is for now.",
+      "parentUuid": "77225941_aa907614",
       "range": {
         "startLine": 1405,
         "startChar": 10,

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f86d66_80cea499",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "Thanks for review. I know code could be simpler if only we had only 1 labelInfo type and we always show same list of voters - but there are 2 UX - one where we show who voted + who can vote and one where we show only who voted.",
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db93b9d0_c15e522e",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-04-05T20:17:38Z",
       "side": 1,
       "message": "can you add a comment explaining what exactly this method is supposed to return and cover the cases when the person who voted is a reviewer and CC when showAllReviewers is true/false?\n\nThis name makes it seems like it\u0027s just computing accounts that voted on the change but that is not the case I think?\n\nThere are three variables here \u003cReviewer/CC, showAllReviewers \u003d true/false, DetailedLabelInfo vs QuickLabelInfo\u003e and I am not sure how these variables are affecting the method.\n\n\nIf `showAllReviewers` is true and it\u0027s not a DetailedLabelInfo then we just end up running `hasVoted` checks?\nSo maybe `showAllReviewers` should check that it\u0027s a DetailedLabelInfo otherwise I am not sure how this property is being enforced.",
+      "range": {
+        "startLine": 211,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 15
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fabfc141_2484d8ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "I added jsdoc.\n\nfor example gr-trigger-vote is setting showAllReviewers to false - so even for detailedlabelinfo it\u0027s not interested in reviewers who can vote.\n\nYes, this function is result of UX ask vs BE data model.",
+      "parentUuid": "db93b9d0_c15e522e",
       "range": {
         "startLine": 211,
         "startChar": 2,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4b3d36_a923df3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33129aca_af7fcb1a",
+      "range": {
+        "startLine": 215,
+        "startChar": 14,
+        "endLine": 215,
+        "endChar": 22
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2b88410_c91f1fbc",
@@ -60,6 +125,30 @@
       "writtenOn": "2023-04-05T20:17:38Z",
       "side": 1,
       "message": "should this be renamed to `showAllVoters`?\nsince this includes CC as well now?\n\nThe comment on the property is:\n\n`if true - show all reviewers that can vote on label` but I am not sure if that is intended to cover only reviewers and not CC.",
+      "range": {
+        "startLine": 216,
+        "startChar": 17,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dd55acf_7eedeb63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t include CC (only if CC voted). We show all who voted (CC or reviewers) and we show all reviewers who can vote on label. This is how it was specified in original design (we didn\u0027t know about corner case of CC who voted). I see that on android this is already crowded, I don\u0027t want to overcrowded it with CC.\n\nI added more info to property",
+      "parentUuid": "c2b88410_c91f1fbc",
       "range": {
         "startLine": 216,
         "startChar": 17,
@@ -93,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e36409_f236cdec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "Yes, because we don\u0027t want CC to be included. That\u0027s expected. I will put jsdoc for this method.",
+      "parentUuid": "6fc98c57_20c19727",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 33
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9395b5d_5877b9ca",
@@ -106,6 +219,30 @@
       "writtenOn": "2023-04-05T20:17:38Z",
       "side": 1,
       "message": "perhaps `canVote`?\nThe method below is called `hasVoted` and not `hasReviewerVoted` so we would be more consistent with the naming.\n\nBut this flow is only triggered for a reviewer and not for CCs so perhaps the name is intentional?",
+      "range": {
+        "startLine": 221,
+        "startChar": 19,
+        "endLine": 221,
+        "endChar": 34
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c019d83_738e0363",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "Yes, canReviewerVote works only for reviewers, hasVoted work for CC and reviewer. It\u0027s intentional and we are not interested if CC can vote.",
+      "parentUuid": "e9395b5d_5877b9ca",
       "range": {
         "startLine": 221,
         "startChar": 19,
@@ -139,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abcf5fc_f0f3187e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "You are right. I added\n`// labelInfo is QuickLabelInfo or account is from CC`",
+      "parentUuid": "a637bc5e_469528a6",
+      "range": {
+        "startLine": 223,
+        "startChar": 15,
+        "endLine": 223,
+        "endChar": 31
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74589117_58774201",
@@ -152,6 +313,30 @@
       "writtenOn": "2023-04-05T20:17:38Z",
       "side": 1,
       "message": "why is this?\ntest name says show all who can vote but this CC can vote and we do not show it?",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "4d8287e751ac8e63ada0c0ea2868cb7c6a2f8755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "203f2cd0_a389c566",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-06T18:22:34Z",
+      "side": 1,
+      "message": "Yes, it\u0027s intentional. We show only reviewers who can vote. We show CC who voted.",
+      "parentUuid": "74589117_58774201",
       "range": {
         "startLine": 215,
         "startChar": 9,

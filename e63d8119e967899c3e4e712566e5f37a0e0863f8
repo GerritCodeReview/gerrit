@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d5f1e08_e2fa9b51",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbf19bb2_1922b907",
+      "range": {
+        "startLine": 1733,
+        "startChar": 73,
+        "endLine": 1733,
+        "endChar": 78
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9096b7a1_f6daab5e",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d56b50_1ae04b38",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9096b7a1_f6daab5e",
+      "range": {
+        "startLine": 1734,
+        "startChar": 36,
+        "endLine": 1734,
+        "endChar": 37
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04827b92_24c788c5",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-06T11:16:31Z",
       "side": 1,
       "message": "nit: an",
+      "range": {
+        "startLine": 201,
+        "startChar": 43,
+        "endLine": 201,
+        "endChar": 44
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2af666c1_895024d9",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04827b92_24c788c5",
       "range": {
         "startLine": 201,
         "startChar": 43,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "651e65db_a39d4aab",
+        "filename": "java/com/google/gerrit/server/change/AttentionSetOwnerAdder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "I used the auto-abandon code as base for this implementation and that code used retryHelper. I did not thought more about it. I now looked at the blame and\naccording to Dave Borowitz from 2017 the goal is to make BatchUpdate.Factory uninjectable https://gerrit-review.googlesource.com/c/gerrit/+/106838 . \nBut I guess that goal has been scrapped so I remove the extra code.",
+      "parentUuid": "8e96ccf1_33cb6827",
+      "range": {
+        "startLine": 81,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 24
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c45b9e2b_c9873f76",
         "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
         "patchSetId": 4
@@ -106,6 +202,30 @@
       "writtenOn": "2023-04-06T11:16:31Z",
       "side": 1,
       "message": "nit: mailSender is not necessarily a username, but can be any account identifier (e.g. for some Gerrit installation like the ones at Google accounts even don\u0027t have usernames)",
+      "range": {
+        "startLine": 92,
+        "startChar": 42,
+        "endLine": 92,
+        "endChar": 50
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a470c7_a394f574",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45b9e2b_c9873f76",
       "range": {
         "startLine": 92,
         "startChar": 42,
@@ -189,6 +309,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a798f3e9_e28ab402",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "It works with an InternalUser with that change. Should I rebase my change with the InternalUser fixes on top of that change?",
+      "parentUuid": "9acbe675_9348d945",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "186f608b_dbebe399",
         "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
         "patchSetId": 4
@@ -200,6 +344,24 @@
       "writtenOn": "2023-04-06T11:16:31Z",
       "side": 1,
       "message": "Instead of implementing this on your own, maybe better get ServiceUserClassifier injected.",
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92fdab4e_9621e897",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "186f608b_dbebe399",
       "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -217,6 +379,24 @@
       "writtenOn": "2023-04-06T11:16:31Z",
       "side": 1,
       "message": "nit: line too long, please wrap",
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a976ca92_a922ba12",
+        "filename": "java/com/google/gerrit/server/config/AttentionSetConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-06T16:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1718455_bd533f35",
       "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

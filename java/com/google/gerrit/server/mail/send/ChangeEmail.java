@@ -95,23 +95,23 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   private final Set<Account.Id> currentAttentionSet;
-  protected final Change change;
-  protected final ChangeData changeData;
-  protected ListMultimap<Account.Id, String> stars;
-  protected PatchSet patchSet;
-  protected PatchSetInfo patchSetInfo;
-  protected String changeMessage;
-  protected Instant timestamp;
-  protected BranchNameKey branch;
+  private final Change change;
+  private final ChangeData changeData;
+  private ListMultimap<Account.Id, String> stars;
+  private PatchSet patchSet;
+  private PatchSetInfo patchSetInfo;
+  private String changeMessage;
+  private Instant timestamp;
+  private BranchNameKey branch;
 
-  protected ProjectState projectState;
+  private ProjectState projectState;
   private Set<Account.Id> authors;
   private boolean emailOnlyAuthors;
-  protected boolean emailOnlyAttentionSetIfEnabled;
+  private boolean emailOnlyAttentionSetIfEnabled;
   // Watchers ignore attention set rules.
-  protected Set<Account.Id> watcherAccounts = new HashSet<>();
+  private Set<Account.Id> watcherAccounts = new HashSet<>();
   // Watcher can only be an email if it's specified in notify section of ProjectConfig.
-  protected Set<Address> watcherEmails = new HashSet<>();
+  private Set<Address> watcherEmails = new HashSet<>();
 
   protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
     super(args, messageClass);
@@ -123,8 +123,24 @@ public abstract class ChangeEmail extends OutgoingEmail {
     branch = changeData.change().getDest();
   }
 
+  public Change getChange() {
+    return change;
+  }
+
+  public ChangeData getChangeData() {
+    return changeData;
+  }
+
+  public Instant getTimestamp() {
+    return timestamp;
+  }
+
   public void setPatchSet(PatchSet ps) {
     patchSet = ps;
+  }
+
+  public PatchSet getPatchSet() {
+    return patchSet;
   }
 
   public void setPatchSet(PatchSet ps, PatchSetInfo psi) {
@@ -135,6 +151,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
   public void setChangeMessage(String cm, Instant t) {
     changeMessage = cm;
     timestamp = t;
+  }
+
+  public void setEmailOnlyAttentionSetIfEnabled(boolean value) {
+    emailOnlyAttentionSetIfEnabled = value;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
@@ -329,7 +349,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the patch list corresponding to patch set patchSetId of this change. */
-  protected Map<String, FileDiffOutput> listModifiedFiles(int patchSetId) {
+  public Map<String, FileDiffOutput> listModifiedFiles(int patchSetId) {
     try {
       PatchSet ps;
       if (patchSetId == patchSet.number()) {
@@ -346,7 +366,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the patch list corresponding to this patch set. */
-  protected Map<String, FileDiffOutput> listModifiedFiles() {
+  public Map<String, FileDiffOutput> listModifiedFiles() {
     if (patchSet != null) {
       try {
         return args.diffOperations.listModifiedFilesAgainstParent(
@@ -361,19 +381,19 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the project entity the change is in; null if its been deleted. */
-  protected ProjectState getProjectState() {
+  public ProjectState getProjectState() {
     return projectState;
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void addAuthors(RecipientType rt) {
+  public void addAuthors(RecipientType rt) {
     for (Account.Id id : getAuthors()) {
       addByAccountId(rt, id);
     }
   }
 
   /** BCC any user who has starred this change. */
-  protected void bccStarredBy() {
+  public void bccStarredBy() {
     if (!NotifyHandling.ALL.equals(getNotify().handling())) {
       return;
     }
@@ -386,12 +406,12 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Include users and groups that want notification of events. */
-  protected void includeWatchers(NotifyType type) {
+  public void includeWatchers(NotifyType type) {
     includeWatchers(type, true);
   }
 
   /** Include users and groups that want notification of events. */
-  protected void includeWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
+  public void includeWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     try {
       Watchers matching = getWatchers(type, includeWatchersFromNotifyConfig);
       addWatchers(RecipientType.TO, matching.to);
@@ -428,7 +448,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Any user who has published comments on this change. */
-  protected void ccAllApprovals() {
+  public void ccAllApprovals() {
     if (!NotifyHandling.ALL.equals(getNotify().handling())
         && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
       return;
@@ -444,7 +464,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Users who were added as reviewers to this change. */
-  protected void ccExistingReviewers() {
+  public void ccExistingReviewers() {
     if (!NotifyHandling.ALL.equals(getNotify().handling())
         && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
       return;
@@ -504,7 +524,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Lazily finds all users who are authors of any part of this change. */
-  protected Set<Account.Id> getAuthors() {
+  private Set<Account.Id> getAuthors() {
     if (this.authors != null) {
       return this.authors;
     }
@@ -703,8 +723,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
    * @param sourceDiff the unified diff that we're converting to the map.
    * @return map of 'type' to a line's content.
    */
-  protected static ImmutableList<ImmutableMap<String, String>> getDiffTemplateData(
-      String sourceDiff) {
+  public static ImmutableList<ImmutableMap<String, String>> getDiffTemplateData(String sourceDiff) {
     ImmutableList.Builder<ImmutableMap<String, String>> result = ImmutableList.builder();
     Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
     for (String diffLine : lineSplitter.split(sourceDiff)) {

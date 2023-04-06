@@ -653,7 +653,7 @@ public abstract class OutgoingEmail {
     return Address.create(account.fullName(), e);
   }
 
-  protected void populateEmailContent() throws EmailException {
+  protected void populateEmailContent() {
     for (RecipientType recipientType : notify.accounts().keySet()) {
       notify.accounts().get(recipientType).stream().forEach(a -> addByAccountId(recipientType, a));
     }

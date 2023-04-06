@@ -1237,7 +1237,11 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleChangeNumberLegacyRoute(ctx: PageContext) {
-    this.redirect('/c/' + ctx.params[0]);
+    this.redirect(
+      '/c/' +
+        ctx.params[0] +
+        (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
+    );
   }
 
   handleChangeRoute(ctx: PageContext) {
@@ -1396,7 +1400,10 @@ export class GrRouter implements Finalizable, NavigationService {
         this.show404();
         return;
       }
-      this.redirect(`/c/${project}/+/${changeNum}/${ctx.params[1]}`);
+      this.redirect(
+        `/c/${project}/+/${changeNum}/${ctx.params[1]}` +
+          (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
+      );
     });
   }
 

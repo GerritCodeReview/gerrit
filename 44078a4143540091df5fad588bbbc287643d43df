@@ -104,6 +104,24 @@
       "parentUuid": "2849da70_352ffeae",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0618ffc2_b124d887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-04-07T05:32:18Z",
+      "side": 1,
+      "message": "Thinking out loud - how about making it _half-read-only_:\n* existing projects with `false` would still be configurable to set it to `true` eventually\n* existing projects with `true` (by default all new projects would get `true`) would have it as read-only value\n\nSo that it stops leaking to new sites...",
+      "parentUuid": "c4337a3c_1915ddf7",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

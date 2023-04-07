@@ -20,8 +20,6 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
-import com.github.rholder.retry.Attempt;
-import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -529,7 +527,7 @@ public class MergeOp implements AutoCloseable {
 
         SubmissionExecutor submissionExecutor =
             new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
-        RetryTracker retryTracker = new RetryTracker();
+        RetryHelper.RetryTracker retryTracker = new RetryHelper.RetryTracker();
         retryHelper
             .changeUpdate(
                 "integrateIntoHistory",
@@ -597,15 +595,6 @@ public class MergeOp implements AutoCloseable {
         .nonVisibleChanges()
         .forEach(c -> nonVisible.add(changeDataFactory.create(c.project(), c.getId())));
     return new ChangeSet(visible, nonVisible);
-  }
-
-  private class RetryTracker implements RetryListener {
-    long lastAttemptNumber;
-
-    @Override
-    public <V> void onRetry(Attempt<V> attempt) {
-      lastAttemptNumber = attempt.getAttemptNumber();
-    }
   }
 
   @Singleton

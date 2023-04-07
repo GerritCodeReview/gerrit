@@ -565,8 +565,10 @@ class ReceiveCommits {
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
-    messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
+
+    // Collections populated during processing and within a retry
+    messages = new ConcurrentLinkedQueue<>();
     replaceByChange = new LinkedHashMap<>();
     updateGroups = new ArrayList<>();
 
@@ -776,28 +778,51 @@ class ReceiveCommits {
 
     Task newProgress = progress.beginSubTask("new", UNKNOWN);
     Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+    RetryHelper.RetryTracker retryTracker = new RetryHelper.RetryTracker();
 
-    List<CreateRequest> newChanges = Collections.emptyList();
     try {
-      if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-        try {
-          newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
-        } catch (IOException e) {
-          throw new StorageException("Failed to select new changes in " + project.getName(), e);
-        }
-      }
+      retryHelper
+          .changeUpdate(
+              "processReceiveCommands",
+              updateFactory -> {
+                List<CreateRequest> newChanges = Collections.emptyList();
+                if (retryTracker.isRetry()) {
+                  messages.clear();
+                  replaceByChange.clear();
+                  updateGroups.clear();
+                }
+                try {
+                  if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
+                    try {
+                      newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
+                    } catch (IOException e) {
+                      throw new StorageException(
+                          "Failed to select new changes in " + project.getName(), e);
+                    }
+                  }
 
-      // Commit validation has already happened, so any changes without Change-Id are for the
-      // deprecated feature.
-      warnAboutMissingChangeId(newChanges);
-      preparePatchSetsForReplace(newChanges);
-      insertChangesAndPatchSets(newChanges, replaceProgress);
+                  // Commit validation has already happened, so any changes without Change-Id are
+                  // for the deprecated feature.
+                  warnAboutMissingChangeId(newChanges);
+                  preparePatchSetsForReplace(newChanges);
+                  insertChangesAndPatchSets(newChanges, replaceProgress);
+                } finally {
+                  newProgress.end();
+                  replaceProgress.end();
+                }
+                queueSuccessMessages(newChanges);
+                return null;
+              })
+          .listener(retryTracker)
+          .defaultTimeoutMultiplier(5)
+          .call();
+    } catch (RestApiException e) {
+      logger.atSevere().withCause(e).log("Can't insert patchset");
+    } catch (UpdateException e) {
+      logger.atSevere().withCause(e).log("Failed to process receive commands");
     } finally {
-      newProgress.end();
-      replaceProgress.end();
+      logger.atFine().log("Done processsing receive commands");
     }
-
-    queueSuccessMessages(newChanges);
 
     logger.atFine().log(
         "Command results: %s",
@@ -1018,112 +1043,93 @@ class ReceiveCommits {
             Strings.nullToEmpty(magicBranchCmd.getMessage()));
         return;
       }
-      try {
-        retryHelper
-            .changeUpdate(
-                "insertChangesAndPatchSets",
-                updateFactory -> {
-                  try (BatchUpdate bu =
-                          updateFactory.create(
-                              project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
-                      ObjectInserter ins = repo.newObjectInserter();
-                      ObjectReader reader = ins.newReader();
-                      RevWalk rw = new RevWalk(reader)) {
-                    bu.setRepository(repo, rw, ins);
-                    bu.setRefLogMessage("push");
-                    if (magicBranch != null) {
-                      bu.setNotify(magicBranch.getNotifyForNewChange());
-                    }
 
-                    logger.atFine().log("Adding %d replace requests", newChanges.size());
-                    for (ReplaceRequest replace : replaceByChange.values()) {
-                      replace.addOps(bu, replaceProgress);
-                      if (magicBranch != null) {
-                        bu.setNotifyHandling(
-                            replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
-                        if (magicBranch.shouldPublishComments()) {
-                          bu.addOp(
-                              replace.notes.getChangeId(),
-                              publishCommentsOp.create(replace.psId, project.getNameKey()));
-                          Optional<ChangeNotes> changeNotes =
-                              getChangeNotes(replace.notes.getChangeId());
-                          if (!changeNotes.isPresent()) {
-                            // If not present, no need to update attention set here since this is a
-                            // new change.
-                            continue;
-                          }
-                          List<HumanComment> drafts =
-                              commentsUtil.draftByChangeAuthor(
-                                  changeNotes.get(), user.getAccountId());
-                          if (drafts.isEmpty()) {
-                            // If no comments, attention set shouldn't update since the user didn't
-                            // reply.
-                            continue;
-                          }
-                          replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
-                              bu,
-                              changeNotes.get(),
-                              isReadyForReview(changeNotes.get()),
-                              user,
-                              drafts);
-                        }
-                      }
-                    }
+      try (BatchUpdate bu =
+              batchUpdateFactory.create(
+                  project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+          ObjectInserter ins = repo.newObjectInserter();
+          ObjectReader reader = ins.newReader();
+          RevWalk rw = new RevWalk(reader)) {
+        bu.setRepository(repo, rw, ins);
+        bu.setRefLogMessage("push");
+        if (magicBranch != null) {
+          bu.setNotify(magicBranch.getNotifyForNewChange());
+        }
 
-                    logger.atFine().log("Adding %d create requests", newChanges.size());
-                    for (CreateRequest create : newChanges) {
-                      create.addOps(bu);
-                    }
+        logger.atFine().log("Adding %d replace requests", newChanges.size());
+        for (ReplaceRequest replace : replaceByChange.values()) {
+          replace.addOps(bu, replaceProgress);
+          if (magicBranch != null) {
+            bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+            if (magicBranch.shouldPublishComments()) {
+              bu.addOp(
+                  replace.notes.getChangeId(),
+                  publishCommentsOp.create(replace.psId, project.getNameKey()));
+              Optional<ChangeNotes> changeNotes = getChangeNotes(replace.notes.getChangeId());
+              if (!changeNotes.isPresent()) {
+                // If not present, no need to update attention set here since this is a
+                // new change.
+                continue;
+              }
+              List<HumanComment> drafts =
+                  commentsUtil.draftByChangeAuthor(changeNotes.get(), user.getAccountId());
+              if (drafts.isEmpty()) {
+                // If no comments, attention set shouldn't update since the user didn't
+                // reply.
+                continue;
+              }
+              replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
+                  bu, changeNotes.get(), isReadyForReview(changeNotes.get()), user, drafts);
+            }
+          }
+        }
 
-                    logger.atFine().log("Adding %d group update requests", newChanges.size());
-                    updateGroups.forEach(r -> r.addOps(bu));
+        logger.atFine().log("Adding %d create requests", newChanges.size());
+        for (CreateRequest create : newChanges) {
+          create.addOps(bu);
+        }
 
-                    logger.atFine().log("Executing batch");
-                    try {
-                      bu.execute();
-                    } catch (UpdateException e) {
-                      throw asRestApiException(e);
-                    }
+        logger.atFine().log("Adding %d group update requests", newChanges.size());
+        updateGroups.forEach(r -> r.addOps(bu));
 
-                    replaceByChange.values().stream()
-                        .forEach(
-                            req ->
-                                result.addChange(
-                                    ReceiveCommitsResult.ChangeStatus.REPLACED, req.ontoChange));
-                    newChanges.stream()
-                        .forEach(
-                            req ->
-                                result.addChange(
-                                    ReceiveCommitsResult.ChangeStatus.CREATED, req.changeId));
+        logger.atFine().log("Executing batch");
+        try {
+          bu.execute();
+        } catch (UpdateException e) {
+          throw asRestApiException(e);
+        }
 
-                    if (magicBranchCmd != null) {
-                      magicBranchCmd.setResult(OK);
-                    }
-                    for (ReplaceRequest replace : replaceByChange.values()) {
-                      String rejectMessage = replace.getRejectMessage();
-                      if (rejectMessage == null) {
-                        if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
-                          // Not necessarily the magic branch, so need to set OK on the original
-                          // value.
-                          replace.inputCommand.setResult(OK);
-                        }
-                      } else {
-                        logger.atFine().log("Rejecting due to message from ReplaceOp");
-                        reject(replace.inputCommand, rejectMessage);
-                      }
-                    }
-                  }
-                  return null;
-                })
-            .defaultTimeoutMultiplier(5)
-            .call();
+        replaceByChange.values().stream()
+            .forEach(
+                req ->
+                    result.addChange(ReceiveCommitsResult.ChangeStatus.REPLACED, req.ontoChange));
+        newChanges.stream()
+            .forEach(
+                req -> result.addChange(ReceiveCommitsResult.ChangeStatus.CREATED, req.changeId));
+
+        if (magicBranchCmd != null) {
+          magicBranchCmd.setResult(OK);
+        }
+        for (ReplaceRequest replace : replaceByChange.values()) {
+          String rejectMessage = replace.getRejectMessage();
+          if (rejectMessage == null) {
+            if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
+              // Not necessarily the magic branch, so need to set OK on the original
+              // value.
+              replace.inputCommand.setResult(OK);
+            }
+          } else {
+            logger.atFine().log("Rejecting due to message from ReplaceOp");
+            reject(replace.inputCommand, rejectMessage);
+          }
+        }
       } catch (ResourceConflictException e) {
         addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
       } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
         logger.atFine().withCause(e).log("Rejecting due to client error");
         reject(magicBranchCmd, e.getMessage());
-      } catch (RestApiException | UpdateException e) {
+      } catch (RestApiException | IOException e) {
         throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
       }
 

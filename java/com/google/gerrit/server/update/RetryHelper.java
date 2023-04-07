@@ -623,4 +623,17 @@ public class RetryHelper {
       return originalCause;
     }
   }
+
+  public static class RetryTracker implements RetryListener {
+    public long lastAttemptNumber;
+
+    @Override
+    public <V> void onRetry(Attempt<V> attempt) {
+      lastAttemptNumber = attempt.getAttemptNumber();
+    }
+
+    public boolean isRetry() {
+      return lastAttemptNumber >= 1;
+    }
+  }
 }

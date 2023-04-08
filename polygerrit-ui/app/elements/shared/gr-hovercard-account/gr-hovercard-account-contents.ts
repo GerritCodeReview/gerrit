@@ -510,6 +510,7 @@ export class GrHovercardAccountContents extends LitElement {
       .addToAttentionSet(this.change._number, this.account._account_id, reason)
       .then(() => {
         fire(this, 'hide-alert', {});
+        fire(this, 'reload', {clearPatchset: false});
       });
     fire(this, 'action-taken', {});
   }
@@ -541,6 +542,7 @@ export class GrHovercardAccountContents extends LitElement {
       )
       .then(() => {
         fire(this, 'hide-alert', {});
+        fire(this, 'reload', {clearPatchset: false});
       });
     fire(this, 'action-taken', {});
   }

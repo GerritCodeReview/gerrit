@@ -20,7 +20,10 @@ import '../../../styles/shared-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
-import {CURRENT} from '../../../utils/patch-set-util';
+import {
+  CURRENT,
+  hasEditBasedOnCurrentPatchSet,
+} from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
   isOwner,
@@ -526,13 +529,15 @@ export class GrChangeActions
   // private but used in test
   @state() disabledMenuActions: string[] = [];
 
-  @property({type: Boolean})
+  // private but used in test
+  @state()
   editPatchsetLoaded = false;
 
   @property({type: Boolean})
   editMode = false;
 
-  @property({type: Boolean})
+  // private but used in test
+  @state()
   editBasedOnCurrentPatchSet = true;
 
   @property({type: Boolean})
@@ -556,6 +561,16 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchsets$,
+      x => (this.editBasedOnCurrentPatchSet = hasEditBasedOnCurrentPatchSet(x))
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.editPatchsetLoaded = x === 'edit')
     );
   }
 

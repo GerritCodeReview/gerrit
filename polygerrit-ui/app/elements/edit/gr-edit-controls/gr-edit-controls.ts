@@ -472,7 +472,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        fireReload(this);
+        fireReload(this, true);
       });
   };
 
@@ -490,7 +490,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        fireReload(this);
+        fireReload(this, true);
       });
   };
 

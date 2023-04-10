@@ -2380,6 +2380,7 @@ export class GrChangeView extends LitElement {
         )
         .then(() => {
           fire(this, 'hide-alert', {});
+          fire(this, 'reload', {clearPatchset: false});
         });
     } else {
       const reason = getAddedByReason(this.account, this.serverConfig);
@@ -2397,6 +2398,7 @@ export class GrChangeView extends LitElement {
         )
         .then(() => {
           fire(this, 'hide-alert', {});
+          fire(this, 'reload', {clearPatchset: false});
         });
     }
     this.change = newChange;

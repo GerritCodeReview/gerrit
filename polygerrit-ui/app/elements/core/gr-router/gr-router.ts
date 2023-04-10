@@ -1206,7 +1206,7 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleQueryRoute(ctx: PageContext) {
-    const state: SearchViewState = {
+    const state: Partial<SearchViewState> = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: ctx.params[2] || '0',
@@ -1221,7 +1221,7 @@ export class GrRouter implements Finalizable, NavigationService {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
-    const state: SearchViewState = {
+    const state: Partial<SearchViewState> = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: '0',

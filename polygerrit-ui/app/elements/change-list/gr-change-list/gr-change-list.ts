@@ -121,6 +121,9 @@ export class GrChangeList extends LitElement {
   // private but used in test
   @state() config?: ServerInfo;
 
+  // Private but used in test.
+  userModel = getAppContext().userModel;
+
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;

@@ -401,7 +401,7 @@ suite('gr-router tests', () => {
         ...createSearchViewState(),
         query: 'asdf,qwer',
         offset: '123',
-      });
+      } as AppElementParams);
     });
 
     test('QUERY_LEGACY_SUFFIX', async () => {
@@ -414,7 +414,8 @@ suite('gr-router tests', () => {
       await checkUrlToState('/id/I0123456789abcdef0123456789abcdef01234567', {
         ...createSearchViewState(),
         query: 'I0123456789abcdef0123456789abcdef01234567',
-      });
+        offset: undefined,
+      } as AppElementParams);
     });
 
     test('REGISTER', async () => {

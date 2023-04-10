@@ -119,6 +119,9 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
+  // Private but used in test.
+  userModel = getAppContext().userModel;
+
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);

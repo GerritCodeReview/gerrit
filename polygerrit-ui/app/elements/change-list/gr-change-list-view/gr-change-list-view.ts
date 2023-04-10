@@ -81,8 +81,6 @@ export class GrChangeListView extends LitElement {
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
 
-  private readonly getNavigation = resolve(this, navigationToken);
-
   constructor() {
     super();
     this.addEventListener('next-page', () => this.handleNextPage());

@@ -304,7 +304,11 @@ suite('gr-change-list section', () => {
       ],
       emptyStateSlotName: 'test',
     };
+<<<<<<< HEAD
     userModel.setAccount(undefined);
+=======
+    element.userModel.setAccount(undefined);
+>>>>>>> stable-3.7
     await element.updateComplete;
     const rows = queryAll(element, 'gr-change-list-item');
     assert.lengthOf(rows, 2);

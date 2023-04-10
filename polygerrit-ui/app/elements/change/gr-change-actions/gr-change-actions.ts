@@ -538,6 +538,11 @@ export class GrChangeActions
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
   }
 
   override connectedCallback() {

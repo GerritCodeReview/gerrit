@@ -49,8 +49,6 @@ import {
   computeLatestPatchNum,
   findEdit,
   findEditParentRevision,
-  hasEditBasedOnCurrentPatchSet,
-  hasEditPatchsetLoaded,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
@@ -1343,13 +1341,7 @@ export class GrChangeView extends LitElement {
         .changeStatus=${this.change?.status}
         .commitNum=${this.commitInfo?.commit}
         .commitMessage=${this.latestCommitMessage}
-        .editPatchsetLoaded=${this.patchRange
-          ? hasEditPatchsetLoaded(this.patchRange)
-          : false}
         .editMode=${this.getEditMode()}
-        .editBasedOnCurrentPatchSet=${hasEditBasedOnCurrentPatchSet(
-          this.allPatchSets ?? []
-        )}
         .privateByDefault=${this.projectConfig?.private_by_default}
         .loggedIn=${this.loggedIn}
         @edit-tap=${() => this.handleEditTap()}

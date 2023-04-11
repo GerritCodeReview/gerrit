@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9037697_a854ef85",
+        "filename": "java/com/google/gerrit/server/change/AttentionSetOwnerAdder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-11T07:53:15Z",
+      "side": 1,
+      "message": "Yeah, at the moment there are no plans to make BatchUpdate.Factory uninjectable. So it\u0027s fine to keep it simple here.",
+      "parentUuid": "651e65db_a39d4aab",
+      "range": {
+        "startLine": 81,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 24
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c45b9e2b_c9873f76",
@@ -321,6 +345,30 @@
       "side": 1,
       "message": "It works with an InternalUser with that change. Should I rebase my change with the InternalUser fixes on top of that change?",
       "parentUuid": "9acbe675_9348d945",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9f04f9_362ef182",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-11T07:53:15Z",
+      "side": 1,
+      "message": "Yes, I think it would be nicer to use the InternalUser as it simplifies the configuration.",
+      "parentUuid": "a798f3e9_e28ab402",
       "range": {
         "startLine": 115,
         "startChar": 62,

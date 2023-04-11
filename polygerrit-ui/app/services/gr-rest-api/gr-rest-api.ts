@@ -417,7 +417,7 @@ export interface RestApiService extends Finalizable {
   getPortedDrafts(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   getDiffComments(
     changeNum: NumericChangeId

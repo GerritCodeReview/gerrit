@@ -7,14 +7,13 @@ import {
   PatchRange,
   PatchSetNum,
   RobotCommentInfo,
-  PathToCommentsInfoMap,
   FileInfo,
   PARENT,
-  CommentInfo,
   CommentThread,
   Comment,
   CommentMap,
   DraftInfo,
+  CommentInfo,
 } from '../../../types/common';
 import {
   isUnresolved,
@@ -23,6 +22,7 @@ import {
   isDraftThread,
   isPatchsetLevel,
   addPath,
+  id,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {CommentSide} from '../../../constants/constants';
@@ -31,22 +31,22 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 // TODO: Move file out of elements/ directory
 export class ChangeComments {
-  private readonly _comments: PathToCommentsInfoMap;
+  private readonly _comments: {[path: string]: CommentInfo[]};
 
   private readonly _robotComments: {[path: string]: RobotCommentInfo[]};
 
   private readonly _drafts: {[path: string]: DraftInfo[]};
 
-  private readonly _portedComments: PathToCommentsInfoMap;
+  private readonly _portedComments: {[path: string]: CommentInfo[]};
 
-  private readonly _portedDrafts: PathToCommentsInfoMap;
+  private readonly _portedDrafts: {[path: string]: DraftInfo[]};
 
   constructor(
-    comments?: PathToCommentsInfoMap,
+    comments?: {[path: string]: CommentInfo[]},
     robotComments?: {[path: string]: RobotCommentInfo[]},
     drafts?: {[path: string]: DraftInfo[]},
-    portedComments?: PathToCommentsInfoMap,
-    portedDrafts?: PathToCommentsInfoMap
+    portedComments?: {[path: string]: CommentInfo[]},
+    portedDrafts?: {[path: string]: DraftInfo[]}
   ) {
     this._comments = addPath(comments);
     this._robotComments = addPath(robotComments);
@@ -102,7 +102,7 @@ export class ChangeComments {
    */
   getAllComments(includeDrafts?: boolean, patchNum?: PatchSetNum) {
     const paths = this.getPaths();
-    const publishedComments: {[path: string]: CommentInfo[]} = {};
+    const publishedComments: {[path: string]: Comment[]} = {};
     for (const path of Object.keys(paths)) {
       publishedComments[path] = this.getAllCommentsForPath(
         path,
@@ -136,8 +136,8 @@ export class ChangeComments {
     path: string,
     patchNum?: PatchSetNum,
     includeDrafts?: boolean
-  ): CommentInfo[] {
-    const comments: CommentInfo[] = this._comments[path] || [];
+  ): Comment[] {
+    const comments: Comment[] = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
     let allComments = comments.concat(robotComments);
     if (includeDrafts) {
@@ -192,7 +192,7 @@ export class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    */
-  getAllDraftsForFile(file: PatchSetFile): CommentInfo[] {
+  getAllDraftsForFile(file: PatchSetFile): DraftInfo[] {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
     if (file.basePath) {
       allDrafts = allDrafts.concat(
@@ -210,8 +210,8 @@ export class ChangeComments {
    * @param patchRange The patch-range object containing patchNum
    * and basePatchNum properties to represent the range.
    */
-  getCommentsForPath(path: string, patchRange: PatchRange): CommentInfo[] {
-    let comments: CommentInfo[] = [];
+  getCommentsForPath(path: string, patchRange: PatchRange): Comment[] {
+    let comments: Comment[] = [];
     let drafts: DraftInfo[] = [];
     let robotComments: RobotCommentInfo[] = [];
     if (this._comments && this._comments[path]) {
@@ -269,7 +269,7 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange
   ): CommentThread[] {
-    const portedComments = this._portedComments[file.path] || [];
+    const portedComments: Comment[] = this._portedComments[file.path] || [];
     portedComments.push(...(this._portedDrafts[file.path] || []));
     if (file.basePath) {
       portedComments.push(...(this._portedComments[file.basePath] || []));
@@ -281,7 +281,7 @@ export class ChangeComments {
     // ported comments will involve comments that may not belong to the
     // current patchrange, so we need to form threads for them using all
     // comments
-    const allComments: CommentInfo[] = this.getAllCommentsForFile(file, true);
+    const allComments: Comment[] = this.getAllCommentsForFile(file, true);
 
     return createCommentThreads(allComments).filter(thread => {
       // Robot comments and drafts are not ported over. A human reply to
@@ -289,12 +289,12 @@ export class ChangeComments {
       // have the root comment of the thread not be ported, hence loop over
       // entire thread
       const portedComment = portedComments.find(portedComment =>
-        thread.comments.some(c => portedComment.id === c.id)
+        thread.comments.some(c => id(portedComment) === id(c))
       );
       if (!portedComment) return false;
 
       const originalComment = thread.comments.find(
-        comment => comment.id === portedComment.id
+        comment => id(comment) === id(portedComment)
       )!;
 
       // Original comment shown anyway? No need to port.
@@ -347,10 +347,7 @@ export class ChangeComments {
    * @param patchRange The patch-range object containing patchNum
    * and basePatchNum properties to represent the range.
    */
-  getCommentsForFile(
-    file: PatchSetFile,
-    patchRange: PatchRange
-  ): CommentInfo[] {
+  getCommentsForFile(file: PatchSetFile, patchRange: PatchRange): Comment[] {
     const comments = this.getCommentsForPath(file.path, patchRange);
     if (file.basePath) {
       comments.push(...this.getCommentsForPath(file.basePath, patchRange));
@@ -372,11 +369,11 @@ export class ChangeComments {
     file: PatchSetFile | PatchNumOnly,
     ignorePatchsetLevelComments?: boolean
   ) {
-    let comments: CommentInfo[] = [];
+    let comments: Comment[] = [];
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
     } else {
-      comments = this._commentObjToArray<CommentInfo>(
+      comments = this._commentObjToArray<Comment>(
         this.getAllPublishedComments(file.patchNum)
       );
     }
@@ -500,8 +497,8 @@ export class ChangeComments {
     file: PatchSetFile | PatchNumOnly,
     ignorePatchsetLevelComments?: boolean
   ) {
-    let comments: CommentInfo[] = [];
-    let drafts: CommentInfo[] = [];
+    let comments: Comment[] = [];
+    let drafts: Comment[] = [];
 
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);

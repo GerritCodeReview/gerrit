@@ -19,7 +19,8 @@ import {CommentSide} from '../../constants/constants';
 import {
   FixSuggestionInfo,
   FixReplacementInfo,
-  UnsavedInfo,
+  DraftInfo,
+  DraftState,
 } from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
@@ -97,11 +98,11 @@ function pleaseFixMessage(result: RunResult) {
 ${result.message}`;
 }
 
-export function createPleaseFixComment(result: RunResult): UnsavedInfo {
+export function createPleaseFixComment(result: RunResult): DraftInfo {
   const pointer = result.codePointers?.[0];
   assertIsDefined(pointer, 'codePointer');
   return {
-    __unsaved: true,
+    __draft: DraftState.UNSAVED,
     path: pointer.path,
     patch_set: result.patchset as RevisionPatchSetNum,
     side: CommentSide.REVISION,

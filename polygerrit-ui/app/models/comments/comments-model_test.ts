@@ -11,6 +11,7 @@ import {
 } from '../../test/test-data-generators';
 import {
   AccountInfo,
+  CommentInfo,
   EmailAddress,
   NumericChangeId,
   Timestamp,
@@ -24,7 +25,6 @@ import {
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../../services/app-context';
-import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
@@ -93,9 +93,9 @@ suite('change service tests', () => {
     const portedDraftsSpy = stubRestApi('getPortedDrafts').returns(
       Promise.resolve({})
     );
-    let comments: PathToCommentsInfoMap = {};
+    let comments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(model.comments$.subscribe(c => (comments = c ?? {})));
-    let portedComments: PathToCommentsInfoMap = {};
+    let portedComments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );

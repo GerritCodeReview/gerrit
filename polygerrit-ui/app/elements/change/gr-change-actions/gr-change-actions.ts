@@ -103,7 +103,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {assertIsDefined, queryAll} from '../../../utils/common-util';
+import {assertIsDefined, queryAll, uuid} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
@@ -909,8 +909,7 @@ export class GrChangeActions
       enabled: true,
       label,
       __type: type,
-      __key:
-        ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36).substr(2),
+      __key: ADDITIONAL_ACTION_KEY_PREFIX + uuid(),
     };
     this.additionalActions.push(action);
     this.requestUpdate('additionalActions');

@@ -29,7 +29,6 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
-  PathToCommentsInfoMap,
   RevisionPatchSetNum,
   RobotCommentInfo,
   Timestamp,
@@ -49,7 +48,7 @@ suite('ChangeComments tests', () => {
     });
 
     suite('ported comments', () => {
-      let portedComments: PathToCommentsInfoMap;
+      let portedComments: {[path: string]: CommentInfo[]};
       const comment1: CommentInfo = {
         ...createComment(),
         unresolved: true,
@@ -593,7 +592,7 @@ suite('ChangeComments tests', () => {
       const robotComments: {[path: string]: RobotCommentInfo[]} = {
         'file/one': [comments[0], comments[1]],
       };
-      const commentsByFile: PathToCommentsInfoMap = {
+      const commentsByFile: {[path: string]: CommentInfo[]} = {
         'file/one': [comments[2], comments[3]],
         'file/two': [comments[4], comments[5]],
         'file/three': [comments[6], comments[7], comments[8]],
@@ -741,7 +740,7 @@ suite('ChangeComments tests', () => {
       });
 
       test('computeUnresolvedNum w/ non-linear thread', () => {
-        const comments: PathToCommentsInfoMap = {
+        const comments: {[path: string]: CommentInfo[]} = {
           path: [
             {
               id: '9c6ba3c6_28b7d467' as UrlEncodedCommentId,

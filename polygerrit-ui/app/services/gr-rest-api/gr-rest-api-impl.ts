@@ -93,7 +93,6 @@ import {
   Password,
   PatchRange,
   PatchSetNum,
-  PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
   PluginInfo,
   PreferencesInfo,
@@ -2338,7 +2337,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getDiffComments(
     changeNum: NumericChangeId
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   getDiffComments(
     changeNum: NumericChangeId,
@@ -2439,7 +2438,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
     params?: FetchParams
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   _getDiffComments(
     changeNum: NumericChangeId,
@@ -2474,7 +2473,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<
     | GetDiffCommentsOutput
     | GetDiffRobotCommentsOutput
-    | PathToCommentsInfoMap
+    | {[path: string]: CommentInfo[]}
     | PathToRobotCommentsInfoMap
     | undefined
   > {
@@ -2496,7 +2495,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         },
         noAcceptHeader
       ) as Promise<
-        PathToCommentsInfoMap | PathToRobotCommentsInfoMap | undefined
+        {[path: string]: CommentInfo[]} | PathToRobotCommentsInfoMap | undefined
       >;
 
     if (!basePatchNum && !patchNum && !path) {
@@ -2564,7 +2563,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getPortedComments(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined> {
+  ): Promise<{[path: string]: CommentInfo[]} | undefined> {
     // maintaining a custom error function so that errors do not surface in UI
     const errFn: ErrorCallback = (response?: Response | null) => {
       if (response)
@@ -2578,24 +2577,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getPortedDrafts(
+  async getPortedDrafts(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined> {
+  ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     // maintaining a custom error function so that errors do not surface in UI
     const errFn: ErrorCallback = (response?: Response | null) => {
       if (response)
         console.info(`Fetching ported drafts failed, ${response.status}`);
     };
-    return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) return {};
-      return this._getChangeURLAndFetch({
-        changeNum,
-        endpoint: '/ported_drafts/',
-        revision,
-        errFn,
-      });
-    });
+    const loggedIn = await this.getLoggedIn();
+    if (!loggedIn) return {};
+    const comments = (await this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_drafts/',
+      revision,
+      errFn,
+    })) as {[path: string]: CommentInfo[]} | undefined;
+    return addDraftProp(comments);
   }
 
   saveDiffDraft(

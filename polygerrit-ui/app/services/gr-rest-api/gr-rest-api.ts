@@ -64,7 +64,6 @@ import {
   Password,
   PatchRange,
   PatchSetNum,
-  PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
   PluginInfo,
   PreferencesInfo,
@@ -412,16 +411,16 @@ export interface RestApiService extends Finalizable {
   getPortedComments(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   getPortedDrafts(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   getDiffComments(
     changeNum: NumericChangeId
-  ): Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: CommentInfo[]} | undefined>;
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
@@ -434,7 +433,7 @@ export interface RestApiService extends Finalizable {
     patchNum?: PatchSetNum,
     path?: string
   ):
-    | Promise<PathToCommentsInfoMap | undefined>
+    | Promise<{[path: string]: CommentInfo[]} | undefined>
     | Promise<GetDiffCommentsOutput>;
 
   getDiffRobotComments(

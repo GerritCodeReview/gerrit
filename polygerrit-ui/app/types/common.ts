@@ -698,55 +698,89 @@ export enum ChangeStates {
 }
 
 export enum DraftState {
-  SAVING = 'SAVING',
+  /**
+   * New draft created in this session and not yet saved.
+   * Must have a `client_id` set.
+   */
+  // Possible prior states: -
+  // Possible subsequent states: SAVING
+  UNSAVED = 'UNSAVED',
+  /**
+   * Currently saving to the backend.
+   */
+  // Possible prior states: UNSAVED, SAVED, ERROR
+  // Possible subsequent states: SAVED, ERROR
+  // TODO: Implement support of SAVING state.
+  // SAVING = 'SAVING',
+  /**
+   * Comment saved to the backend.
+   * Must have `id` and `updated` set.
+   */
+  // Possible prior states: SAVING
+  // Possible subsequent states: SAVING
   SAVED = 'SAVED',
+  /**
+   * Latest saving attempt failed with an error.
+   */
+  // Possible prior states: SAVING
+  // Possible subsequent states: SAVING
+  // TODO: Implement support of ERROR state.
+  // ERROR = 'ERROR',
 }
 
-export interface DraftCommentProps {
-  // This must be set for all drafts. Drafts received from the backend will be
-  // modified immediately with __draft:SAVED before allowing them to get into
-  // the application state.
+export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
+  // Must be set for all drafts.
+  // Drafts received from the backend will be modified immediately with
+  // `__draft: SAVED` before allowing them to get into the model.
   __draft: DraftState;
-}
+  // Must be set for UNSAVED drafts. Can be set for other drafts.
+  // Use the id() utility function for uniquely identifying drafts.
+  client_id?: UrlEncodedCommentId;
+  // Must be set for SAVED drafts. Must not be set for UNSAVED drafts.
+  // Use the id() utility function for uniquely identifying drafts.
+  id?: UrlEncodedCommentId;
+  // Must be set for SAVED drafts. Can be set for other drafts. Will then just
+  // contain the last value of then the draft was previously SAVED.
+  updated?: Timestamp;
+};
 
-export interface UnsavedCommentProps {
-  // This must be true for all unsaved comment drafts. An unsaved draft is
-  // always just local to a comment component like <gr-comment> or
-  // <gr-comment-thread>. Unsaved drafts will never appear in the application
-  // state.
-  __unsaved: boolean;
-}
-
-export type DraftInfo = CommentInfo & DraftCommentProps;
-
-export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
-
-export type Comment = UnsavedInfo | DraftInfo | CommentInfo | RobotCommentInfo;
+/**
+ * This is what human, robot and draft comments can agree upon.
+ *
+ * Note that `id` and `updated` must be considered optional, because we might
+ * be dealing with unsaved draft comments.
+ */
+export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 // TODO: Replace the CommentMap type with just an array of paths.
 export type CommentMap = {[path: string]: boolean};
 
-export function isRobot<T extends CommentBasics>(
-  x: T | DraftInfo | RobotCommentInfo | undefined
+export function isRobot<T extends Comment>(
+  x: T | RobotCommentInfo | undefined
 ): x is RobotCommentInfo {
   return !!x && !!(x as RobotCommentInfo).robot_id;
 }
 
-export function isDraft<T extends CommentBasics>(
+export function isDraft<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && !!(x as DraftInfo).__draft;
+  return (
+    !!x &&
+    (x as DraftInfo).__draft !== undefined &&
+    (x as DraftInfo).__draft !== DraftState.UNSAVED
+  );
 }
 
-export function isUnsaved<T extends CommentBasics>(
-  x: T | UnsavedInfo | undefined
-): x is UnsavedInfo {
-  return !!x && !!(x as UnsavedInfo).__unsaved;
+export function isUnsaved<T extends Comment>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && (x as DraftInfo).__draft === DraftState.UNSAVED;
 }
 
-export function isDraftOrUnsaved<T extends CommentBasics>(
-  x: T | DraftInfo | UnsavedInfo | undefined
-): x is UnsavedInfo | DraftInfo {
+// TODO: Find a better name for this. Maybe this can become just `isDraft()`.
+export function isDraftOrUnsaved<T extends Comment>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
   return isDraft(x) || isUnsaved(x);
 }
 
@@ -755,7 +789,7 @@ export interface CommentThread {
    * This can only contain at most one draft. And if so, then it is the last
    * comment in this list. This must not contain unsaved drafts.
    */
-  comments: Array<CommentInfo | DraftInfo | RobotCommentInfo>;
+  comments: Array<Comment>;
   /**
    * Identical to the id of the first comment. If this is undefined, then the
    * thread only contains an unsaved draft.
@@ -826,8 +860,6 @@ export interface CommentInfo {
   context_lines?: ContextLine[];
   source_content_type?: string;
 }
-
-export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
 
 /**
  * The ContextLine entity contains the line number and line text of a single line of the source file content..
@@ -1324,18 +1356,6 @@ export type RecipientTypeToNotifyInfoMap = {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
  */
 export type RobotCommentInput = RobotCommentInfo;
-
-/**
- * This is what human, robot and draft comments can agree upon.
- *
- * Human, robot and saved draft comments all have a required id, but unsaved
- * drafts do not. That is why the id is omitted from CommentInfo, such that it
- * can be optional in Draft, but required in CommentInfo and RobotCommentInfo.
- */
-export interface CommentBasics extends Omit<CommentInfo, 'id' | 'updated'> {
-  id?: UrlEncodedCommentId;
-  updated?: Timestamp;
-}
 
 /**
  * The RobotCommentInfo entity contains information about a robot inline comment

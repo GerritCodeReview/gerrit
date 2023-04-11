@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c0477ca_f7f3ba53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-11T16:27:33Z",
+      "side": 1,
+      "message": "nit: s/is/are/",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f82e70a_4c9c2482",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-11T16:27:33Z",
+      "side": 1,
+      "message": "Moving this seems unnecessary?",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8b5c9a0_4fe40dc8",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-11T16:27:33Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel safe if these are defined at the file level, there could other parts of this class updating them and this would be wiping them.",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

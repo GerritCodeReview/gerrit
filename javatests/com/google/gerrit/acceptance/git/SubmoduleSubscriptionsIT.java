@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -26,11 +25,11 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.extensions.common.SubmitRequirementInput;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -57,7 +56,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Inject private ProjectOperations projectOperations;
   @Inject private IndexOperations.Change changeIndexOperations;
   @Inject private IndexOperations.Account accountIndexOperations;
-  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+  @Inject SubmitRequirementsEvaluator submitRequirementsEvaluator;
 
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
@@ -651,7 +650,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     cherryPickInput.allowConflicts = true;
 
     // The rule will fail if the next change has a submodule file modification with subKey.
-    modifySubmitRulesToBlockSubmoduleChanges(String.format("file('%s','M','SUBMODULE')", subKey));
+    addBlockingSubmodulesSubmitRequirement();
 
     // Cherry-pick the newly created commit which contains a submodule update, to branch "branch".
     ChangeApi changeApi =
@@ -660,8 +659,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Add another file to this change for good measure.
     PushOneCommit.Result result =
         amendChange(changeApi.get().changeId, "subject", "newFile", "content");
+    approve(result.getChangeId());
 
-    assertThat(getStatus(result.getChange())).isEqualTo("NOT_READY");
+    assertThat(getStatus(result.getChange())).isFalse();
     assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isFalse();
   }
 
@@ -673,7 +673,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     cherryPickInput.allowConflicts = true;
 
     // The rule will fail if the next change has any submodule file.
-    modifySubmitRulesToBlockSubmoduleChanges("file(_,_,'SUBMODULE')");
+    addBlockingSubmodulesSubmitRequirement();
 
     // Cherry-pick the newly created commit which contains a submodule update, to branch "branch".
     ChangeApi changeApi =
@@ -682,19 +682,21 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Add another file to this change for good measure.
     PushOneCommit.Result result =
         amendChange(changeApi.get().changeId, "subject", "newFile", "content");
+    approve(result.getChangeId());
 
-    assertThat(getStatus(result.getChange())).isEqualTo("NOT_READY");
+    assertThat(getStatus(result.getChange())).isFalse();
     assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isFalse();
   }
 
   @Test
   public void doNotBlockSubmissionWithoutSubmodules() throws Exception {
-    modifySubmitRulesToBlockSubmoduleChanges("file(_,_,'SUBMODULE')");
+    addBlockingSubmodulesSubmitRequirement();
 
     PushOneCommit.Result result =
         createChange(superRepo, "refs/heads/master", "subject", "newFile", "content", null);
+    approve(result.getChangeId());
 
-    assertThat(getStatus(result.getChange())).isEqualTo("OK");
+    assertThat(getStatus(result.getChange())).isTrue();
     assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isTrue();
   }
 
@@ -725,36 +727,22 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         .getObjectId();
   }
 
-  private void modifySubmitRulesToBlockSubmoduleChanges(String filePrologQuery) throws Exception {
-    String newContent =
-        String.format(
-            "submit_rule(submit(R)) :-\n"
-                + "  gerrit:includes_file(%s),\n"
-                + "  !,\n"
-                + "  R = label('All-Submodules-Resolved', need(_)).\n"
-                + "submit_rule(submit(label('All-Submodules-Resolved', ok(A)))) :-\n"
-                + "  gerrit:commit_author(A).",
-            filePrologQuery);
-
-    try (Repository repo = repoManager.openRepository(superKey);
-        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
-      testRepo
-          .branch(RefNames.REFS_CONFIG)
-          .commit()
-          .author(admin.newIdent())
-          .committer(admin.newIdent())
-          .add(RULES_PL_FILE, newContent)
-          .message("Modify rules.pl")
-          .create();
-    }
-    projectCache.evict(superKey);
+  private void addBlockingSubmodulesSubmitRequirement() throws Exception {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "Block-Submodule-Change";
+    input.submittabilityExpression = "-has:submodule-update";
+    gApi.projects()
+        .name(allProjects.get())
+        .submitRequirement("Block-Submodule-Change")
+        .create(input)
+        .get();
   }
 
-  private String getStatus(ChangeData cd) throws Exception {
+  private boolean getStatus(ChangeData cd) throws Exception {
     try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites();
         AutoCloseable accountIndex = accountIndexOperations.disableReadsAndWrites()) {
-      SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
-      return ruleEvaluator.evaluate(cd).iterator().next().status.toString();
+      return submitRequirementsEvaluator.evaluateAllRequirements(cd).values().stream()
+          .allMatch(SubmitRequirementResult::fulfilled);
     }
   }
 

@@ -153,4 +153,103 @@ suite('gr-label-info tests', () => {
     score = '0';
     assert.equal(element._computeValueTooltip(labelInfo, score), '');
   });
+
+  suite('computeVoters', () => {
+    const account2 = createAccountWithIdNameAndEmail(7);
+    test('show reviewer who voted', () => {
+      element.change = {
+        ...createParsedChange(),
+        labels: {},
+        reviewers: {
+          REVIEWER: [account],
+          CC: [account2],
+        },
+      };
+      const approval: ApprovalInfo = {
+        value: 2,
+        _account_id: account._account_id,
+      };
+      const labelInfo = {
+        ...createDetailedLabelInfo(),
+        all: [approval],
+      };
+
+      assert.deepEqual(element.computeVoters(labelInfo), [account]);
+    });
+
+    test('show CC who voted', () => {
+      element.change = {
+        ...createParsedChange(),
+        labels: {},
+        reviewers: {
+          REVIEWER: [account2],
+          CC: [account],
+        },
+      };
+      const approval: ApprovalInfo = {
+        value: 2,
+        _account_id: account._account_id,
+      };
+      const labelInfo = {
+        ...createDetailedLabelInfo(),
+        all: [approval],
+      };
+
+      assert.deepEqual(element.computeVoters(labelInfo), [account]);
+    });
+
+    test('show all reviewers who can vote, we ignore CC who can vote', () => {
+      element.change = {
+        ...createParsedChange(),
+        labels: {},
+        reviewers: {
+          REVIEWER: [account],
+          CC: [account2],
+        },
+      };
+      element.showAllReviewers = true;
+      const approval: ApprovalInfo = {
+        value: 0,
+        _account_id: account._account_id,
+      };
+      // do not show CC who can vote
+      const approval2: ApprovalInfo = {
+        value: 0,
+        _account_id: account2._account_id,
+      };
+      const labelInfo = {
+        ...createDetailedLabelInfo(),
+        all: [approval, approval2],
+      };
+
+      assert.deepEqual(element.computeVoters(labelInfo), [account]);
+    });
+
+    test('show all reviewers who can vote and CC who voted', () => {
+      element.change = {
+        ...createParsedChange(),
+        labels: {},
+        reviewers: {
+          REVIEWER: [account],
+          CC: [account2],
+        },
+      };
+      element.showAllReviewers = true;
+      const approval: ApprovalInfo = {
+        value: 0,
+        _account_id: account._account_id,
+      };
+      // do not show CC who can vote
+      const approval2: ApprovalInfo = {
+        value: 1,
+        _account_id: account2._account_id,
+      };
+      const labelInfo = {
+        ...createDetailedLabelInfo(),
+        all: [approval, approval2],
+      };
+
+      assert.deepEqual(element.computeVoters(labelInfo), [account, account2]);
+    });
+  });
 });

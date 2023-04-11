@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16efa07e_4cb73f64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-11T16:42:44Z",
+      "side": 1,
+      "message": "No, \u0027is\u0027 is the correct usage here. It\u0027s clearer if you simplify the sentence a little: \"when inserting is retried\".",
+      "parentUuid": "6c0477ca_f7f3ba53",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f82e70a_4c9c2482",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ecab4f50_ba384f58",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-11T16:42:44Z",
+      "side": 1,
+      "message": "I suggested Kaushik create the new comment on line 570 and group these initializations together.",
+      "parentUuid": "5f82e70a_4c9c2482",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8b5c9a0_4fe40dc8",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -54,6 +96,24 @@
       "writtenOn": "2023-04-11T16:27:33Z",
       "side": 1,
       "message": "This doesn\u0027t feel safe if these are defined at the file level, there could other parts of this class updating them and this would be wiping them.",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748993ee_e4e63b6c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-11T16:42:44Z",
+      "side": 1,
+      "message": "I agree it\u0027s not as safe as it could be. A better approach would be to take all the code within this retry and anything it calls and create a new class for it. These fields would move to the new class and ReceiveCommits would access them via a getter.\n\nI expect that will be a pretty large refactor and probably shouldn\u0027t happen on a stable branch, but maybe we should try it and see before deciding since I would like that refactor to happen on master anyway.",
+      "parentUuid": "a8b5c9a0_4fe40dc8",
       "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

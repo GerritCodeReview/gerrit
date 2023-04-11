@@ -16,6 +16,24 @@
       "message": "Should this be backported to stable-3.8?",
       "revId": "9b80c0dd43b4e14e7b9a8abcbf19e36de3b1adf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afb784ef_90ce9a33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-11T06:56:29Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s needed to be backported. IIUC this change is required for a Google internal plugin, and we are only using master.",
+      "parentUuid": "23a2da6f_361f2677",
+      "revId": "9b80c0dd43b4e14e7b9a8abcbf19e36de3b1adf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

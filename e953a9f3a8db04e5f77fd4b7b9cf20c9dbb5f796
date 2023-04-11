@@ -152,6 +152,24 @@
       "parentUuid": "748993ee_e4e63b6c",
       "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e155b0c_7c173b02",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-04-11T17:29:49Z",
+      "side": 1,
+      "message": "To minimize changes, would it be better to check the state to ensure that they are empty near line 782?\n\n    checkState(messages.isEmpty(), \"messages is expected to be empty as a retry will clear it\");\n    checkState(replaceByChange.isEmpty(), \"replaceByChange is expected to be empty as a retry will clear it\");\n    checkState(updateGroups.isEmpty(), \"updateGroups is expected to be empty as a retry will clear it\");",
+      "parentUuid": "84e878b6_514a3e77",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

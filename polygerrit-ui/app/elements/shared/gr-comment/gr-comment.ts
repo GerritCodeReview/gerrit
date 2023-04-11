@@ -36,6 +36,7 @@ import {
   getContentInCommentRange,
   getUserSuggestion,
   hasUserSuggestion,
+  id,
   NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
@@ -923,13 +924,11 @@ export class GrComment extends LitElement {
   }
 
   private getUrlForComment() {
-    const comment = this.comment;
-    if (!comment || !this.changeNum || !this.repoName) return '';
-    if (!comment.id) throw new Error('comment must have an id');
+    if (!this.changeNum || !this.repoName || !this.comment?.id) return '';
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
-      commentId: comment.id,
+      commentId: this.comment.id,
     });
   }
 
@@ -1199,8 +1198,8 @@ export class GrComment extends LitElement {
       const messageToSave = this.messageText.trimEnd();
       if (messageToSave === '') {
         // Don't try to discard UnsavedInfo. Nothing to do then.
-        if (this.comment.id) {
-          await this.getCommentsModel().discardDraft(this.comment.id);
+        if (this.comment) {
+          await this.getCommentsModel().discardDraft(id(this.comment));
         }
       } else {
         // No need to make a backend call when nothing has changed.

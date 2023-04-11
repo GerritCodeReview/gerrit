@@ -24,6 +24,8 @@ import {
 } from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
 import {
+  Comment,
+  DraftInfo,
   DraftState,
   PARENT,
   RevisionPatchSetNum,
@@ -128,13 +130,13 @@ suite('comment-util', () => {
   });
 
   test('comments sorting', () => {
-    const comments = [
+    const comments: Comment[] = [
       {
         id: 'new_draft' as UrlEncodedCommentId,
         message: 'i do not like either of you',
         __draft: DraftState.SAVED,
         updated: '2015-12-20 15:01:20.396000000' as Timestamp,
-      },
+      } as DraftInfo,
       {
         id: 'sallys_confession' as UrlEncodedCommentId,
         message: 'i like you, jack',
@@ -146,7 +148,7 @@ suite('comment-util', () => {
         message: 'i like you, too',
         updated: '2015-12-24 15:01:20.396000000' as Timestamp,
         line: 1,
-        in_reply_to: 'sallys_confession',
+        in_reply_to: 'sallys_confession' as UrlEncodedCommentId,
       },
     ];
     const sortedComments = sortComments(comments);

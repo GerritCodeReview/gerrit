@@ -21,7 +21,7 @@ import {
   isNumber,
 } from '../../../utils/patch-set-util';
 import {
-  equalLocation,
+  createUnsaved,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
@@ -31,6 +31,7 @@ import {
   BlameInfo,
   ChangeInfo,
   CommentThread,
+  DraftInfo,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -1044,15 +1045,10 @@ export class GrDiffHost extends LitElement {
 
   private threadsChanged(threads: CommentThread[]) {
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
-    const unsavedThreadEls: GrCommentThread[] = [];
     const threadEls = this.getThreadEls();
     for (const threadEl of threadEls) {
-      if (threadEl.rootId) {
-        rootIdToThreadEl.set(threadEl.rootId, threadEl);
-      } else {
-        // Unsaved thread els must have editing:true, just being defensive here.
-        if (threadEl.editing) unsavedThreadEls.push(threadEl);
-      }
+      assertIsDefined(threadEl.rootId, 'threadEl.rootId');
+      rootIdToThreadEl.set(threadEl.rootId, threadEl);
     }
     const dontRemove = new Set<GrCommentThread>();
     const threadCount = threads.length;
@@ -1062,23 +1058,8 @@ export class GrDiffHost extends LitElement {
     for (const thread of threads) {
       // Let's find an existing DOM element matching the thread. Normally this
       // is as simple as matching the rootIds.
-      let existingThreadEl =
+      const existingThreadEl =
         thread.rootId && rootIdToThreadEl.get(thread.rootId);
-      // But unsaved threads don't have rootIds. The incoming thread might be
-      // the saved version of the unsaved thread element. To verify that we
-      // check that the thread only has one comment and that their location is
-      // identical.
-      // TODO(brohlfs): This matching is not perfect. You could quickly create
-      // two new threads on the same line/range. Then this code just makes a
-      // random guess.
-      if (!existingThreadEl && thread.comments?.length === 1) {
-        for (const unsavedThreadEl of unsavedThreadEls) {
-          if (equalLocation(unsavedThreadEl.thread, thread)) {
-            existingThreadEl = unsavedThreadEl;
-            break;
-          }
-        }
-      }
       // There is a case possible where the rootIds match but the locations
       // are different. Such as when a thread was originally attached on the
       // right side of the diff but now should be attached on the left side of
@@ -1105,10 +1086,6 @@ export class GrDiffHost extends LitElement {
     // Remove all threads that are no longer existing.
     for (const threadEl of this.getThreadEls()) {
       if (dontRemove.has(threadEl)) continue;
-      // The user may have opened a couple of comment boxes for editing. They
-      // might be unsaved and thus not be reflected in `threads` yet, so let's
-      // keep them open.
-      if (threadEl.editing && threadEl.thread?.comments.length === 0) continue;
       threadEl.remove();
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
@@ -1163,19 +1140,16 @@ export class GrDiffHost extends LitElement {
     assertIsDefined(path, 'path');
 
     const parentIndex = this.computeParentIndex();
-    const newThread: CommentThread = {
-      rootId: undefined,
-      comments: [],
-      patchNum: patchNum as RevisionPatchSetNum,
-      commentSide,
-      // TODO: Maybe just compute from patchRange.base on the fly?
-      mergeParentNum: parentIndex ?? undefined,
+    const draft: DraftInfo = {
+      ...createUnsaved('', true),
+      patch_set: patchNum as RevisionPatchSetNum,
+      side: commentSide,
+      parent: parentIndex ?? undefined,
       path,
-      line: lineNum,
+      line: typeof lineNum === 'number' ? lineNum : undefined,
       range,
     };
-    const el = this.createThreadElement(newThread);
-    this.attachThreadElement(el);
+    this.getCommentsModel().addUnsavedDraft(draft);
   }
 
   private canCommentOnPatchSetNum(patchNum: PatchSetNum) {

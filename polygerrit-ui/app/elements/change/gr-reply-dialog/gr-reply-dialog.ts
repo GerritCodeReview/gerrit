@@ -58,7 +58,6 @@ import {
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
-  UnsavedInfo,
   isDraft,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -72,7 +71,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  createPatchsetLevelUnsavedDraft,
+  createUnsavedPatchsetLevel,
   getFirstComment,
   isPatchsetLevel,
   isUnresolved,
@@ -334,7 +333,7 @@ export class GrReplyDialog extends LitElement {
   patchsetLevelDraftIsResolved = true;
 
   @state()
-  patchsetLevelComment?: UnsavedInfo | DraftInfo;
+  patchsetLevelComment?: DraftInfo;
 
   @state()
   isOwner = false;
@@ -699,6 +698,20 @@ export class GrReplyDialog extends LitElement {
     });
   }
 
+  override updated() {
+    if (!this.patchsetLevelComment && this.latestPatchNum) {
+      // TODO: This should rather be done in the comments model. It should
+      // ensure that a patchset level draft is always present.
+      this.getCommentsModel().addUnsavedDraft(
+        createUnsavedPatchsetLevel(
+          this.latestPatchNum,
+          this.patchsetLevelDraftMessage,
+          !this.patchsetLevelDraftIsResolved
+        )
+      );
+    }
+  }
+
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('ccPendingConfirmation')) {
       this.pendingConfirmationUpdated(this.ccPendingConfirmation);
@@ -893,12 +906,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderPatchsetLevelComment() {
-    if (!this.patchsetLevelComment)
-      this.patchsetLevelComment = createPatchsetLevelUnsavedDraft(
-        this.latestPatchNum,
-        this.patchsetLevelDraftMessage,
-        !this.patchsetLevelDraftIsResolved
-      );
+    if (!this.patchsetLevelComment) return nothing;
     return html`
       <gr-comment
         id="patchsetLevelComment"

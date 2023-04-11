@@ -42,7 +42,6 @@ import {
   PARENT,
   PatchSetNum,
   PatchSetNumber,
-  PathToCommentsInfoMap,
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
@@ -487,7 +486,7 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'isAtEnd').returns(true);
       element.changeNum = 42 as NumericChangeId;
-      const comment: PathToCommentsInfoMap = {
+      const comment: {[path: string]: CommentInfo[]} = {
         'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
       };
       element.changeComments = new ChangeComments(comment);

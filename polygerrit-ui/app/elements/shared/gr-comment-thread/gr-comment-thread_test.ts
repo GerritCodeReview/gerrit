@@ -26,9 +26,10 @@ import {
 import {
   createAccountDetailWithId,
   createThread,
+  createUnsaved,
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
-import {fixture, html, waitUntil, assert} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';
@@ -127,23 +128,23 @@ suite('gr-comment-thread tests', () => {
   });
 
   test('renders unsaved', async () => {
-    element.thread = createThread();
+    element.thread = createThread(createUnsaved());
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
         <div class="fileName">
-          <span>test-path-comment-thread</span>
+          <a href="/c/test-repo-name/+/1/1/test-path-comment-thread">
+            test-path-comment-thread
+          </a>
           <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
         </div>
         <div class="pathInfo">
           <span>#314</span>
         </div>
         <div id="container">
-          <h3 class="assistive-tech-only">
-            Unresolved Draft Comment thread by Yoda
-          </h3>
-          <div class="comment-box unresolved" tabindex="0">
+          <h3 class="assistive-tech-only">Draft Comment thread by Yoda</h3>
+          <div class="comment-box" tabindex="0">
             <gr-comment robot-button-disabled="" show-patchset=""></gr-comment>
           </div>
         </div>
@@ -314,13 +315,15 @@ suite('gr-comment-thread tests', () => {
 
   suite('action button clicks', () => {
     let savePromise: MockPromise<DraftInfo>;
-    let stub: SinonStubbedMember<CommentsModel['saveDraft']>;
+    let stubSave: SinonStubbedMember<CommentsModel['saveDraft']>;
+    let stubAdd: SinonStubbedMember<CommentsModel['addUnsavedDraft']>;
 
     setup(async () => {
       savePromise = mockPromise<DraftInfo>();
-      stub = sinon
+      stubSave = sinon
         .stub(testResolver(commentsModelToken), 'saveDraft')
         .returns(savePromise);
+      stubAdd = sinon.stub(testResolver(commentsModelToken), 'addUnsavedDraft');
 
       element.thread = createThread(c1, {...c2, unresolved: true});
       await element.updateComplete;
@@ -328,9 +331,9 @@ suite('gr-comment-thread tests', () => {
 
     test('handle Acknowledge', async () => {
       queryAndAssert<GrButton>(element, '#ackBtn').click();
-      waitUntilCalled(stub, 'saveDraft()');
-      assert.equal(stub.lastCall.firstArg.message, 'Acknowledged');
-      assert.equal(stub.lastCall.firstArg.unresolved, false);
+      waitUntilCalled(stubSave, 'saveDraft()');
+      assert.equal(stubSave.lastCall.firstArg.message, 'Acknowledged');
+      assert.equal(stubSave.lastCall.firstArg.unresolved, false);
       assert.isTrue(element.saving);
 
       savePromise.resolve();
@@ -340,47 +343,23 @@ suite('gr-comment-thread tests', () => {
 
     test('handle Done', async () => {
       queryAndAssert<GrButton>(element, '#doneBtn').click();
-      waitUntilCalled(stub, 'saveDraft()');
-      assert.equal(stub.lastCall.firstArg.message, 'Done');
-      assert.equal(stub.lastCall.firstArg.unresolved, false);
+      waitUntilCalled(stubSave, 'saveDraft()');
+      assert.equal(stubSave.lastCall.firstArg.message, 'Done');
+      assert.equal(stubSave.lastCall.firstArg.unresolved, false);
     });
 
     test('handle Reply', async () => {
-      assert.isUndefined(element.unsavedComment);
+      assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#replyBtn').click();
-      assert.equal(element.unsavedComment?.message, '');
+      assert.isTrue(stubAdd.called);
+      assert.equal(stubAdd.lastCall.firstArg.message, '');
     });
 
     test('handle Quote', async () => {
-      assert.isUndefined(element.unsavedComment);
+      assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#quoteBtn').click();
-      assert.equal(element.unsavedComment?.message?.trim(), `> ${c2.message}`);
-    });
-  });
-
-  suite('self removal when empty thread changed to editing:false', () => {
-    let threadEl: GrCommentThread;
-
-    setup(async () => {
-      threadEl = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
-      threadEl.thread = createThread();
-    });
-
-    test('new thread el normally has a parent and an unsaved comment', async () => {
-      await waitUntil(() => threadEl.editing);
-      assert.isOk(threadEl.unsavedComment);
-      assert.isOk(threadEl.parentElement);
-    });
-
-    test('thread el removed after clicking CANCEL', async () => {
-      await waitUntil(() => threadEl.editing);
-
-      const commentEl = queryAndAssert(threadEl, 'gr-comment');
-      const buttonEl = queryAndAssert<GrButton>(commentEl, 'gr-button.cancel');
-      buttonEl.click();
-
-      await waitUntil(() => !threadEl.editing);
-      assert.isNotOk(threadEl.parentElement);
+      assert.isTrue(stubAdd.called);
+      assert.equal(stubAdd.lastCall.firstArg.message.trim(), `> ${c2.message}`);
     });
   });
 

@@ -33,7 +33,6 @@ import {
   RepoAccessInfoMap,
   IncludedInInfo,
   CommentInfo,
-  PathToCommentsInfoMap,
   PluginInfo,
   DocResult,
   ContributorAgreementInfo,
@@ -59,6 +58,7 @@ import {
   UrlEncodedRepoName,
   NumericChangeId,
   PreferencesInput,
+  DraftInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -374,10 +374,10 @@ export const grRestApiMock: RestApiService = {
   getPlugins(): Promise<{[p: string]: PluginInfo} | undefined> {
     return Promise.resolve({});
   },
-  getPortedComments(): Promise<PathToCommentsInfoMap | undefined> {
+  getPortedComments(): Promise<{[path: string]: CommentInfo[]} | undefined> {
     return Promise.resolve({});
   },
-  getPortedDrafts(): Promise<PathToCommentsInfoMap | undefined> {
+  getPortedDrafts(): Promise<{[path: string]: DraftInfo[]} | undefined> {
     return Promise.resolve({});
   },
   getPreferences(): Promise<PreferencesInfo | undefined> {

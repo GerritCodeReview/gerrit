@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86461901_54ecb6c6",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-11T17:04:57Z",
+      "side": 1,
+      "message": "I think this is a sign of the problem I pointed out below.",
+      "parentUuid": "ecab4f50_ba384f58",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8b5c9a0_4fe40dc8",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "I agree it\u0027s not as safe as it could be. A better approach would be to take all the code within this retry and anything it calls and create a new class for it. These fields would move to the new class and ReceiveCommits would access them via a getter.\n\nI expect that will be a pretty large refactor and probably shouldn\u0027t happen on a stable branch, but maybe we should try it and see before deciding since I would like that refactor to happen on master anyway.",
       "parentUuid": "a8b5c9a0_4fe40dc8",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e878b6_514a3e77",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-11T17:04:57Z",
+      "side": 1,
+      "message": "A simpler approach might be to define new collections within this scope and to add them to the file scope when leaving this scope.",
+      "parentUuid": "748993ee_e4e63b6c",
       "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

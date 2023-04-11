@@ -122,6 +122,24 @@
       "parentUuid": "c4337a3c_1915ddf7",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c8642d_6b1d9d4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-04-11T12:20:34Z",
+      "side": 1,
+      "message": "Isn\u0027t changing the default sufficient (and documenting deprecation)?",
+      "parentUuid": "0618ffc2_b124d887",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

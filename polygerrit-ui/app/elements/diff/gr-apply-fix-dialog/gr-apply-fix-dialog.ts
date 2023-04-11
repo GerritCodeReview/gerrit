@@ -154,6 +154,10 @@ export class GrApplyFixDialog extends LitElement {
         align-items: center;
         margin-right: var(--spacing-l);
       }
+      .info {
+        background-color: var(--info-background);
+        color: var(--info-foreground);
+      }
     `,
   ];
 
@@ -246,7 +250,9 @@ export class GrApplyFixDialog extends LitElement {
 
   private renderWarning(message: string) {
     if (!message) return nothing;
-    return html`<span><gr-icon icon="info"></gr-icon>${message}</span>`;
+    return html`<span class="info"
+      ><gr-icon icon="info"></gr-icon>${message}</span
+    >`;
   }
 
   /**

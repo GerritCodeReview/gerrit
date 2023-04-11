@@ -4,7 +4,7 @@ junit_tests(
     name = "prolog_tests",
     srcs = glob(["*.java"]),
     resource_strip_prefix = "prologtests",
-    resources = ["//prologtests:gerrit_common_test"],
+    resources = ["//prologtests/com/google/gerrit/server/rules/prolog:gerrit_common_test"],
     runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
         "//java/com/google/gerrit/entities",

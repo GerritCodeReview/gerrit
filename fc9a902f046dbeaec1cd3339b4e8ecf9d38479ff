@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa2bb0a_c73f1a20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-11T09:19:24Z",
+      "side": 1,
+      "message": "Dhruv is on vacation, moving to Chris",
+      "revId": "fc9a902f046dbeaec1cd3339b4e8ecf9d38479ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

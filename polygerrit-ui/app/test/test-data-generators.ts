@@ -72,7 +72,6 @@ import {
   CommentThread,
   DraftInfo,
   ChangeMessage,
-  UnsavedInfo,
   DraftState,
 } from '../types/common';
 import {
@@ -115,6 +114,7 @@ import {GroupViewState} from '../models/views/group';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {AdminChildView, AdminViewState} from '../models/views/admin';
 import {DashboardViewState} from '../models/views/dashboard';
+import {uuid} from '../utils/common-util';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -850,10 +850,11 @@ export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   };
 }
 
-export function createUnsaved(extra: Partial<CommentInfo> = {}): UnsavedInfo {
+export function createUnsaved(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __unsaved: true,
+    __draft: DraftState.UNSAVED,
+    client_id: uuid() as UrlEncodedCommentId,
     id: undefined,
     updated: undefined,
     ...extra,
@@ -996,6 +997,9 @@ export function createChangeComments(): ChangeComments {
 export function createThread(
   ...comments: Partial<CommentInfo | DraftInfo>[]
 ): CommentThread {
+  if (comments.length === 0) {
+    comments = [createComment()];
+  }
   return {
     comments: comments.map(c => createComment(c)),
     rootId: 'test-root-id-comment-thread' as UrlEncodedCommentId,

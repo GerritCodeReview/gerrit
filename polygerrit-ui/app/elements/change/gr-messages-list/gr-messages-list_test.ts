@@ -27,7 +27,7 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {assertIsDefined} from '../../../utils/common-util';
+import {assertIsDefined, uuid} from '../../../utils/common-util';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -61,9 +61,9 @@ const randomMessage = function (params?: ChangeMessageInfo) {
     email: 'andybons@chromium.org' as EmailAddress,
   };
   return {
-    id: (params.id || Math.random().toString()) as ChangeMessageId,
+    id: (params.id || uuid()) as ChangeMessageId,
     date: (params.date || '2016-01-12 20:28:33.038000') as Timestamp,
-    message: params.message || Math.random().toString(),
+    message: params.message || uuid(),
     _revision_number: (params._revision_number || 1) as PatchSetNum,
     author: params.author || author1,
     tag: params.tag,

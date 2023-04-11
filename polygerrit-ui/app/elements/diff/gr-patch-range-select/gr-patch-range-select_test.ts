@@ -20,7 +20,7 @@ import {
   RevisionInfo,
   Timestamp,
   UrlEncodedCommentId,
-  PathToCommentsInfoMap,
+  CommentInfo,
 } from '../../../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {SpecialFilePath} from '../../../constants/constants';
@@ -331,7 +331,7 @@ suite('gr-patch-range-select tests', () => {
 
   test('computePatchSetCommentsString', () => {
     // Test string with unresolved comments.
-    const comments: PathToCommentsInfoMap = {
+    const comments: {[path: string]: CommentInfo[]} = {
       foo: [
         {
           id: '27dcee4d_f7b77cfa' as UrlEncodedCommentId,

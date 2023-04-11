@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  CommentBasics,
   CommentInfo,
   PatchSetNum,
-  Timestamp,
   UrlEncodedCommentId,
   PatchRange,
   PARENT,
@@ -23,7 +21,6 @@ import {
   CommentThread,
   DraftInfo,
   ChangeMessage,
-  UnsavedInfo,
   isRobot,
   isDraft,
   isDraftOrUnsaved,
@@ -38,11 +35,7 @@ import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
 import {extractMentionedUsers} from './account-util';
-
-interface SortableComment {
-  updated: Timestamp;
-  id: UrlEncodedCommentId;
-}
+import {assertIsDefined, uuid} from './common-util';
 
 export function isFormattedReviewerUpdate(
   message: ChangeMessage
@@ -57,48 +50,71 @@ export const NEWLINE_PATTERN = /\n/g;
 export const PATCH_SET_PREFIX_PATTERN =
   /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 
-export function sortComments<T extends SortableComment>(comments: T[]): T[] {
+/**
+ * We need a way to uniquely identify drafts. That is easy for all drafts that
+ * were already known to the backend at the time of change page load: They will
+ * have an `id` that we can use.
+ *
+ * For newly created drafts we start by setting a `client_id`, so that we can
+ * identify the draft even, if no `id` is available yet.
+ *
+ * If a comment with a `client_id` gets saved, then id gets an `id`, but we have
+ * to keep using the `client_id`, because that is what the UI is already using,
+ * e.g. in `repeat()` directives.
+ */
+export function id(comment: Comment): UrlEncodedCommentId {
+  if (isUnsaved(comment)) {
+    assertIsDefined(comment.client_id);
+    return comment.client_id;
+  }
+  if (isDraft(comment) && comment.client_id) {
+    return comment.client_id;
+  }
+  assertIsDefined(comment.id);
+  return comment.id;
+}
+
+export function sortComments<T extends Comment>(comments: T[]): T[] {
   return comments.slice(0).sort((c1, c2) => {
+    const u1 = isUnsaved(c1);
+    const u2 = isUnsaved(c2);
+    if (u1 !== u2) return u1 ? 1 : -1;
+
     const d1 = isDraft(c1);
     const d2 = isDraft(c2);
     if (d1 !== d2) return d1 ? 1 : -1;
 
-    const date1 = parseDate(c1.updated);
-    const date2 = parseDate(c2.updated);
-    const dateDiff = date1.valueOf() - date2.valueOf();
-    if (dateDiff !== 0) return dateDiff;
+    if (c1.updated && c2.updated) {
+      const date1 = parseDate(c1.updated);
+      const date2 = parseDate(c2.updated);
+      const dateDiff = date1.valueOf() - date2.valueOf();
+      if (dateDiff !== 0) return dateDiff;
+    }
 
-    const id1 = c1.id;
-    const id2 = c2.id;
+    const id1 = id(c1);
+    const id2 = id(c2);
     return id1.localeCompare(id2);
   });
 }
 
-export function createUnsavedComment(thread: CommentThread): UnsavedInfo {
+export function createUnsaved(message?: string, unresolved?: boolean) {
   return {
-    path: thread.path,
-    patch_set: thread.patchNum,
-    side: thread.commentSide ?? CommentSide.REVISION,
-    line: typeof thread.line === 'number' ? thread.line : undefined,
-    range: thread.range,
-    parent: thread.mergeParentNum,
-    message: '',
-    unresolved: true,
-    __unsaved: true,
+    message,
+    unresolved,
+    __draft: DraftState.UNSAVED,
+    client_id: uuid() as UrlEncodedCommentId,
   };
 }
 
-export function createPatchsetLevelUnsavedDraft(
+export function createUnsavedPatchsetLevel(
   patchNum?: PatchSetNumber,
   message?: string,
   unresolved?: boolean
-): UnsavedInfo {
+): DraftInfo {
   return {
+    ...createUnsaved(message, unresolved),
     patch_set: patchNum,
-    message,
-    unresolved,
     path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
-    __unsaved: true,
   };
 }
 
@@ -106,8 +122,9 @@ export function createUnsavedReply(
   replyingTo: CommentInfo,
   message: string,
   unresolved: boolean
-): UnsavedInfo {
+): DraftInfo {
   return {
+    ...createUnsaved(message, unresolved),
     path: replyingTo.path,
     patch_set: replyingTo.patch_set,
     side: replyingTo.side,
@@ -115,13 +132,10 @@ export function createUnsavedReply(
     range: replyingTo.range,
     parent: replyingTo.parent,
     in_reply_to: replyingTo.id,
-    message,
-    unresolved,
-    __unsaved: true,
   };
 }
 
-export function createCommentThreads(comments: CommentInfo[]) {
+export function createCommentThreads(comments: Comment[]) {
   const sortedComments = sortComments(comments);
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};
@@ -131,7 +145,7 @@ export function createCommentThreads(comments: CommentInfo[]) {
       const thread = idThreadMap[comment.in_reply_to];
       if (thread) {
         thread.comments.push(comment);
-        if (comment.id) idThreadMap[comment.id] = thread;
+        if (id(comment)) idThreadMap[id(comment)] = thread;
         continue;
       }
     }
@@ -148,13 +162,13 @@ export function createCommentThreads(comments: CommentInfo[]) {
       path: comment.path,
       line: comment.line,
       range: comment.range,
-      rootId: comment.id,
+      rootId: id(comment),
     };
     if (!comment.line && !comment.range) {
       newThread.line = 'FILE';
     }
     threads.push(newThread);
-    if (comment.id) idThreadMap[comment.id] = newThread;
+    if (id(comment)) idThreadMap[id(comment)] = newThread;
   }
   return threads;
 }
@@ -174,14 +188,16 @@ export function equalLocation(t1?: CommentThread, t2?: CommentThread) {
   );
 }
 
-export function getLastComment(thread: CommentThread): CommentInfo | undefined {
+export function getLastComment(
+  thread: CommentThread
+): CommentInfo | DraftInfo | undefined {
   const len = thread.comments.length;
   return thread.comments[len - 1];
 }
 
 export function getLastPublishedComment(
   thread: CommentThread
-): CommentInfo | undefined {
+): CommentInfo | DraftInfo | undefined {
   const publishedComments = thread.comments.filter(c => !isDraftOrUnsaved(c));
   const len = publishedComments.length;
   return publishedComments[len - 1];
@@ -189,7 +205,7 @@ export function getLastPublishedComment(
 
 export function getFirstComment(
   thread: CommentThread
-): CommentInfo | undefined {
+): CommentInfo | DraftInfo | undefined {
   return thread.comments[0];
 }
 
@@ -296,10 +312,7 @@ export function isInRevisionOfPatchRange(
 /**
  * Whether the given comment should be included in the given patch range.
  */
-export function isInPatchRange(
-  comment: CommentBasics,
-  range: PatchRange
-): boolean {
+export function isInPatchRange(comment: Comment, range: PatchRange): boolean {
   return (
     isInBaseOfPatchRange(comment, range) ||
     isInRevisionOfPatchRange(comment, range)
@@ -421,7 +434,7 @@ export function addDraftProp(
   return updated;
 }
 
-export function reportingDetails(comment: CommentBasics) {
+export function reportingDetails(comment: Comment) {
   return {
     id: comment?.id,
     message_length: comment?.message?.trim().length,

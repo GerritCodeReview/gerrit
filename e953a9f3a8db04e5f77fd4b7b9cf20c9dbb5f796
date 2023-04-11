@@ -170,6 +170,24 @@
       "parentUuid": "84e878b6_514a3e77",
       "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "622a99b6_2bdafd6b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-11T17:54:27Z",
+      "side": 1,
+      "message": "\u003e A simpler approach might be to define new collections within this scope and to add them to the file scope when leaving this scope.\n\nThis feels like a good incremental step towards the bigger refactor. I took a look at the refactor and it\u0027s enormous, so I definitely don\u0027t think we should do it on stable-3.5.",
+      "parentUuid": "2e155b0c_7c173b02",
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

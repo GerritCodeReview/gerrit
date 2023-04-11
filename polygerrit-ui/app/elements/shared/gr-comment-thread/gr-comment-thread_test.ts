@@ -15,6 +15,7 @@ import {
   RepoName,
   DraftInfo,
   DraftState,
+  isUnsaved,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -346,15 +347,20 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('handle Reply', async () => {
-      assert.isUndefined(element.unsavedComment);
+      assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#replyBtn').click();
-      assert.equal(element.unsavedComment?.message, '');
+      assert.equal(element.thread?.comments.length, 3);
+      assert.equal(element.thread?.comments[2].message, '');
     });
 
     test('handle Quote', async () => {
-      assert.isUndefined(element.unsavedComment);
+      assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#quoteBtn').click();
-      assert.equal(element.unsavedComment?.message?.trim(), `> ${c2.message}`);
+      assert.equal(element.thread?.comments.length, 3);
+      assert.equal(
+        element.thread?.comments[2].message?.trim(),
+        `> ${c2.message}`
+      );
     });
   });
 
@@ -368,7 +374,8 @@ suite('gr-comment-thread tests', () => {
 
     test('new thread el normally has a parent and an unsaved comment', async () => {
       await waitUntil(() => threadEl.editing);
-      assert.isOk(threadEl.unsavedComment);
+      assert.equal(element.thread?.comments.length, 1);
+      assert.isTrue(isUnsaved(element.thread?.comments[0]));
       assert.isOk(threadEl.parentElement);
     });
 

@@ -58,7 +58,6 @@ import {
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
-  UnsavedInfo,
   isDraft,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -335,7 +334,7 @@ export class GrReplyDialog extends LitElement {
   patchsetLevelDraftIsResolved = true;
 
   @state()
-  patchsetLevelComment?: UnsavedInfo | DraftInfo;
+  patchsetLevelComment?: DraftInfo;
 
   @state()
   isOwner = false;

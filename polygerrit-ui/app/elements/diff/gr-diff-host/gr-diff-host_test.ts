@@ -36,6 +36,8 @@ import {
   DraftState,
   EDIT,
   ImageInfo,
+  isDraft,
+  isUnsaved,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -1277,8 +1279,8 @@ suite('gr-diff-host tests', () => {
       assert.equal(element.getThreadEls().length, 1);
       const threadEl = element.getThreadEls()[0];
       assert.equal(threadEl.thread?.line, 13);
-      assert.isDefined(threadEl.unsavedComment);
-      assert.equal(threadEl.thread?.comments.length, 0);
+      assert.equal(threadEl.thread?.comments.length, 1);
+      assert.isTrue(isUnsaved(threadEl.thread?.comments[0]));
 
       const draftThread = createCommentThread([
         {
@@ -1296,8 +1298,8 @@ suite('gr-diff-host tests', () => {
       // In fact the thread element must still be the same.
       assert.equal(element.getThreadEls()[0], threadEl);
       // But it must have been updated from unsaved to draft:
-      assert.isUndefined(threadEl.unsavedComment);
       assert.equal(threadEl.thread?.comments.length, 1);
+      assert.isTrue(isDraft(threadEl.thread?.comments[0]));
     });
 
     test(

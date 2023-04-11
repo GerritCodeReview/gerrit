@@ -698,8 +698,32 @@ export enum ChangeStates {
 }
 
 export enum DraftState {
+  /**
+   * New draft created in this session and not yet saved.
+   * Must have a `clientId` set.
+   */
+  // Possible prior states: -
+  // Possible subsequent states: SAVING
+  UNSAVED = 'UNSAVED',
+  /**
+   * Currently saving to the backend.
+   */
+  // Possible prior states: UNSAVED, SAVED, ERROR
+  // Possible subsequent states: SAVED, ERROR
   SAVING = 'SAVING',
+  /**
+   * Comment saved to the backend.
+   * Must have `id` and `updated` set.
+   */
+  // Possible prior states: SAVING
+  // Possible subsequent states: SAVING
   SAVED = 'SAVED',
+  /**
+   * Latest saving attempt failed with an error.
+   */
+  // Possible prior states: SAVING
+  // Possible subsequent states: SAVING
+  ERROR = 'ERROR',
 }
 
 export interface DraftCommentProps {
@@ -707,21 +731,12 @@ export interface DraftCommentProps {
   // modified immediately with __draft:SAVED before allowing them to get into
   // the application state.
   __draft: DraftState;
+  client_id?: UrlEncodedCommentId;
 }
 
-export interface UnsavedCommentProps {
-  // This must be true for all unsaved comment drafts. An unsaved draft is
-  // always just local to a comment component like <gr-comment> or
-  // <gr-comment-thread>. Unsaved drafts will never appear in the application
-  // state.
-  __unsaved: boolean;
-}
+export type DraftInfo = CommentBasics & DraftCommentProps;
 
-export type DraftInfo = CommentInfo & DraftCommentProps;
-
-export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
-
-export type Comment = UnsavedInfo | DraftInfo | CommentInfo | RobotCommentInfo;
+export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 
 // TODO: Replace the CommentMap type with just an array of paths.
 export type CommentMap = {[path: string]: boolean};
@@ -735,18 +750,22 @@ export function isRobot<T extends CommentBasics>(
 export function isDraft<T extends CommentBasics>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && !!(x as DraftInfo).__draft;
+  return (
+    !!x &&
+    (x as DraftInfo).__draft !== undefined &&
+    (x as DraftInfo).__draft !== DraftState.UNSAVED
+  );
 }
 
 export function isUnsaved<T extends CommentBasics>(
-  x: T | UnsavedInfo | undefined
-): x is UnsavedInfo {
-  return !!x && !!(x as UnsavedInfo).__unsaved;
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && (x as DraftInfo).__draft === DraftState.UNSAVED;
 }
 
 export function isDraftOrUnsaved<T extends CommentBasics>(
-  x: T | DraftInfo | UnsavedInfo | undefined
-): x is UnsavedInfo | DraftInfo {
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
   return isDraft(x) || isUnsaved(x);
 }
 

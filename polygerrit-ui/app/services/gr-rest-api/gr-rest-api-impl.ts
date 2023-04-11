@@ -2578,24 +2578,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getPortedDrafts(
+  async getPortedDrafts(
     changeNum: NumericChangeId,
     revision: RevisionId
-  ): Promise<PathToCommentsInfoMap | undefined> {
+  ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     // maintaining a custom error function so that errors do not surface in UI
     const errFn: ErrorCallback = (response?: Response | null) => {
       if (response)
         console.info(`Fetching ported drafts failed, ${response.status}`);
     };
-    return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) return {};
-      return this._getChangeURLAndFetch({
-        changeNum,
-        endpoint: '/ported_drafts/',
-        revision,
-        errFn,
-      });
-    });
+    const loggedIn = await this.getLoggedIn();
+    if (!loggedIn) return Promise.resolve({});
+    const comments = (await this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_drafts/',
+      revision,
+      errFn,
+    })) as PathToCommentsInfoMap | undefined;
+    return addDraftProp(comments);
   }
 
   saveDiffDraft(

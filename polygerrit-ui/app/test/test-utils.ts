@@ -19,25 +19,8 @@ import {PageContext} from '../elements/core/gr-router/gr-page';
 import {waitUntil} from '../utils/async-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 export {waitUntil} from '../utils/async-util';
-
-export interface MockPromise<T> extends Promise<T> {
-  resolve: (value?: T) => void;
-  reject: (reason?: any) => void;
-}
-
-export function mockPromise<T = unknown>(): MockPromise<T> {
-  let res: (value?: T) => void;
-  let rej: (reason?: any) => void;
-  const promise: MockPromise<T> = new Promise<T | undefined>(
-    (resolve, reject) => {
-      res = resolve;
-      rej = reject;
-    }
-  ) as MockPromise<T>;
-  promise.resolve = res!;
-  promise.reject = rej!;
-  return promise;
-}
+export {mockPromise} from '../utils/async-util';
+export type {MockPromise} from '../utils/async-util';
 
 export function isHidden(el: Element | undefined | null) {
   if (!el) return true;

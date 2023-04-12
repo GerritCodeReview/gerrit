@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -71,7 +73,7 @@ public class PostReviewers
     ReviewerModification modification =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (modification.op == null) {
-      return Response.ok(modification.result);
+      return Response.withStatusCode(SC_INTERNAL_SERVER_ERROR, modification.result);
     }
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =

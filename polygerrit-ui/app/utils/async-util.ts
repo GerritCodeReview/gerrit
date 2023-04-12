@@ -260,6 +260,28 @@ export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
   });
 }
 
+export async function waitUntil(
+  predicate: (() => boolean) | (() => Promise<boolean>),
+  maxWaitMs = 1000
+): Promise<void> {
+  const start = Date.now();
+  if (await predicate()) return Promise.resolve();
+  return new Promise(resolve => {
+    const waiter = async () => {
+      if (await predicate()) {
+        resolve();
+        return;
+      }
+      if (Date.now() - start >= maxWaitMs) {
+        resolve();
+        return;
+      }
+      setTimeout(waiter, 100);
+    };
+    waiter();
+  });
+}
+
 export const isFalse = (b: boolean) => b === false;
 
 export type PromiseResult<T> =

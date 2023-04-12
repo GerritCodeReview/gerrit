@@ -2340,6 +2340,7 @@ export class GrChangeView extends LitElement {
       fire(this, 'show-auth-required', {});
       return;
     }
+    this.getNavigation().blockNavigation('yeah');
     this.openReplyDialog(FocusTarget.ANY);
   }
 

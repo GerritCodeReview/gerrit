@@ -50,6 +50,12 @@ export const NEWLINE_PATTERN = /\n/g;
 export const PATCH_SET_PREFIX_PATTERN =
   /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 
+/**
+ * Draft comments that are created in the same session start out not having a
+ * server side `id`. Thus they will be initiliazed with a client side
+ * `client_id` and this will be used for lookups. So we have to keep using the
+ * `client_id`, even if an `id` was set later.
+ */
 export function id(comment: Comment): UrlEncodedCommentId {
   if (isUnsaved(comment)) {
     assertIsDefined(comment.client_id);

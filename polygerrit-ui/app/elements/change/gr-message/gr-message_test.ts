@@ -23,7 +23,6 @@ import {
   query,
   queryAndAssert,
   stubRestApi,
-  waitEventLoop,
 } from '../../../test/test-utils';
 import {GrMessage} from './gr-message';
 import {
@@ -37,10 +36,7 @@ import {
   UrlEncodedCommentId,
   DraftState,
 } from '../../../types/common';
-import {
-  ChangeMessageDeletedEventDetail,
-  ReplyEventDetail,
-} from '../../../types/events';
+import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
 import {SinonStubbedMember} from 'sinon';
@@ -55,32 +51,6 @@ suite('gr-message tests', () => {
     setup(async () => {
       stubRestApi('getIsAdmin').returns(Promise.resolve(true));
       element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
-    });
-
-    test('reply event', async () => {
-      element.message = {
-        ...createChangeMessage(),
-        id: '47c43261_55aa2c41' as ChangeMessageId,
-        author: {
-          _account_id: 1115495 as AccountId,
-          name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org' as EmailAddress,
-        },
-        date: '2016-01-12 20:24:49.448000000' as Timestamp,
-        message: 'Uploaded patch set 1.',
-        _revision_number: 1 as RevisionPatchSetNum,
-        expanded: true,
-      };
-
-      const promise = mockPromise();
-      element.addEventListener('reply', (e: CustomEvent<ReplyEventDetail>) => {
-        assert.deepEqual(e.detail.message, element.message);
-        promise.resolve();
-      });
-      await waitEventLoop();
-      assert.isOk(query<HTMLElement>(element, '.replyActionContainer'));
-      queryAndAssert<GrButton>(element, '.replyBtn').click();
-      await promise;
     });
 
     test('can see delete button', async () => {
@@ -370,18 +340,6 @@ suite('gr-message tests', () => {
         </div>
       </div>`;
       assert.shadowDom.equal(element, rendered);
-    });
-
-    test('reply button hidden unless logged in', () => {
-      element.message = {
-        ...createChangeMessage(),
-        message: 'Uploaded patch set 1.',
-        expanded: false,
-      };
-      element.loggedIn = false;
-      assert.isFalse(element.computeShowReplyButton());
-      element.loggedIn = true;
-      assert.isTrue(element.computeShowReplyButton());
     });
 
     test('_computeShowOnBehalfOf', () => {
@@ -832,61 +790,6 @@ suite('gr-message tests', () => {
         element.computeMessageContent(false, '', undefined, undefined),
         ''
       );
-    });
-  });
-
-  suite('when logged in but not admin', () => {
-    setup(async () => {
-      stubRestApi('getIsAdmin').returns(Promise.resolve(false));
-      element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
-    });
-
-    test('can see reply but not delete button', async () => {
-      element.message = {
-        ...createChangeMessage(),
-        id: '47c43261_55aa2c41' as ChangeMessageId,
-        author: {
-          _account_id: 1115495 as AccountId,
-          name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org' as EmailAddress,
-        },
-        date: '2016-01-12 20:24:49.448000000' as Timestamp,
-        message: 'Uploaded patch set 1.',
-        _revision_number: 1 as RevisionPatchSetNum,
-        expanded: true,
-      };
-      await element.updateComplete;
-
-      assert.isOk(query<HTMLElement>(element, '.replyActionContainer'));
-      assert.isNotOk(query<HTMLElement>(element, '.deleteBtn'));
-    });
-
-    test('reply button shown when message is updated', async () => {
-      element.message = undefined;
-      await element.updateComplete;
-
-      let replyEl = query(element, '.replyActionContainer');
-      // We don't even expect the button to show up in the DOM when the message
-      // is undefined.
-      assert.isNotOk(replyEl);
-
-      element.message = {
-        ...createChangeMessage(),
-        id: '47c43261_55aa2c41' as ChangeMessageId,
-        author: {
-          _account_id: 1115495 as AccountId,
-          name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org' as EmailAddress,
-        },
-        date: '2016-01-12 20:24:49.448000000' as Timestamp,
-        message: 'not empty',
-        _revision_number: 1 as RevisionPatchSetNum,
-        expanded: true,
-      };
-      await element.updateComplete;
-
-      replyEl = queryAndAssert(element, '.replyActionContainer');
-      assert.isOk(replyEl);
     });
   });
 });

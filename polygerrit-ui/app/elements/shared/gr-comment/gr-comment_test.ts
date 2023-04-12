@@ -548,7 +548,6 @@ suite('gr-comment tests', () => {
     });
 
     test('isSaveDisabled', async () => {
-      element.saving = false;
       element.unresolved = true;
       element.comment = {...createComment(), unresolved: true};
       element.messageText = 'asdf';
@@ -565,7 +564,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
-      element.saving = true;
+      element.comment = {...element.comment, __draft: DraftState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
     });
@@ -598,13 +597,11 @@ suite('gr-comment tests', () => {
       assert.equal(stub.lastCall.firstArg.message, textToSave);
       assert.equal(stub.lastCall.firstArg.unresolved, true);
       assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
 
       savePromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('previewing formatting triggers save', async () => {
@@ -638,9 +635,7 @@ suite('gr-comment tests', () => {
       element.save();
       await element.updateComplete;
 
-      assert.isTrue(element.unableToSave);
       assert.isTrue(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('discard', async () => {
@@ -659,13 +654,11 @@ suite('gr-comment tests', () => {
       waitUntilCalled(stub, 'discardDraft()');
       assert.equal(stub.lastCall.firstArg, element.comment.id);
       assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
 
       discardPromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('resolved comment state indicated by checkbox', async () => {

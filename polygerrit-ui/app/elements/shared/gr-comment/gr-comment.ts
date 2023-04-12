@@ -29,6 +29,10 @@ import {
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
+  isSaving,
+  isError,
+  isSaved,
+  isDraft,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
@@ -65,14 +69,10 @@ import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {when} from 'lit/directives/when.js';
 
-const UNSAVED_MESSAGE = 'Unable to save draft';
-
 const FILE = 'FILE';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
-
-export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 
 declare global {
   interface HTMLElementEventMap {
@@ -168,21 +168,11 @@ export class GrComment extends LitElement {
   @property({type: String})
   messagePlaceholder?: string;
 
-  /* private, but used in css rules */
-  @property({type: Boolean, reflect: true})
-  saving = false;
-
   // GrReplyDialog requires the patchset level comment to always remain
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
 
-  /**
-   * `saving` and `autoSaving` are separate and cannot be set at the same time.
-   * `saving` affects the UI state (disabled buttons, etc.) and eventually
-   * leaves editing mode, but `autoSaving` just happens in the background
-   * without the user noticing.
-   */
   @state()
   autoSaving?: Promise<DraftInfo>;
 
@@ -202,9 +192,6 @@ export class GrComment extends LitElement {
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
-
-  @property({type: Boolean})
-  unableToSave = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = false;
@@ -334,14 +321,6 @@ export class GrComment extends LitElement {
         }
         :host([collapsed]) {
           padding: var(--spacing-s) var(--spacing-m);
-        }
-        :host([saving]) {
-          pointer-events: none;
-        }
-        :host([saving]) .actions,
-        :host([saving]) .robotActions,
-        :host([saving]) .date {
-          opacity: 0.5;
         }
         .header {
           align-items: center;
@@ -594,7 +573,7 @@ export class GrComment extends LitElement {
       'This draft is only visible to you. ' +
       "To publish drafts, click the 'Reply' or 'Start review' button " +
       "at the top of the change or press the 'a' key.";
-    if (this.unableToSave) {
+    if (this.isError()) {
       label += ' (Failed to save)';
       tooltip = 'Unable to save draft. Please try to save again.';
     }
@@ -669,14 +648,20 @@ export class GrComment extends LitElement {
   }
 
   private renderDate() {
-    if (!this.comment?.updated || this.collapsed) return;
+    if (this.isUnsaved() || this.collapsed) return;
     return html`
       ${when(this.showPatchset, () => html`<span class="separator"></span>`)}
       <span class="date" tabindex="0" @click=${this.handleAnchorClick}>
-        <gr-date-formatter
-          withTooltip
-          .dateStr=${this.comment.updated}
-        ></gr-date-formatter>
+        ${when(
+          this.isSaved(),
+          () => html`
+            <gr-date-formatter
+              withTooltip
+              .dateStr=${this.comment!.updated}
+            ></gr-date-formatter>
+          `,
+          () => (this.comment as DraftInfo).__draft
+        )}
       </span>
     `;
   }
@@ -712,7 +697,6 @@ export class GrComment extends LitElement {
         class="editMessage"
         autocomplete="on"
         code=""
-        ?disabled=${this.saving}
         rows="4"
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
@@ -782,7 +766,6 @@ export class GrComment extends LitElement {
     if (!isDraftOrUnsaved(this.comment)) return;
     return html`
       <div class="rightActions">
-        ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
         ${this.renderDiscardButton()} ${this.renderEditButton()}
         ${this.renderCancelButton()} ${this.renderSaveButton()}
         ${this.renderCopyLinkIcon()}
@@ -821,7 +804,7 @@ export class GrComment extends LitElement {
     if (this.editing || this.permanentEditingMode) return;
     return html`<gr-button
       link
-      ?disabled=${this.saving}
+      ?disabled=${this.isSaving() && !this.autoSaving}
       class="action discard"
       @click=${this.discard}
       >Discard</gr-button
@@ -830,11 +813,7 @@ export class GrComment extends LitElement {
 
   private renderEditButton() {
     if (this.editing) return;
-    return html`<gr-button
-      link
-      ?disabled=${this.saving}
-      class="action edit"
-      @click=${this.edit}
+    return html`<gr-button link class="action edit" @click=${this.edit}
       >Edit</gr-button
     >`;
   }
@@ -844,7 +823,7 @@ export class GrComment extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled=${this.saving}
+        ?disabled=${this.isSaving() && !this.autoSaving}
         class="action cancel"
         @click=${this.cancel}
         >Cancel</gr-button
@@ -853,7 +832,7 @@ export class GrComment extends LitElement {
   }
 
   private renderSaveButton() {
-    if (!this.editing && !this.unableToSave) return;
+    if (!this.editing && !this.isError()) return;
     return html`
       <gr-button
         link
@@ -889,7 +868,6 @@ export class GrComment extends LitElement {
         link
         secondary
         class="action show-fix"
-        ?disabled=${this.saving}
         @click=${() => this.handleShowFix()}
       >
         Show Fix
@@ -1066,7 +1044,7 @@ export class GrComment extends LitElement {
   // private, but visible for testing
   isSaveDisabled() {
     assertIsDefined(this.comment, 'comment');
-    if (this.saving) return true;
+    if (this.isSaving() && !this.autoSaving) return true;
     return !this.messageText?.trimEnd();
   }
 
@@ -1162,7 +1140,7 @@ export class GrComment extends LitElement {
   }
 
   async autoSave() {
-    if (this.saving || this.autoSaving) return;
+    if (this.isSaving() || this.autoSaving) return;
     if (!this.editing || !this.comment) return;
     if (!isDraftOrUnsaved(this.comment)) return;
     const messageToSave = this.messageText.trimEnd();
@@ -1170,7 +1148,7 @@ export class GrComment extends LitElement {
     if (messageToSave === this.comment.message) return;
 
     try {
-      this.autoSaving = this.rawSave(messageToSave, {showToast: false});
+      this.autoSaving = this.rawSave({showToast: false});
       await this.autoSaving;
     } finally {
       this.autoSaving = undefined;
@@ -1183,52 +1161,43 @@ export class GrComment extends LitElement {
   }
 
   async save() {
-    if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
-    // If it's an unsaved comment then it does not have a draftID yet which
-    // means sending another save() request will create a new draft
-    if (isUnsaved(this.comment) && this.saving) return;
+    assert(isDraftOrUnsaved(this.comment), 'can only save drafts');
+    if (this.isSaving() && !this.autoSaving) return;
 
-    try {
-      this.saving = true;
-      this.unableToSave = false;
-      if (this.autoSaving) {
-        this.comment = await this.autoSaving;
+    if (!this.permanentEditingMode) {
+      this.editing = false;
+    }
+    if (this.autoSaving) {
+      this.comment = await this.autoSaving;
+    }
+    // Depending on whether `messageToSave` is empty we treat this either as
+    // a discard or a save action.
+    const messageToSave = this.messageText.trimEnd();
+    if (messageToSave === '') {
+      await this.getCommentsModel().discardDraft(id(this.comment));
+    } else {
+      // No need to make a backend call when nothing has changed.
+      while (this.somethingToSave()) {
+        this.comment = await this.rawSave({showToast: true});
       }
-      // Depending on whether `messageToSave` is empty we treat this either as
-      // a discard or a save action.
-      const messageToSave = this.messageText.trimEnd();
-      if (messageToSave === '') {
-        // Don't try to discard UnsavedInfo. Nothing to do then.
-        if (this.comment) {
-          await this.getCommentsModel().discardDraft(id(this.comment));
-        }
-      } else {
-        // No need to make a backend call when nothing has changed.
-        if (
-          messageToSave !== this.comment?.message ||
-          this.unresolved !== this.comment.unresolved
-        ) {
-          await this.rawSave(messageToSave, {showToast: true});
-        }
-      }
-      if (!this.permanentEditingMode) {
-        this.editing = false;
-      }
-    } catch (e) {
-      this.unableToSave = true;
-      throw e;
-    } finally {
-      this.saving = false;
     }
   }
 
+  private somethingToSave() {
+    return (
+      this.messageText.trimEnd() !== this.comment?.message ||
+      this.unresolved !== this.comment.unresolved
+    );
+  }
+
   /** For sharing between save() and autoSave(). */
-  private rawSave(message: string, options: {showToast: boolean}) {
-    if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
+  private rawSave(options: {showToast: boolean}) {
+    assert(isDraftOrUnsaved(this.comment), 'can only save drafts');
+    assert(!this.isSaving(), 'saving already in progress');
     return this.getCommentsModel().saveDraft(
       {
         ...this.comment,
-        message,
+        message: this.messageText.trimEnd(),
         unresolved: this.unresolved,
       },
       options.showToast
@@ -1276,6 +1245,23 @@ export class GrComment extends LitElement {
       this.confirmDeleteDialog.message
     );
     this.closeDeleteCommentModal();
+  }
+
+  isUnsaved() {
+    return isUnsaved(this.comment);
+  }
+
+  isSaved() {
+    return !isDraft(this.comment) || isSaved(this.comment);
+  }
+
+  /** Note that this can also mean that auto-saving is in-progress. */
+  isSaving() {
+    return isSaving(this.comment);
+  }
+
+  isError() {
+    return isError(this.comment);
   }
 }
 

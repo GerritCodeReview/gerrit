@@ -70,6 +70,23 @@
       },
       "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5bec4b7_5b30d759",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-04-12T15:02:34Z",
+      "side": 1,
+      "message": "@ghareeb can we make this a warning instead of a hard breakage?",
+      "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -17,6 +17,7 @@ import {
   dispatch,
   MockPromise,
   stubFlags,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -548,7 +549,6 @@ suite('gr-comment tests', () => {
     });
 
     test('isSaveDisabled', async () => {
-      element.saving = false;
       element.unresolved = true;
       element.comment = {...createComment(), unresolved: true};
       element.messageText = 'asdf';
@@ -565,7 +565,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
-      element.saving = true;
+      element.comment = {...element.comment, __draft: DraftState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
     });
@@ -597,14 +597,12 @@ suite('gr-comment tests', () => {
       waitUntilCalled(stub, 'saveDraft()');
       assert.equal(stub.lastCall.firstArg.message, textToSave);
       assert.equal(stub.lastCall.firstArg.unresolved, true);
-      assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
+      assert.isFalse(element.editing);
 
       savePromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('previewing formatting triggers save', async () => {
@@ -625,22 +623,24 @@ suite('gr-comment tests', () => {
     });
 
     test('save failed', async () => {
-      sinon
-        .stub(commentsModel, 'saveDraft')
-        .returns(Promise.reject(new Error('saving failed')));
+      sinon.stub(commentsModel, 'saveDraft').returns(
+        Promise.resolve({
+          ...createUnsaved(),
+          message: 'something, not important',
+          __draft: DraftState.ERROR,
+        })
+      );
 
-      element.comment = createDraft();
+      element.comment = createUnsaved();
       element.editing = true;
       await element.updateComplete;
       element.messageText = 'something, not important';
       await element.updateComplete;
 
       element.save();
-      await element.updateComplete;
 
-      assert.isTrue(element.unableToSave);
-      assert.isTrue(element.editing);
-      assert.isFalse(element.saving);
+      await waitUntil(() => element.hasAttribute('error'));
+      assert.isFalse(element.editing);
     });
 
     test('discard', async () => {
@@ -658,14 +658,12 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       waitUntilCalled(stub, 'discardDraft()');
       assert.equal(stub.lastCall.firstArg, element.comment.id);
-      assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
+      assert.isFalse(element.editing);
 
       discardPromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('resolved comment state indicated by checkbox', async () => {
@@ -779,32 +777,43 @@ suite('gr-comment tests', () => {
     });
 
     test('saving while auto saving', async () => {
+      saveStub.reset();
+      const autoSavePromise = mockPromise<DraftInfo>();
+      saveStub.onCall(0).returns(autoSavePromise);
+      saveStub.onCall(1).returns(savePromise);
+
       const textarea = queryAndAssert<HTMLElement>(element, '#editTextarea');
       dispatch(textarea, 'text-changed', {value: 'auto save text'});
 
       clock.tick(2 * AUTO_SAVE_DEBOUNCE_DELAY_MS);
-      assert.isTrue(saveStub.called);
+      assert.equal(saveStub.callCount, 1);
       assert.equal(saveStub.firstCall.firstArg.message, 'auto save text');
-      saveStub.reset();
 
       element.messageText = 'actual save text';
       const save = element.save();
       await element.updateComplete;
       // First wait for the auto saving to finish.
-      assert.isFalse(saveStub.called);
+      assert.equal(saveStub.callCount, 1);
 
-      // Resolve auto-saving promise.
-      savePromise.resolve({
+      autoSavePromise.resolve({
         ...element.comment,
         __draft: DraftState.SAVED,
+        message: 'auto save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:48.018000000' as Timestamp,
       });
+      savePromise.resolve({
+        ...element.comment,
+        __draft: DraftState.SAVED,
+        message: 'actual save text',
+        id: 'exp123' as UrlEncodedCommentId,
+        updated: '2018-02-13 22:48:49.018000000' as Timestamp,
+      });
       await save;
       // Only then save.
-      assert.isTrue(saveStub.called);
-      assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
-      assert.equal(saveStub.firstCall.firstArg.id, 'exp123');
+      assert.equal(saveStub.callCount, 2);
+      assert.equal(saveStub.lastCall.firstArg.message, 'actual save text');
+      assert.equal(saveStub.lastCall.firstArg.id, 'exp123');
     });
   });
 

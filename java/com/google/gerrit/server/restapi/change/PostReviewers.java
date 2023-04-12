@@ -38,6 +38,8 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -71,7 +73,7 @@ public class PostReviewers
     ReviewerModification modification =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (modification.op == null) {
-      return Response.ok(modification.result);
+      return Response.withStatusCode(HttpStatus.INTERNAL_SERVER_ERROR_500, modification.result);
     }
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =

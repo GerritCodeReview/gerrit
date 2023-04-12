@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -71,7 +72,7 @@ public class PostReviewers
     ReviewerModification modification =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (modification.op == null) {
-      return Response.ok(modification.result);
+      return Response.withStatusCode(SC_BAD_REQUEST, modification.result);
     }
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =

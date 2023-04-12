@@ -41,6 +41,8 @@ export function createTestDependencies(
       setUrl: () => {},
       replaceUrl: () => {},
       finalize: () => {},
+      blockNavigation: () => {},
+      releaseNavigation: () => {},
     };
   });
   dependencies.set(

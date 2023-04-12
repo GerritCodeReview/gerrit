@@ -11,6 +11,8 @@ import {
   stubRestApi,
   addListenerForTest,
   waitUntilCalled,
+  mockPromise,
+  MockPromise,
 } from '../../../test/test-utils';
 import {GrRouter, routerToken} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -251,6 +253,80 @@ suite('gr-router tests', () => {
         assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
+    });
+  });
+
+  suite('navigation blockers', () => {
+    let clock: sinon.SinonFakeTimers;
+    let redirectStub: sinon.SinonStub;
+    let urlPromise: MockPromise<string>;
+
+    setup(() => {
+      stubRestApi('setInProjectLookup');
+      urlPromise = mockPromise<string>();
+      redirectStub = sinon
+        .stub(router, 'redirect')
+        .callsFake(urlPromise.resolve);
+      router._testOnly_startRouter();
+      clock = sinon.useFakeTimers();
+    });
+
+    test('no blockers: normal redirect', async () => {
+      router.page.show('/settings/agreements');
+      const url = await urlPromise;
+      assert.isTrue(redirectStub.calledOnce);
+      assert.equal(url, '/settings/#Agreements');
+    });
+
+    test('redirect blocked', async () => {
+      const firstAlertPromise = mockPromise<Event>();
+      addListenerForTest(document, 'show-alert', firstAlertPromise.resolve);
+
+      router.blockNavigation('a good reason');
+      router.page.show('/settings/agreements');
+
+      const firstAlert = (await firstAlertPromise) as CustomEvent;
+      assert.equal(
+        firstAlert.detail.message,
+        'Waiting 1 second for navigation blockers to resolve ...'
+      );
+
+      const secondAlertPromise = mockPromise<Event>();
+      addListenerForTest(document, 'show-alert', secondAlertPromise.resolve);
+
+      clock.tick(2000);
+
+      const secondAlert = (await secondAlertPromise) as CustomEvent;
+      assert.equal(
+        secondAlert.detail.message,
+        'Navigation is blocked by: a good reason'
+      );
+
+      assert.isFalse(redirectStub.called);
+    });
+
+    test('redirect blocked, but resolved within one second', async () => {
+      const firstAlertPromise = mockPromise<Event>();
+      addListenerForTest(document, 'show-alert', firstAlertPromise.resolve);
+
+      router.blockNavigation('a good reason');
+      router.page.show('/settings/agreements');
+
+      const firstAlert = (await firstAlertPromise) as CustomEvent;
+      assert.equal(
+        firstAlert.detail.message,
+        'Waiting 1 second for navigation blockers to resolve ...'
+      );
+
+      const secondAlertPromise = mockPromise<Event>();
+      addListenerForTest(document, 'show-alert', secondAlertPromise.resolve);
+
+      clock.tick(500);
+      router.releaseNavigation('a good reason');
+      clock.tick(2000);
+
+      await urlPromise;
+      assert.isTrue(redirectStub.calledOnce);
     });
   });
 

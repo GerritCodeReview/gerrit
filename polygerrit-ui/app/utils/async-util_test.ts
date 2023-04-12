@@ -7,9 +7,45 @@ import {assert} from '@open-wc/testing';
 import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup';
 import {mockPromise, waitEventLoop, waitUntil} from '../test/test-utils';
-import {asyncForeach, debounceP, DelayedTask} from './async-util';
+import {
+  asyncForeach,
+  debounceP,
+  DelayedTask,
+  resolvablePromise,
+  timeoutPromise,
+} from './async-util';
 
 suite('async-util tests', () => {
+  suite('resolvablePromise', () => {
+    test('simple test', async () => {
+      let resolved = false;
+      const promise = resolvablePromise();
+      promise.then(() => (resolved = true));
+      assert.isFalse(resolved);
+      promise.resolve();
+      await promise;
+      assert.isTrue(resolved);
+    });
+  });
+
+  suite('timeoutPromise', () => {
+    let clock: SinonFakeTimers;
+    setup(() => {
+      clock = sinon.useFakeTimers();
+    });
+    test('simple test', async () => {
+      let resolved = false;
+      const promise = timeoutPromise(1000);
+      promise.then(() => (resolved = true));
+      assert.isFalse(resolved);
+      clock.tick(999);
+      assert.isFalse(resolved);
+      clock.tick(1);
+      await promise;
+      assert.isTrue(resolved);
+    });
+  });
+
   suite('asyncForeach', () => {
     test('loops over each item', async () => {
       const fn = sinon.stub().resolves();

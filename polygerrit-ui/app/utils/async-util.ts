@@ -338,3 +338,22 @@ export function makeCancelable<T>(promise: Promise<T>) {
   };
   return wrappedPromise;
 }
+
+export interface ResolvablePromise<T> extends Promise<T> {
+  resolve: (value?: T) => void;
+}
+
+export function resolvablePromise<T = unknown>(): ResolvablePromise<T> {
+  let res: (value?: T) => void;
+  const promise: ResolvablePromise<T> = new Promise<T | undefined>(resolve => {
+    res = resolve;
+  }) as ResolvablePromise<T>;
+  promise.resolve = res!;
+  return promise;
+}
+
+export function timeoutPromise(timeoutMs: number): Promise<void> {
+  return new Promise<void>(resolve => {
+    setTimeout(resolve, timeoutMs);
+  });
+}

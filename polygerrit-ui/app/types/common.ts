@@ -708,8 +708,7 @@ export enum DraftState {
    */
   // Possible prior states: UNSAVED, SAVED, ERROR
   // Possible subsequent states: SAVED, ERROR
-  // TODO: Implement support of SAVING state.
-  // SAVING = 'SAVING',
+  SAVING = 'SAVING',
   /**
    * Comment saved to the backend.
    * Must have `id` and `updated` set.
@@ -722,8 +721,7 @@ export enum DraftState {
    */
   // Possible prior states: SAVING
   // Possible subsequent states: SAVING
-  // TODO: Implement support of ERROR state.
-  // ERROR = 'ERROR',
+  ERROR = 'ERROR',
 }
 
 export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
@@ -773,6 +771,24 @@ export function isUnsaved<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
   return !!x && (x as DraftInfo).__draft === DraftState.UNSAVED;
+}
+
+export function isSaved<T extends Comment>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && (x as DraftInfo).__draft === DraftState.SAVED;
+}
+
+export function isSaving<T extends Comment>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && (x as DraftInfo).__draft === DraftState.SAVING;
+}
+
+export function isError<T extends Comment>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && (x as DraftInfo).__draft === DraftState.ERROR;
 }
 
 // TODO: Find a better name for this. Maybe this can become just `isDraft()`.

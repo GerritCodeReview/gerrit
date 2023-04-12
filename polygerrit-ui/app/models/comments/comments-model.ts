@@ -18,6 +18,8 @@ import {
   isDraftOrUnsaved,
   isUnsaved,
   DraftState,
+  isSaving,
+  isError,
 } from '../../types/common';
 import {
   addPath,
@@ -34,7 +36,7 @@ import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
-import {assert, assertIsDefined} from '../../utils/common-util';
+import {assert, assertIsDefined, uuid} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
@@ -51,6 +53,7 @@ import {
 } from 'rxjs/operators';
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -276,9 +279,13 @@ export class CommentsModel extends Model<CommentState> {
     commentState => commentState.drafts
   );
 
+  public readonly draftsArray$ = select(this.drafts$, drafts =>
+    Object.values(drafts ?? {}).flat()
+  );
+
   public readonly draftsCount$ = select(
-    this.drafts$,
-    drafts => Object.values(drafts ?? {}).flat().length
+    this.draftsArray$,
+    drafts => drafts.length
   );
 
   public readonly portedComments$ = select(
@@ -291,21 +298,26 @@ export class CommentsModel extends Model<CommentState> {
     commentState => commentState.discardedDrafts
   );
 
-  public readonly patchsetLevelDrafts$ = select(this.drafts$, drafts =>
-    Object.values(drafts ?? {})
-      .flat()
-      .filter(
-        draft =>
-          draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
-          !draft.in_reply_to
-      )
+  public readonly savingInProgress$ = select(this.draftsArray$, drafts =>
+    drafts.some(isSaving)
+  );
+
+  public readonly savingError$ = select(this.draftsArray$, drafts =>
+    drafts.some(isError)
+  );
+
+  public readonly patchsetLevelDrafts$ = select(this.draftsArray$, drafts =>
+    drafts.filter(
+      draft =>
+        draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
+        !draft.in_reply_to
+    )
   );
 
   public readonly mentionedUsersInDrafts$: Observable<AccountInfo[]> =
-    this.drafts$.pipe(
-      switchMap(drafts => {
+    this.draftsArray$.pipe(
+      switchMap(comments => {
         const users: AccountInfo[] = [];
-        const comments = Object.values(drafts ?? {}).flat();
         for (const comment of comments) {
           users.push(...extractMentionedUsers(comment.message));
         }
@@ -327,12 +339,10 @@ export class CommentsModel extends Model<CommentState> {
     );
 
   public readonly mentionedUsersInUnresolvedDrafts$: Observable<AccountInfo[]> =
-    this.drafts$.pipe(
+    this.draftsArray$.pipe(
       switchMap(drafts => {
         const users: AccountInfo[] = [];
-        const comments = Object.values(drafts ?? {})
-          .flat()
-          .filter(c => c.unresolved);
+        const comments = drafts.filter(c => c.unresolved);
         for (const comment of comments) {
           users.push(...extractMentionedUsers(comment.message));
         }
@@ -409,9 +419,28 @@ export class CommentsModel extends Model<CommentState> {
     private readonly changeModel: ChangeModel,
     private readonly accountsModel: AccountsModel,
     private readonly restApiService: RestApiService,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly navigation: NavigationService
   ) {
     super(initialState);
+    this.subscriptions.push(
+      this.savingInProgress$.subscribe(savingInProgress => {
+        if (savingInProgress) {
+          this.navigation.blockNavigation('draft comment still saving');
+        } else {
+          this.navigation.releaseNavigation('draft comment still saving');
+        }
+      })
+    );
+    this.subscriptions.push(
+      this.savingError$.subscribe(savingError => {
+        if (savingError) {
+          this.navigation.blockNavigation('draft comment failed to save');
+        } else {
+          this.navigation.releaseNavigation('draft comment failed to save');
+        }
+      })
+    );
     this.subscriptions.push(
       this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
     );
@@ -540,6 +569,7 @@ export class CommentsModel extends Model<CommentState> {
       id: undefined,
       updated: undefined,
       __draft: DraftState.UNSAVED,
+      client_id: uuid() as UrlEncodedCommentId,
     };
     await this.saveDraft(newDraft);
     this.modifyState(s => deleteDiscardedDraft(s, draftId));
@@ -558,15 +588,20 @@ export class CommentsModel extends Model<CommentState> {
 
   /**
    * Saves a new or updates an existing draft.
-   * The model will only be updated when a successful response comes back.
-   * TODO: Implement optimistic updates.
+   *
+   * `draft.message` must not be empty: Use `discardDraft()` instead.
+   *
+   * Draft must not be in `SAVING` state already.
    */
   async saveDraft(draft: DraftInfo, showToast = true): Promise<DraftInfo> {
     assertIsDefined(this.changeNum, 'change number');
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
-    if (!draft.message?.trim()) {
-      throw new Error('Cannot save empty draft.');
-    }
+    assert(!!draft.message?.trim(), 'cannot save empty draft');
+    assert(draft.__draft !== DraftState.SAVING, 'saving already in progress');
+
+    // optimistic update
+    const draftSaving: DraftInfo = {...draft, __draft: DraftState.SAVING};
+    this.modifyState(s => setDraft(s, draftSaving));
 
     // Saving the change number as to make sure that the response is still
     // relevant when it comes back. The user maybe have navigated away.
@@ -575,37 +610,47 @@ export class CommentsModel extends Model<CommentState> {
     if (showToast) this.showStartRequest();
     const timing = isUnsaved(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
     const timer = this.reporting.getTimer(timing);
-    const result = await this.restApiService.saveDiffDraft(
-      changeNum,
-      draft.patch_set,
-      draft
-    );
-    if (changeNum !== this.changeNum) throw new Error('change changed');
-    if (!result.ok) {
-      if (showToast) this.handleFailedDraftRequest();
-      throw new Error(
-        `Failed to save draft comment: ${JSON.stringify(result)}`
+
+    let savedComment;
+    try {
+      const result = await this.restApiService.saveDiffDraft(
+        changeNum,
+        draft.patch_set,
+        draft
       );
+      if (changeNum !== this.changeNum) return draft;
+      if (!result.ok) throw new Error('request failed');
+      savedComment = (await this.restApiService.getResponseObject(
+        result
+      )) as unknown as CommentInfo;
+    } catch (error) {
+      if (showToast) this.handleFailedDraftRequest();
+      const draftError: DraftInfo = {...draft, __draft: DraftState.ERROR};
+      this.modifyState(s => setDraft(s, draftError));
+      return draftError;
     }
-    const obj = await this.restApiService.getResponseObject(result);
-    const savedComment = obj as unknown as CommentInfo;
-    const updatedDraft = {
+
+    const draftSaved = {
       ...draft,
       id: savedComment.id,
       updated: savedComment.updated,
       __draft: DraftState.SAVED,
     };
-    timer.end({id: updatedDraft.id});
+    timer.end({id: draftSaved.id});
     if (showToast) this.showEndRequest();
-    this.modifyState(s => setDraft(s, updatedDraft));
-    this.report(Interaction.COMMENT_SAVED, updatedDraft);
-    return updatedDraft;
+    this.modifyState(s => setDraft(s, draftSaved));
+    this.report(Interaction.COMMENT_SAVED, draftSaved);
+    return draftSaved;
   }
 
   async discardDraft(draftId: UrlEncodedCommentId) {
     const draft = this.lookupDraft(draftId);
     assertIsDefined(draft, `draft not found by id ${draftId}`);
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
+    assert(draft.__draft !== DraftState.SAVING, 'saving already in progress');
+
+    // optimistic update
+    this.modifyState(s => deleteDraft(s, draft));
 
     // For "unsaved" drafts there is nothing to discard on the server side.
     if (draft.__draft !== DraftState.UNSAVED) {
@@ -627,13 +672,14 @@ export class CommentsModel extends Model<CommentState> {
       if (changeNum !== this.changeNum) throw new Error('change changed');
       if (!result.ok) {
         this.handleFailedDraftRequest();
+        await this.restoreDraft(draftId);
         throw new Error(
           `Failed to discard draft comment: ${JSON.stringify(result)}`
         );
       }
       this.showEndRequest();
     }
-    this.modifyState(s => deleteDraft(s, draft));
+
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
       fire(document, 'show-alert', {

@@ -63,6 +63,7 @@ import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {when} from 'lit/directives/when.js';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -670,7 +671,7 @@ export class GrComment extends LitElement {
   private renderDate() {
     if (!this.comment?.updated || this.collapsed) return;
     return html`
-      <span class="separator"></span>
+      ${when(this.showPatchset, () => html`<span class="separator"></span>`)}
       <span class="date" tabindex="0" @click=${this.handleAnchorClick}>
         <gr-date-formatter
           withTooltip

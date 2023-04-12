@@ -6,10 +6,58 @@
 import {assert} from '@open-wc/testing';
 import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup';
-import {mockPromise, waitEventLoop, waitUntil} from '../test/test-utils';
-import {asyncForeach, debounceP, DelayedTask} from './async-util';
+import {mockPromise, waitEventLoop} from '../test/test-utils';
+import {asyncForeach, debounceP, DelayedTask, waitUntil} from './async-util';
 
 suite('async-util tests', () => {
+  suite('waitUntil', () => {
+    let clock: SinonFakeTimers;
+    setup(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    test('resolves immediately', async () => {
+      let resolved = false;
+      const promise = waitUntil(() => true).then(() => {
+        resolved = true;
+      });
+      await promise;
+      assert.isTrue(resolved);
+    });
+
+    test('resolves after a while', async () => {
+      let value = false;
+      let resolved = false;
+
+      const promise = waitUntil(() => value).then(() => {
+        resolved = true;
+      });
+      assert.isFalse(resolved);
+      clock.tick(10);
+      assert.isFalse(resolved);
+
+      value = true;
+      clock.tick(10);
+      await promise;
+      assert.isTrue(resolved);
+    });
+
+    test('resolves after timeout of 1 second', async () => {
+      let resolved = false;
+
+      const promise = waitUntil(() => false).then(() => {
+        resolved = true;
+      });
+      assert.isFalse(resolved);
+      clock.tick(10);
+      assert.isFalse(resolved);
+
+      clock.tick(1000);
+      await promise;
+      assert.isTrue(resolved);
+    });
+  });
+
   suite('asyncForeach', () => {
     test('loops over each item', async () => {
       const fn = sinon.stub().resolves();

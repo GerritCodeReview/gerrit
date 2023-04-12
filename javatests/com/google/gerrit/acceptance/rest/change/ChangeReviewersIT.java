@@ -100,14 +100,14 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Attempt to add overly large group as reviewers.
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    ReviewerResult result = addReviewer(changeId, largeGroup);
+    ReviewerResult result = addReviewer(changeId, largeGroup, SC_BAD_REQUEST);
     assertThat(result.input).isEqualTo(largeGroup);
     assertThat(result.confirm).isNull();
     assertThat(result.error).contains("has too many members to add them all as reviewers");
     assertThat(result.reviewers).isNull();
 
     // Attempt to add medium group without confirmation.
-    result = addReviewer(changeId, mediumGroup);
+    result = addReviewer(changeId, mediumGroup, SC_BAD_REQUEST);
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isTrue();
     assertThat(result.error)

@@ -66,7 +66,6 @@ import {
   SubmitTypeInfo,
   SuggestInfo,
   Timestamp,
-  TimezoneOffset,
   UrlEncodedCommentId,
   UserConfigInfo,
   CommentThread,
@@ -245,7 +244,6 @@ export function createGitPerson(name = 'Test name'): GitPersonInfo {
     name,
     email: `${name}@` as EmailAddress,
     date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
-    tz: 0 as TimezoneOffset,
   };
 }
 

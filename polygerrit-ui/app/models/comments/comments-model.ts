@@ -546,7 +546,10 @@ export class CommentsModel extends Model<CommentState> {
   }
 
   /**
-   * Adds a new unsaved draft.
+   * Adds a new unsaved draft without saving it.
+   *
+   * There is no equivalent `removeUnsavedDraft()` method, because
+   * `discardDraft()` can be used.
    */
   addUnsavedDraft(draft: DraftInfo) {
     assert(isUnsaved(draft), 'draft must be unsaved');
@@ -556,6 +559,7 @@ export class CommentsModel extends Model<CommentState> {
   /**
    * Saves a new or updates an existing draft.
    * The model will only be updated when a successful response comes back.
+   * TODO: Implement optimistic updates.
    */
   async saveDraft(draft: DraftInfo, showToast = true): Promise<DraftInfo> {
     assertIsDefined(this.changeNum, 'change number');
@@ -603,7 +607,9 @@ export class CommentsModel extends Model<CommentState> {
     assertIsDefined(draft, `draft not found by id ${draftId}`);
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
 
-    if (draft.id) {
+    // For "unsaved" drafts there is nothing to discard on the server side.
+    if (draft.__draft !== DraftState.UNSAVED) {
+      assertIsDefined(draft.id, 'missing id');
       if (!draft.message?.trim()) throw new Error('empty draft');
       // Saving the change number as to make sure that the response is still
       // relevant when it comes back. The user maybe have navigated away.

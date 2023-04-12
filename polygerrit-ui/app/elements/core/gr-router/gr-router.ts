@@ -11,7 +11,7 @@ import {
   computeLatestPatchNum,
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
-import {assertIsDefined} from '../../../utils/common-util';
+import {assert, assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   GroupId,
@@ -99,6 +99,11 @@ import {
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
+import {
+  InteractivePromise,
+  interactivePromise,
+  timeoutPromise,
+} from '../../../utils/async-util';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.
@@ -291,6 +296,16 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
+  // While this set is not empty, the router will refuse to navigate to
+  // other pages, but instead show an alert. It will also install a
+  // `beforeUnload` handler that prevents the browser from closing the tab.
+  private navigationBlockers: Set<string> = new Set<string>();
+
+  // While navigationBlockers is not empty, this promise will continuously
+  // check for navigationBlockers to become empty again.
+  // This is undefined, iff navigationBlockers is empty.
+  private navigationBlockerPromise?: InteractivePromise<void>;
+
   readonly page = new Page();
 
   constructor(
@@ -336,12 +351,42 @@ export class GrRouter implements Finalizable, NavigationService {
     ];
   }
 
+  blockNavigation(reason: string): void {
+    assert(!!reason, 'empty reason is not allowed');
+    this.navigationBlockers.add(reason);
+    if (this.navigationBlockers.size === 1) {
+      this.navigationBlockerPromise = interactivePromise();
+      window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    }
+  }
+
+  releaseNavigation(reason: string): void {
+    assert(!!reason, 'empty reason is not allowed');
+    this.navigationBlockers.delete(reason);
+    if (this.navigationBlockers.size === 0) {
+      window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+      this.navigationBlockerPromise?.resolve();
+    }
+  }
+
+  private beforeUnloadHandler = (event: BeforeUnloadEvent) => {
+    const reason = [...this.navigationBlockers][0];
+    if (!reason) return;
+
+    event.preventDefault(); // Cancel the event (per the standard).
+    event.returnValue = reason; // Chrome requires returnValue to be set.
+    // Note that we could as well just use '' instead of `reason`. Browsers will
+    // just show a generic message anyway.
+    return reason;
+  };
+
   finalize(): void {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
     this.subscriptions = [];
     this.page.stop();
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
   start() {
@@ -587,6 +632,30 @@ export class GrRouter implements Finalizable, NavigationService {
         }
       }
       next();
+    });
+
+    // Block navigation while navigationBlockers exist. But wait 1 second for
+    // those blockers to resolve. If they do, then still navigate. We don't want
+    // to annoy users by forcing them to navigate twice only because it took
+    // another 200ms for a comment to save or something similar.
+    this.page.registerRoute(/(.*)/, (_, next) => {
+      if (this.navigationBlockers.size === 0) {
+        next();
+        return;
+      }
+
+      const msg = 'Waiting 1 second for navigation blockers to resolve ...';
+      fireAlert(document, msg);
+      Promise.race([this.navigationBlockerPromise, timeoutPromise(1000)]).then(
+        () => {
+          if (this.navigationBlockers.size === 0) {
+            next();
+          } else {
+            const reason = [...this.navigationBlockers][0];
+            fireAlert(document, `Navigation is blocked by: ${reason}`);
+          }
+        }
+      );
     });
 
     // Middleware

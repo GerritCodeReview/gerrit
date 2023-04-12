@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "883c26da_03d1e60c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-12T09:11:34Z",
+      "side": 1,
+      "message": "Please address Delphine\u0027s comment. Then you can add me back for a +2.",
+      "revId": "d827496fd26b4587a7d5853b6e0feb9794611904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf6511f9_04bbabaa",

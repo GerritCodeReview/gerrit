@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -73,6 +74,7 @@ public class RevertIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private AccountOperations accountOperations;
 
   @Test
   public void pureRevertReturnsTrueForPureRevert() throws Exception {
@@ -373,6 +375,33 @@ public class RevertIT extends AbstractDaemonTest {
         result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
     assertThat(ccs).containsExactly(accountCreator.user2().id().get());
     assertThat(reviewers).containsExactly(user.id().get(), admin.id().get());
+  }
+
+  @Test
+  public void revertAllowedIfUserAccountIsInactive() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(user.email());
+    in.reviewer(accountCreator.user2().email(), ReviewerState.CC, true);
+    // Add user as reviewer that will create the revert
+    in.reviewer(accountCreator.admin2().email());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    accountOperations.account(user.id()).forUpdate().inactive().update();
+    accountOperations.account(accountCreator.user2().id()).forUpdate().inactive().update();
+
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revert().get().reviewers;
+    assertThat(result).containsKey(ReviewerState.REVIEWER);
+
+    // The active user should be preserved as reviewer. For inactive user this test doesn't
+    // fix specific behavior - they can be either preserved or removed depending on the
+    // implementation.
+    List<Integer> reviewers =
+        result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(reviewers).contains(admin.id().get());
   }
 
   @Test

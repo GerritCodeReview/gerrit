@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76130823_00a52052",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-12T14:20:51Z",
+      "side": 1,
+      "message": "Should these modifications be reverted?\nI looks like you tried this out here before adding the test above?",
+      "range": {
+        "startLine": 1979,
+        "startChar": 4,
+        "endLine": 1988,
+        "endChar": 80
+      },
+      "revId": "ec8f8463119db748d7d4057b291181c4cb3c0a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

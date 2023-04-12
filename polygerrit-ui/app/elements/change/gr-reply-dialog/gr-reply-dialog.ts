@@ -1235,7 +1235,7 @@ export class GrReplyDialog extends LitElement {
    * change view for initializing the dialog after opening the overlay. Maybe it
    * should be called `onOpened()` or `initialize()`?
    */
-  open(focusTarget?: FocusTarget, quote?: string) {
+  open(focusTarget?: FocusTarget) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
     this.getChangeModel()
@@ -1247,10 +1247,6 @@ export class GrReplyDialog extends LitElement {
       });
 
     this.focusOn(focusTarget);
-    if (quote?.length) {
-      // If a reply quote has been provided, use it.
-      this.patchsetLevelDraftMessage = quote;
-    }
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {

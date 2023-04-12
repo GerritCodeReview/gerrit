@@ -1641,7 +1641,6 @@ export class GrChangeView extends LitElement {
           .messages=${this.change?.messages}
           .reviewerUpdates=${this.change?.reviewer_updates}
           @message-anchor-tap=${this.handleMessageAnchorTap}
-          @reply=${this.handleMessageReply}
         ></gr-messages-list>
       </section>
     `;
@@ -1965,17 +1964,6 @@ export class GrChangeView extends LitElement {
   private handleDownloadDialogClose() {
     assertIsDefined(this.downloadModal);
     this.downloadModal.close();
-  }
-
-  // Private but used in tests.
-  handleMessageReply(e: CustomEvent<{message: {message: string}}>) {
-    const msg: string = e.detail.message.message;
-    const quoteStr =
-      msg
-        .split('\n')
-        .map(line => '> ' + line)
-        .join('\n') + '\n\n';
-    this.openReplyDialog(FocusTarget.BODY, quoteStr);
   }
 
   // Private but used in tests.
@@ -2553,14 +2541,14 @@ export class GrChangeView extends LitElement {
     });
   }
 
-  openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
+  openReplyDialog(focusTarget?: FocusTarget) {
     if (!this.change) return;
     this.replyModalOpened = true;
     assertIsDefined(this.replyModal);
     this.replyModal.showModal();
     whenVisible(this.replyModal, () => {
       assertIsDefined(this.replyDialog, 'replyDialog');
-      this.replyDialog.open(focusTarget, quote);
+      this.replyDialog.open(focusTarget);
     });
     fireDialogChange(this, {opened: true});
     this.changeViewAriaHidden = true;

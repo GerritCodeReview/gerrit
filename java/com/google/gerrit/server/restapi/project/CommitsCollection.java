@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -86,8 +87,19 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       throws RestApiException, IOException {
     parent.getProjectState().checkStatePermitsRead();
     ObjectId objectId;
+    Optional<String> sourceBranch;
     try {
-      objectId = ObjectId.fromString(id.get());
+      String decodedId = id.get();
+      int branchAndIdSeparatorIndex = decodedId.indexOf("~");
+      objectId =
+          ObjectId.fromString(
+              branchAndIdSeparatorIndex >= 0
+                  ? decodedId.substring(branchAndIdSeparatorIndex + 1)
+                  : decodedId);
+      sourceBranch =
+          branchAndIdSeparatorIndex >= 0
+              ? Optional.of(decodedId.substring(0, branchAndIdSeparatorIndex))
+              : Optional.empty();
     } catch (IllegalArgumentException e) {
       throw new ResourceNotFoundException(id, e);
     }
@@ -95,7 +107,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     try (Repository repo = repoManager.openRepository(parent.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(objectId);
-      if (!canRead(parent.getProjectState(), repo, commit)) {
+      if (!canRead(parent.getProjectState(), repo, commit, sourceBranch)) {
         throw new ResourceNotFoundException(id);
       }
       // GetCommit depends on the body of both the commit and parent being parsed, to get the
@@ -113,6 +125,26 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   @Override
   public DynamicMap<RestView<CommitResource>> views() {
     return views;
+  }
+
+  /**
+   * Returns true if {@code commit} is visible to the caller.
+   *
+   * <p>If the {@code sourceBranch} is provided, than the {@code commit} reachability is checked
+   * only for the given branch.
+   */
+  public boolean canRead(
+      ProjectState state, Repository repo, RevCommit commit, Optional<String> sourceBranch)
+      throws IOException {
+    if (sourceBranch.isPresent()) {
+      Ref ref = repo.findRef(sourceBranch.get());
+      if (ref == null) {
+        return false;
+      }
+      return canRead(state, repo, commit, ref);
+    } else {
+      return canRead(state, repo, commit);
+    }
   }
 
   /**

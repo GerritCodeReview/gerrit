@@ -3596,7 +3596,18 @@ omitted.
 
 [[commit-id]]
 === \{commit-id\}
-Commit ID.
+The Commit ID or #branch-id[\{branch-id\}]~commitId.
+
+If a branch is specified, `commit` is checked for visibility and
+reachability against only this branch. This speeds up the
+operation, especially for large repos with many branches.
+
+.Examples
+----
+c5ed9dfcbf002ca0e432d788dab6ca2387829ca7
+master~c5ed9dfcbf002ca0e432d788dab6ca2387829ca7
+refs/heads/master~c5ed9dfcbf002ca0e432d788dab6ca2387829ca7
+----
 
 [[tag-id]]
 === \{tag-id\}

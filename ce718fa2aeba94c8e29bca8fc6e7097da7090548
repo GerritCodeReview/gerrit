@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd0ccf9_1ac2bd25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-12T14:53:23Z",
+      "side": 1,
+      "message": "Please, could you add more context in the description?",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73e7f58e_82e47516",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-12T14:53:23Z",
+      "side": 1,
+      "message": "Please, could you add a test?",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6511f9_04bbabaa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2023-04-12T09:05:18Z",
+      "side": 1,
+      "message": "* Background container should have more height see quick specs in https://screenshot.googleplex.com/4KT8nyUBc2SuFMx based on other implementation of info message for Gerrit\n* https://screenshot.googleplex.com/9YKbHnEB7XyMpf6 icon in blue and text in primary text color\n* More space between icon and text (see first point with the specs)",
+      "revId": "d827496fd26b4587a7d5853b6e0feb9794611904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

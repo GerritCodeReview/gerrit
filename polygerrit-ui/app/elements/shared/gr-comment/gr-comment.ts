@@ -553,7 +553,7 @@ export class GrComment extends LitElement {
         <div class="headerMiddle">${this.renderCollapsedContent()}</div>
         ${this.renderSuggestEditButton()} ${this.renderRunDetails()}
         ${this.renderDeleteButton()} ${this.renderPatchset()}
-        ${this.renderDate()} ${this.renderToggle()}
+        ${this.renderSeparator()} ${this.renderDate()} ${this.renderToggle()}
       </div>
     `;
   }
@@ -667,10 +667,18 @@ export class GrComment extends LitElement {
     `;
   }
 
+  private renderSeparator() {
+    // This should match the condition of `renderPatchset()`.
+    if (!this.showPatchset) return;
+    // This should match the condition of `renderDate()`.
+    if (!this.comment?.updated || this.collapsed) return;
+    // Render separator, if both are present: patchset AND date.
+    return html`<span class="separator"></span>`;
+  }
+
   private renderDate() {
     if (!this.comment?.updated || this.collapsed) return;
     return html`
-      <span class="separator"></span>
       <span class="date" tabindex="0" @click=${this.handleAnchorClick}>
         <gr-date-formatter
           withTooltip

@@ -26,7 +26,6 @@ import {
   stubFlags,
   stubRestApi,
   waitEventLoop,
-  waitQueryAndAssert,
   waitUntil,
   waitUntilVisible,
 } from '../../../test/test-utils';
@@ -90,7 +89,7 @@ import {
   changeModelToken,
   LoadingStatus,
 } from '../../../models/change/change-model';
-import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
+import {FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -1751,24 +1750,6 @@ suite('gr-change-view tests', () => {
     assert.equal(openStub.callCount, 1);
   });
 
-  test(
-    'openReplyDialog called with `BODY` when coming from message reply' +
-      'event',
-    async () => {
-      await element.updateComplete;
-      const openStub = sinon.stub(element, 'openReplyDialog');
-      element.messagesList!.dispatchEvent(
-        new CustomEvent('reply', {
-          detail: {message: {message: 'text'}},
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(openStub.calledOnce);
-      assert.equal(openStub.lastCall.args[0], FocusTarget.BODY);
-    }
-  );
-
   test('reply dialog focus can be controlled', () => {
     const openStub = sinon.stub(element, 'openReplyDialog');
 
@@ -1866,30 +1847,6 @@ suite('gr-change-view tests', () => {
       );
       await element.updateComplete;
       assert.isTrue(openReplyDialogStub.calledOnce);
-    });
-
-    test('reply from comment adds quote text', async () => {
-      const change = {
-        ...createChangeViewChange(),
-        revisions: createRevisions(1),
-        messages: createChangeMessages(1),
-      };
-      changeModel.setState({
-        loadingStatus: LoadingStatus.LOADED,
-        change,
-      });
-      const e = new CustomEvent('', {
-        detail: {message: {message: 'quote text'}},
-      });
-      element.handleMessageReply(e);
-      const dialog = await waitQueryAndAssert<GrReplyDialog>(
-        element,
-        '#replyDialog'
-      );
-      const openSpy = sinon.spy(dialog, 'open');
-      await element.updateComplete;
-      await waitUntil(() => openSpy.called && !!openSpy.lastCall.args[1]);
-      assert.equal(openSpy.lastCall.args[1], '> quote text\n\n');
     });
   });
 

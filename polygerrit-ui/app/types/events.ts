@@ -196,11 +196,6 @@ export interface RemoveAccountEventDetail {
 }
 export type RemoveAccountEvent = CustomEvent<RemoveAccountEventDetail>;
 
-export interface ReplyEventDetail {
-  message: ChangeMessage;
-}
-export type ReplyEvent = CustomEvent<ReplyEventDetail>;
-
 export interface ServerErrorEventDetail {
   request?: FetchRequest;
   response: Response;

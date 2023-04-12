@@ -340,10 +340,14 @@ Matches if the diff between two patch sets was of a certain change kind:
 
 * [[no_change]]`NO_CHANGE`:
 +
-Matches when a new patch set is uploaded that has the same parent tree,
-code delta, and commit message as the previous patch set. This means
-that only the patch set SHA-1 is different. This can be used to enable
-sticky approvals, reducing turn-around for this special case.
+Matches when a new patch set is uploaded that has the same parent
+tree, code delta, and commit message as the previous patch set. This
+means that only the patch set SHA-1 is different.  Examples of changes
+that would match criteria are author or date updates done with `git
+commit --amend --no-edit --date <date> --author <author>`, or updating
+the target branch of a change to a branch that has already merged with
+the change's current-branch. This can be used to enable sticky
+approvals, reducing turn-around for these special cases.
 +
 It is recommended to leave this enabled for both, the Code-Review and
 the Verified labels.

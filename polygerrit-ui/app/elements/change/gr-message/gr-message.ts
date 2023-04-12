@@ -49,10 +49,7 @@ import {FormattedReviewerUpdateInfo} from '../../../types/types';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {fire} from '../../../utils/event-util';
-import {
-  ChangeMessageDeletedEventDetail,
-  ReplyEvent,
-} from '../../../types/events';
+import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -63,8 +60,6 @@ declare global {
   interface HTMLElementEventMap {
     'message-anchor-tap': CustomEvent<MessageAnchorTapDetail>;
     'change-message-deleted': CustomEvent<ChangeMessageDeletedEventDetail>;
-    // prettier-ignore
-    'reply': ReplyEvent;
   }
 }
 
@@ -207,14 +202,10 @@ export class GrMessage extends LitElement {
           margin: 0 -4px;
         }
         .collapsed gr-thread-list,
-        .collapsed .replyBtn,
         .collapsed .deleteBtn,
         .collapsed .hideOnCollapsed,
         .hideOnOpen {
           display: none;
-        }
-        .replyBtn {
-          margin-right: var(--spacing-m);
         }
         .collapsed .hideOnOpen {
           display: block;
@@ -442,24 +433,18 @@ export class GrMessage extends LitElement {
   }
 
   private renderActionContainer() {
-    if (!this.computeShowReplyButton()) return nothing;
+    if (!this.isAdmin || !this.loggedIn || this.computeIsAutomated()) {
+      return nothing;
+    }
     return html` <div class="replyActionContainer">
-      <gr-button class="replyBtn" link="" @click=${this.handleReplyTap}>
-        Reply
+      <gr-button
+        ?disabled=${this.isDeletingChangeMsg}
+        class="deleteBtn"
+        link=""
+        @click=${this.handleDeleteMessage}
+      >
+        Delete
       </gr-button>
-      ${when(
-        this.isAdmin,
-        () => html`
-          <gr-button
-            ?disabled=${this.isDeletingChangeMsg}
-            class="deleteBtn"
-            link=""
-            @click=${this.handleDeleteMessage}
-          >
-            Delete
-          </gr-button>
-        `
-      )}
     </div>`;
   }
 
@@ -697,16 +682,6 @@ export class GrMessage extends LitElement {
     );
   }
 
-  // private but used in tests.
-  computeShowReplyButton() {
-    return (
-      !!this.message &&
-      !!this.message.message &&
-      this.loggedIn &&
-      !this.computeIsAutomated()
-    );
-  }
-
   private handleClick(e: Event) {
     if (!this.message || this.message?.expanded) {
       return;
@@ -755,12 +730,6 @@ export class GrMessage extends LitElement {
       id: this.message.id,
     };
     fire(this, 'message-anchor-tap', detail);
-  }
-
-  private handleReplyTap(e: Event) {
-    e.preventDefault();
-    // TODO: Fix the type casting. Might actually be a bug.
-    fire(this, 'reply', {message: this.message as ChangeMessage});
   }
 
   private handleDeleteMessage(e: Event) {

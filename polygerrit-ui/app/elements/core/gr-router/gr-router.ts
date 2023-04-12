@@ -99,6 +99,7 @@ import {
 import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
+import {waitUntil} from '../../../utils/async-util';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.
@@ -291,6 +292,11 @@ export class GrRouter implements Finalizable, NavigationService {
 
   private view?: GerritView;
 
+  // While this array is not empty, the router will refuse to navigate to
+  // other pages, but instead show an alert. It will also install a
+  // `beforeUnload` handler that prevents the browser from closing the tab.
+  private navigationBlockers: string[] = [];
+
   readonly page = new Page();
 
   constructor(
@@ -336,12 +342,38 @@ export class GrRouter implements Finalizable, NavigationService {
     ];
   }
 
+  blockNavigation(reason: string): void {
+    this.navigationBlockers.push(reason);
+    if (this.navigationBlockers.length === 1) {
+      window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    }
+  }
+
+  releaseNavigation(reason: string): void {
+    this.navigationBlockers = this.navigationBlockers.filter(r => r !== reason);
+    if (this.navigationBlockers.length === 0) {
+      window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+    }
+  }
+
+  private beforeUnloadHandler = (event: BeforeUnloadEvent) => {
+    const reason = this.navigationBlockers[0];
+    if (!reason) return;
+
+    event.preventDefault(); // Cancel the event (per the standard).
+    event.returnValue = reason; // Chrome requires returnValue to be set.
+    // Note that we could as well just use '' instead of `reason`. Browsers will
+    // just show a generic message anyway.
+    return reason;
+  };
+
   finalize(): void {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
     this.subscriptions = [];
     this.page.stop();
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
   start() {
@@ -587,6 +619,29 @@ export class GrRouter implements Finalizable, NavigationService {
         }
       }
       next();
+    });
+
+    // Block navigation while navigationBlockers exist. But wait 1 second for
+    // those blockers to resolve. If they do, then still navigate. We don't want
+    // to annoy users by forcing them to navigate twice only because it took
+    // another 200ms for a comment to save or something similar.
+    this.page.registerRoute(/(.*)/, (_, next) => {
+      if (this.navigationBlockers.length === 0) {
+        next();
+        return;
+      }
+
+      fireAlert(document, 'Waiting for navigation blockers to resolve ...');
+      waitUntil(() => this.navigationBlockers.length === 0).then(() => {
+        if (this.navigationBlockers.length === 0) {
+          next();
+          return;
+        }
+        fireAlert(
+          document,
+          `Navigation is blocked by: ${this.navigationBlockers}`
+        );
+      });
     });
 
     // Middleware

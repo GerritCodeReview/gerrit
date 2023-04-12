@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,6 +36,9 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -42,6 +47,8 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,6 +73,8 @@ public class CommitsCollectionTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private AuthRequest.Factory authRequestFactory;
 
+  @Inject private Provider<CurrentUser> user;
+
   private TestRepository<InMemoryRepository> repo;
   private Project.NameKey project;
 
@@ -83,6 +92,114 @@ public class CommitsCollectionTest {
   @After
   public void tearDown() {
     repo.getRepository().close();
+  }
+
+  @Test
+  public void parseCommitOnly() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    ObjectId id = repo.branch("master").commit().create();
+    ObjectId otherBranchId = repo.branch("master").commit().create();
+    assertThat(
+            commits
+                .parse(
+                    new ProjectResource(readProjectState(), user.get()),
+                    IdString.fromDecoded(id.getName()))
+                .getCommit()
+                .getId())
+        .isEqualTo(id);
+    assertThat(
+            commits
+                .parse(
+                    new ProjectResource(readProjectState(), user.get()),
+                    IdString.fromDecoded(otherBranchId.getName()))
+                .getCommit()
+                .getId())
+        .isEqualTo(otherBranchId);
+  }
+
+  @Test
+  public void parseCommitAndBranchName() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    ObjectId id = repo.branch("master").commit().create();
+    assertThat(
+            commits
+                .parse(
+                    new ProjectResource(readProjectState(), user.get()),
+                    IdString.fromDecoded("master~" + id.getName()))
+                .getCommit()
+                .getId())
+        .isEqualTo(id);
+    assertThat(
+            commits
+                .parse(
+                    new ProjectResource(readProjectState(), user.get()),
+                    IdString.fromDecoded("refs/heads/master~" + id.getName()))
+                .getCommit()
+                .getId())
+        .isEqualTo(id);
+  }
+
+  @Test
+  public void parseCommitAndNonExistingBranchName_resourceNotFoundException() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    ObjectId id = repo.branch("master").commit().create();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            commits.parse(
+                new ProjectResource(readProjectState(), user.get()),
+                IdString.fromDecoded("some/branch/name~" + id.getName())));
+  }
+
+  @Test
+  public void parseCommitAndNotVisibleBranch_resourceNotFoundException() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    ObjectId id = repo.branch("master").commit().create();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            commits.parse(
+                new ProjectResource(readProjectState(), user.get()),
+                IdString.fromDecoded("master~" + id.getName())));
+  }
+
+  @Test
+  public void parseCommitWithIncorrectBranch_resourceNotFoundException() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    ObjectId id1 = repo.branch("branch1").commit().create();
+    ObjectId id2 = repo.branch("branch2").commit().create();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            commits.parse(
+                new ProjectResource(readProjectState(), user.get()),
+                IdString.fromDecoded("branch1~" + id2.getName())));
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            commits.parse(
+                new ProjectResource(readProjectState(), user.get()),
+                IdString.fromDecoded("branch2~" + id1.getName())));
   }
 
   @Test
@@ -138,6 +255,35 @@ public class CommitsCollectionTest {
 
     assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
     assertFalse(commits.canRead(state, r, rw.parseCommit(id2)));
+  }
+
+  @Test
+  public void canReadCommitFromBranchIfRefVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/branch1").group(REGISTERED_USERS))
+        .add(allow(READ).ref("refs/heads/branch2").group(REGISTERED_USERS))
+        .add(deny(READ).ref("refs/heads/branch3").group(REGISTERED_USERS))
+        .update();
+
+    ObjectId id1 = repo.branch("branch1").commit().create();
+    ObjectId id2 = repo.branch("branch2").commit().create();
+    ObjectId id3 = repo.branch("branch3").commit().create();
+
+    ProjectState state = readProjectState();
+    RevWalk rw = repo.getRevWalk();
+    Repository r = repo.getRepository();
+
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id1), Optional.of("refs/heads/branch1")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id1), Optional.of("refs/heads/branch2")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id1), Optional.of("refs/heads/branch3")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id2), Optional.of("refs/heads/branch1")));
+    assertTrue(commits.canRead(state, r, rw.parseCommit(id2), Optional.of("refs/heads/branch2")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id2), Optional.of("refs/heads/branch3")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id3), Optional.of("refs/heads/branch1")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id3), Optional.of("refs/heads/branch2")));
+    assertFalse(commits.canRead(state, r, rw.parseCommit(id3), Optional.of("refs/heads/branch3")));
   }
 
   @Test

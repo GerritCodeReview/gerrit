@@ -19,14 +19,18 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /** Abstract callback metric broken down into buckets. */
 abstract class BucketedCallback<V> implements BucketedMetric {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final DropWizardMetricMaker metrics;
   private final MetricRegistry registry;
   private final String name;
@@ -103,7 +107,12 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       c = cells.get(key);
       if (c == null) {
         c = new ValueGauge();
-        registry.register(submetric(key), c);
+        try {
+          registry.register(submetric(key), c);
+        } catch (IllegalArgumentException e) {
+          logger.atWarning().withCause(e).atMostEvery(1, TimeUnit.HOURS).log(
+              "Unable to register metric: %s", submetric(key));
+        }
         cells.put(key, c);
       }
       return c;

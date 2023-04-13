@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "920bb0b7_c3d1bed2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-13T16:19:59Z",
+      "side": 1,
+      "message": "for follow-up: Could we fix that underlying problem? I don\u0027t know enough about the metric names to understand why we\u0027re doing this replacement and to suggest an alternate solution.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

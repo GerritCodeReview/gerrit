@@ -46,6 +46,29 @@
       },
       "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "079bf548_d0bc522c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-13T18:52:05Z",
+      "side": 1,
+      "message": "I believe this *must be* mentioned in the release notes, WDYT?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ce71e9_8ff0c61b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-13T15:29:07Z",
+      "side": 1,
+      "message": "I think this could potentially be annoying to the user. Reloading takes time. The content may jump. We don\u0027t know on what page the user is and what the state of that page is. So I would like to see a more careful discussion and maybe screencasts or so.",
+      "revId": "6a46e75e4f9c7236fddd936febb966d4f952668b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

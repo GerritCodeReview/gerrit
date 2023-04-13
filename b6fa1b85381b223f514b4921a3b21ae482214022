@@ -16,6 +16,24 @@
       "message": "Should an `id(branch, commitId)` API method for this new format also be added to the `Changes` extension API?",
       "revId": "b6fa1b85381b223f514b4921a3b21ae482214022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "167e4c2a_359ae834",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-13T15:17:59Z",
+      "side": 1,
+      "message": "Do you mean methods `ChangeApi id(...)` in ChangesImpl or some other places?\n\nExisting methods in ChangesImpl already support the following formats:\n\nid\nproject ~ id\nproject ~ branch ~ id\n\nwhere id is either numeric id or Ihash... string.\n\nWhen Gerrit parses them (in change API), it assumes that \u0027id\u0027 is not a commitSHA, so I think we shouldn\u0027t add support for the format branch~commitSHA (also, it will conflict with project ~ id).",
+      "parentUuid": "d6bd4fab_9a50d3fe",
+      "revId": "b6fa1b85381b223f514b4921a3b21ae482214022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

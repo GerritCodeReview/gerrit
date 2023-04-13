@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.restapi;
 
-import static com.google.gerrit.httpd.restapi.RestApiServlet.ALLOWED_CORS_METHODS;
+import static com.google.gerrit.httpd.restapi.CorsResponder.ALLOWED_CORS_METHODS;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;

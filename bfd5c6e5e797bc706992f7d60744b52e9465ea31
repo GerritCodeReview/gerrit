@@ -16,6 +16,29 @@
       "message": "We should catch it later, otherwise we return an empty ValueGauge which might have unexpected effects.",
       "revId": "bfd5c6e5e797bc706992f7d60744b52e9465ea31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f390b4ac_fc72964a",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-13T12:36:11Z",
+      "side": 1,
+      "message": "duplicate metric",
+      "range": {
+        "startLine": 114,
+        "startChar": 34,
+        "endLine": 114,
+        "endChar": 40
+      },
+      "revId": "bfd5c6e5e797bc706992f7d60744b52e9465ea31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "d6bd4fab_9a50d3fe",
       "revId": "b6fa1b85381b223f514b4921a3b21ae482214022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb80adc_6aa7695e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-13T16:15:13Z",
+      "side": 1,
+      "message": "\u003e Do you mean methods `ChangeApi id(...)` in ChangesImpl or some other places?\n\nYes, I did mean there, but I misread the ChangesCollection used there as a CommitsCollection, so ignore this 😊",
+      "parentUuid": "167e4c2a_359ae834",
+      "revId": "b6fa1b85381b223f514b4921a3b21ae482214022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2879398a_75006fd4",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-13T16:15:13Z",
+      "side": 1,
+      "message": "Can you call this new method from CreateChange.newMergeCommit() and pass `merge.sourceBranch`? I think that would de-dup some code there.",
+      "revId": "13fb6c0f3ee5b1d56c3925b6d954a2ac9fafc0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

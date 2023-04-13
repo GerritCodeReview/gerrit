@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange.USER_REMOVED;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Account;
@@ -21,7 +22,6 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -39,7 +39,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
   private final Account.Id attentionUserId;
@@ -58,13 +57,11 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   @Inject
   RemoveFromAttentionSetOp(
       ChangeData.Factory changeDataFactory,
-      RemoveFromAttentionSetSender.Factory removeFromAttentionSetSenderFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
-    this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -97,13 +94,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     if (!notify) {
       return;
     }
-    attentionSetEmailFactory
-        .create(
-            removeFromAttentionSetSender.create(ctx.getProject(), change.getId()),
-            ctx,
-            change,
-            reason,
-            attentionUserId)
-        .sendAsync();
+    attentionSetEmailFactory.create(USER_REMOVED, ctx, change, reason, attentionUserId).sendAsync();
   }
 }

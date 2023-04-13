@@ -546,7 +546,6 @@ public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
         return false;
       }
     }
-
     return args.permissionBackend.absentUser(to).change(changeData).test(ChangePermission.READ);
   }
 

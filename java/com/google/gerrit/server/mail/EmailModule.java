@@ -19,7 +19,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AddKeySender;
-import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
+import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
 import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
 import com.google.gerrit.server.mail.send.CommentSender;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
-import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -56,8 +56,6 @@ public class EmailModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
-    factory(AddToAttentionSetSender.Factory.class);
-    factory(RemoveFromAttentionSetSender.Factory.class);
   }
 
   public static class AbandonedChangeEmailFactories {
@@ -85,6 +83,43 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("abandon", changeEmail);
+    }
+  }
+
+  public static class AttentionSetChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    public AttentionSetChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public AttentionSetChangeEmailDecorator createAttentionSetChangeEmail() {
+      return new AttentionSetChangeEmailDecorator();
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        AttentionSetChangeEmailDecorator attentionSetChangeEmailDecorator) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), attentionSetChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(
+        AttentionSetChange attentionSetChange, ChangeEmailNew changeEmail) {
+      if (AttentionSetChange.USER_ADDED.equals(attentionSetChange)) {
+        return outgoingEmailFactory.create("addToAttentionSet", changeEmail);
+      } else {
+        return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
+      }
     }
   }
 }

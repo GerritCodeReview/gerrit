@@ -17,14 +17,17 @@ package com.google.gerrit.server.util;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
-import com.google.gerrit.server.mail.send.AttentionSetSender;
+import com.google.gerrit.server.mail.EmailModule.AttentionSetChangeEmailFactories;
+import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,15 +45,14 @@ public class AttentionSetEmail {
     /**
      * factory for sending an email when adding users to the attention set or removing them from it.
      *
-     * @param sender sender in charge of sending the email, can be {@link AddToAttentionSetSender}
-     *     or {@link RemoveFromAttentionSetSender}.
+     * @param attentionSetChange whether the user is added or removed.
      * @param ctx context for sending the email.
      * @param change the change that the user was added/removed in.
      * @param reason reason for adding/removing the user.
      * @param attentionUserId the user added/removed.
      */
     AttentionSetEmail create(
-        AttentionSetSender sender,
+        AttentionSetChange attentionSetChange,
         Context ctx,
         Change change,
         String reason,
@@ -66,7 +68,8 @@ public class AttentionSetEmail {
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       AccountTemplateUtil accountTemplateUtil,
-      @Assisted AttentionSetSender sender,
+      AttentionSetChangeEmailFactories attentionSetChangeEmailFactories,
+      @Assisted AttentionSetChange attentionSetChange,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
@@ -85,8 +88,10 @@ public class AttentionSetEmail {
     this.asyncSender =
         new AsyncSender(
             requestContext,
+            attentionSetChangeEmailFactories,
             ctx.getUser(),
-            sender,
+            ctx.getProject(),
+            attentionSetChange,
             messageId,
             ctx.getNotify(change.getId()),
             attentionUserId,
@@ -107,8 +112,10 @@ public class AttentionSetEmail {
    */
   private static class AsyncSender implements Runnable, RequestContext {
     private final ThreadLocalRequestContext requestContext;
+    private final AttentionSetChangeEmailFactories attentionSetChangeEmailFactories;
     private final CurrentUser user;
-    private final AttentionSetSender sender;
+    private final AttentionSetChange attentionSetChange;
+    private final Project.NameKey projectId;
     private final MessageIdGenerator.MessageId messageId;
     private final NotifyResolver.Result notify;
     private final Account.Id attentionUserId;
@@ -117,16 +124,20 @@ public class AttentionSetEmail {
 
     AsyncSender(
         ThreadLocalRequestContext requestContext,
+        AttentionSetChangeEmailFactories attentionSetChangeEmailFactories,
         CurrentUser user,
-        AttentionSetSender sender,
+        Project.NameKey projectId,
+        AttentionSetChange attentionSetChange,
         MessageIdGenerator.MessageId messageId,
         NotifyResolver.Result notify,
         Account.Id attentionUserId,
         String reason,
         Change.Id changeId) {
       this.requestContext = requestContext;
+      this.attentionSetChangeEmailFactories = attentionSetChangeEmailFactories;
       this.user = user;
-      this.sender = sender;
+      this.projectId = projectId;
+      this.attentionSetChange = attentionSetChange;
       this.messageId = messageId;
       this.notify = notify;
       this.attentionUserId = attentionUserId;
@@ -138,18 +149,27 @@ public class AttentionSetEmail {
     public void run() {
       RequestContext old = requestContext.setContext(this);
       try {
+        AttentionSetChangeEmailDecorator changeEmailParams =
+            attentionSetChangeEmailFactories.createAttentionSetChangeEmail();
+        changeEmailParams.setAttentionSetChange(attentionSetChange);
+        changeEmailParams.setAttentionSetUser(attentionUserId);
+        changeEmailParams.setReason(reason);
+        ChangeEmailNew changeEmail =
+            attentionSetChangeEmailFactories.createChangeEmail(
+                projectId, changeId, changeEmailParams);
+        OutgoingEmailNew outgoingEmail =
+            attentionSetChangeEmailFactories.createEmail(attentionSetChange, changeEmail);
+
         Optional<Account.Id> accountId =
             user.isIdentifiedUser()
                 ? Optional.of(user.asIdentifiedUser().getAccountId())
                 : Optional.empty();
         if (accountId.isPresent()) {
-          sender.setFrom(accountId.get());
+          outgoingEmail.setFrom(accountId.get());
         }
-        sender.setNotify(notify);
-        sender.setAttentionSetUser(attentionUserId);
-        sender.setReason(reason);
-        sender.setMessageId(messageId);
-        sender.send();
+        outgoingEmail.setNotify(notify);
+        outgoingEmail.setMessageId(messageId);
+        outgoingEmail.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", changeId);
       } finally {

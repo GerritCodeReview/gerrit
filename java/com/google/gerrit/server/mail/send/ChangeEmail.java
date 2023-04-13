@@ -166,11 +166,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
   @Override
   protected void init() throws EmailException {
     super.init();
-    // Is the from user in an email squelching group?
-    try {
-      args.permissionBackend.absentUser(getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
-    } catch (AuthException | PermissionBackendException e) {
-      emailOnlyAuthors = true;
+    if (getFrom() != null) {
+      // Is the from user in an email squelching group?
+      try {
+        args.permissionBackend.absentUser(getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
+      } catch (AuthException | PermissionBackendException e) {
+        emailOnlyAuthors = true;
+      }
     }
 
     if (args.projectCache != null) {

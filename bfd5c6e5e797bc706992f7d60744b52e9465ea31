@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5646d361_8dafff16",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-13T12:28:41Z",
+      "side": 1,
+      "message": "We should catch it later, otherwise we return an empty ValueGauge which might have unexpected effects.",
+      "revId": "bfd5c6e5e797bc706992f7d60744b52e9465ea31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -125,6 +125,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -663,6 +664,21 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(admin.id().get(), user.id().get());
     assertThat(info.labels.get(LabelId.CODE_REVIEW).recommended._accountId)
         .isEqualTo(admin.id().get());
+  }
+
+  @Test
+  public void reviewRemoveInactiveReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    accountOperations.account(user.id()).forUpdate().inactive().update();
+    in = ReviewInput.noScore().reviewer(Integer.toString(user.id().get()), REMOVED, false);
+
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id().get());
   }
 
   @Test
@@ -1355,23 +1371,26 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewerThatIsInactiveByUsername_notAllowed() throws Exception {
+  public void addReviewerThatIsInactiveByUsername() throws Exception {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
-    Account.Id accountId = accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
     ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
-    assertThat(r.error)
-        .isEqualTo(String.format("Cannot add inactive account %s, %s", accountId, username));
+    assertThat(r.error).isNull();
+    assertThat(r.reviewers).hasSize(1);
+    ReviewerInfo reviewer = r.reviewers.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test
-  public void addReviewerThatIsInactiveById_notAllowed() throws Exception {
+  public void addReviewerThatIsInactiveById() throws Exception {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
@@ -1382,28 +1401,33 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
-
-    assertThat(r.error)
-        .isEqualTo(String.format("Cannot add inactive account %s, %s", id, id.get()));
+    assertThat(r.error).isNull();
+    assertThat(r.reviewers).hasSize(1);
+    ReviewerInfo reviewer = r.reviewers.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test
-  public void addReviewerThatIsInactiveByEmail_notAllowed() throws Exception {
+  public void addReviewerThatIsInactiveByEmail() throws Exception {
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
     PushOneCommit.Result result = createChange();
     String username = "user@domain.com";
-    Account.Id accountId = accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
     in.state = ReviewerState.CC;
     ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
-    assertThat(r.input).isEqualTo(in.reviewer);
-    assertThat(r.error)
-        .isEqualTo(String.format("Cannot add inactive account %s, %s", accountId, username));
+    assertThat(r.input).isEqualTo(username);
+    assertThat(r.error).isNull();
+    assertThat(r.ccs).hasSize(1);
+    AccountInfo reviewer = r.ccs.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test

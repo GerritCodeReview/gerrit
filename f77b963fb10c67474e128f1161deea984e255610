@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b93298_72b2d96e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-13T14:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f122cd6_83e5bc1d",
+      "range": {
+        "startLine": 3599,
+        "startChar": 17,
+        "endLine": 3599,
+        "endChar": 27
+      },
+      "revId": "f77b963fb10c67474e128f1161deea984e255610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a047b6d_fd92fe40",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-13T14:01:10Z",
+      "side": 1,
+      "message": "IIUC, this will create a link to itself, so seems curly brackets is not needed.",
+      "parentUuid": "35230bae_8e2ffae4",
+      "range": {
+        "startLine": 3599,
+        "startChar": 43,
+        "endLine": 3599,
+        "endChar": 51
+      },
+      "revId": "f77b963fb10c67474e128f1161deea984e255610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a284bc82_977cbfc9",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-13T06:10:04Z",
       "side": 1,
       "message": "nit: We usually avoid unnecessary use of else to keep the code simpler and more readable. Can you please drop the else and just always do return.\n\nIn Eclipse this generates the following warning:\n\"Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally\"",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 12
+      },
+      "revId": "f77b963fb10c67474e128f1161deea984e255610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8688863f_860b0048",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-13T14:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a284bc82_977cbfc9",
       "range": {
         "startLine": 145,
         "startChar": 6,

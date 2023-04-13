@@ -34,6 +34,24 @@
       "parentUuid": "52ce71e9_8ff0c61b",
       "revId": "6a46e75e4f9c7236fddd936febb966d4f952668b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06d57f8d_53911d8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-13T16:24:13Z",
+      "side": 1,
+      "message": "Ah, that is a specific user journey and more a matter of whether we generally want to reload the \"search result page\" when coming back to it. Again, I think there are pros and cons for doing so, but those need to be listed and discussed.\n\nAnd if we wanted to do something about it, then don\u0027t change the hovercard. Sending a generic \"reload\" event from a hovercard without knowing on which page the user is, seems like a bad idea. I would recommend removing that logic for the reviewer/cc case, as well.",
+      "parentUuid": "1104b667_bc20c7f8",
+      "revId": "6a46e75e4f9c7236fddd936febb966d4f952668b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

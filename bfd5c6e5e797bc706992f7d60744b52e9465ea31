@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ef1a96_88affed4",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-13T12:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5646d361_8dafff16",
+      "revId": "bfd5c6e5e797bc706992f7d60744b52e9465ea31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f390b4ac_fc72964a",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-13T12:36:11Z",
       "side": 1,
       "message": "duplicate metric",
+      "range": {
+        "startLine": 114,
+        "startChar": 34,
+        "endLine": 114,
+        "endChar": 40
+      },
+      "revId": "bfd5c6e5e797bc706992f7d60744b52e9465ea31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a984c8df_f57ff998",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-13T12:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f390b4ac_fc72964a",
       "range": {
         "startLine": 114,
         "startChar": 34,

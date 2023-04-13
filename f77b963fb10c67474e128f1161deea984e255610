@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc9fad97_36bc9583",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-13T14:03:00Z",
+      "side": 1,
+      "message": "The curly brackets just signal to the reader that this is a placeholder.",
+      "parentUuid": "6a047b6d_fd92fe40",
+      "range": {
+        "startLine": 3599,
+        "startChar": 43,
+        "endLine": 3599,
+        "endChar": 51
+      },
+      "revId": "f77b963fb10c67474e128f1161deea984e255610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a284bc82_977cbfc9",
         "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
         "patchSetId": 2

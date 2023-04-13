@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6bd4fab_9a50d3fe",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-13T14:53:15Z",
+      "side": 1,
+      "message": "Should an `id(branch, commitId)` API method for this new format also be added to the `Changes` extension API?",
+      "revId": "b6fa1b85381b223f514b4921a3b21ae482214022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

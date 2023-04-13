@@ -22,6 +22,30 @@
       },
       "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0498724d_0db02045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-13T18:27:17Z",
+      "side": 1,
+      "message": "This encoding was implemented here: https://gerrit-review.googlesource.com/c/gerrit/+/72382/2/gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java\n\nIt depends on the monitoring solution which characters are allowed for metric names. We use Prometheus which limits metric names to `[a-zA-Z_:][a-zA-Z0-9_:]*`.\n\nLooking at `Project.NameKey` it seems fixing the underlying problem besides this replacement of slashes by hyphens requires a more limited encoding than the one in `KeyUtil` which is used in `Project.NameKey`.",
+      "parentUuid": "920bb0b7_c3d1bed2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

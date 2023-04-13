@@ -19,11 +19,13 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /** Abstract callback metric broken down into buckets. */
 abstract class BucketedCallback<V> implements BucketedMetric {
@@ -103,14 +105,14 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       c = cells.get(key);
       if (c == null) {
         c = new ValueGauge();
-        registry.register(submetric(key), c);
-        cells.put(key, c);
+          registry.register(submetric(key), c);
+          cells.put(key, c);
       }
       return c;
     }
   }
 
-  private String submetric(Object key) {
+  String submetric(Object key) {
     return DropWizardMetricMaker.name(ordering, name, name(key));
   }
 

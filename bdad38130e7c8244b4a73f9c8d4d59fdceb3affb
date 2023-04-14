@@ -26,6 +26,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e654c5ea_4d616b07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T13:24:29Z",
+      "side": 1,
+      "message": "I am a bit worried, that if we don\u0027t surface any indication in the UI that the comment is being saved, than it\u0027s going to be confusing why \"sometimes save button is inactive\". Can we add \"saving...\" somewhere (header maybe) so it\u0027s clearer",
+      "range": {
+        "startLine": 1055,
+        "startChar": 2,
+        "endLine": 1060,
+        "endChar": 0
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48e4a5ed_0e53d0ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T13:24:29Z",
+      "side": 1,
+      "message": "I think this can be slightly problematic:\n\nWe detect SAVING state only when the rest api (more-or-less) is in flight. Which means that it\u0027s theoretically possible to have a race condition where this check will succeed between the iteration of the below while loop. Though the only thing that will happen is that the assert error will be thrown, so it\u0027s not too bad.",
+      "range": {
+        "startLine": 1175,
+        "startChar": 4,
+        "endLine": 1175,
+        "endChar": 52
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a163c570_59d57cf7",
         "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
         "patchSetId": 8
@@ -42,6 +88,29 @@
         "startChar": 10,
         "endLine": 440,
         "endChar": 74
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fd0b75_2853188f",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T13:24:29Z",
+      "side": 1,
+      "message": "This needs to be documented",
+      "range": {
+        "startLine": 608,
+        "startChar": 4,
+        "endLine": 608,
+        "endChar": 78
       },
       "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

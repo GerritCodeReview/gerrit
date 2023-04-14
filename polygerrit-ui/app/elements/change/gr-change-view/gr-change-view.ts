@@ -36,11 +36,7 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {
-  querySelectorAll,
-  whenVisible,
-  windowLocationReload,
-} from '../../../utils/dom-util';
+import {querySelectorAll, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -1841,16 +1837,12 @@ export class GrChangeView extends LitElement {
 
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
         this.editingCommitMessage = false;
-        this.reloadWindow();
+        fireReload(this, true);
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
         this.commitMessageEditor.disabled = false;
       });
-  }
-
-  private reloadWindow() {
-    windowLocationReload();
   }
 
   private handleCommitMessageCancel() {

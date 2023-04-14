@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1907c412_3eec28e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-14T09:12:42Z",
+      "side": 1,
+      "message": "LGTM now.",
+      "revId": "b42c4952784ea86c893e32ff127b6c8ca4c1d6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baf944d4_1c60792f",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-04-14T09:03:55Z",
       "side": 1,
       "message": "Added extra assert to make sure emails are sent.",
+      "range": {
+        "startLine": 2850,
+        "startChar": 4,
+        "endLine": 2850,
+        "endChar": 47
+      },
+      "revId": "b42c4952784ea86c893e32ff127b6c8ca4c1d6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03bc4823_96fe000e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2850,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-14T09:12:42Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "baf944d4_1c60792f",
       "range": {
         "startLine": 2850,
         "startChar": 4,

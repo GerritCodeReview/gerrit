@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e9a396_fa5139a7",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:44Z",
+      "side": 1,
+      "message": "`ERROR` state is added in child change 368716.",
+      "parentUuid": "ee33356e_20a08850",
+      "range": {
+        "startLine": 700,
+        "startChar": 12,
+        "endLine": 700,
+        "endChar": 22
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45ccb275_e421d09e",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-14T08:19:44Z",
       "side": 1,
       "message": "If this field no longer exists just for the purpose of performing IsDraft evaluation, than maybe we should remove the \"__\" prefix, to avoid confusion.\n\nSide-Note: I am not sure that it\u0027s better to have it such extra interface instead of just having a field in CommentInfo.",
+      "range": {
+        "startLine": 709,
+        "startChar": 2,
+        "endLine": 709,
+        "endChar": 9
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68dbbf37_fc038373",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:44Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s rename from `__draft` to `state`. I will do this in a separate change: https://gerrit-review.git.corp.google.com/c/gerrit/+/369515: Rename `__draft` to `state`",
+      "parentUuid": "45ccb275_e421d09e",
       "range": {
         "startLine": 709,
         "startChar": 2,

@@ -134,7 +134,7 @@ suite('comment-util', () => {
       {
         id: 'new_draft' as UrlEncodedCommentId,
         message: 'i do not like either of you',
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         updated: '2015-12-20 15:01:20.396000000' as Timestamp,
       } as DraftInfo,
       {
@@ -180,7 +180,7 @@ suite('comment-util', () => {
         {
           id: 'new_draft' as UrlEncodedCommentId,
           message: 'i do not like either of you' as UrlEncodedCommentId,
-          __draft: DraftState.SAVED,
+          state: DraftState.SAVED,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
           patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',

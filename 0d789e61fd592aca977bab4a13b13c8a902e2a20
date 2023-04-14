@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa6d3e4_a9413959",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T12:03:13Z",
+      "side": 1,
+      "message": "Thank you for the detailed clarifications!\n\nIt\u0027s still a bit hard for me to evaluate correctness 100% across different usecases, but I understand it much better now.",
+      "revId": "0d789e61fd592aca977bab4a13b13c8a902e2a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

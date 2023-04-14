@@ -365,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9fcb940_6c3d4888",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T12:03:13Z",
+      "side": 1,
+      "message": "Yes, I think NEW would be clearer.\n\nWhat\u0027s the case when draft is UNSAVED? Why wouldn\u0027t a new draft immediately go into SAVING state? Is it the case of \"was created, but the autosave timer didn\u0027t reach it yet? If so, then it would be the same for SAVED, in which case I find both names confusing (since SAVED indicates to me, that the state of the model corresponds to state of the server). \n\nIt seems to me that UNSAVED/SAVED describe a different dimension (having a backend representation) vs. SAVING/\u003cOK\u003e/ERROR (Status of the write, Is there request in flight, was the latest update successful). So I would split them correspondingly into two.",
+      "parentUuid": "fd44d668_11be74d3",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 721,
+        "endChar": 18
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f6b80d37_64c4b363",

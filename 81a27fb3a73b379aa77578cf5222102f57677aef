@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e6e978_68f33601",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 1,
+      "message": "I am not sure I understand how does the matching between unsaved comment and saved comment happens.\n\nIs it possible that there is a comment with client_id that was saving -\u003e we then requests comments from REST_API which will return the saved comment -\u003e we don\u0027t know that it\u0027s the same comment -\u003e We render it twice? \n\nCould you explain how do we avoid this problem?",
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e00e733c_958d4009",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 1,
+      "message": "I don\u0027t really understand what\u0027s happening here, Could you explain (and/or add a comment with the explanation)\n\nIt seems that we wait until the dialog is rendered, to create a draft in the model, causing the subscriber to trigger causing one more update to the element. Is this correct?\n\nIf so, can we avoid the double update cycle? Why do we have to do this here and not earlier?",
+      "range": {
+        "startLine": 703,
+        "startChar": 3,
+        "endLine": 711,
+        "endChar": 5
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046f5167_4c37bff3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 1,
+      "message": "This comment is not clear to me:\n\n- What exactly needs to be changed and what would be the benefit\n- The next line doesn\u0027t have id() or .id",
+      "range": {
+        "startLine": 478,
+        "startChar": 4,
+        "endLine": 479,
+        "endChar": 49
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc315faa_d3146b7d",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2591,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 1,
+      "message": "If this is an async method. Can\u0027t this be simply \"return {}\"?",
+      "range": {
+        "startLine": 2591,
+        "startChar": 26,
+        "endLine": 2591,
+        "endChar": 45
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7efa3e67_7d81bccc",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 1,
+      "message": "I am not sure I understand the intended flow here.\n\n1) If the comment is created it\u0027s UNSAVED and when it\u0027s starts saving transitions to SAVING\n2) If the comment is SAVED, wouldn\u0027t it go to UNSAVED, before it goes to SAVING?\n\nWhy do we make the distinction between SAVED and UNSAVED, but don\u0027t make the distinction between UNSAVED_SAVING and SAVED_SAVING?",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 721,
+        "endChar": 18
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

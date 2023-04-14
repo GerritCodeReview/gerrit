@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57e17dd1_6135b1a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:12:44Z",
+      "side": 0,
+      "message": "This seems to have been logic for removing the thread if the draft creating the thread was cancelled. Why do we remove it? Am I misunderstanding the purpose here?",
+      "range": {
+        "startLine": 640,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 7
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

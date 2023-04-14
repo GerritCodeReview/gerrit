@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47fabe44_66f04127",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T10:01:07Z",
+      "side": 1,
+      "message": "I would rather use Promise.race[] then introducing waitUntil. If you have reasons for waitUntil I am fine with that.",
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "374be44c_d0c61dec",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 4
@@ -43,6 +60,23 @@
         "endLine": 298,
         "endChar": 44
       },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bffddcc_35a12d56",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T10:01:07Z",
+      "side": 1,
+      "message": "Very nice, this is how it should be \nhttps://web.dev/bfcache/?utm_source\u003ddevtools#never-use-the-unload-event",
       "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -111,6 +145,52 @@
         "startChar": 6,
         "endLine": 635,
         "endChar": 15
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd2b6bef_178038b8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T10:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n      waitUntil(() \u003d\u003e this.navigationBlockers.length \u003d\u003d\u003d 0).then(() \u003d\u003e {\n        if (this.navigationBlockers.length \u003d\u003d\u003d 0) {\n          next();\n          return;\n        }\n        fireAlert(\n          document,\n          `Navigation is blocked by: ${this.navigationBlockers}`\n        );\n      }, 1000);\n```\n\nI would explicitly use 1000 (1s) - so we don\u0027t need to look into waitUntil that it has default value 1s",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f576003d_da7f53f4",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T10:01:07Z",
+      "side": 1,
+      "message": "Wouldn\u0027t be easier to use Promise.race?",
+      "range": {
+        "startLine": 268,
+        "startChar": 22,
+        "endLine": 268,
+        "endChar": 31
       },
       "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

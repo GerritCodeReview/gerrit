@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04a63a4a_189cd617",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:24:49Z",
+      "side": 1,
+      "message": "Nit:\n```suggestion\n    // Not having an `id` is equivalent to `__draft \u003d\u003d\u003d UNSAVED`. In that case\n    // we don\u0027t need a server call, but can just remove the draft from the\n    // model.\n    if (draft.__draft !\u003d\u003d UNSAVED) {\n      assertIsDefined(draft.id, \u0027missing id\u0027);\n      if (!draft.message?.trim()) throw new Error(\u0027empty draft\u0027);\n```",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 626,
+        "endChar": 65
+      },
+      "revId": "cd5fdb8e92514c98220edc84c1c952f12123d2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c11ab6f0_8462748a",
         "filename": "polygerrit-ui/app/utils/comment-util.ts",
         "patchSetId": 2
@@ -14,6 +37,29 @@
       "writtenOn": "2023-04-14T09:23:44Z",
       "side": 1,
       "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"initiliazed\" -- should it be \"initialized\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"initiliazed\" -- should it be \"initialized\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 55,
+        "startChar": 39,
+        "endLine": 55,
+        "endChar": 50
+      },
+      "revId": "cd5fdb8e92514c98220edc84c1c952f12123d2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f64c526_36799156",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:24:49Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"initiliazed\" -- should it be \"initialized\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"initiliazed\" -- should it be \"initialized\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.\n\nHaha, cool!",
       "range": {
         "startLine": 55,
         "startChar": 39,

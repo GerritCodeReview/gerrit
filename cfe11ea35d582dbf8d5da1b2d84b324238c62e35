@@ -68,6 +68,30 @@
       },
       "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e023ea5a_50379b30",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 0,
+      "message": "We don\u0027t need this anymore, because all components that are displaying comment threads are observing the model for what threads they should show. So if the model removes a thread, then it will go away automatically.\n\nThat is the beauty of this change. Before this change we needed this kind of extra logic, because unsaved drafts were not part of the model, but managed by gr-comment-thread itself. So it needed to take care of removing itself, but not anymore.",
+      "parentUuid": "57e17dd1_6135b1a0",
+      "range": {
+        "startLine": 640,
+        "startChar": 6,
+        "endLine": 648,
+        "endChar": 7
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

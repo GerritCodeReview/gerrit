@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4316843d_88cd5756",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "After a draft was saved we keep the client_id and also keep using it for identifying the comment.\n\nDrafts are not loaded continuously or partially. They are just loaded once along with the change. At that point the entire model is replaced.\n\nI have added a longer comment to `id()` in comment-util.ts.",
+      "parentUuid": "05e6e978_68f33601",
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e00e733c_958d4009",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-14T09:12:44Z",
       "side": 1,
       "message": "I don\u0027t really understand what\u0027s happening here, Could you explain (and/or add a comment with the explanation)\n\nIt seems that we wait until the dialog is rendered, to create a draft in the model, causing the subscriber to trigger causing one more update to the element. Is this correct?\n\nIf so, can we avoid the double update cycle? Why do we have to do this here and not earlier?",
+      "range": {
+        "startLine": 703,
+        "startChar": 3,
+        "endLine": 711,
+        "endChar": 5
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12030db4_bb82ca49",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Added a TODO. You are correct, this should rather be moved to the comments model.\n\nMoving it from render() to updated() was already an improvement IMO. :-)",
+      "parentUuid": "e00e733c_958d4009",
       "range": {
         "startLine": 703,
         "startChar": 3,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9dd316a_884c1ec8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "We were splitting the rendering into two parts: repeat() for all published comments and then render draft separately. That is not needed anymore really. We can as well just render everything in one repeat().\n\nThe `.id` refers to the repeat() directive above.\n\nChanged the comment.",
+      "parentUuid": "046f5167_4c37bff3",
+      "range": {
+        "startLine": 478,
+        "startChar": 4,
+        "endLine": 479,
+        "endChar": 49
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "111dae5e_13f7b004",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-04-14T09:17:11Z",
       "side": 1,
       "message": "Is it ok that unsaved creates link? Will this link work after it really saves?",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 68
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b175a1b2_aec50bd2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Yes, this is the link to the file, not the comment. It is only used in the \"Comments\" tab.",
+      "parentUuid": "111dae5e_13f7b004",
       "range": {
         "startLine": 137,
         "startChar": 19,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "810c8cd7_0fdfdb3e",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Good point. Let me add a !SAVING check to change 369394.",
+      "parentUuid": "6ac98ca4_8ce06574",
+      "range": {
+        "startLine": 642,
+        "startChar": 4,
+        "endLine": 642,
+        "endChar": 49
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc315faa_d3146b7d",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-04-14T09:12:44Z",
       "side": 1,
       "message": "If this is an async method. Can\u0027t this be simply \"return {}\"?",
+      "range": {
+        "startLine": 2591,
+        "startChar": 26,
+        "endLine": 2591,
+        "endChar": 45
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69926d60_d24376e1",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2591,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc315faa_d3146b7d",
       "range": {
         "startLine": 2591,
         "startChar": 26,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4010d22b_52320726",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2597,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "You like it? Replaced `PathToCommentsInfoMap` everywhere! :-)",
+      "parentUuid": "a4d2a04d_409eda32",
+      "range": {
+        "startLine": 2597,
+        "startChar": 11,
+        "endLine": 2597,
+        "endChar": 32
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7efa3e67_7d81bccc",
@@ -169,6 +331,30 @@
       "writtenOn": "2023-04-14T09:12:44Z",
       "side": 1,
       "message": "I am not sure I understand the intended flow here.\n\n1) If the comment is created it\u0027s UNSAVED and when it\u0027s starts saving transitions to SAVING\n2) If the comment is SAVED, wouldn\u0027t it go to UNSAVED, before it goes to SAVING?\n\nWhy do we make the distinction between SAVED and UNSAVED, but don\u0027t make the distinction between UNSAVED_SAVING and SAVED_SAVING?",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 721,
+        "endChar": 18
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd44d668_11be74d3",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "UNSAVED and SAVED are similar. UNSAVED just does not have an `id` (set by the backend). So it is not know at all to the backend and would be gone, if your browser crashed or your network connection was cut off.\n\nI don\u0027t see a benefit by distinguishing UNSAVED_SAVING and SAVED_SAVING. But we could make that distinction.\n\nMaybe we should renamed UNSAVED to NEW. Would that make it clearer?",
+      "parentUuid": "7efa3e67_7d81bccc",
       "range": {
         "startLine": 720,
         "startChar": 2,
@@ -225,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5b6e29_f4a96ec5",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Yeah, added a TODO. `isDraftOrUnsaved` should eventually become just `isDraft()`.",
+      "parentUuid": "e34f5bf3_79496b4d",
+      "range": {
+        "startLine": 774,
+        "startChar": 0,
+        "endLine": 784,
+        "endChar": 1
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7230dbb_8b030795",
@@ -238,6 +448,30 @@
       "writtenOn": "2023-04-14T09:17:11Z",
       "side": 1,
       "message": "This can be used in gr-change-actions and gr-confirm-cherrypick",
+      "range": {
+        "startLine": 180,
+        "startChar": 9,
+        "endLine": 180,
+        "endChar": 49
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18505c1d_349b8967",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-14T09:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7230dbb_8b030795",
       "range": {
         "startLine": 180,
         "startChar": 9,

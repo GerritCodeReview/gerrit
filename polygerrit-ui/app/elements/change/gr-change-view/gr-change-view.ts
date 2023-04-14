@@ -34,7 +34,7 @@ import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {whenVisible, windowLocationReload} from '../../../utils/dom-util';
+import {whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
@@ -1764,16 +1764,12 @@ export class GrChangeView extends LitElement {
 
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
         this.editingCommitMessage = false;
-        this.reloadWindow();
+        fireReload(this, true);
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
         this.commitMessageEditor.disabled = false;
       });
-  }
-
-  private reloadWindow() {
-    windowLocationReload();
   }
 
   private handleCommitMessageCancel() {

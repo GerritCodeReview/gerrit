@@ -23,6 +23,7 @@ import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
 import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
+import com.google.gerrit.server.mail.send.CommentChangeEmail;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
@@ -120,6 +121,41 @@ public class EmailModule extends FactoryModule {
       } else {
         return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
       }
+    }
+  }
+
+  public static class CommentChangeEmailFactories {
+    private final EmailArguments args;
+    private final CommentChangeEmailFactory commentChangeEmailFactory;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    public CommentChangeEmailFactories(
+        EmailArguments args,
+        CommentChangeEmailFactory commentChangeEmailFactory,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.commentChangeEmailFactory = commentChangeEmailFactory;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public CommentChangeEmail createCommentChangeEmail() {
+      return commentChangeEmailFactory.create();
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        CommentChangeEmail commentChangeEmail) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), commentChangeEmail);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("comment", changeEmail);
     }
   }
 }

@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
+import com.google.auto.factory.AutoFactory;
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -44,7 +45,6 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailParams;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
@@ -67,7 +67,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
-public class CommentSender implements ChangeEmailParams {
+@AutoFactory
+public class CommentChangeEmail extends ReplyToChangeSender {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -112,7 +113,6 @@ public class CommentSender implements ChangeEmailParams {
     }
   }
 
-  private EmailArguments args;
   private List<? extends Comment> inlineComments = Collections.emptyList();
   @Nullable private String patchSetComment;
   private ImmutableList<LabelVote> labels = ImmutableList.of();
@@ -124,7 +124,7 @@ public class CommentSender implements ChangeEmailParams {
   private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   @Inject
-  public CommentSender(
+  public CommentChangeEmail(
       EmailArguments args,
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
@@ -133,7 +133,7 @@ public class CommentSender implements ChangeEmailParams {
       @Assisted ObjectId preUpdateMetaId,
       @Assisted
           Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-    this.args = args;
+    super(args, "comment", newChangeData(args, project, changeId));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()
@@ -199,8 +199,8 @@ public class CommentSender implements ChangeEmailParams {
    * Returns a list of FileCommentGroup objects representing the inline comments grouped by the
    * file.
    */
-  private List<CommentSender.FileCommentGroup> getGroupedInlineComments(Repository repo) {
-    List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
+  private List<CommentChangeEmail.FileCommentGroup> getGroupedInlineComments(Repository repo) {
+    List<CommentChangeEmail.FileCommentGroup> groups = new ArrayList<>();
 
     // Loop over the comments and collect them into groups based on the file
     // location of the comment.
@@ -385,7 +385,7 @@ public class CommentSender implements ChangeEmailParams {
   private List<Map<String, Object>> getCommentGroupsTemplateData(Repository repo) {
     List<Map<String, Object>> commentGroups = new ArrayList<>();
 
-    for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
+    for (CommentChangeEmail.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);

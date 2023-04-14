@@ -19,43 +19,37 @@ import static com.google.common.truth.Truth.assertThat;
 import java.util.Collections;
 import org.junit.Test;
 
-public class CommentSenderTest {
-  private static class TestSender extends CommentSender {
-    TestSender() {
-      super(null, null, null, null, null, null, null);
-    }
-  }
-
+public class CommentChangeEmailDecoratorTest {
   // A 100-character long string.
   private static String chars100 = String.join("", Collections.nCopies(25, "abcd"));
 
   @Test
   public void shortMessageNotShortened() {
     String message = "foo bar baz";
-    assertThat(TestSender.getShortenedCommentMessage(message)).isEqualTo(message);
+    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(message);
 
     message = "foo bar baz.";
-    assertThat(TestSender.getShortenedCommentMessage(message)).isEqualTo(message);
+    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(message);
   }
 
   @Test
   public void longMessageIsShortened() {
     String message = chars100 + "x";
     String expected = chars100 + " […]";
-    assertThat(TestSender.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
   }
 
   @Test
   public void shortenedToFirstLine() {
     String message = "abc\n" + chars100;
     String expected = "abc […]";
-    assertThat(TestSender.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
   }
 
   @Test
   public void shortenedToFirstSentence() {
     String message = "foo bar baz. " + chars100;
     String expected = "foo bar baz. […]";
-    assertThat(TestSender.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
   }
 }

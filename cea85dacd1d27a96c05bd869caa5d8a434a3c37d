@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374be44c_d0c61dec",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:59:30Z",
+      "side": 1,
+      "message": "The docstring should also mention that the block is not \"counting\". ie. One release removes all blocks with the same name.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0516244f_c78a5183",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:59:30Z",
+      "side": 1,
+      "message": "Since the release removes all blockers with the name and not just one, would it make more sense for this to be a Set?",
+      "range": {
+        "startLine": 298,
+        "startChar": 2,
+        "endLine": 298,
+        "endChar": 44
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9aeaece_15a678eb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:59:30Z",
+      "side": 1,
+      "message": "Nit: This seems a bit brittle. Ie. this would also run if the release was called, without any corresponding block before it. On the other hand calling it in such a case has no effect, so it\u0027s probably fine",
+      "range": {
+        "startLine": 354,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 47
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be86d012_ecfc31ec",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:59:30Z",
+      "side": 1,
+      "message": "It\u0027s not documented that empty string is not allowed as reason",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 361,
+        "endChar": 24
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c05b03f_1717583d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:59:30Z",
+      "side": 1,
+      "message": "nit: I prefer explicit writing down timeout for readability. Because in this case we actually care how long it is, and don\u0027t consider it an error case if it doesn\u0027t happen.",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 635,
+        "endChar": 15
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

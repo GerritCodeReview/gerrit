@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AddKeySender;
@@ -23,7 +25,8 @@ import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
 import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
-import com.google.gerrit.server.mail.send.CommentSender;
+import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
@@ -39,13 +42,14 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
+import java.util.Map;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(AddKeySender.Factory.class);
     factory(ModifyReviewerSender.Factory.class);
-    factory(CommentSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
@@ -120,6 +124,46 @@ public class EmailModule extends FactoryModule {
       } else {
         return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
       }
+    }
+  }
+
+  public static class CommentChangeEmailFactories {
+    private final EmailArguments args;
+    private final CommentChangeEmailDecoratorFactory commentChangeEmailFactory;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    public CommentChangeEmailFactories(
+        EmailArguments args,
+        CommentChangeEmailDecoratorFactory commentChangeEmailFactory,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.commentChangeEmailFactory = commentChangeEmailFactory;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public CommentChangeEmailDecorator createCommentChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
+      return commentChangeEmailFactory.create(
+          project, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        CommentChangeEmailDecorator commentChangeEmailDecorator) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), commentChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("comment", changeEmail);
     }
   }
 }

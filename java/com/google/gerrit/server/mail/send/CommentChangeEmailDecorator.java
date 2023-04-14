@@ -18,6 +18,8 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -39,16 +41,17 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
+import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -66,18 +69,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
-public class CommentSender extends ReplyToChangeSender {
+@AutoFactory
+public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-
-    CommentSender create(
-        Project.NameKey project,
-        Change.Id changeId,
-        ObjectId preUpdateMetaId,
-        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults);
-  }
 
   private class FileCommentGroup {
 
@@ -89,19 +84,22 @@ public class CommentSender extends ReplyToChangeSender {
     /** Returns a web link to a comment for a change. */
     @Nullable
     public String getCommentLink(String uuid) {
-      return args.urlFormatter.get().getInlineCommentView(getChange(), uuid).orElse(null);
+      return args.urlFormatter
+          .get()
+          .getInlineCommentView(changeEmail.getChange(), uuid)
+          .orElse(null);
     }
 
     /** Returns a web link to the comment tab view of a change. */
     @Nullable
     public String getCommentsTabLink() {
-      return args.urlFormatter.get().getCommentsTabView(getChange()).orElse(null);
+      return args.urlFormatter.get().getCommentsTabView(changeEmail.getChange()).orElse(null);
     }
 
     /** Returns a web link to the findings tab view of a change. */
     @Nullable
     public String getFindingsTabLink() {
-      return args.urlFormatter.get().getFindingsTabView(getChange()).orElse(null);
+      return args.urlFormatter.get().getFindingsTabView(changeEmail.getChange()).orElse(null);
     }
 
     /**
@@ -120,6 +118,9 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
+  private EmailArguments args;
+  private OutgoingEmailNew email;
+  private ChangeEmailNew changeEmail;
   private List<? extends Comment> inlineComments = Collections.emptyList();
   @Nullable private String patchSetComment;
   private ImmutableList<LabelVote> labels = ImmutableList.of();
@@ -131,16 +132,15 @@ public class CommentSender extends ReplyToChangeSender {
   private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   @Inject
-  public CommentSender(
-      EmailArguments args,
-      CommentsUtil commentsUtil,
-      @GerritServerConfig Config cfg,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id changeId,
-      @Assisted ObjectId preUpdateMetaId,
-      @Assisted
-          Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-    super(args, "comment", newChangeData(args, project, changeId));
+  public CommentChangeEmailDecorator(
+      @Provided EmailArguments args,
+      @Provided CommentsUtil commentsUtil,
+      @Provided @GerritServerConfig Config cfg,
+      Project.NameKey project,
+      Change.Id changeId,
+      ObjectId preUpdateMetaId,
+      Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
+    this.args = args;
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()
@@ -151,7 +151,7 @@ public class CommentSender extends ReplyToChangeSender {
             () ->
                 // Triggers an (expensive) evaluation of the submit requirements. This is OK since
                 // all callers sent this email asynchronously, see EmailReviewComments.
-                newChangeData(args, project, changeId, preUpdateMetaId)
+                args.newChangeData(project, changeId, preUpdateMetaId)
                     .submitRequirementsIncludingLegacy());
     this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
@@ -169,45 +169,31 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) throws EmailException {
+    this.email = email;
+    this.changeEmail = changeEmail;
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.
-    setHeader(MailHeader.COMMENT_DATE.fieldName(), getTimestamp());
+    email.setHeader(MailHeader.COMMENT_DATE.fieldName(), changeEmail.getTimestamp());
 
     if (incomingEmailEnabled) {
       if (replyToAddress == null) {
         // Remove Reply-To and use outbound SMTP (default) instead.
-        removeHeader(FieldName.REPLY_TO);
+        email.removeHeader(FieldName.REPLY_TO);
       } else {
-        setHeader(FieldName.REPLY_TO, replyToAddress);
+        email.setHeader(FieldName.REPLY_TO, replyToAddress);
       }
     }
-  }
-
-  @Override
-  public void formatChange() throws EmailException {
-    appendText(textTemplate("Comment"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("CommentHtml"));
-    }
-  }
-
-  @Override
-  public void formatFooter() throws EmailException {
-    appendText(textTemplate("CommentFooter"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("CommentFooterHtml"));
-    }
+    changeEmail.markAsReply();
   }
 
   /**
    * Returns a list of FileCommentGroup objects representing the inline comments grouped by the
    * file.
    */
-  private List<CommentSender.FileCommentGroup> getGroupedInlineComments(Repository repo) {
-    List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
+  private List<CommentChangeEmailDecorator.FileCommentGroup> getGroupedInlineComments(
+      Repository repo) {
+    List<CommentChangeEmailDecorator.FileCommentGroup> groups = new ArrayList<>();
 
     // Loop over the comments and collect them into groups based on the file
     // location of the comment.
@@ -221,7 +207,7 @@ public class CommentSender extends ReplyToChangeSender {
         currentGroup.filename = c.key.filename;
         currentGroup.patchSetId = c.key.patchSetId;
         // Get the modified files:
-        Map<String, FileDiffOutput> modifiedFiles = listModifiedFiles(c.key.patchSetId);
+        Map<String, FileDiffOutput> modifiedFiles = changeEmail.listModifiedFiles(c.key.patchSetId);
 
         groups.add(currentGroup);
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
@@ -232,7 +218,7 @@ public class CommentSender extends ReplyToChangeSender {
                 "Cannot load %s from %s in %s",
                 c.key.filename,
                 modifiedFiles.values().iterator().next().newCommitId().name(),
-                getProjectState().getName());
+                changeEmail.getProjectState().getName());
             currentGroup.fileData = null;
           }
         }
@@ -317,7 +303,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.getPublishedHumanComment(getChangeData().notes(), key);
+      return commentsUtil.getPublishedHumanComment(changeEmail.getChangeData().notes(), key);
     } catch (StorageException e) {
       logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();
@@ -352,7 +338,7 @@ public class CommentSender extends ReplyToChangeSender {
    * or the first line, or following the last period within the first 100 characters, whichever is
    * shorter. If the message is shortened, an ellipsis is appended.
    */
-  protected static String getShortenedCommentMessage(String message) {
+  static String getShortenedCommentMessage(String message) {
     int threshold = 100;
     String fullMessage = message.trim();
     String msg = fullMessage;
@@ -381,7 +367,7 @@ public class CommentSender extends ReplyToChangeSender {
     return msg;
   }
 
-  protected static String getShortenedCommentMessage(Comment comment) {
+  static String getShortenedCommentMessage(Comment comment) {
     return getShortenedCommentMessage(comment.message);
   }
 
@@ -392,7 +378,7 @@ public class CommentSender extends ReplyToChangeSender {
   private List<Map<String, Object>> getCommentGroupsTemplateData(Repository repo) {
     List<Map<String, Object>> commentGroups = new ArrayList<>();
 
-    for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
+    for (CommentChangeEmailDecorator.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);
@@ -503,55 +489,66 @@ public class CommentSender extends ReplyToChangeSender {
   @Nullable
   private Repository getRepository() {
     try {
-      return args.server.openRepository(getProjectState().getNameKey());
+      return args.server.openRepository(changeEmail.getProjectState().getNameKey());
     } catch (IOException e) {
       return null;
     }
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
+  public void populateEmailContent() throws EmailException {
+    changeEmail.addAuthors(RecipientType.TO);
+
     boolean hasComments;
     try (Repository repo = getRepository()) {
       List<Map<String, Object>> files = getCommentGroupsTemplateData(repo);
-      addSoyParam("commentFiles", files);
+      email.addSoyParam("commentFiles", files);
       hasComments = !files.isEmpty();
     }
 
-    addSoyParam(
+    email.addSoyParam(
         "patchSetCommentBlocks", commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
-    addSoyParam("labels", getLabelVoteSoyData(labels));
-    addSoyParam("commentCount", inlineComments.size());
-    addSoyParam("commentTimestamp", getCommentTimestamp());
-    addSoyParam(
-        "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
+    email.addSoyParam("labels", getLabelVoteSoyData(labels));
+    email.addSoyParam("commentCount", inlineComments.size());
+    email.addSoyParam("commentTimestamp", getCommentTimestamp());
+    email.addSoyParam(
+        "coverLetterBlocks",
+        commentBlocksToSoyData(CommentFormatter.parse(changeEmail.getCoverLetter())));
 
     if (isChangeNoLongerSubmittable()) {
-      addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
-      addSoyParam(
+      email.addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      email.addSoyParam(
           "oldSubmitRequirements",
           formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
-      addSoyParam(
+      email.addSoyParam(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
 
-    addFooter(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());
-    addFooter(MailHeader.HAS_COMMENTS.withDelimiter() + (hasComments ? "Yes" : "No"));
-    addFooter(MailHeader.HAS_LABELS.withDelimiter() + (labels.isEmpty() ? "No" : "Yes"));
+    email.addFooter(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());
+    email.addFooter(MailHeader.HAS_COMMENTS.withDelimiter() + (hasComments ? "Yes" : "No"));
+    email.addFooter(MailHeader.HAS_LABELS.withDelimiter() + (labels.isEmpty() ? "No" : "Yes"));
 
     for (Account.Id account : getReplyAccounts()) {
-      addFooter(MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + getNameEmailFor(account));
+      email.addFooter(
+          MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + email.getNameEmailFor(account));
     }
 
-    if (getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || getNotify().handling().equals(NotifyHandling.ALL)) {
-      ccAllApprovals();
+    if (email.getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || email.getNotify().handling().equals(NotifyHandling.ALL)) {
+      changeEmail.ccAllApprovals();
     }
-    if (getNotify().handling().equals(NotifyHandling.ALL)) {
-      bccStarredBy();
-      includeWatchers(
-          NotifyType.ALL_COMMENTS, !getChange().isWorkInProgress() && !getChange().isPrivate());
+    if (email.getNotify().handling().equals(NotifyHandling.ALL)) {
+      changeEmail.bccStarredBy();
+      changeEmail.includeWatchers(
+          NotifyType.ALL_COMMENTS,
+          !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
+    }
+
+    email.appendText(email.textTemplate("Comment"));
+    email.appendText(email.textTemplate("CommentFooter"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("CommentHtml"));
+      email.appendHtml(email.soyHtmlTemplate("CommentFooterHtml"));
     }
   }
 
@@ -567,7 +564,7 @@ public class CommentSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s before the update is %s",
-        getChange().getId(), isSubmittablePreUpdate);
+        changeEmail.getChange().getId(), isSubmittablePreUpdate);
     if (!isSubmittablePreUpdate) {
       return false;
     }
@@ -577,7 +574,7 @@ public class CommentSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s after the update is %s",
-        getChange().getId(), isSubmittablePostUpdate);
+        changeEmail.getChange().getId(), isSubmittablePostUpdate);
     return !isSubmittablePostUpdate;
   }
 
@@ -645,6 +642,6 @@ public class CommentSender extends ReplyToChangeSender {
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
     return MailProcessingUtil.rfcDateformatter.format(
-        ZonedDateTime.ofInstant(getTimestamp(), ZoneId.of("UTC")));
+        ZonedDateTime.ofInstant(changeEmail.getTimestamp(), ZoneId.of("UTC")));
   }
 }

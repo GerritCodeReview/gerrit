@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afba5e80_70c4b72a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Optional: can we simplify ChangeEmailNew and OutgoingEmailNew a bit? Both classes are large.",
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff92e073_84643494",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Thanks for this pointer. It\u0027s a bit weird though that {base vs. PS3} shows the 3 new files as ADDED instead of COPIED.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0335e4fb_4beb3c48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "a*",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bca8bc9_7de7aa8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "nit: please fix line length.",
+      "range": {
+        "startLine": 56,
+        "startChar": 72,
+        "endLine": 57,
+        "endChar": 1
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b53199af_f900c7ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Nice! thanks for replacing inheritance with composition.",
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "330b07de_118e6022",
+        "filename": "java/com/google/gerrit/server/mail/send/AbandonedChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Nit: Please rename to be in sync with the interface it implements, e.g. AbandonedChangeEmailParams, or AbandonedChangeEmailParamsDecorator (after the suggestion in the other comment)",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6837f04_20bda1ba",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Can we also enumerate which email operations will use this template? e.g. I currently see AbandonOp. Are there others?",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5be03838_f38d829d",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Similar to the EmailTemplateProvider, is it better to name this one as \"ChangeEmailParamsDecorator\"?",
+      "range": {
+        "startLine": 89,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff534507_8b7a418e",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailArguments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "This method is unused? Please remove.",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a9e70f_d9015881",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Is this description accurate? it looks like this entity mainly \"holds data (body, footer, recipients, etc...) representing an email that can be sent to interested parties\". Could you please update?",
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f107ed8b_8fe1b14e",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "this interface (also according to javadocs L67) decorates an OutgoingEmailNew by enriching it with data. The name \"Provider\" is a bit confusing here.\n\nI\u0027d suggest another name like \"EmailDecorator\" or \"EmailDataDecorator\".",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86d40702_ab518d17",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "it\u0027s confusing that this method takes no parameters and returns void and unclear what it populates exactly.\n\nCan we rather pass OutgoingEmailNew as a parameter here? then it can be called as:\n`templateProvider.populateEmailContent(this)`.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff1493a_3de6aec6",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "The intention is to plug another provider in google3. just highlighting so that we double check it would be easy to do so (for all email types) with new code.",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 96
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f459d2a7_6eb5b9ce",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-14T13:10:54Z",
+      "side": 1,
+      "message": "Can we revert the access modifier change here? (for this and other methods)\n\n(this one is only called from within the same class, others are also called from same class or same package)",
+      "range": {
+        "startLine": 552,
+        "startChar": 2,
+        "endLine": 552,
+        "endChar": 8
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

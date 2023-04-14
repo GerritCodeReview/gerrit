@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92842938_f3481e82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-14T09:39:41Z",
+      "side": 1,
+      "message": "nit: It seems a bit weird that the logic that relates to rendering patchset is located in renderDate(), can we move it to renderHeader instead? Or at least leave a comment explaining why this line is here.",
+      "range": {
+        "startLine": 674,
+        "startChar": 6,
+        "endLine": 674,
+        "endChar": 77
+      },
+      "revId": "6225da37eac28c4422480c4eb19a3c1ae0e938b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

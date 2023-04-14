@@ -28,9 +28,12 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.CommentSender;
+import com.google.gerrit.server.mail.EmailModule.CommentChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
@@ -84,7 +87,7 @@ public class EmailReviewComments {
   EmailReviewComments(
       @SendEmailExecutor ExecutorService executor,
       PatchSetInfoFactory patchSetInfoFactory,
-      CommentSender.Factory commentSenderFactory,
+      CommentChangeEmailFactories commentChangeEmailFactories,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       @Assisted PostUpdateContext postUpdateContext,
@@ -118,7 +121,7 @@ public class EmailReviewComments {
     this.asyncSender =
         new AsyncSender(
             requestContext,
-            commentSenderFactory,
+            commentChangeEmailFactories,
             patchSetInfoFactory,
             postUpdateContext.getUser().asIdentifiedUser(),
             messageId,
@@ -149,7 +152,7 @@ public class EmailReviewComments {
   // TODO: The passed in Comment class is not thread-safe, replace it with an AutoValue type.
   private static class AsyncSender implements Runnable, RequestContext {
     private final ThreadLocalRequestContext requestContext;
-    private final CommentSender.Factory commentSenderFactory;
+    private final CommentChangeEmailFactories commentChangeEmailFactories;
     private final PatchSetInfoFactory patchSetInfoFactory;
     private final IdentifiedUser user;
     private final MessageId messageId;
@@ -168,7 +171,7 @@ public class EmailReviewComments {
 
     AsyncSender(
         ThreadLocalRequestContext requestContext,
-        CommentSender.Factory commentSenderFactory,
+        CommentChangeEmailFactories commentChangeEmailFactories,
         PatchSetInfoFactory patchSetInfoFactory,
         IdentifiedUser user,
         MessageId messageId,
@@ -184,7 +187,7 @@ public class EmailReviewComments {
         ImmutableList<LabelVote> labels,
         Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.requestContext = requestContext;
-      this.commentSenderFactory = commentSenderFactory;
+      this.commentChangeEmailFactories = commentChangeEmailFactories;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.user = user;
       this.messageId = messageId;
@@ -205,18 +208,22 @@ public class EmailReviewComments {
     public void run() {
       RequestContext old = requestContext.setContext(this);
       try {
-        CommentSender emailSender =
-            commentSenderFactory.create(
+        CommentChangeEmailDecorator commentChangeEmail =
+            commentChangeEmailFactories.createCommentChangeEmail(
                 projectName, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
-        emailSender.setFrom(user.getAccountId());
-        emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
-        emailSender.setChangeMessage(message, timestamp);
-        emailSender.setComments(comments);
-        emailSender.setPatchSetComment(patchSetComment);
-        emailSender.setLabels(labels);
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(messageId);
-        emailSender.send();
+        commentChangeEmail.setComments(comments);
+        commentChangeEmail.setPatchSetComment(patchSetComment);
+        commentChangeEmail.setLabels(labels);
+        ChangeEmailNew changeEmail =
+            commentChangeEmailFactories.createChangeEmail(
+                projectName, changeId, commentChangeEmail);
+        changeEmail.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
+        changeEmail.setChangeMessage(message, timestamp);
+        OutgoingEmailNew outgoingEmail = commentChangeEmailFactories.createEmail(changeEmail);
+        outgoingEmail.setFrom(user.getAccountId());
+        outgoingEmail.setNotify(notify);
+        outgoingEmail.setMessageId(messageId);
+        outgoingEmail.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
       } finally {

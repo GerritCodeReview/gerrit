@@ -727,8 +727,8 @@ export enum DraftState {
 export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
   // Must be set for all drafts.
   // Drafts received from the backend will be modified immediately with
-  // `__draft: SAVED` before allowing them to get into the model.
-  __draft: DraftState;
+  // `state: SAVED` before allowing them to get into the model.
+  state: DraftState;
   // Must be set for UNSAVED drafts. Can be set for other drafts.
   // Use the id() utility function for uniquely identifying drafts.
   client_id?: UrlEncodedCommentId;
@@ -762,33 +762,33 @@ export function isDraft<T extends Comment>(
 ): x is DraftInfo {
   return (
     !!x &&
-    (x as DraftInfo).__draft !== undefined &&
-    (x as DraftInfo).__draft !== DraftState.UNSAVED
+    (x as DraftInfo).state !== undefined &&
+    (x as DraftInfo).state !== DraftState.UNSAVED
   );
 }
 
 export function isUnsaved<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && (x as DraftInfo).__draft === DraftState.UNSAVED;
+  return !!x && (x as DraftInfo).state === DraftState.UNSAVED;
 }
 
 export function isSaved<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && (x as DraftInfo).__draft === DraftState.SAVED;
+  return !!x && (x as DraftInfo).state === DraftState.SAVED;
 }
 
 export function isSaving<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && (x as DraftInfo).__draft === DraftState.SAVING;
+  return !!x && (x as DraftInfo).state === DraftState.SAVING;
 }
 
 export function isError<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return !!x && (x as DraftInfo).__draft === DraftState.ERROR;
+  return !!x && (x as DraftInfo).state === DraftState.ERROR;
 }
 
 // TODO: Find a better name for this. Maybe this can become just `isDraft()`.

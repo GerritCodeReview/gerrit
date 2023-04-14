@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee33356e_20a08850",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T08:24:22Z",
+      "side": 1,
+      "message": "Are these all states? Maybe we will need state like ERROR in future when saving fails. I assume it\u0027s added in following changes.",
+      "range": {
+        "startLine": 700,
+        "startChar": 12,
+        "endLine": 700,
+        "endChar": 22
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45ccb275_e421d09e",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 5

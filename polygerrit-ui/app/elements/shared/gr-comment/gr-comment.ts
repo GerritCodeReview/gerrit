@@ -678,7 +678,7 @@ export class GrComment extends LitElement {
               .dateStr=${this.comment!.updated}
             ></gr-date-formatter>
           `,
-          () => (this.comment as DraftInfo).__draft
+          () => (this.comment as DraftInfo).state
         )}
       </span>
     `;

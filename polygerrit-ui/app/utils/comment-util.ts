@@ -101,7 +101,7 @@ export function createUnsaved(message?: string, unresolved?: boolean) {
   return {
     message,
     unresolved,
-    __draft: DraftState.UNSAVED,
+    state: DraftState.UNSAVED,
     client_id: uuid() as UrlEncodedCommentId,
   };
 }
@@ -419,7 +419,7 @@ export function addPath<T>(comments: {[path: string]: T[]} = {}): {
 }
 
 /**
- * Add __draft:SAVED to all drafts returned from server so that they can be told
+ * Add state:SAVED to all drafts returned from server so that they can be told
  * apart from published comments easily.
  */
 export function addDraftProp(
@@ -428,7 +428,7 @@ export function addDraftProp(
   const updated: {[path: string]: DraftInfo[]} = {};
   for (const filePath of Object.keys(draftsByPath)) {
     updated[filePath] = (draftsByPath[filePath] ?? []).map(draft => {
-      return {...draft, __draft: DraftState.SAVED};
+      return {...draft, state: DraftState.SAVED};
     });
   }
   return updated;

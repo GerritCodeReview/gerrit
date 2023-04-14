@@ -843,7 +843,7 @@ export function createComment(
 export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __draft: DraftState.SAVED,
+    state: DraftState.SAVED,
     ...extra,
   };
 }
@@ -851,7 +851,7 @@ export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
 export function createUnsaved(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __draft: DraftState.UNSAVED,
+    state: DraftState.UNSAVED,
     client_id: uuid() as UrlEncodedCommentId,
     id: undefined,
     updated: undefined,

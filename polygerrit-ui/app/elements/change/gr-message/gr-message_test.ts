@@ -776,7 +776,7 @@ suite('gr-message tests', () => {
               message: 'n',
               unresolved: false,
               path: '/PATCHSET_LEVEL',
-              __draft: DraftState.SAVED,
+              state: DraftState.SAVED,
             },
           ],
           patchNum: 1 as RevisionPatchSetNum,

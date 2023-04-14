@@ -60,7 +60,7 @@ export interface CommentState {
   comments?: {[path: string]: CommentInfo[]};
   /** undefined means 'still loading' */
   robotComments?: {[path: string]: RobotCommentInfo[]};
-  // All drafts are DraftInfo objects and have `__draft` state set.
+  // All drafts are DraftInfo objects and have `state` state set.
   /** undefined means 'still loading' */
   drafts?: {[path: string]: DraftInfo[]};
   // Ported comments only affect `CommentThread` properties, not individual
@@ -580,7 +580,7 @@ export class CommentsModel extends Model<CommentState> {
       ...found,
       id: undefined,
       updated: undefined,
-      __draft: DraftState.UNSAVED,
+      state: DraftState.UNSAVED,
       client_id: uuid() as UrlEncodedCommentId,
     };
     await this.saveDraft(newDraft);
@@ -605,10 +605,10 @@ export class CommentsModel extends Model<CommentState> {
     assertIsDefined(this.changeNum, 'change number');
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
     assert(!!draft.message?.trim(), 'cannot save empty draft');
-    assert(draft.__draft !== DraftState.SAVING, 'saving already in progress');
+    assert(draft.state !== DraftState.SAVING, 'saving already in progress');
 
     // optimistic update
-    const draftSaving: DraftInfo = {...draft, __draft: DraftState.SAVING};
+    const draftSaving: DraftInfo = {...draft, state: DraftState.SAVING};
     this.modifyState(s => setDraft(s, draftSaving));
 
     // Saving the change number as to make sure that the response is still
@@ -633,7 +633,7 @@ export class CommentsModel extends Model<CommentState> {
       )) as unknown as CommentInfo;
     } catch (error) {
       if (showToast) this.handleFailedDraftRequest();
-      const draftError: DraftInfo = {...draft, __draft: DraftState.ERROR};
+      const draftError: DraftInfo = {...draft, state: DraftState.ERROR};
       this.modifyState(s => setDraft(s, draftError));
       return draftError;
     }
@@ -642,7 +642,7 @@ export class CommentsModel extends Model<CommentState> {
       ...draft,
       id: savedComment.id,
       updated: savedComment.updated,
-      __draft: DraftState.SAVED,
+      state: DraftState.SAVED,
     };
     timer.end({id: draftSaved.id});
     if (showToast) this.showEndRequest();
@@ -655,12 +655,12 @@ export class CommentsModel extends Model<CommentState> {
     const draft = this.lookupDraft(draftId);
     assertIsDefined(draft, `draft not found by id ${draftId}`);
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
-    assert(draft.__draft !== DraftState.SAVING, 'saving already in progress');
+    assert(draft.state !== DraftState.SAVING, 'saving already in progress');
 
     // optimistic update
     this.modifyState(s => deleteDraft(s, draft));
 
-    // Not having an `id` is equivalent to `__draft === UNSAVED`. In that case
+    // Not having an `id` is equivalent to `state === UNSAVED`. In that case
     // we don't need a server call, but can just remove the draft from the
     // model.
     if (draft.id) {

@@ -273,7 +273,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = DraftState.SAVED;
+      (element.comment as DraftInfo).state = DraftState.SAVED;
       await element.updateComplete;
       assert.shadowDom.equal(
         element,
@@ -353,7 +353,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft in editing mode', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = DraftState.SAVED;
+      (element.comment as DraftInfo).state = DraftState.SAVED;
       element.editing = true;
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -467,7 +467,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: DraftState.SAVED,
+      state: DraftState.SAVED,
       message: 'hello world',
     };
     element.editing = true;
@@ -492,7 +492,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: DraftState.SAVED,
+      state: DraftState.SAVED,
       message: 'hello world',
     };
     element.editing = true;
@@ -542,7 +542,7 @@ suite('gr-comment tests', () => {
       element.changeNum = 42 as NumericChangeId;
       element.comment = {
         ...createComment(),
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         path: '/path/to/file',
         line: 5,
       };
@@ -565,7 +565,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
-      element.comment = {...element.comment, __draft: DraftState.SAVING};
+      element.comment = {...element.comment, state: DraftState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
     });
@@ -627,7 +627,7 @@ suite('gr-comment tests', () => {
         Promise.resolve({
           ...createUnsaved(),
           message: 'something, not important',
-          __draft: DraftState.ERROR,
+          state: DraftState.ERROR,
         })
       );
 
@@ -670,7 +670,7 @@ suite('gr-comment tests', () => {
       const saveStub = sinon.stub(commentsModel, 'saveDraft');
       element.comment = {
         ...createComment(),
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         unresolved: false,
       };
       await element.updateComplete;
@@ -797,14 +797,14 @@ suite('gr-comment tests', () => {
 
       autoSavePromise.resolve({
         ...element.comment,
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         message: 'auto save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:48.018000000' as Timestamp,
       });
       savePromise.resolve({
         ...element.comment,
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         message: 'actual save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:49.018000000' as Timestamp,
@@ -829,7 +829,7 @@ suite('gr-comment tests', () => {
         },
         line: 5,
         path: 'test',
-        __draft: DraftState.SAVED,
+        state: DraftState.SAVED,
         message: 'hello world',
       };
       element = await fixture(

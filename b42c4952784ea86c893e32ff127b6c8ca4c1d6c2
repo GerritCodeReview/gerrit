@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf944d4_1c60792f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2850,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-14T09:03:55Z",
+      "side": 1,
+      "message": "Added extra assert to make sure emails are sent.",
+      "range": {
+        "startLine": 2850,
+        "startChar": 4,
+        "endLine": 2850,
+        "endChar": 47
+      },
+      "revId": "b42c4952784ea86c893e32ff127b6c8ca4c1d6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

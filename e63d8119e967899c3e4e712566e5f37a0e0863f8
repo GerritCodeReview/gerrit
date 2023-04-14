@@ -381,6 +381,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29448425_36c7ea5f",
+        "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-04-14T09:03:55Z",
+      "side": 1,
+      "message": "Unfortunately I cherry-picked your fix so I missed to test this change together with this change https://gerrit-review.googlesource.com/c/gerrit/+/367881/3/java/com/google/gerrit/server/mail/send/ChangeEmail.java\n\nI have now tested with the latest master and uploaded a fix as a parent and rewritten this change to use InternalUser.",
+      "parentUuid": "5d9f04f9_362ef182",
+      "range": {
+        "startLine": 115,
+        "startChar": 62,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "e63d8119e967899c3e4e712566e5f37a0e0863f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "186f608b_dbebe399",
         "filename": "java/com/google/gerrit/server/change/ReaddOwnerUtil.java",
         "patchSetId": 4

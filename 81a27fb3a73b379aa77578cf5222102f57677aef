@@ -66,6 +66,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "111dae5e_13f7b004",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "Is it ok that unsaved creates link? Will this link work after it really saves?",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 68
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ac98ca4_8ce06574",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "Does this work in race condition?\n\nWhen user clicks discard on unsaved draft that was saved on server but response didn\u0027t arrive yet. Will we call deleteDiffDraft once we save this draft since it was discard during saving?",
+      "range": {
+        "startLine": 642,
+        "startChar": 4,
+        "endLine": 642,
+        "endChar": 49
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc315faa_d3146b7d",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 4
@@ -89,6 +135,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4d2a04d_409eda32",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2597,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "Nit:\n```suggestion\n    })) as {[path: string]: DraftInfo[]} | undefined;\n```",
+      "range": {
+        "startLine": 2597,
+        "startChar": 11,
+        "endLine": 2597,
+        "endChar": 32
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7efa3e67_7d81bccc",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 4
@@ -105,6 +174,75 @@
         "startChar": 2,
         "endLine": 721,
         "endChar": 18
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6b80d37_64c4b363",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "Cool, thanks - this is useful!",
+      "range": {
+        "startLine": 701,
+        "startChar": 2,
+        "endLine": 728,
+        "endChar": 21
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34f5bf3_79496b4d",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "I assume this can be removed in future, it\u0027s little bit confusing semantically that draft is not draft because it\u0027s not saved.",
+      "range": {
+        "startLine": 774,
+        "startChar": 0,
+        "endLine": 784,
+        "endChar": 1
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7230dbb_8b030795",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 1,
+      "message": "This can be used in gr-change-actions and gr-confirm-cherrypick",
+      "range": {
+        "startLine": 180,
+        "startChar": 9,
+        "endLine": 180,
+        "endChar": 49
       },
       "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

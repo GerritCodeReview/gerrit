@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0096e298_62a46554",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 0,
+      "message": "Thanks for moving this out of rendering",
+      "range": {
+        "startLine": 898,
+        "startChar": 5,
+        "endLine": 902,
+        "endChar": 8
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f4f5d3_e23b4025",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T09:17:11Z",
+      "side": 0,
+      "message": "I also prefer {[path: string]: CommentInfo[]}; from name like `PathToCommentsInfoMap`. Thanks!",
+      "range": {
+        "startLine": 42,
+        "startChar": 34,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "cfe11ea35d582dbf8d5da1b2d84b324238c62e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57e17dd1_6135b1a0",

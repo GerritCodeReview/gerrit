@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c95dd4_87dc1a8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T11:58:22Z",
+      "side": 1,
+      "message": "I know it would be tricky to take care of canceling comment that was in saving mode, but in future `cancel` can feel slow.",
+      "range": {
+        "startLine": 836,
+        "startChar": 8,
+        "endLine": 836,
+        "endChar": 56
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a163c570_59d57cf7",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-14T11:58:22Z",
+      "side": 1,
+      "message": "What actually can user do when draft comment will fail to save? Can they retry? \n\nIf comment will fail to save, they may be blocked. They cannot reload (because we block navigation). They cannot retry.",
+      "range": {
+        "startLine": 440,
+        "startChar": 10,
+        "endLine": 440,
+        "endChar": 74
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

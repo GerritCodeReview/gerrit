@@ -36,11 +36,15 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
+<<<<<<< HEAD   (b5b1e5 Merge "Merge branch 'stable-3.6' into stable-3.7" into stabl)
 import {
   querySelectorAll,
   whenVisible,
   windowLocationReload,
 } from '../../../utils/dom-util';
+=======
+import {whenVisible} from '../../../utils/dom-util';
+>>>>>>> CHANGE (373413 gr-change-view: Call reload event with clear patchset set wh)
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -1841,16 +1845,12 @@ export class GrChangeView extends LitElement {
 
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
         this.editingCommitMessage = false;
-        this.reloadWindow();
+        fireReload(this, true);
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
         this.commitMessageEditor.disabled = false;
       });
-  }
-
-  private reloadWindow() {
-    windowLocationReload();
   }
 
   private handleCommitMessageCancel() {

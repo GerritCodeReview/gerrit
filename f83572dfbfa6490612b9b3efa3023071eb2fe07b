@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8128fc1_de8b43d3",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-14T09:08:56Z",
+      "side": 1,
+      "message": "Unrelated to this change, we may want to annotate getFrom() with @Nullable.",
+      "revId": "f83572dfbfa6490612b9b3efa3023071eb2fe07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

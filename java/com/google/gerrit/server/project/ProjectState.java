@@ -475,19 +475,19 @@ public class ProjectState {
    * {@code PluginConfig#withInheritance(ProjectState.Factory)}
    */
   public PluginConfig getPluginConfig(String pluginName) {
-    if (getConfig().getPluginConfigs().containsKey(pluginName)) {
-      Config config = new Config();
+    Config config = new Config();
+    String cachedPluginConfig = getConfig().getPluginConfigs().get(pluginName);
+    if (cachedPluginConfig != null) {
       try {
-        config.fromText(getConfig().getPluginConfigs().get(pluginName));
+        config.fromText(cachedPluginConfig);
       } catch (ConfigInvalidException e) {
         // This is OK to propagate as IllegalStateException because it's a programmer error.
         // The config was converted to a String using Config#toText. So #fromText must not
         // throw a ConfigInvalidException
         throw new IllegalStateException("invalid plugin config for " + pluginName, e);
       }
-      return PluginConfig.create(pluginName, config, getConfig());
     }
-    return PluginConfig.create(pluginName, new Config(), getConfig());
+    return PluginConfig.create(pluginName, config, getConfig());
   }
 
   public Optional<BranchOrderSection> getBranchOrderSection() {

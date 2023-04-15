@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf3776d_38de2b98",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-15T09:25:39Z",
+      "side": 1,
+      "message": "Why `cached`? From the method names (`getConfig`, `getPluginConfigs`) there is nothing that suggests caching.",
+      "range": {
+        "startLine": 479,
+        "startChar": 11,
+        "endLine": 479,
+        "endChar": 29
+      },
+      "revId": "76b979248d8681ddd9e4d63e4e4f37ecb2dc26c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

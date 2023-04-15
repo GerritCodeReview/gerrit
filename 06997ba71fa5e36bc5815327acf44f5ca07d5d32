@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0047079e_87b143af",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-04-15T08:29:40Z",
+      "side": 0,
+      "message": "For the reference here is the implementation of `containsKey` method\n```\n  @Override\n  public boolean containsKey(@Nullable Object key) {\n    return get(key) !\u003d null;\n  }\n```\n:D",
+      "range": {
+        "startLine": 478,
+        "startChar": 39,
+        "endLine": 478,
+        "endChar": 50
+      },
+      "revId": "06997ba71fa5e36bc5815327acf44f5ca07d5d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

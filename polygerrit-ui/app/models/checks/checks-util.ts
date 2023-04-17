@@ -23,7 +23,7 @@ import {
 } from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID, createUnsaved} from '../../utils/comment-util';
+import {PROVIDED_FIX_ID, createNew} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
@@ -101,7 +101,7 @@ export function createPleaseFixComment(result: RunResult): DraftInfo {
   const pointer = result.codePointers?.[0];
   assertIsDefined(pointer, 'codePointer');
   return {
-    ...createUnsaved(pleaseFixMessage(result), true),
+    ...createNew(pleaseFixMessage(result), true),
     path: pointer.path,
     patch_set: result.patchset as RevisionPatchSetNum,
     side: CommentSide.REVISION,

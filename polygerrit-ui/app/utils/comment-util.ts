@@ -23,11 +23,11 @@ import {
   ChangeMessage,
   isRobot,
   isDraft,
-  isDraftOrUnsaved,
   Comment,
-  isUnsaved,
   CommentIdToCommentThreadMap,
-  DraftState,
+  SavingState,
+  NewDraftInfo,
+  isNew,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -63,12 +63,14 @@ export const PATCH_SET_PREFIX_PATTERN =
  * e.g. in `repeat()` directives.
  */
 export function id(comment: Comment): UrlEncodedCommentId {
-  if (isUnsaved(comment)) {
-    assertIsDefined(comment.client_id);
-    return comment.client_id;
-  }
-  if (isDraft(comment) && comment.client_id) {
-    return comment.client_id;
+  if (isDraft(comment)) {
+    if (isNew(comment)) {
+      assertIsDefined(comment.client_id);
+      return comment.client_id;
+    }
+    if (comment.client_id) {
+      return comment.client_id;
+    }
   }
   assertIsDefined(comment.id);
   return comment.id;
@@ -76,9 +78,9 @@ export function id(comment: Comment): UrlEncodedCommentId {
 
 export function sortComments<T extends Comment>(comments: T[]): T[] {
   return comments.slice(0).sort((c1, c2) => {
-    const u1 = isUnsaved(c1);
-    const u2 = isUnsaved(c2);
-    if (u1 !== u2) return u1 ? 1 : -1;
+    const n1 = isNew(c1);
+    const n2 = isNew(c2);
+    if (n1 !== n2) return n1 ? 1 : -1;
 
     const d1 = isDraft(c1);
     const d2 = isDraft(c2);
@@ -97,34 +99,40 @@ export function sortComments<T extends Comment>(comments: T[]): T[] {
   });
 }
 
-export function createUnsaved(message?: string, unresolved?: boolean) {
-  return {
-    message,
-    unresolved,
-    state: DraftState.UNSAVED,
+export function createNew(
+  message?: string,
+  unresolved?: boolean
+): NewDraftInfo {
+  const newDraft: NewDraftInfo = {
+    savingState: SavingState.OK,
     client_id: uuid() as UrlEncodedCommentId,
+    id: undefined,
+    updated: undefined,
   };
+  if (message !== undefined) newDraft.message = message;
+  if (unresolved !== undefined) newDraft.unresolved = unresolved;
+  return newDraft;
 }
 
-export function createUnsavedPatchsetLevel(
+export function createNewPatchsetLevel(
   patchNum?: PatchSetNumber,
   message?: string,
   unresolved?: boolean
 ): DraftInfo {
   return {
-    ...createUnsaved(message, unresolved),
+    ...createNew(message, unresolved),
     patch_set: patchNum,
     path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
   };
 }
 
-export function createUnsavedReply(
+export function createNewReply(
   replyingTo: CommentInfo,
   message: string,
   unresolved: boolean
 ): DraftInfo {
   return {
-    ...createUnsaved(message, unresolved),
+    ...createNew(message, unresolved),
     path: replyingTo.path,
     patch_set: replyingTo.patch_set,
     side: replyingTo.side,
@@ -198,7 +206,7 @@ export function getLastComment(
 export function getLastPublishedComment(
   thread: CommentThread
 ): CommentInfo | DraftInfo | undefined {
-  const publishedComments = thread.comments.filter(c => !isDraftOrUnsaved(c));
+  const publishedComments = thread.comments.filter(c => !isDraft(c));
   const len = publishedComments.length;
   return publishedComments[len - 1];
 }
@@ -428,7 +436,7 @@ export function addDraftProp(
   const updated: {[path: string]: DraftInfo[]} = {};
   for (const filePath of Object.keys(draftsByPath)) {
     updated[filePath] = (draftsByPath[filePath] ?? []).map(draft => {
-      return {...draft, state: DraftState.SAVED};
+      return {...draft, savingState: SavingState.OK};
     });
   }
   return updated;
@@ -442,7 +450,7 @@ export function reportingDetails(comment: Comment) {
     unresolved: comment?.unresolved,
     path_length: comment?.path?.length,
     line: comment?.range?.start_line ?? comment?.line,
-    unsaved: isUnsaved(comment),
+    unsaved: isNew(comment),
   };
 }
 

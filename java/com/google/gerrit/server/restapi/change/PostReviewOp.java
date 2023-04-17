@@ -649,8 +649,8 @@ public class PostReviewOp implements BatchUpdateOp {
           del.add(c);
           update.putApproval(normName, (short) 0);
         }
-        // Only allow voting again the values are different, if the real account differs or if the
-        // vote is copied over from a past patch-set.
+        // Only allow voting again if the values are different, if the real account differs or if
+        // the vote is copied over from a past patch-set.
       } else if (c != null
           && (c.value() != ent.getValue()
               || !c.realAccountId().equals(reviewerId)

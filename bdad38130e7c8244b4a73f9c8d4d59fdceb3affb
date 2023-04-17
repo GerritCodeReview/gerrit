@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f209dfa_64ee5007",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:43:17Z",
+      "side": 1,
+      "message": "There is certainly potential for optimizing this further. :-) But I think being able to click \"cancel\" while saving is not an important user journey in terms of performance optimization. Also note that \"cancel\" may have an ambiguous meaning while saving: Just cancel the save operation OR cancel the entire edit operation and revert back to the state before going into editing mode.\n\nKeeping as is.",
+      "parentUuid": "b9c95dd4_87dc1a8f",
+      "range": {
+        "startLine": 836,
+        "startChar": 8,
+        "endLine": 836,
+        "endChar": 56
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e654c5ea_4d616b07",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-14T13:24:29Z",
       "side": 1,
       "message": "I am a bit worried, that if we don\u0027t surface any indication in the UI that the comment is being saved, than it\u0027s going to be confusing why \"sometimes save button is inactive\". Can we add \"saving...\" somewhere (header maybe) so it\u0027s clearer",
+      "range": {
+        "startLine": 1055,
+        "startChar": 2,
+        "endLine": 1060,
+        "endChar": 0
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2da2fe6c_a9e62b24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:43:17Z",
+      "side": 1,
+      "message": "We already do that! :-) See `renderDate()`.",
+      "parentUuid": "e654c5ea_4d616b07",
       "range": {
         "startLine": 1055,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f876f5_392e8b55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:43:17Z",
+      "side": 1,
+      "message": "Yeah, I think this line being executed between while loop iterations is very unlikely. It is actually already unlikely that the while loop is needed. So I don\u0027t want to make this more complex than it is. Only if you have an idea for how we can write this in a simpler way *and* make it more robust.",
+      "parentUuid": "48e4a5ed_0e53d0ed",
+      "range": {
+        "startLine": 1175,
+        "startChar": 4,
+        "endLine": 1175,
+        "endChar": 52
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a163c570_59d57cf7",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c185742a_cfc3714d",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:43:17Z",
+      "side": 1,
+      "message": "They can retry by clicking \"save\" once more.\n\nIf the \"save\" operation continues to result in an error, then they reload/close the tab. They have to click a button in the browser\u0027s confirmation dialog that they are sure about this.",
+      "parentUuid": "a163c570_59d57cf7",
+      "range": {
+        "startLine": 440,
+        "startChar": 10,
+        "endLine": 440,
+        "endChar": 74
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69fd0b75_2853188f",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-04-14T13:24:29Z",
       "side": 1,
       "message": "This needs to be documented",
+      "range": {
+        "startLine": 608,
+        "startChar": 4,
+        "endLine": 608,
+        "endChar": 78
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7967073_ccc42cb3",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69fd0b75_2853188f",
       "range": {
         "startLine": 608,
         "startChar": 4,

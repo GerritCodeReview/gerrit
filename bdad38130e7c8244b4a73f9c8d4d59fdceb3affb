@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da34f66e_8514582e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T14:33:51Z",
+      "side": 1,
+      "message": "nit: Ack, but could we leave a comment about it. So that the next reader doesn\u0027t need to wonder why this is not bug.",
+      "parentUuid": "41f876f5_392e8b55",
+      "range": {
+        "startLine": 1175,
+        "startChar": 4,
+        "endLine": 1175,
+        "endChar": 52
+      },
+      "revId": "bdad38130e7c8244b4a73f9c8d4d59fdceb3affb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a163c570_59d57cf7",
         "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
         "patchSetId": 8

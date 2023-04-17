@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5abdf624_15cbda52",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:51:47Z",
+      "side": 1,
+      "message": "Could this be done in `render()` instead of `updated()` like so: `html`\u003cpaper-tabs .selected\u003d${tabIndex} ...`?\n\nOh wait. I guess you first have to render before you can iterate over the tabs and call `findIndex`? Is that it? Then ignore my comment. :-)",
+      "revId": "ff9db7bc2089b50eec48c9954cb66124e4b1cd36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9f4731_28e9a25e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1649,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:51:47Z",
+      "side": 1,
+      "message": "This is duplicated code with `setActiveTab()`. I think you can remove the first 10 lines from `setActiveTab()` now. Just updating the view model should be enough, because that wiill set `this.activeTab` via model subscription, and then your code will be executed anyway. WDYT?",
+      "range": {
+        "startLine": 1643,
+        "startChar": 2,
+        "endLine": 1649,
+        "endChar": 5
+      },
+      "revId": "ff9db7bc2089b50eec48c9954cb66124e4b1cd36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

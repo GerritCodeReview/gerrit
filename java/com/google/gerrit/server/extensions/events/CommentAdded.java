@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -54,7 +55,7 @@ public class CommentAdded {
       ChangeData changeData,
       PatchSet ps,
       AccountState author,
-      String comment,
+      @Nullable String comment,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
       Instant when) {
@@ -86,7 +87,7 @@ public class CommentAdded {
   /** Event to be fired when a comment or vote has been added to a change. */
   private static class Event extends AbstractRevisionEvent implements CommentAddedListener.Event {
 
-    private final String comment;
+    @Nullable private final String comment;
     private final Map<String, ApprovalInfo> approvals;
     private final Map<String, ApprovalInfo> oldApprovals;
 
@@ -94,7 +95,7 @@ public class CommentAdded {
         ChangeInfo change,
         RevisionInfo revision,
         AccountInfo author,
-        String comment,
+        @Nullable String comment,
         Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals,
         Instant when) {
@@ -105,6 +106,7 @@ public class CommentAdded {
     }
 
     @Override
+    @Nullable
     public String getComment() {
       return comment;
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.events;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.Map;
 @ExtensionPoint
 public interface CommentAddedListener {
   interface Event extends RevisionEvent {
+    @Nullable
     String getComment();
 
     Map<String, ApprovalInfo> getApprovals();

@@ -22,7 +22,7 @@ import {
 import {
   AccountId,
   DraftInfo,
-  DraftState,
+  SavingState,
   EmailAddress,
   NumericChangeId,
   PatchSetNum,
@@ -33,7 +33,7 @@ import {
   createComment,
   createDraft,
   createRobotComment,
-  createUnsaved,
+  createNewDraft,
 } from '../../../test/test-data-generators';
 import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -273,7 +273,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).state = DraftState.SAVED;
+      (element.comment as DraftInfo).savingState = SavingState.OK;
       await element.updateComplete;
       assert.shadowDom.equal(
         element,
@@ -353,7 +353,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft in editing mode', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).state = DraftState.SAVED;
+      (element.comment as DraftInfo).savingState = SavingState.OK;
       element.editing = true;
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -467,7 +467,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      state: DraftState.SAVED,
+      savingState: SavingState.OK,
       message: 'hello world',
     };
     element.editing = true;
@@ -492,7 +492,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      state: DraftState.SAVED,
+      savingState: SavingState.OK,
       message: 'hello world',
     };
     element.editing = true;
@@ -542,7 +542,7 @@ suite('gr-comment tests', () => {
       element.changeNum = 42 as NumericChangeId;
       element.comment = {
         ...createComment(),
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         path: '/path/to/file',
         line: 5,
       };
@@ -565,7 +565,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
-      element.comment = {...element.comment, state: DraftState.SAVING};
+      element.comment = {...element.comment, savingState: SavingState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
     });
@@ -625,22 +625,28 @@ suite('gr-comment tests', () => {
     test('save failed', async () => {
       sinon.stub(commentsModel, 'saveDraft').returns(
         Promise.resolve({
-          ...createUnsaved(),
+          ...createNewDraft(),
           message: 'something, not important',
-          state: DraftState.ERROR,
+          unresolved: true,
+          savingState: SavingState.ERROR,
         })
       );
 
-      element.comment = createUnsaved();
+      element.comment = createNewDraft({
+        message: '',
+        unresolved: true,
+      });
+      element.unresolved = true;
       element.editing = true;
       await element.updateComplete;
       element.messageText = 'something, not important';
       await element.updateComplete;
 
       element.save();
+      assert.isFalse(element.editing);
 
       await waitUntil(() => element.hasAttribute('error'));
-      assert.isFalse(element.editing);
+      assert.isTrue(element.editing);
     });
 
     test('discard', async () => {
@@ -670,7 +676,7 @@ suite('gr-comment tests', () => {
       const saveStub = sinon.stub(commentsModel, 'saveDraft');
       element.comment = {
         ...createComment(),
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         unresolved: false,
       };
       await element.updateComplete;
@@ -751,7 +757,7 @@ suite('gr-comment tests', () => {
       savePromise = mockPromise<DraftInfo>();
       saveStub = sinon.stub(commentsModel, 'saveDraft').returns(savePromise);
 
-      element.comment = createUnsaved();
+      element.comment = createNewDraft();
       element.editing = true;
       await element.updateComplete;
     });
@@ -797,14 +803,14 @@ suite('gr-comment tests', () => {
 
       autoSavePromise.resolve({
         ...element.comment,
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         message: 'auto save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:48.018000000' as Timestamp,
       });
       savePromise.resolve({
         ...element.comment,
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         message: 'actual save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:49.018000000' as Timestamp,
@@ -829,7 +835,7 @@ suite('gr-comment tests', () => {
         },
         line: 5,
         path: 'test',
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         message: 'hello world',
       };
       element = await fixture(

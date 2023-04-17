@@ -1639,6 +1639,16 @@ export class GrChangeView extends LitElement {
     `;
   }
 
+  override updated() {
+    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'paper-tab')];
+    const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
+    assert(tabIndex !== -1, `tab ${this.activeTab} not found`);
+
+    if (this.tabs!.selected !== tabIndex) {
+      this.tabs!.selected = tabIndex;
+    }
+  }
+
   private readonly handleScroll = () => {
     if (!this.isViewCurrent) return;
     this.scrollTask = debounce(
@@ -1680,22 +1690,10 @@ export class GrChangeView extends LitElement {
   }
 
   setActiveTab(e: SwitchTabEvent) {
-    if (!this.tabs) return;
-    const tabs = [...queryAll<HTMLElement>(this.tabs, 'paper-tab')];
-    if (!tabs) return;
-
     const tab = e.detail.tab;
-    const tabIndex = tabs.findIndex(t => t.dataset['name'] === tab);
-    assert(tabIndex !== -1, `tab ${tab} not found`);
-
-    if (this.tabs.selected !== tabIndex) {
-      this.tabs.selected = tabIndex;
-    }
-
     this.getViewModel().updateState({tab});
-
     if (e.detail.tabState) this.tabState = e.detail.tabState;
-    if (e.detail.scrollIntoView) this.tabs.scrollIntoView({block: 'center'});
+    if (e.detail.scrollIntoView) this.tabs!.scrollIntoView({block: 'center'});
   }
 
   /**

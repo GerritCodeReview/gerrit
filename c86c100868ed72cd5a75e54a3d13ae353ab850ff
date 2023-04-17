@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4138c2ec_0dd3e547",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-17T07:07:55Z",
+      "side": 1,
+      "message": "I don\u0027t think that we can fix the encoding in a way that there is no chance of two paths being encoded in the same way due to the limited set of characters. We could however add the first few characters of the hash computed from the path to the metric name to make it unique. This is not nice to read, but at least we wouldn\u0027t loose some metrics. I would however suggest to do that on master, since this is a breaking change.",
+      "parentUuid": "0498724d_0db02045",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "079bf548_d0bc522c",
@@ -61,6 +85,30 @@
       "writtenOn": "2023-04-13T18:52:05Z",
       "side": 1,
       "message": "I believe this *must be* mentioned in the release notes, WDYT?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "c86c100868ed72cd5a75e54a3d13ae353ab850ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "253da59c_dfedcf77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-17T07:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "079bf548_d0bc522c",
       "range": {
         "startLine": 25,
         "startChar": 0,

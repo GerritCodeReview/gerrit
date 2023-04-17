@@ -695,27 +695,19 @@ export enum ChangeStates {
   WIP = 'WIP',
 }
 
-export enum DraftState {
+export enum SavingState {
   /**
-   * New draft created in this session and not yet saved.
-   * Must have a `client_id` set.
-   */
-  // Possible prior states: -
-  // Possible subsequent states: SAVING
-  UNSAVED = 'UNSAVED',
-  /**
-   * Currently saving to the backend.
-   */
-  // Possible prior states: UNSAVED, SAVED, ERROR
-  // Possible subsequent states: SAVED, ERROR
-  SAVING = 'SAVING',
-  /**
-   * Comment saved to the backend.
-   * Must have `id` and `updated` set.
+   * Currently not saving. Not yet saved or last saving attempt successful.
    */
   // Possible prior states: SAVING
   // Possible subsequent states: SAVING
-  SAVED = 'SAVED',
+  OK = 'OK',
+  /**
+   * Currently saving to the backend.
+   */
+  // Possible prior states: OK, ERROR
+  // Possible subsequent states: OK, ERROR
+  SAVING = 'SAVING',
   /**
    * Latest saving attempt failed with an error.
    */
@@ -727,18 +719,24 @@ export enum DraftState {
 export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
   // Must be set for all drafts.
   // Drafts received from the backend will be modified immediately with
-  // `state: SAVED` before allowing them to get into the model.
-  state: DraftState;
-  // Must be set for UNSAVED drafts. Can be set for other drafts.
+  // `state: OK` before allowing them to get into the model.
+  savingState: SavingState;
+  // Must be set for new drafts created in this session.
   // Use the id() utility function for uniquely identifying drafts.
   client_id?: UrlEncodedCommentId;
-  // Must be set for SAVED drafts. Must not be set for UNSAVED drafts.
+  // Must be set for drafts known to the backend.
   // Use the id() utility function for uniquely identifying drafts.
   id?: UrlEncodedCommentId;
-  // Must be set for SAVED drafts. Can be set for other drafts. Will then just
-  // contain the last value of then the draft was previously SAVED.
+  // Set, iff `id` is set. Reflects the time when the draft was last saved to
+  // the backend.
   updated?: Timestamp;
 };
+
+export interface NewDraftInfo extends DraftInfo {
+  client_id: UrlEncodedCommentId;
+  id: undefined;
+  updated: undefined;
+}
 
 /**
  * This is what human, robot and draft comments can agree upon.
@@ -760,42 +758,30 @@ export function isRobot<T extends Comment>(
 export function isDraft<T extends Comment>(
   x: T | DraftInfo | undefined
 ): x is DraftInfo {
-  return (
-    !!x &&
-    (x as DraftInfo).state !== undefined &&
-    (x as DraftInfo).state !== DraftState.UNSAVED
-  );
-}
-
-export function isUnsaved<T extends Comment>(
-  x: T | DraftInfo | undefined
-): x is DraftInfo {
-  return !!x && (x as DraftInfo).state === DraftState.UNSAVED;
-}
-
-export function isSaved<T extends Comment>(
-  x: T | DraftInfo | undefined
-): x is DraftInfo {
-  return !!x && (x as DraftInfo).state === DraftState.SAVED;
+  return !!x && (x as DraftInfo).savingState !== undefined;
 }
 
 export function isSaving<T extends Comment>(
   x: T | DraftInfo | undefined
-): x is DraftInfo {
-  return !!x && (x as DraftInfo).state === DraftState.SAVING;
+): boolean {
+  return !!x && (x as DraftInfo).savingState === SavingState.SAVING;
 }
 
 export function isError<T extends Comment>(
   x: T | DraftInfo | undefined
-): x is DraftInfo {
-  return !!x && (x as DraftInfo).state === DraftState.ERROR;
+): boolean {
+  return !!x && (x as DraftInfo).savingState === SavingState.ERROR;
 }
 
-// TODO: Find a better name for this. Maybe this can become just `isDraft()`.
-export function isDraftOrUnsaved<T extends Comment>(
+/**
+ * A new draft comment is a comment that was created by the user in this session
+ * and has not yet been saved to the backend. Such a comment must have a
+ * `client_id`, but it must not have an `id`.
+ */
+export function isNew<T extends Comment>(
   x: T | DraftInfo | undefined
-): x is DraftInfo {
-  return isDraft(x) || isUnsaved(x);
+): boolean {
+  return !!x && !!(x as DraftInfo).client_id && !(x as DraftInfo).id;
 }
 
 export interface CommentThread {

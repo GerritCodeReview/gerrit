@@ -15,14 +15,15 @@ import {
   AccountInfo,
   DraftInfo,
   Comment,
-  isDraftOrUnsaved,
-  isUnsaved,
-  DraftState,
+  SavingState,
   isSaving,
   isError,
+  isDraft,
+  isNew,
 } from '../../types/common';
 import {
   addPath,
+  createNew,
   id,
   isDraftThread,
   reportingDetails,
@@ -36,7 +37,7 @@ import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
-import {assert, assertIsDefined, uuid} from '../../utils/common-util';
+import {assert, assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
@@ -215,8 +216,8 @@ export function deleteDiscardedDraft(
 /** Adds or updates a draft. */
 export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
   const nextState = {...state};
-  if (!draft.path) throw new Error('draft path undefined');
-  if (!isDraftOrUnsaved(draft)) throw new Error('draft is not a draft');
+  assert(!!draft.path, 'draft without path');
+  assert(isDraft(draft), 'draft is not a draft');
 
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
@@ -236,8 +237,8 @@ export function deleteDraft(
   draft: DraftInfo
 ): CommentState {
   const nextState = {...state};
-  if (!draft.path) throw new Error('draft path undefined');
-  if (!isDraftOrUnsaved(draft)) throw new Error('draft is not a draft');
+  assert(!!draft.path, 'draft without path');
+  assert(isDraft(draft), 'draft is not a draft');
 
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
@@ -576,25 +577,22 @@ export class CommentsModel extends Model<CommentState> {
   async restoreDraft(draftId: UrlEncodedCommentId) {
     const found = this.discardedDrafts?.find(d => id(d) === draftId);
     if (!found) throw new Error('discarded draft not found');
-    const newDraft = {
+    const newDraft: DraftInfo = {
       ...found,
-      id: undefined,
-      updated: undefined,
-      state: DraftState.UNSAVED,
-      client_id: uuid() as UrlEncodedCommentId,
+      ...createNew(),
     };
     await this.saveDraft(newDraft);
     this.modifyState(s => deleteDiscardedDraft(s, draftId));
   }
 
   /**
-   * Adds a new unsaved draft without saving it.
+   * Adds a new draft without saving it.
    *
-   * There is no equivalent `removeUnsavedDraft()` method, because
+   * There is no equivalent `removeNewDraft()` method, because
    * `discardDraft()` can be used.
    */
-  addUnsavedDraft(draft: DraftInfo) {
-    assert(isUnsaved(draft), 'draft must be unsaved');
+  addNewDraft(draft: DraftInfo) {
+    assert(isNew(draft), 'draft must be new');
     this.modifyState(s => setDraft(s, draft));
   }
 
@@ -609,10 +607,10 @@ export class CommentsModel extends Model<CommentState> {
     assertIsDefined(this.changeNum, 'change number');
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
     assert(!!draft.message?.trim(), 'cannot save empty draft');
-    assert(draft.state !== DraftState.SAVING, 'saving already in progress');
+    assert(!isSaving(draft), 'saving already in progress');
 
     // optimistic update
-    const draftSaving: DraftInfo = {...draft, state: DraftState.SAVING};
+    const draftSaving: DraftInfo = {...draft, savingState: SavingState.SAVING};
     this.modifyState(s => setDraft(s, draftSaving));
 
     // Saving the change number as to make sure that the response is still
@@ -620,7 +618,7 @@ export class CommentsModel extends Model<CommentState> {
     const changeNum = this.changeNum;
     this.report(Interaction.SAVE_COMMENT, draft);
     if (showToast) this.showStartRequest();
-    const timing = isUnsaved(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
+    const timing = isNew(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
     const timer = this.reporting.getTimer(timing);
 
     let savedComment;
@@ -637,16 +635,16 @@ export class CommentsModel extends Model<CommentState> {
       )) as unknown as CommentInfo;
     } catch (error) {
       if (showToast) this.handleFailedDraftRequest();
-      const draftError: DraftInfo = {...draft, state: DraftState.ERROR};
+      const draftError: DraftInfo = {...draft, savingState: SavingState.ERROR};
       this.modifyState(s => setDraft(s, draftError));
       return draftError;
     }
 
-    const draftSaved = {
+    const draftSaved: DraftInfo = {
       ...draft,
       id: savedComment.id,
       updated: savedComment.updated,
-      state: DraftState.SAVED,
+      savingState: SavingState.OK,
     };
     timer.end({id: draftSaved.id});
     if (showToast) this.showEndRequest();
@@ -659,14 +657,16 @@ export class CommentsModel extends Model<CommentState> {
     const draft = this.lookupDraft(draftId);
     assertIsDefined(draft, `draft not found by id ${draftId}`);
     assertIsDefined(draft.patch_set, 'patchset number of comment draft');
-    assert(draft.state !== DraftState.SAVING, 'saving already in progress');
+    assert(
+      draft.savingState !== SavingState.SAVING,
+      'saving already in progress'
+    );
 
     // optimistic update
     this.modifyState(s => deleteDraft(s, draft));
 
     // For "unsaved" drafts there is nothing to discard on the server side.
-    if (draft.state !== DraftState.UNSAVED) {
-      assertIsDefined(draft.id, 'missing id');
+    if (draft.id) {
       if (!draft.message?.trim()) throw new Error('empty draft');
       // Saving the change number as to make sure that the response is still
       // relevant when it comes back. The user maybe have navigated away.
@@ -709,9 +709,7 @@ export class CommentsModel extends Model<CommentState> {
     reason: string
   ) {
     assertIsDefined(comment.patch_set, 'comment.patch_set');
-    if (isDraftOrUnsaved(comment)) {
-      throw new Error('Admin deletion is only for published comments.');
-    }
+    assert(!isDraft(comment), 'Admin deletion is only for published comments.');
 
     const newComment = await this.restApiService.deleteComment(
       changeNum,

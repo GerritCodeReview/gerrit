@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8ae383_fcf5286d",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a63a4a_189cd617",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 626,
+        "endChar": 65
+      },
+      "revId": "cd5fdb8e92514c98220edc84c1c952f12123d2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c11ab6f0_8462748a",
@@ -60,6 +84,54 @@
       "writtenOn": "2023-04-14T09:24:49Z",
       "side": 1,
       "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"initiliazed\" -- should it be \"initialized\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"initiliazed\" -- should it be \"initialized\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.\n\nHaha, cool!",
+      "range": {
+        "startLine": 55,
+        "startChar": 39,
+        "endLine": 55,
+        "endChar": 50
+      },
+      "revId": "cd5fdb8e92514c98220edc84c1c952f12123d2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "748491ad_5c809691",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f64c526_36799156",
+      "range": {
+        "startLine": 55,
+        "startChar": 39,
+        "endLine": 55,
+        "endChar": 50
+      },
+      "revId": "cd5fdb8e92514c98220edc84c1c952f12123d2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dfe3125_316117a9",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c11ab6f0_8462748a",
       "range": {
         "startLine": 55,
         "startChar": 39,

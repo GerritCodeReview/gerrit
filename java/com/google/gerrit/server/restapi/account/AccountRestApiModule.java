@@ -91,6 +91,7 @@ public class AccountRestApiModule extends RestApiModule {
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
 
     get(ACCOUNT_KIND, "agreements").to(GetAgreements.class);
+    get(ACCOUNT_KIND, "agreements.check").to(CheckAgreements.class);
     put(ACCOUNT_KIND, "agreements").to(PutAgreement.class);
 
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);

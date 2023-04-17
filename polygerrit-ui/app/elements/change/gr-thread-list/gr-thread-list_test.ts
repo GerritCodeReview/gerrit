@@ -34,7 +34,7 @@ import {
   RevisionPatchSetNum,
   CommentThread,
   isDraft,
-  DraftState,
+  SavingState,
 } from '../../../types/common';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
@@ -76,7 +76,7 @@ suite('gr-thread-list tests', () => {
             updated: '2015-12-01 15:16:15.000000000' as Timestamp,
             message: 'draft',
             unresolved: true,
-            state: DraftState.SAVED,
+            savingState: SavingState.OK,
             patch_set: '2' as RevisionPatchSetNum,
           },
         ],
@@ -163,7 +163,7 @@ suite('gr-thread-list tests', () => {
             updated: '2015-12-05 15:16:15.000000000' as Timestamp,
             message: 'resolved draft',
             unresolved: false,
-            state: DraftState.SAVED,
+            savingState: SavingState.OK,
             patch_set: '2' as RevisionPatchSetNum,
           },
         ],

@@ -14,7 +14,7 @@ import {
   CommentInfo,
   RepoName,
   DraftInfo,
-  DraftState,
+  SavingState,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -26,7 +26,7 @@ import {
 import {
   createAccountDetailWithId,
   createThread,
-  createUnsaved,
+  createNewDraft,
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -60,7 +60,7 @@ const c3 = {
   message: 'stop it',
   updated: '2021-11-03 10:11:12.000000000' as Timestamp,
   in_reply_to: 'the-reply' as UrlEncodedCommentId,
-  state: DraftState.SAVED,
+  state: SavingState.OK,
 };
 
 const commentWithContext = {
@@ -128,7 +128,7 @@ suite('gr-comment-thread tests', () => {
   });
 
   test('renders unsaved', async () => {
-    element.thread = createThread(createUnsaved());
+    element.thread = createThread(createNewDraft());
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -316,14 +316,14 @@ suite('gr-comment-thread tests', () => {
   suite('action button clicks', () => {
     let savePromise: MockPromise<DraftInfo>;
     let stubSave: SinonStubbedMember<CommentsModel['saveDraft']>;
-    let stubAdd: SinonStubbedMember<CommentsModel['addUnsavedDraft']>;
+    let stubAdd: SinonStubbedMember<CommentsModel['addNewDraft']>;
 
     setup(async () => {
       savePromise = mockPromise<DraftInfo>();
       stubSave = sinon
         .stub(testResolver(commentsModelToken), 'saveDraft')
         .returns(savePromise);
-      stubAdd = sinon.stub(testResolver(commentsModelToken), 'addUnsavedDraft');
+      stubAdd = sinon.stub(testResolver(commentsModelToken), 'addNewDraft');
 
       element.thread = createThread(c1, {...c2, unresolved: true});
       await element.updateComplete;

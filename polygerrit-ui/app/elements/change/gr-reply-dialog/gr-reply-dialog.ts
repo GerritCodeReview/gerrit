@@ -71,7 +71,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  createUnsavedPatchsetLevel,
+  createNewPatchsetLevel,
   getFirstComment,
   isPatchsetLevel,
   isUnresolved,
@@ -703,8 +703,8 @@ export class GrReplyDialog extends LitElement {
     if (!this.patchsetLevelComment && this.latestPatchNum) {
       // TODO: This should rather be done in the comments model. It should
       // ensure that a patchset level draft is always present.
-      this.getCommentsModel().addUnsavedDraft(
-        createUnsavedPatchsetLevel(
+      this.getCommentsModel().addNewDraft(
+        createNewPatchsetLevel(
           this.latestPatchNum,
           this.patchsetLevelDraftMessage,
           !this.patchsetLevelDraftIsResolved

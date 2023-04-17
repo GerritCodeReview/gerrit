@@ -21,7 +21,7 @@ import {
   isNumber,
 } from '../../../utils/patch-set-util';
 import {
-  createUnsaved,
+  createNew,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
@@ -1141,7 +1141,7 @@ export class GrDiffHost extends LitElement {
 
     const parentIndex = this.computeParentIndex();
     const draft: DraftInfo = {
-      ...createUnsaved('', true),
+      ...createNew('', true),
       patch_set: patchNum as RevisionPatchSetNum,
       side: commentSide,
       parent: parentIndex ?? undefined,
@@ -1149,7 +1149,7 @@ export class GrDiffHost extends LitElement {
       line: typeof lineNum === 'number' ? lineNum : undefined,
       range,
     };
-    this.getCommentsModel().addUnsavedDraft(draft);
+    this.getCommentsModel().addNewDraft(draft);
   }
 
   private canCommentOnPatchSetNum(patchNum: PatchSetNum) {

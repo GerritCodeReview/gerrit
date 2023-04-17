@@ -1008,7 +1008,7 @@ suite('gr-diff-host tests', () => {
 
     setup(async () => {
       const commentsModel: CommentsModel = testResolver(commentsModelToken);
-      addDraftSpy = sinon.spy(commentsModel, 'addUnsavedDraft');
+      addDraftSpy = sinon.spy(commentsModel, 'addNewDraft');
 
       account = createAccountDetailWithId(1);
       element.disconnectedCallback();

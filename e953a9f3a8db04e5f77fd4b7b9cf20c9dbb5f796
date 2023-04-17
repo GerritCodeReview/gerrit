@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75716c91_0ec55c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2023-04-17T14:53:05Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t it make more sense to not retry in case the new change is inserted?\n\nUnfortunately inserting changes, which requires an atomic update of 2 refs, is particularly prone to contention in a non reftable setup and projects with large ref counts. This is because this atomic operation requires rewriting a potentially very large packerefs file (while holding its lock) for each insertion. We are seeing failures during our testing without retries. Is there another way besides retries to avoid this contention and these failures?",
+      "parentUuid": "7e4d25ba_72b727ce",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f82e70a_4c9c2482",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

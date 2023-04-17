@@ -1639,6 +1639,16 @@ export class GrChangeView extends LitElement {
     `;
   }
 
+  override updated() {
+    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'paper-tab')];
+    const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
+    assert(tabIndex !== -1, `tab ${this.activeTab} not found`);
+
+    if (this.tabs!.selected !== tabIndex) {
+      this.tabs!.selected = tabIndex;
+    }
+  }
+
   private readonly handleScroll = () => {
     if (!this.isViewCurrent) return;
     this.scrollTask = debounce(

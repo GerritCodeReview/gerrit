@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44165f8f_0e4de619",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "@kamilm@google.com thanks for your patience! all looks good. I left few replies and optional comments.",
+      "revId": "430d6fd2b82d762d4f953db0a464b87dc5c6e904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

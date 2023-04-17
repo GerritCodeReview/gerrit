@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac243215_38ed54a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "Gerrit should have done that automatically (by running similarity detection). I checked base vs. PS3 in the git command line and the files are identified as added.\n\nmaybe the copying was not identified because the file contents changed slightly.\n\nThis answer also explains it https://stackoverflow.com/a/1043566",
+      "parentUuid": "c6a8561a_120bce38",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0335e4fb_4beb3c48",
@@ -288,6 +312,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75c4133b_2c3cee2a",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "Thanks for explaining. I meant that ChangeEmailNew is referenced from AbandonOp (a new instance of ChangeEmailNew is created there). I think I was confused if we will have multiple ChangeEmailNew-like classes for different change operations vs. if we\u0027re going to use this one for all operations. It\u0027s the latter I guess.",
+      "parentUuid": "7cbe6e90_96760dfa",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5be03838_f38d829d",
@@ -372,6 +420,30 @@
       "side": 1,
       "message": "It will be used, for example from CommentSender. Both of these methods used to live in ChangeEmail. With the ChangeEmailNew I moved them out",
       "parentUuid": "ff534507_8b7a418e",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80315a2d_0f651024",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailArguments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "2b043908_82885271",
       "range": {
         "startLine": 176,
         "startChar": 2,
@@ -511,6 +583,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f062b7ad_19ae4008",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "Ack. That\u0027s also fine. Thanks for checking!\n\n[Optional] Another suggestion: it\u0027d be simpler to merge #init with #populateEmailContent into a single method, e.g. #decorate, unless you do stuff in between #init and #populate that will overcomplicate the code if we did this suggestion.",
+      "parentUuid": "a45e7364_78d7a826",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ff1493a_3de6aec6",
@@ -548,6 +644,30 @@
       "side": 1,
       "message": "Yes, I gave it thought, should work pretty well, the only readability/style issue is that trying to reuse most of the things in the ChangeEmail, while overriding internally, might feel a bit hacky (my plan is to inherit from ChangeEmail to create ChangeEmailInternal)",
       "parentUuid": "3ff1493a_3de6aec6",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 96
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51941dbe_3719d39a",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-17T11:00:44Z",
+      "side": 1,
+      "message": "OK, thanks for checking!",
+      "parentUuid": "3bc8c98d_5c022406",
       "range": {
         "startLine": 124,
         "startChar": 58,

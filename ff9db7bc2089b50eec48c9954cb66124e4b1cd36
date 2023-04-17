@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "588963ce_a4164e31",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T14:10:43Z",
+      "side": 1,
+      "message": "Acknowledged. Leaving as is, since code is a bit cleaner this way.\n\nI was actually building an array of tabs in render before I did in updated. But I didn\u0027t try writing \".selected\", because I thought that only works on the lit components (not the polymer ones)",
+      "parentUuid": "5abdf624_15cbda52",
+      "revId": "ff9db7bc2089b50eec48c9954cb66124e4b1cd36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9f4731_28e9a25e",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-17T13:51:47Z",
       "side": 1,
       "message": "This is duplicated code with `setActiveTab()`. I think you can remove the first 10 lines from `setActiveTab()` now. Just updating the view model should be enough, because that wiill set `this.activeTab` via model subscription, and then your code will be executed anyway. WDYT?",
+      "range": {
+        "startLine": 1643,
+        "startChar": 2,
+        "endLine": 1649,
+        "endChar": 5
+      },
+      "revId": "ff9db7bc2089b50eec48c9954cb66124e4b1cd36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f24c984_ba1574fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1649,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T14:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9f4731_28e9a25e",
       "range": {
         "startLine": 1643,
         "startChar": 2,

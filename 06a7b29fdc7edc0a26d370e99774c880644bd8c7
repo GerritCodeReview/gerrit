@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc469ea_d35d9646",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T14:22:00Z",
+      "side": 1,
+      "message": "nit: We already have `mockPromise` which is exactly that. So maybe we should just reuse it (and move it out of test-utils for cleanness)",
+      "range": {
+        "startLine": 346,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "06a7b29fdc7edc0a26d370e99774c880644bd8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

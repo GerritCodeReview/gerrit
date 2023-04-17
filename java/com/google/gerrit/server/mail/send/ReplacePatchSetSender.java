@@ -184,7 +184,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       addAuthors(RecipientType.CC);
     }
     bccStarredBy();
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
+    includeWatchers(
+        NotifyType.NEW_PATCHSETS, !getChange().isWorkInProgress() && !getChange().isPrivate());
   }
 
   /**
@@ -199,7 +200,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s before the update is %s",
-        change.getId(), isSubmittablePreUpdate);
+        getChange().getId(), isSubmittablePreUpdate);
     if (!isSubmittablePreUpdate) {
       return false;
     }
@@ -209,7 +210,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s after the update is %s",
-        change.getId(), isSubmittablePostUpdate);
+        getChange().getId(), isSubmittablePostUpdate);
     return !isSubmittablePostUpdate;
   }
 

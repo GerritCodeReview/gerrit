@@ -37,7 +37,9 @@ public class CreateChangeSender extends NewChangeSender {
   protected void populateEmailContent() throws EmailException {
     super.populateEmailContent();
 
-    includeWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
+    includeWatchers(
+        NotifyType.NEW_CHANGES, !getChange().isWorkInProgress() && !getChange().isPrivate());
+    includeWatchers(
+        NotifyType.NEW_PATCHSETS, !getChange().isWorkInProgress() && !getChange().isPrivate());
   }
 }

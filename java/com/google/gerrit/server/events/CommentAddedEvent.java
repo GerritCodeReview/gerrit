@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -23,7 +24,7 @@ public class CommentAddedEvent extends PatchSetEvent {
   static final String TYPE = "comment-added";
   public Supplier<AccountAttribute> author;
   public Supplier<ApprovalAttribute[]> approvals;
-  public String comment;
+  @Nullable public String comment;
 
   public CommentAddedEvent(Change change) {
     super(TYPE, change);

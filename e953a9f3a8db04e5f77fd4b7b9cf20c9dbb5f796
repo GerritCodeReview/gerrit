@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45ba9288_a43e89ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-17T15:17:03Z",
+      "side": 1,
+      "message": "From the commit message \u0027However, those retries cause an illegal state exception[1]\nwhen inserting new changes is retried\u0027\n\nI was referring to this part of the message. My understanding was the any retry on change creation would cause this exception, thus suggestion to not retry in this case.\n\nIn our setup, lock failures are also a common case, but they are normally caused by the stale replication, since AFAIK only the ref in local storage replica is updated synchronously.",
+      "parentUuid": "75716c91_0ec55c9f",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "e953a9f3a8db04e5f77fd4b7b9cf20c9dbb5f796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f82e70a_4c9c2482",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

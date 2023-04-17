@@ -336,6 +336,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "076181c2_d554ed1a",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T11:12:59Z",
+      "side": 1,
+      "message": "\u003e we will have multiple ChangeEmailNew-like\n\nChangeEmail is for everything that is related to actions on a change\n\nThere is a couple other children of OutgoingEmail which will be it\u0027s own thing (it\u0027s possible that some things can be combined/simplified, but that\u0027s an improvement for another day)",
+      "parentUuid": "75c4133b_2c3cee2a",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5be03838_f38d829d",
@@ -597,6 +621,30 @@
       "side": 1,
       "message": "Ack. That\u0027s also fine. Thanks for checking!\n\n[Optional] Another suggestion: it\u0027d be simpler to merge #init with #populateEmailContent into a single method, e.g. #decorate, unless you do stuff in between #init and #populate that will overcomplicate the code if we did this suggestion.",
       "parentUuid": "a45e7364_78d7a826",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "66fe828e11902b7f49bb92902268fc852e49d471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "731653b0_d487cd70",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailNew.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-17T11:12:59Z",
+      "side": 1,
+      "message": "Re: merging init and populate. There is a bit of trickery required in some inits, to be able to setup things before \"populate\" in OutgoingEmailNew runs, which is why they are still separate. (There is a bit more context on this in the description of this change: https://gerrit-review.git.corp.google.com/c/gerrit/+/367217)",
+      "parentUuid": "f062b7ad_19ae4008",
       "range": {
         "startLine": 85,
         "startChar": 4,

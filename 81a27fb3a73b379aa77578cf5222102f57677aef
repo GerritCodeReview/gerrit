@@ -391,6 +391,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ef933ebd_aeaa29a9",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:41:48Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/369575: Refactor draft comment state",
+      "parentUuid": "f9fcb940_6c3d4888",
+      "range": {
+        "startLine": 720,
+        "startChar": 2,
+        "endLine": 721,
+        "endChar": 18
+      },
+      "revId": "81a27fb3a73b379aa77578cf5222102f57677aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f6b80d37_64c4b363",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 4

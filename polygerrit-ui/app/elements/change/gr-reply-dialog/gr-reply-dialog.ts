@@ -71,7 +71,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  createUnsavedPatchsetLevel,
+  createNewPatchsetLevel,
   getFirstComment,
   isPatchsetLevel,
   isUnresolved,
@@ -703,8 +703,8 @@ export class GrReplyDialog extends LitElement {
     if (!this.patchsetLevelComment && this.latestPatchNum) {
       // TODO: This should rather be done in the comments model. It should
       // ensure that a patchset level draft is always present.
-      this.getCommentsModel().addUnsavedDraft(
-        createUnsavedPatchsetLevel(
+      this.getCommentsModel().addNewDraft(
+        createNewPatchsetLevel(
           this.latestPatchNum,
           this.patchsetLevelDraftMessage,
           !this.patchsetLevelDraftIsResolved
@@ -949,7 +949,8 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderDraftsSection() {
-    if (this.computeHideDraftList(this.draftCommentThreads)) return;
+    const threads = this.draftCommentThreads;
+    if (!threads || threads.length === 0) return;
     return html`
       <section class="draftsContainer">
         <div class="includeComments">
@@ -960,17 +961,13 @@ export class GrReplyDialog extends LitElement {
             ?checked=${this.includeComments}
           />
           <label for="includeComments"
-            >Publish ${this.computeDraftsTitle(this.draftCommentThreads)}</label
+            >Publish ${this.computeDraftsTitle(threads)}</label
           >
         </div>
         ${when(
           this.includeComments,
           () => html`
-            <gr-thread-list
-              id="commentList"
-              .threads=${this.draftCommentThreads}
-              hide-dropdown
-            >
+            <gr-thread-list id="commentList" .threads=${threads} hide-dropdown>
             </gr-thread-list>
           `
         )}
@@ -1517,10 +1514,6 @@ export class GrReplyDialog extends LitElement {
       }
       fireServerError(response);
     });
-  }
-
-  computeHideDraftList(draftCommentThreads?: CommentThread[]) {
-    return !draftCommentThreads || draftCommentThreads.length === 0;
   }
 
   computeDraftsTitle(draftCommentThreads?: CommentThread[]) {

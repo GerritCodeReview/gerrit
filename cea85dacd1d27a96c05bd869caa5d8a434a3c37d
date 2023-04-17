@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6039b268_cb3ed4f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47fabe44_66f04127",
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "374be44c_d0c61dec",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2814fddf_61a2f31c",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "374be44c_d0c61dec",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0516244f_c78a5183",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-04-14T09:59:30Z",
       "side": 1,
       "message": "Since the release removes all blockers with the name and not just one, would it make more sense for this to be a Set?",
+      "range": {
+        "startLine": 298,
+        "startChar": 2,
+        "endLine": 298,
+        "endChar": 44
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1add2f_fcc49d1f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0516244f_c78a5183",
       "range": {
         "startLine": 298,
         "startChar": 2,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d107f37_814af331",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Yeah, there is no harm in calling `removeEventListener()` with a listener that had not been added before. So I am leaving as is.",
+      "parentUuid": "d9aeaece_15a678eb",
+      "range": {
+        "startLine": 354,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 47
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be86d012_ecfc31ec",
@@ -117,6 +207,30 @@
       "writtenOn": "2023-04-14T09:59:30Z",
       "side": 1,
       "message": "It\u0027s not documented that empty string is not allowed as reason",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 361,
+        "endChar": 24
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84115c3_81e01b62",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be86d012_ecfc31ec",
       "range": {
         "startLine": 361,
         "startChar": 4,
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d54e19_3ffb7e22",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c05b03f_1717583d",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 635,
+        "endChar": 15
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd2b6bef_178038b8",
@@ -173,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "639d9d52_2ec87090",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd2b6bef_178038b8",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f576003d_da7f53f4",
@@ -186,6 +348,30 @@
       "writtenOn": "2023-04-14T10:01:07Z",
       "side": 1,
       "message": "Wouldn\u0027t be easier to use Promise.race?",
+      "range": {
+        "startLine": 268,
+        "startChar": 22,
+        "endLine": 268,
+        "endChar": 31
+      },
+      "revId": "cea85dacd1d27a96c05bd869caa5d8a434a3c37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5713fff4_b4c4d09e",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-17T13:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f576003d_da7f53f4",
       "range": {
         "startLine": 268,
         "startChar": 22,

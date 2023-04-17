@@ -26,7 +26,7 @@ import {CommentSide} from '../constants/constants';
 import {
   Comment,
   DraftInfo,
-  DraftState,
+  SavingState,
   PARENT,
   RevisionPatchSetNum,
   Timestamp,
@@ -134,7 +134,7 @@ suite('comment-util', () => {
       {
         id: 'new_draft' as UrlEncodedCommentId,
         message: 'i do not like either of you',
-        state: DraftState.SAVED,
+        savingState: SavingState.OK,
         updated: '2015-12-20 15:01:20.396000000' as Timestamp,
       } as DraftInfo,
       {
@@ -159,7 +159,7 @@ suite('comment-util', () => {
 
   suite('createCommentThreads', () => {
     test('creates threads from individual comments', () => {
-      const comments = [
+      const comments: Comment[] = [
         {
           id: 'sallys_confession' as UrlEncodedCommentId,
           message: 'i like you, jack',
@@ -180,7 +180,7 @@ suite('comment-util', () => {
         {
           id: 'new_draft' as UrlEncodedCommentId,
           message: 'i do not like either of you' as UrlEncodedCommentId,
-          state: DraftState.SAVED,
+          savingState: SavingState.OK,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
           patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',

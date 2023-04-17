@@ -71,7 +71,7 @@ import {
   CommentThread,
   DraftInfo,
   ChangeMessage,
-  DraftState,
+  SavingState,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -92,7 +92,7 @@ import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {createCommentThreads} from '../utils/comment-util';
+import {createCommentThreads, createNew} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -113,7 +113,6 @@ import {GroupViewState} from '../models/views/group';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {AdminChildView, AdminViewState} from '../models/views/admin';
 import {DashboardViewState} from '../models/views/dashboard';
-import {uuid} from '../utils/common-util';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -843,19 +842,16 @@ export function createComment(
 export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    state: DraftState.SAVED,
+    savingState: SavingState.OK,
     ...extra,
   };
 }
 
-export function createUnsaved(extra: Partial<CommentInfo> = {}): DraftInfo {
+export function createNewDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    state: DraftState.UNSAVED,
-    client_id: uuid() as UrlEncodedCommentId,
-    id: undefined,
-    updated: undefined,
     ...extra,
+    ...createNew(),
   };
 }
 

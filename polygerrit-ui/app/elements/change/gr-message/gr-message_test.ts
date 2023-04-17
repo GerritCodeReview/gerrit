@@ -34,7 +34,7 @@ import {
   ReviewInputTag,
   Timestamp,
   UrlEncodedCommentId,
-  DraftState,
+  SavingState,
 } from '../../../types/common';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -776,7 +776,7 @@ suite('gr-message tests', () => {
               message: 'n',
               unresolved: false,
               path: '/PATCHSET_LEVEL',
-              state: DraftState.SAVED,
+              savingState: SavingState.OK,
             },
           ],
           patchNum: 1 as RevisionPatchSetNum,

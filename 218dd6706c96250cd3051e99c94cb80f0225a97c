@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20001e7a_d32a3d12",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-17T14:17:16Z",
+      "side": 1,
+      "message": "Please add @Nullable to the getComment method in the CommentAddedListener.Event too.",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 109,
+        "endChar": 13
+      },
+      "revId": "218dd6706c96250cd3051e99c94cb80f0225a97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

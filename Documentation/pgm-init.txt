@@ -38,11 +38,6 @@ If run in an existing `$site_path`, init upgrades existing resources
 	install, reasonable configuration defaults are chosen based
 	on the whims of the Gerrit developers. On upgrades, the existing
 	settings in `gerrit.config` are respected.
-+
-If during a schema migration unused objects (e.g. tables, columns)
-are detected, they are *not* automatically dropped; a list of SQL
-statements to drop these objects is provided. To drop the unused
-objects these SQL statements must be executed manually.
 
 --delete-caches::
 	Force deletion of all persistent cache files. Note that

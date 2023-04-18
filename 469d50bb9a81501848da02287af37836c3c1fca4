@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8339b9ba_52975403",
+        "filename": "java/com/google/gerrit/server/mail/EmailModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-18T14:46:34Z",
+      "side": 1,
+      "message": "Is this just to minimize the number of injected object?\nIn that case, we could as well put those factories to EmailArguments",
+      "range": {
+        "startLine": 130,
+        "startChar": 22,
+        "endLine": 130,
+        "endChar": 49
+      },
+      "revId": "469d50bb9a81501848da02287af37836c3c1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9033252d_312c510b",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentChangeEmailDecorator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-18T14:46:34Z",
+      "side": 1,
+      "message": "Seems using Assisted is a canonical guice way, why change here?\nhttps://github.com/google/guice/wiki/AssistedInject#factories-by-assistedinject",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "469d50bb9a81501848da02287af37836c3c1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

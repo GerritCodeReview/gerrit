@@ -36,8 +36,11 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
-import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.EmailModule.DeleteReviewerChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -68,7 +71,7 @@ public class DeleteReviewerOp extends ReviewerOp {
   private final ChangeMessagesUtil cmUtil;
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
-  private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
+  private final DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
   private final MessageIdGenerator messageIdGenerator;
@@ -89,7 +92,7 @@ public class DeleteReviewerOp extends ReviewerOp {
       ChangeMessagesUtil cmUtil,
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
-      DeleteReviewerSender.Factory deleteReviewerSenderFactory,
+      DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
       MessageIdGenerator messageIdGenerator,
@@ -101,7 +104,7 @@ public class DeleteReviewerOp extends ReviewerOp {
     this.cmUtil = cmUtil;
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
-    this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
+    this.deleteReviewerChangeEmailFactories = deleteReviewerChangeEmailFactories;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
     this.messageIdGenerator = messageIdGenerator;
@@ -250,14 +253,18 @@ public class DeleteReviewerOp extends ReviewerOp {
       // The user knows they removed themselves, don't bother emailing them.
       return;
     }
-    DeleteReviewerSender emailSender =
-        deleteReviewerSenderFactory.create(projectName, change.getId());
-    emailSender.setFrom(userId);
-    emailSender.addReviewers(Collections.singleton(reviewer.id()));
-    emailSender.setChangeMessage(mailMessage, timestamp.toInstant());
-    emailSender.setNotify(notify);
-    emailSender.setMessageId(
+    DeleteReviewerChangeEmailDecorator deleteReviewerEmail =
+        deleteReviewerChangeEmailFactories.createDeleteReviewerChangeEmail();
+    deleteReviewerEmail.addReviewers(Collections.singleton(reviewer.id()));
+    ChangeEmailNew changeEmail =
+        deleteReviewerChangeEmailFactories.createChangeEmail(
+            projectName, change.getId(), deleteReviewerEmail);
+    changeEmail.setChangeMessage(mailMessage, timestamp.toInstant());
+    OutgoingEmailNew outgoingEmail = deleteReviewerChangeEmailFactories.createEmail(changeEmail);
+    outgoingEmail.setFrom(userId);
+    outgoingEmail.setNotify(notify);
+    outgoingEmail.setMessageId(
         messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
-    emailSender.send();
+    outgoingEmail.send();
   }
 }

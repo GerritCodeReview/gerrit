@@ -17,13 +17,9 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,20 +27,12 @@ import java.util.List;
 import java.util.Set;
 
 /** Let users know that a reviewer and possibly her review have been removed. */
-public class DeleteReviewerSender extends ReplyToChangeSender {
+public class DeleteReviewerChangeEmailDecorator implements ChangeEmailDecorator {
+  private OutgoingEmailNew email;
+  private ChangeEmailNew changeEmail;
+
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Address> reviewersByEmail = new HashSet<>();
-
-  public interface Factory extends ReplyToChangeSender.Factory<DeleteReviewerSender> {
-    @Override
-    DeleteReviewerSender create(Project.NameKey project, Change.Id changeId);
-  }
-
-  @Inject
-  public DeleteReviewerSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, "deleteReviewer", newChangeData(args, project, changeId));
-  }
 
   public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
@@ -54,22 +42,14 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     reviewersByEmail.addAll(cc);
   }
 
-  @Override
-  protected void formatChange() throws EmailException {
-    appendText(textTemplate("DeleteReviewer"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
-    }
-  }
-
   @Nullable
-  public List<String> getReviewerNames() {
+  private List<String> getReviewerNames() {
     if (reviewers.isEmpty() && reviewersByEmail.isEmpty()) {
       return null;
     }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      names.add(getNameFor(id));
+      names.add(email.getNameFor(id));
     }
     for (Address a : reviewersByEmail) {
       names.add(a.toString());
@@ -78,15 +58,27 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("reviewerNames", getReviewerNames());
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+    this.email = email;
+    this.changeEmail = changeEmail;
+    changeEmail.markAsReply();
+  }
 
-    ccAllApprovals();
-    bccStarredBy();
-    ccExistingReviewers();
-    includeWatchers(NotifyType.ALL_COMMENTS);
-    reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
-    reviewersByEmail.stream().forEach(address -> addByEmail(RecipientType.TO, address));
+  @Override
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("reviewerNames", getReviewerNames());
+
+    changeEmail.addAuthors(RecipientType.TO);
+    changeEmail.ccAllApprovals();
+    changeEmail.bccStarredBy();
+    changeEmail.ccExistingReviewers();
+    changeEmail.includeWatchers(NotifyType.ALL_COMMENTS);
+    reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r));
+    reviewersByEmail.stream().forEach(address -> email.addByEmail(RecipientType.TO, address));
+
+    email.appendText(email.textTemplate("DeleteReviewer"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("DeleteReviewerHtml"));
+    }
   }
 }

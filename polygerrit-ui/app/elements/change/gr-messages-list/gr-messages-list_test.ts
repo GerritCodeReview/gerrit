@@ -195,9 +195,9 @@ suite('gr-messages-list tests', () => {
       }
     });
 
-    test('expand/collapse from external keypress', () => {
+    test('expand/collapse from external keypress', async () => {
       // Start with one expanded message. -> not all collapsed
-      element.scrollToMessage(messages[1].id);
+      await element.scrollToMessage(messages[1].id);
       assert.isFalse(
         [...getMessages()].filter(m => m.message?.expanded).length === 0
       );

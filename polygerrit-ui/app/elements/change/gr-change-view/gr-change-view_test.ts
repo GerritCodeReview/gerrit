@@ -1578,14 +1578,18 @@ suite('gr-change-view tests', () => {
   });
 
   test('maybeScrollToMessage', async () => {
+    element.change = {
+      ...createChangeViewChange(),
+      messages: createChangeMessages(1),
+    };
     await element.updateComplete;
     const scrollStub = sinon.stub(element.messagesList!, 'scrollToMessage');
 
-    element.maybeScrollToMessage('');
+    await element.maybeScrollToMessage('');
     assert.isFalse(scrollStub.called);
-    element.maybeScrollToMessage('message');
+    await element.maybeScrollToMessage('message');
     assert.isFalse(scrollStub.called);
-    element.maybeScrollToMessage('#message-TEST');
+    await element.maybeScrollToMessage('#message-TEST');
     assert.isTrue(scrollStub.called);
     assert.equal(scrollStub.lastCall.args[0], 'TEST');
   });

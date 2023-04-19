@@ -10,7 +10,6 @@ import './gr-change-view';
 import {
   ChangeStatus,
   CommentSide,
-  DefaultBase,
   DiffViewMode,
   createDefaultPreferences,
   Tab,
@@ -33,7 +32,6 @@ import {
   createApproval,
   createChangeMessages,
   createCommit,
-  createPreferences,
   createRevision,
   createRevisions,
   createServerInfo,
@@ -612,10 +610,8 @@ suite('gr-change-view tests', () => {
     const removeFromAttentionSetStub = stubRestApi(
       'removeFromAttentionSet'
     ).returns(Promise.resolve(new Response()));
-    element.patchRange = {
-      basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.patchNum = 3 as RevisionPatchSetNum;
     await element.updateComplete;
     assert.isNotOk(element.change.attention_set);
     element.handleToggleAttentionSet();
@@ -904,10 +900,8 @@ suite('gr-change-view tests', () => {
   suite('thread list and change log tabs', () => {
     setup(() => {
       element.changeNum = TEST_NUMERIC_CHANGE_ID;
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       element.change = {
         ...createChangeViewChange(),
         revisions: {
@@ -1153,10 +1147,8 @@ suite('gr-change-view tests', () => {
       value: 1,
     };
     element.changeNum = TEST_NUMERIC_CHANGE_ID;
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = PARENT;
+    element.patchNum = 1 as RevisionPatchSetNum;
     const change = {
       ...createParsedChange(),
       owner: createAccountWithIdNameAndEmail(),
@@ -1293,7 +1285,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(loadDataStub.called);
     assert.isTrue(collapseStub.called);
     // patchNum is set by changeChanged, so this verifies that change was set.
-    assert.isOk(element.patchRange?.patchNum);
+    assert.isOk(element.patchNum);
   });
 
   test('computeCopyTextForTitle', () => {
@@ -1355,54 +1347,6 @@ suite('gr-change-view tests', () => {
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
 
-  test('getBasePatchNum', async () => {
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        '98da160735fb81604b4c40e93c368f380539dd0e': createRevision(),
-      },
-    };
-    element.patchRange = {
-      basePatchNum: PARENT,
-    };
-    await element.updateComplete;
-    assert.equal(element.getBasePatchNum(), PARENT);
-
-    element.prefs = {
-      ...createPreferences(),
-      default_base_for_merges: DefaultBase.FIRST_PARENT,
-    };
-
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        '98da160735fb81604b4c40e93c368f380539dd0e': {
-          ...createRevision(1),
-          commit: {
-            ...createCommit(),
-            parents: [
-              {
-                commit: '6e12bdf1176eb4ab24d8491ba3b6d0704409cde8' as CommitId,
-                subject: 'test',
-              },
-              {
-                commit: '22f7db4754b5d9816fc581f3d9a6c0ef8429c841' as CommitId,
-                subject: 'test3',
-              },
-            ],
-          },
-        },
-      },
-    };
-    await element.updateComplete;
-    assert.equal(element.getBasePatchNum(), -1 as BasePatchSetNum);
-
-    element.patchRange.basePatchNum = PARENT;
-    element.patchRange.patchNum = 1 as RevisionPatchSetNum;
-    await element.updateComplete;
-    assert.equal(element.getBasePatchNum(), PARENT);
-  });
-
   test('openReplyDialog called with `ANY` when coming from tap event', async () => {
     await element.updateComplete;
     assertIsDefined(element.replyBtn);
@@ -1456,10 +1400,8 @@ suite('gr-change-view tests', () => {
       .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
       .callsFake(() => Promise.resolve());
 
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 2 as RevisionPatchSetNum,
-    };
+    element.basePatchNum = PARENT;
+    element.patchNum = 2 as RevisionPatchSetNum;
     element.change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1572,7 +1514,6 @@ suite('gr-change-view tests', () => {
   });
 
   test('processEdit', () => {
-    element.patchRange = {};
     const change: ParsedChangeInfo = {
       ...createChangeViewChange(),
       current_revision: 'foo' as CommitId,
@@ -1583,7 +1524,7 @@ suite('gr-change-view tests', () => {
 
     // With no edit, nothing happens.
     element.processEdit(change);
-    assert.equal(element.patchRange.patchNum, undefined);
+    assert.equal(element.patchNum, undefined);
 
     change.revisions['bar'] = {
       _number: EDIT,
@@ -1594,16 +1535,6 @@ suite('gr-change-view tests', () => {
       },
       fetch: {},
     };
-
-    // When edit is set, but not patchNum, then switch to edit ps.
-    element.processEdit(change);
-    assert.equal(element.patchRange.patchNum, EDIT);
-
-    // When edit is set, but patchNum as well, then keep patchNum.
-    element.patchRange.patchNum = 5 as RevisionPatchSetNum;
-    element.viewModelPatchNum = 5 as RevisionPatchSetNum;
-    element.processEdit(change);
-    assert.equal(element.patchRange.patchNum, 5 as RevisionPatchSetNum);
   });
 
   test('file-action-tap handling', async () => {
@@ -1726,7 +1657,7 @@ suite('gr-change-view tests', () => {
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
-      element.patchRange = {patchNum: 2 as RevisionPatchSetNum};
+      element.patchNum = 2 as RevisionPatchSetNum;
       await element.updateComplete;
 
       fireEdit();
@@ -1798,10 +1729,8 @@ suite('gr-change-view tests', () => {
 
   suite('gr-reporting tests', () => {
     setup(() => {
-      element.patchRange = {
-        basePatchNum: PARENT,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
+      element.basePatchNum = PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
       sinon.stub(element, 'performPostChangeLoadTasks');
     });
 

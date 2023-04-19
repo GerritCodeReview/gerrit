@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c766e9a_5bcf25a6",
+        "filename": "java/com/google/gerrit/server/mail/EmailModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-19T07:51:51Z",
+      "side": 1,
+      "message": "All clear. I Don\u0027t think you have to move existing factories here, but it makes sense to me to add new factories to that same class.",
+      "parentUuid": "a075e177_33698e56",
+      "range": {
+        "startLine": 130,
+        "startChar": 22,
+        "endLine": 130,
+        "endChar": 49
+      },
+      "revId": "469d50bb9a81501848da02287af37836c3c1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9033252d_312c510b",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Google suggestions seems to be Guice Assisted \u003c AutoFactory \u003c Dagger Assisted. The generated code is more straightforward for it. But I couldn\u0027t find the exact quote for that.\n\nWe had some AutoFactories in some newer code already (ie. MergeUtil), that\u0027s why I use them here as well.",
       "parentUuid": "9033252d_312c510b",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "469d50bb9a81501848da02287af37836c3c1fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6c81f3d_c724aa83",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentChangeEmailDecorator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-19T07:51:51Z",
+      "side": 1,
+      "message": "Sorry, I missed we already use this in the codebase.\nLGTM",
+      "parentUuid": "13e1410c_f1605de2",
       "range": {
         "startLine": 136,
         "startChar": 6,

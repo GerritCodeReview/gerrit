@@ -656,6 +656,11 @@ export class GrChangeView extends LitElement {
       () => this.getViewModel().childView$,
       childView => {
         this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
+        // When coming back from ChangeChildView.DIFF we want to restore the
+        // scroll position to what it was before leaving the OVERVIEW page.
+        if (this.isViewCurrent) {
+          document.documentElement.scrollTop = this.scrollPosition ?? 0;
+        }
       }
     );
     subscribe(
@@ -2025,11 +2030,6 @@ export class GrChangeView extends LitElement {
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
       }
-
-      // If there is no change in patchset or changeNum, such as when user goes
-      // to the diff view and then comes back to change page then there is no
-      // need to reload anything and we render the change view component as is.
-      document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
       return;
     }

@@ -69,6 +69,7 @@ import {
   commentsModelToken,
 } from '../../../models/comments/comments-model';
 import {isOwner} from '../../../utils/change-util';
+import {createNewPatchsetLevel} from '../../../utils/comment-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -153,9 +154,12 @@ suite('gr-reply-dialog tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
     element.draftCommentThreads = [];
+    commentsModel = testResolver(commentsModelToken);
+    commentsModel.addNewDraft(
+      createNewPatchsetLevel(latestPatchNum, '', false)
+    );
 
     await element.updateComplete;
-    commentsModel = testResolver(commentsModelToken);
   });
 
   function stubSaveReview(

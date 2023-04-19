@@ -46,6 +46,7 @@ import {
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
+import {waitUntil} from '../../../utils/async-util';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -439,6 +440,9 @@ export class GrMessagesList extends LitElement {
   }
 
   async scrollToMessage(messageID: string) {
+    await waitUntil(() => this.messages.length > 0);
+    await this.updateComplete;
+
     const selector = `[data-message-id="${messageID}"]`;
     const el = this.shadowRoot!.querySelector(selector) as
       | GrMessage

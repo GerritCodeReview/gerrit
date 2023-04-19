@@ -126,6 +126,7 @@ import {
   DelayedTask,
   throttleWrap,
   until,
+  waitUntil,
 } from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {
@@ -773,6 +774,7 @@ export class GrChangeView extends LitElement {
   }
 
   override firstUpdated() {
+    this.maybeScrollToMessage(window.location.hash);
     // _onTabSizingChanged is called when iron-items-changed event is fired
     // from iron-selectable but that is called before the element is present
     // in view which whereas the method requires paper tabs already be visible
@@ -2077,10 +2079,6 @@ export class GrChangeView extends LitElement {
 
   private performPostLoadTasks() {
     this.maybeShowRevertDialog();
-
-    this.updateComplete.then(() => {
-      this.maybeScrollToMessage(window.location.hash);
-    });
   }
 
   // Private but used in tests.
@@ -2099,9 +2097,10 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  maybeScrollToMessage(hash: string) {
-    if (hash.startsWith(PREFIX) && this.messagesList) {
-      this.messagesList.scrollToMessage(hash.substr(PREFIX.length));
+  async maybeScrollToMessage(hash: string) {
+    if (hash.startsWith(PREFIX)) {
+      await waitUntil(() => !!this.messagesList);
+      this.messagesList!.scrollToMessage(hash.substr(PREFIX.length));
     }
   }
 

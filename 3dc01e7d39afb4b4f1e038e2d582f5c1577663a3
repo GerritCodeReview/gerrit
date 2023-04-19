@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d9eef3_cf4ad03f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-19T07:55:16Z",
+      "side": 1,
+      "message": "Since I touched a new file, I need a re-approval on this change.",
+      "revId": "3dc01e7d39afb4b4f1e038e2d582f5c1577663a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

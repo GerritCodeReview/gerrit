@@ -34,6 +34,23 @@
       "parentUuid": "03112834_434ac319",
       "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb209d19_5fb93e52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-19T12:24:36Z",
+      "side": 1,
+      "message": "Should this be backported to 3.8?",
+      "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

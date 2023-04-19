@@ -621,7 +621,7 @@ export class GrChangeView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().tab$,
-      t => (this.activeTab = t ?? Tab.FILES)
+      t => (this.activeTab = t)
     );
     subscribe(
       this,
@@ -813,8 +813,7 @@ export class GrChangeView extends LitElement {
             new Error('Mismatch of headers and content.')
           );
         }
-      })
-      .then(() => this.initActiveTab());
+      });
 
     this.throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
       this.handleToggleChangeStar()
@@ -1617,9 +1616,8 @@ export class GrChangeView extends LitElement {
   override updated() {
     const tabs = [...queryAll<HTMLElement>(this.tabs!, 'paper-tab')];
     const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
-    assert(tabIndex !== -1, `tab ${this.activeTab} not found`);
 
-    if (this.tabs!.selected !== tabIndex) {
+    if (tabIndex !== -1 && this.tabs!.selected !== tabIndex) {
       this.tabs!.selected = tabIndex;
     }
 
@@ -2055,22 +2053,6 @@ export class GrChangeView extends LitElement {
 
     this.changeNum = this.viewState.changeNum;
     this.loadData(true);
-
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.initActiveTab();
-      });
-  }
-
-  private initActiveTab() {
-    let tab = Tab.FILES;
-    if (this.viewState?.tab) {
-      tab = this.viewState?.tab as Tab;
-    } else if (this.viewState?.commentId) {
-      tab = Tab.COMMENT_THREADS;
-    }
-    this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
   }
 
   // Private but used in tests.

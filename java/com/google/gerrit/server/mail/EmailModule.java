@@ -29,7 +29,7 @@ import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
-import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
@@ -52,7 +52,6 @@ public class EmailModule extends FactoryModule {
     factory(ModifyReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);
-    factory(DeleteReviewerSender.Factory.class);
     factory(DeleteVoteSender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(MergedSender.Factory.class);
@@ -164,6 +163,38 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("comment", changeEmail);
+    }
+  }
+
+  public static class DeleteReviewerChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    public DeleteReviewerChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public DeleteReviewerChangeEmailDecorator createDeleteReviewerChangeEmail() {
+      return new DeleteReviewerChangeEmailDecorator();
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        DeleteReviewerChangeEmailDecorator deleteReviewerChangeEmailDecorator) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), deleteReviewerChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("deleteReviewer", changeEmail);
     }
   }
 }

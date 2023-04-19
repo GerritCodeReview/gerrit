@@ -2559,9 +2559,6 @@ export class GrChangeView extends LitElement {
       }
     });
 
-    if (isLocationChange) {
-      this.editingCommitMessage = false;
-    }
     allDataPromises.push(this.filesLoaded());
 
     Promise.all(allDataPromises).then(() => {

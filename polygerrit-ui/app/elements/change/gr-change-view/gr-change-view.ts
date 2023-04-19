@@ -1988,19 +1988,6 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  hasPatchNumChanged(viewState: ChangeViewState) {
-    if (!this.patchRange) return false;
-    if (viewState.patchNum !== undefined) {
-      return this.patchRange.patchNum !== viewState.patchNum;
-    } else {
-      // value.patchNum === undefined specifies the latest patchset
-      return (
-        this.patchRange.patchNum !== computeLatestPatchNum(this.allPatchSets)
-      );
-    }
-  }
-
-  // Private but used in tests.
   viewStateChanged() {
     if (!this.viewState) return;
     if (this.isChangeObsolete()) return;

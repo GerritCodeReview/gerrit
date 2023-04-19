@@ -349,7 +349,7 @@ export class GrMessagesList extends LitElement {
     super();
     subscribe(
       this,
-      () => this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threadsSaved$,
       x => {
         this.commentThreads = x;
       }

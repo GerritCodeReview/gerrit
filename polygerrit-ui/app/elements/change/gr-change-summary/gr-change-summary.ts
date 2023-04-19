@@ -151,7 +151,7 @@ export class GrChangeSummary extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threadsSaved$,
       x => (this.commentThreads = x)
     );
     subscribe(
@@ -164,7 +164,7 @@ export class GrChangeSummary extends LitElement {
       () =>
         combineLatest([
           this.getUserModel().account$,
-          this.getCommentsModel().threads$,
+          this.getCommentsModel().threadsSaved$,
         ]),
       ([selfAccount, threads]) => {
         if (!selfAccount || !selfAccount.email) return;

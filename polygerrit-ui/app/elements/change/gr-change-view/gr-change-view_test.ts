@@ -38,7 +38,6 @@ import {
   createChangeViewChange,
   createAccountDetailWithId,
   createParsedChange,
-  createDraft,
 } from '../../../test/test-data-generators';
 import {GrChangeView} from './gr-change-view';
 import {
@@ -1136,18 +1135,15 @@ suite('gr-change-view tests', () => {
     };
     element.change = createParsedChange();
     element.change.actions = {};
-    element.diffDrafts = undefined;
-    assert.equal(getLabel(false), 'Reply');
-    assert.equal(getLabel(true), 'Reply');
-
-    element.diffDrafts = {};
+    element.draftCount = 0;
     assert.equal(getLabel(false), 'Reply');
     assert.equal(getLabel(true), 'Start Review');
 
-    element.diffDrafts = {
-      'file1.txt': [createDraft()],
-      'file2.txt': [createDraft(), createDraft()],
-    };
+    element.draftCount = 0;
+    assert.equal(getLabel(false), 'Reply');
+    assert.equal(getLabel(true), 'Start Review');
+
+    element.draftCount = 3;
     assert.equal(getLabel(false), 'Reply (3)');
     assert.equal(getLabel(true), 'Start Review (3)');
   });

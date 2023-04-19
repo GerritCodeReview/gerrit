@@ -41,13 +41,9 @@ import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
-  findEdit,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
-  changeIsAbandoned,
-  changeIsMerged,
-  changeIsOpen,
   changeStatuses,
   isInvolved,
   roleDetails,
@@ -2313,34 +2309,6 @@ export class GrChangeView extends LitElement {
     return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
   }
 
-  /**
-   * Utility function to make the necessary modifications to a change in the
-   * case an edit exists.
-   * Private but used in tests.
-   */
-  processEdit(change: ParsedChangeInfo) {
-    const revisions = Object.values(change.revisions || {});
-    const editRev = findEdit(revisions);
-    if (!editRev && this.patchNum === EDIT && changeIsOpen(change)) {
-      fireAlert(this, 'Change edit not found. Please create a change edit.');
-      fireReload(this, true);
-      return;
-    }
-
-    if (
-      !editRev &&
-      (changeIsMerged(change) || changeIsAbandoned(change)) &&
-      (this.patchNum === EDIT || this.viewState?.edit)
-    ) {
-      fireAlert(
-        this,
-        'Change edits cannot be created if change is merged or abandoned. Redirecting to non edit mode.'
-      );
-      fireReload(this, true);
-      return;
-    }
-  }
-
   private async untilModelLoaded() {
     // NOTE: Wait until this page is connected before determining whether the
     // model is loaded.  This can happen when viewState changes when setting up
@@ -2353,19 +2321,6 @@ export class GrChangeView extends LitElement {
       this.getChangeModel().changeLoadingStatus$,
       status => status === LoadingStatus.LOADED
     );
-  }
-
-  /**
-   * Process edits
-   * Check if a revert of this change has been submitted
-   * Calculate selected revision
-   */
-  // private but used in tests
-  async performPostChangeLoadTasks() {
-    assertIsDefined(this.changeNum, 'changeNum');
-    await this.untilModelLoaded();
-    if (!this.change) return;
-    this.processEdit(this.change);
   }
 
   private isParentCurrent() {
@@ -2391,9 +2346,7 @@ export class GrChangeView extends LitElement {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this.change) {
-      this.getNavigation().setUrl(
-        createChangeUrl({change: this.change, forceReload: true})
-      );
+      this.getChangeModel().navigateToChangeAndReset();
       return Promise.resolve();
     }
     this.loading = true;
@@ -2412,7 +2365,6 @@ export class GrChangeView extends LitElement {
     // change content may start appearing.
     const loadingFlagSet = detailCompletes.then(() => {
       this.loading = false;
-      this.performPostChangeLoadTasks();
     });
 
     const coreDataPromise = loadingFlagSet;

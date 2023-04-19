@@ -372,10 +372,6 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   @state()
-  initialLoadComplete = false;
-
-  // Private but used in tests.
-  @state()
   replyDisabled = true;
 
   @state()
@@ -2054,8 +2050,8 @@ export class GrChangeView extends LitElement {
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
-    //    is only relevant for the initial load of a change.
+    // 1. We want to avoid code that is only relevant for the initial load of a
+    //    change.
     // 2. We have to somehow trigger the change-model reloading. Otherwise
     //    this.change is not updated.
     if (this.changeNum) {
@@ -2069,7 +2065,6 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    this.initialLoadComplete = false;
     this.changeNum = this.viewState.changeNum;
     this.loadData(true).then(() => {
       this.performPostLoadTasks();
@@ -2097,7 +2092,6 @@ export class GrChangeView extends LitElement {
 
     this.updateComplete.then(() => {
       this.maybeScrollToMessage(window.location.hash);
-      this.initialLoadComplete = true;
     });
   }
 

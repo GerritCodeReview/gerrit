@@ -2382,12 +2382,10 @@ export class GrChangeView extends LitElement {
       this.getChangeModel().navigateToChangeAndReset();
       return;
     }
-    this.reporting.time(Timing.CHANGE_RELOAD);
     this.reporting.time(Timing.CHANGE_DATA);
 
     const detailCompletes = this.untilModelLoaded().then(() => {
       fire(this, 'change-details-loaded', {});
-      this.reporting.timeEnd(Timing.CHANGE_RELOAD);
       if (isLocationChange) {
         this.reporting.changeDisplayed(roleDetails(this.change, this.account));
       }

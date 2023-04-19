@@ -52,6 +52,8 @@ import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation
 import {getRevertCreatedChangeIds} from '../../utils/message-util';
 import {computeTruncatedPath} from '../../utils/path-list-util';
 import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
+import {Timing} from '../../constants/reporting';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -353,7 +355,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
-    private readonly pluginLoader: PluginLoader
+    private readonly pluginLoader: PluginLoader,
+    private readonly reporting: ReportingService
   ) {
     super(initialState);
     this.subscriptions = [
@@ -363,6 +366,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.setOverviewTitle(),
       this.setDiffTitle(),
       this.setEditTitle(),
+      this.reportChangeReload(),
       this.fireShowChange(),
       this.refuseEditForOpenChange(),
       this.refuseEditForClosedChange(),
@@ -375,6 +379,23 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
+  }
+
+  private reportChangeReload() {
+    return this.changeLoadingStatus$.subscribe(loadingStatus => {
+      if (
+        loadingStatus === LoadingStatus.LOADING ||
+        loadingStatus === LoadingStatus.RELOADING
+      ) {
+        this.reporting.time(Timing.CHANGE_RELOAD);
+      }
+      if (
+        loadingStatus === LoadingStatus.LOADED ||
+        loadingStatus === LoadingStatus.NOT_LOADED
+      ) {
+        this.reporting.timeEnd(Timing.CHANGE_RELOAD);
+      }
+    });
   }
 
   private fireShowChange() {

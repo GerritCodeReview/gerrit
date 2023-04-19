@@ -156,7 +156,8 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           appContext.restApiService,
           resolver(userModelToken),
-          resolver(pluginLoaderToken)
+          resolver(pluginLoaderToken),
+          appContext.reportingService
         ),
     ],
     [

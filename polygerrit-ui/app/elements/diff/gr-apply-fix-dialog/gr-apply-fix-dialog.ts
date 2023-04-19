@@ -38,6 +38,7 @@ import {highlightServiceToken} from '../../../services/highlight/highlight-servi
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {fireReload} from '../../../utils/event-util';
 import {when} from 'lit/directives/when.js';
+import {Timing} from '../../../constants/reporting';
 
 interface FilePreview {
   filepath: string;
@@ -102,6 +103,8 @@ export class GrApplyFixDialog extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly reporting = getAppContext().reportingService;
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
@@ -276,7 +279,9 @@ export class GrApplyFixDialog extends LitElement {
   private async showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
     this.currentFix = fixSuggestion;
     this.loading = true;
+    this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     await this.fetchFixPreview(fixSuggestion);
+    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD);
     this.loading = false;
   }
 
@@ -386,6 +391,7 @@ export class GrApplyFixDialog extends LitElement {
       throw new Error('Not all required properties are set.');
     }
     this.isApplyFixLoading = true;
+    this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res;
     if (this.fixSuggestions?.[0].fix_id === PROVIDED_FIX_ID) {
       res = await this.restApiService.applyFixSuggestion(
@@ -411,6 +417,7 @@ export class GrApplyFixDialog extends LitElement {
       this.close(true);
     }
     this.isApplyFixLoading = false;
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
   }
 }
 

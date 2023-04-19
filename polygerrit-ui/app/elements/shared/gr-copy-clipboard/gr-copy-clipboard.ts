@@ -17,6 +17,8 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {GrIcon} from '../gr-icon/gr-icon';
+import {getAppContext} from '../../../services/app-context';
+import {Timing} from '../../../constants/reporting';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -45,6 +47,8 @@ export class GrCopyClipboard extends LitElement {
 
   @query('#icon')
   iconEl!: GrIcon;
+
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [
@@ -141,7 +145,12 @@ export class GrCopyClipboard extends LitElement {
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
     this.iconEl.icon = 'check';
-    copyToClipbard(this.text, this.copyTargetName ?? 'Link');
+    this.reporting.time(Timing.COPY_TO_CLIPBOARD);
+    copyToClipbard(this.text, this.copyTargetName ?? 'Link').finally(() => {
+      this.reporting.timeEnd(Timing.COPY_TO_CLIPBOARD, {
+        copyTargetName: this.copyTargetName,
+      });
+    });
     setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
   }
 }

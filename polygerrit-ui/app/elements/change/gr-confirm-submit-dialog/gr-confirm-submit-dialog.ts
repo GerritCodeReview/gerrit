@@ -99,7 +99,7 @@ export class GrConfirmSubmitDialog
     );
     subscribe(
       this,
-      () => this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threadsSaved$,
       x => (this.unresolvedThreads = x.filter(isUnresolved))
     );
   }

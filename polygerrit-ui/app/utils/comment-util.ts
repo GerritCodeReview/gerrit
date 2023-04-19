@@ -238,6 +238,10 @@ export function isDraftThread(thread: CommentThread): boolean {
   return isDraft(getLastComment(thread));
 }
 
+export function isNewThread(thread: CommentThread): boolean {
+  return isNew(getLastComment(thread));
+}
+
 export function isMentionedThread(
   thread: CommentThread,
   account?: AccountInfo
@@ -427,8 +431,8 @@ export function addPath<T>(comments: {[path: string]: T[]} = {}): {
 }
 
 /**
- * Add state:SAVED to all drafts returned from server so that they can be told
- * apart from published comments easily.
+ * Add `savingState: SavingState.OK` to all drafts returned from server so that
+ * they can be told apart from published comments easily.
  */
 export function addDraftProp(
   draftsByPath: {[path: string]: CommentInfo[]} = {}

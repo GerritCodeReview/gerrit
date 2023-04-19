@@ -1622,6 +1622,8 @@ export class GrChangeView extends LitElement {
     if (this.tabs!.selected !== tabIndex) {
       this.tabs!.selected = tabIndex;
     }
+
+    this.maybeShowRevertDialog();
   }
 
   private readonly handleScroll = () => {
@@ -2031,10 +2033,6 @@ export class GrChangeView extends LitElement {
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
-      // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
-      // page should open the reply dialog
-      this.performPostLoadTasks();
       return;
     }
 
@@ -2056,9 +2054,7 @@ export class GrChangeView extends LitElement {
     }
 
     this.changeNum = this.viewState.changeNum;
-    this.loadData(true).then(() => {
-      this.performPostLoadTasks();
-    });
+    this.loadData(true);
 
     this.getPluginLoader()
       .awaitPluginsLoaded()
@@ -2075,10 +2071,6 @@ export class GrChangeView extends LitElement {
       tab = Tab.COMMENT_THREADS;
     }
     this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
-  }
-
-  private performPostLoadTasks() {
-    this.maybeShowRevertDialog();
   }
 
   // Private but used in tests.
@@ -2122,25 +2114,21 @@ export class GrChangeView extends LitElement {
     return null;
   }
 
+  // Making sure to only show the revert dialog once.
+  private alreadyShownRevertDialog = false;
+
   // Private but used in tests.
-  maybeShowRevertDialog() {
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        if (
-          !this.loggedIn ||
-          !this.change ||
-          this.change.status !== ChangeStatus.MERGED
-        ) {
-          // Do not display dialog if not logged-in or the change is not
-          // merged.
-          return;
-        }
-        if (this._getUrlParameter('revert')) {
-          assertIsDefined(this.actions);
-          this.actions.showRevertDialog();
-        }
-      });
+  async maybeShowRevertDialog() {
+    await this.getPluginLoader().awaitPluginsLoaded();
+
+    if (this.alreadyShownRevertDialog) return;
+    if (!this.loggedIn) return;
+    if (!this.actions) return;
+    if (this.change?.status !== ChangeStatus.MERGED) return;
+    if (!this._getUrlParameter('revert')) return;
+
+    this.alreadyShownRevertDialog = true;
+    this.actions.showRevertDialog();
   }
 
   // Private but used in tests.

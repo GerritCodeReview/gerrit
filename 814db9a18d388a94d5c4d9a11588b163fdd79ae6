@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1898ff54_9fd49d50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-19T21:40:47Z",
+      "side": 1,
+      "message": "Deployed on gerrit-review since at least March 31.",
+      "revId": "814db9a18d388a94d5c4d9a11588b163fdd79ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

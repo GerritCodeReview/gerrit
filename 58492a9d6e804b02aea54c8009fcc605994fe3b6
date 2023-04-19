@@ -16,6 +16,24 @@
       "message": "Consider adding a test to catch the regression?",
       "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7b8639e_135a0ede",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-19T12:23:16Z",
+      "side": 1,
+      "message": "Sorry, I will soon go OOO for the rest of the day, and I want to unblock the release. :-/\n\nThat said, I am also not 100% sure how and where to add such a test. Generally I would appreciate specific suggestions along with \"please add a test\". :-) Sometimes I did think about tests, but could not find a good way for a useful implementation. As implemented it seems hard to imagine how a second patchset level comment should come into being.",
+      "parentUuid": "03112834_434ac319",
+      "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

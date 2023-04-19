@@ -24,8 +24,10 @@ import {
 import {
   addPath,
   createNew,
+  createNewPatchsetLevel,
   id,
   isDraftThread,
+  isNewThread,
   reportingDetails,
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
@@ -280,12 +282,21 @@ export class CommentsModel extends Model<CommentState> {
     commentState => commentState.drafts
   );
 
+  public readonly draftsLoading$ = select(
+    this.drafts$,
+    drafts => drafts === undefined
+  );
+
   public readonly draftsArray$ = select(this.drafts$, drafts =>
     Object.values(drafts ?? {}).flat()
   );
 
+  public readonly draftsSaved$ = select(this.draftsArray$, drafts =>
+    drafts.filter(d => !isNew(d))
+  );
+
   public readonly draftsCount$ = select(
-    this.draftsArray$,
+    this.draftsSaved$,
     drafts => drafts.length
   );
 
@@ -382,8 +393,12 @@ export class CommentsModel extends Model<CommentState> {
     changeComments.getAllThreadsForChange()
   );
 
-  public readonly draftThreads$ = select(this.threads$, threads =>
-    threads.filter(isDraftThread)
+  public readonly threadsSaved$ = select(this.threads$, threads =>
+    threads.filter(t => !isNewThread(t))
+  );
+
+  public readonly draftThreadsSaved$ = select(this.threads$, threads =>
+    threads.filter(t => !isNewThread(t) && isDraftThread(t))
   );
 
   public readonly commentedPaths$ = select(
@@ -452,6 +467,16 @@ export class CommentsModel extends Model<CommentState> {
     );
     this.subscriptions.push(
       this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))
+    );
+    this.subscriptions.push(
+      combineLatest([
+        this.draftsLoading$,
+        this.patchsetLevelDrafts$,
+        this.changeModel.latestPatchNum$,
+      ]).subscribe(([loading, plDraft, latestPatchNum]) => {
+        if (loading || plDraft || !latestPatchNum) return;
+        this.addNewDraft(createNewPatchsetLevel(latestPatchNum, '', false));
+      })
     );
     this.subscriptions.push(
       this.changeViewModel.changeNum$.subscribe(changeNum => {

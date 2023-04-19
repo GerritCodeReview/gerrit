@@ -36,19 +36,12 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {
-  ChangeStatus,
-  DefaultBase,
-  Tab,
-  DiffViewMode,
-} from '../../../constants/constants';
+import {ChangeStatus, Tab, DiffViewMode} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
   findEdit,
-  findEditParentRevision,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
@@ -77,10 +70,7 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
-  PatchSetNumber,
-  PreferencesInfo,
   QuickLabelInfo,
   RevisionInfo,
   RevisionPatchSetNum,
@@ -192,8 +182,6 @@ const ReloadToastMessage = {
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
 
-export type ChangeViewPatchRange = Partial<PatchRange>;
-
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
@@ -294,10 +282,6 @@ export class GrChangeView extends LitElement {
   @state()
   private account?: AccountDetailInfo;
 
-  // Private but used in tests.
-  @state()
-  prefs?: PreferencesInfo;
-
   canStartReview() {
     return !!(
       this.change &&
@@ -336,9 +320,6 @@ export class GrChangeView extends LitElement {
   @state() basePatchNum: BasePatchSetNum = PARENT;
 
   @state() patchNum?: RevisionPatchSetNum;
-
-  // TODO: Migrate usages to this.patchNum and this.basePatchnum.
-  @state() patchRange?: ChangeViewPatchRange;
 
   @state() revision?: RevisionInfo | EditRevisionInfo;
 
@@ -1992,31 +1973,11 @@ export class GrChangeView extends LitElement {
     if (!this.viewState) return;
     if (this.isChangeObsolete()) return;
 
-    if (this.viewState.basePatchNum === undefined)
-      this.viewState.basePatchNum = PARENT;
-
-    this.patchRange = {
-      patchNum: this.viewState.patchNum,
-      basePatchNum: this.viewState.basePatchNum,
-    };
-
-    const patchKnown =
-      !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange?.patchNum
-      );
-    // _allPatchsets does not know value.patchNum so force a reload.
-    const forceReload = this.viewState.forceReload || !patchKnown;
+    const forceReload = this.viewState.forceReload;
 
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this.changeNum !== undefined && !forceReload) {
-      if (!this.patchRange.patchNum) {
-        this.patchRange = {
-          ...this.patchRange,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-      }
       this.reporting.reportInteraction('change-view-re-rendered');
       return;
     }
@@ -2028,12 +1989,6 @@ export class GrChangeView extends LitElement {
     // 2. We have to somehow trigger the change-model reloading. Otherwise
     //    this.change is not updated.
     if (this.changeNum) {
-      if (!this.patchRange?.patchNum) {
-        this.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-      }
       fireReload(this);
       return;
     }
@@ -2113,54 +2068,6 @@ export class GrChangeView extends LitElement {
       this.currentRobotCommentsPatchSet =
         this.change.revisions[this.change.current_revision]._number;
     }
-    if (!this.change || !this.patchRange || !this.allPatchSets) {
-      return;
-    }
-
-    // We get the parent first so we keep the original value for basePatchNum
-    // and not the updated value.
-    const parent = this.getBasePatchNum();
-
-    this.patchRange = {
-      ...this.patchRange,
-      basePatchNum: parent,
-      patchNum:
-        this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
-    };
-  }
-
-  /**
-   * Gets base patch number, if it is a parent try and decide from
-   * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
-   * Private but used in tests.
-   */
-  getBasePatchNum() {
-    if (
-      this.patchRange &&
-      this.patchRange.basePatchNum &&
-      this.patchRange.basePatchNum !== PARENT
-    ) {
-      return this.patchRange.basePatchNum;
-    }
-
-    const revisionInfo = this.getRevisionInfo();
-    if (!revisionInfo) return PARENT;
-
-    // TODO: It is a bit unclear why `1` is used here instead of
-    // `patchRange.patchNum`. Maybe that is a bug? Maybe if one patchset
-    // is a merge commit, then all patchsets are merge commits??
-    const isMerge = revisionInfo.isMergeCommit(1 as PatchSetNumber);
-    const preferFirst =
-      this.prefs &&
-      this.prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
-
-    // Verified via reportExecution that -1 is returned(1-5 times per day)
-    // changeChanged does set this.patchRange?.patchNum so it's still unclear
-    // how it is undefined.
-    if (isMerge && preferFirst && !this.patchRange?.patchNum) {
-      return -1 as BasePatchSetNum;
-    }
-    return PARENT;
   }
 
   private computeChangeUrl(forceReload?: boolean) {
@@ -2414,12 +2321,7 @@ export class GrChangeView extends LitElement {
   processEdit(change: ParsedChangeInfo) {
     const revisions = Object.values(change.revisions || {});
     const editRev = findEdit(revisions);
-    const editParentRev = findEditParentRevision(revisions);
-    if (
-      !editRev &&
-      this.patchRange?.patchNum === EDIT &&
-      changeIsOpen(change)
-    ) {
+    if (!editRev && this.patchNum === EDIT && changeIsOpen(change)) {
       fireAlert(this, 'Change edit not found. Please create a change edit.');
       fireReload(this, true);
       return;
@@ -2428,7 +2330,7 @@ export class GrChangeView extends LitElement {
     if (
       !editRev &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
-      (this.patchRange?.patchNum === EDIT || this.viewState?.edit)
+      (this.patchNum === EDIT || this.viewState?.edit)
     ) {
       fireAlert(
         this,
@@ -2436,24 +2338,6 @@ export class GrChangeView extends LitElement {
       );
       fireReload(this, true);
       return;
-    }
-
-    if (!editRev) return;
-    assertIsDefined(this.patchRange, 'patchRange');
-    assertIsDefined(editRev.commit.commit, 'editRev.commit.commit');
-    assertIsDefined(editParentRev, 'editParentRev');
-
-    const latestPsNum = computeLatestPatchNum(computeAllPatchSets(change));
-    // If the change was loaded without a specific patchset, then this normally
-    // means that the *latest* patchset should be loaded. But if there is an
-    // active edit, then automatically switch to that edit as the current
-    // patchset.
-    // TODO: This goes together with `change.current_revision` being set, which
-    // is under change-model control. `patchRange.patchNum` should eventually
-    // also be model managed, so we can reconcile these two code snippets into
-    // one location.
-    if (!this.viewModelPatchNum && latestPsNum === editParentRev._number) {
-      this.patchRange = {...this.patchRange, patchNum: EDIT};
     }
   }
 
@@ -2479,14 +2363,8 @@ export class GrChangeView extends LitElement {
   // private but used in tests
   async performPostChangeLoadTasks() {
     assertIsDefined(this.changeNum, 'changeNum');
-
-    const prefCompletes = this.restApiService.getPreferences();
     await this.untilModelLoaded();
-
-    this.prefs = await prefCompletes;
-
     if (!this.change) return;
-
     this.processEdit(this.change);
   }
 
@@ -2769,11 +2647,6 @@ export class GrChangeView extends LitElement {
       e.detail.starred
     );
     fire(this, 'hide-alert', {});
-  }
-
-  private getRevisionInfo(): RevisionInfoClass | undefined {
-    if (this.change === undefined) return undefined;
-    return new RevisionInfoClass(this.change);
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

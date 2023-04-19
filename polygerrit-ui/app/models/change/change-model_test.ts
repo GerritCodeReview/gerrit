@@ -113,7 +113,8 @@ suite('change model tests', () => {
       changeViewModel,
       getAppContext().restApiService,
       testResolver(userModelToken),
-      testResolver(pluginLoaderToken)
+      testResolver(pluginLoaderToken),
+      getAppContext().reportingService
     );
     knownChange = {
       ...createChange(),

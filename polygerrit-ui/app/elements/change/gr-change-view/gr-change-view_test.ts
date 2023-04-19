@@ -32,7 +32,6 @@ import {
   createChangeViewState,
   createApproval,
   createChangeMessages,
-  createCommit,
   createRevision,
   createRevisions,
   createServerInfo,
@@ -770,7 +769,6 @@ suite('gr-change-view tests', () => {
       stubRestApi('getChangeDetail').returns(
         Promise.resolve(createParsedChange())
       );
-      sinon.stub(element, 'performPostChangeLoadTasks');
       const change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
@@ -1555,30 +1553,6 @@ suite('gr-change-view tests', () => {
     );
   });
 
-  test('processEdit', () => {
-    const change: ParsedChangeInfo = {
-      ...createChangeViewChange(),
-      current_revision: 'foo' as CommitId,
-      revisions: {
-        foo: {...createRevision()},
-      },
-    };
-
-    // With no edit, nothing happens.
-    element.processEdit(change);
-    assert.equal(element.patchNum, undefined);
-
-    change.revisions['bar'] = {
-      _number: EDIT,
-      basePatchNum: 1 as BasePatchSetNum,
-      commit: {
-        ...createCommit(),
-        commit: 'bar' as CommitId,
-      },
-      fetch: {},
-    };
-  });
-
   test('file-action-tap handling', async () => {
     element.patchNum = 1 as RevisionPatchSetNum;
     element.change = {
@@ -1773,7 +1747,6 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element.basePatchNum = PARENT;
       element.patchNum = 1 as RevisionPatchSetNum;
-      sinon.stub(element, 'performPostChangeLoadTasks');
     });
 
     test("don't report changeDisplayed on reply", async () => {

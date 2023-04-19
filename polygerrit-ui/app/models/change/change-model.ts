@@ -29,6 +29,7 @@ import {
   computeAllPatchSets,
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
+  findEdit,
   sortRevisions,
 } from '../../utils/patch-set-util';
 import {isDefined, ParsedChangeInfo} from '../../types/types';
@@ -363,6 +364,8 @@ export class ChangeModel extends Model<ChangeState> {
       this.setDiffTitle(),
       this.setEditTitle(),
       this.fireShowChange(),
+      this.refuseEditForOpenChange(),
+      this.refuseEditForClosedChange(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -400,6 +403,54 @@ export class ChangeModel extends Model<ChangeState> {
           // instaed of `null`, but that would be a Plugin API change ...
           info: {mergeable: mergeable ?? null},
         });
+      });
+  }
+
+  private refuseEditForOpenChange() {
+    return combineLatest([this.revisions$, this.patchNum$, this.status$])
+      .pipe(
+        filter(
+          ([revisions, patchNum, status]) =>
+            status === ChangeStatus.NEW &&
+            revisions.length > 0 &&
+            patchNum === EDIT
+        )
+      )
+      .subscribe(([revisions]) => {
+        const editRev = findEdit(revisions);
+        if (!editRev) {
+          const msg = 'Change edit not found. Please create a change edit.';
+          fireAlert(document, msg);
+          this.navigateToChangeAndReset();
+        }
+      });
+  }
+
+  private refuseEditForClosedChange() {
+    return combineLatest([
+      this.revisions$,
+      this.viewModel.edit$,
+      this.patchNum$,
+      this.status$,
+    ])
+      .pipe(
+        filter(
+          ([revisions, edit, patchNum, status]) =>
+            (status === ChangeStatus.ABANDONED ||
+              status === ChangeStatus.MERGED) &&
+            revisions.length > 0 &&
+            (patchNum === EDIT || edit)
+        )
+      )
+      .subscribe(([revisions]) => {
+        const editRev = findEdit(revisions);
+        if (!editRev) {
+          const msg =
+            'Change edits cannot be created if change is merged ' +
+            'or abandoned. Redirecting to non edit mode.';
+          fireAlert(document, msg);
+          this.navigateToChangeAndReset();
+        }
       });
   }
 
@@ -609,6 +660,13 @@ export class ChangeModel extends Model<ChangeState> {
 
   navigateToChange(openReplyDialog = false) {
     const url = this.changeUrl(openReplyDialog);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  navigateToChangeAndReset() {
+    if (!this.change) return;
+    const url = createChangeUrl({change: this.change, forceReload: true});
     if (!url) return;
     this.navigation.setUrl(url);
   }

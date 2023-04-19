@@ -71,7 +71,6 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  createNewPatchsetLevel,
   getFirstComment,
   isPatchsetLevel,
   isUnresolved,
@@ -642,7 +641,7 @@ export class GrReplyDialog extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().draftThreads$,
+      () => this.getCommentsModel().draftThreadsSaved$,
       threads =>
         (this.draftCommentThreads = threads.filter(
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
@@ -697,20 +696,6 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
-  }
-
-  override updated() {
-    if (!this.patchsetLevelComment && this.latestPatchNum) {
-      // TODO: This should rather be done in the comments model. It should
-      // ensure that a patchset level draft is always present.
-      this.getCommentsModel().addNewDraft(
-        createNewPatchsetLevel(
-          this.latestPatchNum,
-          this.patchsetLevelDraftMessage,
-          !this.patchsetLevelDraftIsResolved
-        )
-      );
-    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {

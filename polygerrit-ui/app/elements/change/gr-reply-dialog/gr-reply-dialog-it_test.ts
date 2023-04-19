@@ -25,6 +25,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
+import {createNewPatchsetLevel} from '../../../utils/comment-util';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
@@ -62,6 +64,9 @@ suite('gr-reply-dialog-it tests', () => {
       'Code-Review': ['-1', ' 0', '+1'],
       Verified: ['-1', ' 0', '+1'],
     };
+    testResolver(commentsModelToken).addNewDraft(
+      createNewPatchsetLevel(latestPatchNum, '', false)
+    );
   };
 
   setup(async () => {

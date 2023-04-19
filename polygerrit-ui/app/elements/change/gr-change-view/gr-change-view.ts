@@ -77,7 +77,6 @@ import {
   CommitInfo,
   ConfigInfo,
   DetailedLabelInfo,
-  DraftInfo,
   EDIT,
   LabelNameToInfoMap,
   NumericChangeId,
@@ -348,10 +347,6 @@ export class GrChangeView extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
-  // Private but used in tests.
-  @state()
-  diffDrafts?: {[path: string]: DraftInfo[]} = {};
-
   @state()
   private editingCommitMessage = false;
 
@@ -490,7 +485,7 @@ export class GrChangeView extends LitElement {
   private showRobotCommentsButton = false;
 
   @state()
-  private draftCount = 0;
+  draftCount = 0;
 
   private throttledToggleChangeStar?: (e: KeyboardEvent) => void;
 
@@ -703,13 +698,6 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().drafts$,
-      drafts => {
-        this.diffDrafts = {...drafts};
-      }
-    );
-    subscribe(
-      this,
       () => this.getUserModel().preferenceDiffViewMode$,
       diffViewMode => {
         this.diffViewMode = diffViewMode;
@@ -724,7 +712,7 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threadsSaved$,
       threads => {
         this.commentThreads = threads;
       }
@@ -2305,18 +2293,9 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   computeReplyButtonLabel() {
-    if (this.diffDrafts === undefined) {
-      return 'Reply';
-    }
-
-    const draftCount = Object.keys(this.diffDrafts).reduce(
-      (count, file) => count + this.diffDrafts![file].length,
-      0
-    );
-
     let label = this.canStartReview() ? 'Start Review' : 'Reply';
-    if (draftCount > 0) {
-      label += ` (${draftCount})`;
+    if (this.draftCount > 0) {
+      label += ` (${this.draftCount})`;
     }
     return label;
   }

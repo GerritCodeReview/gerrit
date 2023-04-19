@@ -1632,6 +1632,8 @@ export class GrChangeView extends LitElement {
     if (this.tabs!.selected !== tabIndex) {
       this.tabs!.selected = tabIndex;
     }
+
+    this.maybeScrollToMessage(window.location.hash);
   }
 
   private readonly handleScroll = () => {
@@ -2089,10 +2091,6 @@ export class GrChangeView extends LitElement {
 
   private performPostLoadTasks() {
     this.maybeShowRevertDialog();
-
-    this.updateComplete.then(() => {
-      this.maybeScrollToMessage(window.location.hash);
-    });
   }
 
   // Private but used in tests.
@@ -2110,9 +2108,14 @@ export class GrChangeView extends LitElement {
     history.replaceState(null, '', url);
   }
 
+  // Making sure to only trigger scrolling once.
+  private alreadyScrolledToMessage = false;
+
   // Private but used in tests.
   maybeScrollToMessage(hash: string) {
+    if (this.alreadyScrolledToMessage) return;
     if (hash.startsWith(PREFIX) && this.messagesList) {
+      this.alreadyScrolledToMessage = true;
       this.messagesList.scrollToMessage(hash.substr(PREFIX.length));
     }
   }

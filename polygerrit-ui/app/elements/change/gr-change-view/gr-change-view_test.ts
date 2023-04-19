@@ -918,7 +918,7 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sinon.stub(element, 'loadData').returns(Promise.resolve());
+      sinon.stub(element, 'loadData');
       sinon.spy(element, 'viewStateChanged');
       element.viewState = createChangeViewState();
     });

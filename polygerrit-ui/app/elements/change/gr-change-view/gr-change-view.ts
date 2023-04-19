@@ -699,6 +699,11 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().changeLoadingStatus$,
+      status => (this.loading = status !== LoadingStatus.LOADED)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().latestRevision$,
       revision => {
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(
@@ -2338,32 +2343,16 @@ export class GrChangeView extends LitElement {
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
-    if (this.isChangeObsolete()) return Promise.resolve();
+  loadData(isLocationChange?: boolean, clearPatchset?: boolean): void {
+    if (this.isChangeObsolete()) return;
     if (clearPatchset && this.change) {
       this.getChangeModel().navigateToChangeAndReset();
-      return Promise.resolve();
+      return;
     }
-    this.loading = true;
     this.reporting.time(Timing.CHANGE_RELOAD);
     this.reporting.time(Timing.CHANGE_DATA);
 
-    // Array to house all promises related to data requests.
-    const allDataPromises: Promise<unknown>[] = [];
-
-    // Resolves when the change detail and the edit patch set (if available)
-    // are loaded.
-    const detailCompletes = this.untilModelLoaded();
-    allDataPromises.push(detailCompletes);
-
-    // Resolves when the loading flag is set to false, meaning that some
-    // change content may start appearing.
-    const loadingFlagSet = detailCompletes.then(() => {
-      this.loading = false;
-    });
-
-    const coreDataPromise = loadingFlagSet;
-    coreDataPromise.then(() => {
+    const detailCompletes = this.untilModelLoaded().then(() => {
       fire(this, 'change-details-loaded', {});
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);
       if (isLocationChange) {
@@ -2371,17 +2360,13 @@ export class GrChangeView extends LitElement {
       }
     });
 
-    allDataPromises.push(this.filesLoaded());
-
-    Promise.all(allDataPromises).then(() => {
+    Promise.all([detailCompletes, this.filesLoaded()]).then(() => {
       // Loading of commments data is no longer part of this reporting
       this.reporting.timeEnd(Timing.CHANGE_DATA);
       if (isLocationChange) {
         this.reporting.changeFullyLoaded();
       }
     });
-
-    return coreDataPromise;
   }
 
   private async filesLoaded() {

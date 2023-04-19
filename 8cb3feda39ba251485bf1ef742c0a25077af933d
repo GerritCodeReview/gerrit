@@ -70,6 +70,30 @@
       },
       "revId": "8cb3feda39ba251485bf1ef742c0a25077af933d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d50a5c7a_5365b025",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-19T11:52:33Z",
+      "side": 1,
+      "message": "Got treated as a quote: should be `\u003e 0` instead of `\u003e 1`",
+      "parentUuid": "2eafdf37_825d1e75",
+      "range": {
+        "startLine": 477,
+        "startChar": 23,
+        "endLine": 477,
+        "endChar": 30
+      },
+      "revId": "8cb3feda39ba251485bf1ef742c0a25077af933d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1253,7 +1253,6 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     assert.isTrue(reloadStub.calledOnce);
 
-    element.initialLoadComplete = true;
     element.change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1282,7 +1281,6 @@ suite('gr-change-view tests', () => {
     assert.isOk(element.changeNum);
     await element.updateComplete;
     assert.isFalse(reloadStub.calledOnce);
-    element.initialLoadComplete = true;
     element.viewState = {...value};
     await element.updateComplete;
     assert.isFalse(reloadStub.calledTwice);

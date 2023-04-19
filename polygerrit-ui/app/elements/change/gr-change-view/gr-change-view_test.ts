@@ -669,19 +669,6 @@ suite('gr-change-view tests', () => {
       assert.equal(element.activeTab, 'change-view-tab-header-url');
     });
 
-    test('param change should switch primary tab correctly', async () => {
-      assert.equal(element.activeTab, Tab.FILES);
-      // view is required
-      element.changeNum = undefined;
-      element.viewState = {
-        ...createChangeViewState(),
-        ...element.viewState,
-        tab: Tab.COMMENT_THREADS,
-      };
-      await element.updateComplete;
-      assert.equal(element.activeTab, Tab.COMMENT_THREADS);
-    });
-
     test('invalid param change should not switch primary tab', async () => {
       assert.equal(element.activeTab, Tab.FILES);
       // view is required

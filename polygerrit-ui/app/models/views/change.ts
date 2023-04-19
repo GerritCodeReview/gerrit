@@ -268,6 +268,8 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly commentId$ = select(this.state$, state => state?.commentId);
 
+  public readonly edit$ = select(this.state$, state => !!state?.edit);
+
   public readonly editPath$ = select(
     this.state$,
     state => state?.editView?.path

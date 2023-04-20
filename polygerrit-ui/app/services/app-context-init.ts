@@ -178,7 +178,8 @@ export function createAppDependencies(
         new FilesModel(
           resolver(changeModelToken),
           resolver(commentsModelToken),
-          appContext.restApiService
+          appContext.restApiService,
+          appContext.reportingService
         ),
     ],
     [

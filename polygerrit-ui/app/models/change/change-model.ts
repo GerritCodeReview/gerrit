@@ -209,6 +209,12 @@ export class ChangeModel extends Model<ChangeState> {
     changeState => changeState.loadingStatus
   );
 
+  public readonly loading$ = select(
+    this.changeLoadingStatus$,
+    status =>
+      status === LoadingStatus.LOADING || status === LoadingStatus.RELOADING
+  );
+
   public readonly reviewedFiles$ = select(
     this.state$,
     changeState => changeState?.reviewedFiles

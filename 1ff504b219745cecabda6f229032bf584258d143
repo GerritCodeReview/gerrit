@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "458d98e7_d05f3e35",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:16:52Z",
+      "side": 0,
+      "message": "Won\u0027t this be missing in metric calculation?",
+      "range": {
+        "startLine": 2415,
+        "startChar": 11,
+        "endLine": 2415,
+        "endChar": 37
+      },
+      "revId": "1ff504b219745cecabda6f229032bf584258d143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2067a976_21018b5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T08:43:19Z",
+      "side": 1,
+      "message": "Can we modify firstUpdated then with [something like GrCommentThread](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts;l\u003d637?q\u003d%22this.expandCollapseComments(false);%22).\n\n\u003e What do you not like about the pattern? :-)\n\nWhat we want to do is run something inside updated only once and on the first update. This seems exactly what firstUpdate is for.\n\nIn the next change you need to create `alreadyShownRevertDialog` and then potentially more boolean variables which are simply tracking that an action needs to be done once inside update(), hence if you move it into firstUpdate where I think it belongs, it improves readability and removes the need for extra booleans which are simply bookkeeping that something in update() is done once.",
+      "parentUuid": "434ef9f6_2c9705c0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2528e2b_91370a84",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3

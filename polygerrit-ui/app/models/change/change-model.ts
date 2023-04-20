@@ -33,7 +33,7 @@ import {
   sortRevisions,
 } from '../../utils/patch-set-util';
 import {isDefined, ParsedChangeInfo} from '../../types/types';
-import {fireAlert, fireTitleChange} from '../../utils/event-util';
+import {fireAlert, fireReload, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -367,6 +367,7 @@ export class ChangeModel extends Model<ChangeState> {
     super(initialState);
     this.subscriptions = [
       this.loadChange(),
+      this.forceReload(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
       this.setOverviewTitle(),
@@ -459,7 +460,7 @@ export class ChangeModel extends Model<ChangeState> {
         if (!editRev) {
           const msg = 'Change edit not found. Please create a change edit.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -487,7 +488,7 @@ export class ChangeModel extends Model<ChangeState> {
             'Change edits cannot be created if change is merged ' +
             'or abandoned. Redirecting to non edit mode.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -565,6 +566,12 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private forceReload() {
+    return this.viewModel.forceReload$.subscribe(forceReload => {
+      if (forceReload) fireReload(document);
+    });
   }
 
   private loadChange() {
@@ -696,13 +703,21 @@ export class ChangeModel extends Model<ChangeState> {
     });
   }
 
+  // Mainly used for navigating from DIFF to OVERVIEW.
   navigateToChange(openReplyDialog = false) {
     const url = this.changeUrl(openReplyDialog);
     if (!url) return;
     this.navigation.setUrl(url);
   }
 
-  navigateToChangeAndReset() {
+  /**
+   * Wipes all URL parameters and other view state and goes to the change
+   * overview page, forcing a reload.
+   *
+   * This will also wipe the `patchNum`, so will always go to the latest
+   * patchset.
+   */
+  navigateToChangeResetReload() {
     if (!this.change) return;
     const url = createChangeUrl({change: this.change, forceReload: true});
     if (!url) return;

@@ -1193,7 +1193,9 @@ export class GrComment extends LitElement {
     // a discard or a save action.
     const messageToSave = this.messageText.trimEnd();
     if (messageToSave === '') {
-      await this.getCommentsModel().discardDraft(id(this.comment));
+      if (!this.permanentEditingMode || this.somethingToSave()) {
+        await this.getCommentsModel().discardDraft(id(this.comment));
+      }
     } else {
       // No need to make a backend call when nothing has changed.
       while (this.somethingToSave()) {

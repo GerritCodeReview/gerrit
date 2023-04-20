@@ -124,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8531e7_09e807cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T20:44:14Z",
+      "side": 1,
+      "message": "The chain is complete: https://gerrit-review.googlesource.com/c/gerrit/+/370099",
+      "parentUuid": "b932cdf1_11b82623",
+      "revId": "2b34552d80f16d8e5abeb0f2bed47441fd4261a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22984295_1d5e030c",

@@ -238,8 +238,12 @@ export function isDraftThread(thread: CommentThread): boolean {
   return isDraft(getLastComment(thread));
 }
 
+/**
+ * Returns true, if the thread consists only of one comment that has not yet
+ * been saved to the backend.
+ */
 export function isNewThread(thread: CommentThread): boolean {
-  return isNew(getLastComment(thread));
+  return isNew(getFirstComment(thread));
 }
 
 export function isMentionedThread(

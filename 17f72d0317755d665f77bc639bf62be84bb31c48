@@ -22,6 +22,30 @@
       },
       "revId": "17f72d0317755d665f77bc639bf62be84bb31c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a8695f6_51a3fea3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T09:03:53Z",
+      "side": 1,
+      "message": "This is the relevant code location, if you want to dig deeper: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts;l\u003d308;drc\u003d04f708f374cdab86b2e00c4f38015738d8f50407\n\nYes, the same applies for the end of the file.\n\nThe thread context comes back along with the comments. When returned from the backend that is not really a \"diff object\". It is computed here: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts;l\u003d669;drc\u003d610bb4fad4bcac9d779d4f99e4deaa12fac2f3f3\n\nWe are only setting `b` in the DiffContent chunks, so yeah, this is just \"added content\" then.\n\nFor normal diffs we retrieve the entire file content. Then `context` just becomes a client side rendering preference, which we are respecting when converting the diff chunks to groups, see logic above in gr-diff-processor. For comment context however, we only retrieve the lines that were affected and `context` is a URL parameter sent along with the request.\n\nFWIW I think it is fine to ignore the user setting for `context` in the context of comment contexts. Even if you generally prefer to see 10 lines of context in diffs, then you probably don\u0027t want to see that much code in comment contexts.\n\n`skip` was originally just used for very large files. The entire comment context diff is a bit messy and requires some hacks. We could have probably designed that better.",
+      "parentUuid": "28315641_417dc814",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "17f72d0317755d665f77bc639bf62be84bb31c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

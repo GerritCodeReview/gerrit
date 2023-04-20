@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f1aae37_bd713134",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T10:53:31Z",
+      "side": 1,
+      "message": "Looks good, thanks for cleaning up these core, all, promises",
+      "revId": "af79b34ed88423dce5fdf102a2b1319560a3f34c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

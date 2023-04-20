@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29cb82d8_af414e41",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T13:43:02Z",
+      "side": 0,
+      "message": "Sorry. I have should left a comment about that.\n\nThe \"_allPatchsets does not know value.patchNum\" user journey is pretty broken at the moment, no matter what we do here or in change model.\n\nThere will be 404s for loading the files and comments and those will result in a page wide 404 dialog.\n\nSo this is generally a good idea to fix, but that would involve also to think deeper about handling errors coming back from REST API calls. So I don\u0027t feel up to handling this on the side. :-/",
+      "parentUuid": "84770c1e_2cfae9fe",
+      "range": {
+        "startLine": 2009,
+        "startChar": 54,
+        "endLine": 2009,
+        "endChar": 65
+      },
+      "revId": "42c3526bd57a09612e5a7174034173b5e82356cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cb2919a_8e4a9147",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-20T11:23:54Z",
       "side": 0,
       "message": "So change view needed prefs only for calculating latest Patchset?",
+      "range": {
+        "startLine": 2486,
+        "startChar": 4,
+        "endLine": 2486,
+        "endChar": 37
+      },
+      "revId": "42c3526bd57a09612e5a7174034173b5e82356cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a1b14e_31d20917",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2486,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T13:43:02Z",
+      "side": 0,
+      "message": "Yes. We don\u0027t need `prefs` in change view anymore.",
+      "parentUuid": "1cb2919a_8e4a9147",
       "range": {
         "startLine": 2486,
         "startChar": 4,

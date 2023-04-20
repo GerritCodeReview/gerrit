@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82bd9467_f52ea142",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T08:48:39Z",
+      "side": 1,
+      "message": "the name and the comment do not match anymore.\n\nI don\u0027t see immediately why a `newThread` should have only one comment and a thread with a new draft reply is not a `newThread`.\n\nI think this refers to an `unsavedThread` as well, which means a thread with a draft reply that has not been saved yet?",
+      "range": {
+        "startLine": 245,
+        "startChar": 16,
+        "endLine": 245,
+        "endChar": 27
+      },
+      "revId": "7c1f9d8fab785792e1630552e02918252aa11042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82490990_0b4e0c71",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T08:48:39Z",
+      "side": 1,
+      "message": "should this be `unsavedDraft`? I am not sure where the terminology `new` comes from. To me a draft is new even if it is `saved`/`unsaved`.",
+      "range": {
+        "startLine": 246,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 14
+      },
+      "revId": "7c1f9d8fab785792e1630552e02918252aa11042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

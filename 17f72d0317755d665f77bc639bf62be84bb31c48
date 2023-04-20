@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28315641_417dc814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-20T07:57:10Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this calculation works. I\u0027ve seen examples of missing context for lines which are not in the beginning of the file. Is it counting number of lines after the last changed line? But for the thread context, we don\u0027t show diffs, only the contents of the file, so how does it work? Also the context lines preference setting doesn\u0027t seem to be respected either. As we only show up to 3 lines before and after for the thread context. So it seems like we have an ignored setting that is meaningfully affecting and breaking the behavior. \n\nMarking as resolved as this doesn\u0027t affect the fix. But could you explain, what exactly is happening. What does it mean that the line is skipped vs. that the line is hidden by context control? Why does user setting of 10 breaks the logic, but seems to be ignored in actual rendering.",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "17f72d0317755d665f77bc639bf62be84bb31c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

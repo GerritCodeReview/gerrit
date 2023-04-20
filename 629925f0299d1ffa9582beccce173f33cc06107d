@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "434ef9f6_2c9705c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T08:34:03Z",
+      "side": 1,
+      "message": "`firstUpdated` won\u0027t work, because we don\u0027t know whether the change is set and the messages list is rendered at that point.\n\nWhat do you not like about the pattern? :-)",
+      "parentUuid": "ea1a1578_9a4497b3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2528e2b_91370a84",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-20T08:10:21Z",
       "side": 1,
       "message": "move up with rest of the private properties?",
+      "range": {
+        "startLine": 2111,
+        "startChar": 0,
+        "endLine": 2113,
+        "endChar": 0
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2b604bf_fff9e3a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T08:34:03Z",
+      "side": 1,
+      "message": "I like the pattern of keeping properties next to methods, iff the property is only used in that one method. WDYT?",
+      "parentUuid": "c2528e2b_91370a84",
       "range": {
         "startLine": 2111,
         "startChar": 0,

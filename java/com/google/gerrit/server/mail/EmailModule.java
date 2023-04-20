@@ -30,7 +30,7 @@ import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
-import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.mail.send.MergedSender;
@@ -52,7 +52,6 @@ public class EmailModule extends FactoryModule {
     factory(ModifyReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);
-    factory(DeleteVoteSender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(MergedSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
@@ -195,6 +194,34 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("deleteReviewer", changeEmail);
+    }
+  }
+
+  public static class DeleteVoteChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final DeleteVoteChangeEmailDecorator deleteVoteChangeEmailDecorator;
+
+    @Inject
+    DeleteVoteChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        DeleteVoteChangeEmailDecorator deleteVoteChangeEmailDecorator) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.deleteVoteChangeEmailDecorator = deleteVoteChangeEmailDecorator;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), deleteVoteChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("deleteVote", changeEmail);
     }
   }
 }

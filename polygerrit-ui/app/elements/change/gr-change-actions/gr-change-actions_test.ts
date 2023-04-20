@@ -40,7 +40,7 @@ import {
   TopicName,
 } from '../../../types/common';
 import {ActionType} from '../../../api/change-actions';
-import {SinonFakeTimers} from 'sinon';
+import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -56,10 +56,17 @@ import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-reve
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
   let element: GrChangeActions;
+  let navigateResetStub: SinonStubbedMember<
+    ChangeModel['navigateToChangeResetReload']
+  >;
 
   suite('basic tests', () => {
     setup(async () => {
@@ -139,6 +146,10 @@ suite('gr-change-actions tests', () => {
         _account_id: 123 as AccountId,
       };
       stubRestApi('getRepoBranches').returns(Promise.resolve([]));
+      navigateResetStub = sinon.stub(
+        testResolver(changeModelToken),
+        'navigateToChangeResetReload'
+      );
 
       await element.updateComplete;
       await element.reload();
@@ -642,13 +653,11 @@ suite('gr-change-actions tests', () => {
     });
 
     test('rebase change fires reload event', async () => {
-      const eventStub = sinon.stub(element, 'dispatchEvent');
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
         new Response()
       );
-      assert.isTrue(eventStub.called);
-      assert.equal(eventStub.lastCall.args[0].type, 'reload');
+      assert.isTrue(navigateResetStub.called);
     });
 
     test("rebase dialog gets recent changes each time it's opened", async () => {

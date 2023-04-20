@@ -25,15 +25,21 @@ import {
   queryAndAssert,
   stubFlags,
   stubRestApi,
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   waitEventLoop,
   waitQueryAndAssert,
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   waitUntil,
   waitUntilVisible,
 } from '../../../test/test-utils';
 import {
   createChangeViewState,
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   createApproval,
   createChange,
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   createChangeMessages,
   createCommit,
   createMergeable,
@@ -44,8 +50,11 @@ import {
   createUserConfig,
   TEST_NUMERIC_CHANGE_ID,
   TEST_PROJECT_NAME,
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   createEditRevision,
   createAccountWithIdNameAndEmail,
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   createChangeViewChange,
   createRelatedChangeAndCommitInfo,
   createAccountDetailWithId,
@@ -55,7 +64,6 @@ import {
 import {GrChangeView} from './gr-change-view';
 import {
   AccountId,
-  ApprovalInfo,
   BasePatchSetNum,
   ChangeId,
   ChangeInfo,
@@ -71,10 +79,12 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
-  DetailedLabelInfo,
   RepoName,
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   QuickLabelInfo,
   PatchSetNumber,
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   CommentThread,
   ChangeStates,
 } from '../../../types/common';
@@ -95,7 +105,6 @@ import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list';
 import {fixture, html, assert} from '@open-wc/testing';
-import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
@@ -970,12 +979,15 @@ suite('gr-change-view tests', () => {
           },
         },
       };
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
       const relatedChanges = element.shadowRoot!.querySelector(
         '#relatedChanges'
       ) as GrRelatedChangesList;
       sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
       sinon.spy(element, 'viewStateChanged');
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
       element.viewState = createChangeViewState();
     });
   });
@@ -1369,6 +1381,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(element.isSubmitEnabled());
   });
 
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   test('reload is called when an approved label is removed', async () => {
     const vote: ApprovalInfo = {
       ...createApproval(),
@@ -1429,6 +1442,8 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.calledOnce);
   });
 
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   test('reply button has updated count when there are drafts', () => {
     const getLabel = (canReview: boolean) => {
       element.change!.actions!.ready = {enabled: canReview};
@@ -1452,6 +1467,7 @@ suite('gr-change-view tests', () => {
     assert.equal(getLabel(true), 'Start Review (3)');
   });
 
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   test('change num change', async () => {
     const change = {
       ...createChangeViewChange(),
@@ -1580,6 +1596,8 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.called);
   });
 
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   test('computeCopyTextForTitle', () => {
     element.change = {
       ...createChangeViewChange(),
@@ -1639,6 +1657,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('handleCommitMessageSave trims trailing whitespace', async () => {
+    element.changeNum = TEST_NUMERIC_CHANGE_ID;
     element.change = createChangeViewChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = stubRestApi('putChangeCommitMessage').returns(

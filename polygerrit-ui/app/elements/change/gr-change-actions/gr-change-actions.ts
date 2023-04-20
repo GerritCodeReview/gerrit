@@ -81,7 +81,6 @@ import {
   fireAlert,
   fireError,
   fireNoBubbleNoCompose,
-  fireReload,
 } from '../../../utils/event-util';
 import {
   getApprovalInfo,
@@ -1894,7 +1893,7 @@ export class GrChangeActions
           // Hide rebase dialog only if the action succeeds
           this.actionsModal?.close();
           this.hideAllDialogs();
-          fireReload(this, true);
+          this.getChangeModel().navigateToChangeResetReload();
           break;
         case ChangeActions.REVERT_SUBMISSION: {
           const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
@@ -1910,7 +1909,7 @@ export class GrChangeActions
           break;
         }
         default:
-          fireReload(this, true);
+          this.getChangeModel().navigateToChangeResetReload();
           break;
       }
     });
@@ -1978,7 +1977,7 @@ export class GrChangeActions
               'Cannot set label: a newer patch has been ' +
               'uploaded to this change.',
             action: 'Reload',
-            callback: () => fireReload(this, true),
+            callback: () => this.getChangeModel().navigateToChangeResetReload(),
           });
 
           // Because this is not a network error, call the cleanup function

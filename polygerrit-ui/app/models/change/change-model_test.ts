@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
+  TEST_NUMERIC_CHANGE_ID,
   createChange,
   createChangeMessageInfo,
   createChangeViewState,
@@ -143,17 +144,30 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 1);
 
     // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
     state = await waitForLoadingStatus(LoadingStatus.RELOADING);
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
     assert.equal(stub.callCount, 2);
     assert.equal(state?.change, knownChange);
+=======
+    assert.equal(stub.callCount, 3);
+    assert.equal(stub.getCall(1).firstArg, undefined);
+    assert.equal(stub.getCall(2).firstArg, TEST_NUMERIC_CHANGE_ID);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
     assert.equal(stub.callCount, 2);
     assert.equal(state?.change, knownChange);
+=======
+    assert.equal(stub.callCount, 3);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   });
 
   test('navigating to another change', async () => {

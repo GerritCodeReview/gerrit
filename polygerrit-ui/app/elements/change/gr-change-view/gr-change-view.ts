@@ -266,35 +266,25 @@ export class GrChangeView extends LitElement {
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
-  private _viewState?: ChangeViewState;
-
-  @property({type: Object})
-  get viewState() {
-    return this._viewState;
-  }
-
-  set viewState(viewState: ChangeViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
-  }
+  @state()
+  viewState?: ChangeViewState;
 
   @property({type: String})
   backPage?: string;
 
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   @state()
   private hasParent?: boolean;
 
   // Private but used in tests.
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   @state()
   commentThreads?: CommentThread[];
 
   // Don't use, use serverConfig instead.
   private _serverConfig?: ServerInfo;
 
-  // Private but used in tests.
   @state()
   get serverConfig() {
     return this._serverConfig;
@@ -586,14 +576,16 @@ export class GrChangeView extends LitElement {
       this.handleCommitMessageCancel()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-
     this.addEventListener('show-tab', e => this.setActiveTab(e));
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
     this.addEventListener('reload', e => {
       this.loadData(
         /* isLocationChange= */ false,
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
       );
     });
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   }
 
   private setupShortcuts() {
@@ -601,7 +593,7 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
-      fireReload(this, true)
+      this.getChangeModel().navigateToChangeResetReload()
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_REPLY_DIALOG, () =>
       this.handleOpenReplyDialog()
@@ -740,6 +732,52 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
+=======
+      () => this.getChangeModel().changeNum$,
+      changeNum => {
+        // The change view is tied to a specific change number, so don't update
+        // changeNum to undefined and only set it once.
+        if (changeNum && !this.changeNum) this.changeNum = changeNum;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().basePatchNum$,
+      basePatchNum => (this.basePatchNum = basePatchNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().mergeable$,
+      mergeable => (this.mergeable = mergeable)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revision$,
+      revision => (this.revision = revision)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeLoadingStatus$,
+      status => (this.loading = status !== LoadingStatus.LOADED)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestRevision$,
+      revision => {
+        this.latestCommitMessage = this.prepareCommitMsgForLinkify(
+          revision?.commit?.message ?? ''
+        );
+      }
+    );
+    subscribe(
+      this,
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
       () => this.getUserModel().account$,
       account => {
         this.account = account;
@@ -1762,7 +1800,7 @@ export class GrChangeView extends LitElement {
 
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
         this.editingCommitMessage = false;
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
@@ -1975,7 +2013,7 @@ export class GrChangeView extends LitElement {
     );
     assertIsDefined(this.replyModal);
     this.replyModal.close();
-    fireReload(this);
+    this.getChangeModel().navigateToChangeResetReload();
   }
 
   private handleReplyCancel() {
@@ -2026,6 +2064,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   hasPatchRangeChanged(viewState: ChangeViewState) {
     if (!this.patchRange) return false;
     if (this.patchRange.basePatchNum !== viewState.basePatchNum) return true;
@@ -2170,6 +2209,8 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
+=======
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
@@ -2307,6 +2348,9 @@ export class GrChangeView extends LitElement {
     return PARENT;
   }
 
+  /**
+   * This is the URL equivalent of changeModel.navigateToChangeResetReload().
+   */
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
     return createChangeUrl({
@@ -2739,6 +2783,7 @@ export class GrChangeView extends LitElement {
     }
   }
 
+<<<<<<< HEAD   (785334 Merge branch 'stable-3.7' into stable-3.8)
   // Private but used in tests.
   getLatestCommitMessage() {
     assertIsDefined(this.changeNum, 'changeNum');
@@ -2897,6 +2942,20 @@ export class GrChangeView extends LitElement {
   private async filesLoaded() {
     if (!this.isConnected) await until(this.connected$, connected => connected);
     await until(this.getFilesModel().files$, f => f.length > 0);
+=======
+  private async reportChangeDisplayed() {
+    await waitUntil(() => !!this.metadata);
+    await untilRendered(this.metadata!);
+    await waitUntil(() => !!this.fileList);
+    await untilRendered(this.fileList!);
+    await waitUntil(() => !!this.messagesList);
+    await untilRendered(this.messagesList!);
+    // We are ending the timer after each change view update, because ending a
+    // timer that was not started is a no-op. :-)
+    if (this.change && this.isConnected && !this.isChangeObsolete()) {
+      this.reporting.changeDisplayed(roleDetails(this.change, this.account));
+    }
+>>>>>>> CHANGE (d49e83 Remove `viewStateChanged()` method from gr-change-view)
   }
 
   /**
@@ -3041,7 +3100,7 @@ export class GrChangeView extends LitElement {
             dismissOnNavigation: true,
             showDismiss: true,
             action: 'Reload',
-            callback: () => fireReload(this, true),
+            callback: () => this.getChangeModel().navigateToChangeResetReload(),
           });
         });
     }, this.serverConfig.change.update_delay * 1000);

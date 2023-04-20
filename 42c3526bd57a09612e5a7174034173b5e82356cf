@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84770c1e_2cfae9fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:23:54Z",
+      "side": 0,
+      "message": "So we now know patch in all cases?",
+      "range": {
+        "startLine": 2009,
+        "startChar": 54,
+        "endLine": 2009,
+        "endChar": 65
+      },
+      "revId": "42c3526bd57a09612e5a7174034173b5e82356cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb2919a_8e4a9147",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2486,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:23:54Z",
+      "side": 0,
+      "message": "So change view needed prefs only for calculating latest Patchset?",
+      "range": {
+        "startLine": 2486,
+        "startChar": 4,
+        "endLine": 2486,
+        "endChar": 37
+      },
+      "revId": "42c3526bd57a09612e5a7174034173b5e82356cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

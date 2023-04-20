@@ -46,6 +46,30 @@
       },
       "revId": "17f72d0317755d665f77bc639bf62be84bb31c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9bcd312_30f94d63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-20T09:14:04Z",
+      "side": 1,
+      "message": "Thank you for taking the time to write out the explanation! 🙏\n\nI think the 2 things that make it particularly confusing: The difference between \"skip\" and \"hidden\"; and the fact that we do the same calculations for chunks and groups even when we \"just render the code\" for the context.",
+      "parentUuid": "4a8695f6_51a3fea3",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "17f72d0317755d665f77bc639bf62be84bb31c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

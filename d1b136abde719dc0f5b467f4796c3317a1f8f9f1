@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eb0e1413_93240045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T15:50:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cecd573_f654e12e",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a9e13b19_22397d2d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -82,6 +106,30 @@
         "startChar": 12,
         "endLine": 2102,
         "endChar": 21
+      },
+      "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "729a1267_0d1fafd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T15:50:55Z",
+      "side": 1,
+      "message": "I think it is not worth it, because the worst that can happen is that messages list does not find the message and logs an error. So we would not gain much by such a precaution.",
+      "parentUuid": "6b84185b_c44ebc2f",
+      "range": {
+        "startLine": 2102,
+        "startChar": 6,
+        "endLine": 2102,
+        "endChar": 49
       },
       "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

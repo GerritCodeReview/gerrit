@@ -34,7 +34,7 @@ import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {whenVisible} from '../../../utils/dom-util';
+import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ChangeStatus, Tab, DiffViewMode} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -141,7 +141,6 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
@@ -462,8 +461,6 @@ export class GrChangeView extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly getFilesModel = resolve(this, filesModelToken);
-
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getRelatedChangesModel = resolve(
@@ -521,10 +518,7 @@ export class GrChangeView extends LitElement {
 
     this.addEventListener('show-tab', e => this.setActiveTab(e));
     this.addEventListener('reload', e => {
-      this.loadData(
-        /* isLocationChange= */ false,
-        /* clearPatchset= */ e.detail && e.detail.clearPatchset
-      );
+      this.loadData(/* clearPatchset= */ e.detail && e.detail.clearPatchset);
     });
   }
 
@@ -1621,6 +1615,8 @@ export class GrChangeView extends LitElement {
     if (tabIndex !== -1 && this.tabs!.selected !== tabIndex) {
       this.tabs!.selected = tabIndex;
     }
+    this.reportChangeDisplayed();
+    this.reportFullyLoaded();
   }
 
   private readonly handleScroll = () => {
@@ -2011,7 +2007,7 @@ export class GrChangeView extends LitElement {
     }
 
     this.changeNum = this.viewState.changeNum;
-    this.loadData(true);
+    this.loadData();
   }
 
   // Private but used in tests.
@@ -2335,20 +2331,6 @@ export class GrChangeView extends LitElement {
     return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
   }
 
-  private async untilModelLoaded() {
-    // NOTE: Wait until this page is connected before determining whether the
-    // model is loaded.  This can happen when viewState changes when setting up
-    // this view. It's unclear whether this issue is related to Polymer
-    // specifically.
-    if (!this.isConnected) {
-      await until(this.connected$, connected => connected);
-    }
-    await until(
-      this.getChangeModel().changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
-  }
-
   private isParentCurrent() {
     const revisionActions = this.currentRevisionActions;
     if (revisionActions && revisionActions.rebase) {
@@ -2361,36 +2343,49 @@ export class GrChangeView extends LitElement {
   /**
    * Reload the change.
    *
-   * @param isLocationChange Reloads the related changes
-   * when true and ends reporting events that started on location change.
    * @param clearPatchset Reloads the change ignoring any patchset
    * choice made.
    * @return A promise that resolves when the core data has loaded.
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean): void {
+  loadData(clearPatchset?: boolean): void {
     if (this.isChangeObsolete()) return;
     if (clearPatchset && this.change) {
       this.getChangeModel().navigateToChangeAndReset();
       return;
     }
-    const detailCompletes = this.untilModelLoaded().then(() => {
-      if (isLocationChange) {
-        this.reporting.changeDisplayed(roleDetails(this.change, this.account));
-      }
-    });
-
-    Promise.all([detailCompletes, this.filesLoaded()]).then(() => {
-      if (isLocationChange) {
-        this.reporting.changeFullyLoaded();
-      }
-    });
   }
 
-  private async filesLoaded() {
-    if (!this.isConnected) await until(this.connected$, connected => connected);
-    await until(this.getFilesModel().files$, f => f.length > 0);
+  private async reportChangeDisplayed() {
+    await waitUntil(() => !!this.metadata);
+    await untilRendered(this.metadata!);
+    await waitUntil(() => !!this.fileList);
+    await untilRendered(this.fileList!);
+    await waitUntil(() => !!this.messagesList);
+    await untilRendered(this.messagesList!);
+    // We are ending the timer after each change view update, because ending a
+    // timer that was not started is a no-op. :-)
+    if (this.change && this.isConnected && !this.isChangeObsolete()) {
+      this.reporting.changeDisplayed(roleDetails(this.change, this.account));
+    }
+  }
+
+  private async reportFullyLoaded() {
+    await waitUntil(() => !!this.metadata);
+    await untilRendered(this.metadata!);
+    await waitUntil(() => !!this.fileList);
+    await untilRendered(this.fileList!);
+    await waitUntil(() => !!this.messagesList);
+    await untilRendered(this.messagesList!);
+    await waitUntil(() => this.mergeable !== undefined);
+    await until(this.getCommentsModel().comments$, c => c !== undefined);
+    await until(this.getCommentsModel().drafts$, c => c !== undefined);
+    // We are ending the timer after each change view update, because ending a
+    // timer that was not started is a no-op. :-)
+    if (this.change && this.isConnected && !this.isChangeObsolete()) {
+      this.reporting.changeFullyLoaded();
+    }
   }
 
   /**

@@ -781,11 +781,13 @@ Matches changes with either a -1, -2, or any lower score.
 
 `label:Code-Review=MAX`::
 +
-Matches changes with label voted with the highest possible score.
+Matches changes with label voted with the highest possible score.  Note this
+is an exact match only, comparison operators `>`, `<`, etc. are not supported.
 
 `label:Code-Review=MIN`::
 +
-Matches changes with label voted with the lowest possible score.
+Matches changes with label voted with the lowest possible score.   Note this
+is an exact match only, comparison operators `>`, `<`, etc. are not supported.
 
 `label:Code-Review=ANY`::
 +
@@ -801,9 +803,10 @@ for the code review label). The maximum supported value for `count` is 5.
 
 `label:Code-Review=+1,count>=2`::
 +
-Matches changes having two or more +1 votes to the code-review label. Can also
-be used with the {MAX, MIN, ANY} label votes. All operators `>`, `>=`, `<`, `<=`
-are supported.
+Matches changes having two or more +1 votes to the code-review label.
+All operators `>`, `>=`, `<`, `<=` are supported for the count value.
+Can also be used with the {MAX, MIN, ANY} label votes, but note that
+these must be an exact, not comparision match (i.e. `>MIN` is not valid).
 Note that a query like `label:Code-Review=+1,count<x` will not match with
 changes having zero +1 votes to this label.
 

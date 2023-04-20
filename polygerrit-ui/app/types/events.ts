@@ -52,7 +52,7 @@ declare global {
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
     // prettier-ignore
-    'reload': ReloadEvent;
+    'reload': CustomEvent<{}>;
     'remove-reviewer': RemoveReviewerEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
@@ -68,7 +68,7 @@ declare global {
     'network-error': NetworkErrorEvent;
     'page-error': PageErrorEvent;
     // prettier-ignore
-    'reload': ReloadEvent;
+    'reload': CustomEvent<{}>;
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
@@ -185,11 +185,6 @@ export interface PageErrorEventDetail {
   response?: Response;
 }
 export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
-
-export interface ReloadEventDetail {
-  clearPatchset: boolean;
-}
-export type ReloadEvent = CustomEvent<ReloadEventDetail>;
 
 export interface RemoveAccountEventDetail {
   account: AccountInfo;

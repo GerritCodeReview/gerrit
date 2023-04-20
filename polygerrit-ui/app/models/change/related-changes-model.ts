@@ -128,12 +128,11 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
 
   private loadRelatedChanges() {
     return combineLatest([
-      this.changeModel.reload$,
       this.changeModel.changeNum$,
       this.changeModel.latestPatchNum$,
     ])
       .pipe(
-        switchMap(([_, changeNum, latestPatchNum]) => {
+        switchMap(([changeNum, latestPatchNum]) => {
           if (!changeNum || !latestPatchNum) return of(undefined);
           return from(
             this.restApiService
@@ -148,12 +147,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
   }
 
   private loadSubmittedTogether() {
-    return combineLatest([
-      this.changeModel.reload$,
-      this.changeModel.changeNum$,
-    ])
+    return this.changeModel.changeNum$
       .pipe(
-        switchMap(([_, changeNum]) => {
+        switchMap(changeNum => {
           if (!changeNum) return of(undefined);
           return from(
             this.restApiService.getChangesSubmittedTogether(changeNum)
@@ -167,13 +163,12 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
 
   private loadCherryPicks() {
     return combineLatest([
-      this.changeModel.reload$,
       this.changeModel.changeNum$,
       this.changeModel.changeId$,
       this.changeModel.repo$,
     ])
       .pipe(
-        switchMap(([_, changeNum, changeId, repo]) => {
+        switchMap(([changeNum, changeId, repo]) => {
           if (!changeNum || !changeId || !repo) return of(undefined);
           return from(
             this.restApiService.getChangeCherryPicks(repo, changeId, changeNum)
@@ -187,13 +182,12 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
 
   private loadConflictingChanges() {
     return combineLatest([
-      this.changeModel.reload$,
       this.changeModel.changeNum$,
       this.changeModel.status$,
       this.changeModel.mergeable$,
     ])
       .pipe(
-        switchMap(([_, changeNum, status, mergeable]) => {
+        switchMap(([changeNum, status, mergeable]) => {
           if (!changeNum || !status || !mergeable) return of(undefined);
           if (status !== ChangeStatus.NEW) return of(undefined);
           return from(this.restApiService.getChangeConflicts(changeNum));
@@ -206,13 +200,12 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
 
   private loadSameTopicChanges() {
     return combineLatest([
-      this.changeModel.reload$,
       this.changeModel.changeNum$,
       this.changeModel.topic$,
       this.configModel.serverConfig$,
     ])
       .pipe(
-        switchMap(([_, changeNum, topic, config]) => {
+        switchMap(([changeNum, topic, config]) => {
           if (!changeNum || !topic || !config) return of(undefined);
           if (config.change.submit_whole_topic) return of(undefined);
           return from(
@@ -229,12 +222,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
   }
 
   private loadRevertingChanges() {
-    return combineLatest([
-      this.changeModel.reload$,
-      this.changeModel.revertingChangeIds$,
-    ])
+    return this.changeModel.revertingChangeIds$
       .pipe(
-        switchMap(([_, changeIds]) => {
+        switchMap(changeIds => {
           if (!changeIds?.length) return of([]);
           return forkJoin(
             changeIds.map(changeId =>

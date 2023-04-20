@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
+  TEST_NUMERIC_CHANGE_ID,
   createChange,
   createChangeMessageInfo,
   createChangeViewState,
@@ -269,16 +270,19 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 1);
 
     // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
     state = await waitForLoadingStatus(LoadingStatus.RELOADING);
-    assert.equal(stub.callCount, 2);
+    assert.equal(stub.callCount, 3);
+    assert.equal(stub.getCall(1).firstArg, undefined);
+    assert.equal(stub.getCall(2).firstArg, TEST_NUMERIC_CHANGE_ID);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
-    assert.equal(stub.callCount, 2);
+    assert.equal(stub.callCount, 3);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 

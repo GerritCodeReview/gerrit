@@ -308,7 +308,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.actionModal.close();
     if (getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED)
       return;
-    fireReload(this, true);
+    fireReload(this);
   }
 
   private async handleConfirm() {

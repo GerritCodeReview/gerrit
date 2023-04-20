@@ -1326,10 +1326,10 @@ export class GrRouter implements Finalizable, NavigationService {
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
-    if (queryMap.has('forceReload')) state.forceReload = true;
     if (queryMap.has('openReplyDialog')) state.openReplyDialog = true;
 
     const tab = queryMap.get('tab');
+    if (queryMap.has('forceReload')) state.forceReload = true;
     if (tab) state.tab = tab;
     const checksPatchset = Number(queryMap.get('checksPatchset'));
     if (Number.isInteger(checksPatchset) && checksPatchset > 0) {
@@ -1422,6 +1422,8 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,
     };
+    const queryMap = new URLSearchParams(ctx.querystring);
+    if (queryMap.has('forceReload')) state.forceReload = true;
     assertIsDefined(state.repo);
     this.reporting.setRepoName(state.repo);
     this.reporting.setChangeId(changeNum);
@@ -1443,6 +1445,8 @@ export class GrRouter implements Finalizable, NavigationService {
       childView: ChangeChildView.DIFF,
       diffView: {path: ctx.params[8]},
     };
+    const queryMap = new URLSearchParams(ctx.querystring);
+    if (queryMap.has('forceReload')) state.forceReload = true;
     const address = this.parseLineAddress(ctx.hash);
     if (address) {
       state.diffView!.leftSide = address.leftSide;
@@ -1493,6 +1497,8 @@ export class GrRouter implements Finalizable, NavigationService {
       childView: ChangeChildView.EDIT,
       editView: {path: ctx.params[3], lineNum: Number(ctx.hash)},
     };
+    const queryMap = new URLSearchParams(ctx.querystring);
+    if (queryMap.has('forceReload')) state.forceReload = true;
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1516,14 +1522,7 @@ export class GrRouter implements Finalizable, NavigationService {
     };
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;
-    if (queryMap.has('forceReload')) {
-      state.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
+    if (queryMap.has('forceReload')) state.forceReload = true;
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
     this.setState(state);

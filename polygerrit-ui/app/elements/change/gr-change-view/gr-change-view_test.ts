@@ -23,13 +23,11 @@ import {
   queryAndAssert,
   stubFlags,
   stubRestApi,
-  waitEventLoop,
   waitUntil,
   waitUntilVisible,
 } from '../../../test/test-utils';
 import {
   createChangeViewState,
-  createApproval,
   createChangeMessages,
   createRevision,
   createRevisions,
@@ -37,7 +35,6 @@ import {
   createUserConfig,
   TEST_NUMERIC_CHANGE_ID,
   TEST_PROJECT_NAME,
-  createAccountWithIdNameAndEmail,
   createChangeViewChange,
   createAccountDetailWithId,
   createParsedChange,
@@ -45,7 +42,6 @@ import {
 import {GrChangeView} from './gr-change-view';
 import {
   AccountId,
-  ApprovalInfo,
   BasePatchSetNum,
   CommitId,
   EDIT,
@@ -56,9 +52,7 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
-  DetailedLabelInfo,
   RepoName,
-  QuickLabelInfo,
   CommentThread,
   SavingState,
 } from '../../../types/common';
@@ -76,7 +70,6 @@ import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
-import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
@@ -919,8 +912,6 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sinon.stub(element, 'loadData');
-      sinon.spy(element, 'viewStateChanged');
       element.viewState = createChangeViewState();
     });
   });
@@ -1137,64 +1128,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(element.isSubmitEnabled());
   });
 
-  test('reload is called when an approved label is removed', async () => {
-    const vote: ApprovalInfo = {
-      ...createApproval(),
-      _account_id: 1 as AccountId,
-      name: 'bojack',
-      value: 1,
-    };
-    element.changeNum = TEST_NUMERIC_CHANGE_ID;
-    element.basePatchNum = PARENT;
-    element.patchNum = 1 as RevisionPatchSetNum;
-    const change = {
-      ...createParsedChange(),
-      owner: createAccountWithIdNameAndEmail(),
-      revisions: {
-        rev2: createRevision(2),
-        rev1: createRevision(1),
-        rev13: createRevision(13),
-        rev3: createRevision(3),
-      },
-      current_revision: 'rev3' as CommitId,
-      status: ChangeStatus.NEW,
-      labels: {
-        test: {
-          all: [vote],
-          default_value: 0,
-          values: {},
-          approved: {},
-        },
-      },
-    };
-    element.change = change;
-    await element.updateComplete;
-    const reloadStub = sinon.stub(element, 'loadData');
-    const newChange = {...element.change};
-    (newChange.labels!.test! as DetailedLabelInfo).all = [];
-    element.change = deepClone(newChange);
-    await element.updateComplete;
-    assert.isFalse(reloadStub.called);
-
-    assert.isDefined(element.change);
-    const testLabels: DetailedLabelInfo & QuickLabelInfo =
-      newChange.labels!.test;
-    assertIsDefined(testLabels);
-    testLabels.all!.push(vote);
-    testLabels.all!.push(vote);
-    testLabels.approved = vote;
-    element.change = deepClone(newChange);
-    await element.updateComplete;
-    assert.isFalse(reloadStub.called);
-
-    assert.isDefined(element.change);
-    (newChange.labels!.test! as DetailedLabelInfo).all = [];
-    element.change = deepClone(newChange);
-    await element.updateComplete;
-    assert.isTrue(reloadStub.called);
-    assert.isTrue(reloadStub.calledOnce);
-  });
-
   test('reply button has updated count when there are drafts', () => {
     const getLabel = (canReview: boolean) => {
       element.change!.actions!.ready = {enabled: canReview};
@@ -1213,74 +1146,6 @@ suite('gr-change-view tests', () => {
     element.draftCount = 3;
     assert.equal(getLabel(false), 'Reply (3)');
     assert.equal(getLabel(true), 'Start Review (3)');
-  });
-
-  test('don’t reload entire page when patchRange changes', async () => {
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    assertIsDefined(element.fileList);
-    await element.fileList.updateComplete;
-    const value: ChangeViewState = {
-      ...createChangeViewState(),
-      view: GerritView.CHANGE,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
-    element.changeNum = undefined;
-    element.viewState = value;
-    await element.updateComplete;
-    assert.isTrue(reloadStub.calledOnce);
-
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        rev1: createRevision(1),
-        rev2: createRevision(2),
-      },
-    };
-
-    value.basePatchNum = 1 as BasePatchSetNum;
-    value.patchNum = 2 as RevisionPatchSetNum;
-    element.viewState = {...value};
-    await element.updateComplete;
-    await waitEventLoop();
-    assert.isFalse(reloadStub.calledTwice);
-  });
-
-  test('do not reload entire page when patchRange doesnt change', async () => {
-    assertIsDefined(element.fileList);
-    const reloadStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: ChangeViewState = createChangeViewState();
-    element.viewState = value;
-    // change already loaded
-    assert.isOk(element.changeNum);
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledOnce);
-    element.viewState = {...value};
-    await element.updateComplete;
-    assert.isFalse(reloadStub.calledTwice);
-    assert.isFalse(collapseStub.calledTwice);
-  });
-
-  test('forceReload updates the change', async () => {
-    assertIsDefined(element.fileList);
-    const getChangeStub = stubRestApi('getChangeDetail').returns(
-      Promise.resolve(createParsedChange())
-    );
-    const loadDataStub = sinon
-      .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    element.viewState = {...createChangeViewState(), forceReload: true};
-    await element.updateComplete;
-    assert.isTrue(getChangeStub.called);
-    assert.isTrue(loadDataStub.called);
-    assert.isTrue(collapseStub.called);
-    // patchNum is set by changeChanged, so this verifies that change was set.
-    assert.isOk(element.patchNum);
   });
 
   test('computeCopyTextForTitle', () => {
@@ -1322,6 +1187,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('handleCommitMessageSave trims trailing whitespace', async () => {
+    element.changeNum = TEST_NUMERIC_CHANGE_ID;
     element.change = createChangeViewChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = stubRestApi('putChangeCommitMessage').returns(

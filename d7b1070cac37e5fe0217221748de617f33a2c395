@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b2ae87_cd6b3154",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2000,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T07:40:38Z",
+      "side": 0,
+      "message": "Maybe write in commit message this method was removed in previous change.\nOtherwise it\u0027s unclear why this is removed.",
+      "range": {
+        "startLine": 2000,
+        "startChar": 2,
+        "endLine": 2000,
+        "endChar": 49
+      },
+      "revId": "d7b1070cac37e5fe0217221748de617f33a2c395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

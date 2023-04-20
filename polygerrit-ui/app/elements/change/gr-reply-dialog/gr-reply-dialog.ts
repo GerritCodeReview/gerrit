@@ -88,7 +88,6 @@ import {
   fire,
   fireNoBubble,
   fireIronAnnounce,
-  fireReload,
   fireServerError,
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
@@ -1930,7 +1929,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   _reload() {
-    fireReload(this, true);
+    this.getChangeModel().navigateToChangeResetReload();
     this.cancel();
   }
 

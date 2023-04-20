@@ -266,6 +266,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.openReplyDialog
   );
 
+  public readonly forceReload$ = select(
+    this.state$,
+    state => state?.forceReload
+  );
+
   public readonly commentId$ = select(this.state$, state => state?.commentId);
 
   public readonly edit$ = select(this.state$, state => !!state?.edit);

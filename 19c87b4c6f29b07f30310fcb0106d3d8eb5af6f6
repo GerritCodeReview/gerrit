@@ -39,6 +39,30 @@
       },
       "revId": "19c87b4c6f29b07f30310fcb0106d3d8eb5af6f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeac23cd_296fb6b0",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T13:48:08Z",
+      "side": 1,
+      "message": "They are not obsolete (yet).\n\nWe can\u0027t use those functions anymore here, because we don\u0027t have a changed object, but just a status. And I did not really feel like introducing those utils for just status, as well.",
+      "parentUuid": "e7712b05_864b439e",
+      "range": {
+        "startLine": 435,
+        "startChar": 13,
+        "endLine": 435,
+        "endChar": 46
+      },
+      "revId": "19c87b4c6f29b07f30310fcb0106d3d8eb5af6f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

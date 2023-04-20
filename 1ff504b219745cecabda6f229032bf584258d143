@@ -22,6 +22,30 @@
       },
       "revId": "1ff504b219745cecabda6f229032bf584258d143",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c872ab77_54608e01",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T13:48:08Z",
+      "side": 0,
+      "message": "This is not returned or awaited, so no, I don\u0027t expect any change in metric calculation.",
+      "parentUuid": "458d98e7_d05f3e35",
+      "range": {
+        "startLine": 2415,
+        "startChar": 11,
+        "endLine": 2415,
+        "endChar": 37
+      },
+      "revId": "1ff504b219745cecabda6f229032bf584258d143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

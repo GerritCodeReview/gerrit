@@ -95,6 +95,12 @@ export enum Timing {
   LCP = 'LCP',
   // WebVitals - Interaction to Next Paint (INP): measures responsiveness
   INP = 'INP',
+  // Time to load preview for a user suggested edit or a fix from checks
+  PREVIEW_FIX_LOAD = 'PreviewFixLoad',
+  // Time to apply fix for a user suggested edit or a fix from checks
+  APPLY_FIX_LOAD = 'ApplyFixLoad',
+  // Time to copy target to clipboard
+  COPY_TO_CLIPBOARD = 'CopyToClipboard',
 }
 
 export enum Interaction {

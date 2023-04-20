@@ -122,8 +122,8 @@ export function fireShowTab(
   fire(target, 'show-tab', detail);
 }
 
-export function fireReload(target: EventTarget, clearPatchset?: boolean) {
-  fire(target, 'reload', {clearPatchset: !!clearPatchset});
+export function fireReload(target: EventTarget) {
+  fire(target, 'reload', {});
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

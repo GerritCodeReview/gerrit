@@ -26,8 +26,12 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
-import {waitForEventOnce} from '../../../utils/event-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
+import {SinonStubbedMember} from 'sinon';
 
 suite('gr-edit-controls tests', () => {
   let element: GrEditControls;
@@ -36,6 +40,9 @@ suite('gr-edit-controls tests', () => {
   let closeDialogSpy: sinon.SinonSpy;
   let hideDialogStub: sinon.SinonStub;
   let queryStub: sinon.SinonStub;
+  let navigateResetStub: SinonStubbedMember<
+    ChangeModel['navigateToChangeResetReload']
+  >;
 
   setup(async () => {
     element = await fixture<GrEditControls>(html`
@@ -47,6 +54,10 @@ suite('gr-edit-controls tests', () => {
     closeDialogSpy = sinon.spy(element, 'closeDialog');
     hideDialogStub = sinon.stub(element, 'hideAllDialogs');
     queryStub = stubRestApi('queryChangeFiles').returns(Promise.resolve([]));
+    navigateResetStub = sinon.stub(
+      testResolver(changeModelToken),
+      'navigateToChangeResetReload'
+    );
     await element.updateComplete;
   });
 
@@ -298,7 +309,7 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(deleteStub.called);
       await deleteStub.lastCall.returnValue;
       assert.equal(element.path, '');
-      assert.equal(eventStub.firstCall.args[0].type, 'reload');
+      assert.equal(navigateResetStub.callCount, 1);
       assert.isTrue(closeDialogSpy.called);
     });
 
@@ -397,7 +408,7 @@ suite('gr-edit-controls tests', () => {
 
       await renameStub.lastCall.returnValue;
       assert.equal(element.path, '');
-      assert.equal(eventStub.firstCall.args[0].type, 'reload');
+      assert.equal(navigateResetStub.callCount, 1);
       assert.isTrue(closeDialogSpy.called);
     });
 
@@ -485,7 +496,7 @@ suite('gr-edit-controls tests', () => {
       assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
       return restoreStub.lastCall.returnValue.then(() => {
         assert.equal(element.path, '');
-        assert.equal(eventStub.firstCall.args[0].type, 'reload');
+        assert.equal(navigateResetStub.callCount, 1);
         assert.isTrue(closeDialogSpy.called);
       });
     });
@@ -553,7 +564,8 @@ suite('gr-edit-controls tests', () => {
       assert.equal(fileStub.lastCall.args[0], 1);
       assert.equal(fileStub.lastCall.args[1], 'test.php');
       assert.equal(fileStub.lastCall.args[2], 'base64');
-      await waitForEventOnce(element, 'reload');
+      await waitUntil(() => navigateResetStub.called);
+      assert.equal(navigateResetStub.callCount, 1);
     });
   });
 

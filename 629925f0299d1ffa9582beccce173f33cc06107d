@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1a1578_9a4497b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T08:10:21Z",
+      "side": 1,
+      "message": "maybeScrollToMessage is a postLoad task that we only need to do once.\n\nI think we hackily ensured performPostLoadTasks is not called multiple times before, so this change does seem like an improvement but I don\u0027t like the new variable `alreadyScrolledToMessage`.\n\nCould this be moved into `firstUpdated`? Then the need for this variable go away?\nI don\u0027t like this pattern of running a method in `update` only once and using a boolean variable to track it.\nIt should ideally integrate itself into firstUpdated somehow.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2528e2b_91370a84",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T08:10:21Z",
+      "side": 1,
+      "message": "move up with rest of the private properties?",
+      "range": {
+        "startLine": 2111,
+        "startChar": 0,
+        "endLine": 2113,
+        "endChar": 0
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -114,7 +114,7 @@ import {
   until,
   waitUntil,
 } from '../../../utils/async-util';
-import {Interaction, Timing} from '../../../constants/reporting';
+import {Interaction} from '../../../constants/reporting';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -1909,13 +1909,6 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   handleReplySent() {
-    this.addEventListener(
-      'change-details-loaded',
-      () => {
-        this.reporting.timeEnd(Timing.SEND_REPLY);
-      },
-      {once: true}
-    );
     assertIsDefined(this.replyModal);
     this.replyModal.close();
     fireReload(this);
@@ -2350,7 +2343,6 @@ export class GrChangeView extends LitElement {
       return;
     }
     const detailCompletes = this.untilModelLoaded().then(() => {
-      fire(this, 'change-details-loaded', {});
       if (isLocationChange) {
         this.reporting.changeDisplayed(roleDetails(this.change, this.account));
       }
@@ -2589,7 +2581,6 @@ export class GrChangeView extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
-    'change-details-loaded': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

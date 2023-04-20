@@ -16,6 +16,8 @@ import {
   createUserFixSuggestion,
   PROVIDED_FIX_ID,
   getMentionedThreads,
+  isNewThread,
+  createNew,
 } from './comment-util';
 import {
   createAccountWithEmail,
@@ -70,6 +72,17 @@ suite('comment-util', () => {
         ],
       })
     );
+  });
+
+  test('isNewThread', () => {
+    let thread = createCommentThread([createComment()]);
+    assert.isFalse(isNewThread(thread));
+
+    thread = createCommentThread([createComment(), createNew()]);
+    assert.isFalse(isNewThread(thread));
+
+    thread = createCommentThread([createNew()]);
+    assert.isTrue(isNewThread(thread));
   });
 
   suite('getPatchRangeForCommentUrl', () => {

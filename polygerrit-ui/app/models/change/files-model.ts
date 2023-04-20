@@ -22,6 +22,8 @@ import {Model} from '../model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';
+import {Timing} from '../../constants/reporting';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 
 export type FileNameToNormalizedFileInfoMap = {
   [name: string]: NormalizedFileInfo;
@@ -141,10 +143,13 @@ export class FilesModel extends Model<FilesState> {
   constructor(
     readonly changeModel: ChangeModel,
     readonly commentsModel: CommentsModel,
-    readonly restApiService: RestApiService
+    readonly restApiService: RestApiService,
+    private readonly reporting: ReportingService
   ) {
     super(initialState);
     this.subscriptions = [
+      this.reportChangeDataStart(),
+      this.reportChangeDataEnd(),
       this.subscribeToFiles(
         (psLeft, psRight) => {
           return {basePatchNum: psLeft, patchNum: psRight};
@@ -174,6 +179,26 @@ export class FilesModel extends Model<FilesState> {
         }
       ),
     ];
+  }
+
+  private reportChangeDataStart() {
+    return combineLatest([this.changeModel.loading$]).subscribe(
+      ([changeLoading]) => {
+        if (changeLoading) {
+          this.reporting.time(Timing.CHANGE_DATA);
+        }
+      }
+    );
+  }
+
+  private reportChangeDataEnd() {
+    return combineLatest([this.changeModel.loading$, this.files$]).subscribe(
+      ([changeLoading, files]) => {
+        if (!changeLoading && files.length > 0) {
+          this.reporting.timeEnd(Timing.CHANGE_DATA);
+        }
+      }
+    );
   }
 
   private subscribeToFiles(

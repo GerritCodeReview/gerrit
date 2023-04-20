@@ -18,7 +18,7 @@ import {
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
-import {fireAlert, fireReload} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
 import {
   assertIsDefined,
   query as queryUtil,
@@ -34,6 +34,7 @@ import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {changeModelToken} from '../../../models/change/change-model';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -76,6 +77,8 @@ export class GrEditControls extends LitElement {
     this.queryFiles(input);
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -451,7 +454,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(this.openDialog);
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       });
   }
 
@@ -471,7 +474,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       });
   };
 
@@ -489,7 +492,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       });
   };
 
@@ -507,7 +510,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       });
   };
 

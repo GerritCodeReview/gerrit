@@ -43,7 +43,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDashboardUrl} from '../../../models/views/dashboard';
-import {fire} from '../../../utils/event-util';
+import {fire, fireReload} from '../../../utils/event-util';
 import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-hovercard-account-contents')
@@ -445,7 +445,7 @@ export class GrHovercardAccountContents extends LitElement {
               this.getReviewerState(this.change!)
           );
         }
-        fire(this, 'reload', {clearPatchset: true});
+        fireReload(this);
       });
   }
 
@@ -464,7 +464,7 @@ export class GrHovercardAccountContents extends LitElement {
         if (!response || !response.ok) {
           throw new Error('something went wrong when removing user');
         }
-        fire(this, 'reload', {clearPatchset: true});
+        fireReload(this);
         return response;
       });
   }

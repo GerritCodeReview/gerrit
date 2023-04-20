@@ -17,14 +17,8 @@ import {
   CommitId,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
-import {
-  map,
-  filter,
-  withLatestFrom,
-  startWith,
-  switchMap,
-} from 'rxjs/operators';
+import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
+import {map, filter, withLatestFrom, switchMap} from 'rxjs/operators';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -350,12 +344,6 @@ export class ChangeModel extends Model<ChangeState> {
     getRevertCreatedChangeIds(messages ?? [])
   );
 
-  // For usage in `combineLatest` we need `startWith` such that reload$ has an
-  // initial value.
-  readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(
-    startWith(undefined)
-  );
-
   constructor(
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
@@ -459,7 +447,7 @@ export class ChangeModel extends Model<ChangeState> {
         if (!editRev) {
           const msg = 'Change edit not found. Please create a change edit.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -487,7 +475,7 @@ export class ChangeModel extends Model<ChangeState> {
             'Change edits cannot be created if change is merged ' +
             'or abandoned. Redirecting to non edit mode.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -568,9 +556,8 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   private loadChange() {
-    return combineLatest([this.viewModel.changeNum$, this.reload$])
+    return this.viewModel.changeNum$
       .pipe(
-        map(([changeNum, _]) => changeNum),
         switchMap(changeNum => {
           if (changeNum !== undefined) this.updateStateLoading(changeNum);
           const change = from(this.restApiService.getChangeDetail(changeNum));
@@ -696,13 +683,21 @@ export class ChangeModel extends Model<ChangeState> {
     });
   }
 
+  // Mainly used for navigating from DIFF to OVERVIEW.
   navigateToChange(openReplyDialog = false) {
     const url = this.changeUrl(openReplyDialog);
     if (!url) return;
     this.navigation.setUrl(url);
   }
 
-  navigateToChangeAndReset() {
+  /**
+   * Wipes all URL parameters and other view state and goes to the change
+   * overview page, forcing a reload.
+   *
+   * This will also wipe the `patchNum`, so will always go to the latest
+   * patchset.
+   */
+  navigateToChangeResetReload() {
     if (!this.change) return;
     const url = createChangeUrl({change: this.change, forceReload: true});
     if (!url) return;

@@ -69,9 +69,16 @@ export interface ChangeViewState extends ViewState {
 
   /** for scrolling a Change Log message into view in gr-change-view */
   messageHash?: string;
-  /** for logging where the user came from */
+  /**
+   * For logging where the user came from. This is handled by the router, so
+   * this is not inspected by the model.
+   */
   usp?: string;
-  /** triggers all change related data to be reloaded */
+  /**
+   * Triggers all change related data to be reloaded. This is implemented by
+   * intercepting change view state updates and `forceReload` causing the view
+   * state to be wiped clean as `undefined` in an intermediate update.
+   */
   forceReload?: boolean;
   /** triggers opening the reply dialog */
   openReplyDialog?: boolean;
@@ -328,6 +335,39 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
         });
       }
     });
+    document.addEventListener('reload', this.reload);
+  }
+
+  override finalize(): void {
+    document.removeEventListener('reload', this.reload);
+  }
+
+  /**
+   * Calling this is the same as firing the 'reload' event. This is also the
+   * same as adding `forceReload` parameter in the URL. See below.
+   */
+  reload = () => {
+    const state = this.getState();
+    if (state !== undefined) this.forceLoad(state);
+  };
+
+  /**
+   * This is the destination of where the `reload()` method, the `reload` event
+   * and the `forceReload` URL parameter all end up.
+   */
+  private forceLoad(state: ChangeViewState) {
+    this.setState(undefined);
+    // We have to do this in a timeout, because we need the `undefined` value to
+    // be processed by all observers first and thus have the "reset" completed.
+    setTimeout(() => this.setState({...state, forceReload: undefined}));
+  }
+
+  override setState(state: ChangeViewState | undefined): void {
+    if (state?.forceReload) {
+      this.forceLoad(state);
+    } else {
+      super.setState(state);
+    }
   }
 
   toggleSelectedCheckRun(checkName: string) {

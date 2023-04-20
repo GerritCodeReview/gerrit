@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "850d2e4b_95c90c11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T10:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2067a976_21018b5b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2528e2b_91370a84",
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "I like the pattern of keeping properties next to methods, iff the property is only used in that one method. WDYT?",
       "parentUuid": "c2528e2b_91370a84",
+      "range": {
+        "startLine": 2111,
+        "startChar": 0,
+        "endLine": 2113,
+        "endChar": 0
+      },
+      "revId": "629925f0299d1ffa9582beccce173f33cc06107d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d541dc8_3ae81b4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T10:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2b604bf_fff9e3a0",
       "range": {
         "startLine": 2111,
         "startChar": 0,

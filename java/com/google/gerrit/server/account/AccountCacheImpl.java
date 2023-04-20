@@ -122,13 +122,6 @@ public class AccountCacheImpl implements AccountCache {
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
     try {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-        // Get the default preferences for this Gerrit host
-        Ref ref = allUsers.exactRef(RefNames.REFS_USERS_DEFAULT);
-        CachedPreferences defaultPreferences =
-            ref != null
-                ? defaultPreferenceCache.get(ref.getObjectId())
-                : DefaultPreferencesCache.EMPTY;
-
         Set<CachedAccountDetails.Key> keys =
             Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
         for (Account.Id id : accountIds) {
@@ -138,6 +131,7 @@ public class AccountCacheImpl implements AccountCache {
           }
           keys.add(CachedAccountDetails.Key.create(id, userRef.getObjectId()));
         }
+        CachedPreferences defaultPreferences = defaultPreferenceCache.get();
         ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
         for (Map.Entry<CachedAccountDetails.Key, CachedAccountDetails> account :
             accountDetailsCache.getAll(keys).entrySet()) {

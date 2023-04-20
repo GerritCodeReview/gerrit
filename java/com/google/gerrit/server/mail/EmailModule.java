@@ -69,7 +69,7 @@ public class EmailModule extends FactoryModule {
     private final AbandonedChangeEmailDecorator abandonedChangeEmailDecorator;
 
     @Inject
-    public AbandonedChangeEmailFactories(
+    AbandonedChangeEmailFactories(
         EmailArguments args,
         ChangeEmailNewFactory changeEmailFactory,
         OutgoingEmailNewFactory outgoingEmailFactory,
@@ -96,7 +96,7 @@ public class EmailModule extends FactoryModule {
     private final OutgoingEmailNewFactory outgoingEmailFactory;
 
     @Inject
-    public AttentionSetChangeEmailFactories(
+    AttentionSetChangeEmailFactories(
         EmailArguments args,
         ChangeEmailNewFactory changeEmailFactory,
         OutgoingEmailNewFactory outgoingEmailFactory) {
@@ -119,7 +119,7 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(
         AttentionSetChange attentionSetChange, ChangeEmailNew changeEmail) {
-      if (AttentionSetChange.USER_ADDED.equals(attentionSetChange)) {
+      if (attentionSetChange.equals(AttentionSetChange.USER_ADDED)) {
         return outgoingEmailFactory.create("addToAttentionSet", changeEmail);
       } else {
         return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
@@ -134,7 +134,7 @@ public class EmailModule extends FactoryModule {
     private final OutgoingEmailNewFactory outgoingEmailFactory;
 
     @Inject
-    public CommentChangeEmailFactories(
+    CommentChangeEmailFactories(
         EmailArguments args,
         CommentChangeEmailDecoratorFactory commentChangeEmailFactory,
         ChangeEmailNewFactory changeEmailFactory,

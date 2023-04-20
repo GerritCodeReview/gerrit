@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 
 /** Send notice about a change being abandoned by its owner. */
@@ -24,14 +23,14 @@ public class AbandonedChangeEmailDecorator implements ChangeEmailNew.ChangeEmail
   private OutgoingEmailNew email;
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) throws EmailException {
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();
   }
 
   @Override
-  public void populateEmailContent() throws EmailException {
+  public void populateEmailContent() {
     changeEmail.addAuthors(RecipientType.TO);
     changeEmail.ccAllApprovals();
     changeEmail.bccStarredBy();

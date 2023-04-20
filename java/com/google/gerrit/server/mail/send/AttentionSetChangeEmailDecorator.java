@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 
@@ -46,14 +45,14 @@ public final class AttentionSetChangeEmailDecorator implements ChangeEmailDecora
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) throws EmailException {
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();
   }
 
   @Override
-  public void populateEmailContent() throws EmailException {
+  public void populateEmailContent() {
     email.addSoyParam("attentionSetUser", email.getNameFor(attentionSetUser));
     email.addSoyParam("reason", reason);
 

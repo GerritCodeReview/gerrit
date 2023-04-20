@@ -18,7 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Collections;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class CommentChangeEmailDecoratorTest {
   // A 100-character long string.
   private static String chars100 = String.join("", Collections.nCopies(25, "abcd"));

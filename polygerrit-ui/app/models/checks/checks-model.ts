@@ -195,8 +195,6 @@ export class ChecksModel extends Model<ChecksState> {
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
 
-  private readonly reloadListener: () => void;
-
   private readonly visibilityChangeListener: () => void;
 
   public checksSelectedPatchsetNumber$ = select(
@@ -414,8 +412,6 @@ export class ChecksModel extends Model<ChecksState> {
       'visibilitychange',
       this.visibilityChangeListener
     );
-    this.reloadListener = () => this.reloadAll();
-    document.addEventListener('reload', this.reloadListener);
   }
 
   private reportStats(state: {[name: string]: ChecksProviderState}) {
@@ -459,7 +455,6 @@ export class ChecksModel extends Model<ChecksState> {
   }
 
   override finalize() {
-    document.removeEventListener('reload', this.reloadListener);
     document.removeEventListener(
       'visibilitychange',
       this.visibilityChangeListener

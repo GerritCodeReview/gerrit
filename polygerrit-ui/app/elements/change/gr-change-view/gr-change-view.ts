@@ -154,7 +154,6 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
-import {waitUntilObserved} from '../../../test/test-utils';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -236,32 +235,18 @@ export class GrChangeView extends LitElement {
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
-  private _viewState?: ChangeViewState;
-
-  @property({type: Object})
-  get viewState() {
-    return this._viewState;
-  }
-
-  set viewState(viewState: ChangeViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
-  }
+  @state()
+  viewState?: ChangeViewState;
 
   @property({type: String})
   backPage?: string;
 
-  // Private but used in tests.
   @state()
   commentThreads?: CommentThread[];
 
   // Don't use, use serverConfig instead.
   private _serverConfig?: ServerInfo;
 
-  // Private but used in tests.
   @state()
   get serverConfig() {
     return this._serverConfig;
@@ -511,11 +496,7 @@ export class GrChangeView extends LitElement {
       this.handleCommitMessageCancel()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-
     this.addEventListener('show-tab', e => this.setActiveTab(e));
-    this.addEventListener('reload', e => {
-      this.loadData(/* clearPatchset= */ e.detail && e.detail.clearPatchset);
-    });
   }
 
   private setupShortcuts() {
@@ -523,7 +504,7 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
-      fireReload(this, true)
+      this.getChangeModel().navigateToChangeResetReload()
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_REPLY_DIALOG, () =>
       this.handleOpenReplyDialog()
@@ -670,6 +651,15 @@ export class GrChangeView extends LitElement {
         // The change view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => {
+        // The change view is tied to a specific change number, so don't update
+        // changeNum to undefined and only set it once.
+        if (changeNum && !this.changeNum) this.changeNum = changeNum;
       }
     );
     subscribe(
@@ -1720,7 +1710,7 @@ export class GrChangeView extends LitElement {
         }
 
         this.editingCommitMessage = false;
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
@@ -1908,7 +1898,7 @@ export class GrChangeView extends LitElement {
   handleReplySent() {
     assertIsDefined(this.replyModal);
     this.replyModal.close();
-    fireReload(this);
+    this.getChangeModel().navigateToChangeResetReload();
   }
 
   private handleReplyCancel() {
@@ -1956,35 +1946,6 @@ export class GrChangeView extends LitElement {
     // this.viewState reflects the current state of the URL. If this.changeNum
     // does not match it anymore, then this view must be considered obsolete.
     return this.changeNum !== this.viewState?.changeNum;
-  }
-
-  // Private but used in tests.
-  viewStateChanged() {
-    if (!this.viewState) return;
-    if (this.isChangeObsolete()) return;
-
-    const forceReload = this.viewState.forceReload;
-
-    // If changeNum is defined that means the change has already been
-    // rendered once before so a full reload is not required.
-    if (this.changeNum !== undefined && !forceReload) {
-      this.reporting.reportInteraction('change-view-re-rendered');
-      return;
-    }
-
-    // If the change was loaded before, then we are firing a 'reload' event
-    // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code that is only relevant for the initial load of a
-    //    change.
-    // 2. We have to somehow trigger the change-model reloading. Otherwise
-    //    this.change is not updated.
-    if (this.changeNum) {
-      fireReload(this);
-      return;
-    }
-
-    this.changeNum = this.viewState.changeNum;
-    this.loadData();
   }
 
   // Private but used in tests.
@@ -2056,6 +2017,9 @@ export class GrChangeView extends LitElement {
     }
   }
 
+  /**
+   * This is the URL equivalent of changeModel.navigateToChangeResetReload().
+   */
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
     return createChangeUrl({
@@ -2308,23 +2272,6 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  /**
-   * Reload the change.
-   *
-   * @param clearPatchset Reloads the change ignoring any patchset
-   * choice made.
-   * @return A promise that resolves when the core data has loaded.
-   * Some non-core data loading may still be in-flight when the core data
-   * promise resolves.
-   */
-  loadData(clearPatchset?: boolean): void {
-    if (this.isChangeObsolete()) return;
-    if (clearPatchset && this.change) {
-      this.getChangeModel().navigateToChangeAndReset();
-      return;
-    }
-  }
-
   private async reportChangeDisplayed() {
     await waitUntil(() => !!this.metadata);
     await untilRendered(this.metadata!);
@@ -2434,7 +2381,7 @@ export class GrChangeView extends LitElement {
             dismissOnNavigation: true,
             showDismiss: true,
             action: 'Reload',
-            callback: () => fireReload(this, true),
+            callback: () => this.getChangeModel().navigateToChangeResetReload(),
           });
         });
     }, this.serverConfig.change.update_delay * 1000);

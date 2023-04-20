@@ -822,14 +822,6 @@ export class GrFileList extends LitElement {
       () => this.getChangeModel().basePatchNum$,
       x => (this.basePatchNum = x)
     );
-    subscribe(
-      this,
-      () => this.getChangeModel().reload$,
-      () => {
-        this.resetFileState();
-        this.collapseAllDiffs();
-      }
-    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {

@@ -209,13 +209,12 @@ export class FilesModel extends Model<FilesState> {
     filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>
   ) {
     return combineLatest([
-      this.changeModel.reload$,
       this.changeModel.changeNum$,
       this.changeModel.basePatchNum$,
       this.changeModel.patchNum$,
     ])
       .pipe(
-        switchMap(([_, changeNum, basePatchNum, patchNum]) => {
+        switchMap(([changeNum, basePatchNum, patchNum]) => {
           if (!changeNum || !patchNum) return of({});
           const range = rangeChooser(basePatchNum, patchNum);
           if (!range) return of({});

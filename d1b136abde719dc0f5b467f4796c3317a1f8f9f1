@@ -39,6 +39,75 @@
       "message": "Thanks 😄",
       "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b84185b_c44ebc2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:48:32Z",
+      "side": 1,
+      "message": "Do you think we should implement checkup that this is waiting on same change (same changeid)? Can it happen that user change to different change before messageLists are even loaded?",
+      "range": {
+        "startLine": 2102,
+        "startChar": 6,
+        "endLine": 2102,
+        "endChar": 49
+      },
+      "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb1cfad_fd8d78ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:48:32Z",
+      "side": 1,
+      "message": "Ok, this is most important, that we wait for messagesList. It\u0027s more reliable now. Thanks",
+      "range": {
+        "startLine": 2102,
+        "startChar": 12,
+        "endLine": 2102,
+        "endChar": 21
+      },
+      "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dfc5bad_956020c5",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:48:32Z",
+      "side": 1,
+      "message": "I am surprised we didn\u0027t have this in non-test utils.",
+      "range": {
+        "startLine": 375,
+        "startChar": 22,
+        "endLine": 375,
+        "endChar": 31
+      },
+      "revId": "d1b136abde719dc0f5b467f4796c3317a1f8f9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

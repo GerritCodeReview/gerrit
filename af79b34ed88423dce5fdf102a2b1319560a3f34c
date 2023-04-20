@@ -16,6 +16,24 @@
       "message": "Don\u0027t we need fire this event?",
       "revId": "af79b34ed88423dce5fdf102a2b1319560a3f34c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "479568e9_db65a290",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2361,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T15:50:26Z",
+      "side": 0,
+      "message": "Oops. Done.",
+      "parentUuid": "2ccc0147_07c355f2",
+      "revId": "af79b34ed88423dce5fdf102a2b1319560a3f34c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

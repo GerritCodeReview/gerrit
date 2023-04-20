@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a47af0f_1ac490e7",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-20T11:57:52Z",
+      "side": 1,
+      "message": "Why there is mergeable ?? null when in filter only when mergeable !\u003d\u003d undefined.\n\nMaybe that condition should not be filtered?",
+      "range": {
+        "startLine": 397,
+        "startChar": 28,
+        "endLine": 397,
+        "endChar": 45
+      },
+      "revId": "e33b670660006a07d5a3ebd6e81895172fc5e044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

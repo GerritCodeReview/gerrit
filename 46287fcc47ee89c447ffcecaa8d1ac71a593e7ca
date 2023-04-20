@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecc71372_e85bc326",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-04-20T16:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bc7d8f2_df4381ff",
+      "range": {
+        "startLine": 1023,
+        "startChar": 65,
+        "endLine": 1024,
+        "endChar": 78
+      },
+      "revId": "46287fcc47ee89c447ffcecaa8d1ac71a593e7ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83ba2e54_e49198ad",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4a1e19c_7bc19fc7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-04-20T16:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83ba2e54_e49198ad",
+      "range": {
+        "startLine": 1066,
+        "startChar": 15,
+        "endLine": 1066,
+        "endChar": 21
+      },
+      "revId": "46287fcc47ee89c447ffcecaa8d1ac71a593e7ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d637fcd_8f2f3424",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-20T15:52:57Z",
       "side": 1,
       "message": "See if this comment can fit on a single line now that it\u0027s not as indented? Same for the ones above.",
+      "range": {
+        "startLine": 1138,
+        "startChar": 12,
+        "endLine": 1139,
+        "endChar": 21
+      },
+      "revId": "46287fcc47ee89c447ffcecaa8d1ac71a593e7ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b4cdd9_e39ca9df",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-04-20T16:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d637fcd_8f2f3424",
       "range": {
         "startLine": 1138,
         "startChar": 12,

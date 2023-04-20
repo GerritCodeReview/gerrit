@@ -85,6 +85,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -1718,7 +1719,8 @@ suite('gr-change-view tests', () => {
       assert.isFalse(changeFullyLoadedStub.called);
     });
 
-    test('report changeDisplayed on viewStateChanged', async () => {
+    test('report changeDisplayed and changeFullyLoaded', async () => {
+      const commentsModel = testResolver(commentsModelToken);
       stubRestApi('getChangeOrEditFiles').resolves({
         'a-file.js': {},
       });
@@ -1746,9 +1748,19 @@ suite('gr-change-view tests', () => {
           revisions: {foo: createRevision()},
         },
       });
-      await element.updateComplete;
-      await waitEventLoop();
+
+      await waitUntil(() => changeDisplayStub.called);
       assert.isTrue(changeDisplayStub.called);
+      assert.isFalse(changeFullyLoadedStub.called);
+
+      element.mergeable = true;
+      commentsModel.setState({
+        comments: {},
+        drafts: {},
+        discardedDrafts: [],
+      });
+
+      await waitUntil(() => changeFullyLoadedStub.called);
       assert.isTrue(changeFullyLoadedStub.called);
     });
   });

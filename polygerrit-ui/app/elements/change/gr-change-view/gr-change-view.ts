@@ -1951,7 +1951,7 @@ export class GrChangeView extends LitElement {
     );
     assertIsDefined(this.replyModal);
     this.replyModal.close();
-    fireReload(this);
+    fireReload(this, /* clearPatchset */ true);
   }
 
   private handleReplyCancel() {

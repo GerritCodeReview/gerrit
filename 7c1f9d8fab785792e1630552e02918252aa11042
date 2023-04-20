@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "670c095d_c6139571",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T09:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82bd9467_f52ea142",
+      "range": {
+        "startLine": 245,
+        "startChar": 16,
+        "endLine": 245,
+        "endChar": 27
+      },
+      "revId": "7c1f9d8fab785792e1630552e02918252aa11042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82490990_0b4e0c71",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "The issue with \"unsavedDraft\" that I pointed out (which is why Ben came up with the name \"new\"). Is that Draft that has been saved to Backend but subsequently edited, is in fact unsaved \"as-in\" it\u0027s state doesn\u0027t correspond to the state of the backend.\n\nFWIW I find the \"new\" naming pretty clear or at least intuitive after being introduced to definition, which was not true for saved/unsaved. (Though I suppose you can go with something like NeverSavedYet to avoid any and all confusion).",
       "parentUuid": "82490990_0b4e0c71",
+      "range": {
+        "startLine": 246,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 14
+      },
+      "revId": "7c1f9d8fab785792e1630552e02918252aa11042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4bcfb13_a1f42c14",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T09:21:06Z",
+      "side": 1,
+      "message": "Ok if you and Ben find the name reasonable, I am fine with the decision.",
+      "parentUuid": "5a9aff28_1216a51d",
       "range": {
         "startLine": 246,
         "startChar": 9,

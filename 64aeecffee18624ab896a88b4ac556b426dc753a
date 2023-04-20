@@ -16,6 +16,24 @@
       "message": "[optional] Can this method be private?",
       "revId": "64aeecffee18624ab896a88b4ac556b426dc753a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df68d7f3_5fa13c45",
+        "filename": "java/com/google/gerrit/server/mail/send/DeleteReviewerChangeEmailDecorator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-20T11:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a394772_ca6a8237",
+      "revId": "64aeecffee18624ab896a88b4ac556b426dc753a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2382,8 +2382,6 @@ export class GrChangeView extends LitElement {
       this.getChangeModel().navigateToChangeAndReset();
       return;
     }
-    this.reporting.time(Timing.CHANGE_DATA);
-
     const detailCompletes = this.untilModelLoaded().then(() => {
       fire(this, 'change-details-loaded', {});
       if (isLocationChange) {
@@ -2392,8 +2390,6 @@ export class GrChangeView extends LitElement {
     });
 
     Promise.all([detailCompletes, this.filesLoaded()]).then(() => {
-      // Loading of commments data is no longer part of this reporting
-      this.reporting.timeEnd(Timing.CHANGE_DATA);
       if (isLocationChange) {
         this.reporting.changeFullyLoaded();
       }

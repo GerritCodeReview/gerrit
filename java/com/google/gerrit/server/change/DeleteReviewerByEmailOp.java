@@ -19,8 +19,11 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.EmailModule.DeleteReviewerChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -35,7 +38,7 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
     DeleteReviewerByEmailOp create(Address reviewer);
   }
 
-  private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
+  private final DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories;
   private final MessageIdGenerator messageIdGenerator;
   private final ChangeMessagesUtil changeMessagesUtil;
 
@@ -45,11 +48,11 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
 
   @Inject
   DeleteReviewerByEmailOp(
-      DeleteReviewerSender.Factory deleteReviewerSenderFactory,
+      DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories,
       MessageIdGenerator messageIdGenerator,
       ChangeMessagesUtil changeMessagesUtil,
       @Assisted Address reviewer) {
-    this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
+    this.deleteReviewerChangeEmailFactories = deleteReviewerChangeEmailFactories;
     this.messageIdGenerator = messageIdGenerator;
     this.changeMessagesUtil = changeMessagesUtil;
     this.reviewer = reviewer;
@@ -76,15 +79,20 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
     if (sendEmail) {
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());
-        DeleteReviewerSender emailSender =
-            deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.addReviewersByEmail(Collections.singleton(reviewer));
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(
+        DeleteReviewerChangeEmailDecorator deleteReviewerEmail =
+            deleteReviewerChangeEmailFactories.createDeleteReviewerChangeEmail();
+        deleteReviewerEmail.addReviewersByEmail(Collections.singleton(reviewer));
+        ChangeEmailNew changeEmail =
+            deleteReviewerChangeEmailFactories.createChangeEmail(
+                ctx.getProject(), change.getId(), deleteReviewerEmail);
+        changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
+        OutgoingEmailNew outgoingEmail =
+            deleteReviewerChangeEmailFactories.createEmail(changeEmail);
+        outgoingEmail.setFrom(ctx.getAccountId());
+        outgoingEmail.setNotify(notify);
+        outgoingEmail.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        emailSender.send();
+        outgoingEmail.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
       }

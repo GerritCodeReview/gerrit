@@ -37,7 +37,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -131,7 +129,6 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
       preUpdateSubmitRequirementResultsSupplier;
   private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
-  @Inject
   public CommentChangeEmailDecorator(
       @Provided EmailArguments args,
       @Provided CommentsUtil commentsUtil,
@@ -169,7 +166,7 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) throws EmailException {
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     // Add header that enables identifying comments on parsed email.
@@ -496,7 +493,7 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void populateEmailContent() throws EmailException {
+  public void populateEmailContent() {
     changeEmail.addAuthors(RecipientType.TO);
 
     boolean hasComments;

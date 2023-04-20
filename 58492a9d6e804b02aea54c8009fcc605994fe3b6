@@ -51,6 +51,24 @@
       "message": "Should this be backported to 3.8?",
       "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb32752_b6c41252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-20T09:46:10Z",
+      "side": 1,
+      "message": "FYI: This change has a bug, which breaks the \"Reply\" button on comments",
+      "parentUuid": "eb209d19_5fb93e52",
+      "revId": "58492a9d6e804b02aea54c8009fcc605994fe3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

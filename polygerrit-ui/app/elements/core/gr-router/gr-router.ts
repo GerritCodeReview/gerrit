@@ -406,7 +406,7 @@ export class GrRouter implements Finalizable, NavigationService {
     // views, because we don't trust our reset logic at the moment. The models
     // singletons and might unintentionally keep state from one change to
     // another. TODO: Let's find some way to avoid that.
-    if (state.view !== GerritView.CHANGE) {
+    if (state.view !== GerritView.CHANGE || state.forceReload) {
       this.changeViewModel.setState(undefined);
     }
     this.appElement().params = state;
@@ -1326,7 +1326,6 @@ export class GrRouter implements Finalizable, NavigationService {
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
-    if (queryMap.has('forceReload')) state.forceReload = true;
     if (queryMap.has('openReplyDialog')) state.openReplyDialog = true;
 
     const tab = queryMap.get('tab');
@@ -1516,14 +1515,6 @@ export class GrRouter implements Finalizable, NavigationService {
     };
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;
-    if (queryMap.has('forceReload')) {
-      state.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
     this.setState(state);

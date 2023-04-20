@@ -459,7 +459,7 @@ export class ChangeModel extends Model<ChangeState> {
         if (!editRev) {
           const msg = 'Change edit not found. Please create a change edit.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -487,7 +487,7 @@ export class ChangeModel extends Model<ChangeState> {
             'Change edits cannot be created if change is merged ' +
             'or abandoned. Redirecting to non edit mode.';
           fireAlert(document, msg);
-          this.navigateToChangeAndReset();
+          this.navigateToChangeResetReload();
         }
       });
   }
@@ -696,13 +696,21 @@ export class ChangeModel extends Model<ChangeState> {
     });
   }
 
+  // Mainly used for navigating from DIFF to OVERVIEW.
   navigateToChange(openReplyDialog = false) {
     const url = this.changeUrl(openReplyDialog);
     if (!url) return;
     this.navigation.setUrl(url);
   }
 
-  navigateToChangeAndReset() {
+  /**
+   * Wipes all URL parameters and other view state and goes to the change
+   * overview page, forcing a reload.
+   *
+   * This will also wipe the `patchNum`, so will always go to the latest
+   * patchset.
+   */
+  navigateToChangeResetReload() {
     if (!this.change) return;
     const url = createChangeUrl({change: this.change, forceReload: true});
     if (!url) return;

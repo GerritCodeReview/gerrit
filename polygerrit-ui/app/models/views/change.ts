@@ -69,9 +69,16 @@ export interface ChangeViewState extends ViewState {
 
   /** for scrolling a Change Log message into view in gr-change-view */
   messageHash?: string;
-  /** for logging where the user came from */
+  /**
+   * For logging where the user came from. This is handled by the router, so
+   * this is not inspected by the model.
+   */
   usp?: string;
-  /** triggers all change related data to be reloaded */
+  /**
+   * Triggers all change related data to be reloaded. This is handled by the
+   * router, so this is not inspected by the model. The router just sets the
+   * entire change view model to `undefined` to achieve a reload.
+   */
   forceReload?: boolean;
   /** triggers opening the reply dialog */
   openReplyDialog?: boolean;

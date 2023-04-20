@@ -22,6 +22,30 @@
       },
       "revId": "e33b670660006a07d5a3ebd6e81895172fc5e044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54afe931_a4fba700",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-20T15:51:02Z",
+      "side": 1,
+      "message": "Added comment:\n```\n          // `?? null` is for the TypeScript compiler only. We have a\n          // `mergeable !\u003d\u003d undefined` filter above, so this cannot happen.\n          // It would be nice to change `ShowChangeDetail` to accept `undefined`\n          // instaed of `null`, but that would be a Plugin API change ...\n```",
+      "parentUuid": "8a47af0f_1ac490e7",
+      "range": {
+        "startLine": 397,
+        "startChar": 28,
+        "endLine": 397,
+        "endChar": 45
+      },
+      "revId": "e33b670660006a07d5a3ebd6e81895172fc5e044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

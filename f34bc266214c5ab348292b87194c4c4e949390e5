@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60df4cc7_65f30f30",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-20T11:19:33Z",
+      "side": 1,
+      "message": "can we use the same pattern as Change 369955 here and remove this boolean?",
+      "range": {
+        "startLine": 2118,
+        "startChar": 2,
+        "endLine": 2118,
+        "endChar": 34
+      },
+      "revId": "f34bc266214c5ab348292b87194c4c4e949390e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

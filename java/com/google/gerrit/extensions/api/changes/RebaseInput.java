@@ -20,6 +20,13 @@ public class RebaseInput {
   public String base;
 
   /**
+   * {@code strategy} name of the merge strategy.
+   *
+   * @see org.eclipse.jgit.merge.MergeStrategy
+   */
+  public String strategy;
+
+  /**
    * Whether the rebase should succeed if there are conflicts.
    *
    * <p>If there are conflicts the file contents of the rebased change contain git conflict markers

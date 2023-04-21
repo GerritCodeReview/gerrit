@@ -33,7 +33,7 @@ import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
-import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
@@ -43,6 +43,7 @@ import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailModule extends FactoryModule {
@@ -53,7 +54,6 @@ public class EmailModule extends FactoryModule {
     factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
-    factory(MergedSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(RestoredSender.Factory.class);
@@ -222,6 +222,36 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("deleteVote", changeEmail);
+    }
+  }
+
+  public static class MergedChangeEmailFactories {
+    private final EmailArguments args;
+    private final MergedChangeEmailDecoratorFactory mergedChangeEmailDecoratorFactory;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    MergedChangeEmailFactories(
+        EmailArguments args,
+        MergedChangeEmailDecoratorFactory mergedChangeEmailDecoratorFactory,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.mergedChangeEmailDecoratorFactory = mergedChangeEmailDecoratorFactory;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId),
+          mergedChangeEmailDecoratorFactory.create(stickyApprovalDiff));
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("merged", changeEmail);
     }
   }
 }

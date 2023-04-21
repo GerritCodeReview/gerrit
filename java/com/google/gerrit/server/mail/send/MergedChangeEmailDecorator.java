@@ -14,70 +14,57 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 import java.util.Optional;
 
 /** Send notice about a change successfully merged. */
-public class MergedSender extends ReplyToChangeSender {
+@AutoFactory
+public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public interface Factory {
-    MergedSender create(
-        Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff);
-  }
-
-  private final LabelTypes labelTypes;
+  private OutgoingEmailNew email;
+  private ChangeEmailNew changeEmail;
+  private LabelTypes labelTypes;
+  private final EmailArguments args;
   private final Optional<String> stickyApprovalDiff;
 
-  @Inject
-  public MergedSender(
-      EmailArguments args,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id changeId,
-      @Assisted Optional<String> stickyApprovalDiff) {
-    super(args, "merged", newChangeData(args, project, changeId));
-    labelTypes = getChangeData().getLabelTypes();
+  MergedChangeEmailDecorator(@Provided EmailArguments args, Optional<String> stickyApprovalDiff) {
+    this.args = args;
     this.stickyApprovalDiff = stickyApprovalDiff;
-    // We want to send the submit email even if the "send only when in attention set" is enabled.
-    setEmailOnlyAttentionSetIfEnabled(false);
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+    this.email = email;
+    this.changeEmail = changeEmail;
+    changeEmail.markAsReply();
+    labelTypes = changeEmail.getChangeData().getLabelTypes();
 
-    NotifyResolver.Result notify = getNotify();
+    // We want to send the submit email even if the "send only when in attention set" is enabled.
+    changeEmail.setEmailOnlyAttentionSetIfEnabled(false);
+
+    NotifyResolver.Result notify = email.getNotify();
     if (!stickyApprovalDiff.isEmpty() && !notify.handling().equals(NotifyHandling.ALL)) {
       logger.atFine().log(
           "Requested to notify %s, but for change submission with sticky approval diff,"
               + " Notify=ALL is enforced.",
           notify.handling().name());
-      setNotify(NotifyResolver.Result.create(NotifyHandling.ALL, notify.accounts()));
-    }
-  }
-
-  @Override
-  protected void formatChange() throws EmailException {
-    appendText(textTemplate("Merged"));
-
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("MergedHtml"));
+      email.setNotify(NotifyResolver.Result.create(NotifyHandling.ALL, notify.accounts()));
     }
   }
 
@@ -86,7 +73,8 @@ public class MergedSender extends ReplyToChangeSender {
       Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca :
-          args.approvalsUtil.byPatchSet(getChangeData().notes(), getPatchSet().id())) {
+          args.approvalsUtil.byPatchSet(
+              changeEmail.getChangeData().notes(), changeEmail.getPatchSet().id())) {
         Optional<LabelType> lt = labelTypes.byLabel(ca.labelId());
         if (!lt.isPresent()) {
           continue;
@@ -113,7 +101,7 @@ public class MergedSender extends ReplyToChangeSender {
     txt.append(type).append(":\n");
     for (Account.Id id : approvals.rowKeySet()) {
       txt.append("  ");
-      txt.append(getNameFor(id));
+      txt.append(email.getNameFor(id));
       txt.append(": ");
       boolean first = true;
       for (LabelType lt : labelTypes.getLabelTypes()) {
@@ -144,17 +132,24 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("approvals", getApprovals());
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
-      addSoyEmailDataParam("stickyApprovalDiff", stickyApprovalDiff.get());
-      addSoyEmailDataParam("stickyApprovalDiffHtml", getDiffTemplateData(stickyApprovalDiff.get()));
+      email.addSoyEmailDataParam("stickyApprovalDiff", stickyApprovalDiff.get());
+      email.addSoyEmailDataParam(
+          "stickyApprovalDiffHtml", ChangeEmailNew.getDiffTemplateData(stickyApprovalDiff.get()));
     }
 
-    ccAllApprovals();
-    bccStarredBy();
-    includeWatchers(NotifyType.ALL_COMMENTS);
-    includeWatchers(NotifyType.SUBMITTED_CHANGES);
+    changeEmail.addAuthors(RecipientType.TO);
+    changeEmail.ccAllApprovals();
+    changeEmail.bccStarredBy();
+    changeEmail.includeWatchers(NotifyType.ALL_COMMENTS);
+    changeEmail.includeWatchers(NotifyType.SUBMITTED_CHANGES);
+
+    email.appendText(email.textTemplate("Merged"));
+
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("MergedHtml"));
+    }
   }
 }

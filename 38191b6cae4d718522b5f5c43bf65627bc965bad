@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a613bb48_5b5e5534",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T16:40:58Z",
+      "side": 1,
+      "message": "```suggestion\n    const tab \u003d queryMap.get(\u0027tab\u0027);\n    if (tab) state.tab \u003d tab;\n    if (queryMap.has(\u0027forceReload\u0027)) state.forceReload \u003d true;\n```\n\nNit: I would leave tab next to each other",
+      "range": {
+        "startLine": 1523,
+        "startChar": 4,
+        "endLine": 1525,
+        "endChar": 29
+      },
+      "revId": "38191b6cae4d718522b5f5c43bf65627bc965bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

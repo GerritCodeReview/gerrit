@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b906ac5e_875d7263",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-21T19:07:38Z",
+      "side": 1,
+      "message": "I\u0027ll add more context, I thought there was enough in the issue - but you\u0027re right this could do with some fleshing out.",
+      "parentUuid": "34e59be0_29164bd7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ca3dee7_69f1d6fb",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb221919_43e9cdd0",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-21T19:07:38Z",
+      "side": 1,
+      "message": "Yes it would be best to include these, however I was trying not to overlog, for various reasons. I\u0027ll have a look and see if we can include these too.",
+      "parentUuid": "6ca3dee7_69f1d6fb",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 59
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e517f56_ec419b05",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 3
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-21T16:00:47Z",
       "side": 1,
       "message": "Shall we aim for a more specific Exception since we know what we are after?",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 24
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390a4fc2_ea6e11d7",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-21T19:07:38Z",
+      "side": 1,
+      "message": "Yes you\u0027re right, I\u0027m currently catching a checked exception too. I thought it might make sense to catch other errors too but this is too broad.",
+      "parentUuid": "9e517f56_ec419b05",
       "range": {
         "startLine": 190,
         "startChar": 15,

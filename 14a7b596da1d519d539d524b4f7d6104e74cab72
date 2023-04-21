@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c948127_466ed99b",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T07:50:53Z",
+      "side": 1,
+      "message": "That\u0027s neat trick.",
+      "range": {
+        "startLine": 394,
+        "startChar": 35,
+        "endLine": 394,
+        "endChar": 40
+      },
+      "revId": "14a7b596da1d519d539d524b4f7d6104e74cab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

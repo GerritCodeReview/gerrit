@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc225426_e6ac5ebd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1969,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T08:02:12Z",
+      "side": 0,
+      "message": "I assume we don\u0027t need this to log anymore. I don\u0027t know if we ever look into this data.",
+      "revId": "ebc8480bbe4b3585050515b953fc97321e416125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

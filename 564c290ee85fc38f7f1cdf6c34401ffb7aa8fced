@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b00051_102ba705",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1041506
+      },
+      "writtenOn": "2023-04-21T20:01:48Z",
+      "side": 1,
+      "message": "nit: s/comparision/comparison (same nit below).",
+      "revId": "564c290ee85fc38f7f1cdf6c34401ffb7aa8fced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

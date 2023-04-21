@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -62,6 +64,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.merge.MergeResult;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -108,6 +111,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean storeCopiedVotes = true;
   private boolean matchAuthorToCommitterDate = false;
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
+  private String mergeStrategy;
 
   private CodeReviewCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -261,6 +265,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
       ImmutableListMultimap<String, String> validationOptions) {
     requireNonNull(validationOptions, "validationOptions may not be null");
     this.validationOptions = validationOptions;
+    return this;
+  }
+
+  public RebaseChangeOp setMergeStrategy(String strategy) {
+    this.mergeStrategy = strategy;
     return this;
   }
 
@@ -430,9 +439,14 @@ public class RebaseChangeOp implements BatchUpdateOp {
       throw new ResourceConflictException("Change is already up to date.");
     }
 
-    ThreeWayMerger merger =
-        newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepoView().getConfig());
-    merger.setBase(parentCommit);
+    MergeUtil mergeUtil = newMergeUtil();
+    String strategy =
+        firstNonNull(Strings.emptyToNull(mergeStrategy), mergeUtil.mergeStrategyName());
+
+    Merger merger = MergeUtil.newMerger(ctx.getInserter(), ctx.getRepoView().getConfig(), strategy);
+    if (merger instanceof ThreeWayMerger) {
+      ((ThreeWayMerger) merger).setBase(parentCommit);
+    }
 
     DirCache dc = DirCache.newInCore();
     if (allowConflicts && merger instanceof ResolveMerger) {

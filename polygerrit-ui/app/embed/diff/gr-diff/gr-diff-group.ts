@@ -441,11 +441,17 @@ export class GrDiffGroup {
   }
 
   startLine(side: Side): LineNumber {
-    if (this.type === GrDiffGroupType.CONTEXT_CONTROL) {
+    // For both CONTEXT_CONTROL groups and SKIP groups the `lines` array will
+    // be empty. So we have to use `lineRange` instead of looking at the first
+    // line.
+    if (this.type === GrDiffGroupType.CONTEXT_CONTROL || this.skip) {
       return side === Side.LEFT
         ? this.lineRange.left.start_line
         : this.lineRange.right.start_line;
     }
+    // For "normal" groups we could also use the `lineRange`, but for FILE or
+    // LOST lines we want to return FILE or LOST. The `lineRange` contains
+    // numbers only.
     return this.lines[0].lineNumber(side);
   }
 

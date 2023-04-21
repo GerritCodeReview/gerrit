@@ -552,6 +552,7 @@ public class RebaseUtil {
   private RebaseChangeOp applyRebaseInputToOp(RebaseChangeOp op, RebaseInput input) {
     return op.setForceContentMerge(true)
         .setAllowConflicts(input.allowConflicts)
+        .setMergeStrategy(input.strategy)
         .setValidationOptions(
             ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions))
         .setFireRevisionCreated(true);

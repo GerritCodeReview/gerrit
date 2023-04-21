@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a928e668_8275d700",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T07:56:53Z",
+      "side": 1,
+      "message": "It\u0027s much clearer now. I would just want to understand why change actions are not part of ChangeFullyLoaded",
+      "revId": "ebc8480bbe4b3585050515b953fc97321e416125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e5093b_048548f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T07:56:53Z",
+      "side": 1,
+      "message": "I am surprised, I thought fileList, messageList are part of changeDisplayed. \n\nI thought that difference with changeFullyLoaded was only that change-actions are loaded.",
+      "range": {
+        "startLine": 2332,
+        "startChar": 21,
+        "endLine": 2332,
+        "endChar": 36
+      },
+      "revId": "ebc8480bbe4b3585050515b953fc97321e416125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcb1006_542d52d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2346,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-21T07:56:53Z",
+      "side": 1,
+      "message": "I think we need to wait for change-actions loading. (Revert, Submit, etc.)",
+      "range": {
+        "startLine": 2346,
+        "startChar": 6,
+        "endLine": 2346,
+        "endChar": 41
+      },
+      "revId": "ebc8480bbe4b3585050515b953fc97321e416125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

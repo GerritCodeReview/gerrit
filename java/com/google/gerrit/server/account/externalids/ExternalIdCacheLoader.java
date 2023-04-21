@@ -184,8 +184,15 @@ public class ExternalIdCacheLoader {
         }
       }
 
-      AllExternalIds allExternalIds =
-          buildAllExternalIds(repo, oldExternalIds, additions, removals);
+      AllExternalIds allExternalIds;
+      try {
+        allExternalIds = buildAllExternalIds(repo, oldExternalIds, additions, removals);
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log(
+            "Failed to load external ID cache. Repository ref is %s, cache ref is %s",
+            extIdRef.getObjectId().getName(), parentWithCacheValue.getId().getName());
+        throw e;
+      }
       reloadCounter.increment(true);
       reloadDifferential.record(System.nanoTime() - start, TimeUnit.NANOSECONDS);
       return allExternalIds;

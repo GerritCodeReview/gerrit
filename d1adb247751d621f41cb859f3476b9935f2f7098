@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c3e6495_b55f37c6",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-21T21:29:24Z",
+      "side": 1,
+      "message": "I tried updating to bazel 6.1.2 and java_tools 12.1. This fixes the problem on stable-3.7 or newer. On 3.6 it fails since managed_dependencies aren\u0027t supported in newer bazel versions anymore. Hence we would need to downport c9621bda56d6b712a7153120deb19a6942734c7b, 122d4ce9bec695458471707ecea8685c136f2e9e, ab04eb16607b95f2939c8e91ced7204e02e6c7dc.\nHence I thought I use the workaround in stable-3.6 and update bazel and java_tools in stable-3.8 and newer.",
+      "parentUuid": "29ae1cb5_c9f48049",
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c119d11e_b1e4ecb8",
@@ -59,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1570b47_e5037d7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-21T21:29:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c119d11e_b1e4ecb8",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9043521a_42493574",
@@ -72,6 +114,30 @@
       "writtenOn": "2023-04-21T18:01:31Z",
       "side": 1,
       "message": "This is linkified as Gerrit issue and clicking on it failing with issue not found. May be create reference in footer and use it in parenthesis, like this: [1]? \n\n[1] https://github.com/bazelbuild/bazel/issues/17956",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54391d3d_ee3021d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-21T21:29:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9043521a_42493574",
       "range": {
         "startLine": 39,
         "startChar": 59,

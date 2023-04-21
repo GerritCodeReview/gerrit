@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a85c391_44e35cd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-21T18:26:42Z",
+      "side": 1,
+      "message": "Hmm, it still fatals for me:\n\n```\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:89:20: error: call to undeclared function \u0027write\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n            writ \u003d write(state-\u003efd, strm-\u003enext_in, put);\n                   ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:89:20: note: did you mean \u0027fwrite\u0027?\n/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/include/stdio.h:165:9: note: \u0027fwrite\u0027 declared here\nsize_t   fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream) __DARWIN_ALIAS(fwrite);\n         ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:110:24: error: call to undeclared function \u0027write\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n                writ \u003d write(state-\u003efd, state-\u003ex.next, put);\n                       ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:661:9: error: call to undeclared function \u0027close\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n    if (close(state-\u003efd) \u003d\u003d -1)\n        ^\n3 errors generated.\n```",
+      "revId": "f9a84539f6fdf0488deb524d3dfce75a76720b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bae5da18_6ef85735",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-21T18:01:31Z",
+      "side": 1,
+      "message": "I assume that the impact of this is limited. But can you check, whether just bumping Bazel version to the latest minor version of release 5: 5.4.1, in  5.4.1, released two days ago will fix the issue as well? At least it\u0027s advertising: [1] that in the release notes:\n\n* Patch zlib to fix compatibility with Xcode 14.3 (#17996)\n\nOr, bumping java_tools to recently released v12.1 could probably help as well.\n\n[1] https://github.com/bazelbuild/bazel/releases/tag/5.4.1\n[2] https://github.com/bazelbuild/java_tools/releases/tag/java_v12.1",
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c119d11e_b1e4ecb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-21T18:01:31Z",
+      "side": 1,
+      "message": "Is this accurate? Protobuf, grpc and other native Bazel and Gerrit dependencies are using zlib. Remove \"used by Java\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9043521a_42493574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-21T18:01:31Z",
+      "side": 1,
+      "message": "This is linkified as Gerrit issue and clicking on it failing with issue not found. May be create reference in footer and use it in parenthesis, like this: [1]? \n\n[1] https://github.com/bazelbuild/bazel/issues/17956",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

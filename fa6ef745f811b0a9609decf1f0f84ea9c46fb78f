@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ef1a97_747f8503",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-21T19:19:39Z",
+      "side": 1,
+      "message": "This fixes support for safari 16.4 as well (https://github.com/marijnh/style-mod/pull/6).",
+      "revId": "fa6ef745f811b0a9609decf1f0f84ea9c46fb78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

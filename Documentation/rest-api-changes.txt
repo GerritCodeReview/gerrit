@@ -8175,6 +8175,9 @@ Alternatively, a change number can be specified, in which case the current
 patch set is inferred. +
 Empty string is used for rebasing directly on top of the target branch,
 which effectively breaks dependency towards a parent change.
+|`strategy`       |optional|
+The strategy of the merge, can be `recursive`, `resolve`,
+`simple-two-way-in-core`, `ours` or `theirs`, default will use project settings.
 |`allow_conflicts`      |optional, defaults to false|
 If `true`, the rebase also succeeds if there are conflicts. +
 If there are conflicts the file contents of the rebased patch set contain

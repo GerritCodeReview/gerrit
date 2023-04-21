@@ -663,6 +663,87 @@ public class RebaseIT {
       assertThat(r1.getPatchSetId().get()).isEqualTo(3);
     }
 
+    private void rebaseWithConflict_strategy(String strategy) throws Exception {
+      String patchSetSubject = "patch set change";
+      String patchSetContent = "patch set content";
+      String baseSubject = "base change";
+      String baseContent = "base content";
+      String expectedContent = strategy.equals("theirs") ? baseContent : patchSetContent;
+
+      PushOneCommit.Result r1 = createChange(baseSubject, PushOneCommit.FILE_NAME, baseContent);
+      gApi.changes()
+          .id(r1.getChangeId())
+          .revision(r1.getCommit().name())
+          .review(ReviewInput.approve());
+      gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
+
+      testRepo.reset("HEAD~1");
+      PushOneCommit push =
+          pushFactory.create(
+              admin.newIdent(),
+              testRepo,
+              patchSetSubject,
+              PushOneCommit.FILE_NAME,
+              patchSetContent);
+      PushOneCommit.Result r2 = push.to("refs/for/master");
+      r2.assertOkStatus();
+
+      String changeId = r2.getChangeId();
+      RevCommit patchSet = r2.getCommit();
+      RevCommit base = r1.getCommit();
+
+      TestWorkInProgressStateChangedListener wipStateChangedListener =
+          new TestWorkInProgressStateChangedListener();
+      try (ExtensionRegistry.Registration registration =
+          extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+        RebaseInput rebaseInput = new RebaseInput();
+        rebaseInput.strategy = strategy;
+
+        testMetricMaker.reset();
+        ChangeInfo changeInfo =
+            gApi.changes().id(changeId).revision(patchSet.name()).rebaseAsInfo(rebaseInput);
+        assertThat(changeInfo.containsGitConflicts).isNull();
+        assertThat(changeInfo.workInProgress).isNull();
+
+        // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
+        assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false))
+            .isEqualTo(1);
+      }
+      assertThat(wipStateChangedListener.invoked).isFalse();
+      assertThat(wipStateChangedListener.wip).isNull();
+
+      // To get the revisions, we must retrieve the change with more change options.
+      ChangeInfo changeInfo =
+          gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+      assertThat(changeInfo.revisions).hasSize(2);
+      assertThat(changeInfo.getCurrentRevision().commit.parents.get(0).commit)
+          .isEqualTo(base.name());
+
+      // Verify that the file content in the created patch set is correct.
+      BinaryResult bin =
+          gApi.changes().id(changeId).current().file(PushOneCommit.FILE_NAME).content();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bin.writeTo(os);
+      String fileContent = new String(os.toByteArray(), UTF_8);
+      assertThat(fileContent).isEqualTo(expectedContent);
+
+      // Verify the message that has been posted on the change.
+      List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
+      assertThat(messages).hasSize(2);
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo("Patch Set 2: Patch Set 1 was rebased");
+    }
+
+    @Test
+    public void rebaseWithConflict_strategyAcceptTheirs() throws Exception {
+      rebaseWithConflict_strategy("theirs");
+    }
+
+    @Test
+    public void rebaseWithConflict_strategyAcceptOurs() throws Exception {
+      rebaseWithConflict_strategy("ours");
+    }
+
     @Test
     public void rebaseWithConflict_conflictsAllowed() throws Exception {
       String patchSetSubject = "patch set change";

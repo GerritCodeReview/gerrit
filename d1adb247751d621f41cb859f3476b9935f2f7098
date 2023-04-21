@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29ae1cb5_c9f48049",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-21T18:35:27Z",
+      "side": 1,
+      "message": "Seems using 5.4.1 won\u0027t only fix the issue. Think that using the updated java_tools would.",
+      "parentUuid": "bae5da18_6ef85735",
+      "revId": "d1adb247751d621f41cb859f3476b9935f2f7098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c119d11e_b1e4ecb8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

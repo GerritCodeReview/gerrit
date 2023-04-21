@@ -150,6 +150,7 @@ public class ReindexAfterRefUpdate implements GitBatchRefUpdateListener {
 
     protected abstract V impl(RequestContext ctx) throws Exception;
 
+    @SuppressWarnings("unused")
     protected abstract void remove();
   }
 

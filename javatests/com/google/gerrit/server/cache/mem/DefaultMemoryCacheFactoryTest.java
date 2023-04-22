@@ -145,12 +145,11 @@ public class DefaultMemoryCacheFactoryTest {
         cacheFactory.build(newCacheDef(1), newCacheLoader(identity()));
 
     cache.put(TEST_CACHE_KEY, TEST_CACHE_VALUE);
-    cache.invalidate(TEST_CACHE_KEY);
 
     assertThat(forwardingRemovalListener.contains(TEST_CACHE_KEY, TEST_CACHE_VALUE)).isFalse();
+    cache.invalidate(TEST_CACHE_KEY);
 
     evictionReceived.await(TEST_TIMEOUT_SEC, TimeUnit.SECONDS);
-
     assertThat(forwardingRemovalListener.contains(TEST_CACHE_KEY, TEST_CACHE_VALUE)).isTrue();
     assertThat(forwardingRemovalListener.removalThreadName(TEST_CACHE_KEY))
         .startsWith(threadPoolPrefix);

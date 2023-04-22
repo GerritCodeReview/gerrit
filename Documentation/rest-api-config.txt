@@ -1565,10 +1565,17 @@ Value of the link:config-gerrit.html#change.mergeabilityComputationBehavior[
 configuration parameter] that controls whether the mergeability bit in
 link:rest-api-changes.html#change-info[ChangeInfo] will never be set and if the
 bit is indexed.
+<<<<<<< HEAD   (5684a4 Merge branch 'stable-3.5' into stable-3.6)
 |`enable_attention_set` |defaults to `false`|
 Returns true if attention set UI features are enabled.
 |`enable_assignee` |defaults to `true`|
 Returns true if assignee related UI features are enabled.
+=======
+|`enable_robot_comments`|not set if `false`|
+link:config-gerrit.html#change.enableRobotComments[Are robot comments enabled?].
+|`conflicts_predicate_enabled`|not set if `false`|
+link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
+>>>>>>> CHANGE (ab404b Expose conflictsPredicateEnabled to rest api)
 |=============================
 
 [[change-index-config-info]]

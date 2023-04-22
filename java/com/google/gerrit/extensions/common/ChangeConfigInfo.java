@@ -22,6 +22,11 @@ public class ChangeConfigInfo {
   public int updateDelay;
   public Boolean submitWholeTopic;
   public String mergeabilityComputationBehavior;
+<<<<<<< HEAD   (5684a4 Merge branch 'stable-3.5' into stable-3.6)
   public Boolean enableAttentionSet;
   public Boolean enableAssignee;
+=======
+  public Boolean enableRobotComments;
+  public Boolean conflictsPredicateEnabled;
+>>>>>>> CHANGE (ab404b Expose conflictsPredicateEnabled to rest api)
 }

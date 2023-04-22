@@ -33,6 +33,24 @@
       "message": "Hello Ben,\nI think this commit introduces a regression resulting in the \"Merge conflicts\" pane never getting shown, regardless of the configuration.\nThe reason is that `change.conflicts_predicate_enabled` is not available via the `/config/server/info` API endpoint, moreover, `conflictsPredicateEnabled` doesn\u0027t seem to be exposed via any API anyhow.\nCan you please take care of this?",
       "revId": "fcfe43719d59534c1d3cc443a081169aac3b0348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1911a6b_2d467444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-22T20:53:37Z",
+      "side": 1,
+      "message": "Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/370316 i think.",
+      "parentUuid": "3c17b17f_58fa1422",
+      "revId": "fcfe43719d59534c1d3cc443a081169aac3b0348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -168,6 +168,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
     public String getTotalDisplay(int total) {
       return String.valueOf(total);
     }
+
+    @Override
+    public void showDuration(boolean enabled) {
+      // not implemented
+    }
   }
 
   /** Handle for a sub-task whose total work can be updated while the task is in progress. */

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "182b44aa_dc3ff6a3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-22T16:04:56Z",
+      "side": 0,
+      "message": "This should be preserved.",
+      "range": {
+        "startLine": 1127,
+        "startChar": 0,
+        "endLine": 1132,
+        "endChar": 16
+      },
+      "revId": "3e6ac84ddcf2a0e6062547c464df5c0759b674d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

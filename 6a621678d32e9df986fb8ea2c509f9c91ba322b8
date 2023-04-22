@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d60424c_ac4e745c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-22T20:53:09Z",
+      "side": 1,
+      "message": "This is used in the frontend but doesn\u0027t seem to have been exposed in the backend. Was caught here https://gerrit-review.googlesource.com/c/gerrit/+/328627/2#message-2fdb021b6f9884a45e1b62fa512216cbb24ea177. Used here https://github.com/GerritCodeReview/gerrit/blob/5b3e1400dae5a44e999b7e5439deff1eb00dc00b/polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts#L1803",
+      "revId": "6a621678d32e9df986fb8ea2c509f9c91ba322b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

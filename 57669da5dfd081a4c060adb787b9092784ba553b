@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f802431_ee9d1c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-22T05:31:41Z",
+      "side": 1,
+      "message": "Bumping bazel to the latest release line 6.x is actually unrelated here to the fix of building on MacOS 13.3.1.\n\nLast year I uploaded change 355355 to the main branch. We could move my change to the stable-3.7 branch, and rebase this change on top of it, and only include here the java_tools update.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "57669da5dfd081a4c060adb787b9092784ba553b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c68fc1b9_d6619f88",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-22T05:31:41Z",
+      "side": 1,
+      "message": "TODO comment could help here, as for why it\u0027s needed and that this should be reverted, once new Bazel release is conducted that includes the recent java_tools, e. g. after this PR: [1] is merged and new Bazel release 6.2.0: [2] is published.\n\n[1] https://github.com/bazelbuild/bazel/pull/18176\n[2] https://github.com/bazelbuild/bazel/issues/17695",
+      "revId": "57669da5dfd081a4c060adb787b9092784ba553b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d839f0f2_a6aaef5f",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-22T05:31:41Z",
+      "side": 1,
+      "message": "Here and below: wrong indent. Run buildifier on this file.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "57669da5dfd081a4c060adb787b9092784ba553b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9d7763_383c7de0",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-22T05:31:41Z",
+      "side": 1,
+      "message": "This is not needed (and is a no-op), as this bug pattern doesn\u0027t have severity code ERROR and is even not activated per default: [1].\n\nHowever, given that this bug pattern is also known under the old name: MutableConstantField, we see the build breakage after the update.\n\nThat\u0027s why you would need to demote `-Xep:MutableConstantField:ERROR` to `-Xep:MutableConstantField:WARN` on line 290.\n\nI wrote this issue upstream: [2], you could reference this issue in the commit message.\n\n[1] https://github.com/google/error-prone/blob/master/core/src/main/java/com/google/errorprone/scanner/BuiltInCheckerSuppliers.java#L1039\n[2] https://github.com/google/error-prone/issues/3872",
+      "range": {
+        "startLine": 332,
+        "startChar": 8,
+        "endLine": 332,
+        "endChar": 43
+      },
+      "revId": "57669da5dfd081a4c060adb787b9092784ba553b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

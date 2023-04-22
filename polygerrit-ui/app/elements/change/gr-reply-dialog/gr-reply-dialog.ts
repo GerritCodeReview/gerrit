@@ -213,6 +213,8 @@ export class GrReplyDialog extends LitElement {
 
   @state() latestPatchNum?: PatchSetNumber;
 
+  @state() latestPatchNum?: PatchSetNumber;
+
   @state() serverConfig?: ServerInfo;
 
   @state()

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index.group;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.Index;
@@ -21,6 +23,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.IndexedQuery;
+import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import java.util.HashSet;
@@ -31,7 +34,7 @@ import java.util.Set;
  * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
  */
 public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>
-    implements DataSource<InternalGroup> {
+    implements DataSource<InternalGroup>, Matchable<InternalGroup> {
 
   public static QueryOptions createOptions(
       IndexConfig config, int start, int pageSize, int limit, Set<String> fields) {
@@ -49,5 +52,21 @@ public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalG
       QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
+  }
+
+  @Override
+  public boolean match(InternalGroup object) {
+    Predicate<InternalGroup> pred = getChild(0);
+    checkState(
+        pred.isMatchable(),
+        "match invoked, but child predicate %s doesn't implement %s",
+        pred,
+        Matchable.class.getName());
+    return pred.asMatchable().match(object);
+  }
+
+  @Override
+  public int getCost() {
+    return 1;
   }
 }

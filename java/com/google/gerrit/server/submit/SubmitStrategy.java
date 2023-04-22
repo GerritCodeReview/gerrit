@@ -217,11 +217,18 @@ public abstract class SubmitStrategy {
           projectCache.get(destBranch.project()).orElseThrow(illegalState(destBranch.project()));
       this.mergeSorter =
           new MergeSorter(caller, rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
+      Set<RevCommit> uninterestingBranchTips;
+      if (project.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET)) {
+        RevCommit initialTip = mergeTip.getInitialTip();
+        uninterestingBranchTips = initialTip == null ? Set.of() : Set.of(initialTip);
+      } else {
+        uninterestingBranchTips = alreadyAccepted;
+      }
       this.rebaseSorter =
           new RebaseSorter(
               caller,
               rw,
-              mergeTip.getInitialTip(),
+              uninterestingBranchTips,
               alreadyAccepted,
               canMergeFlag,
               queryProvider,

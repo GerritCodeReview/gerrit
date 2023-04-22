@@ -223,6 +223,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.fromConfig(config).name();
     info.enableRobotComments = toBoolean(config.getBoolean("change", "enableRobotComments", true));
+    info.conflictsPredicateEnabled =
+        toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
     return info;
   }
 

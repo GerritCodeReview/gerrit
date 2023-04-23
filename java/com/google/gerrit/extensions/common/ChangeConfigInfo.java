@@ -24,4 +24,5 @@ public class ChangeConfigInfo {
   public String mergeabilityComputationBehavior;
   public Boolean enableAttentionSet;
   public Boolean enableAssignee;
+  public Boolean conflictsPredicateEnabled;
 }

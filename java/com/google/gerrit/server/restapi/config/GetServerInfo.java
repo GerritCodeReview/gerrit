@@ -235,6 +235,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(this.config.getBoolean("change", null, "enableAttentionSet", true));
     info.enableAssignee =
         toBoolean(this.config.getBoolean("change", null, "enableAssignee", false));
+    info.conflictsPredicateEnabled =
+        toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
     return info;
   }
 

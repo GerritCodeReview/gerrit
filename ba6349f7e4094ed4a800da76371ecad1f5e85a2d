@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95498e02_a1cd07f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-04-23T19:44:50Z",
+      "side": 1,
+      "message": "This update fixes support for safari 16.4 (https://github.com/marijnh/style-mod/commit/563500cceb5c9a61a7280e0cd38ee59b97ac6a2d).",
+      "revId": "ba6349f7e4094ed4a800da76371ecad1f5e85a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

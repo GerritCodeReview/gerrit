@@ -1038,10 +1038,53 @@ class ReceiveCommits {
           return;
         }
         try {
-          retryHelper
+          if (!newChanges.isEmpty()) {
+          // TODO: Retry lock failures on new change insertions. The retry will
+          //  likely have to move to a higher layer to be able to achieve that
+          //  due to state that needs to be reset with each retry attempt.
+          insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
+        } else {retryHelper
               .changeUpdate(
-                  "insertChangesAndPatchSets",
+                  "insertPatchSets",
                   updateFactory -> {
+                    insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
+                    return null;
+                  })
+              .defaultTimeoutMultiplier(5)
+              .call();
+        }
+      } catch (ResourceConflictException e) {
+        addError(e.getMessage());
+        reject(magicBranchCmd, "conflict");
+      } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
+        logger.atFine().withCause(e).log("Rejecting due to client error");
+        reject(magicBranchCmd, e.getMessage());
+      } catch (RestApiException | IOException | UpdateException e) {
+        throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
+      }
+
+      if (magicBranch != null && magicBranch.submit) {
+        try {
+          submit(newChanges, replaceByChange.values());
+        } catch (ResourceConflictException e) {
+          addError(e.getMessage());
+          reject(magicBranchCmd, "conflict");
+        } catch (RestApiException
+            | StorageException
+            | UpdateException
+            | IOException
+            | ConfigInvalidException
+            | PermissionBackendException e) {
+          logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
+          reject(magicBranchCmd, "error during submit");
+        }
+      }
+    }
+  }
+
+  private void insertChangesAndPatchSets(
+      ReceiveCommand magicBranchCmd, List<CreateRequest> newChanges, Task replaceProgress)
+      throws RestApiException, IOException {
                     try (BatchUpdate bu =
                             batchUpdateFactory.create(
                                 project.getNameKey(), user.materializedCopy(), TimeUtil.now());
@@ -1115,52 +1158,51 @@ class ReceiveCommits {
                                   result.addChange(
                                       ReceiveCommitsResult.ChangeStatus.CREATED, req.changeId));
 
-                      if (magicBranchCmd != null) {
-                        magicBranchCmd.setResult(OK);
-                      }
-                      for (ReplaceRequest replace : replaceByChange.values()) {
-                        String rejectMessage = replace.getRejectMessage();
-                        if (rejectMessage == null) {
-                          if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
-                            // Not necessarily the magic branch, so need to set OK on the original
-                            // value.
-                            replace.inputCommand.setResult(OK);
-                          }
-                        } else {
-                          logger.atFine().log("Rejecting due to message from ReplaceOp");
-                          reject(replace.inputCommand, rejectMessage);
+                    if (magicBranchCmd != null) {
+                      magicBranchCmd.setResult(OK);
+                    }
+                    for (ReplaceRequest replace : replaceByChange.values()) {
+                      String rejectMessage = replace.getRejectMessage();
+                      if (rejectMessage == null) {
+                        if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
+                          // Not necessarily the magic branch, so need to set OK on the original
+                          // value.
+                          replace.inputCommand.setResult(OK);
                         }
+                      } else {
+                        logger.atFine().log("Rejecting due to message from ReplaceOp");
+                        reject(replace.inputCommand, rejectMessage);
                       }
                     }
-                    return null;
-                  })
-              .defaultTimeoutMultiplier(5)
-              .call();
+                  }
+                  return null;
+                })
+            .defaultTimeoutMultiplier(5)
+            .call();
+      } catch (ResourceConflictException e) {
+        addError(e.getMessage());
+        reject(magicBranchCmd, "conflict");
+      } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
+        logger.atFine().withCause(e).log("Rejecting due to client error");
+        reject(magicBranchCmd, e.getMessage());
+      } catch (RestApiException | UpdateException e) {
+        throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
+      }
+
+      if (magicBranch != null && magicBranch.submit) {
+        try {
+          submit(newChanges, replaceByChange.values());
         } catch (ResourceConflictException e) {
           addError(e.getMessage());
           reject(magicBranchCmd, "conflict");
-        } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
-          logger.atFine().withCause(e).log("Rejecting due to client error");
-          reject(magicBranchCmd, e.getMessage());
-        } catch (RestApiException | UpdateException e) {
-          throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
-        }
-
-        if (magicBranch != null && magicBranch.submit) {
-          try {
-            submit(newChanges, replaceByChange.values());
-          } catch (ResourceConflictException e) {
-            addError(e.getMessage());
-            reject(magicBranchCmd, "conflict");
-          } catch (RestApiException
-              | StorageException
-              | UpdateException
-              | IOException
-              | ConfigInvalidException
-              | PermissionBackendException e) {
-            logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
-            reject(magicBranchCmd, "error during submit");
-          }
+        } catch (RestApiException
+            | StorageException
+            | UpdateException
+            | IOException
+            | ConfigInvalidException
+            | PermissionBackendException e) {
+          logger.atSevere().withCause(e).log("Error submitting changes to %s", project.getName());
+          reject(magicBranchCmd, "error during submit");
         }
       }
     }

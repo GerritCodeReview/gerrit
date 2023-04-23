@@ -51,6 +51,24 @@
       "parentUuid": "3c17b17f_58fa1422",
       "revId": "fcfe43719d59534c1d3cc443a081169aac3b0348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e024b03_5ef168a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015087
+      },
+      "writtenOn": "2023-04-23T08:42:36Z",
+      "side": 1,
+      "message": "\u003e Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/370316 i think.\n\nThanks a lot for the prompt fix, appreciated!",
+      "parentUuid": "f1911a6b_2d467444",
+      "revId": "fcfe43719d59534c1d3cc443a081169aac3b0348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

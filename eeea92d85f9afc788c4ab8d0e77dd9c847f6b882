@@ -33,6 +33,24 @@
       "message": "Needs reverting. It\u0027s already there.",
       "revId": "eeea92d85f9afc788c4ab8d0e77dd9c847f6b882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f51b00e_49b9bf23",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-23T00:35:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab1ad64_872a60c8",
+      "revId": "eeea92d85f9afc788c4ab8d0e77dd9c847f6b882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

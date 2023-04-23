@@ -87,6 +87,9 @@ public class PaginatingSource<T> implements DataSource<T> {
                   r.add(data);
                 }
                 pageResultSize++;
+                if (r.size() > limit) {
+                  break;
+                }
               }
               nextStart += pageResultSize;
               searchAfter = next.searchAfter();

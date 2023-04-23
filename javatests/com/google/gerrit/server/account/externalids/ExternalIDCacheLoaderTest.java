@@ -183,7 +183,7 @@ public class ExternalIDCacheLoaderTest {
   public void handlesTreePrefixesInDifferentialReload() throws Exception {
     // Create more than 256 notes (NoteMap's current sharding limit) and check that we really have
     // created a situation where NoteNames are sharded.
-    ObjectId oldState = inserExternalIds(257);
+    ObjectId oldState = insertExternalIds(257);
     assertAllFilesHaveSlashesInPath();
     ObjectId head = insertExternalId(500, 500);
     externalIdCache.put(oldState, allFromGit(oldState));
@@ -196,7 +196,7 @@ public class ExternalIDCacheLoaderTest {
   @Test
   public void handlesReshard() throws Exception {
     // Create 256 notes (NoteMap's current sharding limit) and check that we are not yet sharding
-    ObjectId oldState = inserExternalIds(256);
+    ObjectId oldState = insertExternalIds(256);
     assertNoFilesHaveSlashesInPath();
     // Create one more external ID and then have the Loader compute the new state
     ObjectId head = insertExternalId(500, 500);
@@ -223,7 +223,7 @@ public class ExternalIDCacheLoaderTest {
     return AllExternalIds.create(externalIdReader.all(revision).stream());
   }
 
-  private ObjectId inserExternalIds(int numberOfIdsToInsert) throws Exception {
+  private ObjectId insertExternalIds(int numberOfIdsToInsert) throws Exception {
     ObjectId oldState = null;
     // Create more than 256 notes (NoteMap's current sharding limit) and check that we really have
     // created a situation where NoteNames are sharded.

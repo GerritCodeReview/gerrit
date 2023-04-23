@@ -22,4 +22,5 @@ public class ChangeConfigInfo {
   public Boolean submitWholeTopic;
   public String mergeabilityComputationBehavior;
   public Boolean enableRobotComments;
+  public Boolean conflictsPredicateEnabled;
 }

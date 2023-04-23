@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7e0d5a_1dd29c56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-23T00:02:31Z",
+      "side": 1,
+      "message": "Heading too long",
+      "range": {
+        "startLine": 7,
+        "startChar": 66,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "c75a48567dc6b95c90d564a65220b20b4890a601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272d5595_697cf9a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-23T00:02:31Z",
+      "side": 1,
+      "message": "Looks OK, just one nit",
+      "revId": "c75a48567dc6b95c90d564a65220b20b4890a601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

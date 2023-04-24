@@ -544,6 +544,7 @@ public abstract class BaseCommand implements Command {
     }
 
     @Override
+    @Nullable
     public String getRemoteName() {
       return null;
     }

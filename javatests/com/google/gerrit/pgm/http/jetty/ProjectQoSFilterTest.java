@@ -49,6 +49,7 @@ public class ProjectQoSFilterTest {
   @Mock ServletContext context;
 
   @Test
+  @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerCompleteFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
     ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
@@ -71,6 +72,7 @@ public class ProjectQoSFilterTest {
   }
 
   @Test
+  @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerTimeoutFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
     ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
@@ -93,6 +95,7 @@ public class ProjectQoSFilterTest {
   }
 
   @Test
+  @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerErrorFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
     ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);

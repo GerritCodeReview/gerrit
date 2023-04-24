@@ -34,7 +34,7 @@ import com.google.gerrit.server.mail.send.DeleteKeyEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
-import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
+import com.google.gerrit.server.mail.send.HttpPasswordUpdateEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
@@ -53,7 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
-    factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
   }
 
@@ -425,6 +424,24 @@ public class EmailModule extends FactoryModule {
     public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
       return outgoingEmailFactory.create(
           "deletekey", deleteKeyEmailDecoratorFactory.create(user, gpgKeyFingerprints));
+    }
+  }
+
+  public static class HttpPasswordUpdateEmailFactory {
+    private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailDecoratorFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    HttpPasswordUpdateEmailFactory(
+        HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailDecoratorFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.httpPasswordUpdateEmailDecoratorFactory = httpPasswordUpdateEmailDecoratorFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public OutgoingEmailNew createEmail(IdentifiedUser user, String operation) {
+      return outgoingEmailFactory.create(
+          "HttpPasswordUpdate", httpPasswordUpdateEmailDecoratorFactory.create(user, operation));
     }
   }
 }

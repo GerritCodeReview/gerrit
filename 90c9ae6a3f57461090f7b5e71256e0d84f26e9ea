@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bff079e8_9258e7af",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailNew.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-24T10:28:07Z",
+      "side": 1,
+      "message": "I need public here for the next change, that is in the checks plugin",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "90c9ae6a3f57461090f7b5e71256e0d84f26e9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

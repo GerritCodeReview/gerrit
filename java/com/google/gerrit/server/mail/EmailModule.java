@@ -28,14 +28,12 @@ import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
@@ -43,6 +41,7 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.RevertedChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
@@ -52,8 +51,6 @@ public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(AddKeySender.Factory.class);
-    factory(ModifyReviewerSender.Factory.class);
-    factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
@@ -349,6 +346,38 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("revert", changeEmail);
+    }
+  }
+
+  public static class StartReviewChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    StartReviewChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public StartReviewChangeEmailDecorator createStartReviewChangeEmail() {
+      return new StartReviewChangeEmailDecorator();
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        StartReviewChangeEmailDecorator startReviewChangeEmailDecorator) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), startReviewChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("newchange", changeEmail);
     }
   }
 }

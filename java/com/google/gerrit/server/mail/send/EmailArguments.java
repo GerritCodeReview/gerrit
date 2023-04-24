@@ -59,11 +59,10 @@ import org.eclipse.jgit.lib.PersonIdent;
 /**
  * Arguments used for sending notification emails.
  *
- * <p>Notification emails are sent by out by {@link OutgoingEmail} and it's subclasses, so called
- * senders. To construct an email the sender class needs to get various other classes injected.
- * Instead of injecting these classes into the sender classes directly, they only get {@code
- * EmailArguments} injected and {@code EmailArguments} provides them all dependencies that they
- * need.
+ * <p>Notification emails are sent by out by {@link OutgoingEmailNew} . To construct an email class
+ * (or its decorators) needs to get various other classes injected. Instead of injecting these
+ * classes into the sender classes directly, they only get {@code EmailArguments} injected and
+ * {@code EmailArguments} provides them all dependencies that they need.
  *
  * <p>This class is public because plugins need access to it for sending emails.
  */

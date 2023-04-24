@@ -21,14 +21,13 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Verifies the token sent by {@link RegisterNewEmailSender}. */
+/** Verifies the token used by new email address verification process. */
 @Singleton
 public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   private final SignedToken emailRegistrationToken;

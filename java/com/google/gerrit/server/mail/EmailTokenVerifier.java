@@ -16,9 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 
-/** Verifies the token sent by {@link RegisterNewEmailSender}. */
+/** Verifies the token used by new email address verification process. */
 public interface EmailTokenVerifier {
   /**
    * Construct a token to verify an email address for a user.

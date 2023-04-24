@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4750a94f_494f733d",
+        "filename": "java/com/google/gerrit/server/mail/send/ReplacePatchSetChangeEmailDecorator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-24T09:13:24Z",
+      "side": 0,
+      "message": "This line is removed, because the `changeEmail.addAuthors(RecipientType.TO);` makes it so, that this line is ignored.\n\nThis is not a behavior change, since previously addAuthors(RecipientType.To) was part of super.populateEmailContent in `ReplyToChangeSender`",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 35
+      },
+      "revId": "63b120ed1981a718546ca73131ae6df15f35faf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

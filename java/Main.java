@@ -16,6 +16,7 @@
 public final class Main {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
+  private static final Runtime.Version MIN_JAVA_VERSION = Runtime.Version.parse("11.0.10");
 
   // We don't do any real work here because we need to import
   // the archive lookup code and we cannot import a class in
@@ -34,11 +35,11 @@ public final class Main {
   }
 
   private static boolean onSupportedJavaVersion() {
-    final String version = System.getProperty("java.specification.version");
-    if (1.8 <= parse(version)) {
+    Runtime.Version version = Runtime.version();
+    if (version.compareTo(MIN_JAVA_VERSION) >= 0) {
       return true;
     }
-    System.err.println("fatal: Gerrit Code Review requires Java 8 or later");
+    System.err.println("fatal: Gerrit Code Review requires Java " + MIN_JAVA_VERSION + " or later");
     System.err.println("       (trying to run on Java " + version + ")");
     return false;
   }
@@ -56,23 +57,6 @@ public final class Main {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
         "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
-  }
-
-  private static double parse(String version) {
-    if (version == null || version.length() == 0) {
-      return 0.0;
-    }
-
-    try {
-      final int fd = version.indexOf('.');
-      final int sd = version.indexOf('.', fd + 1);
-      if (0 < sd) {
-        version = version.substring(0, sd);
-      }
-      return Double.parseDouble(version);
-    } catch (NumberFormatException e) {
-      return 0.0;
-    }
   }
 
   private Main() {}

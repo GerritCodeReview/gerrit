@@ -41,7 +41,8 @@ import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.In
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
-import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
+import com.google.gerrit.server.mail.send.RegisterNewEmailDecorator;
+import com.google.gerrit.server.mail.send.RegisterNewEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
@@ -54,11 +55,6 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailModule extends FactoryModule {
-  @Override
-  protected void configure() {
-    factory(RegisterNewEmailSender.Factory.class);
-  }
-
   public static class AbandonedChangeEmailFactories {
     private final EmailArguments args;
     private final ChangeEmailNewFactory changeEmailFactory;
@@ -459,6 +455,27 @@ public class EmailModule extends FactoryModule {
     public OutgoingEmailNew createEmail(Address to, String threadId, InboundEmailError reason) {
       return outgoingEmailFactory.create(
           "error", new InboundEmailRejectionEmailDecorator(to, threadId, reason));
+    }
+  }
+
+  public static class RegisterNewEmailFactories {
+    private final RegisterNewEmailDecoratorFactory registerNewEmailDecoratorFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    RegisterNewEmailFactories(
+        RegisterNewEmailDecoratorFactory registerNewEmailDecoratorFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.registerNewEmailDecoratorFactory = registerNewEmailDecoratorFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public RegisterNewEmailDecorator createRegisterNewEmail(String address) {
+      return registerNewEmailDecoratorFactory.create(address);
+    }
+
+    public OutgoingEmailNew createEmail(RegisterNewEmailDecorator registerNewEmail) {
+      return outgoingEmailFactory.create("registernewemail", registerNewEmail);
     }
   }
 }

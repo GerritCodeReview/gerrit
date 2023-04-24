@@ -73,11 +73,13 @@ public class TestGroupBackend implements GroupBackend {
           }
 
           @Override
+          @Nullable
           public String getEmailAddress() {
             return null;
           }
 
           @Override
+          @Nullable
           public String getUrl() {
             return null;
           }

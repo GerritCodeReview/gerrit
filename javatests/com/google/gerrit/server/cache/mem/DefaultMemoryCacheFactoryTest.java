@@ -22,6 +22,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalNotification;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.cache.CacheDef;
@@ -282,11 +283,13 @@ public class DefaultMemoryCacheFactoryTest {
       }
 
       @Override
+      @Nullable
       public TypeLiteral<Integer> keyType() {
         return null;
       }
 
       @Override
+      @Nullable
       public TypeLiteral<Integer> valueType() {
         return null;
       }
@@ -297,26 +300,31 @@ public class DefaultMemoryCacheFactoryTest {
       }
 
       @Override
+      @Nullable
       public Duration expireAfterWrite() {
         return null;
       }
 
       @Override
+      @Nullable
       public Duration expireFromMemoryAfterAccess() {
         return null;
       }
 
       @Override
+      @Nullable
       public Duration refreshAfterWrite() {
         return null;
       }
 
       @Override
+      @Nullable
       public Weigher<Integer, Integer> weigher() {
         return null;
       }
 
       @Override
+      @Nullable
       public CacheLoader<Integer, Integer> loader() {
         return null;
       }

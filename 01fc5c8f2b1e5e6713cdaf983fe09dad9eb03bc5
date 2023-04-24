@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4842c965_5092f8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-24T04:48:59Z",
+      "side": 1,
+      "message": "The merge should be redone to also include recently merged:\n\n  8758b01bda Expose conflictsPredicateEnabled to rest api",
+      "revId": "01fc5c8f2b1e5e6713cdaf983fe09dad9eb03bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

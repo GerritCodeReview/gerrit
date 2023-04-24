@@ -34,6 +34,24 @@
       "parentUuid": "5dbce905_e827738b",
       "revId": "ac9bc873bd91eb106aed5207b2f4038c4fc8e78a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a93ba6a_9de8b9bf",
+        "filename": "java/com/google/gerrit/server/mail/send/ReplacePatchSetChangeEmailDecorator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-24T12:50:36Z",
+      "side": 0,
+      "message": "Thanks for explaining. It makes sense now.\n\n\u003e I left resolved Gerrit comment on that line, but I guess it didn\u0027t show\n\u003e up, because it wasn\u0027t on the latest patchset.\n\nYeah, sorry I missed this comment,",
+      "parentUuid": "49dcb9d7_fdf4b76e",
+      "revId": "ac9bc873bd91eb106aed5207b2f4038c4fc8e78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

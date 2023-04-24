@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail.send;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -28,13 +30,11 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,18 +44,13 @@ import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Send notice of new patch sets for reviewers. */
-public class ReplacePatchSetSender extends ReplyToChangeSender {
+@AutoFactory
+public class ReplacePatchSetChangeEmailDecorator implements ChangeEmailDecorator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public interface Factory {
-    ReplacePatchSetSender create(
-        Project.NameKey project,
-        Change.Id changeId,
-        ChangeKind changeKind,
-        ObjectId preUpdateMetaId,
-        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults);
-  }
-
+  private final EmailArguments args;
+  private OutgoingEmailNew email;
+  private ChangeEmailNew changeEmail;
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final ChangeKind changeKind;
@@ -64,16 +59,14 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       preUpdateSubmitRequirementResultsSupplier;
   private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
-  @Inject
-  public ReplacePatchSetSender(
-      EmailArguments args,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id changeId,
-      @Assisted ChangeKind changeKind,
-      @Assisted ObjectId preUpdateMetaId,
-      @Assisted
-          Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-    super(args, "newpatchset", newChangeData(args, project, changeId));
+  ReplacePatchSetChangeEmailDecorator(
+      @Provided EmailArguments args,
+      Project.NameKey project,
+      Change.Id changeId,
+      ChangeKind changeKind,
+      ObjectId preUpdateMetaId,
+      Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
+    this.args = args;
     this.changeKind = changeKind;
 
     this.preUpdateSubmitRequirementResultsSupplier =
@@ -81,22 +74,21 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
             () ->
                 // Triggers an (expensive) evaluation of the submit requirements. This is OK since
                 // all callers sent this email asynchronously, see EmailNewPatchSet.
-                newChangeData(args, project, changeId, preUpdateMetaId)
+                args.newChangeData(project, changeId, preUpdateMetaId)
                     .submitRequirementsIncludingLegacy());
 
     this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
 
   @Override
-  protected boolean shouldSendMessage() {
+  public boolean shouldSendMessage() {
     if (!isChangeNoLongerSubmittable() && changeKind.isTrivialRebase()) {
       logger.atFine().log(
           "skip email because new patch set is a trivial rebase that didn't make the change"
               + " non-submittable");
       return false;
     }
-
-    return super.shouldSendMessage();
+    return true;
   }
 
   public void addReviewers(Collection<Account.Id> cc) {
@@ -114,10 +106,12 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+    this.email = email;
+    this.changeEmail = changeEmail;
+    changeEmail.markAsReply();
 
-    Account.Id fromId = getFrom();
+    Account.Id fromId = email.getFrom();
     if (fromId != null) {
       // Don't call yourself a reviewer of your own patch set.
       //
@@ -125,22 +119,14 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
   }
 
-  @Override
-  protected void formatChange() throws EmailException {
-    appendText(textTemplate("ReplacePatchSet"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ReplacePatchSetHtml"));
-    }
-  }
-
   @Nullable
-  public ImmutableList<String> getReviewerNames() {
+  private ImmutableList<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      if (id.equals(getFrom())) {
+      if (id.equals(email.getFrom())) {
         continue;
       }
-      names.add(getNameFor(id));
+      names.add(email.getNameFor(id));
     }
     if (names.isEmpty()) {
       return null;
@@ -155,37 +141,43 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
                 String.format(
                     "%s by %s",
                     LabelVote.create(outdatedApproval.label(), outdatedApproval.value()).format(),
-                    getNameFor(outdatedApproval.accountId())))
+                    email.getNameFor(outdatedApproval.accountId())))
         .sorted()
         .collect(toImmutableList());
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("reviewerNames", getReviewerNames());
-    addSoyEmailDataParam("outdatedApprovals", formatOutdatedApprovals());
+  public void populateEmailContent() {
+    changeEmail.addAuthors(RecipientType.TO);
+
+    email.addSoyEmailDataParam("reviewerNames", getReviewerNames());
+    email.addSoyEmailDataParam("outdatedApprovals", formatOutdatedApprovals());
 
     if (isChangeNoLongerSubmittable()) {
-      addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
-      addSoyParam(
+      email.addSoyParam("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      email.addSoyParam(
           "oldSubmitRequirements",
           formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
-      addSoyParam(
+      email.addSoyParam(
           "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
     }
 
     if (args.settings.sendNewPatchsetEmails) {
-      if (getNotify().handling().equals(NotifyHandling.ALL)
-          || getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)) {
-        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r));
-        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
+      if (email.getNotify().handling().equals(NotifyHandling.ALL)
+          || email.getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)) {
+        reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r));
+        extraCC.stream().forEach(cc -> email.addByAccountId(RecipientType.CC, cc));
       }
-      addAuthors(RecipientType.CC);
     }
-    bccStarredBy();
-    includeWatchers(
-        NotifyType.NEW_PATCHSETS, !getChange().isWorkInProgress() && !getChange().isPrivate());
+    changeEmail.bccStarredBy();
+    changeEmail.includeWatchers(
+        NotifyType.NEW_PATCHSETS,
+        !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
+
+    email.appendText(email.textTemplate("ReplacePatchSet"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("ReplacePatchSetHtml"));
+    }
   }
 
   /**
@@ -200,7 +192,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s before the update is %s",
-        getChange().getId(), isSubmittablePreUpdate);
+        changeEmail.getChange().getId(), isSubmittablePreUpdate);
     if (!isSubmittablePreUpdate) {
       return false;
     }
@@ -210,7 +202,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
             .allMatch(SubmitRequirementResult::fulfilled);
     logger.atFine().log(
         "the submitability of change %s after the update is %s",
-        getChange().getId(), isSubmittablePostUpdate);
+        changeEmail.getChange().getId(), isSubmittablePostUpdate);
     return !isSubmittablePostUpdate;
   }
 

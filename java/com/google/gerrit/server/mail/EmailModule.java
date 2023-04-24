@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AddKeySender;
@@ -38,9 +39,10 @@ import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
-import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
-import com.google.gerrit.server.mail.send.RestoredSender;
-import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecoratorFactory;
+import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.RevertedChangeEmailDecorator;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
@@ -55,9 +57,6 @@ public class EmailModule extends FactoryModule {
     factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
-    factory(ReplacePatchSetSender.Factory.class);
-    factory(RestoredSender.Factory.class);
-    factory(RevertedSender.Factory.class);
   }
 
   public static class AbandonedChangeEmailFactories {
@@ -252,6 +251,104 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("merged", changeEmail);
+    }
+  }
+
+  public static class ReplacePatchSetChangeEmailFactories {
+    private final EmailArguments args;
+    private final ReplacePatchSetChangeEmailDecoratorFactory
+        replacePatchSetChangeEmailDecoratorFactory;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    ReplacePatchSetChangeEmailFactories(
+        EmailArguments args,
+        ReplacePatchSetChangeEmailDecoratorFactory replacePatchSetChangeEmailDecoratorFactory,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.args = args;
+      this.replacePatchSetChangeEmailDecoratorFactory = replacePatchSetChangeEmailDecoratorFactory;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public ReplacePatchSetChangeEmailDecorator createReplacePatchSetChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        ChangeKind changeKind,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
+      return replacePatchSetChangeEmailDecoratorFactory.create(
+          project, changeId, changeKind, preUpdateMetaId, postUpdateSubmitRequirementResults);
+    }
+
+    public ChangeEmailNew createChangeEmail(
+        Project.NameKey project,
+        Change.Id changeId,
+        ReplacePatchSetChangeEmailDecorator replacePatchSetChangeEmailDecoratorFactory) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), replacePatchSetChangeEmailDecoratorFactory);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("newpatchset", changeEmail);
+    }
+  }
+
+  public static class RestoredChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final RestoredChangeEmailDecorator restoredChangeEmailDecorator;
+
+    @Inject
+    RestoredChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        RestoredChangeEmailDecorator restoredChangeEmailDecorator) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.restoredChangeEmailDecorator = restoredChangeEmailDecorator;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), restoredChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("restore", changeEmail);
+    }
+  }
+
+  public static class RevertedChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final RevertedChangeEmailDecorator revertedChangeEmailDecorator;
+
+    @Inject
+    RevertedChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        RevertedChangeEmailDecorator revertedChangeEmailDecorator) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.revertedChangeEmailDecorator = revertedChangeEmailDecorator;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), revertedChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("revert", changeEmail);
     }
   }
 }

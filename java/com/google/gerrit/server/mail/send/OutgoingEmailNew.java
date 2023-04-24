@@ -64,7 +64,7 @@ import org.eclipse.jgit.util.SystemReader;
 public final class OutgoingEmailNew {
 
   /** Provides content, recipients and any customizations of the email. */
-  interface EmailDecorator {
+  public interface EmailDecorator {
     /**
      * Stores the reference to the email for the subsequent calls.
      *

@@ -1579,6 +1579,8 @@ bit is indexed.
 Returns true if attention set UI features are enabled.
 |`enable_assignee` |defaults to `true`|
 Returns true if assignee related UI features are enabled.
+|`conflicts_predicate_enabled`|not set if `false`|
+link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
 |=============================
 
 [[change-index-config-info]]

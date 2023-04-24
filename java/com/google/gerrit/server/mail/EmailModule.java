@@ -20,15 +20,17 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
-import com.google.gerrit.server.mail.send.AddKeySender;
+import com.google.gerrit.server.mail.send.AddKeyEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
 import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.DeleteKeySender;
+import com.google.gerrit.server.mail.send.DeleteKeyEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
@@ -43,6 +45,7 @@ import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.RevertedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.inject.Inject;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,8 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
-    factory(AddKeySender.Factory.class);
-    factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
   }
@@ -378,6 +379,52 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("newchange", changeEmail);
+    }
+  }
+
+  public static class AddKeyEmailFactories {
+    private final AddKeyEmailDecoratorFactory addKeyEmailDecoratorFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    AddKeyEmailFactories(
+        AddKeyEmailDecoratorFactory addKeyEmailDecoratorFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.addKeyEmailDecoratorFactory = addKeyEmailDecoratorFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+      return outgoingEmailFactory.create(
+          "addkey", addKeyEmailDecoratorFactory.create(user, sshKey));
+    }
+
+    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeys) {
+      return outgoingEmailFactory.create(
+          "addkey", addKeyEmailDecoratorFactory.create(user, gpgKeys));
+    }
+  }
+
+  public static class DeleteKeyEmailFactories {
+    private final DeleteKeyEmailDecoratorFactory deleteKeyEmailDecoratorFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    DeleteKeyEmailFactories(
+        DeleteKeyEmailDecoratorFactory deleteKeyEmailDecoratorFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.deleteKeyEmailDecoratorFactory = deleteKeyEmailDecoratorFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+      return outgoingEmailFactory.create(
+          "deletekey", deleteKeyEmailDecoratorFactory.create(user, sshKey));
+    }
+
+    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
+      return outgoingEmailFactory.create(
+          "deletekey", deleteKeyEmailDecoratorFactory.create(user, gpgKeyFingerprints));
     }
   }
 }

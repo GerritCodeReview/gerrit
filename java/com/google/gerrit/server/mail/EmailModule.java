@@ -41,7 +41,7 @@ import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.RestoredSender;
+import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -57,7 +57,6 @@ public class EmailModule extends FactoryModule {
     factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
-    factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
   }
 
@@ -295,6 +294,34 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("newpatchset", changeEmail);
+    }
+  }
+
+  public static class RestoredChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final RestoredChangeEmailDecorator restoredChangeEmailDecorator;
+
+    @Inject
+    RestoredChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        RestoredChangeEmailDecorator restoredChangeEmailDecorator) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.restoredChangeEmailDecorator = restoredChangeEmailDecorator;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), restoredChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("restore", changeEmail);
     }
   }
 }

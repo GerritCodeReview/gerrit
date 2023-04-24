@@ -34,7 +34,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.mail.send.DeleteKeySender;
+import com.google.gerrit.server.mail.EmailModule.DeleteKeyEmailFactories;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final Provider<PublicKeyStore> storeProvider;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
-  private final DeleteKeySender.Factory deleteKeySenderFactory;
+  private final DeleteKeyEmailFactories deleteKeyEmailFactories;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
@@ -62,13 +62,13 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       Provider<PublicKeyStore> storeProvider,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       ExternalIds externalIds,
-      DeleteKeySender.Factory deleteKeySenderFactory,
+      DeleteKeyEmailFactories deleteKeyEmailFactories,
       ExternalIdKeyFactory externalIdKeyFactory) {
     this.serverIdent = serverIdent;
     this.storeProvider = storeProvider;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
-    this.deleteKeySenderFactory = deleteKeySenderFactory;
+    this.deleteKeyEmailFactories = deleteKeyEmailFactories;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
@@ -104,8 +104,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         case NO_CHANGE:
         case FAST_FORWARD:
           try {
-            deleteKeySenderFactory
-                .create(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
+            deleteKeyEmailFactories
+                .createEmail(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
                 .send();
           } catch (EmailException e) {
             logger.atSevere().withCause(e).log(

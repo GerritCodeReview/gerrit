@@ -182,6 +182,30 @@
       },
       "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "952430d7_6f8ef3ae",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-24T07:48:25Z",
+      "side": 1,
+      "message": "I believe we have to do it, even it that\u0027s ugly. Maybe incapsulate into a separate private method and explain why we need to go that route and couldn\u0027t use the regex.",
+      "parentUuid": "384e8142_442e3720",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

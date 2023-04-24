@@ -22,6 +22,30 @@
       },
       "revId": "e16a9c3b83a9dcff63f2ef94b63374df4dd32a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a624bd56_a47a1225",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-24T08:43:25Z",
+      "side": 1,
+      "message": "See comment:\n```\n// We are ending the timer after each change view update, because ending a\n// timer that was not started is a no-op. :-)\n```\n\nSo we can end this timer as often as we like. :-)\n\n`firstUpdated()` has the issue of only being called once, and we cannot guarantee that we only want to report `changeDisplayed` once.",
+      "parentUuid": "bf692167_4db07420",
+      "range": {
+        "startLine": 1605,
+        "startChar": 4,
+        "endLine": 1605,
+        "endChar": 30
+      },
+      "revId": "e16a9c3b83a9dcff63f2ef94b63374df4dd32a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

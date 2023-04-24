@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
@@ -35,6 +36,8 @@ import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.DeleteVoteChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.EmailArguments;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateEmailDecoratorFactory;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
@@ -442,6 +445,20 @@ public class EmailModule extends FactoryModule {
     public OutgoingEmailNew createEmail(IdentifiedUser user, String operation) {
       return outgoingEmailFactory.create(
           "HttpPasswordUpdate", httpPasswordUpdateEmailDecoratorFactory.create(user, operation));
+    }
+  }
+
+  public static class InboundEmailRejectionEmailFactory {
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+
+    @Inject
+    InboundEmailRejectionEmailFactory(OutgoingEmailNewFactory outgoingEmailFactory) {
+      this.outgoingEmailFactory = outgoingEmailFactory;
+    }
+
+    public OutgoingEmailNew createEmail(Address to, String threadId, InboundEmailError reason) {
+      return outgoingEmailFactory.create(
+          "error", new InboundEmailRejectionEmailDecorator(to, threadId, reason));
     }
   }
 }

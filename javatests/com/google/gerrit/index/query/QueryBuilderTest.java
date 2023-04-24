@@ -57,6 +57,7 @@ public class QueryBuilderTest {
     }
 
     @Operator
+    @SuppressWarnings("unused")
     public Predicate<Object> a(String value) {
       return new TestPredicate("a", value);
     }

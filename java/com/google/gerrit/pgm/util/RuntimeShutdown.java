@@ -95,6 +95,7 @@ public class RuntimeShutdown {
       }
     }
 
+    @SuppressWarnings("DoNotCall")
     void manualShutdown() {
       Runtime.getRuntime().removeShutdownHook(this);
       run();

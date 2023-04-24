@@ -963,7 +963,7 @@ additional parameters.
 When calling command options not provided by your plugin, there is always
 a risk that the options may not exist, perhaps because the options being
 called are to be provided by another plugin, and said plugin is not
-currently installed. To protect againt this situation, it is possible to
+currently installed. To protect against this situation, it is possible to
 define an option as being dependent on other options using the
 @RequiresOptions() annotation. If the required options are not all not
 currently present, then the dependent option will not be available or
@@ -999,7 +999,7 @@ public class JsonOutputOptionHandler<T> extends OptionHandler<T> {
 @RequiresOptions("--format")
 @Option(
   name = "--special",
-  usage = "ouptut results using json",
+  usage = "output results using json",
   handler = JsonOutputOptionHandler.class
 )
 boolean json;
@@ -2725,7 +2725,7 @@ randomness.
 Plugins are expected to support rules inheritance themselves, providing ways
 to configure it and handling the logic behind it.
 Please note that no inheritance is sometimes better than badly handled
-inheritance: mis-communication and strange behaviors caused by inheritance
+inheritance: miscommunication and strange behaviors caused by inheritance
 may and will confuse the users. Each plugins is responsible for handling the
 project hierarchy and taking wise actions. Gerrit does not enforce it.
 

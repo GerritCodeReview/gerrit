@@ -352,7 +352,7 @@ Example:
 ----
 
 Now attach with a debugger to the port `5005`. For example use "Remote Java Application" launch
-configuration in Eclipe and specify the port `5005`.
+configuration in Eclipse and specify the port `5005`.
 
 [[logging]]
 === Controlling logging level
@@ -551,7 +551,7 @@ bazel run @nodejs//:yarn add $package
 ----
 
 Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
-for the package itself and for all transitive depndencies. If you forgot to add a license, the
+for the package itself and for all transitive dependencies. If you forgot to add a license, the
 `Documentation:check_licenses` test will fail.
 
 After the update, commit all changes to the repository (including `yarn.lock`).

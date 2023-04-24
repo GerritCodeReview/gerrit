@@ -2107,6 +2107,16 @@ Values can be specified using standard time unit abbreviations (`ms`, `sec`,
 +
 Default is 1 hour.
 
+[[core.usePerRequestRefCache]]core.usePerRequestRefCache::
++
+Use a per request (currently per request thread) ref cache. The ref
+cache uses JGit's SnapshottingRefDirectory to ensure that packed
+refs are checked and potentially read at least once per request
+(lazily) if needed. This helps reduce the overhead of checking if
+the packed-refs file is outdated.
++
+Default is true.
+
 [[dashboard]]
 === Section dashboard
 

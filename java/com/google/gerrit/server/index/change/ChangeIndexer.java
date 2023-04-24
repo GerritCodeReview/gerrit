@@ -361,6 +361,7 @@ public class ChangeIndexer {
 
     protected abstract T callImpl() throws Exception;
 
+    @SuppressWarnings("unused")
     protected abstract void remove();
 
     @Override

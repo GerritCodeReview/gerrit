@@ -112,6 +112,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private final Path basePath;
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
+  private final boolean usePerRequestRefCache;
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
@@ -119,6 +120,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
+    usePerRequestRefCache = cfg.getBoolean("core", null, "usePerRequestRefCache", true);
   }
 
   /**
@@ -168,7 +170,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    FileKey location = FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
+    FileKey location =
+        usePerRequestRefCache
+            ? DynamicRefDbRepository.FileKey.lenient(
+                getBasePath(name).resolve(name.get()).toFile(),
+                FS.DETECTED,
+                (path, refDb) -> PerThreadRefDbCache.getRefDatabase(path, refDb))
+            : FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
     try {
       Repository repo = RepositoryCache.open(location);
       fileKeyByProject.put(name, location);

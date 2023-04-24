@@ -102,6 +102,7 @@ public class GroupsUpdateIT {
     return groups.getAllGroupReferences().map(GroupReference::getName);
   }
 
+  @SuppressWarnings("MathAbsoluteNegative")
   private static InternalGroupCreation getGroupCreation(String groupName, String groupUuid) {
     return InternalGroupCreation.builder()
         .setGroupUUID(AccountGroup.uuid(groupUuid))

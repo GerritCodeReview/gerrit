@@ -46,6 +46,30 @@
       },
       "revId": "e16a9c3b83a9dcff63f2ef94b63374df4dd32a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79bc3b96_bf7f0bae",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-24T08:48:29Z",
+      "side": 1,
+      "message": "The trick is indeed clever but I am wondering if we can maybe avoid the trick completely. 😊\nFor now, LGTM. Thanks for explaining.",
+      "parentUuid": "a624bd56_a47a1225",
+      "range": {
+        "startLine": 1605,
+        "startChar": 4,
+        "endLine": 1605,
+        "endChar": 30
+      },
+      "revId": "e16a9c3b83a9dcff63f2ef94b63374df4dd32a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

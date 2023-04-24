@@ -18,8 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -145,8 +143,7 @@ class HttpAuthFilter implements Filter {
 
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
-      String raw = req.getHeader(displaynameHeader);
-      return emptyToNull(new String(raw.getBytes(ISO_8859_1), UTF_8));
+      return emptyToNull(req.getHeader(displaynameHeader));
     }
     return null;
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96c27e7_b88a8094",
+        "filename": "java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-24T23:38:46Z",
+      "side": 1,
+      "message": "We should also check:\n```\n   if(v.feature() \u003c 11) {\n     return false;\n   }\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "32537fd152fc08c75522f10d963b0ffd8e0e4574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

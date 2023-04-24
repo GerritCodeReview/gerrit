@@ -14,65 +14,50 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.exceptions.EmailException;
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 /** Sender that informs a user by email that the HTTP password of their account was updated. */
-public class HttpPasswordUpdateSender extends OutgoingEmail {
-  public interface Factory {
-    HttpPasswordUpdateSender create(IdentifiedUser user, String operation);
-  }
+@AutoFactory
+public class HttpPasswordUpdateEmailDecorator implements EmailDecorator {
+  private OutgoingEmailNew email;
 
   private final IdentifiedUser user;
   private final String operation;
   private final MessageIdGenerator messageIdGenerator;
 
-  @AssistedInject
-  public HttpPasswordUpdateSender(
-      EmailArguments args,
-      MessageIdGenerator messageIdGenerator,
-      @Assisted IdentifiedUser user,
-      @Assisted String operation) {
-    super(args, "HttpPasswordUpdate");
+  public HttpPasswordUpdateEmailDecorator(
+      @Provided MessageIdGenerator messageIdGenerator, IdentifiedUser user, String operation) {
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.operation = operation;
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-    setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
-    setMessageId(
+  public void init(OutgoingEmailNew email) {
+    this.email = email;
+
+    email.setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
+    email.setMessageId(
         messageIdGenerator.fromReasonAccountIdAndTimestamp(
             "HTTP_password_change", user.getAccountId(), TimeUtil.now()));
-    addByAccountId(RecipientType.TO, user.getAccountId());
+    email.addByAccountId(RecipientType.TO, user.getAccountId());
   }
 
   @Override
-  protected boolean shouldSendMessage() {
-    // Always send an email if the HTTP password is updated.
-    return true;
-  }
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("email", getEmail());
+    email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("operation", operation);
 
-  @Override
-  protected void format() throws EmailException {
-    appendText(textTemplate("HttpPasswordUpdate"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("HttpPasswordUpdateHtml"));
+    email.appendText(email.textTemplate("HttpPasswordUpdate"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("HttpPasswordUpdateHtml"));
     }
-  }
-
-  @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("email", getEmail());
-    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
-    addSoyEmailDataParam("operation", operation);
   }
 
   private String getEmail() {

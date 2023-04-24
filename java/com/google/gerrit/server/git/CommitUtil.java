@@ -43,8 +43,10 @@ import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.mail.EmailModule.RevertedChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
@@ -93,7 +95,7 @@ public class CommitUtil {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeInserter.Factory changeInserterFactory;
   private final NotifyResolver notifyResolver;
-  private final RevertedSender.Factory revertedSenderFactory;
+  private final RevertedChangeEmailFactories revertedChangeEmailFactories;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeReverted changeReverted;
@@ -108,7 +110,7 @@ public class CommitUtil {
       ApprovalsUtil approvalsUtil,
       ChangeInserter.Factory changeInserterFactory,
       NotifyResolver notifyResolver,
-      RevertedSender.Factory revertedSenderFactory,
+      RevertedChangeEmailFactories revertedChangeEmailFactories,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
@@ -120,7 +122,7 @@ public class CommitUtil {
     this.approvalsUtil = approvalsUtil;
     this.changeInserterFactory = changeInserterFactory;
     this.notifyResolver = notifyResolver;
-    this.revertedSenderFactory = revertedSenderFactory;
+    this.revertedChangeEmailFactories = revertedChangeEmailFactories;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.changeReverted = changeReverted;
@@ -381,14 +383,16 @@ public class CommitUtil {
           ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertingChangeId));
       changeReverted.fire(revertedChange, revertingChange, ctx.getWhen());
       try {
-        RevertedSender emailSender =
-            revertedSenderFactory.create(ctx.getProject(), revertedChange.getId());
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.setNotify(ctx.getNotify(revertedChangeId));
-        emailSender.setMessageId(
+        ChangeEmailNew changeEmail =
+            revertedChangeEmailFactories.createChangeEmail(
+                ctx.getProject(), revertedChange.getId());
+        OutgoingEmailNew outgoingEmail = revertedChangeEmailFactories.createEmail(changeEmail);
+        outgoingEmail.setFrom(ctx.getAccountId());
+        outgoingEmail.setNotify(ctx.getNotify(revertedChangeId));
+        outgoingEmail.setMessageId(
             messageIdGenerator.fromChangeUpdate(
                 ctx.getRepoView(), revertedChange.currentPatchSet().id()));
-        emailSender.send();
+        outgoingEmail.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for revert change %s", revertedChangeId);

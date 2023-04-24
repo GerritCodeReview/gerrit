@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dbce905_e827738b",
+        "filename": "java/com/google/gerrit/server/mail/send/ReplacePatchSetChangeEmailDecorator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-24T12:40:45Z",
+      "side": 0,
+      "message": "Can you please help me understand why this was moved out of the \u0027if (args.settings.sendNewPatchsetEmails) {\u0027 block and changed to RecipientType.TO?",
+      "revId": "ac9bc873bd91eb106aed5207b2f4038c4fc8e78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

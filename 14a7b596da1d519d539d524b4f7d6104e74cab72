@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b8650f3d_4e4c48a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-24T08:57:02Z",
+      "side": 1,
+      "message": "forcing a re-index",
+      "revId": "14a7b596da1d519d539d524b4f7d6104e74cab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5c948127_466ed99b",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 2

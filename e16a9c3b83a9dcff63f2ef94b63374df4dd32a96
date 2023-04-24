@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf692167_4db07420",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-04-24T08:21:08Z",
+      "side": 1,
+      "message": "Should this be in firstUpdated instead of updated?\nI am not sure why this event if fired when the tab selected is changed for ex?",
+      "range": {
+        "startLine": 1605,
+        "startChar": 4,
+        "endLine": 1605,
+        "endChar": 30
+      },
+      "revId": "e16a9c3b83a9dcff63f2ef94b63374df4dd32a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

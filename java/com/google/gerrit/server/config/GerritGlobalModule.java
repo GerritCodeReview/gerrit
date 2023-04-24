@@ -169,7 +169,6 @@ import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.FromAddressGenerator;
 import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.mail.send.MailSoySauceModule;
 import com.google.gerrit.server.mail.send.MailSoyTemplateProvider;
 import com.google.gerrit.server.mime.FileTypeRegistry;
@@ -305,7 +304,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(PatchScriptFactoryForAutoFix.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RevisionJson.Factory.class);
-    factory(InboundEmailRejectionSender.Factory.class);
     factory(ExternalUser.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

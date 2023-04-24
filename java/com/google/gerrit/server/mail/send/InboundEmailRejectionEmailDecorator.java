@@ -17,15 +17,13 @@ package com.google.gerrit.server.mail.send;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.MailHeader;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
 import org.apache.james.mime4j.dom.field.FieldName;
 
 /** Send an email to inform users that parsing their inbound email failed. */
-public class InboundEmailRejectionSender extends OutgoingEmail {
+public class InboundEmailRejectionEmailDecorator implements EmailDecorator {
 
   /** Used by the templating system to determine what error message should be sent */
   public enum InboundEmailError {
@@ -37,56 +35,45 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     CHANGE_NOT_FOUND
   }
 
-  public interface Factory {
-    InboundEmailRejectionSender create(Address to, String threadId, InboundEmailError reason);
-  }
-
+  private OutgoingEmailNew email;
   private final Address to;
   private final InboundEmailError reason;
   private final String threadId;
 
-  @Inject
-  public InboundEmailRejectionSender(
-      EmailArguments args,
-      @Assisted Address to,
-      @Assisted String threadId,
-      @Assisted InboundEmailError reason) {
-    super(args, "error");
+  public InboundEmailRejectionEmailDecorator(
+      Address to, String threadId, InboundEmailError reason) {
     this.to = requireNonNull(to);
     this.threadId = requireNonNull(threadId);
     this.reason = requireNonNull(reason);
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
+  public void init(OutgoingEmailNew email) {
+    this.email = email;
+
     setListIdHeader();
-    setHeader(FieldName.SUBJECT, "[Gerrit Code Review] Unable to process your email");
+    email.setHeader(FieldName.SUBJECT, "[Gerrit Code Review] Unable to process your email");
 
     if (!threadId.isEmpty()) {
-      setHeader(MailHeader.REFERENCES.fieldName(), threadId);
+      email.setHeader(MailHeader.REFERENCES.fieldName(), threadId);
     }
   }
 
   private void setListIdHeader() {
     // Set a reasonable list id so that filters can be used to sort messages
-    setHeader("List-Id", "<gerrit-noreply." + getGerritHost() + ">");
-    if (getSettingsUrl() != null) {
-      setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
+    email.setHeader("List-Id", "<gerrit-noreply." + email.getGerritHost() + ">");
+    if (email.getSettingsUrl() != null) {
+      email.setHeader("List-Unsubscribe", "<" + email.getSettingsUrl() + ">");
     }
   }
 
   @Override
-  protected void format() throws EmailException {
-    appendText(textTemplate("InboundEmailRejection_" + reason.name()));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("InboundEmailRejectionHtml_" + reason.name()));
-    }
-  }
+  public void populateEmailContent() {
+    email.addByEmail(RecipientType.TO, to);
 
-  @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addByEmail(RecipientType.TO, to);
+    email.appendText(email.textTemplate("InboundEmailRejection_" + reason.name()));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("InboundEmailRejectionHtml_" + reason.name()));
+    }
   }
 }

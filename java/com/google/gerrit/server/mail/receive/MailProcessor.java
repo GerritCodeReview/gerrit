@@ -56,10 +56,11 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.mail.EmailModule.InboundEmailRejectionEmailFactory;
 import com.google.gerrit.server.mail.MailFilter;
-import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
-import com.google.gerrit.server.mail.send.InboundEmailRejectionSender.InboundEmailError;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -108,7 +109,7 @@ public class MailProcessor {
                   CommentForValidation.CommentType.INLINE_COMMENT);
 
   private final Emails emails;
-  private final InboundEmailRejectionSender.Factory emailRejectionSender;
+  private final InboundEmailRejectionEmailFactory inboundEmailRejectionEmailFactory;
   private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
@@ -127,7 +128,7 @@ public class MailProcessor {
   @Inject
   public MailProcessor(
       Emails emails,
-      InboundEmailRejectionSender.Factory emailRejectionSender,
+      InboundEmailRejectionEmailFactory inboundEmailRejectionEmailFactory,
       RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -143,7 +144,7 @@ public class MailProcessor {
       PluginSetContext<CommentValidator> commentValidators,
       MessageIdGenerator messageIdGenerator) {
     this.emails = emails;
-    this.emailRejectionSender = emailRejectionSender;
+    this.inboundEmailRejectionEmailFactory = inboundEmailRejectionEmailFactory;
     this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
@@ -228,10 +229,10 @@ public class MailProcessor {
 
   private void sendRejectionEmail(MailMessage message, InboundEmailError reason) {
     try {
-      InboundEmailRejectionSender emailSender =
-          emailRejectionSender.create(message.from(), message.id(), reason);
-      emailSender.setMessageId(messageIdGenerator.fromMailMessage(message));
-      emailSender.send();
+      OutgoingEmailNew email =
+          inboundEmailRejectionEmailFactory.createEmail(message.from(), message.id(), reason);
+      email.setMessageId(messageIdGenerator.fromMailMessage(message));
+      email.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot send email to warn for an error");
     }

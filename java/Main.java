@@ -34,11 +34,20 @@ public final class Main {
   }
 
   private static boolean onSupportedJavaVersion() {
-    final String version = System.getProperty("java.specification.version");
-    if (1.8 <= parse(version)) {
+    Runtime.Version v = Runtime.version();
+    // $FEATURE.$INTERIM.$UPDATE >= 11.0.10
+    if (v.feature() > 11) {
       return true;
     }
-    System.err.println("fatal: Gerrit Code Review requires Java 8 or later");
+    if (v.interim() > 0) {
+      return true;
+    }
+    if (v.update() >= 10) {
+      return true;
+    }
+
+    String version = System.getProperty("java.specification.version");
+    System.err.println("fatal: Gerrit Code Review requires Java 11.0.10 or later");
     System.err.println("       (trying to run on Java " + version + ")");
     return false;
   }
@@ -56,23 +65,6 @@ public final class Main {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
         "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
-  }
-
-  private static double parse(String version) {
-    if (version == null || version.length() == 0) {
-      return 0.0;
-    }
-
-    try {
-      final int fd = version.indexOf('.');
-      final int sd = version.indexOf('.', fd + 1);
-      if (0 < sd) {
-        version = version.substring(0, sd);
-      }
-      return Double.parseDouble(version);
-    } catch (NumberFormatException e) {
-      return 0.0;
-    }
   }
 
   private Main() {}

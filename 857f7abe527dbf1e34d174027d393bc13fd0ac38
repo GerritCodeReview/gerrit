@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704d5dc7_4f780e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-24T06:17:28Z",
+      "side": 1,
+      "message": "Should this change be based on https://gerrit-review.git.corp.google.com/c/gerrit/+/370514 ?",
+      "revId": "857f7abe527dbf1e34d174027d393bc13fd0ac38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5,6 +5,7 @@
  */
 import {
   BasePatchSetNum,
+  ChangeInfo,
   EditInfo,
   EDIT,
   PARENT,
@@ -13,25 +14,20 @@ import {
   PreferencesInfo,
   RevisionPatchSetNum,
   PatchSetNumber,
+  CommitId,
 } from '../../types/common';
-import {DefaultBase} from '../../constants/constants';
-import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
-import {
-  map,
-  filter,
-  withLatestFrom,
-  startWith,
-  switchMap,
-} from 'rxjs/operators';
+import {ChangeStatus, DefaultBase} from '../../constants/constants';
+import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
+import {map, filter, withLatestFrom, switchMap} from 'rxjs/operators';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
+  findEdit,
+  sortRevisions,
 } from '../../utils/patch-set-util';
-import {ParsedChangeInfo} from '../../types/types';
-import {fireAlert} from '../../utils/event-util';
-
-import {ChangeInfo} from '../../types/common';
+import {isDefined, ParsedChangeInfo} from '../../types/types';
+import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -40,12 +36,18 @@ import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
 import {
+  ChangeChildView,
   ChangeViewModel,
   createChangeUrl,
   createDiffUrl,
   createEditUrl,
 } from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {getRevertCreatedChangeIds} from '../../utils/message-util';
+import {computeTruncatedPath} from '../../utils/path-list-util';
+import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
+import {Timing} from '../../constants/reporting';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -69,6 +71,39 @@ export interface ChangeState {
    * Undefined means it's still loading and empty set means no files reviewed.
    */
   reviewedFiles?: string[];
+  /**
+   * Either filled from `change.mergeable`, or from a dedicated REST API call.
+   * Is initially `undefined`, such that you can identify whether this
+   * information has already been loaded once for this change or not. Will never
+   * go back to `undefined` after being set for a change.
+   */
+  mergeable?: boolean;
+}
+
+/**
+ * `change.revisions` is a dictionary mapping the revision sha to RevisionInfo,
+ * but the info object itself does not contain the sha, which is a problem when
+ * working with just the info objects.
+ *
+ * So we are iterating over the map here and are assigning the sha map key to
+ * the property `revision.commit.commit`.
+ *
+ * As usual we are treating data objects as immutable, so we are doind a lot of
+ * cloning here.
+ */
+export function updateRevisionsWithCommitShas(changeInput?: ParsedChangeInfo) {
+  if (!changeInput?.revisions) return changeInput;
+  const changeOutput = {...changeInput, revisions: {...changeInput.revisions}};
+  for (const sha of Object.keys(changeOutput.revisions)) {
+    const revision = changeOutput.revisions[sha];
+    if (revision?.commit && !revision.commit.commit) {
+      changeOutput.revisions[sha] = {
+        ...revision,
+        commit: {...revision.commit, commit: sha as CommitId},
+      };
+    }
+  }
+  return changeOutput;
 }
 
 /**
@@ -168,20 +203,36 @@ export class ChangeModel extends Model<ChangeState> {
     changeState => changeState.loadingStatus
   );
 
+  public readonly loading$ = select(
+    this.changeLoadingStatus$,
+    status =>
+      status === LoadingStatus.LOADING || status === LoadingStatus.RELOADING
+  );
+
   public readonly reviewedFiles$ = select(
     this.state$,
     changeState => changeState?.reviewedFiles
   );
 
+  public readonly mergeable$ = select(
+    this.state$,
+    changeState => changeState.mergeable
+  );
+
   public readonly changeNum$ = select(this.change$, change => change?._number);
+
+  public readonly changeId$ = select(this.change$, change => change?.change_id);
 
   public readonly repo$ = select(this.change$, change => change?.project);
 
+  public readonly topic$ = select(this.change$, change => change?.topic);
+
+  public readonly status$ = select(this.change$, change => change?.status);
+
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly revisions$ = select(
-    this.change$,
-    change => change?.revisions
+  public readonly revisions$ = select(this.change$, change =>
+    sortRevisions(Object.values(change?.revisions || {}))
   );
 
   public readonly patchsets$ = select(this.change$, change =>
@@ -264,49 +315,56 @@ export class ChangeModel extends Model<ChangeState> {
         computeBase(viewModelBasePatchNum, patchNum, change, preferences)
     );
 
+  private selectRevision(
+    revisionNum$: Observable<RevisionPatchSetNum | undefined>
+  ) {
+    return select(
+      combineLatest([this.revisions$, revisionNum$]),
+      ([revisions, patchNum]) => {
+        if (!revisions || !patchNum) return undefined;
+        return Object.values(revisions).find(
+          revision => revision._number === patchNum
+        );
+      }
+    );
+  }
+
+  public readonly revision$ = this.selectRevision(this.patchNum$);
+
+  public readonly latestRevision$ = this.selectRevision(this.latestPatchNum$);
+
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),
     ([change, account]) => isOwner(change, account)
   );
 
-  // For usage in `combineLatest` we need `startWith` such that reload$ has an
-  // initial value.
-  readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(
-    startWith(undefined)
+  public readonly messages$ = select(this.change$, change => change?.messages);
+
+  public readonly revertingChangeIds$ = select(this.messages$, messages =>
+    getRevertCreatedChangeIds(messages ?? [])
   );
 
   constructor(
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
     private readonly restApiService: RestApiService,
-    private readonly userModel: UserModel
+    private readonly userModel: UserModel,
+    private readonly pluginLoader: PluginLoader,
+    private readonly reporting: ReportingService
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.viewModel.changeNum$, this.reload$])
-        .pipe(
-          map(([changeNum, _]) => changeNum),
-          switchMap(changeNum => {
-            if (changeNum !== undefined) this.updateStateLoading(changeNum);
-            const change = from(this.restApiService.getChangeDetail(changeNum));
-            const edit = from(this.restApiService.getChangeEdit(changeNum));
-            return forkJoin([change, edit]);
-          }),
-          withLatestFrom(this.viewModel.patchNum$),
-          map(([[change, edit], patchNum]) =>
-            updateChangeWithEdit(change, edit, patchNum)
-          )
-        )
-        .subscribe(change => {
-          // The change service is currently a singleton, so we have to be
-          // careful to avoid situations where the application state is
-          // partially set for the old change where the user is coming from,
-          // and partially for the new change where the user is navigating to.
-          // So setting the change explicitly to undefined when the user
-          // moves away from diff and change pages (changeNum === undefined)
-          // helps with that.
-          this.updateStateChange(change ?? undefined);
-        }),
+      this.loadChange(),
+      this.loadMergeable(),
+      this.loadReviewedFiles(),
+      this.setOverviewTitle(),
+      this.setDiffTitle(),
+      this.setEditTitle(),
+      this.reportChangeReload(),
+      this.reportSendReply(),
+      this.fireShowChange(),
+      this.refuseEditForOpenChange(),
+      this.refuseEditForClosedChange(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -315,18 +373,213 @@ export class ChangeModel extends Model<ChangeState> {
       this.latestPatchNum$.subscribe(
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
-      combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
-        .pipe(
-          switchMap(([patchNum, changeNum, loggedIn]) => {
-            if (!changeNum || !patchNum || !loggedIn) {
-              this.updateStateReviewedFiles([]);
-              return of(undefined);
-            }
-            return from(this.fetchReviewedFiles(patchNum, changeNum));
-          })
-        )
-        .subscribe(),
     ];
+  }
+
+  private reportSendReply() {
+    return this.changeLoadingStatus$.subscribe(loadingStatus => {
+      // We are ending the timer on each change load, because ending a timer
+      // that was not started is a no-op. :-)
+      if (loadingStatus === LoadingStatus.LOADED) {
+        this.reporting.timeEnd(Timing.SEND_REPLY);
+      }
+    });
+  }
+
+  private reportChangeReload() {
+    return this.changeLoadingStatus$.subscribe(loadingStatus => {
+      if (
+        loadingStatus === LoadingStatus.LOADING ||
+        loadingStatus === LoadingStatus.RELOADING
+      ) {
+        this.reporting.time(Timing.CHANGE_RELOAD);
+      }
+      if (
+        loadingStatus === LoadingStatus.LOADED ||
+        loadingStatus === LoadingStatus.NOT_LOADED
+      ) {
+        this.reporting.timeEnd(Timing.CHANGE_RELOAD);
+      }
+    });
+  }
+
+  private fireShowChange() {
+    return combineLatest([
+      this.viewModel.childView$,
+      this.change$,
+      this.patchNum$,
+      this.mergeable$,
+    ])
+      .pipe(
+        filter(
+          ([childView, change, patchNum, mergeable]) =>
+            childView === ChangeChildView.OVERVIEW &&
+            !!change &&
+            !!patchNum &&
+            mergeable !== undefined
+        )
+      )
+      .subscribe(([_, change, patchNum, mergeable]) => {
+        this.pluginLoader.jsApiService.handleShowChange({
+          change,
+          patchNum,
+          // `?? null` is for the TypeScript compiler only. We have a
+          // `mergeable !== undefined` filter above, so this cannot happen.
+          // It would be nice to change `ShowChangeDetail` to accept `undefined`
+          // instaed of `null`, but that would be a Plugin API change ...
+          info: {mergeable: mergeable ?? null},
+        });
+      });
+  }
+
+  private refuseEditForOpenChange() {
+    return combineLatest([this.revisions$, this.patchNum$, this.status$])
+      .pipe(
+        filter(
+          ([revisions, patchNum, status]) =>
+            status === ChangeStatus.NEW &&
+            revisions.length > 0 &&
+            patchNum === EDIT
+        )
+      )
+      .subscribe(([revisions]) => {
+        const editRev = findEdit(revisions);
+        if (!editRev) {
+          const msg = 'Change edit not found. Please create a change edit.';
+          fireAlert(document, msg);
+          this.navigateToChangeResetReload();
+        }
+      });
+  }
+
+  private refuseEditForClosedChange() {
+    return combineLatest([
+      this.revisions$,
+      this.viewModel.edit$,
+      this.patchNum$,
+      this.status$,
+    ])
+      .pipe(
+        filter(
+          ([revisions, edit, patchNum, status]) =>
+            (status === ChangeStatus.ABANDONED ||
+              status === ChangeStatus.MERGED) &&
+            revisions.length > 0 &&
+            (patchNum === EDIT || edit)
+        )
+      )
+      .subscribe(([revisions]) => {
+        const editRev = findEdit(revisions);
+        if (!editRev) {
+          const msg =
+            'Change edits cannot be created if change is merged ' +
+            'or abandoned. Redirecting to non edit mode.';
+          fireAlert(document, msg);
+          this.navigateToChangeResetReload();
+        }
+      });
+  }
+
+  private setOverviewTitle() {
+    return combineLatest([this.viewModel.childView$, this.change$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.OVERVIEW),
+        map(([_, change]) => change),
+        filter(isDefined)
+      )
+      .subscribe(change => {
+        const title = `${change.subject} (${change._number})`;
+        fireTitleChange(title);
+      });
+  }
+
+  private setDiffTitle() {
+    return combineLatest([this.viewModel.childView$, this.viewModel.diffPath$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.DIFF),
+        map(([_, diffPath]) => diffPath),
+        filter(isDefined)
+      )
+      .subscribe(diffPath => {
+        const title = computeTruncatedPath(diffPath);
+        fireTitleChange(title);
+      });
+  }
+
+  private setEditTitle() {
+    return combineLatest([this.viewModel.childView$, this.viewModel.editPath$])
+      .pipe(
+        filter(([childView, _]) => childView === ChangeChildView.EDIT),
+        map(([_, editPath]) => editPath),
+        filter(isDefined)
+      )
+      .subscribe(editPath => {
+        const title = `Editing ${computeTruncatedPath(editPath)}`;
+        fireTitleChange(title);
+      });
+  }
+
+  private loadReviewedFiles() {
+    return combineLatest([
+      this.patchNum$,
+      this.changeNum$,
+      this.userModel.loggedIn$,
+    ])
+      .pipe(
+        switchMap(([patchNum, changeNum, loggedIn]) => {
+          if (!changeNum || !patchNum || !loggedIn) {
+            this.updateStateReviewedFiles([]);
+            return of(undefined);
+          }
+          return from(this.fetchReviewedFiles(patchNum, changeNum));
+        })
+      )
+      .subscribe();
+  }
+
+  private loadMergeable() {
+    return this.change$
+      .pipe(
+        switchMap(change => {
+          if (change?._number === undefined) return of(undefined);
+          if (change.mergeable !== undefined) return of(change.mergeable);
+          if (change.status === ChangeStatus.MERGED) return of(false);
+          if (change.status === ChangeStatus.ABANDONED) return of(false);
+          return from(
+            this.restApiService
+              .getMergeable(change._number)
+              .then(mergableInfo => mergableInfo?.mergeable ?? false)
+          );
+        })
+      )
+      .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private loadChange() {
+    return this.viewModel.changeNum$
+      .pipe(
+        switchMap(changeNum => {
+          if (changeNum !== undefined) this.updateStateLoading(changeNum);
+          const change = from(this.restApiService.getChangeDetail(changeNum));
+          const edit = from(this.restApiService.getChangeEdit(changeNum));
+          return forkJoin([change, edit]);
+        }),
+        withLatestFrom(this.viewModel.patchNum$),
+        map(([[change, edit], patchNum]) =>
+          updateChangeWithEdit(change, edit, patchNum)
+        ),
+        map(updateRevisionsWithCommitShas)
+      )
+      .subscribe(change => {
+        // The change service is currently a singleton, so we have to be
+        // careful to avoid situations where the application state is
+        // partially set for the old change where the user is coming from,
+        // and partially for the new change where the user is navigating to.
+        // So setting the change explicitly to undefined when the user
+        // moves away from diff and change pages (changeNum === undefined)
+        // helps with that.
+        this.updateStateChange(change ?? undefined);
+      });
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {
@@ -430,8 +683,23 @@ export class ChangeModel extends Model<ChangeState> {
     });
   }
 
+  // Mainly used for navigating from DIFF to OVERVIEW.
   navigateToChange(openReplyDialog = false) {
     const url = this.changeUrl(openReplyDialog);
+    if (!url) return;
+    this.navigation.setUrl(url);
+  }
+
+  /**
+   * Wipes all URL parameters and other view state and goes to the change
+   * overview page, forcing a reload.
+   *
+   * This will also wipe the `patchNum`, so will always go to the latest
+   * patchset.
+   */
+  navigateToChangeResetReload() {
+    if (!this.change) return;
+    const url = createChangeUrl({change: this.change, forceReload: true});
     if (!url) return;
     this.navigation.setUrl(url);
   }

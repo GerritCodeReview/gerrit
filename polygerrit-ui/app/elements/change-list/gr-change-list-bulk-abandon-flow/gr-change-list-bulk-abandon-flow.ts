@@ -147,7 +147,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   private handleClose() {
     this.actionModal.close();
     fireAlert(this, 'Reloading page..');
-    fireReload(this, true);
+    fireReload(this);
   }
 }
 

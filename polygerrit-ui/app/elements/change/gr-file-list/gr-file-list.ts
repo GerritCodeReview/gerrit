@@ -826,6 +826,13 @@ export class GrFileList extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues): void {
     if (
+      changedProperties.has('patchNum') ||
+      changedProperties.has('basePatchNum')
+    ) {
+      this.resetFileState();
+      this.collapseAllDiffs();
+    }
+    if (
       changedProperties.has('diffPrefs') ||
       changedProperties.has('diffViewMode')
     ) {

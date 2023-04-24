@@ -69,9 +69,16 @@ export interface ChangeViewState extends ViewState {
 
   /** for scrolling a Change Log message into view in gr-change-view */
   messageHash?: string;
-  /** for logging where the user came from */
+  /**
+   * For logging where the user came from. This is handled by the router, so
+   * this is not inspected by the model.
+   */
   usp?: string;
-  /** triggers all change related data to be reloaded */
+  /**
+   * Triggers all change related data to be reloaded. This is implemented by
+   * intercepting change view state updates and `forceReload` causing the view
+   * state to be wiped clean as `undefined` in an intermediate update.
+   */
   forceReload?: boolean;
   /** triggers opening the reply dialog */
   openReplyDialog?: boolean;
@@ -261,6 +268,20 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.basePatchNum
   );
 
+  public readonly openReplyDialog$ = select(
+    this.state$,
+    state => state?.openReplyDialog
+  );
+
+  public readonly commentId$ = select(this.state$, state => state?.commentId);
+
+  public readonly edit$ = select(this.state$, state => !!state?.edit);
+
+  public readonly editPath$ = select(
+    this.state$,
+    state => state?.editView?.path
+  );
+
   public readonly diffPath$ = select(
     this.state$,
     state => state?.diffView?.path
@@ -278,7 +299,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly childView$ = select(this.state$, state => state?.childView);
 
-  public readonly tab$ = select(this.state$, state => state?.tab);
+  public readonly tab$ = select(this.state$, state => {
+    if (state?.commentId) return Tab.COMMENT_THREADS;
+    if (state?.tab) return state.tab;
+    return Tab.FILES;
+  });
 
   public readonly checksPatchset$ = select(
     this.state$,
@@ -310,6 +335,39 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
         });
       }
     });
+    document.addEventListener('reload', this.reload);
+  }
+
+  override finalize(): void {
+    document.removeEventListener('reload', this.reload);
+  }
+
+  /**
+   * Calling this is the same as firing the 'reload' event. This is also the
+   * same as adding `forceReload` parameter in the URL. See below.
+   */
+  reload = () => {
+    const state = this.getState();
+    if (state !== undefined) this.forceLoad(state);
+  };
+
+  /**
+   * This is the destination of where the `reload()` method, the `reload` event
+   * and the `forceReload` URL parameter all end up.
+   */
+  private forceLoad(state: ChangeViewState) {
+    this.setState(undefined);
+    // We have to do this in a timeout, because we need the `undefined` value to
+    // be processed by all observers first and thus have the "reset" completed.
+    setTimeout(() => this.setState({...state, forceReload: undefined}));
+  }
+
+  override setState(state: ChangeViewState | undefined): void {
+    if (state?.forceReload) {
+      this.forceLoad(state);
+    } else {
+      super.setState(state);
+    }
   }
 
   toggleSelectedCheckRun(checkName: string) {

@@ -95,8 +95,8 @@ export function fireNetworkError(error: Error) {
   fire(document, 'network-error', {error});
 }
 
-export function fireTitleChange(target: EventTarget, title: string) {
-  fire(target, 'title-change', {title});
+export function fireTitleChange(title: string) {
+  fire(document, 'title-change', {title});
 }
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
@@ -122,8 +122,8 @@ export function fireShowTab(
   fire(target, 'show-tab', detail);
 }
 
-export function fireReload(target: EventTarget, clearPatchset?: boolean) {
-  fire(target, 'reload', {clearPatchset: !!clearPatchset});
+export function fireReload(target: EventTarget) {
+  fire(target, 'reload', {});
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

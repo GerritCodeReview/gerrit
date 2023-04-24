@@ -7,10 +7,12 @@ import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
+  TEST_NUMERIC_CHANGE_ID,
   createChange,
   createChangeMessageInfo,
   createChangeViewState,
   createEditInfo,
+  createMergeable,
   createParsedChange,
   createRevision,
 } from '../../test/test-data-generators';
@@ -29,13 +31,34 @@ import {
 } from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
-import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
+import {
+  ChangeState,
+  LoadingStatus,
+  updateChangeWithEdit,
+  updateRevisionsWithCommitShas,
+} from './change-model';
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {userModelToken} from '../user/user-model';
-import {changeViewModelToken} from '../views/change';
+import {
+  ChangeChildView,
+  ChangeViewModel,
+  changeViewModelToken,
+} from '../views/change';
 import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
+import {SinonStub} from 'sinon';
+import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {ShowChangeDetail} from '../../elements/shared/gr-js-api-interface/gr-js-api-types';
+
+suite('updateRevisionsWithCommitShas() tests', () => {
+  test('undefined edit', async () => {
+    const change = createParsedChange();
+    const updated = updateRevisionsWithCommitShas(change);
+    assert.equal(change?.revisions?.['abc'].commit?.commit, undefined);
+    assert.equal(updated?.revisions?.['abc'].commit?.commit, 'abc' as CommitId);
+  });
+});
 
 suite('updateChangeWithEdit() tests', () => {
   test('undefined change', async () => {
@@ -69,6 +92,7 @@ suite('updateChangeWithEdit() tests', () => {
 });
 
 suite('change model tests', () => {
+  let changeViewModel: ChangeViewModel;
   let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
   const testCompleted = new Subject<void>();
@@ -84,25 +108,20 @@ suite('change model tests', () => {
   }
 
   setup(() => {
+    changeViewModel = testResolver(changeViewModelToken);
     changeModel = new ChangeModel(
       testResolver(navigationToken),
-      testResolver(changeViewModelToken),
+      changeViewModel,
       getAppContext().restApiService,
-      testResolver(userModelToken)
+      testResolver(userModelToken),
+      testResolver(pluginLoaderToken),
+      getAppContext().reportingService
     );
     knownChange = {
       ...createChange(),
       revisions: {
-        sha1: {
-          ...createRevision(1),
-          description: 'patch 1',
-          _number: 1 as PatchSetNumber,
-        },
-        sha2: {
-          ...createRevision(2),
-          description: 'patch 2',
-          _number: 2 as PatchSetNumber,
-        },
+        sha1: {...createRevision(1), description: 'patch 1'},
+        sha2: {...createRevision(2), description: 'patch 2'},
       },
       status: ChangeStatus.NEW,
       current_revision: 'abc' as CommitId,
@@ -113,6 +132,114 @@ suite('change model tests', () => {
   teardown(() => {
     testCompleted.next();
     changeModel.finalize();
+  });
+
+  suite('mergeability', async () => {
+    let getMergeableStub: SinonStub;
+    let mergeableApiResponse = false;
+
+    setup(() => {
+      getMergeableStub = stubRestApi('getMergeable').callsFake(() =>
+        Promise.resolve(createMergeable(mergeableApiResponse))
+      );
+    });
+
+    test('mergeability initially undefined', async () => {
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === undefined
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability true from change', async () => {
+      changeModel.updateStateChange({...knownChange, mergeable: true});
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false from change', async () => {
+      changeModel.updateStateChange({...knownChange, mergeable: false});
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for MERGED change', async () => {
+      changeModel.updateStateChange({
+        ...knownChange,
+        status: ChangeStatus.MERGED,
+      });
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for ABANDONED change', async () => {
+      changeModel.updateStateChange({
+        ...knownChange,
+        status: ChangeStatus.ABANDONED,
+      });
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability true from API', async () => {
+      mergeableApiResponse = true;
+      changeModel.updateStateChange(knownChange);
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === true
+      );
+      assert.isTrue(getMergeableStub.calledOnce);
+    });
+
+    test('mergeability false from API', async () => {
+      mergeableApiResponse = false;
+      changeModel.updateStateChange(knownChange);
+
+      waitUntilObserved(
+        changeModel.mergeable$,
+        mergeable => mergeable === false
+      );
+      assert.isTrue(getMergeableStub.calledOnce);
+    });
+  });
+
+  test('fireShowChange', async () => {
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const jsApiService = pluginLoader.jsApiService;
+    const showChangeStub = sinon.stub(jsApiService, 'handleShowChange');
+
+    changeViewModel.updateState({
+      childView: ChangeChildView.OVERVIEW,
+      patchNum: 1 as PatchSetNumber,
+    });
+    changeModel.updateState({
+      change: createParsedChange(),
+      mergeable: true,
+    });
+
+    assert.isTrue(showChangeStub.calledOnce);
+    const detail: ShowChangeDetail = showChangeStub.lastCall.firstArg;
+    assert.equal(detail.change?._number, createParsedChange()._number);
+    assert.equal(detail.patchNum, 1 as PatchSetNumber);
+    assert.equal(detail.info.mergeable, true);
   });
 
   test('load a change', async () => {
@@ -132,7 +259,7 @@ suite('change model tests', () => {
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 1);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('reload a change', async () => {
@@ -143,17 +270,20 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 1);
 
     // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
     state = await waitForLoadingStatus(LoadingStatus.RELOADING);
-    assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, knownChange);
+    assert.equal(stub.callCount, 3);
+    assert.equal(stub.getCall(1).firstArg, undefined);
+    assert.equal(stub.getCall(2).firstArg, TEST_NUMERIC_CHANGE_ID);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
-    assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, knownChange);
+    assert.equal(stub.callCount, 3);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('navigating to another change', async () => {
@@ -183,7 +313,7 @@ suite('change model tests', () => {
     promise.resolve(otherChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 2);
-    assert.equal(state?.change, otherChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(otherChange));
   });
 
   test('navigating to dashboard', async () => {
@@ -211,7 +341,7 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 3);
-    assert.equal(state?.change, knownChange);
+    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 
   test('changeModel.fetchChangeUpdates on latest', async () => {
@@ -293,5 +423,29 @@ suite('change model tests', () => {
     // test distinctUntilChanged
     changeModel.updateStateChange(createParsedChange());
     assert.equal(spy.callCount, 2);
+  });
+
+  test('revision$ selector latest', async () => {
+    changeViewModel.updateState({patchNum: undefined});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.revision$, x => x?._number === 2);
+  });
+
+  test('revision$ selector 1', async () => {
+    changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.revision$, x => x?._number === 1);
+  });
+
+  test('latestRevision$ selector latest', async () => {
+    changeViewModel.updateState({patchNum: undefined});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
+  });
+
+  test('latestRevision$ selector 1', async () => {
+    changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
+    changeModel.updateState({change: knownChange});
+    await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
   });
 });

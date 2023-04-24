@@ -42,7 +42,7 @@ import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.RestoredChangeEmailDecorator;
-import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.gerrit.server.mail.send.RevertedChangeEmailDecorator;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
@@ -57,7 +57,6 @@ public class EmailModule extends FactoryModule {
     factory(DeleteKeySender.Factory.class);
     factory(HttpPasswordUpdateSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
-    factory(RevertedSender.Factory.class);
   }
 
   public static class AbandonedChangeEmailFactories {
@@ -322,6 +321,34 @@ public class EmailModule extends FactoryModule {
 
     public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
       return outgoingEmailFactory.create("restore", changeEmail);
+    }
+  }
+
+  public static class RevertedChangeEmailFactories {
+    private final EmailArguments args;
+    private final ChangeEmailNewFactory changeEmailFactory;
+    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final RevertedChangeEmailDecorator revertedChangeEmailDecorator;
+
+    @Inject
+    RevertedChangeEmailFactories(
+        EmailArguments args,
+        ChangeEmailNewFactory changeEmailFactory,
+        OutgoingEmailNewFactory outgoingEmailFactory,
+        RevertedChangeEmailDecorator revertedChangeEmailDecorator) {
+      this.args = args;
+      this.changeEmailFactory = changeEmailFactory;
+      this.outgoingEmailFactory = outgoingEmailFactory;
+      this.revertedChangeEmailDecorator = revertedChangeEmailDecorator;
+    }
+
+    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+      return changeEmailFactory.create(
+          args.newChangeData(project, changeId), revertedChangeEmailDecorator);
+    }
+
+    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+      return outgoingEmailFactory.create("revert", changeEmail);
     }
   }
 }

@@ -86,7 +86,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
 
   /** Implementations of params interface populate details specific to the notification type. */
-  interface ChangeEmailDecorator {
+  public interface ChangeEmailDecorator {
     /**
      * Stores the reference to the {@link OutgoingEmailNew} and {@link ChangeEmailNew} for the
      * subsequent calls.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d5f261f_0881a698",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-24T07:58:10Z",
+      "side": 1,
+      "message": "I believe this should be mentioned in the release notes, specifying the new version we are upgrading to.",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "11c48ae6905b67481908aa6e25e7b74f7dcc6cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

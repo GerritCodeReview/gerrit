@@ -16,6 +16,24 @@
       "message": "Can you please help me understand why this was moved out of the \u0027if (args.settings.sendNewPatchsetEmails) {\u0027 block and changed to RecipientType.TO?",
       "revId": "ac9bc873bd91eb106aed5207b2f4038c4fc8e78a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49dcb9d7_fdf4b76e",
+        "filename": "java/com/google/gerrit/server/mail/send/ReplacePatchSetChangeEmailDecorator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-24T12:47:04Z",
+      "side": 0,
+      "message": "I left resolved Gerrit comment on that line, but I guess it didn\u0027t show up, because it wasn\u0027t on the latest patchset.\n\nIn more detail:\nThe ReplacePatchSetSender used to inherit ReplyToChangeSender. ReplyToChangeSender would call addAuthors(RecipientType.To) before populateEmailContent in ReplacePatchSetSender. addAuthors internally calls OutgoingEmail.addByAccountId and the first thing it does is check if the recipient already exists (regardless if it\u0027s TO or CC). So the deleted CC call was always \"skipped\" in the past. The added TO call comes from ReplyToChangeSender (which in refactored way doesn\u0027t exist, that\u0027s the same reason we do markAsReply() )",
+      "parentUuid": "5dbce905_e827738b",
+      "revId": "ac9bc873bd91eb106aed5207b2f4038c4fc8e78a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

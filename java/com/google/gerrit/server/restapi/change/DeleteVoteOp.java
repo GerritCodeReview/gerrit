@@ -35,9 +35,10 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
-import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.EmailModule.DeleteVoteChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.permissions.LabelRemovalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DeleteVoteControl;
@@ -76,7 +77,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
   private final VoteDeleted voteDeleted;
-  private final DeleteVoteSender.Factory deleteVoteSenderFactory;
+  private final DeleteVoteChangeEmailFactories deleteVoteChangeEmailFactories;
 
   private final DeleteVoteControl deleteVoteControl;
   private final RemoveReviewerControl removeReviewerControl;
@@ -99,7 +100,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       VoteDeleted voteDeleted,
-      DeleteVoteSender.Factory deleteVoteSenderFactory,
+      DeleteVoteChangeEmailFactories deleteVoteChangeEmailFactories,
       DeleteVoteControl deleteVoteControl,
       MessageIdGenerator messageIdGenerator,
       RemoveReviewerControl removeReviewerControl,
@@ -113,7 +114,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
     this.voteDeleted = voteDeleted;
-    this.deleteVoteSenderFactory = deleteVoteSenderFactory;
+    this.deleteVoteChangeEmailFactories = deleteVoteChangeEmailFactories;
     this.deleteVoteControl = deleteVoteControl;
     this.removeReviewerControl = removeReviewerControl;
     this.messageIdGenerator = messageIdGenerator;
@@ -187,17 +188,18 @@ public class DeleteVoteOp implements BatchUpdateOp {
 
     CurrentUser user = ctx.getUser();
     try {
+      ChangeEmailNew changeEmail =
+          deleteVoteChangeEmailFactories.createChangeEmail(ctx.getProject(), change.getId());
+      changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
+      OutgoingEmailNew outgoingEmail = deleteVoteChangeEmailFactories.createEmail(changeEmail);
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
-      ReplyToChangeSender emailSender =
-          deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
       if (user.isIdentifiedUser()) {
-        emailSender.setFrom(user.getAccountId());
+        outgoingEmail.setFrom(user.getAccountId());
       }
-      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
+      outgoingEmail.setNotify(notify);
+      outgoingEmail.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
+      outgoingEmail.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }

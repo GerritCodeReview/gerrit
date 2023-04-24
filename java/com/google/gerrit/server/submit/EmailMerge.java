@@ -23,8 +23,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.EmailModule.MergedChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -49,7 +51,7 @@ class EmailMerge implements Runnable, RequestContext {
   }
 
   private final ExecutorService sendEmailsExecutor;
-  private final MergedSender.Factory mergedSenderFactory;
+  private final MergedChangeEmailFactories mergedChangeEmailFactories;
   private final ThreadLocalRequestContext requestContext;
   private final MessageIdGenerator messageIdGenerator;
 
@@ -63,7 +65,7 @@ class EmailMerge implements Runnable, RequestContext {
   @Inject
   EmailMerge(
       @SendEmailExecutor ExecutorService executor,
-      MergedSender.Factory mergedSenderFactory,
+      MergedChangeEmailFactories mergedChangeEmailFactories,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey project,
@@ -73,7 +75,7 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted RepoView repoView,
       @Assisted String stickyApprovalDiff) {
     this.sendEmailsExecutor = executor;
-    this.mergedSenderFactory = mergedSenderFactory;
+    this.mergedChangeEmailFactories = mergedChangeEmailFactories;
     this.requestContext = requestContext;
     this.messageIdGenerator = messageIdGenerator;
     this.project = project;
@@ -93,18 +95,19 @@ class EmailMerge implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      MergedSender emailSender =
-          mergedSenderFactory.create(
+      ChangeEmailNew changeEmail =
+          mergedChangeEmailFactories.createChangeEmail(
               project,
               change.getId(),
               Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff)));
+      OutgoingEmailNew outgoingEmail = mergedChangeEmailFactories.createEmail(changeEmail);
       if (submitter != null) {
-        emailSender.setFrom(submitter.getAccountId());
+        outgoingEmail.setFrom(submitter.getAccountId());
       }
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
+      outgoingEmail.setNotify(notify);
+      outgoingEmail.setMessageId(
           messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
-      emailSender.send();
+      outgoingEmail.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", change.getId());
     } finally {

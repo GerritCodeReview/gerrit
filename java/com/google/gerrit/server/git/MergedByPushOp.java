@@ -26,8 +26,10 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
-import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.EmailModule.MergedChangeEmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmailNew;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmailNew;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -67,7 +69,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final RequestScopePropagator requestScopePropagator;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final MergedSender.Factory mergedSenderFactory;
+  private final MergedChangeEmailFactories mergedChangeEmailFactories;
   private final PatchSetUtil psUtil;
   private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
@@ -88,7 +90,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   MergedByPushOp(
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeMessagesUtil cmUtil,
-      MergedSender.Factory mergedSenderFactory,
+      MergedChangeEmailFactories mergedChangeEmailFactories,
       PatchSetUtil psUtil,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ChangeMerged changeMerged,
@@ -100,7 +102,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       @Assisted("mergeResultRevId") String mergeResultRevId) {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.cmUtil = cmUtil;
-    this.mergedSenderFactory = mergedSenderFactory;
+    this.mergedChangeEmailFactories = mergedChangeEmailFactories;
     this.psUtil = psUtil;
     this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
@@ -188,16 +190,18 @@ public class MergedByPushOp implements BatchUpdateOp {
                     try {
                       // The stickyApprovalDiff is always empty here since this is not supported
                       // for direct pushes.
-                      MergedSender emailSender =
-                          mergedSenderFactory.create(
+                      ChangeEmailNew changeEmail =
+                          mergedChangeEmailFactories.createChangeEmail(
                               ctx.getProject(),
                               psId.changeId(),
                               /* stickyApprovalDiff= */ Optional.empty());
-                      emailSender.setFrom(ctx.getAccountId());
-                      emailSender.setPatchSet(patchSet, info);
-                      emailSender.setMessageId(
+                      changeEmail.setPatchSet(patchSet, info);
+                      OutgoingEmailNew outgoingEmail =
+                          mergedChangeEmailFactories.createEmail(changeEmail);
+                      outgoingEmail.setFrom(ctx.getAccountId());
+                      outgoingEmail.setMessageId(
                           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      emailSender.send();
+                      outgoingEmail.send();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(
                           "Cannot send email for submitted patch set %s", psId);

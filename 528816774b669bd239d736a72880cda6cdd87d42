@@ -16,6 +16,24 @@
       "message": "It seems that something went wrong during the merge here? The previous patch set (3) was actually merged and not the latest one (patch set 4).",
       "revId": "528816774b669bd239d736a72880cda6cdd87d42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b07a4f_477c740d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-24T06:21:40Z",
+      "side": 1,
+      "message": "Never mind, apparently my local workspace (or remote?) wasn\u0027t properly updated. It works now.",
+      "parentUuid": "ada068de_7fbed28f",
+      "revId": "528816774b669bd239d736a72880cda6cdd87d42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

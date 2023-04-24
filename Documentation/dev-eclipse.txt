@@ -61,9 +61,10 @@ on Mac too. Edit, or create, the `$HOME/.bazelrc` file and add the following lin
 startup --output_user_root=/Users/johndoe/.cache/bazel
 ----
 
-==== Increase the treshold for the cleanup of temporary files
-The default treshold for the cleanup can be overriden by creating a configuration file under
-`/etc/periodic.conf` and setting a larger value for the `daily_clean_tmps_days`.
+==== Increase the threshold for the cleanup of temporary files
+The default threshold for the cleanup can be overridden by creating a configuration
+file under `/etc/periodic.conf` and setting a larger value for the
+`daily_clean_tmps_days`.
 
 An example `/etc/periodic.conf` file:
 

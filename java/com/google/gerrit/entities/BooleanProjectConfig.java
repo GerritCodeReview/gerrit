@@ -14,6 +14,8 @@
 
 package com.google.gerrit.entities;
 
+import com.google.gerrit.common.Nullable;
+
 /**
  * Contains all inheritable boolean project configs and maps internal representations to API
  * objects.
@@ -58,6 +60,7 @@ public enum BooleanProjectConfig {
     return section;
   }
 
+  @Nullable
   public String getSubSection() {
     return null;
   }

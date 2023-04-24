@@ -14,11 +14,14 @@
 
 package com.google.gerrit.index.project;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.IndexedQuery;
+import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 
@@ -27,11 +30,27 @@ import com.google.gerrit.index.query.QueryParseException;
  * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
  */
 public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectData>
-    implements DataSource<ProjectData> {
+    implements DataSource<ProjectData>, Matchable<ProjectData> {
 
   public IndexedProjectQuery(
       Index<Project.NameKey, ProjectData> index, Predicate<ProjectData> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
+  }
+
+  @Override
+  public boolean match(ProjectData object) {
+    Predicate<ProjectData> pred = getChild(0);
+    checkState(
+        pred.isMatchable(),
+        "match invoked, but child predicate %s doesn't implement %s",
+        pred,
+        Matchable.class.getName());
+    return pred.asMatchable().match(object);
+  }
+
+  @Override
+  public int getCost() {
+    return 1;
   }
 }

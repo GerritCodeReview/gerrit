@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
@@ -123,6 +124,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
                       }
 
                       @Override
+                      @Nullable
                       public String getUrl() {
                         return null;
                       }

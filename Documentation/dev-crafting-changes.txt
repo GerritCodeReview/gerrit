@@ -28,7 +28,7 @@ guidelines:
   might take a while until you could benefit from it. In that case,
   implement the feature on master and, if you really need it on an
   earlier `stable-*` branch, cherry-pick the change and build
-  Gerrit on your own environent.
+  Gerrit in your own environment.
 * Bug-fixes should generally at least cover the oldest affected and
   still supported version. If you're affected and run an even older
   version, you're welcome to upload to that older version, even if

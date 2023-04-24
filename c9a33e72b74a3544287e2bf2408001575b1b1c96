@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c198431e_878d44ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-24T09:33:36Z",
+      "side": 1,
+      "message": "Forward-Compatible footer is missing.",
+      "revId": "c9a33e72b74a3544287e2bf2408001575b1b1c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

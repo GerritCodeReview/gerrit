@@ -8,11 +8,14 @@ import {
   GrReporting,
   DEFAULT_STARTUP_TIMERS,
   initErrorReporter,
+  InteractionReporter,
 } from './gr-reporting_impl';
 import {getAppContext} from '../app-context';
 import {Deduping} from '../../api/reporting';
-import {SinonFakeTimers} from 'sinon';
+import {SinonFakeTimers, SinonStub} from 'sinon';
 import {assert} from '@open-wc/testing';
+import {grReportingMock} from './gr-reporting_mock';
+import {Interaction} from '../../constants/reporting';
 
 suite('gr-reporting tests', () => {
   // We have to type as any because we access
@@ -561,5 +564,64 @@ suite('gr-reporting tests', () => {
         reporter.calledWith('error', 'exception', 'unhandledrejection')
       );
     });
+  });
+});
+
+suite('InteractionReporter', () => {
+  let interactionReporter: InteractionReporter;
+  let clock: SinonFakeTimers;
+  let stub: SinonStub;
+  let activeCalls: number[] = [];
+  let passiveCalls: number[] = [];
+
+  setup(() => {
+    clock = sinon.useFakeTimers(0);
+    activeCalls = [];
+    passiveCalls = [];
+    const reporting = grReportingMock;
+    stub = sinon
+      .stub(reporting, 'reportInteraction')
+      .callsFake((interaction: string | Interaction) => {
+        if (interaction === Interaction.USER_ACTIVE) {
+          activeCalls.push(clock.now);
+        }
+        if (interaction === Interaction.USER_PASSIVE) {
+          passiveCalls.push(clock.now);
+        }
+      });
+    interactionReporter = new InteractionReporter(reporting, 1000);
+  });
+
+  teardown(() => {
+    clock.restore();
+    interactionReporter.finalize();
+  });
+
+  test('interaction example', () => {
+    clock.tick(500);
+    clock.tick(1000);
+    document.dispatchEvent(new MouseEvent('mousemove'));
+    clock.tick(1000);
+    document.dispatchEvent(new MouseEvent('mousemove'));
+    document.dispatchEvent(new MouseEvent('scroll'));
+    document.dispatchEvent(new MouseEvent('wheel'));
+    clock.tick(1000);
+    clock.tick(1000);
+    clock.tick(1000);
+    document.dispatchEvent(new MouseEvent('mousemove'));
+    clock.tick(1000);
+    document.dispatchEvent(new MouseEvent('mousemove'));
+    clock.tick(1000);
+
+    assert.sameOrderedMembers(activeCalls, [2000, 3000, 6000, 7000]);
+    assert.sameOrderedMembers(passiveCalls, [1000, 4000, 5000]);
+
+    assert.isUndefined(stub.getCall(0).args[1].events);
+    assert.sameMembers(stub.getCall(1).args[1].events, ['mousemove']);
+    assert.sameMembers(stub.getCall(2).args[1].events, [
+      'mousemove',
+      'scroll',
+      'wheel',
+    ]);
   });
 });

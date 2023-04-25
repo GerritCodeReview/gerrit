@@ -27,7 +27,7 @@ import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AddKeyEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
@@ -39,7 +39,7 @@ import com.google.gerrit.server.mail.send.HttpPasswordUpdateEmailDecoratorFactor
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecorator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecoratorFactory;
@@ -73,12 +73,12 @@ public class EmailModule extends FactoryModule {
       this.abandonedChangeEmailDecorator = abandonedChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), abandonedChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("abandon", changeEmail);
     }
   }
@@ -102,7 +102,7 @@ public class EmailModule extends FactoryModule {
       return new AttentionSetChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         AttentionSetChangeEmailDecorator attentionSetChangeEmailDecorator) {
@@ -110,8 +110,8 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), attentionSetChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(
-        AttentionSetChange attentionSetChange, ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(
+        AttentionSetChange attentionSetChange, ChangeEmail changeEmail) {
       if (attentionSetChange.equals(AttentionSetChange.USER_ADDED)) {
         return outgoingEmailFactory.create("addToAttentionSet", changeEmail);
       } else {
@@ -147,7 +147,7 @@ public class EmailModule extends FactoryModule {
           project, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         CommentChangeEmailDecorator commentChangeEmailDecorator) {
@@ -155,7 +155,7 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), commentChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("comment", changeEmail);
     }
   }
@@ -179,7 +179,7 @@ public class EmailModule extends FactoryModule {
       return new DeleteReviewerChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         DeleteReviewerChangeEmailDecorator deleteReviewerChangeEmailDecorator) {
@@ -187,7 +187,7 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), deleteReviewerChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("deleteReviewer", changeEmail);
     }
   }
@@ -210,12 +210,12 @@ public class EmailModule extends FactoryModule {
       this.deleteVoteChangeEmailDecorator = deleteVoteChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), deleteVoteChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("deleteVote", changeEmail);
     }
   }
@@ -238,14 +238,14 @@ public class EmailModule extends FactoryModule {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId),
           mergedChangeEmailDecoratorFactory.create(stickyApprovalDiff));
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("merged", changeEmail);
     }
   }
@@ -279,7 +279,7 @@ public class EmailModule extends FactoryModule {
           project, changeId, changeKind, preUpdateMetaId, postUpdateSubmitRequirementResults);
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         ReplacePatchSetChangeEmailDecorator replacePatchSetChangeEmailDecoratorFactory) {
@@ -287,7 +287,7 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), replacePatchSetChangeEmailDecoratorFactory);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("newpatchset", changeEmail);
     }
   }
@@ -310,12 +310,12 @@ public class EmailModule extends FactoryModule {
       this.restoredChangeEmailDecorator = restoredChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), restoredChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("restore", changeEmail);
     }
   }
@@ -338,12 +338,12 @@ public class EmailModule extends FactoryModule {
       this.revertedChangeEmailDecorator = revertedChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), revertedChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("revert", changeEmail);
     }
   }
@@ -367,7 +367,7 @@ public class EmailModule extends FactoryModule {
       return new StartReviewChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         StartReviewChangeEmailDecorator startReviewChangeEmailDecorator) {
@@ -375,7 +375,7 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), startReviewChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("newchange", changeEmail);
     }
   }
@@ -392,12 +392,12 @@ public class EmailModule extends FactoryModule {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+    public OutgoingEmail createEmail(IdentifiedUser user, AccountSshKey sshKey) {
       return outgoingEmailFactory.create(
           "addkey", addKeyEmailDecoratorFactory.create(user, sshKey));
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeys) {
+    public OutgoingEmail createEmail(IdentifiedUser user, List<String> gpgKeys) {
       return outgoingEmailFactory.create(
           "addkey", addKeyEmailDecoratorFactory.create(user, gpgKeys));
     }
@@ -415,12 +415,12 @@ public class EmailModule extends FactoryModule {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+    public OutgoingEmail createEmail(IdentifiedUser user, AccountSshKey sshKey) {
       return outgoingEmailFactory.create(
           "deletekey", deleteKeyEmailDecoratorFactory.create(user, sshKey));
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
+    public OutgoingEmail createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
       return outgoingEmailFactory.create(
           "deletekey", deleteKeyEmailDecoratorFactory.create(user, gpgKeyFingerprints));
     }
@@ -438,7 +438,7 @@ public class EmailModule extends FactoryModule {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, String operation) {
+    public OutgoingEmail createEmail(IdentifiedUser user, String operation) {
       return outgoingEmailFactory.create(
           "HttpPasswordUpdate", httpPasswordUpdateEmailDecoratorFactory.create(user, operation));
     }
@@ -452,7 +452,7 @@ public class EmailModule extends FactoryModule {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(Address to, String threadId, InboundEmailError reason) {
+    public OutgoingEmail createEmail(Address to, String threadId, InboundEmailError reason) {
       return outgoingEmailFactory.create(
           "error", new InboundEmailRejectionEmailDecorator(to, threadId, reason));
     }
@@ -474,7 +474,7 @@ public class EmailModule extends FactoryModule {
       return registerNewEmailDecoratorFactory.create(address);
     }
 
-    public OutgoingEmailNew createEmail(RegisterNewEmailDecorator registerNewEmail) {
+    public OutgoingEmail createEmail(RegisterNewEmailDecorator registerNewEmail) {
       return outgoingEmailFactory.create("registernewemail", registerNewEmail);
     }
   }

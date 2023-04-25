@@ -29,10 +29,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailModule.ReplacePatchSetChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -221,13 +221,12 @@ public class EmailNewPatchSet {
         replacePatchSetEmail.addReviewers(reviewers);
         replacePatchSetEmail.addExtraCC(extraCcs);
         replacePatchSetEmail.addOutdatedApproval(outdatedApprovals);
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             replacePatchSetChangeEmailFactories.createChangeEmail(
                 projectName, changeId, replacePatchSetEmail);
         changeEmail.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         changeEmail.setChangeMessage(message, timestamp);
-        OutgoingEmailNew outgoingEmail =
-            replacePatchSetChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail = replacePatchSetChangeEmailFactories.createEmail(changeEmail);
         outgoingEmail.setFrom(user.getAccountId());
         outgoingEmail.setNotify(notify);
         outgoingEmail.setMessageId(messageId);

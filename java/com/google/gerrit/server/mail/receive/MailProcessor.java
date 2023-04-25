@@ -60,7 +60,7 @@ import com.google.gerrit.server.mail.EmailModule.InboundEmailRejectionEmailFacto
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -229,7 +229,7 @@ public class MailProcessor {
 
   private void sendRejectionEmail(MailMessage message, InboundEmailError reason) {
     try {
-      OutgoingEmailNew email =
+      OutgoingEmail email =
           inboundEmailRejectionEmailFactory.createEmail(message.from(), message.id(), reason);
       email.setMessageId(messageIdGenerator.fromMailMessage(message));
       email.send();

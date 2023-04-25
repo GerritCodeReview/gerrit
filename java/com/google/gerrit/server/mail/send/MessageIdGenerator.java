@@ -48,7 +48,7 @@ public class MessageIdGenerator {
 
   /**
    * A unique id used which is a part of the header of all emails sent through by Gerrit. All of the
-   * emails are sent via {@link OutgoingEmailNew#send()}.
+   * emails are sent via {@link OutgoingEmail#send()}.
    */
   @AutoValue
   public abstract static class MessageId {

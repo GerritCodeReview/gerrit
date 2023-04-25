@@ -61,7 +61,7 @@ import org.eclipse.jgit.util.SystemReader;
 
 /** Represents an email notification for some event that can be sent to interested parties. */
 @AutoFactory
-public final class OutgoingEmailNew {
+public final class OutgoingEmail {
 
   /** Provides content, recipients and any customizations of the email. */
   public interface EmailDecorator {
@@ -73,9 +73,9 @@ public final class OutgoingEmailNew {
      * initializing data for use in populateEmailContent.
      *
      * <p>Can be used to adjust any of the behaviour of the {@link
-     * OutgoingEmailNew#populateEmailContent}.
+     * OutgoingEmail#populateEmailContent}.
      */
-    void init(OutgoingEmailNew email) throws EmailException;
+    void init(OutgoingEmail email) throws EmailException;
 
     /**
      * Populate headers, recipients and body of the email.
@@ -122,7 +122,7 @@ public final class OutgoingEmailNew {
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private final EmailDecorator templateProvider;
 
-  public OutgoingEmailNew(
+  public OutgoingEmail(
       @Provided EmailArguments args, String messageClass, EmailDecorator templateProvider) {
     this.args = args;
     this.messageClass = messageClass;

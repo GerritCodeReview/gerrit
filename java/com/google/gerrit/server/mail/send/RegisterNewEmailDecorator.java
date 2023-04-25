@@ -19,11 +19,10 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 
 /**
  * Sender that informs a user by email about the registration of a new email address for their
@@ -31,7 +30,7 @@ import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
  */
 @AutoFactory
 public class RegisterNewEmailDecorator implements EmailDecorator {
-  private OutgoingEmailNew email;
+  private OutgoingEmail email;
   private final EmailArguments args;
   private final EmailTokenVerifier tokenVerifier;
   private final IdentifiedUser user;
@@ -50,7 +49,7 @@ public class RegisterNewEmailDecorator implements EmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email) {
+  public void init(OutgoingEmail email) {
     this.email = email;
 
     email.setHeader("Subject", "[Gerrit Code Review] Email Verification");

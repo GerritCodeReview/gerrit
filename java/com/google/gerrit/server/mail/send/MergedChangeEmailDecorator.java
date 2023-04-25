@@ -29,7 +29,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import java.util.Optional;
 
 /** Send notice about a change successfully merged. */
@@ -37,8 +37,8 @@ import java.util.Optional;
 public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
   private LabelTypes labelTypes;
   private final EmailArguments args;
   private final Optional<String> stickyApprovalDiff;
@@ -49,7 +49,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();
@@ -137,7 +137,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
     if (stickyApprovalDiff.isPresent()) {
       email.addSoyEmailDataParam("stickyApprovalDiff", stickyApprovalDiff.get());
       email.addSoyEmailDataParam(
-          "stickyApprovalDiffHtml", ChangeEmailNew.getDiffTemplateData(stickyApprovalDiff.get()));
+          "stickyApprovalDiffHtml", ChangeEmail.getDiffTemplateData(stickyApprovalDiff.get()));
     }
 
     changeEmail.addAuthors(RecipientType.TO);

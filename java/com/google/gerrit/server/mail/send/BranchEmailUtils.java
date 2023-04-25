@@ -25,7 +25,7 @@ import java.util.Map;
 /** Contains utils for email notification related to the events on project+branch. */
 class BranchEmailUtils {
   /** Set a reasonable list id so that filters can be used to sort messages. */
-  static void setListIdHeader(OutgoingEmailNew email, BranchNameKey branch) {
+  static void setListIdHeader(OutgoingEmail email, BranchNameKey branch) {
     email.setHeader(
         "List-Id",
         "<gerrit-" + branch.project().get().replace('/', '-') + "." + email.getGerritHost() + ">");
@@ -35,7 +35,7 @@ class BranchEmailUtils {
   }
 
   /** Add branch information to soy template params. */
-  static void addBranchData(OutgoingEmailNew email, EmailArguments args, BranchNameKey branch) {
+  static void addBranchData(OutgoingEmail email, EmailArguments args, BranchNameKey branch) {
     String projectName = branch.project().get();
     email.addSoyParam("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.

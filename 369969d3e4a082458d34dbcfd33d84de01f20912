@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e751b41_b9eeb7db",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-25T09:27:40Z",
+      "side": 1,
+      "message": "Please use a better name than \u0027GENERIC\u0027.\n\nMaybe: WINDOW_VISIBLE or USER_ACTIVE.",
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

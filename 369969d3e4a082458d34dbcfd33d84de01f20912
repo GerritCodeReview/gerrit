@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3130a607_4338d8e1",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-25T11:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e751b41_b9eeb7db",
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f68487c2_47d3c3a9",
@@ -67,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2daa4a4c_f590d87e",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-25T11:18:03Z",
+      "side": 1,
+      "message": "Ha! My first version was actually using `setInterval()` exactly as you suggest. But I did not like it very much, because I don\u0027t want to have a timer running in the background, especially when the visibility state of the document is hidden.\n\nIf I stop and re-create the interval in `maybeReport()`, then I still need the same bookkeeping, no?\n\nAnother benefit of not using a `setInterval()` timer is that I report the event right away instead of potentially waiting 29 seconds until the interval timer fires.\n\nI am generally very much in favor of simplicity, but I must admit that I find these 50 lines straightforward to read. I have been extra verbose in variable naming in `maybeReport()` to make it very easy to follow. Does it feel complex to you?\n\nI actually don\u0027t care much, which solution we choose, but the currently implemented solution is done and working, so I am a bit reluctant to invest the extra 30 minutes going back to my initial implementation and testing that.\n\nSorry, I feel bad for pushing back here. Let me honestly know what you think.",
+      "parentUuid": "54ae4435_0fd8bfc6",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "445ce884_e2a1beef",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
         "patchSetId": 1
@@ -78,6 +120,24 @@
       "writtenOn": "2023-04-25T09:30:09Z",
       "side": 1,
       "message": "Don\u0027t you want to keep track of this timeout so you don\u0027t set multiple timeouts?",
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f93b9cbc_18051136",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-25T11:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "445ce884_e2a1beef",
       "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -95,6 +155,24 @@
       "writtenOn": "2023-04-25T09:32:23Z",
       "side": 1,
       "message": "This risks getting very large for active users?",
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12211fd_9c868ffa",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-25T11:18:03Z",
+      "side": 1,
+      "message": "No, `interactionEvents` is a set and can only contain at most 5 different entries.",
+      "parentUuid": "f9477de7_2f980c72",
       "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

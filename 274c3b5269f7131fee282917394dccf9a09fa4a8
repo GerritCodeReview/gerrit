@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d059d730_6f6d70ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2023-04-25T20:43:09Z",
+      "side": 1,
+      "message": "Luca, can you review this change? it seems like a helpful feature",
+      "revId": "274c3b5269f7131fee282917394dccf9a09fa4a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

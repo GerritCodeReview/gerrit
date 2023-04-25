@@ -192,7 +192,11 @@ suite('gr-file-list tests', () => {
           </span>
           <div role="gridcell">
             <div class="comments desktop">
-              <span class="drafts"> </span> <span> </span>
+              <span
+                ><gr-comments-summary
+                  emptywhennocomments=""
+                ></gr-comments-summary
+              ></span>
               <span class="noCommentsScreenReaderText"> No comments </span>
             </div>
             <div class="comments mobile">

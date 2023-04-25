@@ -147,6 +147,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: EDIT,
         bottomText: '',
         value: EDIT,
+        commentThreads: [],
       },
       {
         disabled: true,
@@ -156,6 +157,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: 3,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
       {
         disabled: true,
@@ -165,6 +167,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: 2,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
       {
         disabled: true,
@@ -174,6 +177,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: 1,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
       {
         text: 'Base',
@@ -287,6 +291,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: EDIT,
         bottomText: '',
         value: EDIT,
+        commentThreads: [],
       },
       {
         disabled: false,
@@ -296,6 +301,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: 3,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
       {
         disabled: false,
@@ -305,6 +311,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: 'description',
         value: 2,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
       {
         disabled: true,
@@ -314,6 +321,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: 1,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
+        commentThreads: [],
       } as DropdownItem,
     ];
 

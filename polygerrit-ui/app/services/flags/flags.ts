@@ -19,5 +19,4 @@ export enum KnownExperimentId {
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   SUGGEST_EDIT = 'UiFeature__suggest_edit',
-  COMMENTS_CHIPS_IN_FILE_LIST = 'UiFeature__comments_chips_in_file_list',
 }

@@ -39,6 +39,30 @@
       },
       "revId": "37992933679611bce22c3db2c30f34e240b168c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891aa3e1_bf60568e",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-04-25T21:23:57Z",
+      "side": 1,
+      "message": "I actually tried to find a decent place, I did not find, if you can refer me to a class you think best fit I will add a test.",
+      "parentUuid": "f105f42c_22100ed6",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "37992933679611bce22c3db2c30f34e240b168c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

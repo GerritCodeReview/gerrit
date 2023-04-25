@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0769aa_9c906126",
+        "filename": "java/com/google/gerrit/server/mail/EmailTokenVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-25T15:24:02Z",
+      "side": 1,
+      "message": "Optional since not related to this change: what is \"Register New Email\"? Is this adding a new email from the user settings?\n\nWhile we are here, we could add a better clarification in Javadocs of what this operation is.",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "3e47fef8064911a989dd02a3a410611376ec52ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

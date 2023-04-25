@@ -86,7 +86,6 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -308,8 +307,6 @@ export class GrFileList extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
-
-  private readonly flagsService = getAppContext().flagsService;
 
   shortcutsController = new ShortcutController(this);
 
@@ -1279,16 +1276,7 @@ export class GrFileList extends LitElement {
   private renderFileComments(file: NormalizedFileInfo) {
     return html` <div role="gridcell">
       <div class="comments desktop">
-        ${when(
-          this.flagsService.isEnabled(
-            KnownExperimentId.COMMENTS_CHIPS_IN_FILE_LIST
-          ),
-          () => html`<span>${this.renderCommentsChips(file)}</span>`,
-          () => html`<span class="drafts"
-              >${this.computeDraftsString(file)}</span
-            >
-            <span>${this.computeCommentsString(file)}</span>`
-        )}
+        <span>${this.renderCommentsChips(file)}</span>
         <span class="noCommentsScreenReaderText">
           <!-- Screen readers read the following content only if 2 other
           spans in the parent div is empty. The content is not visible on

@@ -18,6 +18,7 @@ import {
 } from '../../constants/reporting';
 import {onCLS, onFID, onLCP, Metric, onINP} from 'web-vitals';
 import {getEventPath, isElementTarget} from '../../utils/dom-util';
+import {DelayedTask} from '../../utils/async-util';
 
 // Latency reporting constants.
 
@@ -201,6 +202,79 @@ export function initClickReporter(reportingService: ReportingService) {
       text: anchorEl.innerText,
     });
   });
+}
+
+/**
+ * Reports generic user interaction every x seconds to detect, if the user is
+ * present and using the application somehow. If you just look at
+ * `document.visibilityState`, then the user may have left the browser open
+ * without locking the screen. So it helps to know whether some interaction is
+ * actually happening.
+ */
+class InteractionReporter {
+  private readonly REPORTING_INTERVAL_MS = 30 * 1000;
+
+  private lastInteractionMs = Date.now();
+
+  private interactionEvents = new Set<string>();
+
+  private delayedReportTask?: DelayedTask;
+
+  constructor(private readonly reportingService: ReportingService) {
+    this.listenToInteractionEvent('mousemove');
+    this.listenToInteractionEvent('scroll');
+    this.listenToInteractionEvent('wheel');
+    this.listenToInteractionEvent('keydown');
+    this.listenToInteractionEvent('pointerdown');
+  }
+
+  private listenToInteractionEvent(eventName: string) {
+    document.addEventListener(eventName, () => {
+      this.interactionEvents.add(eventName);
+      this.maybeReport();
+    });
+  }
+
+  private maybeReport() {
+    const nowMs = Date.now();
+    const intervalPassedMs = nowMs - this.lastInteractionMs;
+    const needToWaitMs = this.REPORTING_INTERVAL_MS - intervalPassedMs;
+    const mustReportNow = needToWaitMs <= 0;
+
+    if (mustReportNow) {
+      this.report();
+    } else {
+      this.reportLater(needToWaitMs);
+    }
+  }
+
+  private somethingToReport() {
+    return this.interactionEvents.size > 0;
+  }
+
+  private reportLater(needToWaitMs: number) {
+    if (!this.somethingToReport()) return;
+    if (this.delayedReportTask?.isActive()) return;
+    this.delayedReportTask = new DelayedTask(
+      () => this.maybeReport(),
+      needToWaitMs
+    );
+  }
+
+  private report() {
+    if (!this.somethingToReport()) return;
+    if (document.visibilityState === 'visible') {
+      this.reportingService.reportInteraction(Interaction.USER_ACTIVE, {
+        events: [...this.interactionEvents],
+      });
+    }
+    this.lastInteractionMs = Date.now();
+    this.interactionEvents.clear();
+  }
+}
+
+export function initInteractionReporter(reportingService: ReportingService) {
+  new InteractionReporter(reportingService);
 }
 
 export function initWebVitals(reportingService: ReportingService) {

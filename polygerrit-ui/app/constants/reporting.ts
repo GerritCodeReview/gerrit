@@ -133,4 +133,5 @@ export enum Interaction {
   CHANGE_ACTION_FIRED = 'change-action-fired',
   BUTTON_CLICK = 'button-click',
   LINK_CLICK = 'link-click',
+  USER_ACTIVE = 'user-active',
 }

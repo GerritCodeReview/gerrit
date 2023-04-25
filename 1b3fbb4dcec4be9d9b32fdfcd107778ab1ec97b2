@@ -34,6 +34,24 @@
       "parentUuid": "08a2cf5b_cb737adb",
       "revId": "1b3fbb4dcec4be9d9b32fdfcd107778ab1ec97b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "836785d5_27eb26d8",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateEmailDecorator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-25T15:12:07Z",
+      "side": 1,
+      "message": "Ack. SGTM. Thanks for confirming!",
+      "parentUuid": "4ee620ed_99d3f522",
+      "revId": "1b3fbb4dcec4be9d9b32fdfcd107778ab1ec97b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,13 +21,13 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import java.util.List;
 
 /** Informs a user by email about the addition of an SSH or GPG key to their account. */
 @AutoFactory
 public class AddKeyEmailDecorator implements EmailDecorator {
-  private OutgoingEmailNew email;
+  private OutgoingEmail email;
 
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
@@ -51,7 +51,7 @@ public class AddKeyEmailDecorator implements EmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email) {
+  public void init(OutgoingEmail email) {
     this.email = email;
 
     email.setHeader(

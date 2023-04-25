@@ -29,11 +29,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailModule.CommentChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
@@ -214,12 +214,12 @@ public class EmailReviewComments {
         commentChangeEmail.setComments(comments);
         commentChangeEmail.setPatchSetComment(patchSetComment);
         commentChangeEmail.setLabels(labels);
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             commentChangeEmailFactories.createChangeEmail(
                 projectName, changeId, commentChangeEmail);
         changeEmail.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         changeEmail.setChangeMessage(message, timestamp);
-        OutgoingEmailNew outgoingEmail = commentChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail = commentChangeEmailFactories.createEmail(changeEmail);
         outgoingEmail.setFrom(user.getAccountId());
         outgoingEmail.setNotify(notify);
         outgoingEmail.setMessageId(messageId);

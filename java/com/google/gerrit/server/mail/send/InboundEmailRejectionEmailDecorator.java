@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.MailHeader;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import org.apache.james.mime4j.dom.field.FieldName;
 
 /** Send an email to inform users that parsing their inbound email failed. */
@@ -35,7 +35,7 @@ public class InboundEmailRejectionEmailDecorator implements EmailDecorator {
     CHANGE_NOT_FOUND
   }
 
-  private OutgoingEmailNew email;
+  private OutgoingEmail email;
   private final Address to;
   private final InboundEmailError reason;
   private final String threadId;
@@ -48,7 +48,7 @@ public class InboundEmailRejectionEmailDecorator implements EmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email) {
+  public void init(OutgoingEmail email) {
     this.email = email;
 
     setListIdHeader();

@@ -24,9 +24,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailModule.MergedChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -95,12 +95,12 @@ class EmailMerge implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      ChangeEmailNew changeEmail =
+      ChangeEmail changeEmail =
           mergedChangeEmailFactories.createChangeEmail(
               project,
               change.getId(),
               Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff)));
-      OutgoingEmailNew outgoingEmail = mergedChangeEmailFactories.createEmail(changeEmail);
+      OutgoingEmail outgoingEmail = mergedChangeEmailFactories.createEmail(changeEmail);
       if (submitter != null) {
         outgoingEmail.setFrom(submitter.getAccountId());
       }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f760501_e76745dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-04-25T21:12:06Z",
+      "side": 1,
+      "message": "Hi luca.milanesio@gmail.com,\nWhat do you think? This is required when converting from change in restapi back and forth.\nThanks,",
+      "revId": "37992933679611bce22c3db2c30f34e240b168c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

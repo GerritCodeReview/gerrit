@@ -16,6 +16,24 @@
       "message": "This needs rebasing and conflicts resolution.",
       "revId": "6a71810a7538ef56f1191beb63e82a1377138aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4f4e29_179aacdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-25T12:56:50Z",
+      "side": 1,
+      "message": "The change schema version was bumped in upcoming 3.8 release in change 357475, due to removal of assignee fields from the change index. So that upgrade would need reindexing of all changes. \n\nShould we move that change to stable-3.8 branch to do the Lucene update as well (this would also require schema version bump and reindex)?\n\nWe are still one major release behind the current Lucene release line 9.x.",
+      "parentUuid": "6765436f_0597e024",
+      "revId": "6a71810a7538ef56f1191beb63e82a1377138aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

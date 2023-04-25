@@ -16,6 +16,24 @@
       "message": "Won\u0027t this get garbage-collected?",
       "revId": "4e09574a28ab815499746376e6bb8028e7870ecb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c99d1f6_30206176",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-25T11:26:18Z",
+      "side": 1,
+      "message": "Never mind, it\u0027s kept alive by the closures that are tied to document.\n\nIt might still be valuable to save it in a local variable so you can ensure it doesn\u0027t get initialized twice.",
+      "parentUuid": "ad0a3034_5944b256",
+      "revId": "4e09574a28ab815499746376e6bb8028e7870ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

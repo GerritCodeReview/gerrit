@@ -34,6 +34,24 @@
       "parentUuid": "ad0a3034_5944b256",
       "revId": "4e09574a28ab815499746376e6bb8028e7870ecb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e532d5c8_339711be",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-25T13:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c99d1f6_30206176",
+      "revId": "4e09574a28ab815499746376e6bb8028e7870ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

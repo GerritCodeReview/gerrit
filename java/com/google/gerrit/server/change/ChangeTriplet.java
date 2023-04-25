@@ -28,7 +28,7 @@ public abstract class ChangeTriplet {
   }
 
   private static String format(BranchNameKey branch, Change.Key change) {
-    return branch.project().get() + "~" + branch.shortName() + "~" + change.get();
+    return Url.encode(branch.project().get()) + "~" + Url.encode(branch.shortName()) + "~" + Url.encode(change.get());
   }
 
   /**

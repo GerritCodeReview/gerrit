@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31e1f8f2_542fadcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1077393
+      },
+      "writtenOn": "2023-04-25T10:24:15Z",
+      "side": 1,
+      "message": "Tested this change on top of 3.7.2 (without my SAML plugin hack) and non-ascii characters are preserved.\n\nOf course, assuming the names are encoded in ISO-8859-1 will break names having characters that can not be presented with ISO-8859-1. So there is, most likely, a need to pass the variables from SAML plugin using some other mechanism to support unicode properly.",
+      "revId": "ac9f17022840509e7111430b0dd041e68feab0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

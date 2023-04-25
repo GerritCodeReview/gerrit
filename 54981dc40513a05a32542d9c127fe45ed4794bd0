@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa63dbdf_ff8da8c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-25T12:21:16Z",
+      "side": 1,
+      "message": "@hiesel@google.com can you check if that is OK for Google?",
+      "revId": "54981dc40513a05a32542d9c127fe45ed4794bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

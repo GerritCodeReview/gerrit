@@ -18,13 +18,13 @@ import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew.EmailDecorator;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import com.google.gerrit.server.util.time.TimeUtil;
 
 /** Sender that informs a user by email that the HTTP password of their account was updated. */
 @AutoFactory
 public class HttpPasswordUpdateEmailDecorator implements EmailDecorator {
-  private OutgoingEmailNew email;
+  private OutgoingEmail email;
 
   private final IdentifiedUser user;
   private final String operation;
@@ -38,7 +38,7 @@ public class HttpPasswordUpdateEmailDecorator implements EmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email) {
+  public void init(OutgoingEmail email) {
     this.email = email;
 
     email.setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);

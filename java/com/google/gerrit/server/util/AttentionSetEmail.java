@@ -24,10 +24,10 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailModule.AttentionSetChangeEmailFactories;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -154,10 +154,10 @@ public class AttentionSetEmail {
         changeEmailParams.setAttentionSetChange(attentionSetChange);
         changeEmailParams.setAttentionSetUser(attentionUserId);
         changeEmailParams.setReason(reason);
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             attentionSetChangeEmailFactories.createChangeEmail(
                 projectId, changeId, changeEmailParams);
-        OutgoingEmailNew outgoingEmail =
+        OutgoingEmail outgoingEmail =
             attentionSetChangeEmailFactories.createEmail(attentionSetChange, changeEmail);
 
         Optional<Account.Id> accountId =

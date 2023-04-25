@@ -39,7 +39,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailModule.RegisterNewEmailFactories;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecorator;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -171,7 +171,7 @@ public class CreateEmail
         if (!emailDecorator.isAllowed()) {
           throw new MethodNotAllowedException("Not allowed to add email address " + email);
         }
-        OutgoingEmailNew outgoingEmail = registerNewEmailFactories.createEmail(emailDecorator);
+        OutgoingEmail outgoingEmail = registerNewEmailFactories.createEmail(emailDecorator);
         outgoingEmail.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
         outgoingEmail.send();
         info.pendingConfirmation = true;

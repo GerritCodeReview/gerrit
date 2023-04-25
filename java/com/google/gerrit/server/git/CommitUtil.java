@@ -44,9 +44,9 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.mail.EmailModule.RevertedChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
@@ -383,10 +383,10 @@ public class CommitUtil {
           ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertingChangeId));
       changeReverted.fire(revertedChange, revertingChange, ctx.getWhen());
       try {
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             revertedChangeEmailFactories.createChangeEmail(
                 ctx.getProject(), revertedChange.getId());
-        OutgoingEmailNew outgoingEmail = revertedChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail = revertedChangeEmailFactories.createEmail(changeEmail);
         outgoingEmail.setFrom(ctx.getAccountId());
         outgoingEmail.setNotify(ctx.getNotify(revertedChangeId));
         outgoingEmail.setMessageId(

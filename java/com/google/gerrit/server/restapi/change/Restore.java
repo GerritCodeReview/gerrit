@@ -36,9 +36,9 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
 import com.google.gerrit.server.mail.EmailModule.RestoredChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -152,10 +152,10 @@ public class Restore
     @Override
     public void postUpdate(PostUpdateContext ctx) {
       try {
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             restoredChangeEmailFactories.createChangeEmail(ctx.getProject(), change.getId());
         changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
-        OutgoingEmailNew outgoingEmail = restoredChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail = restoredChangeEmailFactories.createEmail(changeEmail);
         outgoingEmail.setFrom(ctx.getAccountId());
         outgoingEmail.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));

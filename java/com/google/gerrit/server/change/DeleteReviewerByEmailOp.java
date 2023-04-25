@@ -20,10 +20,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.mail.EmailModule.DeleteReviewerChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -82,12 +82,11 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
         DeleteReviewerChangeEmailDecorator deleteReviewerEmail =
             deleteReviewerChangeEmailFactories.createDeleteReviewerChangeEmail();
         deleteReviewerEmail.addReviewersByEmail(Collections.singleton(reviewer));
-        ChangeEmailNew changeEmail =
+        ChangeEmail changeEmail =
             deleteReviewerChangeEmailFactories.createChangeEmail(
                 ctx.getProject(), change.getId(), deleteReviewerEmail);
         changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
-        OutgoingEmailNew outgoingEmail =
-            deleteReviewerChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail = deleteReviewerChangeEmailFactories.createEmail(changeEmail);
         outgoingEmail.setFrom(ctx.getAccountId());
         outgoingEmail.setNotify(notify);
         outgoingEmail.setMessageId(

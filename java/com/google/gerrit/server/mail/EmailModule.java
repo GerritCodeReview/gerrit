@@ -27,8 +27,8 @@ import com.google.gerrit.server.mail.send.AbandonedChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AddKeyEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
-import com.google.gerrit.server.mail.send.ChangeEmailNewFactory;
+import com.google.gerrit.server.mail.send.ChangeEmail;
+import com.google.gerrit.server.mail.send.ChangeEmailFactory;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.DeleteKeyEmailDecoratorFactory;
@@ -39,8 +39,8 @@ import com.google.gerrit.server.mail.send.HttpPasswordUpdateEmailDecoratorFactor
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MergedChangeEmailDecoratorFactory;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
-import com.google.gerrit.server.mail.send.OutgoingEmailNewFactory;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
+import com.google.gerrit.server.mail.send.OutgoingEmailFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecorator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecoratorFactory;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
@@ -57,15 +57,15 @@ import org.eclipse.jgit.lib.ObjectId;
 public class EmailModule extends FactoryModule {
   public static class AbandonedChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
     private final AbandonedChangeEmailDecorator abandonedChangeEmailDecorator;
 
     @Inject
     AbandonedChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory,
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory,
         AbandonedChangeEmailDecorator abandonedChangeEmailDecorator) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
@@ -73,26 +73,26 @@ public class EmailModule extends FactoryModule {
       this.abandonedChangeEmailDecorator = abandonedChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), abandonedChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("abandon", changeEmail);
     }
   }
 
   public static class AttentionSetChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     AttentionSetChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
@@ -102,7 +102,7 @@ public class EmailModule extends FactoryModule {
       return new AttentionSetChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         AttentionSetChangeEmailDecorator attentionSetChangeEmailDecorator) {
@@ -110,8 +110,8 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), attentionSetChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(
-        AttentionSetChange attentionSetChange, ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(
+        AttentionSetChange attentionSetChange, ChangeEmail changeEmail) {
       if (attentionSetChange.equals(AttentionSetChange.USER_ADDED)) {
         return outgoingEmailFactory.create("addToAttentionSet", changeEmail);
       } else {
@@ -123,15 +123,15 @@ public class EmailModule extends FactoryModule {
   public static class CommentChangeEmailFactories {
     private final EmailArguments args;
     private final CommentChangeEmailDecoratorFactory commentChangeEmailFactory;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     CommentChangeEmailFactories(
         EmailArguments args,
         CommentChangeEmailDecoratorFactory commentChangeEmailFactory,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.commentChangeEmailFactory = commentChangeEmailFactory;
       this.changeEmailFactory = changeEmailFactory;
@@ -147,7 +147,7 @@ public class EmailModule extends FactoryModule {
           project, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         CommentChangeEmailDecorator commentChangeEmailDecorator) {
@@ -155,21 +155,21 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), commentChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("comment", changeEmail);
     }
   }
 
   public static class DeleteReviewerChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     DeleteReviewerChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
@@ -179,7 +179,7 @@ public class EmailModule extends FactoryModule {
       return new DeleteReviewerChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         DeleteReviewerChangeEmailDecorator deleteReviewerChangeEmailDecorator) {
@@ -187,22 +187,22 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), deleteReviewerChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("deleteReviewer", changeEmail);
     }
   }
 
   public static class DeleteVoteChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
     private final DeleteVoteChangeEmailDecorator deleteVoteChangeEmailDecorator;
 
     @Inject
     DeleteVoteChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory,
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory,
         DeleteVoteChangeEmailDecorator deleteVoteChangeEmailDecorator) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
@@ -210,12 +210,12 @@ public class EmailModule extends FactoryModule {
       this.deleteVoteChangeEmailDecorator = deleteVoteChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), deleteVoteChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("deleteVote", changeEmail);
     }
   }
@@ -223,29 +223,29 @@ public class EmailModule extends FactoryModule {
   public static class MergedChangeEmailFactories {
     private final EmailArguments args;
     private final MergedChangeEmailDecoratorFactory mergedChangeEmailDecoratorFactory;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     MergedChangeEmailFactories(
         EmailArguments args,
         MergedChangeEmailDecoratorFactory mergedChangeEmailDecoratorFactory,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.mergedChangeEmailDecoratorFactory = mergedChangeEmailDecoratorFactory;
       this.changeEmailFactory = changeEmailFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId),
           mergedChangeEmailDecoratorFactory.create(stickyApprovalDiff));
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("merged", changeEmail);
     }
   }
@@ -254,15 +254,15 @@ public class EmailModule extends FactoryModule {
     private final EmailArguments args;
     private final ReplacePatchSetChangeEmailDecoratorFactory
         replacePatchSetChangeEmailDecoratorFactory;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     ReplacePatchSetChangeEmailFactories(
         EmailArguments args,
         ReplacePatchSetChangeEmailDecoratorFactory replacePatchSetChangeEmailDecoratorFactory,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.replacePatchSetChangeEmailDecoratorFactory = replacePatchSetChangeEmailDecoratorFactory;
       this.changeEmailFactory = changeEmailFactory;
@@ -279,7 +279,7 @@ public class EmailModule extends FactoryModule {
           project, changeId, changeKind, preUpdateMetaId, postUpdateSubmitRequirementResults);
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         ReplacePatchSetChangeEmailDecorator replacePatchSetChangeEmailDecoratorFactory) {
@@ -287,22 +287,22 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), replacePatchSetChangeEmailDecoratorFactory);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("newpatchset", changeEmail);
     }
   }
 
   public static class RestoredChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
     private final RestoredChangeEmailDecorator restoredChangeEmailDecorator;
 
     @Inject
     RestoredChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory,
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory,
         RestoredChangeEmailDecorator restoredChangeEmailDecorator) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
@@ -310,27 +310,27 @@ public class EmailModule extends FactoryModule {
       this.restoredChangeEmailDecorator = restoredChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), restoredChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("restore", changeEmail);
     }
   }
 
   public static class RevertedChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
     private final RevertedChangeEmailDecorator revertedChangeEmailDecorator;
 
     @Inject
     RevertedChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory,
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory,
         RevertedChangeEmailDecorator revertedChangeEmailDecorator) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
@@ -338,26 +338,26 @@ public class EmailModule extends FactoryModule {
       this.revertedChangeEmailDecorator = revertedChangeEmailDecorator;
     }
 
-    public ChangeEmailNew createChangeEmail(Project.NameKey project, Change.Id changeId) {
+    public ChangeEmail createChangeEmail(Project.NameKey project, Change.Id changeId) {
       return changeEmailFactory.create(
           args.newChangeData(project, changeId), revertedChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("revert", changeEmail);
     }
   }
 
   public static class StartReviewChangeEmailFactories {
     private final EmailArguments args;
-    private final ChangeEmailNewFactory changeEmailFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final ChangeEmailFactory changeEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     StartReviewChangeEmailFactories(
         EmailArguments args,
-        ChangeEmailNewFactory changeEmailFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        ChangeEmailFactory changeEmailFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.args = args;
       this.changeEmailFactory = changeEmailFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
@@ -367,7 +367,7 @@ public class EmailModule extends FactoryModule {
       return new StartReviewChangeEmailDecorator();
     }
 
-    public ChangeEmailNew createChangeEmail(
+    public ChangeEmail createChangeEmail(
         Project.NameKey project,
         Change.Id changeId,
         StartReviewChangeEmailDecorator startReviewChangeEmailDecorator) {
@@ -375,29 +375,29 @@ public class EmailModule extends FactoryModule {
           args.newChangeData(project, changeId), startReviewChangeEmailDecorator);
     }
 
-    public OutgoingEmailNew createEmail(ChangeEmailNew changeEmail) {
+    public OutgoingEmail createEmail(ChangeEmail changeEmail) {
       return outgoingEmailFactory.create("newchange", changeEmail);
     }
   }
 
   public static class AddKeyEmailFactories {
     private final AddKeyEmailDecoratorFactory addKeyEmailDecoratorFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     AddKeyEmailFactories(
         AddKeyEmailDecoratorFactory addKeyEmailDecoratorFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.addKeyEmailDecoratorFactory = addKeyEmailDecoratorFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+    public OutgoingEmail createEmail(IdentifiedUser user, AccountSshKey sshKey) {
       return outgoingEmailFactory.create(
           "addkey", addKeyEmailDecoratorFactory.create(user, sshKey));
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeys) {
+    public OutgoingEmail createEmail(IdentifiedUser user, List<String> gpgKeys) {
       return outgoingEmailFactory.create(
           "addkey", addKeyEmailDecoratorFactory.create(user, gpgKeys));
     }
@@ -405,22 +405,22 @@ public class EmailModule extends FactoryModule {
 
   public static class DeleteKeyEmailFactories {
     private final DeleteKeyEmailDecoratorFactory deleteKeyEmailDecoratorFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     DeleteKeyEmailFactories(
         DeleteKeyEmailDecoratorFactory deleteKeyEmailDecoratorFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.deleteKeyEmailDecoratorFactory = deleteKeyEmailDecoratorFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, AccountSshKey sshKey) {
+    public OutgoingEmail createEmail(IdentifiedUser user, AccountSshKey sshKey) {
       return outgoingEmailFactory.create(
           "deletekey", deleteKeyEmailDecoratorFactory.create(user, sshKey));
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
+    public OutgoingEmail createEmail(IdentifiedUser user, List<String> gpgKeyFingerprints) {
       return outgoingEmailFactory.create(
           "deletekey", deleteKeyEmailDecoratorFactory.create(user, gpgKeyFingerprints));
     }
@@ -428,54 +428,54 @@ public class EmailModule extends FactoryModule {
 
   public static class HttpPasswordUpdateEmailFactory {
     private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailDecoratorFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     HttpPasswordUpdateEmailFactory(
         HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailDecoratorFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
+        OutgoingEmailFactory outgoingEmailFactory) {
       this.httpPasswordUpdateEmailDecoratorFactory = httpPasswordUpdateEmailDecoratorFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(IdentifiedUser user, String operation) {
+    public OutgoingEmail createEmail(IdentifiedUser user, String operation) {
       return outgoingEmailFactory.create(
           "HttpPasswordUpdate", httpPasswordUpdateEmailDecoratorFactory.create(user, operation));
     }
   }
 
   public static class InboundEmailRejectionEmailFactory {
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
-    InboundEmailRejectionEmailFactory(OutgoingEmailNewFactory outgoingEmailFactory) {
+    InboundEmailRejectionEmailFactory(OutgoingEmailFactory outgoingEmailFactory) {
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
-    public OutgoingEmailNew createEmail(Address to, String threadId, InboundEmailError reason) {
+    public OutgoingEmail createEmail(Address to, String threadId, InboundEmailError reason) {
       return outgoingEmailFactory.create(
           "error", new InboundEmailRejectionEmailDecorator(to, threadId, reason));
     }
   }
 
   public static class RegisterNewEmailFactories {
-    private final RegisterNewEmailDecoratorFactory registerNewEmailDecoratorFactory;
-    private final OutgoingEmailNewFactory outgoingEmailFactory;
+    private final RegisterNewEmailDecoratorFactory registerEmailDecoratorFactory;
+    private final OutgoingEmailFactory outgoingEmailFactory;
 
     @Inject
     RegisterNewEmailFactories(
-        RegisterNewEmailDecoratorFactory registerNewEmailDecoratorFactory,
-        OutgoingEmailNewFactory outgoingEmailFactory) {
-      this.registerNewEmailDecoratorFactory = registerNewEmailDecoratorFactory;
+        RegisterNewEmailDecoratorFactory registerEmailDecoratorFactory,
+        OutgoingEmailFactory outgoingEmailFactory) {
+      this.registerEmailDecoratorFactory = registerEmailDecoratorFactory;
       this.outgoingEmailFactory = outgoingEmailFactory;
     }
 
     public RegisterNewEmailDecorator createRegisterNewEmail(String address) {
-      return registerNewEmailDecoratorFactory.create(address);
+      return registerEmailDecoratorFactory.create(address);
     }
 
-    public OutgoingEmailNew createEmail(RegisterNewEmailDecorator registerNewEmail) {
-      return outgoingEmailFactory.create("registernewemail", registerNewEmail);
+    public OutgoingEmail createEmail(RegisterNewEmailDecorator registerEmail) {
+      return outgoingEmailFactory.create("registernewemail", registerEmail);
     }
   }
 }

@@ -25,9 +25,9 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailModule.StartReviewChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -101,10 +101,10 @@ public class ModifyReviewersEmail {
                 startReviewEmail.addExtraCCByEmail(immutableCopiedByEmail);
                 startReviewEmail.addRemovedReviewers(immutableToRemove);
                 startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
-                ChangeEmailNew changeEmail =
+                ChangeEmail changeEmail =
                     startReviewChangeEmailFactories.createChangeEmail(
                         projectNameKey, cId, startReviewEmail);
-                OutgoingEmailNew outgoingEmail =
+                OutgoingEmail outgoingEmail =
                     startReviewChangeEmailFactories.createEmail(changeEmail);
                 outgoingEmail.setNotify(notify);
                 outgoingEmail.setFrom(userId);

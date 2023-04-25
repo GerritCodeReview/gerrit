@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,8 +28,8 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public class StartReviewChangeEmailDecorator implements ChangeEmailDecorator {
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
 
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Address> reviewersByEmail = new HashSet<>();
@@ -68,7 +68,7 @@ public class StartReviewChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
   }

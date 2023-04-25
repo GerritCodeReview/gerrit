@@ -22,6 +22,30 @@
       },
       "revId": "c0f2d3e605751d3068be0f370f9033ee65d3a7f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9ac648_0c9c2e06",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-25T14:34:06Z",
+      "side": 0,
+      "message": "shouldSendMessage is defaulted to true, in the Decorator interface definition",
+      "parentUuid": "df146064_b6052166",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "c0f2d3e605751d3068be0f370f9033ee65d3a7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

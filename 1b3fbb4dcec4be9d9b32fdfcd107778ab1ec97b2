@@ -16,6 +16,24 @@
       "message": "Unrelated to this change: if we want to override these decorators in google3 (e.g. add few more soy params), do we need to override and replace every decorator or can we do in a single place?",
       "revId": "1b3fbb4dcec4be9d9b32fdfcd107778ab1ec97b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee620ed_99d3f522",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateEmailDecorator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-25T14:34:06Z",
+      "side": 1,
+      "message": "We would need to override every decorator. The plan however is to only override ChangeEmail in the end (for the rollout purposes there will probably be more, but in the end state only ChangeEmail). And for the rest we will have the same improvements upstream as internal",
+      "parentUuid": "08a2cf5b_cb737adb",
+      "revId": "1b3fbb4dcec4be9d9b32fdfcd107778ab1ec97b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

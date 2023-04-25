@@ -22,6 +22,30 @@
       },
       "revId": "32537fd152fc08c75522f10d963b0ffd8e0e4574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7842c6c3_dd08ba61",
+        "filename": "java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-25T03:43:40Z",
+      "side": 1,
+      "message": "I considered it, but trying to run Gerrit with JVM \u003c 11 wouldn\u0027t work, because the Gerrit code is built with compiler level 11 and major byte code version \u003d 55.\nFor example, Java 8 can only run major byte code version 52:\n\n```\n  $ /usr/lib64/jvm/java-1.8.0-openjdk/bin/java -jar bazel-bin/headless.war init -d gerrit_site\nError: A JNI error has occurred, please check your installation and try again\nException in thread \"main\" java.lang.UnsupportedClassVersionError: Main has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0\n\tat java.lang.ClassLoader.defineClass1(Native Method)\n\tat java.lang.ClassLoader.defineClass(ClassLoader.java:757)\n\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)\n\tat java.net.URLClassLoader.defineClass(URLClassLoader.java:473)\n\tat java.net.URLClassLoader.access$100(URLClassLoader.java:74)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:369)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:363)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:362)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:419)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:352)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:352)\n\tat sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:601)\n```\n\n^^^ As it can be seen, the code in Main.java wouldn\u0027t be even executed in that case. I could have added this to the commit message.",
+      "parentUuid": "d96c27e7_b88a8094",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "32537fd152fc08c75522f10d963b0ffd8e0e4574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

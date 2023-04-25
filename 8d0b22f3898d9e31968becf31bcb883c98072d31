@@ -1,5 +1,69 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125f31e5_f904253e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-25T12:16:04Z",
+      "side": 1,
+      "message": "this is wrong and should read 9.4.49.v20220914",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "8d0b22f3898d9e31968becf31bcb883c98072d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "390d45b0_59b803da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-25T12:16:04Z",
+      "side": 1,
+      "message": "this is wrong and should read 9.4.49.v20220914",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "8d0b22f3898d9e31968becf31bcb883c98072d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e19dc37e_683a75b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-25T12:16:04Z",
+      "side": 1,
+      "message": "fixed version in 3.8 release notes in https://gerrit-review.googlesource.com/c/homepage/+/371034",
+      "revId": "8d0b22f3898d9e31968becf31bcb883c98072d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

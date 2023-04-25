@@ -203,6 +203,49 @@ export function initClickReporter(reportingService: ReportingService) {
   });
 }
 
+/**
+ * Reports generic user interaction every x seconds to detect, if the user is
+ * present and using the application somehow. If you just look at
+ * `document.visibilityState`, then the user may have left the browser open
+ * without locking the screen. So it helps to know whether some interaction is
+ * actually happening.
+ */
+class InteractionReporter {
+  private readonly REPORTING_INTERVAL_MS = 10 * 1000;
+
+  /** Accumulates event names until the next round of interaction reporting. */
+  private interactionEvents = new Set<string>();
+
+  readonly add = (eventName: string) => this.interactionEvents.add(eventName);
+
+  constructor(private readonly reportingService: ReportingService) {
+    const events = ['mousemove', 'scroll', 'wheel', 'keydown', 'pointerdown'];
+    for (const eventName of events) {
+      document.addEventListener(eventName, () => this.add(eventName));
+    }
+
+    setInterval(() => this.report(), this.REPORTING_INTERVAL_MS);
+  }
+
+  private report() {
+    if (this.interactionEvents.size === 0) return;
+    if (document.visibilityState === 'visible') {
+      this.reportingService.reportInteraction(Interaction.USER_ACTIVE, {
+        events: [...this.interactionEvents],
+      });
+    }
+    this.interactionEvents.clear();
+  }
+}
+
+let interactionReporter: InteractionReporter;
+
+export function initInteractionReporter(reportingService: ReportingService) {
+  if (!interactionReporter) {
+    interactionReporter = new InteractionReporter(reportingService);
+  }
+}
+
 export function initWebVitals(reportingService: ReportingService) {
   function reportWebVitalMetric(name: Timing, metric: Metric) {
     let score = metric.value;

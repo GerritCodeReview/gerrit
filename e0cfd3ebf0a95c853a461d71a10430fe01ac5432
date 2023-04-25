@@ -69,6 +69,24 @@
       "parentUuid": "8a544846_f43e8ef5",
       "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb564b81_f42bb88f",
+        "filename": "javatests/com/google/gerrit/server/rules/prolog/GerritCommonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-25T07:56:46Z",
+      "side": 1,
+      "message": "thanks for fixing!",
+      "parentUuid": "d8c3a8be_d58c5112",
+      "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

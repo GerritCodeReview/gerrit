@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1cfeecd_db6d810c",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-25T13:12:07Z",
+      "side": 1,
+      "message": "nit: What\u0027s the purpose of this extra wrapper? If it\u0027s just to be shorter, I don\u0027t think \n```\n() \u003d\u003e this.add(eventName)\n```\nvs\n```\n() \u003d\u003e this.interactionEvents.add(eventName)\n```\n\nIs a big enough difference.",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 78
+      },
+      "revId": "1325f3510d8dac5815d6657bfbeb9b405f2e386f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

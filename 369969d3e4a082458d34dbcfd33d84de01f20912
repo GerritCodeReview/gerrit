@@ -131,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6769aef_e9a0ed2c",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2023-04-25T12:12:03Z",
+      "side": 1,
+      "message": "I am confused as to why `setInterval()` would have more waiting, don\u0027t you also wait 29 seconds in case there is a user event one second after you reported something? In any case, logging is always delayed from when the thing happened, so you want to timestamp events anyway and probably rely on something like `navigator.sendBeacon()` to send events robustly ahead of the page being closed.\n\nI meant that one variable to track whether `setInterval()` is less code than the timing calculations you have right now, but it\u0027s not a super strong opinion.\n\nIn terms of complexity, I think it\u0027s a bit more obvious when you have one thing that just unconditionally appends to a collection and another thing that just regularly empties it, but again, not a huge concern.",
+      "parentUuid": "999f2624_4465abf5",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "445ce884_e2a1beef",

@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 
 /** Base class for Attention Set email senders */
 public final class AttentionSetChangeEmailDecorator implements ChangeEmailDecorator {
@@ -25,8 +25,8 @@ public final class AttentionSetChangeEmailDecorator implements ChangeEmailDecora
     USER_REMOVED
   }
 
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
 
   private Account.Id attentionSetUser;
   private String reason;
@@ -45,7 +45,7 @@ public final class AttentionSetChangeEmailDecorator implements ChangeEmailDecora
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();

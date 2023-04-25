@@ -26,9 +26,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.EmailModule.AbandonedChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -112,10 +112,10 @@ public class AbandonOp implements BatchUpdateOp {
   public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     try {
-      ChangeEmailNew changeEmail =
+      ChangeEmail changeEmail =
           abandonedChangeEmailFactories.createChangeEmail(ctx.getProject(), change.getId());
       changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
-      OutgoingEmailNew email = abandonedChangeEmailFactories.createEmail(changeEmail);
+      OutgoingEmail email = abandonedChangeEmailFactories.createEmail(changeEmail);
       if (accountState != null) {
         email.setFrom(accountState.account().id());
       }

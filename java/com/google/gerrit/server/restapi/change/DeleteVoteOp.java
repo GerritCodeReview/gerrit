@@ -36,9 +36,9 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.EmailModule.DeleteVoteChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.permissions.LabelRemovalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DeleteVoteControl;
@@ -188,10 +188,10 @@ public class DeleteVoteOp implements BatchUpdateOp {
 
     CurrentUser user = ctx.getUser();
     try {
-      ChangeEmailNew changeEmail =
+      ChangeEmail changeEmail =
           deleteVoteChangeEmailFactories.createChangeEmail(ctx.getProject(), change.getId());
       changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
-      OutgoingEmailNew outgoingEmail = deleteVoteChangeEmailFactories.createEmail(changeEmail);
+      OutgoingEmail outgoingEmail = deleteVoteChangeEmailFactories.createEmail(changeEmail);
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (user.isIdentifiedUser()) {
         outgoingEmail.setFrom(user.getAccountId());

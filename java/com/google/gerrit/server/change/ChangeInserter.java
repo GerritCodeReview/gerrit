@@ -64,9 +64,9 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.EmailModule.StartReviewChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
@@ -547,11 +547,11 @@ public class ChangeInserter implements InsertChangeOp {
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs));
                 startReviewEmail.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCsByEmail));
-                ChangeEmailNew changeEmail =
+                ChangeEmail changeEmail =
                     startReviewChangeEmailFactories.createChangeEmail(
                         change.getProject(), change.getId(), startReviewEmail);
                 changeEmail.setPatchSet(patchSet, patchSetInfo);
-                OutgoingEmailNew outgoingEmail =
+                OutgoingEmail outgoingEmail =
                     startReviewChangeEmailFactories.createEmail(changeEmail);
                 outgoingEmail.setFrom(change.getOwner());
                 outgoingEmail.setNotify(notify);

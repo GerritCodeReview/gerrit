@@ -83,22 +83,22 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 // TODO: Remove ChangeEmail and rename this class once all usages are migrated to ChangeEmailNew.
 /** Populates an email for change related notifications. */
 @AutoFactory
-public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
+public final class ChangeEmail implements OutgoingEmail.EmailDecorator {
 
   /** Implementations of params interface populate details specific to the notification type. */
   public interface ChangeEmailDecorator {
     /**
-     * Stores the reference to the {@link OutgoingEmailNew} and {@link ChangeEmailNew} for the
-     * subsequent calls.
+     * Stores the reference to the {@link OutgoingEmail} and {@link ChangeEmail} for the subsequent
+     * calls.
      *
      * <p>Both init and populateEmailContent can be called multiply times in case of retries. Init
      * is therefore responsible for clearing up any changes which are not idempotent and
      * initializing data for use in populateEmailContent.
      *
      * <p>Can be used to adjust any of the behaviour of the {@link
-     * ChangeEmailNew#populateEmailContent}.
+     * ChangeEmail#populateEmailContent}.
      */
-    void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) throws EmailException;
+    void init(OutgoingEmail email, ChangeEmail changeEmail) throws EmailException;
 
     /**
      * Populate headers, recipients and body of the email.
@@ -126,7 +126,7 @@ public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
   private final ChangeEmailDecorator changeEmailDecorator;
 
   // Available after init or after being explicitly set.
-  private OutgoingEmailNew email;
+  private OutgoingEmail email;
   private ListMultimap<Account.Id, String> stars;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
@@ -143,7 +143,7 @@ public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
   private Set<Address> watcherEmails = new HashSet<>();
   private boolean isThreadReply = false;
 
-  public ChangeEmailNew(
+  public ChangeEmail(
       @Provided EmailArguments args,
       ChangeData changeData,
       ChangeEmailDecorator changeEmailDecorator) {
@@ -203,7 +203,7 @@ public final class ChangeEmailNew implements OutgoingEmailNew.EmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email) throws EmailException {
+  public void init(OutgoingEmail email) throws EmailException {
     this.email = email;
 
     changeMessageThreadId =

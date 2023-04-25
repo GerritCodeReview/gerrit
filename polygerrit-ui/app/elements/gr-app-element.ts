@@ -118,7 +118,7 @@ export class GrAppElement extends LitElement {
 
   @state() private version?: string;
 
-  @state() private view?: GerritView;
+  @state() view?: GerritView;
 
   // TODO: Introduce a wrapper element for CHANGE, DIFF, EDIT view.
   @state() private childView?: ChangeChildView;
@@ -549,15 +549,21 @@ export class GrAppElement extends LitElement {
 
   private renderPluginScreen() {
     if (this.view !== GerritView.PLUGIN_SCREEN) return nothing;
+    if (!this.params) return nothing;
     const pluginViewState = this.params as PluginViewState;
-    return html`
-      <gr-endpoint-decorator .name=${this.computePluginScreenName()}>
-        <gr-endpoint-param
-          name="token"
-          .value=${pluginViewState.screen}
-        ></gr-endpoint-param>
-      </gr-endpoint-decorator>
-    `;
+    const pluginScreenName = this.computePluginScreenName();
+
+    return keyed(
+      pluginScreenName,
+      html`
+        <gr-endpoint-decorator .name=${pluginScreenName}>
+          <gr-endpoint-param
+            name="token"
+            .value=${pluginViewState.screen}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      `
+    );
   }
 
   private renderCLAView() {

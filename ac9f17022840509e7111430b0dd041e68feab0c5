@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaa9c251_78877717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-25T13:16:43Z",
+      "side": 1,
+      "message": "@janne.ronkko@vincit.fi\nDoes this align with your understanding or am I way off again?",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "ac9f17022840509e7111430b0dd041e68feab0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "31e1f8f2_542fadcd",

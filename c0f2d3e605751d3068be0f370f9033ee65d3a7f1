@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df146064_b6052166",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-25T13:58:02Z",
+      "side": 0,
+      "message": "where is `shouldSendMessage` processed in the new code?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "c0f2d3e605751d3068be0f370f9033ee65d3a7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f68487c2_47d3c3a9",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-25T09:44:42Z",
+      "side": 1,
+      "message": "I think this is a bit more complicated than it needs to be.\n\nI would suggest\n1) All handlers just add event to `this.interactionEvents`\n2) There is a single setInterval that clears the set and reports if non-empty\n\nIt has a drawback that inactive page has timer running, but that seems very minor. The benefits are, you don\u0027t need to keep track of timers, debounce events, keep track of the latest interaction.",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "445ce884_e2a1beef",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
         "patchSetId": 1

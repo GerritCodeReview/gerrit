@@ -34,6 +34,23 @@
       "parentUuid": "aebf8fc3_7ba5ece5",
       "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a544846_f43e8ef5",
+        "filename": "javatests/com/google/gerrit/server/rules/prolog/GerritCommonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-25T06:26:45Z",
+      "side": 1,
+      "message": "This move actually disabled those tests, because in the parent directory there the glob is not recursive (which is a good thing to be per default), and no BUILD files were added to newly created prolog directory.\n\nAlso the BUILD file in the prante directory appears to be outdates, as it\u0027s still pointing to the prolog specific dependencies, that are unused now:\n\n```\n    resource_strip_prefix \u003d \"prologtests\",\n    resources \u003d [\"//prologtests:gerrit_common_test\"],\n    runtime_deps \u003d [\"//prolog:gerrit-prolog-common\"],\n```",
+      "revId": "e0cfd3ebf0a95c853a461d71a10430fe01ac5432",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

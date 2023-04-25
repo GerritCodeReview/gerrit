@@ -203,6 +203,68 @@ export function initClickReporter(reportingService: ReportingService) {
   });
 }
 
+/**
+ * Reports generic user interaction every x seconds to detect, if the user is
+ * present and using the application somehow. If you just look at
+ * `document.visibilityState`, then the user may have left the browser open
+ * without locking the screen. So it helps to know whether some interaction is
+ * actually happening.
+ */
+class InteractionReporter {
+  private readonly REPORTING_INTERVAL_MS = 30 * 1000;
+
+  private lastInteractionMs = Date.now();
+
+  private interactionEvents = new Set<string>();
+
+  constructor(private readonly reportingService: ReportingService) {
+    this.listenToInteractionEvent('mousemove');
+    this.listenToInteractionEvent('scroll');
+    this.listenToInteractionEvent('wheel');
+    this.listenToInteractionEvent('keydown');
+    this.listenToInteractionEvent('pointerdown');
+  }
+
+  private listenToInteractionEvent(eventName: string) {
+    document.addEventListener(eventName, () => {
+      this.interactionEvents.add(eventName);
+      this.maybeReport();
+    });
+  }
+
+  private maybeReport() {
+    const nowMs = Date.now();
+    const intervalPassedMs = nowMs - this.lastInteractionMs;
+    const needToWaitMs = this.REPORTING_INTERVAL_MS - intervalPassedMs;
+    const mustReportNow = needToWaitMs <= 0;
+
+    if (mustReportNow) {
+      this.report();
+    } else if (this.somethingToReport()) {
+      setTimeout(() => this.maybeReport(), needToWaitMs);
+    }
+  }
+
+  private somethingToReport() {
+    return this.interactionEvents.size > 0;
+  }
+
+  private report() {
+    if (!this.somethingToReport()) return;
+    if (document.visibilityState === 'visible') {
+      this.reportingService.reportInteraction(Interaction.GENERIC, {
+        events: [...this.interactionEvents],
+      });
+    }
+    this.lastInteractionMs = Date.now();
+    this.interactionEvents.clear();
+  }
+}
+
+export function initInteractionReporter(reportingService: ReportingService) {
+  new InteractionReporter(reportingService);
+}
+
 export function initWebVitals(reportingService: ReportingService) {
   function reportWebVitalMetric(name: Timing, metric: Metric) {
     let score = metric.value;

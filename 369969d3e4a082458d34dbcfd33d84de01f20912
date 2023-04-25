@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54ae4435_0fd8bfc6",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2023-04-25T10:13:56Z",
+      "side": 1,
+      "message": "+1 and optionally report early if `interactionEvents` exceeds a certain size, to address Chris\u0027s concern about active users generating a massive amount of events within 30 seconds.\n\nIf the running timer is a concern (likely not in terms of scripting time, but maybe for tab snoozing or similar things) you could always stop the interval in `report()` and recreate it in `maybeReport()` when it\u0027s missing, which is still less manual bookkeeping than the timing calculations right now.",
+      "parentUuid": "f68487c2_47d3c3a9",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "445ce884_e2a1beef",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
         "patchSetId": 1

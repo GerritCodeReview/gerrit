@@ -34,6 +34,24 @@
       "parentUuid": "6765436f_0597e024",
       "revId": "6a71810a7538ef56f1191beb63e82a1377138aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a186357f_deb36c20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-25T13:25:31Z",
+      "side": 1,
+      "message": "Best to keep this one on master, as we are late in the game for v3.8.x",
+      "parentUuid": "ba4f4e29_179aacdc",
+      "revId": "6a71810a7538ef56f1191beb63e82a1377138aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

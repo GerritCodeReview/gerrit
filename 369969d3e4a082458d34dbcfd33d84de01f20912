@@ -16,6 +16,23 @@
       "message": "Please use a better name than \u0027GENERIC\u0027.\n\nMaybe: WINDOW_VISIBLE or USER_ACTIVE.",
       "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "445ce884_e2a1beef",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-25T09:30:09Z",
+      "side": 1,
+      "message": "Don\u0027t you want to keep track of this timeout so you don\u0027t set multiple timeouts?",
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

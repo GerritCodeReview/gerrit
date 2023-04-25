@@ -33,6 +33,24 @@
       "message": "I assume it\u0027s intentional, but just to confirm (and might be worth adding a short comment to clarify), is this deliberate?\n\n1) User interacts.\n2) Document becomes invisible in the latest reporting interval.\n3) `report()` is called and will clear latest events *without* reporting them.\n\nI guess since no new interaction events will be received in background tabs, you could simplify to:\n\n```\nprivate report() {\n    if (this.interactionEvents.size !\u003d\u003d 0) {\n      this.reportingService.reportInteraction(Interaction.USER_ACTIVE, {\n        events: [...this.interactionEvents],\n      });\n      this.interactionEvents.clear();\n    }\n```\n\nThat will count users that switch away for fewer than 30 seconds as continuously active in your logs, which might be acceptable; with the existing approach you are logging users as inactive when they switch away for 5 seconds right when the interval fires.",
       "revId": "8f14745e600f626a9694106685da9b0cb6fd9426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b61d00c_464b7ead",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-25T15:57:14Z",
+      "side": 1,
+      "message": "I had this concern as well",
+      "parentUuid": "8d301e55_9bf0200f",
+      "revId": "8f14745e600f626a9694106685da9b0cb6fd9426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

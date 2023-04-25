@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "999f2624_4465abf5",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-25T11:28:01Z",
+      "side": 1,
+      "message": "Alright, let\u0027s keep it. Personally, I don\u0027t see timer running as a big drawback (how bad a timer that executes once a 30 seconds can be), which is why is why I am in favor of a simpler solution. But I agree it\u0027s not like this solution is very hard to understand.",
+      "parentUuid": "2daa4a4c_f590d87e",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 213,
+        "endChar": 25
+      },
+      "revId": "369969d3e4a082458d34dbcfd33d84de01f20912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "445ce884_e2a1beef",

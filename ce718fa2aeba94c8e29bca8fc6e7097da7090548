@@ -87,6 +87,24 @@
       "parentUuid": "2fb7abb9_c48ae960",
       "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f307ec_2fd1682f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-26T10:24:27Z",
+      "side": 1,
+      "message": "I couldn\u0027t find where adding reviewers as a whole was tested, found it now. Will add a test, thanks.",
+      "parentUuid": "81367205_1eb64753",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

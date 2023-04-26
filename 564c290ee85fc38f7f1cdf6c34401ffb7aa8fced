@@ -16,6 +16,24 @@
       "message": "nit: s/comparision/comparison (same nit below).",
       "revId": "564c290ee85fc38f7f1cdf6c34401ffb7aa8fced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d50afe_6f1a5db9",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2023-04-26T05:03:32Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "61b00051_102ba705",
+      "revId": "564c290ee85fc38f7f1cdf6c34401ffb7aa8fced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

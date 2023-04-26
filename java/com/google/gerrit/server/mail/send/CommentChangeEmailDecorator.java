@@ -51,6 +51,8 @@ import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -83,21 +86,26 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
     @Nullable
     public String getCommentLink(String uuid) {
       return args.urlFormatter
-          .get()
-          .getInlineCommentView(changeEmail.getChange(), uuid)
-          .orElse(null);
+              .get()
+              .getInlineCommentView(changeEmail.getChange(), uuid)
+              .map(EmailArguments::addUspParam)
+              .orElse(null);
     }
 
     /** Returns a web link to the comment tab view of a change. */
     @Nullable
     public String getCommentsTabLink() {
-      return args.urlFormatter.get().getCommentsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter.get().getCommentsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /** Returns a web link to the findings tab view of a change. */
     @Nullable
     public String getFindingsTabLink() {
-      return args.urlFormatter.get().getFindingsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter.get().getFindingsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /**

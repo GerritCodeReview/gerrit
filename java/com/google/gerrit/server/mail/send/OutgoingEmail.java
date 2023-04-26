@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
+import javax.swing.text.html.Option;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
@@ -418,9 +419,10 @@ public final class OutgoingEmail {
   }
 
   public String getGerritHost() {
-    if (getGerritUrl() != null) {
+    Optional<String> gerritUrl = args.urlFormatter.get().getWebUrl();
+    if (gerritUrl.isPresent()) {
       try {
-        return new URL(getGerritUrl()).getHost();
+        return new URL(gerritUrl.get()).getHost();
       } catch (MalformedURLException e) {
         // Try something else.
       }
@@ -435,12 +437,12 @@ public final class OutgoingEmail {
 
   @Nullable
   public String getSettingsUrl() {
-    return args.urlFormatter.get().getSettingsUrl().orElse(null);
+    return args.urlFormatter.get().getSettingsUrl().map(EmailArguments::addUspParam).orElse(null);
   }
 
   @Nullable
-  private String getGerritUrl() {
-    return args.urlFormatter.get().getWebUrl().orElse(null);
+  public String getSettingsUrl(String section) {
+    return args.urlFormatter.get().getSettingsUrl(section).map(EmailArguments::addUspParam).orElse(null);
   }
 
   /** Set a header in the outgoing message. */
@@ -712,7 +714,6 @@ public final class OutgoingEmail {
     addSoyEmailDataParam("settingsUrl", getSettingsUrl());
     addSoyEmailDataParam("instanceName", getInstanceName());
     addSoyEmailDataParam("gerritHost", getGerritHost());
-    addSoyEmailDataParam("gerritUrl", getGerritUrl());
     addSoyParam("email", soyContextEmailData);
 
     templateProvider.populateEmailContent();

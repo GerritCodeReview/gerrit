@@ -77,6 +77,8 @@ public class AddKeyEmailDecorator implements EmailDecorator {
     email.addSoyEmailDataParam("keyType", getKeyType());
     email.addSoyEmailDataParam("sshKey", getSshKey());
     email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("sshKeysSettingsUrl", email.getSettingsUrl("ssh-keys"));
+    email.addSoyEmailDataParam("gpgKeysSettingsUrl", email.getSettingsUrl("gpg-keys"));
 
     email.appendText(email.textTemplate("AddKey"));
     if (email.useHtml()) {

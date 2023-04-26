@@ -216,6 +216,16 @@ public class StarredChangesUtil {
     }
   }
 
+  public boolean isStarred(Repository allUsersRepo, Change.Id changeId, Account.Id caller) {
+    String starRef = RefNames.refsStarredChanges(changeId, caller);
+    try {
+      return allUsersRepo.getRefDatabase().exactRef(starRef) != null;
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Failed to check exact ref for reference %s", starRef);
+      return false;
+    }
+  }
+
   /**
    * Unstar the given change for all users.
    *

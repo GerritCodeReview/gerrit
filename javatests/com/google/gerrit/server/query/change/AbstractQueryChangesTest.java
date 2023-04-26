@@ -83,6 +83,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -2889,7 +2890,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStar() throws Exception {
+  public void byStar_withStarOptionSet() throws Exception {
+    // When star option is set, the 'starred' field is set in the change infos in response.
     repo = createAndOpenProject("repo");
     Change change1 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
 
@@ -2902,6 +2904,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // check default star
     assertQuery("has:star", change1);
     assertQuery("is:starred", change1);
+
+    // The 'Star' bit in the change data is also set correctly
+    List<ChangeInfo> changeInfos =
+        gApi.changes().query("has:star").withOptions(ListChangesOption.STAR).get();
+    assertThat(changeInfos.get(0).starred).isTrue();
+  }
+
+  @Test
+  public void byStar_withStarOptionNotSet() throws Exception {
+    // When star option is not set, the 'starred' field is not set in the change infos in response.
+    repo = createAndOpenProject("repo");
+    Change change1 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
+
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    requestContext.setContext(newRequestContext(user2));
+
+    gApi.accounts().self().starChange(change1.getId().toString());
+
+    // check default star
+    assertQuery("has:star", change1);
+    assertQuery("is:starred", change1);
+
+    // The 'Star' bit in the change data is not set if the backfilling option is not set
+    List<ChangeInfo> changeInfos = gApi.changes().query("has:star").get();
+    assertThat(changeInfos.get(0).starred).isNull();
   }
 
   @Test

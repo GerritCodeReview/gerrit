@@ -379,6 +379,21 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
   as link:#tracking-id-info[TrackingIdInfo].
 --
 
+<<<<<<< HEAD   (7393f6 Merge branch 'stable-3.7' into stable-3.8)
+=======
+[[custom-keyed-values]]
+--
+* `CUSTOM_KEYED_VALUES`: include the custom key-value map
+---
+
+[[star]]
+--
+* `STAR`: include the `starred` field in
+   link:#change-info[ChangeInfo], which indicates if the change is starred
+   by the current user or not.
+--
+
+>>>>>>> CHANGE (f4f494 Add option to populate 'starred' field for change query requ)
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -6958,6 +6973,7 @@ The user who submitted the change, as an
 link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change with the default label.
+Only set if link:#star[requested].
 |`stars`              |optional|
 A list of star labels that are applied by the calling user to this
 change. The labels are lexicographically sorted.

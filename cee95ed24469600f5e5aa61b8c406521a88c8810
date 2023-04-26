@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cf09d6b_ce87d1d0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-26T08:05:29Z",
+      "side": 1,
+      "message": "nit:\nIf `this.view !\u003d\u003d GerritView.PLUGIN_SCREEN` or `!this.params` then pluginScreenName computes to `\u0027\u0027`.\nFrom my perspective it would make sense to say \"If we can compute a pluginScreenName then `this.view \u003d\u003d\u003d GerritView.PLUGIN_SCREEN`\" and as this fact is only used in computePluginScreen and checked there we could drop the check here.\nMight be less true for `this.params` as it is used in this contex.\n\n```\nconst pluginScreenName \u003d this.computePluginScreenName();\nif (!pluginScreenName) return nothing;\nif (!this.params) return nothing // optional\nconst pluginViewState \u003d this.params as PluginViewState;\n\nreturn keyed(\n...\n\n```",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 552,
+        "endChar": 37
+      },
+      "revId": "cee95ed24469600f5e5aa61b8c406521a88c8810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

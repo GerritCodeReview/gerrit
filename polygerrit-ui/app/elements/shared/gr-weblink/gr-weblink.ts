@@ -42,6 +42,9 @@ export class GrWeblink extends LitElement {
           width: var(--line-height-normal);
           height: var(--line-height-normal);
         }
+        span {
+          margin-right: var(--spacing-s);
+        }
       `,
     ];
   }

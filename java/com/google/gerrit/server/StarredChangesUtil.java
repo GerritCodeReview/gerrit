@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -219,6 +220,29 @@ public class StarredChangesUtil {
       throw new StorageException(
           String.format("Star change %d for account %d failed", changeId.get(), accountId.get()),
           e);
+    }
+  }
+
+  /**
+   * Returns a subset of change IDs among the input {@code changeIds} list that are starred by the
+   * {@code caller} user.
+   */
+  public Set<Change.Id> areStarred(
+      Repository allUsersRepo, List<Change.Id> changeIds, Account.Id caller) {
+    List<String> starRefs =
+        changeIds.stream()
+            .map(c -> RefNames.refsStarredChanges(c, caller))
+            .collect(Collectors.toList());
+    try {
+      return allUsersRepo.getRefDatabase().exactRef(starRefs.toArray(new String[0])).keySet()
+          .stream()
+          .map(r -> Change.Id.fromAllUsersRef(r))
+          .collect(Collectors.toSet());
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed getting starred changes for account %d within changes: %s",
+          caller.get(), Joiner.on(", ").join(changeIds));
+      return ImmutableSet.of();
     }
   }
 

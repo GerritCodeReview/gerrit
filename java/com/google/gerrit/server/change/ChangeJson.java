@@ -30,6 +30,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
+import static com.google.gerrit.extensions.client.ListChangesOption.STAR;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
@@ -98,8 +99,15 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+<<<<<<< HEAD   (c88c02 Lower log-message for blocked email to INFO)
+=======
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.server.git.GitRepositoryManager;
+>>>>>>> CHANGE (f4f494 Add option to populate 'starred' field for change query requ)
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -129,6 +137,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -218,12 +227,15 @@ public class ChangeJson {
     }
   }
 
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsers;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final ImmutableSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
+  private final StarredChangesUtil starredChangesUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final ChangeNotes.Factory notesFactory;
@@ -242,11 +254,18 @@ public class ChangeJson {
 
   @Inject
   ChangeJson(
+<<<<<<< HEAD   (c88c02 Lower log-message for blocked email to INFO)
+=======
+      GitRepositoryManager repoManager,
+      AllUsersName allUsers,
+      ExperimentFeatures experimentFeatures,
+>>>>>>> CHANGE (f4f494 Add option to populate 'starred' field for change query requ)
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       ChangeData.Factory cdf,
       AccountLoader.Factory ailf,
       ChangeMessagesUtil cmUtil,
+      StarredChangesUtil starredChangesUtil,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       ChangeNotes.Factory notesFactory,
@@ -258,11 +277,18 @@ public class ChangeJson {
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
+<<<<<<< HEAD   (c88c02 Lower log-message for blocked email to INFO)
+=======
+    this.repoManager = repoManager;
+    this.allUsers = allUsers;
+    this.experimentFeatures = experimentFeatures;
+>>>>>>> CHANGE (f4f494 Add option to populate 'starred' field for change query requ)
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = ailf;
     this.cmUtil = cmUtil;
+    this.starredChangesUtil = starredChangesUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.notesFactory = notesFactory;
@@ -524,6 +550,9 @@ public class ChangeJson {
           logger.atWarning().withCause(e).log(
               "Omitting corrupt change %s from results", cd.getId());
         }
+      }
+      if (has(STAR)) {
+        populateStarField(changeInfos);
       }
       return changeInfos;
     }
@@ -936,6 +965,25 @@ public class ChangeJson {
       map.put(patchSet.id(), patchSet);
     }
     return map;
+  }
+
+  /** Populate the 'starred' field. */
+  private void populateStarField(List<ChangeInfo> changeInfos) {
+    // We populate the 'starred' field for all change infos together so that we open the All-Users
+    // repository only once
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      List<Change.Id> changeIds =
+          changeInfos.stream().map(c -> Change.id(c._number)).collect(Collectors.toList());
+      Set<Change.Id> starredChanges =
+          starredChangesUtil.areStarred(
+              allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
+      if (starredChanges.isEmpty()) {
+        return;
+      }
+      changeInfos.stream().forEach(c -> c.starred = starredChanges.contains(Change.id(c._number)));
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Failed to open All-Users repo.");
+    }
   }
 
   private List<PluginDefinedInfo> getPluginInfos(ChangeData cd) {

@@ -63,6 +63,7 @@ import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
+import {keyed} from 'lit/directives/keyed.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
@@ -487,14 +488,18 @@ export class GrAppElement extends LitElement {
   private renderPluginScreen() {
     if (this.view !== GerritView.PLUGIN_SCREEN) return nothing;
     const pluginViewState = this.params as PluginViewState;
-    return html`
-      <gr-endpoint-decorator .name=${this.computePluginScreenName()}>
-        <gr-endpoint-param
-          name="token"
-          .value=${pluginViewState.screen}
-        ></gr-endpoint-param>
-      </gr-endpoint-decorator>
-    `;
+    const pluginScreenName = this.computePluginScreenName();
+    return keyed(
+      pluginScreenName,
+      html`
+        <gr-endpoint-decorator .name=${pluginScreenName}>
+          <gr-endpoint-param
+            name="token"
+            .value=${pluginViewState.screen}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      `
+    );
   }
 
   private renderCLAView() {

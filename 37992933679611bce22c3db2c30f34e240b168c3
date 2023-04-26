@@ -63,6 +63,30 @@
       },
       "revId": "37992933679611bce22c3db2c30f34e240b168c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1045ef8f_f6e703c8",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-26T14:49:44Z",
+      "side": 1,
+      "message": "You can still create a new suite for ChangeTriplet, unit-tests are equally good.",
+      "parentUuid": "891aa3e1_bf60568e",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "37992933679611bce22c3db2c30f34e240b168c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

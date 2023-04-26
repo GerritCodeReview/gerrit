@@ -62,8 +62,8 @@ public class RegisterNewEmailDecorator implements EmailDecorator {
 
   @Override
   public void populateEmailContent() {
-    email.addSoyEmailDataParam("emailRegistrationToken", getEmailRegistrationToken());
     email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("emailRegistrationLink", getEmailRegistrationLink());
 
     email.appendText(email.textTemplate("RegisterNewEmail"));
     if (email.useHtml()) {
@@ -71,10 +71,10 @@ public class RegisterNewEmailDecorator implements EmailDecorator {
     }
   }
 
-  private String getEmailRegistrationToken() {
+  private String getEmailRegistrationLink() {
     if (emailToken == null) {
       emailToken = requireNonNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
-    return emailToken;
+    return args.urlFormatter.get().getWebUrl().orElse("") + "#/VE/" + emailToken;
   }
 }

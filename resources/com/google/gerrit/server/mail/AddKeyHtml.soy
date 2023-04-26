@@ -47,9 +47,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/NoReplyFooterHtml.s
   <p>
     You can also manage your {$email.keyType} keys by following{sp}
     {if $email.sshKey}
-      <a href="{$email.gerritUrl}#/settings/ssh-keys">this link</a>
+      <a href="{$email.sshKeysSettingsUrl}">this link</a>
     {elseif $email.gpgKeys}
-      <a href="{$email.gerritUrl}#/settings/gpg-keys">this link</a>
+      <a href="{$email.gpgKeysSettingsUrl}">this link</a>
     {/if}
     {sp}
     {if $email.userNameEmail}

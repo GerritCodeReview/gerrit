@@ -48,9 +48,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/NoReplyFooter.soy';
   You can also manage your {$email.keyType} keys by visiting
   {\n}
   {if $email.sshKey}
-    {$email.gerritUrl}#/settings/ssh-keys
+    {$email.sshKeysSettingsUrl}
   {elseif $email.gpgKeys}
-    {$email.gerritUrl}#/settings/gpg-keys
+    {$email.gpgKeysSettingsUrl}
   {/if}
   {\n}
   {if $email.userNameEmail}

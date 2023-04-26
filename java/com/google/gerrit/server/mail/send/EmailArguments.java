@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -51,7 +52,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.template.soy.jbcsrc.api.SoySauce;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -175,5 +179,15 @@ public class EmailArguments {
   /** Fetch ChangeData for specified change and revision. */
   public ChangeData newChangeData(Project.NameKey project, Change.Id id, ObjectId metaId) {
     return changeDataFactory.create(changeNotesFactory.createChecked(project, id, metaId));
+  }
+
+  @Nullable
+  public static String addUspParam(String url) {
+    try {
+      URI uri = new URIBuilder(url).addParameter("usp", "email").build();
+      return uri.toString();
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 }

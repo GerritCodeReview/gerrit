@@ -16,6 +16,24 @@
       "message": "Thanks for the quick fix. We would need to back port this to stable-3.7 branch.",
       "revId": "7f87ea3b2eed370ee36a2b6df02c3c38e8dd0882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d20cab_e44721af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-26T07:27:20Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/371175: Fix switching plugin screens",
+      "parentUuid": "c34a219b_9484dfae",
+      "revId": "7f87ea3b2eed370ee36a2b6df02c3c38e8dd0882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

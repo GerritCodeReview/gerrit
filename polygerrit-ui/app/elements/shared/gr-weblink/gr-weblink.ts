@@ -30,6 +30,7 @@ export class GrWeblink extends LitElement {
           display: inline-block;
           vertical-align: top;
           line-height: var(--line-height-normal);
+          margin-right: var(--spacing-s);
         }
         a {
           color: var(--link-color);

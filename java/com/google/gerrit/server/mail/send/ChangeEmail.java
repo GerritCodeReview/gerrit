@@ -58,8 +58,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Collection;
@@ -71,7 +69,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -302,15 +299,11 @@ public final class ChangeEmail implements OutgoingEmail.EmailDecorator {
    */
   @Nullable
   public String getChangeUrl() {
-    Optional<String> changeUrl =
-        args.urlFormatter.get().getChangeViewUrl(change.getProject(), change.getId());
-    if (!changeUrl.isPresent()) return null;
-    try {
-      URI uri = new URIBuilder(changeUrl.get()).addParameter("usp", "email").build();
-      return uri.toString();
-    } catch (URISyntaxException e) {
-      return null;
-    }
+    return args.urlFormatter
+        .get()
+        .getChangeViewUrl(change.getProject(), change.getId())
+        .map(EmailArguments::addUspParam)
+        .orElse(null);
   }
 
   /** Sets headers for conversation grouping */

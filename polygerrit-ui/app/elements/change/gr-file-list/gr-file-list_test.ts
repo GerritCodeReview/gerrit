@@ -396,6 +396,7 @@ suite('gr-file-list tests', () => {
       element.files = createFiles(250);
       await element.updateComplete;
       await waitEventLoop();
+      assert.equal(200, element.numFilesShown);
 
       assert.equal(
         queryAll<HTMLDivElement>(element, '.file-row').length,
@@ -420,17 +421,7 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       assert.equal(element.numFilesShown, 250);
-      assert.equal(element.shownFiles.length, 250);
       assert.isTrue(controlRow.classList.contains('invisible'));
-    });
-
-    test('rendering each row calls the reportRenderedRow method', async () => {
-      const renderedStub = sinon.stub(element, 'reportRenderedRow');
-      element.files = createFiles(10);
-      await element.updateComplete;
-
-      assert.equal(queryAll<HTMLDivElement>(element, '.file-row').length, 10);
-      assert.equal(renderedStub.callCount, 10);
     });
 
     test('calculate totals for patch number', async () => {

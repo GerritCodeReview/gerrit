@@ -17,18 +17,24 @@ interface RepeatOptions<T> {
   initialCount: number;
   targetFrameRate?: number;
   startAt?: number;
-  // TODO: targetFramerate
+  endAt?: number;
 }
 
 interface RepeatState<T> {
   values: T[];
   mapFn?: (val: T, idx: number) => unknown;
   startAt: number;
+  endAt: number;
   incrementAmount: number;
   lastRenderedAt: number;
   targetFrameRate: number;
 }
 
+// This directive supports incrementally rendering a list of elements.
+// It only responds to updates to values (which forces a complete re-render) and
+// an update to endAt (which expands the list).
+// It currently does not support changes to mapFn, initialCount or startAt
+// unless values are also changed.
 class IncrementalRepeat<T> extends AsyncDirective {
   private children: {part: ChildPart; options: RepeatOptions<T>}[] = [];
 
@@ -36,11 +42,14 @@ class IncrementalRepeat<T> extends AsyncDirective {
 
   private state!: RepeatState<T>;
 
+  // Will render from `options.startAt` to `options.endAt`, up to
+  // `options.initialCount` elements.
   render(options: RepeatOptions<T>) {
-    const values = options.values.slice(
-      options.startAt ?? 0,
-      (options.startAt ?? 0) + options.initialCount
-    );
+    const start = options.startAt ?? 0;
+    const offset = start + options.initialCount;
+    const end =
+      options.endAt === undefined ? offset : Math.min(options.endAt, offset);
+    const values = options.values.slice(start, end);
     if (options.mapFn) {
       return values.map(options.mapFn);
     }
@@ -57,6 +66,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
         values: options.values,
         mapFn: options.mapFn,
         startAt: options.initialCount,
+        endAt: options.endAt ?? options.values.length,
         incrementAmount: options.initialCount,
         lastRenderedAt: performance.now(),
         targetFrameRate: options.targetFrameRate ?? 30,
@@ -66,7 +76,19 @@ class IncrementalRepeat<T> extends AsyncDirective {
       );
     } else {
       this.updateParts();
+      // TODO: Deal with updates to startAt by removing children and then
+      // trimming the child where the new startAt falls into.
+      if ((options.endAt ?? options.values.length) >= this.state.endAt) {
+        this.state.endAt = options.endAt ?? options.values.length;
+        if (this.nextScheduledFrameWork) {
+          cancelAnimationFrame(this.nextScheduledFrameWork);
+        }
+        this.nextScheduledFrameWork = requestAnimationFrame(
+          this.animationFrameHandler
+        );
+      }
     }
+    // Render the first initial count.
     return this.render(options);
   }
 
@@ -92,6 +114,10 @@ class IncrementalRepeat<T> extends AsyncDirective {
   private nextScheduledFrameWork: number | undefined;
 
   private animationFrameHandler = () => {
+    if (this.state.startAt >= this.state.endAt) {
+      this.nextScheduledFrameWork = undefined;
+      return;
+    }
     const now = performance.now();
     const frameRate = 1000 / (now - this.state.lastRenderedAt);
     if (frameRate < this.state.targetFrameRate) {
@@ -109,13 +135,16 @@ class IncrementalRepeat<T> extends AsyncDirective {
       values: this.state.values,
       initialCount: this.state.incrementAmount,
       startAt: this.state.startAt,
+      endAt: this.state.endAt,
     });
 
     this.state.startAt += this.state.incrementAmount;
-    if (this.state.startAt < this.state.values.length) {
+    if (this.state.startAt < this.state.endAt) {
       this.nextScheduledFrameWork = requestAnimationFrame(
         this.animationFrameHandler
       );
+    } else {
+      this.nextScheduledFrameWork = undefined;
     }
   };
 }

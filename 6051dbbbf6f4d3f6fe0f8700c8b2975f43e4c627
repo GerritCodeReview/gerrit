@@ -253,6 +253,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0ed263d_c6fb0637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-26T17:12:12Z",
+      "side": 1,
+      "message": "\u003e I guess it would work there, too. However, I don\u0027t think we used to write dedicated tests for ssh and the entity docs are shared between SSH and REST I assume?\n\u003e \n\u003e For reference, ChangeIT and QueryChangesIT have over 200 tests while QueryIT in the ssh package has just 15.\n\u003e \n\u003e We also don\u0027t use SSH, so while we are certainly careful not to break things, new features aren\u0027t guaranteed to work for SSH unless someone who uses and needs them there does the implementation.\n\nI think it\u0027s OK to not implement the feature for SSH if you don\u0027t care about having it on SSH. However, if this feature affects SSH in a way that is not covered by the entities docs for REST, then it should be documented. My biggest concern is whether this feature causes a regression in SSH because SSH outputs this data and is it slower?",
+      "parentUuid": "1d6433aa_39394360",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b5a6bcb_50f3cc1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 22

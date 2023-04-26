@@ -39,6 +39,24 @@
       "message": "Could you re-check, ob build on M2 machine still works?",
       "revId": "95f567c11204bdbb877edd7cc1a5cc7d703a266e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71790e95_da3048cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-26T12:02:24Z",
+      "side": 1,
+      "message": "Works on M1, which I believe should be good enough.",
+      "parentUuid": "a6c1878e_8325df5d",
+      "revId": "95f567c11204bdbb877edd7cc1a5cc7d703a266e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

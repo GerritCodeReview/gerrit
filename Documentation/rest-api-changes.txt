@@ -377,6 +377,13 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
   as link:#tracking-id-info[TrackingIdInfo].
 --
 
+[[star]]
+--
+* `STAR`: include the `starred` field in
+   link:#change-info[ChangeInfo], which indicates if the change is starred
+   by the current user or not.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -6692,6 +6699,7 @@ The user who submitted the change, as an
 link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change with the default label.
+Only set if link:#star[requested].
 |`stars`              |optional|
 A list of star labels that are applied by the calling user to this
 change. The labels are lexicographically sorted.

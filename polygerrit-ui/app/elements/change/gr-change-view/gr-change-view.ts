@@ -63,14 +63,12 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
-import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
 import {
   AccountDetailInfo,
   ActionNameToActionInfoMap,
   BasePatchSetNum,
-  ChangeId,
   ChangeInfo,
   CommentThread,
   ConfigInfo,
@@ -85,14 +83,11 @@ import {
   PatchSetNumber,
   PreferencesInfo,
   QuickLabelInfo,
-  RelatedChangeAndCommitInfo,
-  RelatedChangesInfo,
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
   UrlEncodedCommentId,
   isRobot,
-  ChangeStates,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
@@ -126,7 +121,6 @@ import {
   fireDialogChange,
   fire,
   fireReload,
-  fireTitleChange,
 } from '../../../utils/event-util';
 import {
   debounce,
@@ -135,7 +129,6 @@ import {
   until,
 } from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -151,7 +144,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -175,6 +168,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -202,12 +196,6 @@ export type ChangeViewPatchRange = Partial<PatchRange>;
 
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
-  /**
-   * Fired when the title of the page should change.
-   *
-   * @event title-change
-   */
-
   /**
    * Fired if an error occurs when fetching the change data.
    *
@@ -281,9 +269,6 @@ export class GrChangeView extends LitElement {
 
   @property({type: String})
   backPage?: string;
-
-  @state()
-  private hasParent?: boolean;
 
   // Private but used in tests.
   @state()
@@ -393,10 +378,6 @@ export class GrChangeView extends LitElement {
   @state()
   replyDisabled = true;
 
-  // Private but used in tests.
-  @state()
-  changeStatuses: ChangeStates[] = [];
-
   @state()
   private updateCheckTimerHandle?: number | null;
 
@@ -413,9 +394,7 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  // Private but used in tests.
-  @state()
-  mergeable: boolean | null = null;
+  @state() mergeable?: boolean;
 
   /**
    * Plugins can provide (multiple) tabs. For each plugin tab we render an
@@ -482,7 +461,7 @@ export class GrChangeView extends LitElement {
   private tabState?: TabState;
 
   @state()
-  private revertedChange?: ChangeInfo;
+  private revertingChange?: ChangeInfo;
 
   // Private but used in tests.
   @state()
@@ -512,6 +491,11 @@ export class GrChangeView extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -649,6 +633,11 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().commentId$,
+      commentId => (this.scrollCommentId = commentId)
+    );
+    subscribe(
+      this,
       () => this.getViewModel().openReplyDialog$,
       openReplyDialog => {
         // Here we are relying on `this.loggedIn` being set *before*
@@ -733,6 +722,11 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().mergeable$,
+      mergeable => (this.mergeable = mergeable)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().revision$,
       revision => (this.revision = revision)
     );
@@ -772,6 +766,13 @@ export class GrChangeView extends LitElement {
       () => this.getConfigModel().repoConfig$,
       config => {
         this.projectConfig = config;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().revertingChange$,
+      revertingChange => {
+        this.revertingChange = revertingChange;
       }
     );
   }
@@ -847,16 +848,6 @@ export class GrChangeView extends LitElement {
     }
     this.connected$.next(false);
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changedProperties: PropertyValues): void {
-    if (
-      changedProperties.has('change') ||
-      changedProperties.has('mergeable') ||
-      changedProperties.has('currentRevisionActions')
-    ) {
-      this.changeStatuses = this.computeChangeStatusChips();
-    }
   }
 
   static override get styles() {
@@ -1069,7 +1060,7 @@ export class GrChangeView extends LitElement {
           .relatedChanges {
             padding: 0;
           }
-          #relatedChanges {
+          .relatedChanges gr-related-changes-list {
             padding-top: var(--spacing-l);
           }
           #commitAndRelated {
@@ -1238,13 +1229,14 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeaderTitle() {
+    const changeStatuses = this.computeChangeStatusChips();
     const resolveWeblinks =
       this.revision?.commit?.resolve_conflicts_web_links ?? [];
     return html` <div class="headerTitle">
       <div class="changeStatuses">
-        ${this.changeStatuses.map(
+        ${changeStatuses.map(
           status => html` <gr-change-status
-            .revertedChange=${this.revertedChange}
+            .revertedChange=${this.revertingChange}
             .status=${status}
             .resolveWeblinks=${resolveWeblinks}
           ></gr-change-status>`
@@ -1343,7 +1335,6 @@ export class GrChangeView extends LitElement {
         id="actions"
         .change=${this.change}
         .disableEdit=${false}
-        .hasParent=${this.hasParent}
         .account=${this.account}
         .changeNum=${this.changeNum}
         .changeStatus=${this.change?.status}
@@ -1373,7 +1364,7 @@ export class GrChangeView extends LitElement {
         <gr-change-metadata
           id="metadata"
           .change=${this.change}
-          .revertedChange=${this.revertedChange}
+          .revertedChange=${this.revertingChange}
           .account=${this.account}
           .revision=${this.revision}
           .commitInfo=${this.revision?.commit}
@@ -1431,10 +1422,7 @@ export class GrChangeView extends LitElement {
             </gr-endpoint-decorator>
           </div>
           <div class="relatedChanges">
-            <gr-related-changes-list
-              id="relatedChanges"
-              .mergeable=${this.mergeable}
-            ></gr-related-changes-list>
+            <gr-related-changes-list></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>
         </div>
@@ -1633,7 +1621,7 @@ export class GrChangeView extends LitElement {
         <gr-messages-list
           .labels=${this.change?.labels}
           .messages=${this.change?.messages}
-          .reviewerUpdates=${this.change?.reviewer_updates}
+          .reviewerUpdates=${this.change?.reviewer_updates ?? []}
           @message-anchor-tap=${this.handleMessageAnchorTap}
           @reply=${this.handleMessageReply}
         ></gr-messages-list>
@@ -1777,19 +1765,12 @@ export class GrChangeView extends LitElement {
   }
 
   private computeChangeStatusChips() {
-    if (!this.change) {
-      return [];
-    }
-
-    // Show no chips until mergeability is loaded.
-    if (this.mergeable === null) {
-      return [];
-    }
+    if (!this.change || this.mergeable === undefined) return [];
 
     const options = {
-      includeDerived: true,
-      mergeable: !!this.mergeable,
+      mergeable: this.mergeable,
       submitEnabled: !!this.isSubmitEnabled(),
+      revertingChangeStatus: this.revertingChange?.status,
     };
     return changeStatuses(this.change as ChangeInfo, options);
   }
@@ -2055,13 +2036,10 @@ export class GrChangeView extends LitElement {
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 
-    const patchChanged = this.hasPatchRangeChanged(this.viewState);
-
     this.patchRange = {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
     };
-    this.scrollCommentId = this.viewState.commentId;
 
     const patchKnown =
       !this.patchRange.patchNum ||
@@ -2080,33 +2058,18 @@ export class GrChangeView extends LitElement {
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
       }
-      if (patchChanged) {
-        // We need to collapse all diffs when viewState changes so that a non
-        // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetFileState();
-        this.fileList?.collapseAllDiffs();
-      }
 
       // If there is no change in patchset or changeNum, such as when user goes
       // to the diff view and then comes back to change page then there is no
       // need to reload anything and we render the change view component as is.
       document.documentElement.scrollTop = this.scrollPosition ?? 0;
       this.reporting.reportInteraction('change-view-re-rendered');
-      this.updateTitle(this.change);
       // We still need to check if post load tasks need to be done such as when
       // user wants to open the reply dialog when in the diff page, the change
       // page should open the reply dialog
       this.performPostLoadTasks();
       return;
     }
-
-    // We need to collapse all diffs when viewState changes so that a non
-    // existing diff is not requested. See Issue 125270 for more details.
-    this.updateComplete.then(() => {
-      assertIsDefined(this.fileList);
-      this.fileList?.collapseAllDiffs();
-      this.fileList?.resetFileState();
-    });
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
@@ -2154,7 +2117,7 @@ export class GrChangeView extends LitElement {
     this.getPluginLoader().jsApiService.handleShowChange({
       change: this.change,
       patchNum: this.patchRange.patchNum,
-      info: {mergeable: this.mergeable},
+      info: {mergeable: this.mergeable ?? null},
     });
   }
 
@@ -2230,12 +2193,6 @@ export class GrChangeView extends LitElement {
       });
   }
 
-  private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
-    if (!change) return;
-    const title = `${change.subject} (${change._number})`;
-    fireTitleChange(this, title);
-  }
-
   // Private but used in tests.
   changeChanged(oldChange: ParsedChangeInfo | undefined) {
     this.allPatchSets = computeAllPatchSets(this.change);
@@ -2263,7 +2220,6 @@ export class GrChangeView extends LitElement {
       patchNum:
         this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
     };
-    this.updateTitle(this.change);
   }
 
   /**
@@ -2603,41 +2559,6 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  computeRevertSubmitted(change?: ChangeInfo | ParsedChangeInfo) {
-    if (!change?.messages) return;
-    Promise.all(
-      getRevertCreatedChangeIds(change.messages).map(changeId =>
-        this.restApiService.getChange(changeId)
-      )
-    ).then(changes => {
-      // if a change is deleted then getChanges returns null for that changeId
-      changes = changes.filter(
-        change => change && change.status !== ChangeStatus.ABANDONED
-      );
-      if (!changes.length) return;
-      const submittedRevert = changes.find(
-        change => change?.status === ChangeStatus.MERGED
-      );
-      if (!this.changeStatuses) return;
-      // Protect against `computeRevertSubmitted()` being called twice.
-      // TODO: Convert this to be rxjs based, so computeRevertSubmitted() is not
-      // actively called, but instead we can subscribe to something.
-      if (this.changeStatuses.includes(ChangeStates.REVERT_SUBMITTED)) return;
-      if (this.changeStatuses.includes(ChangeStates.REVERT_CREATED)) return;
-      if (submittedRevert) {
-        this.revertedChange = submittedRevert;
-        this.changeStatuses = this.changeStatuses.concat([
-          ChangeStates.REVERT_SUBMITTED,
-        ]);
-      } else {
-        if (changes[0]) this.revertedChange = changes[0];
-        this.changeStatuses = this.changeStatuses.concat([
-          ChangeStates.REVERT_CREATED,
-        ]);
-      }
-    });
-  }
-
   private async untilModelLoaded() {
     // NOTE: Wait until this page is connected before determining whether the
     // model is loaded.  This can happen when viewState changes when setting up
@@ -2669,17 +2590,6 @@ export class GrChangeView extends LitElement {
     if (!this.change) return;
 
     this.processEdit(this.change);
-    // Issue 4190: Coalesce missing topics to null.
-    // TODO(TS): code needs second thought,
-    // it might be that nulls were assigned to trigger some bindings
-    if (!this.change.topic) {
-      this.change.topic = null as unknown as undefined;
-    }
-    if (!this.change.reviewer_updates) {
-      this.change.reviewer_updates = null as unknown as undefined;
-    }
-
-    this.computeRevertSubmitted(this.change);
   }
 
   private isParentCurrent() {
@@ -2730,11 +2640,6 @@ export class GrChangeView extends LitElement {
     });
 
     const coreDataPromise = loadingFlagSet;
-    const mergeabilityLoaded = coreDataPromise.then(() =>
-      this.getMergeability()
-    );
-    allDataPromises.push(mergeabilityLoaded);
-
     coreDataPromise.then(() => {
       fire(this, 'change-details-loaded', {});
       this.reporting.timeEnd(Timing.CHANGE_RELOAD);
@@ -2746,27 +2651,6 @@ export class GrChangeView extends LitElement {
     if (isLocationChange) {
       this.editingCommitMessage = false;
     }
-    const relatedChangesLoaded = coreDataPromise.then(() => {
-      let relatedChangesPromise:
-        | Promise<RelatedChangesInfo | undefined>
-        | undefined;
-      const patchNum = computeLatestPatchNum(this.allPatchSets);
-      if (this.change && patchNum) {
-        relatedChangesPromise = this.restApiService
-          .getRelatedChanges(this.change._number, patchNum)
-          .then(response => {
-            if (this.change && response) {
-              this.hasParent = this.calculateHasParent(
-                this.change.change_id,
-                response.changes
-              );
-            }
-            return response;
-          });
-      }
-      return this.getRelatedChangesList()?.reload(relatedChangesPromise);
-    });
-    allDataPromises.push(relatedChangesLoaded);
     allDataPromises.push(this.filesLoaded());
 
     Promise.all(allDataPromises).then(() => {
@@ -2783,60 +2667,6 @@ export class GrChangeView extends LitElement {
   private async filesLoaded() {
     if (!this.isConnected) await until(this.connected$, connected => connected);
     await until(this.getFilesModel().files$, f => f.length > 0);
-  }
-
-  /**
-   * Determines whether or not the given change has a parent change. If there
-   * is a relation chain, and the change id is not the last item of the
-   * relation chain, there is a parent.
-   *
-   * Private but used in tests.
-   */
-  calculateHasParent(
-    currentChangeId: ChangeId,
-    relatedChanges: RelatedChangeAndCommitInfo[]
-  ) {
-    return (
-      relatedChanges.length > 0 &&
-      relatedChanges[relatedChanges.length - 1].change_id !== currentChangeId
-    );
-  }
-
-  // Private but used in tests
-  getMergeability(): Promise<void> {
-    if (!this.change) {
-      this.mergeable = null;
-      return Promise.resolve();
-    }
-    // If the change is closed, it is not mergeable. Note: already merged
-    // changes are obviously not mergeable, but the mergeability API will not
-    // answer for abandoned changes.
-    if (
-      this.change.status === ChangeStatus.MERGED ||
-      this.change.status === ChangeStatus.ABANDONED
-    ) {
-      this.mergeable = false;
-      return Promise.resolve();
-    }
-
-    if (!this.changeNum) {
-      return Promise.reject(new Error('missing required changeNum property'));
-    }
-
-    // If mergeable bit was already returned in detail REST endpoint, use it.
-    if (this.change.mergeable !== undefined) {
-      this.mergeable = this.change.mergeable;
-      return Promise.resolve();
-    }
-
-    this.mergeable = null;
-    return this.restApiService
-      .getMergeable(this.changeNum)
-      .then(mergableInfo => {
-        if (mergableInfo) {
-          this.mergeable = mergableInfo.mergeable;
-        }
-      });
   }
 
   /**
@@ -3049,12 +2879,6 @@ export class GrChangeView extends LitElement {
   private getRevisionInfo(): RevisionInfoClass | undefined {
     if (this.change === undefined) return undefined;
     return new RevisionInfoClass(this.change);
-  }
-
-  getRelatedChangesList() {
-    return this.shadowRoot!.querySelector<GrRelatedChangesList>(
-      '#relatedChanges'
-    );
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

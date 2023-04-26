@@ -177,7 +177,7 @@ export class GrAppElement extends LitElement {
     document.addEventListener('page-error', e => {
       this.handlePageError(e);
     });
-    this.addEventListener('title-change', e => {
+    document.addEventListener('title-change', e => {
       this.handleTitleChange(e);
     });
     this.addEventListener('dialog-change', e => {

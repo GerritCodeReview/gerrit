@@ -47,7 +47,7 @@ export class GrPluginList extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    fireTitleChange(this, 'Plugins');
+    fireTitleChange('Plugins');
   }
 
   static override get styles() {

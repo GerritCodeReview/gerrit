@@ -12,7 +12,6 @@ import {
   CommentSide,
   DefaultBase,
   DiffViewMode,
-  MessageTag,
   createDefaultPreferences,
   Tab,
 } from '../../../constants/constants';
@@ -33,10 +32,8 @@ import {
 import {
   createChangeViewState,
   createApproval,
-  createChange,
   createChangeMessages,
   createCommit,
-  createMergeable,
   createPreferences,
   createRevision,
   createRevisions,
@@ -46,7 +43,6 @@ import {
   TEST_PROJECT_NAME,
   createAccountWithIdNameAndEmail,
   createChangeViewChange,
-  createRelatedChangeAndCommitInfo,
   createAccountDetailWithId,
   createParsedChange,
   createDraft,
@@ -56,13 +52,10 @@ import {
   AccountId,
   ApprovalInfo,
   BasePatchSetNum,
-  ChangeId,
   CommitId,
   EDIT,
   NumericChangeId,
   PARENT,
-  RelatedChangeAndCommitInfo,
-  ReviewInputTag,
   RevisionPatchSetNum,
   RobotId,
   RobotCommentInfo,
@@ -73,14 +66,11 @@ import {
   QuickLabelInfo,
   PatchSetNumber,
   CommentThread,
-  ChangeStates,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
-import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {SinonFakeTimers} from 'sinon';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {
   ChangeModel,
   changeModelToken,
@@ -90,7 +80,6 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
-import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list';
 import {fixture, html, assert} from '@open-wc/testing';
 import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
@@ -455,8 +444,7 @@ suite('gr-change-view tests', () => {
                     </gr-endpoint-decorator>
                   </div>
                   <div class="relatedChanges">
-                    <gr-related-changes-list id="relatedChanges">
-                    </gr-related-changes-list>
+                    <gr-related-changes-list></gr-related-changes-list>
                   </div>
                   <div class="emptySpace"></div>
                 </div>
@@ -801,7 +789,6 @@ suite('gr-change-view tests', () => {
         Promise.resolve(createParsedChange())
       );
       sinon.stub(element, 'performPostChangeLoadTasks');
-      sinon.stub(element, 'getMergeability');
       const change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
@@ -954,10 +941,6 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      const relatedChanges = element.shadowRoot!.querySelector(
-        '#relatedChanges'
-      ) as GrRelatedChangesList;
-      sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
       sinon.spy(element, 'viewStateChanged');
       element.viewState = createChangeViewState();
@@ -1139,183 +1122,6 @@ suite('gr-change-view tests', () => {
     );
   });
 
-  test('changeStatuses', async () => {
-    element.loading = false;
-    element.change = {
-      ...createChangeViewChange(),
-      revisions: {
-        rev2: createRevision(2),
-        rev1: createRevision(1),
-        rev13: createRevision(13),
-        rev3: createRevision(3),
-      },
-      current_revision: 'rev3' as CommitId,
-      status: ChangeStatus.MERGED,
-      labels: {
-        test: {
-          all: [],
-          default_value: 0,
-          values: {},
-          approved: {},
-        },
-      },
-    };
-    element.mergeable = true;
-    await element.updateComplete;
-    const expectedStatuses = [ChangeStates.MERGED];
-    assert.deepEqual(element.changeStatuses, expectedStatuses);
-    const statusChips =
-      element.shadowRoot!.querySelectorAll('gr-change-status');
-    assert.equal(statusChips.length, 1);
-  });
-
-  suite('ChangeStatus revert', () => {
-    test('do not show any chip if no revert created', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('do not show any chip if all reverts are abandoned', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      change.messages[1].message = 'Created a revert of this change as 23456';
-      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.ABANDONED,
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.ABANDONED,
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('show revert created if no revert is merged', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      change.messages[1].message = 'Created a revert of this change as 23456';
-      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      // Wait for promises to settle.
-      await waitEventLoop();
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-      assert.isTrue(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-    });
-
-    test('show revert submitted if revert is merged', async () => {
-      const change = {
-        ...createParsedChange(),
-        messages: createChangeMessages(2),
-      };
-      change.messages[0].message = 'Created a revert of this change as 12345';
-      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
-      const getChangeStub = stubRestApi('getChange');
-      getChangeStub.onFirstCall().returns(
-        Promise.resolve({
-          ...createChange(),
-          status: ChangeStatus.MERGED,
-        })
-      );
-      getChangeStub.onSecondCall().returns(
-        Promise.resolve({
-          ...createChange(),
-        })
-      );
-      element.change = change;
-      element.mergeable = true;
-      element.currentRevisionActions = {submit: {enabled: true}};
-      assert.isTrue(element.isSubmitEnabled());
-      await element.updateComplete;
-      element.computeRevertSubmitted(element.change);
-      // Wait for promises to settle.
-      await waitEventLoop();
-      await element.updateComplete;
-      assert.isFalse(
-        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
-      );
-      assert.isTrue(
-        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
-      );
-    });
-  });
-
   test('diff preferences open when open-diff-prefs is fired', async () => {
     await element.updateComplete;
     assertIsDefined(element.fileList);
@@ -1436,40 +1242,12 @@ suite('gr-change-view tests', () => {
     assert.equal(getLabel(true), 'Start Review (3)');
   });
 
-  test('change num change', async () => {
-    const change = {
-      ...createChangeViewChange(),
-      labels: {},
-    } as ParsedChangeInfo;
-    element.changeNum = undefined;
-    element.patchRange = {
-      basePatchNum: PARENT,
-      patchNum: 2 as RevisionPatchSetNum,
-    };
-    element.change = change;
-    assertIsDefined(element.fileList);
-    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
-    element.fileList.numFilesShown = 150;
-    element.fileList.selectedIndex = 15;
-    await element.updateComplete;
-
-    element.changeNum = 2 as NumericChangeId;
-    element.viewState = {
-      ...createChangeViewState(),
-      changeNum: 2 as NumericChangeId,
-    };
-    await element.updateComplete;
-    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
-    assert.equal(element.fileList.selectedIndex, 0);
-  });
-
   test('don’t reload entire page when patchRange changes', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     assertIsDefined(element.fileList);
     await element.fileList.updateComplete;
-    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: ChangeViewState = {
       ...createChangeViewState(),
       view: GerritView.CHANGE,
@@ -1481,7 +1259,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.calledOnce);
 
     element.initialLoadComplete = true;
-    element.fileList.selectedIndex = 15;
     element.change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1495,9 +1272,7 @@ suite('gr-change-view tests', () => {
     element.viewState = {...value};
     await element.updateComplete;
     await waitEventLoop();
-    assert.equal(element.fileList.selectedIndex, 0);
     assert.isFalse(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
   });
 
   test('do not reload entire page when patchRange doesnt change', async () => {
@@ -1535,29 +1310,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(collapseStub.called);
     // patchNum is set by changeChanged, so this verifies that change was set.
     assert.isOk(element.patchRange?.patchNum);
-  });
-
-  test('related changes are updated when loadData is called', async () => {
-    await element.updateComplete;
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    const reloadStub = sinon.stub(relatedChanges, 'reload');
-    stubRestApi('getMergeable').returns(
-      Promise.resolve({...createMergeable(), mergeable: true})
-    );
-
-    element.viewState = createChangeViewState();
-    changeModel.setState({
-      loadingStatus: LoadingStatus.LOADED,
-      change: {
-        ...createChangeViewChange(),
-      },
-    });
-
-    await element.loadData(true);
-    assert.isFalse(setUrlStub.called);
-    assert.isTrue(reloadStub.called);
   });
 
   test('computeCopyTextForTitle', () => {
@@ -1617,22 +1369,6 @@ suite('gr-change-view tests', () => {
     element.commitMessageEditor.disabled = false;
     element.handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
-  });
-
-  test('topic is coalesced to null', async () => {
-    sinon.stub(element, 'changeChanged');
-    changeModel.setState({
-      loadingStatus: LoadingStatus.LOADED,
-      change: {
-        ...createChangeViewChange(),
-        labels: {},
-        current_revision: 'foo' as CommitId,
-        revisions: {foo: createRevision()},
-      },
-    });
-
-    await element.performPostChangeLoadTasks();
-    assert.isNull(element.change!.topic);
   });
 
   test('getBasePatchNum', async () => {
@@ -2149,42 +1885,6 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  suite('getMergeability', () => {
-    let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
-    setup(() => {
-      element.change = {...createChangeViewChange(), labels: {}};
-      getMergeableStub = stubRestApi('getMergeable').returns(
-        Promise.resolve({...createMergeable(), mergeable: true})
-      );
-    });
-
-    test('merged change', () => {
-      element.mergeable = null;
-      element.change!.status = ChangeStatus.MERGED;
-      return element.getMergeability().then(() => {
-        assert.isFalse(element.mergeable);
-        assert.isFalse(getMergeableStub.called);
-      });
-    });
-
-    test('abandoned change', () => {
-      element.mergeable = null;
-      element.change!.status = ChangeStatus.ABANDONED;
-      return element.getMergeability().then(() => {
-        assert.isFalse(element.mergeable);
-        assert.isFalse(getMergeableStub.called);
-      });
-    });
-
-    test('open change', () => {
-      element.mergeable = null;
-      return element.getMergeability().then(() => {
-        assert.isTrue(element.mergeable);
-        assert.isTrue(getMergeableStub.called);
-      });
-    });
-  });
-
   test('handleToggleStar called when star is tapped', async () => {
     element.change = {
       ...createChangeViewChange(),
@@ -2208,7 +1908,6 @@ suite('gr-change-view tests', () => {
         patchNum: 1 as RevisionPatchSetNum,
       };
       sinon.stub(element, 'performPostChangeLoadTasks');
-      sinon.stub(element, 'getMergeability').returns(Promise.resolve());
     });
 
     test("don't report changeDisplayed on reply", async () => {
@@ -2259,25 +1958,6 @@ suite('gr-change-view tests', () => {
       assert.isTrue(changeDisplayStub.called);
       assert.isTrue(changeFullyLoadedStub.called);
     });
-  });
-
-  test('calculateHasParent', () => {
-    const changeId = '123' as ChangeId;
-    const relatedChanges: RelatedChangeAndCommitInfo[] = [];
-
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), false);
-
-    relatedChanges.push({
-      ...createRelatedChangeAndCommitInfo(),
-      change_id: '123' as ChangeId,
-    });
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), false);
-
-    relatedChanges.push({
-      ...createRelatedChangeAndCommitInfo(),
-      change_id: '234' as ChangeId,
-    });
-    assert.equal(element.calculateHasParent(changeId, relatedChanges), true);
   });
 
   test('renders sha in copy links', async () => {

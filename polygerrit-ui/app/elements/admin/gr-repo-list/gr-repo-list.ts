@@ -59,7 +59,7 @@ export class GrRepoList extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
     await this.getCreateRepoCapability();
-    fireTitleChange(this, 'Repos');
+    fireTitleChange('Repos');
     this.maybeOpenCreateModal(this.params);
   }
 

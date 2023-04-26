@@ -91,7 +91,10 @@ public enum ListChangesOption implements ListOption {
   SUBMIT_REQUIREMENTS(24),
 
   /** Include custom keyed values. */
-  CUSTOM_KEYED_VALUES(25);
+  CUSTOM_KEYED_VALUES(25),
+
+  /** Include the 'starred' field, that is if the change is starred by the current user . */
+  STAR(26);
 
   private final int value;
 

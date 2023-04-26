@@ -2899,6 +2899,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // check default star
     assertQuery("has:star", change1);
     assertQuery("is:starred", change1);
+
+    // The 'Star' bit in the change data is also set correctly
+    List<ChangeInfo> changeInfos = gApi.changes().query("has:star").get();
+    assertThat(changeInfos.get(0).starred).isTrue();
   }
 
   @Test

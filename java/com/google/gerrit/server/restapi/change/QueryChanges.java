@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -30,7 +31,10 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,11 +43,13 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOptions.BeanReceiver {
@@ -53,6 +59,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private final ChangeQueryBuilder qb;
   private final Provider<ChangeQueryProcessor> queryProcessorProvider;
   private final HashMap<String, DynamicOptions.DynamicBean> dynamicBeans = new HashMap<>();
+  private final StarredChangesUtil starredChangesUtil;
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsers;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private EnumSet<ListChangesOption> options;
@@ -123,12 +132,18 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       ChangeQueryBuilder qb,
       Provider<ChangeQueryProcessor> queryProcessorProvider,
       Provider<CurrentUser> userProvider,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      StarredChangesUtil starredChangesUtil,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsers) {
     this.json = json;
     this.qb = qb;
     this.queryProcessorProvider = queryProcessorProvider;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.starredChangesUtil = starredChangesUtil;
+    this.repoManager = repoManager;
+    this.allUsers = allUsers;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -201,6 +216,28 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
         Iterables.getLast(info)._moreChanges = true;
       }
     }
-    return res;
+    return backFillStarFields(res);
+  }
+
+  /**
+   * Back-fill {@link ChangeInfo#starred} field. This is because the star field is not stored in the
+   * change index anymore.
+   */
+  private List<List<ChangeInfo>> backFillStarFields(List<List<ChangeInfo>> changeInfos) {
+    try {
+      Repository allUsersRepo = repoManager.openRepository(allUsers);
+      changeInfos.stream()
+          .flatMap(List::stream)
+          .forEach(
+              c ->
+                  c.starred =
+                      starredChangesUtil.isStarred(
+                          allUsersRepo,
+                          Change.id(c._number),
+                          userProvider.get().asIdentifiedUser().getAccountId()));
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Failed to open All-Users repo.");
+    }
+    return changeInfos;
   }
 }
